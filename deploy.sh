@@ -37,13 +37,30 @@ aws() { command aws --endpoint-url="$ENDPOINT" --profile "$AWS_PROFILE" "$@"; }
 
 # 0) Bump the patch version (package.json) before building, so each deploy ships a
 #    new version number. Override the segment with BUMP=minor|major ./deploy.sh.
-#    Use BUMP=none to deploy the current version as-is (e.g. when it was set in the commit).
+#    Use BUMP=none to deploy the current version as-is (e.g. when it was set in the commit, or a
+#    deploy that bumped it died before it went live) — but never a version the site already
+#    serves: a build under a live number is a silent deploy, and silent deploys are banned
+#    (owner, 2026-10-16). A reader is told a new version exists by its number — the "What's new"
+#    banner, and the tab's update check — so a changed build under the same number changes
+#    under them unannounced, and an installed app gets it with no notice at all.
 #    Otherwise the bump is committed (`chore: release vX.Y.Z`) and pushed once the deploy
 #    succeeds (see step 5) — so run this from a release/X.Y.Z branch with a clean tree. `main`
 #    is what is live and moves only here: step 5 fast-forwards it to the release (CONTRIBUTING.md).
 BUMP="${BUMP:-patch}"
 if [ "$BUMP" = "none" ]; then
-  echo "▶ Skipping version bump (BUMP=none); shipping v$(node -p "require('./package.json').version")"
+  SHIP_VERSION="$(node -p "require('./package.json').version")"
+  if [ -n "${VITE_SITE_ORIGIN:-}" ]; then
+    LIVE_VERSION="$(curl -fsS --max-time 15 "$VITE_SITE_ORIGIN/" | sed -n 's/.*name="wh-notes-version" content="\([^"]*\)".*/\1/p' | head -1)" || LIVE_VERSION=""
+    if [ -z "$LIVE_VERSION" ]; then
+      echo "✗ BUMP=none: could not read the live version from $VITE_SITE_ORIGIN — refusing rather than risk a silent deploy." >&2
+      exit 1
+    fi
+    if [ "$LIVE_VERSION" = "$SHIP_VERSION" ]; then
+      echo "✗ BUMP=none: v$SHIP_VERSION is already live on $VITE_SITE_ORIGIN — a silent deploy. Ship it as the next patch." >&2
+      exit 1
+    fi
+  fi
+  echo "▶ Skipping version bump (BUMP=none); shipping v$SHIP_VERSION"
 else
   BRANCH="$(git rev-parse --abbrev-ref HEAD)"
   case "$BRANCH" in
@@ -182,7 +199,7 @@ aws s3 sync dist "$BUCKET" \
   --exclude "*.html" --exclude "assets/*" --exclude "*.DS_Store" \
   --exclude "sw.js" --exclude "registerSW.js" --exclude "manifest.webmanifest" \
   --exclude "robots.txt" --exclude "sitemap.xml" --exclude ".seo-routes.txt" \
-  --exclude "offline-manifest.json" --exclude "image-manifest.json" \
+  --exclude "offline-manifest.json" --exclude "version.json" \
   ${ROUTE_EXCLUDES[@]+"${ROUTE_EXCLUDES[@]}"} \
   --cache-control "public, max-age=2592000" \
   --delete
@@ -204,11 +221,13 @@ set_nocache() { # <file> <content-type>
 set_nocache sw.js "application/javascript; charset=utf-8"
 set_nocache registerSW.js "application/javascript; charset=utf-8"
 set_nocache manifest.webmanifest "application/manifest+json; charset=utf-8"
-# The offline warm-up's shopping lists. Every deploy renames the hashed chunks they name, so a
+# The offline warm-up's shopping list. Every deploy renames the hashed chunks they name, so a
 # cached copy sends the warm-up after files that no longer exist — and the app reads them with
 # `cache: 'no-store'` anyway, which only works because nothing in between decided to keep one.
 set_nocache offline-manifest.json "application/json; charset=utf-8"
-set_nocache image-manifest.json "application/json; charset=utf-8"
+# What is live, asked by a page already open (launchGate.js): a cached copy would tell it that
+# nothing new had shipped.
+set_nocache version.json "application/json; charset=utf-8"
 
 # 2c) SEO files — short TTL so crawlers pick up changes quickly. Excluded from the
 #     1-year tier (step 2): a stale robots/sitemap can otherwise be served for a year.

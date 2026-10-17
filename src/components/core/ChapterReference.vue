@@ -740,7 +740,9 @@ function parseBody(text) {
 
 .appendix-block {
   border-bottom: 1px solid var(--border-light);
-  padding: 1.25rem 0;
+  /* 0.75rem a side, the last paragraph's margin dropped: 1.25rem + a 0.6rem tail put ~50px of air
+     between one entry's text and the next heading on a phone (owner, 2026-10-16). */
+  padding: 0.75rem 0;
   scroll-margin-top: 72px;
 }
 
@@ -749,7 +751,7 @@ function parseBody(text) {
   font-size: var(--fs-subrule);
   font-weight: var(--fw-heading);
   color: var(--text-primary);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--border-light);
 }
@@ -759,6 +761,11 @@ function parseBody(text) {
   line-height: 1.6;
   color: var(--text-primary);
   margin-bottom: 0.6rem;
+}
+
+.appendix-block > :last-child > :last-child,
+.appendix-block > :last-child {
+  margin-bottom: 0;
 }
 
 .appendix-list {

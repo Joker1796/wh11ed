@@ -1397,7 +1397,9 @@ export default {
             "targets": [
               "DRUKHARI"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

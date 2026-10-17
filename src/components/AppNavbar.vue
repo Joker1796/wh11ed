@@ -216,11 +216,14 @@
                 <span>{{ labels.installApp }}</span>
               </button>
               <!-- The rest of the app, on demand. The shell is ~1 MB and everything else is
-                   fetched as it is opened (useOfflineWarmup.js), which is what keeps a tab light —
-                   so the reader who wants the whole thing on a train has to be able to say so.
-                   Next to "Install app" because it is the same kind of decision about this
-                   device, and the size is on the button: nobody should discover it afterwards. -->
+                   fetched as it is opened (useOfflineWarmup.js) — so the reader who wants the whole
+                   thing on a train has to be able to say so. Next to "Install app" because it is the
+                   same kind of decision about this device, and the size is on the button: nobody
+                   should discover it afterwards. Only where there is a service worker to keep it —
+                   the installed app and a tab beside it (workerPolicy.js); since 2.9.5 a plain tab
+                   has none, and offline is what installing gives. -->
               <button
+                v-if="offlineOffered"
                 class="settings-item"
                 :class="{ active: warmed && warmupStatus !== 'warming' }"
                 :disabled="warmupStatus === 'warming'"
@@ -341,6 +344,7 @@ import { reportsOn, setErrorReports } from '../composables/useErrorLog.js'
 import { useOutsideTap } from '../composables/useOutsideTap.js'
 import { useInstallPrompt } from '../composables/useInstallPrompt.js'
 import { useOfflineWarmup, startOfflineWarmup, loadOfflineSize } from '../composables/useOfflineWarmup.js'
+import { workerWanted } from '../composables/workerPolicy.js'
 import { useRouteSection } from '../composables/useRouteSection.js'
 import { useAccountActions } from '../composables/useAccountActions.js'
 import { useAuth } from '../composables/useAuth.js'
@@ -465,10 +469,11 @@ function toggleSettings() {
   // Read the download size only when the menu is actually opened — it is one small JSON, but
   // fetching it on every page load to fill a label nobody is looking at would be exactly the kind
   // of weight this whole change is removing.
-  if (settingsOpen.value) loadOfflineSize()
+  if (settingsOpen.value && offlineOffered) loadOfflineSize()
 }
 
 // ── "Download for offline" ───────────────────────────────────────────────────────────────────
+const offlineOffered = workerWanted()
 const { status: warmupStatus, done: warmupDone, total: warmupTotal, bytes: warmupBytes, warmed } = useOfflineWarmup()
 
 // Megabytes, rounded — a reader deciding whether to spend their data does not need the kilobytes,
@@ -1027,7 +1032,7 @@ a.nd-link:hover {
 }
 
 /* ── Mobile ── */
-/* Just above the phone layout the RU links ("Изменения правил GW") need the room the bar's own
+/* Just above the phone layout the RU links ("Изменения приложения GW") need the room the bar's own
    padding and gaps take at full width. */
 @media (min-width: 901px) and (max-width: 1023px) {
   .navbar-inner { padding: 0 1rem; gap: 1rem; }

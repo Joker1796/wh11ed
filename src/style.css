@@ -60,6 +60,10 @@
   --diff-del-ink: #7d2219;
   --diff-ins-bg: #c9e6c9;
   --diff-ins-ink: #14421a;
+  /* What a patch ADDED to a sheet — a keyword, a weapon, a tag, the "New" mark (the patch notes'
+     "+ Gravis"). Green, as the cheaper price beside it already was: in the accent's red an
+     addition read as a loss (owner, 2026-10-17). */
+  --gain: #1e8449;
   /* The amber one step short of it: "legal, but you still owe an answer" — the roster's worth-
      checking bar, the mark on an editor tab that hides an unmade choice. It had no token until
      2026-09-24 and lived as `var(--warning, #b8860b)` in one file; that literal was 2.5:1 on the
@@ -350,6 +354,7 @@
   --diff-del-ink: #f4b9b1;
   --diff-ins-bg: #1f4727;
   --diff-ins-ink: #c4ecc6;
+  --gain: #5cbf83;
   --warning: #e3b341;
   --bg-definition: #2a2d2c;
   --bg-definition-border: #3a3d3c;
@@ -600,8 +605,8 @@ h4 { font-size: var(--fs-subheading); }
 .cp-howto {
   display: inline-block;
   margin-top: 0.5rem;
-  font-weight: 600;
-  color: var(--accent-ink);
+  font-size: 0.85rem;
+  color: var(--link-accent);
 }
 
 /* ── Rule plates ──
@@ -1810,9 +1815,12 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 .btn-primary:disabled,
 .btn-ghost:disabled { opacity: 0.45; cursor: not-allowed; }
 
-/* The one size modifier: a page's own call to action, standing on its own rather than in a row of
-   ordinary controls. Two screens use it — the tracker home and the roster list. */
+/* Two size modifiers. `.btn-lg`: a page's own call to action, standing on its own rather than in a
+   row of ordinary controls — the tracker home and the roster list. `.btn-sm`: a way elsewhere that
+   sits under a hero's text and must not outshout it — the changelog's "History of GW app changes"
+   and the landing page's "How to use this" (owner, 2026-10-16). */
 .btn-lg { padding: 0.7rem 1.6rem; font-size: 0.95rem; }
+.btn-sm { padding: 0.45rem 0.9rem; font-size: 0.85rem; }
 
 /* ── Modal chrome ──────────────────────────────────────────────────────────
    The header every BaseModal dialog wears: a title on the left, a close button on the right,
@@ -2160,3 +2168,72 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   color: #fff;
 }
 
+
+/* ── Dock card ───────────────────────────────────────────────────────────────
+   A notice that waits at the bottom of the screen for an answer: the offer to install
+   (InstallOffer) and the update plate (UpdatePlate). One shape for both (owner, 2026-10-16):
+   a strip across a phone, above the bottom nav and the utility chips; a 360px card at the bottom
+   right once the screen has the room — wide enough that the card reads as a card (≥720px, every
+   iPad upright) and tall enough that it does not take a third of a phone turned on its side
+   (≥500px). Above any bar a screen pins to the bottom (--roster-sticky-h). The component sets its
+   own layer: under the dialogs (400), so a dialog open over it is finished first. */
+.dock-card {
+  position: fixed;
+  left: calc(0.75rem + var(--safe-left, 0px));
+  right: calc(0.75rem + var(--safe-right, 0px));
+  bottom: calc(52px + 0.6rem + var(--safe-bottom, 0px) + var(--mobile-bar-h, 0px) + var(--roster-sticky-h, 0px));
+  padding: 0.8rem 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--accent);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+  color: var(--text-primary);
+}
+@media (min-width: 720px) and (min-height: 500px) {
+  .dock-card {
+    left: auto;
+    right: calc(1rem + var(--safe-right, 0px));
+    width: 360px;
+  }
+}
+/* No bottom nav past 900px. */
+@media (min-width: 901px) {
+  .dock-card { bottom: calc(1rem + var(--safe-bottom, 0px) + var(--roster-sticky-h, 0px)); }
+}
+
+/* ── Update splash ───────────────────────────────────────────────────────────
+   The screen between the build a service worker held and the new one (launchGate.js): drawn
+   before the app mounts, over everything, in the page's own colours. The bar runs without a
+   number — a worker's install reports no progress. */
+.update-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+.us-mark { width: 72px; height: 72px; }
+.us-text { margin: 0; font-size: 1rem; }
+.us-bar {
+  position: relative;
+  width: min(220px, 60vw);
+  height: 3px;
+  overflow: hidden;
+  background: var(--border);
+}
+.us-bar span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 35%;
+  background: var(--accent);
+  animation: us-run calc(var(--motion-fold) * 3) ease-in-out infinite;
+}
+@keyframes us-run {
+  from { left: -35%; }
+  to { left: 100%; }
+}

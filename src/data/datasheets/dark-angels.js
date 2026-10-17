@@ -2166,6 +2166,7 @@ export default [
       ]
     },
     "keywords": [
+      "Character",
       "Explosives",
       "Imperium",
       "Mounted",

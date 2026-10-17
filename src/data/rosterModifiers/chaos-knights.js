@@ -158,7 +158,11 @@ export default {
             "targets": [
               "WAR DOG"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "WAR DOG"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -189,7 +193,11 @@ export default {
             "targets": [
               "WAR DOG"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "WAR DOG"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -220,7 +228,11 @@ export default {
             "targets": [
               "WAR DOG"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "WAR DOG"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -265,7 +277,11 @@ export default {
             "targets": [
               "WAR DOG"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "WAR DOG"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -296,7 +312,11 @@ export default {
             "targets": [
               "WAR DOG"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "WAR DOG"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -363,7 +383,11 @@ export default {
             "targets": [
               "WAR DOG"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "WAR DOG"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -835,7 +859,9 @@ export default {
             "targets": [
               "DAMNED"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

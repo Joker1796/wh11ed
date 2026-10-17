@@ -54,4 +54,7 @@ export const PATCHES = [
         url: 'https://assets.warhammer-community.com/eng_14-10_wh40k_-faction_pack_adepta_sororitas-kby0nywexj-dg7kvr3iiy.pdf',
         items: ['Repressor', 'Battle Sanctum'].map((name) => ({ faction: 'adepta-sororitas', kind: 'datasheet', name, change: 'changed', fields: [{ field: 'keywords', added: ['Frame'], removed: [] }] })) },
     ] },
+  // App 2.8.1: GW's fixes to the 2.8.0 data — the Death Company Captain's power fist (the 981 doubt)
+  // and Kayvaan Shrike's EPIC HERO (981's document entry) — plus keywords and two base sizes. MFM unchanged.
+  { id: '995', date: '2026-10-16', app: ['5cf9504', '3fdc717'], faq: ['2aabe2d', 'f40ee33'], labels: { app: 995, mfm: '1.6' } },
 ]

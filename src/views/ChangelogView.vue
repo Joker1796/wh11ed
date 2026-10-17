@@ -4,9 +4,12 @@
       <h1 class="hero-title">
         {{ labels.changelogTitle }}
       </h1>
-      <p class="hero-sub">
-        {{ labels.changelogSubtitle }}
-      </p>
+      <RouterLink
+        class="btn-ghost btn-sm cl-app-changes"
+        to="/patches"
+      >
+        {{ labels.changelogAppHistory }}
+      </RouterLink>
     </div>
 
     <div
@@ -190,6 +193,12 @@ useUpdateNotice().markSeen()
 .hero {
   margin-bottom: 1.5rem;
 }
+/* Under the title, the way to the OTHER history — what GW changed in its own app, update by update
+   (/patches). A framed button (owner, 2026-10-16): as gold link text it was the loudest line under
+   the title. The shared .btn-ghost, `.btn-sm` to sit under a hero. */
+.cl-app-changes {
+  margin-top: 0.5rem;
+}
 
 .hero-title {
   font-family: var(--font-display);
@@ -197,12 +206,6 @@ useUpdateNotice().markSeen()
   font-weight: 500;
   color: var(--text-primary);
   margin: 0;
-}
-
-.hero-sub {
-  margin: 0.3rem 0 0;
-  color: var(--text-muted);
-  font-size: 0.95rem;
 }
 
 .cl-entry {
@@ -331,12 +334,12 @@ useUpdateNotice().markSeen()
    so a line of unit names does not turn into a solid underline. */
 .cl-list :deep(.cl-q) { font-weight: 600; }
 .cl-list :deep(a.int-link) {
-  color: var(--accent-ink);
+  color: var(--link-accent);
   text-decoration: underline dotted;
   text-underline-offset: 0.18em;
 }
 @media (hover: hover) {
-  .cl-list :deep(a.int-link:hover) { color: var(--accent-ink-hover); text-decoration-style: solid; }
+  .cl-list :deep(a.int-link:hover) { color: var(--link-accent-hover); text-decoration-style: solid; }
 }
 
 .show-more {

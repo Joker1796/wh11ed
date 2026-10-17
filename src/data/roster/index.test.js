@@ -50,6 +50,27 @@ describe('SM-Chapter shared-pool fold', () => {
 })
 
 describe('allied units', () => {
+  // An army is never its own ally. "ADEPTUS ASTARTES may take up to 500 pts of DEATHWATCH" reached
+  // Deathwatch itself through its parent keyword, and a Deathwatch army's own units were capped at
+  // 500 as allies (a player's report, 2026-10-16).
+  it('never name the army itself', () => {
+    const self = factions.flatMap(({ slug, data }) => (data.allies || [])
+      .filter((g) => g.name.split(' / ').some((n) => n.toLowerCase() === String(data.name).toLowerCase()))
+      .map((g) => `${slug}: ${g.name}`))
+    expect(self).toEqual([])
+  })
+
+  it('a Deathwatch army takes its own units with no allied cap; a Chapter still has the 500', async () => {
+    const roster = (faction, ids) => ({ faction, detachments: ['Black Spear Task Force'], battleSize: 'strike-force', units: ids.map((id, i) => ({ uid: `u${i}`, id, size: 0 })) })
+    const dw = await loadRosterFaction('deathwatch', { allies: true })
+    const kt = ['deathwatch-terminator-squad', 'deathwatch-veterans', 'decimus-kill-team', 'fortis-kill-team', 'indomitor-kill-team', 'spectrus-kill-team']
+    const issues = validateRoster(roster('deathwatch', kt), { faction: dw, core: rosterCore, items: rosterItems.items }).issues.map((i) => i.code)
+    expect(issues).not.toContain('allyOverPoints')
+    expect(dw.allies.map((g) => g.key)).not.toContain('deathwatch')
+    const ba = await loadRosterFaction('blood-angels', { allies: true })
+    expect(ba.allies.find((g) => g.key === 'deathwatch')?.pts?.['strike-force']).toBe(500)
+  })
+
   // An ally's id is namespaced on load; its `leads` must be too, or every allied Leader is
   // offered no bodyguard (a player's report, 2026-10-01 — Artemis in a Grey Knights list).
   it('point their Leader attachments at the namespaced ids they are listed under', async () => {

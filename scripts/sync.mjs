@@ -11,7 +11,7 @@
 //     "Warhammer Legends" intro and the Legendary Proxies table of a "Legends: <Faction>"
 //     publication) fresh, and does every proxy still resolve to a datasheet of ours?
 //   - rosterTextsRu    — is the generated Russian for the roster's wargear group instructions
-//     current with src/data/roster/items.js?
+//     current with src/data/roster/items.js, and is every instruction translated?
 //   - roster data      — are the roster builder's generated faction files (points, brackets,
 //     wargear groups) still what the generator produces from today's appdata + MFM?
 //   - bold-term popovers — in the factions glossed so far (Space Marines + Chapters), is every bold
@@ -194,7 +194,7 @@ if (faqStale) console.log('⚠ src/data/factionFaq.json is stale — run `node s
 if (faqIndexStale) console.log('⚠ src/data/factionFaqSearchIndex.js is stale — run `npm run faq:index`.')
 if (legendsStale) console.log('⚠ src/data/factionLegends.json is stale or a proxy points nowhere — run `npm run legends`.')
 if (cpMissionsStale) console.log('⚠ src/data/combatPatrolMissionsData.js is stale, or a box, mission or deployment map changed — run `npm run combat-patrol:missions`.')
-if (textsRuStale) console.log('⚠ src/data/roster/ru/texts.js is stale — run `npm run roster:texts-ru`.')
+if (textsRuStale) console.log('⚠ src/data/roster/ru/texts.js is stale or leaves an instruction in English — run `npm run roster:texts-ru` and read its ✗ lines.')
 if (modsDirty) console.log('⚠ roster modifiers need attention — `npm run modifiers` then `npm run modifiers:queue`.')
 if (rosterStale) console.log('⚠ src/data/roster/*.js is stale — run `npm run roster:data`.')
 if (glossStale) console.log('⚠ bold terms the glossary knows are not popovers yet (Space Marines family) — run `npm run gloss`.')

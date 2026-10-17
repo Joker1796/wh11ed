@@ -155,7 +155,9 @@ export default {
             "targets": [
               "TYRANIDS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -348,7 +350,11 @@ export default {
             "targets": [
               "TYRANIDS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "TYRANIDS"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -568,7 +574,9 @@ export default {
             "targets": [
               "TERMAGANTS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -738,7 +746,9 @@ export default {
             "targets": [
               "TYRANIDS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -806,7 +816,9 @@ export default {
             "targets": [
               "TYRANIDS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

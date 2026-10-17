@@ -2159,9 +2159,15 @@ stay English by project convention, so only the frame needs translating.
 matches end to end AND its captured slots pass two guards: the owner/subject must be a bare noun
 phrase (a lazy capture otherwise swallows a leading condition and emits confident nonsense), and
 the value must not contain a second frame ("…replaced with 1 shuriken pistol and one of the
-following:"). Anything else is left out of the file and the UI shows the English original —
-a fully English line reads fine, half-translated Russian does not. Coverage sits around 90%; the
-run prints it, and a drop after a bump means GW introduced a new wording, not noise.
+following:"). A frame that misses never emits a guess — a fully English line reads fine,
+half-translated Russian does not.
+
+**…and every instruction is still translated: a miss is a failure, not a percentage** (2026-10-16).
+What no frame reads is translated by hand in `scripts/lib/roster-texts-ru-manual.mjs`, keyed by the
+exact English. The generator, its `--check` and `texts.test.js` fail while any sentence is left
+untranslated, or any manual entry's English is gone (GW reworded it). Until then the run printed
+"62 left in English", the test asked for 70%, and a player found the Hearthkyn Warriors' option in
+English; a reported number nobody has to act on is not a gate.
 
 **The "and" between two weapons needs the item dictionary.** "tachyon arrow and Overlord's blade"
 is two weapons glued with a connective; "transonic razor and chordclaw" is ONE weapon's printed
@@ -3201,6 +3207,20 @@ unit, for a stated window, when the player decides to. So:
     a DAMNED unit, so his card offers the DAMNED stratagems too (`attachedUnitKeywords()`, which
     reads the attachment the roster already records — a bodyguard can hold a Leader and a Support
     at once, and all three are one unit).
+    **Since 2026-10-16 every keyword gate does the same, not only this one** — the card's numbers
+    (`applyStatMods`), its rule blocks (`ruleAppliesTo`), the keyword grants and the tracker's aura
+    chips. Until then only a stratagem's TARGET saw the attached unit, and a T'au player found
+    Experimental Prototype Cadre's "BATTLESUIT CHARACTER units' ranged attacks have +6\" Range"
+    on the Commander's card and not on the Crisis Battlesuits he leads. The split is 19.03's own
+    last sentence, "models in an attached unit do not gain the keywords of other models": a target
+    written as UNITS (or with no noun) is judged against the whole attached unit, one written as
+    MODELS against the card's own keywords — `ruleScopes` keeps which (`models`, `modelExcludes`)
+    and `scopeHits` in ruleTargets.js is the one place that chooses the set, from `{ own, unit }`
+    (a bare array is a unit standing alone). Measured that day over every leader → bodyguard pair
+    the builder allows: 87 detachment rules changed their answer on 915 cards (one narrower —
+    Fellhammer Siege-Host's "(excluding DAMNED units)" now excludes a Dark Apostle leading
+    Cultists), and 29 stratagems whose TARGET is "One … model" stopped being offered to the
+    bodyguard of the model they name.
   - **after the keyword grants, never before**: Necrons' The Spoor of Frailty targets DESTROYER
     CULT and the Destroyer Ankh is what grants it, so gating on the printed keywords alone would
     hide the stratagem from the one unit it was written for. That ordering is why the gate runs in

@@ -135,7 +135,9 @@ export default {
             "targets": [
               "T’AU EMPIRE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1727,7 +1729,9 @@ export default {
             "targets": [
               "T'AU EMPIRE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -2902,7 +2906,9 @@ export default {
             "targets": [
               "KROOT"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

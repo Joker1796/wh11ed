@@ -295,7 +295,9 @@ export default {
             "targets": [
               "PLAGUE LEGIONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -522,7 +524,9 @@ export default {
             "targets": [
               "DEATH GUARD"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Lord of the Death Guard",
@@ -546,7 +550,9 @@ export default {
             "targets": [
               "DEATH GUARD"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Lord of the Death Guard",
@@ -570,7 +576,9 @@ export default {
             "targets": [
               "DEATH GUARD"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Lord of the Death Guard",

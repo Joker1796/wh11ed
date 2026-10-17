@@ -900,7 +900,7 @@ describe('resolveModifierEntries — a stratagem\'s target', () => {
   const facKw = [cultists, raiders]
 
   it('reads the keywords the target line names', () => {
-    expect(resolve('Crazed Focus')[0].targetScopes).toEqual([{ targets: ['DAMNED'], excludes: [] }])
+    expect(resolve('Crazed Focus')[0].targetScopes).toMatchObject([{ targets: ['DAMNED'], excludes: [] }])
   })
 
   it('offers it to the unit the target line names, and to no one else', () => {
@@ -933,7 +933,7 @@ describe('resolveModifierEntries — a stratagem\'s target', () => {
   // narrowly written: distrust the extraction rather than hide the stratagem from everybody.
   it('offers one whose target matches no unit in the faction to everybody', () => {
     const [out] = resolve('Cult Rites')
-    expect(out.targetScopes).toEqual([{ targets: ['Warp Coven'], excludes: [] }])
+    expect(out.targetScopes).toMatchObject([{ targets: ['Warp Coven'], excludes: [] }])
     expect(gateStratagems([out], raiders, facKw)).toHaveLength(1)
   })
 
@@ -946,7 +946,7 @@ describe('resolveModifierEntries — a stratagem\'s target', () => {
     const defiler = ['Defiler', 'Vehicle', 'Walker', 'Heretic Astartes']
     const kw = [raptors, terminators, defiler]
     const [talons] = resolve('Plunging Talons')
-    expect(talons.targetScopes).toEqual([{ targets: ['HERETIC ASTARTES INFANTRY FLY'], excludes: [] }])
+    expect(talons.targetScopes).toMatchObject([{ targets: ['HERETIC ASTARTES INFANTRY FLY'], excludes: [] }])
     expect(gateStratagems([talons], raptors, kw)).toHaveLength(1)
     expect(gateStratagems([talons], terminators, kw)).toEqual([])
     const [prize] = resolve('Seize the Prize')
@@ -957,12 +957,12 @@ describe('resolveModifierEntries — a stratagem\'s target', () => {
 
   it('falls back to the target line itself when the WHEN line names no unit', () => {
     const [prey] = resolve('Prey')
-    expect(prey.targetScopes).toEqual([{ targets: ['HERETIC ASTARTES INFANTRY'], excludes: [] }])
+    expect(prey.targetScopes).toMatchObject([{ targets: ['HERETIC ASTARTES INFANTRY'], excludes: [] }])
   })
 
   it('reads "a model in that unit" from the WHEN line, and a bare "One X unit that…" as your own', () => {
-    expect(resolve('Eye of the Gods')[0].targetScopes).toEqual([{ targets: ['HERETIC ASTARTES CHARACTER'], excludes: ['DAMNED', 'DAEMON', 'EPIC HERO'] }])
-    expect(resolve('Shining Veil')[0].targetScopes).toEqual([{ targets: ['HERETIC ASTARTES'], excludes: [] }])
+    expect(resolve('Eye of the Gods')[0].targetScopes).toMatchObject([{ targets: ['HERETIC ASTARTES CHARACTER'], excludes: ['DAMNED', 'DAEMON', 'EPIC HERO'] }])
+    expect(resolve('Shining Veil')[0].targetScopes).toMatchObject([{ targets: ['HERETIC ASTARTES'], excludes: [] }])
     // …but never an enemy target, whatever keyword follows.
     expect(resolve('Warp Bolt')[0].targetScopes).toBeNull()
   })
@@ -1280,5 +1280,51 @@ describe('a state effect', () => {
     const out = applyStatMods(sheet, [{ name: 'Order', kind: 'armyRule', effects: [{ op: 'state', cond: ['order-take-cover'], when: { en: 'x' } }] }], [])
     expect(out.sheet.profiles[0].sv).toBe('4+')
     expect(out.notes).toEqual([])
+  })
+})
+
+// Core Rules 19.03 on the card: the detachment rule names BATTLESUIT CHARACTER units, so it reaches
+// the Crisis Battlesuits a Commander leads (a player's report, 2026-10-16).
+describe('applyStatMods — an attached unit is judged by all of its keywords', () => {
+  const crisisSheet = () => ({ name: 'Crisis Fireknife Battlesuits', profiles: [], ranged: [{ name: 'Plasma rifle', range: '18"', a: '1', bs: '4+', s: '8', ap: '-3', d: '3' }], melee: [] })
+  const crisis = ['Crisis Fireknife Battlesuits', 'Battlesuit', 'Fly', "T'au Empire"]
+  const commander = ['Commander in Coldstar Battlesuit', 'Battlesuit', 'Character', 'Fly', "T'au Empire"]
+  const cadre = {
+    name: 'Superior Craftsmanship', det: 'Experimental Prototype Cadre', kind: 'detachmentRule',
+    body: 'Friendly BATTLESUIT CHARACTER units’ ranged attacks have +6" Range.',
+    effects: [{ on: 'ranged', stat: 'range', op: 'add', value: 6, when: null }],
+  }
+  const models = { ...cadre, body: 'Each time a friendly BATTLESUIT CHARACTER model makes a ranged attack, that attack has +6" Range.' }
+
+  it('adds the range to the bodyguard while a CHARACTER leads it', () => {
+    expect(applyStatMods(crisisSheet(), [cadre], { own: crisis, unit: [...crisis, ...commander] }).sheet.ranged[0].range).toBe('24"')
+  })
+
+  it('leaves the bodyguard alone standing on its own', () => {
+    expect(applyStatMods(crisisSheet(), [cadre], crisis).sheet.ranged[0].range).toBe('18"')
+  })
+
+  it('leaves the bodyguard alone when the rule names models', () => {
+    expect(applyStatMods(crisisSheet(), [models], { own: crisis, unit: [...crisis, ...commander] }).sheet.ranged[0].range).toBe('18"')
+  })
+})
+
+// The same through the shipped data: the reviewed record, the detachment's own prose and the two
+// real datasheets, as the card resolves them.
+describe('Experimental Prototype Cadre on a Commander-led Crisis team (shipped data)', () => {
+  it('gives the Crisis Battlesuits +6" while led and not otherwise', async () => {
+    const { unitKeywordsOf } = await import('./ruleTargets.js')
+    const sheets = (await import('../data/datasheets/tau-empire.js')).default
+    const facEn = (await import('../data/factions/tau-empire.js')).tauEmpire.en
+    const records = (await import('../data/rosterModifiers/tau-empire.js')).default.entries
+    const crisis = sheets.find((s) => s.id === 'crisis-fireknife-battlesuits')
+    const commander = sheets.find((s) => s.id === 'commander-in-coldstar-battlesuit')
+    const entries = resolveModifierEntries(records.filter((r) => r.name === 'Superior Craftsmanship'), facEn, ['Experimental Prototype Cadre'], null)
+    expect(entries).toHaveLength(1)
+    const printed = crisis.ranged[0].range
+    const added = `${parseInt(printed, 10) + 6}"`
+    const own = unitKeywordsOf(crisis)
+    expect(applyStatMods(crisis, entries, { own, unit: [...own, ...unitKeywordsOf(commander)] }).sheet.ranged[0].range).toBe(added)
+    expect(applyStatMods(crisis, entries, own).sheet.ranged[0].range).toBe(printed)
   })
 })

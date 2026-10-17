@@ -144,6 +144,9 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
   transition: color calc(var(--motion-page-tab) * 0.6) ease;
 }
 .page-tab.active { color: var(--accent-ink); }
+/* Dark theme: the selection is the accent edge, the text stays light — the dark red is below AA
+   as text (npm run a11y, owner 2026-10-16). */
+:root[data-theme='dark'] .page-tab.active { color: var(--text-primary); }
 @media (hover: hover) {
   .page-tab:not(.active):hover { color: var(--text-primary); }
 }

@@ -167,7 +167,9 @@ export default {
             "targets": [
               "NECRONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -228,7 +230,9 @@ export default {
             "targets": [
               "NECRONS INFANTRY"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -304,7 +308,9 @@ export default {
             "targets": [
               "NECRONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -397,7 +403,9 @@ export default {
             "targets": [
               "NECRONS BATTLELINE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -462,7 +470,9 @@ export default {
             "excludes": [
               "MONSTER",
               "TITANIC"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -667,7 +677,9 @@ export default {
             ],
             "excludes": [
               "MONSTER"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Triarch Abilities",
@@ -705,7 +717,9 @@ export default {
             ],
             "excludes": [
               "MONSTER"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Triarch Abilities",
@@ -731,7 +745,9 @@ export default {
             ],
             "excludes": [
               "MONSTER"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Triarch Abilities",
@@ -767,7 +783,9 @@ export default {
             "targets": [
               "NECRONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1356,7 +1374,9 @@ export default {
             ],
             "excludes": [
               "CHARACTER"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       }
@@ -1704,7 +1724,9 @@ export default {
             ],
             "excludes": [
               "TITANIC"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -2278,7 +2300,9 @@ export default {
             "targets": [
               "CANOPTEK"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -2310,7 +2334,9 @@ export default {
             "targets": [
               "NECRONS VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -2342,7 +2368,9 @@ export default {
             "targets": [
               "NECRONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -2374,7 +2402,9 @@ export default {
             "targets": [
               "NECRONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -2406,7 +2436,9 @@ export default {
             "targets": [
               "NECRONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -2490,7 +2522,9 @@ export default {
             "targets": [
               "NECRONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

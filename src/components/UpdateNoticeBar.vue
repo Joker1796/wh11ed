@@ -55,7 +55,8 @@ const { entry, visible, markSeen } = useUpdateNotice()
 
 .ub-link {
   margin-left: 0.5rem;
-  color: var(--accent-ink);
+  /* White on the always-dark bar, underlined (owner, 2026-10-16). */
+  color: var(--text-on-dark);
   text-decoration: underline;
   white-space: nowrap;
 }

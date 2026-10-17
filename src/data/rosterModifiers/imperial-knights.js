@@ -822,7 +822,9 @@ export default {
             "targets": [
               "ADEPTUS MECHANICUS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -1052,7 +1054,9 @@ export default {
             "targets": [
               "ADEPTUS MECHANICUS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

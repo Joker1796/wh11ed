@@ -58,13 +58,14 @@ const labels = computed(() => ui[locale.value])
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(52px + var(--safe-bottom, 0px) + 0.5rem + var(--roster-sticky-h, 0px) + var(--mobile-bar-h, 0px));
+  /* …and the update plate, while it waits for its button (--dock-h). */
+  bottom: calc(52px + var(--safe-bottom, 0px) + 0.5rem + var(--roster-sticky-h, 0px) + var(--mobile-bar-h, 0px) + var(--dock-h, 0px));
   z-index: 196;
   padding: 0 calc(0.75rem + var(--safe-right)) 0 calc(0.75rem + var(--safe-left));
   pointer-events: none;
 }
 @media (min-width: 901px) {
-  .ru-bar { bottom: calc(var(--roster-sticky-h, 0px) + 1rem); }
+  .ru-bar { bottom: calc(var(--roster-sticky-h, 0px) + 1rem + var(--dock-h, 0px)); }
 }
 /* Inline: a flex item of the footer, centred by equal auto margins — the actions' own
    `margin-left: auto` is handed over to this in style.css, or the free space would split three

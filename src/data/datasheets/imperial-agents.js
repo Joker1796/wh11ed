@@ -336,11 +336,13 @@ export default [
     "keywords": [
       "Battleline",
       "Explosives",
+      "Gravis",
       "Imperium",
       "Infantry",
       "Kill Team",
       "Ordo Xenos",
-      "Retinue"
+      "Retinue",
+      "Tacticus"
     ],
     "factionKeywords": [
       "Agents of the Imperium"

@@ -216,6 +216,20 @@ September even though `sync-core` printed it on every run — one finding among 
   the EN file as the page merges it. Fails on a plate a sync added or dropped, one GW renamed (the
   RU still names the old one), and one with no Russian. A keyword plate (`BROOD BROTHERS`) stays as
   it is; anything else written otherwise goes in its `RU_ONLY` with the reason. Lesson 86.
+- **`src/data/ruLeaks.test.js`** (inside `npm test`) — no English SENTENCE where a Russian reader
+  reads: faction rules, every datasheet, missions, Combat Patrol and the interface, built the way
+  the app builds them (the same loaders and overlays). `parity` compares the shape of the two
+  languages, and an overlay that lacks a field inherits the English with the shapes agreeing — so
+  it passed what this catches. Born 2026-10-16: a player found the roster's wargear instructions in
+  English (62 of them; the generator printed the number, its test asked for 70%), and the sweep
+  that followed found every sheet's unit composition English too. A string that must stay English
+  goes in its `ALLOWED` with the reason. The roster instructions have their own all-or-nothing gate
+  (`src/data/roster/ru/texts.test.js`), the composition its own (`datasheets/ru/localize.test.js`).
+- **`src/utils/proseReaders.test.js`** (inside `npm test`) — every reader of rule prose (who a rule
+  or stratagem is for, faction keywords in text, weapon tags, wargear conditions) reads each data
+  string and its `foldChars` copy alike. appdata types hyphens as U+2010/U+2011 at will, and a
+  regex that knows only "-" reads nothing there: Flare Shields stood on every Custodes unit
+  (2026-10-17, lesson 96). A new reader of rule text goes into this test.
 - **`npm run omissions`** (`scripts/check-rule-omissions.mjs`) — the ONE direction that is always a
   defect: appdata's Core Rules carry text wh11ed does not. It reports two shapes — a *dropped word*
   (a line we clearly do carry, minus a load-bearing word) and a *missing line* — and nothing else.

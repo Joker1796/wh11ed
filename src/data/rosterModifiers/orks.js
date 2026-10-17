@@ -1572,13 +1572,17 @@ export default {
             ],
             "excludes": [
               "BIG MEK"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           },
           {
             "targets": [
               "ORKS WALKER"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

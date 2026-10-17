@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ruleTargets, ruleScopes, keywordsMatchTarget, ruleAppliesTo } from './ruleTargets.js'
+import { ruleTargets, ruleScopes, keywordsMatchTarget, ruleAppliesTo, scopeHits } from './ruleTargets.js'
 
 describe('ruleTargets', () => {
   it('reads the target out of the ordinary "X units from your army" wording', () => {
@@ -109,7 +109,7 @@ describe('ruleScopes — exclusions and the wordings that hide targets', () => {
     ].join('\n')
     const scopes = ruleScopes(body)
     expect(scopes).toHaveLength(2)
-    expect(scopes[0]).toEqual({ targets: ['Destroyer Cult'], excludes: [] })
+    expect(scopes[0]).toMatchObject({ targets: ['Destroyer Cult'], excludes: [] })
     expect(scopes[1].excludes).toEqual(expect.arrayContaining(['Destroyer Cult', 'Monster', 'Titanic']))
 
     const nightbringer = ['Character', 'Epic Hero', 'Fly', 'Monster', 'Necrons']
@@ -255,5 +255,42 @@ describe('ruleScopes — exclusions and the wordings that hide targets', () => {
     expect(ruleTargets('Friendly WRAITHGUARD and WRAITHLORD units from your army.')).toEqual(['WRAITHGUARD', 'WRAITHLORD'])
     // A keyword of the "X of the Y" shape reads as one.
     expect(ruleTargets('Agents of the Imperium units from your army.')).toEqual(['Agents of the Imperium'])
+  })
+})
+
+// Core Rules 19.03 — an attached unit has every keyword of its component units, its models only
+// their own. Experimental Prototype Cadre's rule reached the Commander and not the Crisis
+// Battlesuits he leads (a player's report, 2026-10-16).
+describe('scopeHits — units against the attached unit, models against the card', () => {
+  const crisis = ['Crisis Battlesuits', 'Battlesuit', 'Fly', "T'au Empire"]
+  const commander = ['Commander in Crisis Battlesuit', 'Battlesuit', 'Character', 'Fly', "T'au Empire"]
+  const led = { own: crisis, unit: [...crisis, ...commander] }
+  const cadre = 'Friendly BATTLESUIT CHARACTER units’ ranged attacks have +6" Range.'
+
+  it('reads which targets a passage names as models', () => {
+    expect(ruleScopes('Each time a friendly CHARACTER model makes an attack, re-roll a Hit roll of 1.'))
+      .toEqual([{ targets: ['CHARACTER'], excludes: [], models: ['CHARACTER'], modelExcludes: [] }])
+    expect(ruleScopes(cadre)).toEqual([{ targets: ['BATTLESUIT CHARACTER'], excludes: [], models: [], modelExcludes: [] }])
+  })
+
+  it('gives a rule naming units to every half of an attached unit', () => {
+    expect(ruleAppliesTo(cadre, led)).toBe(true)
+    expect(ruleAppliesTo(cadre, crisis)).toBe(false)
+  })
+
+  it('keeps a rule naming models with the model that carries the keyword', () => {
+    expect(ruleAppliesTo('Each time a friendly CHARACTER model makes an attack, re-roll a Hit roll of 1.', led)).toBe(false)
+    expect(ruleAppliesTo('Each time a friendly CHARACTER model makes an attack, re-roll a Hit roll of 1.', { own: commander, unit: led.unit })).toBe(true)
+  })
+
+  it('excludes by the same split', () => {
+    const units = 'Friendly BATTLESUIT units (excluding CHARACTER units) can shoot twice.'
+    const models = 'Each time a friendly BATTLESUIT model (excluding CHARACTER models) makes an attack, add 1 to the Hit roll.'
+    expect(ruleAppliesTo(units, led)).toBe(false)
+    expect(ruleAppliesTo(models, led)).toBe(true)
+  })
+
+  it('judges a scope stored without the noun on the card alone, as before', () => {
+    expect(scopeHits({ targets: ['BATTLESUIT CHARACTER'], excludes: [] }, led)).toBe(false)
   })
 })

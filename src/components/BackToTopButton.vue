@@ -33,7 +33,8 @@ const { visible, scrollToTop } = useBackToTop()
   display: none;
   position: fixed;
   right: 1.5rem;
-  bottom: 1.5rem;
+  /* Stands on the update plate while it waits in the same corner (--dock-h, UpdatePlate.vue). */
+  bottom: calc(1.5rem + var(--dock-h, 0px));
   z-index: 195; /* same tier as MobileUtilityBar / the faction FABs */
 }
 

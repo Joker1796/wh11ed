@@ -74,7 +74,7 @@
       @close="appFirstOpen = false"
     />
     <InstallOffer
-      v-if="installOfferOpen"
+      v-if="installOfferOpen && appUpdate.phase === 'idle' && cacheMigration.phase !== 'shown'"
       @close="installOfferOpen = false"
       @ios-help="installHintOpen = true"
     />
@@ -117,10 +117,11 @@
       :resume-draft-id="resumeDraftId"
     />
     <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolPageRoute" />
-    <UpdateToast v-if="!holdReloads" />
-    <OfflineWarmupToast v-if="!isBare" />
+    <UpdateToast v-if="!holdReloads && workerOn" />
+    <OfflineWarmupToast v-if="!isBare && appUpdate.phase === 'idle'" />
+    <UpdatePlate v-if="!isBare" />
     <ErrorReportsOffer
-      v-if="errorOfferOpen"
+      v-if="errorOfferOpen && cacheMigration.phase !== 'shown'"
       @close="errorOfferOpen = false"
     />
   </div>
@@ -141,6 +142,10 @@ import { useBackToCloseWhile } from './composables/useBackToClose.js'
 // A page caught reloading itself in a loop gets no update applied for a while (reloadLoop.js):
 // without the toast's service worker nothing reloads it.
 const holdReloads = reloadsHeld()
+// Whether this page runs under a service worker (workerPolicy.js): the installed app and a tab beside
+// it always; any other tab only while it still has one from before 2.9.5 — until its plate moves it
+// off (cacheMigration.js). A tab without one watches the server's version itself (tabFreshness.js).
+const workerOn = ref(workerWanted())
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
 // Loaded only where the tour exists; the flag is read here, not from useTour, so the chapters'
 // texts stay out of the root bundle.
@@ -166,6 +171,11 @@ import WelcomeModal from './components/WelcomeModal.vue'
 import UpdateToast from './components/UpdateToast.vue'
 import { reloadsHeld } from './composables/reloadLoop.js'
 import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
+import UpdatePlate from './components/UpdatePlate.vue'
+import { appUpdate } from './composables/useAppUpdate.js'
+import { cacheMigration, watchForCalm } from './composables/cacheMigration.js'
+import { watchTabFreshness } from './composables/tabFreshness.js'
+import { currentRegistration, tabMayLeaveWorker, tidyAfterWorker, workerWanted } from './composables/workerPolicy.js'
 import MobileUtilityBar from './components/MobileUtilityBar.vue'
 import BackToTopButton from './components/BackToTopButton.vue'
 import DomainMoveBanner from './components/DomainMoveBanner.vue'
@@ -405,7 +415,23 @@ function tryErrorOffer() {
 onUnsentError(() => { errorPending = true; setTimeout(tryErrorOffer, 1500) })
 watch([() => appPath.value, authStatus], () => setTimeout(tryErrorOffer, 2500))
 
+async function settleWorker() {
+  if (workerOn.value) return
+  if (!await currentRegistration()) {
+    tidyAfterWorker()
+    watchTabFreshness(router)
+    return
+  }
+  workerOn.value = true
+  if (!tabMayLeaveWorker()) return
+  watchForCalm(router, {
+    dialogBusy: () => welcomeOpen.value || appFirstOpen.value || installOfferOpen.value || errorOfferOpen.value,
+    applied: () => { workerOn.value = false; watchTabFreshness(router) },
+  })
+}
+
 onMounted(() => {
+  settleWorker()
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('click', onGlobalClick)
   countVisit()
@@ -444,8 +470,10 @@ onUnmounted(() => {
 .main-content {
   max-width: 860px;
   margin: 0 auto;
-  /* + a pinned bar's height, where a screen carries one (--roster-sticky-h, set below). */
-  padding: 0 2rem calc(4rem + var(--roster-sticky-h, 0px));
+  /* + a pinned bar's height, where a screen carries one (--roster-sticky-h, set below), and the
+     update plate's while it waits for its button (--dock-h, UpdatePlate.vue) — the last line of
+     a page can always be scrolled clear of it. */
+  padding: 0 2rem calc(4rem + var(--roster-sticky-h, 0px) + var(--dock-h, 0px));
 }
 
 /* Only the merged Core Rules and Event Companion pages: their prose chapters lay out in
@@ -488,14 +516,14 @@ onUnmounted(() => {
    exactly the fixed Cancel/Save bar — plus the bottom nav below 900px. No gap: the columns end
    flush on the bar; a 1rem one read as a stray empty strip, on the phone and the desk alike
    (owner's call, 2026-09-27). The general 4rem reserve is for the phone's bars. */
-.main-content--desk { padding-bottom: var(--roster-sticky-h, 0px); }
+.main-content--desk { padding-bottom: calc(var(--roster-sticky-h, 0px) + var(--dock-h, 0px)); }
 
 /* ── Mobile ── */
 @media (max-width: 900px) {
   .main-content {
-    padding: 0 calc(1rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--mobile-bar-h, 0px) + var(--roster-sticky-h, 0px)) calc(1rem + var(--safe-left));
+    padding: 0 calc(1rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--mobile-bar-h, 0px) + var(--roster-sticky-h, 0px) + var(--dock-h, 0px)) calc(1rem + var(--safe-left));
   }
-  .main-content--desk { padding-bottom: calc(var(--roster-sticky-h, 0px) + 52px + var(--safe-bottom)); }
+  .main-content--desk { padding-bottom: calc(var(--roster-sticky-h, 0px) + 52px + var(--safe-bottom) + var(--dock-h, 0px)); }
 }
 
 /* Very narrow phones (≤480px): the 900px tier's 1rem gutter still wastes a large share

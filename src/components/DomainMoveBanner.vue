@@ -84,7 +84,8 @@ function dismiss() {
 }
 
 .db-link {
-  color: var(--accent-ink);
+  /* White on the always-dark bar, underlined (owner, 2026-10-16). */
+  color: var(--text-on-dark);
   text-decoration: underline;
 }
 

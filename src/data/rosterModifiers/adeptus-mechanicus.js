@@ -64,7 +64,9 @@ export default {
             "targets": [
               "ADEPTUS MECHANICUS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Canticles of the Omnissiah",
@@ -138,7 +140,9 @@ export default {
             "targets": [
               "ADEPTUS MECHANICUS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Canticles of the Omnissiah",
@@ -307,7 +311,11 @@ export default {
             "targets": [
               "ADEPTUS MECHANICUS BATTLELINE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "ADEPTUS MECHANICUS BATTLELINE"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -492,7 +500,11 @@ export default {
             "targets": [
               "ADEPTUS MECHANICUS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "ADEPTUS MECHANICUS"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -529,7 +541,11 @@ export default {
             "targets": [
               "ADEPTUS MECHANICUS VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "ADEPTUS MECHANICUS VEHICLE"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -657,7 +673,9 @@ export default {
               "SKITARII",
               "THULIA GHULD"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Rod of the War Forge",
@@ -682,7 +700,9 @@ export default {
               "SKITARII",
               "THULIA GHULD"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Rod of the War Forge",
@@ -735,7 +755,9 @@ export default {
               "SKITARII",
               "THULIA GHULD"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Rod of the War Forge",
@@ -1221,7 +1243,12 @@ export default {
               "LEGIO CYBERNETICA",
               "ADEPTUS MECHANICUS VEHICLE"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [
+              "LEGIO CYBERNETICA",
+              "ADEPTUS MECHANICUS VEHICLE"
+            ],
+            "modelExcludes": []
           }
         ]
       },
@@ -1257,7 +1284,9 @@ export default {
             "targets": [
               "CULT MECHANICUS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

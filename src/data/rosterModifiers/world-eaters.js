@@ -20,7 +20,9 @@ export default {
             "targets": [
               "WORLD EATERS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ],
         "set": "Wrathful Presence",
@@ -76,7 +78,9 @@ export default {
             "targets": [
               "BLOOD LEGIONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -171,7 +175,9 @@ export default {
               "MONSTER",
               "VEHICLES",
               "VEHICLE"
-            ]
+            ],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -426,7 +432,9 @@ export default {
             "targets": [
               "BLOOD LEGIONS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },
@@ -659,7 +667,9 @@ export default {
               "JAKHALS",
               "GOREMONGERS"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       }

@@ -108,12 +108,14 @@
         kind="ranged"
         :rows="rangedRows"
         :is-marked="isMarked"
+        :rules="ownRules"
       />
       <DatasheetWeaponTable
         v-if="sheet.melee?.length"
         kind="melee"
         :rows="meleeRows"
         :is-marked="isMarked"
+        :rules="ownRules"
       />
 
       <!-- What the roster's modifier layer did to the numbers above (Tier C). Every rewritten value
@@ -1203,6 +1205,8 @@ const pointsTable = computed(() => {
 // psycannon 15 pts"). Under the table, so the page says what the roster builder charges — a
 // player asked where to look up the price of a weapon swap (2026-10-15). One line, in script:
 // adjacent template fragments would pick up stray spaces (root CLAUDE.md, the linter).
+// What a weapon tag that is no core ability stands for (DatasheetWeaponTable's `rules`).
+const ownRules = computed(() => ['wargearAbilities', 'abilities', 'specialAbilities'].flatMap((k) => props.sheet[k] || []))
 const wargearPointsLine = computed(() => (props.sheet.wargearPoints || []).map((w) => `${w.name} +${w.points} pts`).join(' · '))
 
 // '1st-2nd' / '3rd+' → "1st and 2nd unit" / «1-й и 2-й юнит»: which unit of this datasheet
@@ -1717,13 +1721,14 @@ function abilityStateLabel(st) {
   font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
 }
 .ds-mod-src-h:first-of-type { margin-top: 0; }
+/* In inline flow, not a flex row: the icon centres on the text by its own vertical-align, which
+   a flex item ignores — it sat on the baseline, above the letters' middle. */
 .ds-mod-srcbtn {
-  display: inline-flex; align-items: baseline; gap: 0.25rem;
   padding: 0; border: 0; background: none; font: inherit; color: var(--text-primary);
   cursor: pointer; text-align: left;
 }
 .ds-mod-srcbtn:hover { color: var(--accent-ink); }
-.ds-mod-srcbtn .wi { font-size: 0.85em; color: var(--text-muted); }
+.ds-mod-srcbtn .wi { margin-inline-start: 0.2em; color: var(--text-muted); }
 .ds-mod-srcbtn:hover .wi { color: var(--accent-ink); }
 .ds-mod-det { color: var(--text-muted); }
 /* A conditional modifier didn't change anything on the card — the dimmed delta says so at a
@@ -1766,11 +1771,12 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent-ink); }
    is a confirmation — and the whole row dims when it does not, because a printed ability that
    cannot be doing anything is exactly what a reader keeps re-reading. */
 .ds-ab-state {
-  display: inline-flex; align-items: baseline; gap: 0.2rem; margin-right: 0.3rem;
+  margin-right: 0.3rem;
   color: var(--text-muted); font-size: 0.78em; font-style: italic;
 }
 .ds-ab-state.on { color: var(--accent-ink); font-style: normal; }
-.ds-ab-state .wi { font-size: 0.9em; font-style: normal; }
+/* Inline, not a flex row, for the reason .ds-mod-srcbtn gives. */
+.ds-ab-state .wi { margin-inline-end: 0.2em; font-style: normal; }
 .ds-ability-idle { opacity: 0.62; }
 .ds-ab-conds { margin-top: 0.35rem; }
 

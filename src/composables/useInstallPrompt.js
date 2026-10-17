@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { isStandaloneDisplay } from './standalone.js'
+import { markAppInstalled } from './appInstalled.js'
 
 // Module-singleton (same pattern as useLocale.js). Captures the Chromium
 // `beforeinstallprompt` event so we can offer a custom "Install app" button —
@@ -37,6 +38,7 @@ if (typeof window !== 'undefined') {
   })
 
   window.addEventListener('appinstalled', () => {
+    markAppInstalled()
     deferredPrompt = null
     canInstall.value = false
     isStandalone.value = true

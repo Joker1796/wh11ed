@@ -14,6 +14,12 @@ const notesVersion = (await import('./src/data/changelog.js')).latestEntry?.vers
 function buildInfoMeta() {
   return {
     name: 'build-info-meta',
+    // The same two numbers as a file of their own, for a page already open to ask the server what
+    // is live now (launchGate.js, at a start under a service worker) without pulling a whole
+    // index.html. Served no-cache by deploy.sh, like index.html.
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify({ app: pkgVersion, notes: notesVersion }) })
+    },
     transformIndexHtml() {
       return [
         { tag: 'meta', attrs: { name: 'wh-app-version', content: pkgVersion }, injectTo: 'head' },
@@ -74,23 +80,6 @@ function imageFiles(dir = 'public/images', base = '/images') {
     else if (IMAGE_FILE.test(entry.name)) out.push([url, statSync(join(dir, entry.name)).size])
   }
   return out
-}
-
-// `image-manifest.json` — the flat URL list, unchanged in shape since 2026-08.
-//
-// Superseded by `offline-manifest.json` below and kept for ONE release: an installed app is
-// running the JS it last precached, and that code fetches this file and iterates it as an array.
-// Changing its shape under a client that has not updated yet would throw inside its warm-up.
-// Delete after a deploy has been out long enough that nobody is on the old shell.
-function imageManifest() {
-  return {
-    name: 'image-manifest',
-    apply: 'build',
-    generateBundle() {
-      const files = imageFiles().map(([url]) => url).sort()
-      this.emitFile({ type: 'asset', fileName: 'image-manifest.json', source: JSON.stringify(files) })
-    },
-  }
 }
 
 // What the app needs to BOOT, as opposed to what it eventually uses. Filled during the build and
@@ -227,7 +216,6 @@ export default defineConfig({
     buildInfoMeta(),
     appShell(),
     injectSiteOrigin(),
-    imageManifest(),
     offlineShell(),
     VitePWA({
       // 'prompt' (not 'autoUpdate'): a new version is downloaded in the background

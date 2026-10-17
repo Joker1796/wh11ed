@@ -47,9 +47,15 @@
 // every (detachment rule, datasheet) pair and prints the visible ids per rule; diff that against
 // the same output from the previous version of this file.
 //
+// 2026-10-16: the noun is kept (`models`, `modelExcludes`) so an ATTACHED unit can be judged as
+// Core Rules 19.03 says — by all of its keywords for a rule about units, by the model's own for a
+// rule about models (scopeHits). 87 detachment rules changed their answer on 915 leader/bodyguard
+// cards; the per-rule list came from the same kind of ad hoc pass over every pair the builder
+// allows (src/components/roster/CLAUDE.md).
+//
 // Always run this on the ENGLISH body. Keywords stay English by project convention but the prose
 // around them is translated, so the patterns below only match the EN text.
-import { foldName } from '../utils/foldName.js'
+import { foldChars, foldName } from '../utils/foldName.js'
 
 // A keyword phrase: one or more capitalised words. Matches both the ALL-CAPS spelling and the
 // Title Case one — the faction files use whichever the source PDF used.
@@ -81,9 +87,12 @@ const PAREN = "(?:\\s*\\([^)]*\\))?"
 // your army" (TRANSPORT is the keyword) — and "from  your army" occurs with two spaces. "friendly"
 // may be followed by the engagement state the stratagem asks for: "One friendly unengaged
 // HARLEQUINS unit" (21 stratagems). All 2026-09-19.
+// The noun is captured (group 2): a target written as MODELS is judged against the model's own
+// keywords, one written as units (or with no noun) against the whole attached unit's — see
+// scopeHits below.
 const PATTERNS = [
-  new RegExp(`(${KW_ALT})(?:\\s+(?:units?|models?))?${PAREN}\\s+from\\s+your army`, 'g'),
-  new RegExp(`[Ff]riendly\\s+(?:(?:un)?engaged\\s+)?(${KW_ALT})\\s+(?:units?|models?)`, 'g'),
+  new RegExp(`(${KW_ALT})(?:\\s+(units?|models?))?${PAREN}\\s+from\\s+your army`, 'g'),
+  new RegExp(`[Ff]riendly\\s+(?:(?:un)?engaged\\s+)?(${KW_ALT})\\s+(units?|models?)`, 'g'),
 ]
 
 // "…(excluding Destroyer Cult, Monster and Titanic models)". Exclusions are safe by construction:
@@ -144,20 +153,25 @@ function passages(body) {
 
 // Keyword phrases the excluding-clause names, plus their singular forms: rules write "excluding
 // MONSTERS and VEHICLES" while the datasheet carries MONSTER and VEHICLE.
-function excludesIn(passage) {
+function excludesIn(passage, models = new Set()) {
   const out = new Set()
   EXCLUDE.lastIndex = 0
   let m
   while ((m = EXCLUDE.exec(passage))) {
+    // "(excluding Destroyer Cult, Monster and Titanic models)": the trailing noun is the whole
+    // list's, so every phrase in it is about models.
+    const ofModels = /\bmodels?\s*$/i.test(m[1].trim())
     // The slash list too — "(excluding KROOT/VESPID STINGWINGS units)" is two exclusions.
     for (const raw of m[1].replace(/\s+(?:units?|models?)\s*$/i, '').split(/,| and | or |\s*\/\s*/i)) {
       const words = raw.trim().replace(/\s+(?:units?|models?)$/i, '')
         .split(/\s+/).filter((w) => /^[A-Z]/.test(w) && !isStop(w))
       if (!words.length) continue
       const phrase = words.join(' ')
-      out.add(phrase)
       const singular = depluralise(phrase)
-      if (singular !== phrase) out.add(singular)
+      for (const x of new Set([phrase, singular])) {
+        out.add(x)
+        if (ofModels || /\bmodels?$/i.test(raw.trim())) models.add(x)
+      }
     }
   }
   return [...out]
@@ -174,19 +188,26 @@ function depluralise(phrase) {
   }).join(' ')
 }
 
-// One `{ targets, excludes }` per statement that speaks about your own army, or null for
+// One `{ targets, excludes, models, modelExcludes }` per statement that speaks about your own army, or null for
 // "don't gate this rule". Per statement, not merged: a rule applies to a unit when ANY of its
 // statements does, and each statement's exclusions bind only to its own targets.
 /**
  * @param {string | null | undefined} body
- * @returns {Array<{ targets: string[], excludes: string[] }> | null}
+ * @returns {Array<import('./roster.types.js').RuleScope> | null}
  */
 export function ruleScopes(body) {
-  const own = passages(body).filter((p) => OWN_SIDE.test(p))
+  // Read folded: appdata types "GRAV‑ASSAULT" with U+2011, which KW_WORD's "-" does not take, so
+  // Flare Shields read as nobody's and stood on every unit of the army (a player's report,
+  // 2026-10-17). One character for one, so nothing positional moves; proseReaders.test.js.
+  const own = passages(foldChars(body)).filter((p) => OWN_SIDE.test(p))
   if (!own.length) return null // escape 1
   const scopes = []
   for (const passage of own) {
     const found = new Set()
+    // Which targets the passage names as MODELS ("each time a friendly CHARACTER model makes an
+    // attack"). A phrase written both ways stays a model target: the narrower reading is the one
+    // the gate had before attached units were judged as a whole.
+    const models = new Set()
     for (const re of PATTERNS) {
       re.lastIndex = 0
       let m
@@ -194,12 +215,16 @@ export function ruleScopes(body) {
         // An alternation is several targets, not one phrase.
         for (const alt of alternatives(m[1])) {
           const words = alt.trim().split(/\s+/).filter((w) => !isStop(w))
-          if (words.length) found.add(words.join(' '))
+          if (!words.length) continue
+          found.add(words.join(' '))
+          if (/^models?$/i.test(m[2] || '')) models.add(words.join(' '))
         }
       }
     }
     if (!found.size) return null // escape 2
-    scopes.push({ targets: [...found], excludes: excludesIn(passage) })
+    const modelExcludes = new Set()
+    const excludes = excludesIn(passage, modelExcludes)
+    scopes.push({ targets: [...found], excludes, models: [...models], modelExcludes: [...modelExcludes] })
   }
   return scopes
 }
@@ -294,10 +319,7 @@ export function _setKeywordVocabulary(list) { known = list }
 // faction's units) reaches nobody, honestly. Without the vocabulary loaded, distrust as before.
 /** @param {import('./roster.types.js').RuleScope[]} scopes @param {string[][]} keywordSets */
 export function scopesMisread(scopes, keywordSets) {
-  const hits = (kws) => scopes.some((sc) =>
-    sc.targets.some((t) => keywordsMatchTarget(kws, t)) &&
-    !sc.excludes.some((x) => keywordsMatchTarget(kws, x)))
-  if (keywordSets.some(hits)) return false
+  if (keywordSets.some((kws) => scopes.some((sc) => scopeHits(sc, kws)))) return false
   if (!known) return true
   return scopes.some((sc) => sc.targets.some((t) => !keywordsMatchTarget(known, t)))
 }
@@ -305,11 +327,35 @@ export function scopesMisread(scopes, keywordSets) {
 // Does this rule bear on this unit? `unitKeywords` is unitKeywordsOf() plus whatever the roster
 // grants it; `factionKeywordSets` is unitKeywordsOf() of every unit in the faction, used only for
 // escape 3 — pass it whenever you have it, and omit it to skip that guard.
+/**
+ * @param {string | null | undefined} body
+ * @param {UnitKeywords} unitKeywords
+ * @param {string[][] | null} [factionKeywordSets]
+ */
 export function ruleAppliesTo(body, unitKeywords, factionKeywordSets) {
   const scopes = ruleScopes(body)
   if (!scopes) return true
   if (factionKeywordSets?.length && scopesMisread(scopes, factionKeywordSets)) return true
-  return scopes.some((sc) =>
-    sc.targets.some((t) => keywordsMatchTarget(unitKeywords, t)) &&
-    !sc.excludes.some((x) => keywordsMatchTarget(unitKeywords, x)))
+  return scopes.some((sc) => scopeHits(sc, unitKeywords))
+}
+
+// Does one statement of a rule bear on this unit? Core Rules 19.03: "An attached unit has all of
+// the keywords of all of its component units… is affected by any rule that applies to units with
+// any of those keywords. Note that models in an attached unit do not gain the keywords of other
+// models in that unit." So a target written as UNITS is judged against the whole attached unit's
+// keywords (`unit`) and one written as MODELS against the card's own (`own`) — Experimental
+// Prototype Cadre's "BATTLESUIT CHARACTER units' ranged attacks have +6\" Range" reaches the Crisis
+// Battlesuits a Commander leads, while "each time a CHARACTER model makes an attack" stays with
+// the Commander (a player's report, 2026-10-16). Exclusions the same way. A bare list of keywords
+// is a unit standing alone, where the two sets are one; a scope stored before the noun was read
+// (no `models` field) is judged as it always was, on the card's own keywords.
+/** @typedef {string[] | { own: string[], unit: string[] }} UnitKeywords */
+/** @param {import('./roster.types.js').RuleScope} sc @param {UnitKeywords} keywords */
+export function scopeHits(sc, keywords) {
+  const own = Array.isArray(keywords) ? keywords : keywords.own
+  const unit = Array.isArray(keywords) ? keywords : keywords.unit
+  const legacy = !sc.models
+  const setFor = (phrase, models) => (legacy || models?.includes(phrase) ? own : unit)
+  return sc.targets.some((t) => keywordsMatchTarget(setFor(t, sc.models), t))
+    && !sc.excludes.some((x) => keywordsMatchTarget(setFor(x, sc.modelExcludes), x))
 }

@@ -25,13 +25,21 @@ export const HOLD_MS = 10 * 60 * 1000
 
 const readNum = (k) => Number(getItem(k)) || 0
 
-/** Notes a start of the app. Returns true when this start completes a loop (and the hold begins). */
+/**
+ * Notes a start of the app. Returns true when this start completes a loop (and the hold begins).
+ *
+ * A loop is three starts in the window AND one of the app's own reloads among them (the trail).
+ * Without that second half it caught readers, not loops (2026-10-16, six reports from 2.9.2): an
+ * installed iPhone app is dropped from memory almost at once, so switching to it and back is a new
+ * start; a tab is refreshed by hand or opened from three links. Only the app reloading itself can
+ * be held back, so only that is worth catching.
+ */
 export function noteBoot(now = Date.now()) {
   let boots = []
   try { boots = JSON.parse(getItem(BOOTS_KEY) || '[]').filter((t) => typeof t === 'number' && now - t < LOOP_WINDOW_MS) } catch { /* a bad value starts over */ }
   boots.push(now)
   setItem(BOOTS_KEY, JSON.stringify(boots))
-  if (boots.length < LOOP_BOOTS || reloadsHeld(now)) return false
+  if (boots.length < LOOP_BOOTS || reloadsHeld(now) || !ownReloadWithin(now, LOOP_WINDOW_MS)) return false
   setItem(HOLD_KEY, String(now + HOLD_MS))
   return true
 }
@@ -47,6 +55,12 @@ export function reloadsHeld(now = Date.now()) {
 const swState = () => {
   const sw = typeof navigator !== 'undefined' ? navigator.serviceWorker : null
   return sw ? (sw.controller ? 'ctl' : 'no-ctl') : 'no-sw'
+}
+function ownReloadWithin(now, ms) {
+  try {
+    // Not a reload asked for and refused, nor one the reader asked for with the plate's button.
+    return JSON.parse(getItem(TRAIL_KEY) || '[]').some((e) => e.r !== 'sw-skipped' && e.r !== 'user' && now - e.t < ms)
+  } catch { return false }
 }
 export function noteReload(reason, now = Date.now()) {
   let trail = []

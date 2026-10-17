@@ -317,7 +317,7 @@
  * @property {string} [best] the rule's own limit on a roll ("3+": Take Cover!)
  */
 
-/** A keyword gate read off a rule's prose. @typedef {{ targets: string[], excludes: string[] }} RuleScope */
+/** A keyword gate read off a rule's prose; `models`/`modelExcludes` are the phrases it names as MODELS (ruleTargets' scopeHits). @typedef {{ targets: string[], excludes: string[], models?: string[], modelExcludes?: string[] }} RuleScope */
 
 /**
  * What a modifier record hangs off, by kind — each kind always carries its own fields (checked over

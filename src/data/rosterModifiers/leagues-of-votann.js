@@ -286,7 +286,9 @@ export default {
             "targets": [
               "LEAGUES OF VOTANN INFANTRY"
             ],
-            "excludes": []
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
           }
         ]
       },

@@ -1,20 +1,24 @@
 <template>
-  <!-- Headless: this component renders nothing. It exists to register the service worker
-       (useRegisterSW) and silently apply updates — no UI, no button. -->
+  <!-- Headless: this component renders nothing. It registers the service worker (useRegisterSW)
+       and reports a new one to the plate (useAppUpdate.js). Mounted only where a worker belongs —
+       the installed app, a tab beside it, a tab not yet moved off one (App.vue, workerPolicy.js). -->
 </template>
 
 <script setup>
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
-import { swReload } from '../composables/reloadLoop.js'
+import { swReload, noteReload } from '../composables/reloadLoop.js'
+import { updateFound, updateApplying } from '../composables/useAppUpdate.js'
 
 const route = useRoute()
 
 // registerType is 'prompt' (vite.config.js): the SW activates only when we call
 // updateServiceWorker. needRefresh flips to true once a new SW has finished installing in
-// the background. There is no longer an "Update" button — we apply automatically, the moment
-// the new version is ready, tab or installed app alike.
+// the background. Since 2026-10-16 that is ANNOUNCED, not applied: the plate (UpdatePlate.vue,
+// useAppUpdate.js) carries a button, and a reader who never presses it gets the new version at the
+// next start (launchGate.js). From 2026-09-21 to then it was applied at once — a reload in the
+// middle of whatever was on screen, often the moment the reader came back to the app.
 //
 // Until 2026-09-21 the installed app held the update back while the route was /tracker/game,
 // so a reload would never land mid-game. The check was on the PATH, not on the game: the setup
@@ -42,9 +46,15 @@ let lastCheck = 0
 let checkSW = () => {}
 
 const { needRefresh, updateServiceWorker } = useRegisterSW({
-  // The reload after a new worker takes over is ours, not the plugin's: at most once in 30 s and
+  // The reload after a new worker takes over is ours, not the plugin's. Asked for by the plate's
+  // button it is the reader's and always happens; anything else is held to once in 30 s and
   // never while a loop is held (reloadLoop.js — iPhones reloaded in a loop here, 2026-10-15).
-  onNeedReload: () => swReload(),
+  onNeedReload: () => {
+    if (updateApplying()) {
+      noteReload('user')
+      window.location.reload()
+    } else swReload()
+  },
   onRegisteredSW(_swUrl, registration) {
     if (!registration) return
     checkSW = () => {
@@ -56,25 +66,14 @@ const { needRefresh, updateServiceWorker } = useRegisterSW({
     }
     setInterval(() => { lastCheck = 0; checkSW() }, UPDATE_CHECK_MS)
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        checkSW() // look for a newer SW…
-        apply() // …and apply one that's already waiting
-      }
+      if (document.visibilityState === 'visible') checkSW()
     })
   },
 })
 
-// Apply a ready update. Also called on visibilitychange above: a second call is a harmless
-// retry (needRefresh stays true until the reload), and an app that slept in the switcher may
-// have missed the moment the new SW finished installing.
-function apply() {
-  if (!needRefresh.value) return
-  updateServiceWorker(true)
-}
-
-// A new SW just became ready: apply it.
+// A new SW just became ready: announce it, with what applies it.
 watch(needRefresh, (ready) => {
-  if (ready) apply()
+  if (ready) updateFound(() => updateServiceWorker(true))
 }, { immediate: true })
 
 // A navigation is a free moment to go looking for an update — the reader has just asked for a

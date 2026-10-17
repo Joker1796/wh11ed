@@ -1292,3 +1292,25 @@ and appdata state fresh; a data model can change between now and when this is ne
     melee weapon (report 77ab9e8d, 2026-10-15). A choice and its records now carry the group's id
     (`gid`) and match on it; `g` stays the kind of choice other code reads. Key on the id wherever
     appdata has one — a name is a label, not an identity.
+
+95. **A rule written for a parent keyword can reach the faction it is about.** appdata's allied
+    rule "up to 500 pts of DEATHWATCH" is taken by the ten Chapters and ADEPTUS ASTARTES; the
+    generator matches takers along the army's faction-keyword chain, and Deathwatch's parent is
+    ADEPTUS ASTARTES — so Deathwatch got itself as an ally, its own units capped at 500 (report
+    6b1f1bb4, 2026-10-16). An allied rule whose allied faction is the army's own is skipped and
+    printed ("allying the army to itself"); `roster/index.test.js` fails on any army named among
+    its own allies. Inheriting down the chain is right for who MAY take a rule — check that the
+    rule is not about the taker itself.
+
+96. **A unicode hyphen breaks READERS of prose, not only name matchers.** foldName.js had made every
+    name comparison fold U+2010/U+2011, and its test fails on a matcher written elsewhere — but a
+    regex that READS raw prose was outside both. Codex: Adeptus Custodes types "GRAV‑ASSAULT" with
+    U+2011; ruleTargets' keyword class knew only "-", so Flare Shields read as nobody's and stood on
+    every unit of the army, its three stratagems offered to all (report 5e415815, 2026-10-17). The
+    same day's sweep found the wargear generator's "equipped with X" dropping the Tempestus Scion's
+    condition ("hot‐shot lasgun", U+2010), the keyword-vocabulary generator taking "Shield-Captain"
+    for a keyword because the unit list it checks against was unfolded, and four latent readers
+    (weapon tags, tag definitions, Faction Pack sets). Every reader now folds its input with
+    `foldChars` (one character for one, so positions hold), and `src/utils/proseReaders.test.js`
+    runs each reader over every data string folded and unfolded: they must agree. A new reader of
+    rule text goes into that test.

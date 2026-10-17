@@ -348,7 +348,7 @@ describe('rosterModifiers data', () => {
   ])('gates %s\'s aura on the unit it reaches', async (file, name, target) => {
     const data = await files[file]
     const rec = data.entries.find((e) => e.name === name)
-    expect(rec.ref.scopes).toEqual([{ targets: [target], excludes: [] }])
+    expect(rec.ref.scopes).toEqual([{ targets: [target], excludes: [], models: [], modelExcludes: [] }])
     expect(rec.effects.some((eff) => eff.target === 'aura')).toBe(true)
   })
 

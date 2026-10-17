@@ -22,8 +22,8 @@ export function isChunkLoadError(err) {
 // is down, the reader is offline), the error stays an error and the next attempt waits.
 const GUARD_KEY = 'wh-stale-chunk-reload'
 const GUARD_MS = 30 * 1000
-// How long a service worker that found a newer build gets to install it and reload the page
-// itself (UpdateToast.vue applies a ready update at once) before we reload regardless.
+// How long a service worker that found a newer build gets to install it before we reload: the load
+// that follows applies a worker already waiting before anything is drawn (launchGate.js).
 const SW_GRACE_MS = 10 * 1000
 
 let inFlight = false
@@ -44,9 +44,9 @@ export async function recoverFromStaleChunk(url, { now = Date.now(), reload = (u
   writeGuard(now)
   // Under a service worker the page itself comes from its precache: reloading before the worker
   // has the new build would bring the same old page back. Ask it to look first; if it finds one,
-  // UpdateToast reloads as soon as it is installed, and the timer is only the fallback. That
-  // reload is of the CURRENT address, and the failed navigation never changed it — so the address
-  // is set to where the reader was going first, or they land back on the page they clicked from.
+  // reload once it has had time to install — the start applies it. With no worker (a tab, since
+  // 2.9.5) there is no registration and the reload is at once. The address is set to where the
+  // reader was going first: the failed navigation never changed it.
   const reg = await navigator.serviceWorker?.getRegistration?.().catch(() => null)
   if (reg) {
     await reg.update().catch(() => {})

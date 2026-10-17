@@ -45,7 +45,7 @@ import { datasheetAliasRulesRu } from '../src/data/datasheetAliasRulesRu.js'
 import { localizeSheet } from '../src/data/datasheets/ru/localize.js'
 import { factionKeywordPatterns, factionKeywordsAt, nameAround } from '../src/utils/factionKeywordMarkup.js'
 import { unitKeywordsOf } from '../src/composables/ruleTargets.js'
-import { foldName } from '../src/utils/foldName.js'
+import { foldChars, foldName } from '../src/utils/foldName.js'
 
 // Merge a unit's personal aliases (may be undefined) with any name-pattern rule aliases that
 // match its EN name, de-duped, `null` if the result is empty (JSON.stringify can't omit an
@@ -235,7 +235,7 @@ for (const group of factionGroups) {
     const names = new Set(units.map((u) => u.name))
     for (const u of units) {
       allNames.add(u.name)
-      unitNames.add(u.name)
+      unitNames.add(foldName(u.name)) // "Shield‑Captain" (U+2011) is the keyword Shield-Captain's unit
       for (const pr of u.profiles || []) if (pr.name) allNames.add(pr.name)
       // "1 Serberys Raider Alpha", "2-5 Serberys Raiders" — and the singular a rule writes a
       // model of it as ("Every Serberys Raider model").
@@ -302,15 +302,15 @@ const factionCount = out.length
 // A keyword that is some faction's unit name reads as that unit: Aeldari's «юнит Rangers» is their
 // Rangers, not Adeptus Mechanicus' RANGERS keyword, and "Land Raider" is the tank.
 const candidates = [...kwFactions]
-  .filter(([k, fs]) => fs.size < factionCount / 3 && !NOT_A_KEYWORD.has(k) && !unitNames.has(k))
+  .filter(([k, fs]) => fs.size < factionCount / 3 && !NOT_A_KEYWORD.has(k) && !unitNames.has(foldName(k)))
   .map(([k]) => k)
-const wordIn = (name, k) => new RegExp(`(?<![\\p{L}])${k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}])`, 'u').test(name)
+const wordIn = (name, k) => new RegExp(`(?<![\\p{L}])${foldChars(k).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}])`, 'u').test(foldChars(name))
 const texts = out.flatMap(([slug]) => [`src/data/factions/${slug}.js`, `src/data/factions/ru/${slug}.js`, `src/data/datasheets/${slug}.js`, `src/data/datasheets/ru/${slug}.js`])
   .map((rel) => join(ROOT, rel)).filter(existsSync).map((file) => readFileSync(file, 'utf8'))
 // Found with no names first: every name that then turns out to hold one of those places is kept
 // — the list the renderer needs to leave "Khorne Berzerkers unit" alone — and nothing else, since
 // a name the text never puts a keyword's place into can never be mistaken for one.
-const allOf = Object.fromEntries(candidates.map((k) => [k, [...allNames].filter((n) => n !== k && wordIn(n, k))]))
+const allOf = Object.fromEntries(candidates.map((k) => [k, [...allNames].filter((n) => foldName(n) !== foldName(k) && wordIn(n, k))]))
 const bare = factionKeywordPatterns(candidates)
 const namesOf = {}
 for (const t of texts) {

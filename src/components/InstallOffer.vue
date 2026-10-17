@@ -4,7 +4,7 @@
     appear
   >
     <aside
-      class="install-offer"
+      class="dock-card install-offer"
       role="dialog"
       aria-labelledby="install-offer-title"
     >
@@ -121,27 +121,9 @@ function later() {
 </script>
 
 <style scoped>
-.install-offer {
-  position: fixed;
-  z-index: 380;
-  right: calc(1rem + var(--safe-right, 0px));
-  bottom: calc(1rem + var(--safe-bottom, 0px));
-  width: min(360px, calc(100vw - 2rem));
-  padding: 0.8rem 0.9rem 0.8rem;
-  background: var(--bg-card);
-  border: 1px solid var(--accent);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
-  color: var(--text-primary);
-}
-/* Above the bottom nav and the floating chips on a phone. */
-@media (max-width: 900px) {
-  .install-offer {
-    left: calc(0.75rem + var(--safe-left, 0px));
-    right: calc(0.75rem + var(--safe-right, 0px));
-    width: auto;
-    bottom: calc(52px + 0.6rem + var(--safe-bottom, 0px) + var(--mobile-bar-h, 0px));
-  }
-}
+/* Where it sits and how it is framed: `.dock-card` (style.css), shared with the update plate.
+   Under it (380 < 390): the plate holds the offer back anyway (App.vue). */
+.install-offer { z-index: 380; }
 .io-close {
   position: absolute;
   top: 0.35rem;

@@ -1,6 +1,6 @@
 {
   "name": "wh-rules",
-  "version": "2.9.2",
+  "version": "2.9.5",
   "description": "Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th Edition — core rules, the Event Companion, faction rules and unit datasheets, plus an offline game tracker. A fast, searchable Vue 3 SPA hosted at wh-rules.ru.",
   "scripts": {
     "dev": "vite",
@@ -13,6 +13,7 @@
     "deploy": "bash deploy.sh",
     "images:webp": "node scripts/gen-webp.mjs && node scripts/gen-image-dims.mjs",
     "datasheets:index": "node scripts/gen-datasheet-index.mjs",
+    "own-abilities": "node scripts/gen-own-abilities.mjs",
     "roster:data": "node scripts/gen-roster-data.mjs && node scripts/gen-roster-texts-ru.mjs && node scripts/gen-enhancement-weapons.mjs",
     "roster:data:check": "node scripts/gen-roster-data.mjs --check && node scripts/gen-roster-texts-ru.mjs --check",
     "roster:imports": "npx vite-node scripts/check-roster-imports.mjs",
