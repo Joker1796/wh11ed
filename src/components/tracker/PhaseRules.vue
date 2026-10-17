@@ -146,7 +146,10 @@ function foldsOf(turn) {
     flush()
     const count = sec.steps.reduce((n, st) => n + st.rows.length, 0)
     if (!chunks.length) chunks.push({ key: 'none', idle: labels.value.trackerStepsNothing })
-    return { key: sec.key, label: sec.title, count, chunks }
+    // The turn's start and end with nothing in them: shown, so the turn reads whole, but muted
+    // and shut — a fold opening on "nothing" read as broken (owner, 2026-10-18).
+    const inert = !count && (sec.key === 'turn-start' || sec.key === 'turn-end')
+    return { key: sec.key, label: sec.title, count, chunks, inert }
   })
 }
 

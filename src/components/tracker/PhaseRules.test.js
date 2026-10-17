@@ -173,10 +173,14 @@ describe('PhaseRules', () => {
     startGame({}, {}, { trackPhases: false })
     const w = await mountBlock()
     const side = w.findAll('.pr-side')[0]
-    expect(side.findAll('.phase-head').every((h) => h.attributes('aria-expanded') === 'false')).toBe(true)
+    // Every fold shut — an empty start of the turn is no fold at all: muted, disabled (owner, 2026-10-18).
+    expect(side.findAll('.phase-head').every((h) => h.attributes('aria-expanded') === 'false' || h.classes('inert'))).toBe(true)
     const cmd = side.findAll('.phase-head').find((h) => h.text().includes('Command phase'))
     expect(Number(cmd.find('.phase-count').text())).toBeGreaterThan(0)
-    expect(side.findAll('.phase-head')[0].find('.phase-count').text()).toBe('0') // the turn's start
+    const start = side.findAll('.phase-head')[0] // the turn's start, with nothing in it
+    expect(start.find('.phase-count').text()).toBe('0')
+    expect(start.classes()).toContain('inert')
+    expect(start.attributes('disabled')).toBeDefined()
     await cmd.trigger('click')
     expect(JSON.parse(localStorage.getItem('wh11ed-turn-steps-open'))).toEqual(['command'])
   })
