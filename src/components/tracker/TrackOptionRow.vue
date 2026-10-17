@@ -1,7 +1,9 @@
 <template>
   <!-- One row of the option table: a checkbox and the "i" beside it. A <label> forwards any click
        inside it to its control, so the help button cannot live in there — it would silently flip
-       the setting it explains. The two sit side by side instead, sharing one dividing line. -->
+       the setting it explains. The two sit side by side instead, sharing one dividing line.
+       A row that cannot be flipped shows as off: a pale tick under a switched-off parent read as
+       "on" (QA, 2026-10-17); its stored value stays and comes back with the parent. -->
   <div
     class="opt-row"
     :class="{ off: !enabled, child: depth > 0 }"
@@ -12,9 +14,10 @@
       :class="{ on: enabled && settings[o.setting] }"
     >
       <input
-        v-model="settings[o.setting]"
         type="checkbox"
+        :checked="enabled && !!settings[o.setting]"
         :disabled="!enabled"
+        @change="settings[o.setting] = $event.target.checked"
       >
       <span>
         {{ labels[o.label] }}

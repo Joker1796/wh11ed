@@ -45,7 +45,7 @@
       :disabled="endLocked"
       @click="$emit('start')"
     >
-      <span class="tr-label">{{ labels.trackerStart }}</span>
+      <span class="tr-label">{{ endLocked && lockedText ? lockedText : labels.trackerStart }}</span>
     </button>
   </div>
   <!-- With the phase clock on, the phase joins this row (owner's call, 2026-09-27): undo turn as
@@ -104,7 +104,7 @@
       :title="canEnd ? endTitle : labels.trackerFinish"
       @click="$emit('end')"
     >
-      <span class="tr-label">{{ canEnd ? labels.trackerEndTurnShort : labels.trackerFinish }}</span>
+      <span class="tr-label">{{ canEnd ? (endLocked && lockedText ? lockedText : labels.trackerEndTurnShort) : labels.trackerFinish }}</span>
     </button>
   </div>
   <div
@@ -133,7 +133,7 @@
       :title="endTitle"
       @click="$emit('end')"
     >
-      <span class="tr-label">{{ labels.trackerEndTurnPlain }}</span>
+      <span class="tr-label">{{ endLocked && lockedText ? lockedText : labels.trackerEndTurnPlain }}</span>
     </button>
     <button
       v-else
@@ -170,6 +170,9 @@ defineProps({
   endLocked: { type: Boolean, default: false }, // the turn is another phone's to end
   undoTitle: { type: String, default: '' },
   endTitle: { type: String, default: '' },
+  // What a locked Start / End turn says ON the button: a phone has no hover for the title, and a
+  // grey "Start game" read as broken to a guest (2026-10-17) — "Alice starts", "Alice's turn".
+  lockedText: { type: String, default: '' },
 })
 defineEmits(['start', 'reserves', 'invite', 'undo', 'step', 'pick-phase', 'end'])
 const { locale } = useLocale()

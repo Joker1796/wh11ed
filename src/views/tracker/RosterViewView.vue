@@ -441,7 +441,8 @@
                         :aria-label="labels.rosterMoreStates"
                         @click="toggleChips(e.uid)"
                       >
-                        <span class="rvunit-more-n">{{ restChipsOf(e).length }}</span>
+                        <!-- "more 2", not a bare "2": the number alone said nothing (QA, 2026-10-17). -->
+                        <span class="rvunit-more-n">{{ labels.rosterMoreN.replace('{n}', restChipsOf(e).length) }}</span>
                         <ChevronIcon
                           :turned="openChips.has(e.uid)"
                           from="down"
@@ -606,6 +607,8 @@
 </template>
 
 <script setup>
+import { countLabel } from '../../utils/plural.js'
+import { modelsLabel } from '../../utils/copyTier.js'
 import ChevronIcon from '../../components/ChevronIcon.vue'
 import { computed, markRaw, onMounted, onUnmounted, ref, shallowRef, toRaw, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -1613,7 +1616,7 @@ async function copyWholeList() {
 const viewingSrc = computed(() => allySourceOf(viewingDef.value?.id))
 
 function summaryLine(e) {
-  return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel, labels.value.rosterWarlord)
+  return entrySummary(e, defOf(e.id), (n) => modelsLabel(n, locale.value), (n) => countLabel(n, labels.value.rosterUpgradesLabel), labels.value.rosterWarlord)
 }
 
 // What a whole attached unit costs. Which SLOT the character fills is `attachRole` from

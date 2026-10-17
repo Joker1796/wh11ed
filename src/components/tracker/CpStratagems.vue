@@ -18,6 +18,14 @@
       :tabs="sideTabs"
       @select="(i) => (side = i)"
     />
+    <!-- Whose CP these are, in words: the side is picked on the score cards above, and only
+         their colour said which (QA, 2026-10-17). -->
+    <p
+      v-if="controlled"
+      class="cps-whose"
+    >
+      {{ labels.trackerCpWhose.replace('{name}', names[side]) }}
+    </p>
     <slot
       name="bank"
       :side="side"
@@ -241,7 +249,10 @@ const nowStrats = computed(() => {
 })
 const groups = computed(() => [
   ...(phasesOn.value
-    ? [{ key: 'now', label: `${labels.value.trackerStratNow} · ${phaseLabel(livePhase.value, labels.value)}`, strats: nowStrats.value }]
+    // "Playable now · Command phase", not "Now · Command phase": beside the phase's own group the
+    // bare "Now" read as a second copy of it with another count (QA, 2026-10-17); this one holds
+    // what THIS side can play at this moment.
+    ? [{ key: 'now', label: `${labels.value.trackerStratPlayableNow} · ${phaseLabel(livePhase.value, labels.value)}`, strats: nowStrats.value }]
     : []),
   ...groupByPhase(shown.value),
 ])
@@ -311,6 +322,7 @@ const cardRow = computed(() => (openStrat.value ? rowProps(openStrat.value) : {}
 </script>
 
 <style scoped>
+.cps-whose { margin: 0 0 0.45rem; font-size: 0.84rem; color: var(--text-muted); line-height: 1.4; }
 .cps { margin-top: 0; }
 /* The block in the chosen side's colour: the tabs' lit edge, the filters, the rows' buttons. */
 .cps { --side: var(--side-you); --accent: var(--side); --accent-hover: color-mix(in srgb, var(--side) 80%, #000); --accent-ink: var(--side); --accent-ink-hover: color-mix(in srgb, var(--side) 80%, #000); }

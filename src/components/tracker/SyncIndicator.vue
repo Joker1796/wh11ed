@@ -7,7 +7,7 @@
     <button
       ref="btn"
       class="sync-ind"
-      :class="[`is-${kind}`, { open, live: status === 'ok' }]"
+      :class="[`is-${kind}`, { open, live: st === 'ok' }]"
       type="button"
       :aria-label="text"
       :aria-expanded="open"
@@ -92,15 +92,19 @@ onUnmounted(() => clearInterval(timer))
 
 // Paused is not a problem: it is what the state is between mount and the first answer, and
 // the glyph must not flash a warning for that.
+// A party the host closed, or this phone removed from, says so whatever the last request did —
+// the flag on the game is the fact, and a phone off the live screen never asks again ("paused"
+// was all a guest saw, 2026-10-17).
+const st = computed(() => (party.value?.ended ? 'ended' : party.value?.revoked ? 'revoked' : status.value))
 const kind = computed(() => {
-  if (status.value === 'busy') return 'busy'
-  if (status.value === 'ok' || status.value === 'paused' || status.value === 'off') return 'ok'
+  if (st.value === 'busy') return 'busy'
+  if (st.value === 'ok' || st.value === 'paused' || st.value === 'off') return 'ok'
   return 'problem'
 })
 
 const text = computed(() => {
   const l = labels.value
-  switch (status.value) {
+  switch (st.value) {
     case 'ok': {
       const s = lastSyncAt.value ? Math.round((now.value - lastSyncAt.value) / 1000) : null
       const when = s == null || s < 2 ? l.partySyncedJustNow : l.partySyncedAgo.replace('{n}', s)

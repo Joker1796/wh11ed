@@ -120,14 +120,14 @@ function choose(id) {
 .tp-name { color: var(--text-muted); }
 
 .tp-body { padding: 0.75rem; }
-.tp-seg { display: flex; margin-bottom: 0.6rem; }
+.tp-seg { display: flex; width: 100%; margin-bottom: 0.6rem; }
 .tp-seg button { flex: 1 1 0; }
 .tp-cards { display: grid; gap: 0.6rem; }
 .tp-card {
   display: flex; flex-direction: column; gap: 0.4rem;
   padding: 0.6rem; border: 1px solid var(--border); background: var(--bg-secondary);
 }
-.tp-card.on { border-color: var(--accent); }
+.tp-card.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--bg-secondary)); }
 .tp-card :deep(.tp-shot) { display: block; width: 100%; height: auto; border: 1px solid var(--border); }
 .tp-card-name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; }
 .tp-blurb { flex: 1 1 auto; font-size: 0.84rem; color: var(--text-muted); line-height: 1.4; }

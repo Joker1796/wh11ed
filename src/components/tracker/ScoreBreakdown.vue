@@ -32,6 +32,20 @@
           </div>
 
           <div class="grid">
+            <!-- The rounds over their columns and the total over its own: without them a reader
+                 had to guess which cell was which round (QA, 2026-10-17). -->
+            <div class="g-label" />
+            <div
+              v-for="r in ROUND_COUNT"
+              :key="'h'+r"
+              class="g-head"
+            >
+              {{ r }}
+            </div>
+            <div class="g-head g-head-total">
+              {{ labels.trackerTotal }}
+            </div>
+
             <!-- Went first -->
             <div class="g-label">
               {{ labels.trackerWentFirst }}
@@ -48,9 +62,9 @@
             </div>
             <div class="g-total" />
 
-            <!-- Primary -->
+            <!-- Primary — named as what it is; the disposition beside the name read as a mission. -->
             <div class="g-label">
-              {{ dispositionName(pl.disposition) }}
+              {{ labels.trackerPrimary }}
             </div>
             <div
               v-for="r in ROUND_COUNT"
@@ -63,9 +77,24 @@
               {{ primaryTotal(i) }}/{{ PRIMARY_GAME_CAP }}
             </div>
 
-            <!-- Secondary missions -->
+            <!-- Secondary missions: the sum per round and the game's total on a line of their own
+                 (with every cap applied — secondaryRounds), then each card's own scores under it.
+                 The total used to sit on the first card's line, as if it were that card's. -->
+            <div class="g-label">
+              {{ labels.trackerSecondary }}
+            </div>
+            <div
+              v-for="r in ROUND_COUNT"
+              :key="'st'+r"
+              class="g-cell"
+            >
+              {{ secRounds(pl)[r - 1] || '-' }}
+            </div>
+            <div class="g-total">
+              {{ secondaryTotal(i) }}/{{ SECONDARY_GAME_CAP }}
+            </div>
             <template
-              v-for="(sec, si) in secondaries(i)"
+              v-for="sec in secondaries(i)"
               :key="'s'+sec.slug"
             >
               <div class="g-label sec-label">
@@ -80,9 +109,7 @@
                   {{ sec.vp[r] || '-' }}
                 </template>
               </div>
-              <div class="g-total">
-                {{ si === 0 ? `${secondaryTotal(i)}/${SECONDARY_GAME_CAP}` : '' }}
-              </div>
+              <div class="g-total" />
             </template>
 
             <!-- Battle Ready -->
@@ -157,7 +184,7 @@ import { spends } from '../../composables/cpLedger.js'
 import CollapseTransition from '../CollapseTransition.vue'
 import {
   useTracker, ROUND_COUNT, PRIMARY_GAME_CAP, SECONDARY_GAME_CAP, BATTLE_READY_VP,
-  missionBySlug, dispositionName,
+  missionBySlug,
 } from '../../composables/useTracker.js'
 import {
   BATTLE_READY_VP as BR_VP,
@@ -167,6 +194,7 @@ import {
   primaryTotal as primaryTotalOf,
   roundBreakdown,
   secondaryTotal as secondaryTotalOf,
+  secondaryRounds,
 } from '../../composables/gameScoring.js'
 import { tracks } from '../../data/trackerOptions.js'
 
@@ -223,6 +251,7 @@ function spendName(pl, e) {
 }
 const primaryTotal = (i) => primaryTotalOf(game.value, i)
 const secondaryTotal = (i) => secondaryTotalOf(game.value, i)
+const secRounds = (pl) => secondaryRounds(pl)
 const open = ref(false)
 const leaderIdx = computed(() => leaderOf(game.value))
 
@@ -278,6 +307,8 @@ function secondaries(pi) {
   gap: 3px;
   align-items: center;
 }
+.g-head { text-align: center; font-size: 0.7rem; font-weight: 700; color: var(--text-dim); }
+.g-head-total { text-align: left; padding-left: 0.6rem; }
 .g-label {
   font-size: 0.82rem;
   color: var(--text-muted);

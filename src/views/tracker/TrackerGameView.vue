@@ -37,6 +37,10 @@
       <h2 class="finished-title">
         {{ labels.trackerGameOver }}
       </h2>
+      <!-- Who won, in words: the score cards say it only by colour (QA, 2026-10-17). -->
+      <p class="finished-result">
+        {{ resultLine }}
+      </p>
       <p
         v-if="endReasonLabel"
         class="finished-reason"
@@ -65,6 +69,13 @@
           {{ partyActive && !isHost ? labels.partySaveToHistory : labels.trackerBackToTracker }}
         </button>
       </div>
+      <!-- The reason on screen, not only in a title a phone cannot hover. -->
+      <p
+        v-if="!canResume"
+        class="finished-note"
+      >
+        {{ labels.partyResumeHostOnly }}
+      </p>
     </div>
   </div>
 </template>
@@ -90,8 +101,8 @@ import LobbyWait from '../../components/tracker/LobbyWait.vue'
 import LobbyInvite from '../../components/tracker/LobbyInvite.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker } from '../../composables/useTracker.js'
-import { endReasonFor } from '../../composables/gameScoring.js'
+import { useTracker, sideName } from '../../composables/useTracker.js'
+import { endReasonFor, leader as leaderOf } from '../../composables/gameScoring.js'
 import { gameSideColorStyle } from '../../composables/sideColors.js'
 import { useParty } from '../../composables/useParty.js'
 import { useLobby } from '../../composables/useLobby.js'
@@ -140,6 +151,11 @@ const END_REASON_LABELS = {
   'friendly-concede': 'trackerEndFriendlyConcede',
   'opponent-concede': 'trackerEndOpponentConcede',
 }
+const resultLine = computed(() => {
+  const g = current.value
+  const w = g ? leaderOf(g) : -1
+  return w === -1 ? labels.value.trackerTie : `${labels.value.trackerWinner}: ${sideName(g.players[w], w, labels.value)}`
+})
 const endReasonLabel = computed(() => {
   const key = END_REASON_LABELS[endReasonFor(current.value)]
   return key ? labels.value[key] : ''
@@ -165,6 +181,8 @@ function backToTracker() {
 </script>
 
 <style scoped>
+.finished-result { margin: 0.2rem 0 0.4rem; text-align: center; font-family: var(--font-display); font-size: 1.4rem; font-weight: 500; color: var(--text-primary); }
+.finished-note { margin: 0.5rem 0 0; font-size: 0.84rem; color: var(--text-muted); text-align: center; }
 /* touch-action: manipulation across the whole tracker surface (not just the buttons) so a
    rapid second tap landing in the gap between +/- controls can't double-tap-zoom on iOS
    either. Scrolling and two-finger pinch-zoom still work. */

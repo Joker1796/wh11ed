@@ -121,7 +121,7 @@ describe('CpStratagems — the Stratagems page\'s filter', () => {
     tracker.goToPhase(0, 'shooting') // side 0's own Shooting phase
     const w = await mountTab(0)
     const heads = w.findAll('.phase-head')
-    expect(heads[0].text()).toContain('Now · Shooting phase')
+    expect(heads[0].text()).toContain('Playable now · Shooting phase')
     expect(heads[0].classes()).toContain('now')
     // Closed at first…
     expect(heads.every((h) => h.attributes('aria-expanded') === 'false')).toBe(true)

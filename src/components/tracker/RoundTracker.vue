@@ -164,13 +164,14 @@
           :opp="!isYouSide(current.players[turnIndex], turnIndex)"
           :reserves="!!reservesSide"
           :invite="!partyActive"
-          :can-undo="canUndoTurn() && canEdit(1 - turnIndex)"
+          :can-undo="canUndoTurn() && canEdit(1 - turnIndex) && canEdit(turnIndex)"
           :can-prev="canStepInTurn(-1)"
           :can-next="canStepInTurn(1)"
           :can-end="!begun || canEndTurn()"
           :end-locked="!canEdit(turnIndex)"
           :undo-title="undoTitle"
           :end-title="endTitle"
+          :locked-text="(begun ? labels.trackerTurnOf : labels.trackerStartsOf).replace('{name}', playerName(turnIndex))"
           @start="beginGame()"
           @reserves="openReserves"
           @invite="partyOpen = true"
@@ -235,6 +236,24 @@
         </div>
       </details>
 
+      <!-- The host closed the shared game, or removed this phone: from here the game is this phone's
+           own. Said where the game is played, not only in the sync dot's bubble (a guest went on scoring
+           into a copy nobody else saw, 2026-10-17). Dismissed per game. -->
+      <ExpandTransition>
+        <div
+          v-if="partyCut && !partyHandle.cutSeen"
+          class="round-edit"
+          role="status"
+        >
+          <span>{{ partyHandle.ended ? labels.partyCutEnded : labels.partyCutRevoked }}</span>
+          <button
+            class="re-back"
+            @click="partyHandle.cutSeen = true"
+          >
+            {{ labels.partyCutOk }}
+          </button>
+        </div>
+      </ExpandTransition>
       <!-- Correcting a past round: a banner says so, and the way back is on it. -->
       <div
         v-if="viewRound"
@@ -466,7 +485,7 @@
       :locked="b => primaryLocked(openPrimary, b)"
       :locked-note="labels.trackerOppTurnOnly"
       :opp="!isYouSide(current.players[openPrimary], openPrimary)"
-      :note="`${labels.trackerPrimary}: ${labels.trackerThisRound} ≤ ${PRIMARY_ROUND_CAP} · ${PRIMARY_GAME_CAP}/${labels.trackerTotal}`"
+      :note="labels.trackerPrimaryCaps.replace('{round}', PRIMARY_ROUND_CAP).replace('{game}', PRIMARY_GAME_CAP)"
       @set="(bi, ri, c) => setPrimaryRow(openPrimary, shownRound - 1, bi, ri, c)"
       @close="openPrimary = -1"
     />
@@ -524,6 +543,7 @@
 </template>
 
 <script setup>
+import ExpandTransition from '../ExpandTransition.vue'
 import { ref, computed, watch, provide, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import NumberStepper from './NumberStepper.vue'
@@ -859,6 +879,7 @@ const gameMenuOpen = ref(false)
 // The shared game: which side this phone may edit, and whether it is the host. With no party,
 // canEdit is true for both and nothing here changes. `lock` is canEdit as an `inert` value.
 const { active: partyActive, isHost, canEdit, party: partyHandle } = useParty()
+const partyCut = computed(() => !!partyHandle.value?.ended || !!partyHandle.value?.revoked)
 // The tour: this screen's chapter on its first showing (what the turn bar says depends on whether
 // the battle has begun), the turn's own the moment it does, and a shared game's.
 // In a shared game the chapters wait for the server's first answer (which sides the other phones
@@ -944,10 +965,14 @@ const endTitle = computed(() => {
   const t = turnIndex.value
   return canEdit(t) ? endTurnLabel.value : labels.value.trackerTurnLocked.replace('{name}', playerName(t))
 })
-// The turn before this one is always the other player's, and theirs to take back.
+// The turn before this one is always the other player's, and theirs to take back — and the turn
+// being undone is the side on turn's, which may already have drawn its secondaries on its own
+// phone. In a shared game both sides have to be this phone's to touch (a host undid a guest's
+// turn under them, 2026-10-17).
 const undoTitle = computed(() => {
   const other = 1 - turnIndex.value
-  return canEdit(other) ? labels.value.trackerUndoTurn : labels.value.trackerUndoLocked.replace('{name}', playerName(other))
+  const locked = !canEdit(other) ? other : !canEdit(turnIndex.value) ? turnIndex.value : null
+  return locked == null ? labels.value.trackerUndoTurn : labels.value.trackerUndoLocked.replace('{name}', playerName(locked))
 })
 
 // The round's bonus CP entry, if one was gained, and where it came from.
@@ -1212,6 +1237,9 @@ function onEndBattle(reason) {
 
 /* A column, so the open panel can take the slack down to the tools row (fitHeight). */
 .round-tracker { display: flex; flex-direction: column; }
+/* The floating back-to-top (MobileUtilityBar) hangs over the turn bar; without room for it under
+   the last panel it sat on the last unit's status button at the page's end (2026-10-17). */
+@media (max-width: 900px) { .round-tracker { padding-bottom: var(--mobile-bar-h, 0px); } }
 .round-tracker > .panel { flex: 1 0 auto; display: flex; flex-direction: column; }
 .round-tracker > .panel > .side-frame { flex: 1 0 auto; }
 /* A framed panel hangs from the tab strip: its frame (CpStratagems' .cps.framed) starts where the

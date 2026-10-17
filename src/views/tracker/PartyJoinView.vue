@@ -90,11 +90,18 @@
               <span
                 v-if="s.takenBy"
                 class="pj-seat-taken"
-              >{{ labels.partyJoinSeatTaken.replace('{name}', s.takenBy) }}</span>
+              >{{ labels.partyJoinSeatTakenPlain }}</span>
             </button>
           </li>
         </ul>
       </section>
+      <!-- Every seat held: nothing to tap, so say what to do instead of leaving two grey buttons. -->
+      <p
+        v-if="seats.length && seats.every((s) => s.takenBy)"
+        class="pj-full"
+      >
+        {{ labels.partyJoinFull }}
+      </p>
       <ExpandTransition>
         <p
           v-if="error"
@@ -250,7 +257,14 @@ function onReplaceConfirmed() {
 async function sit(seat) {
   busy.value = true
   error.value = ''
-  const err = await takeSeat(joined.value, { side: seat.side, mi: seat.mi, name: seat.name })
+  // A throw inside (a farewell to the game just put away, a network fault) must not leave the
+  // seat list frozen with nothing said — a QA pass saw "save and join" stay put (2026-10-17).
+  let err
+  try {
+    err = await takeSeat(joined.value, { side: seat.side, mi: seat.mi, name: seat.name })
+  } catch {
+    err = 'network'
+  }
   busy.value = false
   if (err) {
     error.value = errorText(err)
@@ -267,6 +281,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.pj-full { margin: 0.6rem 0 0; font-size: 0.9rem; color: var(--text-muted); line-height: 1.45; }
 .party-join { padding-top: 0.5rem; max-width: 520px; margin: 0 auto; }
 .pj-title {
   font-family: var(--font-display);

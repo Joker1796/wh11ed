@@ -62,12 +62,12 @@
           <span class="pt-label">{{ labels.partyMembers }}</span>
           <ul class="pt-list">
             <li
-              v-for="m in members"
+              v-for="m in shownMembers"
               :key="m.memberId"
               class="pt-member"
             >
               <span class="pt-mname">
-                {{ m.name || seatLabel(m.side, m.mi) }}
+                {{ memberName(m) }}
                 <span
                   v-if="m.you"
                   class="pt-badge"
@@ -77,7 +77,10 @@
                   class="pt-badge"
                 >{{ labels.partyHostBadge }}</span>
               </span>
-              <span class="pt-mseat">{{ m.side == null ? labels.partySeatNone : seatLabel(m.side, m.mi) }}</span>
+              <span
+                v-if="m.side == null"
+                class="pt-mseat"
+              >{{ labels.partySeatNone }}</span>
               <span class="pt-mseen">{{ seenLabel(m) }}</span>
               <div
                 v-if="isHost && !m.you"
@@ -108,7 +111,7 @@
                 </button>
                 <button
                   class="btn-ghost pt-small pt-danger"
-                  @click="kick(m.memberId)"
+                  @click="confirming = { kind: 'kick', member: m }"
                 >
                   {{ labels.partyKick }}
                 </button>
@@ -148,7 +151,7 @@
             <button
               class="btn-ghost pt-danger"
               :title="labels.partyEndHint"
-              @click="onEnd"
+              @click="confirming = { kind: 'end' }"
             >
               {{ labels.partyEnd }}
             </button>
@@ -171,12 +174,24 @@
         {{ labels.partyStatusError }}
       </p>
     </div>
+    <!-- Both cut another phone off the game, and neither can be undone from here: asked first
+         (a QA pass closed the party with one stray tap, 2026-10-17). -->
+    <ConfirmModal
+      v-if="confirming"
+      :title="confirming.kind === 'end' ? labels.partyEndConfirmTitle : labels.partyKickConfirmTitle.replace('{name}', memberName(confirming.member))"
+      :message="confirming.kind === 'end' ? labels.partyEndHint : labels.partyKickConfirmText"
+      :confirm-label="confirming.kind === 'end' ? labels.partyEnd : labels.partyKick"
+      :cancel-label="labels.trackerCancel"
+      @confirm="onConfirm"
+      @close="confirming = null"
+    />
   </BaseModal>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import ConfirmModal from '../ConfirmModal.vue'
 import PartyInvite from './PartyInvite.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -246,6 +261,26 @@ async function onMakeHost(m) {
 async function onEnd() {
   await end()
   emit('close')
+}
+const confirming = ref(null)
+async function onConfirm() {
+  const c = confirming.value
+  confirming.value = null
+  if (c?.kind === 'end') await onEnd()
+  else if (c?.member) await kick(c.member.memberId)
+}
+
+// A seated member is the side they play — the name typed on that side, which the server never
+// heard (it keeps what the phone was called when it joined, "Player 2"). Unseated: their own name.
+function memberName(m) {
+  return m.side == null ? (m.name || labels.value.partySeatNone) : seatLabel(m.side, m.mi)
+}
+// This phone and the host first, then the seats in order, then whoever sits nowhere.
+const shownMembers = computed(() => [...(members.value || [])].sort((a, b) => rank(a) - rank(b)))
+function rank(m) {
+  if (m.you) return 0
+  if (m.host) return 1
+  return m.side == null ? 9 : 2 + m.side * 2 + (m.mi || 0)
 }
 async function onLeave() {
   await leave()
