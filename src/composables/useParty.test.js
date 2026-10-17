@@ -229,6 +229,15 @@ describe('a tick', () => {
     await vi.advanceTimersByTimeAsync(5000)
     expect(fetchMock).not.toHaveBeenCalled()
   })
+
+  it('a token that names no member means the party is gone, not that this phone was removed', async () => {
+    await shareAsHost()
+    fetchMock.mockResolvedValueOnce(answer(401, { error: 'invalid_member_token' }))
+    tracker.setCp(0, 3)
+    await vi.advanceTimersByTimeAsync(900)
+    expect(party.status.value).toBe('ended')
+    expect(party.active.value).toBe(false)
+  })
 })
 
 describe('the gate', () => {

@@ -2,7 +2,7 @@
   <div class="li">
     <div class="li-card">
       <h2 class="li-title">
-        {{ labels.lobbyInviteTitle }}
+        {{ current?.settings?.gameType === 'doubles' ? labels.lobbyInviteTitleDoubles : labels.lobbyInviteTitle }}
       </h2>
       <p class="li-hint">
         {{ labels.lobbyInviteHint }}
@@ -46,7 +46,7 @@
             v-for="m in guests"
             :key="m.memberId"
           >
-            {{ m.name || labels.trackerOpponent }}
+            {{ memberLabel(m, current, labels) }}
           </li>
         </ul>
       </div>
@@ -88,6 +88,8 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
 import { useTour } from '../../composables/useTour.js'
+import { useTracker } from '../../composables/useTracker.js'
+import { memberLabel } from './partySeats.js'
 
 // Where a shared game begins: the code and the link, and who has come in so far. It stands
 // BEFORE the wizard because that is the order the table works in — you call the other player
@@ -98,6 +100,7 @@ defineEmits(['next', 'cancel'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { invite, members, refreshMembers, refreshInvite } = useParty()
+const { current } = useTracker()
 
 const cancelOpen = ref(false)
 const guests = computed(() => members.value.filter((m) => !m.you))

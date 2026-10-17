@@ -164,7 +164,7 @@
           :opp="!isYouSide(current.players[turnIndex], turnIndex)"
           :reserves="!!reservesSide"
           :invite="!partyActive"
-          :can-undo="canUndoTurn() && canEdit(1 - turnIndex) && canEdit(turnIndex)"
+          :can-undo="canUndoTurn() && canEdit(1 - turnIndex)"
           :can-prev="canStepInTurn(-1)"
           :can-next="canStepInTurn(1)"
           :can-end="!begun || canEndTurn()"
@@ -193,6 +193,26 @@
       @pick="onPickPhase"
       @close="phasePickerOpen = false"
     />
+
+    <!-- The host closed the shared game, or removed this phone: from here the game is this phone's
+         own. Said where the game is played, not only in the sync dot's bubble (a guest went on scoring
+         into a copy nobody else saw, 2026-10-17). Dismissed per game. Above the tabs, not in a panel: there it broke
+         the join of the strip and its frame, and it is about the whole game (acceptance, 2026-10-18). -->
+    <ExpandTransition>
+      <div
+        v-if="partyCut && !partyHandle.cutSeen"
+        class="round-edit"
+        role="status"
+      >
+        <span>{{ partyHandle.ended ? labels.partyCutEnded : labels.partyCutRevoked }}</span>
+        <button
+          class="re-back"
+          @click="partyHandle.cutSeen = true"
+        >
+          {{ labels.partyCutOk }}
+        </button>
+      </div>
+    </ExpandTransition>
 
     <!-- The game's working area: ONE strip of tabs over one panel (owner's calls, 2026-09-27 —
          two rows split by a rule read as two menus, and they were one). Every closed tab is an
@@ -236,24 +256,6 @@
         </div>
       </details>
 
-      <!-- The host closed the shared game, or removed this phone: from here the game is this phone's
-           own. Said where the game is played, not only in the sync dot's bubble (a guest went on scoring
-           into a copy nobody else saw, 2026-10-17). Dismissed per game. -->
-      <ExpandTransition>
-        <div
-          v-if="partyCut && !partyHandle.cutSeen"
-          class="round-edit"
-          role="status"
-        >
-          <span>{{ partyHandle.ended ? labels.partyCutEnded : labels.partyCutRevoked }}</span>
-          <button
-            class="re-back"
-            @click="partyHandle.cutSeen = true"
-          >
-            {{ labels.partyCutOk }}
-          </button>
-        </div>
-      </ExpandTransition>
       <!-- Correcting a past round: a banner says so, and the way back is on it. -->
       <div
         v-if="viewRound"
@@ -955,7 +957,9 @@ const undoConfirm = ref(false)
 const undoMessage = computed(() => {
   const back = turnIndex.value === 1 ? 0 : 1
   const round = current.value.currentRound - (turnIndex.value === 1 ? 0 : 1)
-  return aboutPlayer('trackerUndoConfirm', back).replace('{round}', round)
+  const text = aboutPlayer('trackerUndoConfirm', back).replace('{round}', round)
+  // The turn being undone is held by another phone: it goes back too, so its player is named.
+  return canEdit(turnIndex.value) ? text : `${text} ${aboutPlayer('trackerUndoOtherPhone', turnIndex.value)}`
 })
 
 // The End button's tooltip: the whole phrase with the name — or, on the phone that may not end
@@ -965,14 +969,13 @@ const endTitle = computed(() => {
   const t = turnIndex.value
   return canEdit(t) ? endTurnLabel.value : labels.value.trackerTurnLocked.replace('{name}', playerName(t))
 })
-// The turn before this one is always the other player's, and theirs to take back — and the turn
-// being undone is the side on turn's, which may already have drawn its secondaries on its own
-// phone. In a shared game both sides have to be this phone's to touch (a host undid a guest's
-// turn under them, 2026-10-17).
+// The turn before this one is always the other player's, and theirs to take back. The turn being
+// undone is the side on turn's, which may already have drawn its secondaries on its own phone —
+// requiring both sides made undo impossible in a two-phone game (acceptance, 2026-10-18), so the
+// confirm names that player instead (undoMessage).
 const undoTitle = computed(() => {
   const other = 1 - turnIndex.value
-  const locked = !canEdit(other) ? other : !canEdit(turnIndex.value) ? turnIndex.value : null
-  return locked == null ? labels.value.trackerUndoTurn : labels.value.trackerUndoLocked.replace('{name}', playerName(locked))
+  return canEdit(other) ? labels.value.trackerUndoTurn : labels.value.trackerUndoLocked.replace('{name}', playerName(other))
 })
 
 // The round's bonus CP entry, if one was gained, and where it came from.

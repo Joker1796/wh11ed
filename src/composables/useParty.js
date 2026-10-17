@@ -242,8 +242,12 @@ export function useParty() {
           settle('ok')
           return
         }
+        // Two different 401s (wh11ed-api requireMember): 'revoked' — the host removed this phone;
+        // anything else — the token names no member, because the party is gone (ended or expired).
         if (res.status === 401) {
-          markRevoked()
+          const why = await res.json().catch(() => null)
+          if (why?.error === 'revoked') markRevoked()
+          else markEnded()
           return
         }
         if (res.status === 404) {

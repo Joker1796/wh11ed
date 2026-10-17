@@ -37,8 +37,12 @@
       <h2 class="finished-title">
         {{ labels.trackerGameOver }}
       </h2>
-      <!-- Who won, in words: the score cards say it only by colour (QA, 2026-10-17). -->
-      <p class="finished-result">
+      <!-- Who won, in words: the score cards say it only by colour (QA, 2026-10-17). A draw has
+           its own plate over the cards, so it is not said twice. -->
+      <p
+        v-if="resultLine"
+        class="finished-result"
+      >
         {{ resultLine }}
       </p>
       <p
@@ -154,7 +158,7 @@ const END_REASON_LABELS = {
 const resultLine = computed(() => {
   const g = current.value
   const w = g ? leaderOf(g) : -1
-  return w === -1 ? labels.value.trackerTie : `${labels.value.trackerWinner}: ${sideName(g.players[w], w, labels.value)}`
+  return w === -1 ? '' : `${labels.value.trackerWinner}: ${sideName(g.players[w], w, labels.value)}`
 })
 const endReasonLabel = computed(() => {
   const key = END_REASON_LABELS[endReasonFor(current.value)]

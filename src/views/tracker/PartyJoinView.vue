@@ -60,7 +60,7 @@
          shown disabled with who holds it, never hidden — the reader should see the whole table. -->
     <template v-else>
       <h2 class="pj-sub">
-        {{ labels.partyJoinPickSeat }}
+        {{ tableFull ? labels.partyJoinSeats : labels.partyJoinPickSeat }}
       </h2>
       <!-- Doubles: one group per team, under the team's name — four seats in one column read as
            four strangers, and which two play together is the first thing a joining player needs. -->
@@ -97,7 +97,7 @@
       </section>
       <!-- Every seat held: nothing to tap, so say what to do instead of leaving two grey buttons. -->
       <p
-        v-if="seats.length && seats.every((s) => s.takenBy)"
+        v-if="tableFull"
         class="pj-full"
       >
         {{ labels.partyJoinFull }}
@@ -239,6 +239,9 @@ const seatGroups = computed(() => {
   }).filter((g) => g.seats.length)
 })
 
+// Every seat held: the heading stops asking for a free one.
+const tableFull = computed(() => seats.value.length > 0 && seats.value.every((s) => s.takenBy))
+
 const pendingSeat = ref(null)
 function onPick(seat) {
   // A game of the reader's own in progress is not thrown away for a seat at another table.
@@ -248,11 +251,15 @@ function onPick(seat) {
   }
   sit(seat)
 }
-function onReplaceConfirmed() {
+// The dialog stays up until the seat is taken. Closed first, its Back-copy (useBackToClose) was
+// still being popped when the seat came back, and that late Back undid the move to the game —
+// the screen stayed on the seat list (acceptance pass, 2026-10-18). Left open, the navigation
+// replaces the copy, as search's does; the dialog closes by itself only on a refusal.
+async function onReplaceConfirmed() {
+  if (busy.value) return
   const seat = pendingSeat.value
-  pendingSeat.value = null
   putAwayCurrent()
-  sit(seat)
+  if (!(await sit(seat))) pendingSeat.value = null
 }
 async function sit(seat) {
   busy.value = true
@@ -273,6 +280,7 @@ async function sit(seat) {
     return
   }
   router.replace('/tracker/game')
+  return true
 }
 
 onMounted(() => {

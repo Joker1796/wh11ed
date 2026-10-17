@@ -196,7 +196,8 @@ import PartyInvite from './PartyInvite.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
-import { useTracker, membersOf, sideName } from '../../composables/useTracker.js'
+import { useTracker } from '../../composables/useTracker.js'
+import { partySeats, seatKey, memberLabel } from './partySeats.js'
 
 const emit = defineEmits(['close'])
 const { locale } = useLocale()
@@ -220,27 +221,10 @@ async function onShare() {
 }
 
 // Seats are named by the game's own players: "Anna" rather than "side 1".
-const seats = computed(() => {
-  const g = current.value
-  if (!g) return []
-  const out = []
-  g.players.forEach((pl, side) => {
-    const ms = membersOf(pl)
-    if (g.settings?.gameType === 'doubles') {
-      ms.forEach((m, mi) => out.push({ key: seatKey(side, mi), side, mi, label: `${pl.name || pl.teamName || ''} · ${m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)}` }))
-    } else {
-      out.push({ key: seatKey(side, null), side, mi: null, label: sideName(pl, side, labels.value) })
-    }
-  })
-  return out
-})
-function seatKey(side, mi) {
-  return side == null ? '' : `${side}:${mi ?? ''}`
-}
+const seats = computed(() => partySeats(current.value, labels.value))
 function seatLabel(side, mi) {
   if (side == null) return labels.value.partySeatNone
-  const s = seats.value.find((x) => x.side === side && (x.mi ?? null) === (mi ?? null))
-  return s ? s.label : current.value?.players?.[side]?.name || ''
+  return memberLabel({ side, mi }, current.value, labels.value)
 }
 
 function seenLabel(m) {
@@ -270,11 +254,7 @@ async function onConfirm() {
   else if (c?.member) await kick(c.member.memberId)
 }
 
-// A seated member is the side they play — the name typed on that side, which the server never
-// heard (it keeps what the phone was called when it joined, "Player 2"). Unseated: their own name.
-function memberName(m) {
-  return m.side == null ? (m.name || labels.value.partySeatNone) : seatLabel(m.side, m.mi)
-}
+const memberName = (m) => memberLabel(m, current.value, labels.value)
 // This phone and the host first, then the seats in order, then whoever sits nowhere.
 const shownMembers = computed(() => [...(members.value || [])].sort((a, b) => rank(a) - rank(b)))
 function rank(m) {
