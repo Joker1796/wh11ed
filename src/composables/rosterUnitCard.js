@@ -375,6 +375,7 @@ export function useRosterUnitCard(props) {
     keywordView.value,
     factionKeywordSets.value,
     activeConds.value,
+    !!props.ctx?.entry,
   ))
 
   const statMods = computed(() => {
@@ -457,7 +458,9 @@ export function useRosterUnitCard(props) {
   // simply is not listed: it is not this unit's, it is the army's.
   /** @param {string[] | null} unmet */
   const offLabel = (unmet) => (unmet?.length
-    ? `${labels.value.rosterNotInEffect} · ${unmet.map((id) => conditionLabel(id)).join(', ')}`
+    // "Not in effect · Leading a unit" read as a status — the unit leading one (acceptance,
+    // 2026-10-18); the condition is named as one.
+    ? `${labels.value.rosterNotInEffect} · ${labels.value.rosterNeedsCondition} ${unmet.map((id) => conditionLabel(id)).join(', ')}`
     : null)
   /** @param {string} id */
   const conditionLabel = (id) => conditions[id]?.label?.[locale.value === 'ru' ? 'ru' : 'en'] || id

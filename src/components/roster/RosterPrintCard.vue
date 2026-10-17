@@ -265,7 +265,7 @@
         v-if="extraCore.length"
         class="rpc-footnote"
       >
-        * {{ extraCore.map((c) => `${c.ability} — ${c.det ? `${c.source} · ${c.det}` : c.source}`).join('; ') }}
+        * {{ extraCore.map((c) => `${coreAbilityText(c.ability, labels)} — ${c.det ? `${c.source} · ${c.det}` : c.source}`).join('; ') }}
       </p>
     </div>
   </article>
@@ -277,7 +277,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { modDelta } from '../../composables/rosterModNotes.js'
-import { factionKwMarker, invNoteText, statCells } from '../../composables/datasheetParts.js'
+import { coreAbilityText, factionKwMarker, invNoteText, statCells } from '../../composables/datasheetParts.js'
 import { useDatasheetParts } from '../../composables/useDatasheetParts.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
 
@@ -323,7 +323,7 @@ const invNotes = computed(() =>
 // the template whitespace-sensitive: a line break anywhere inside it prints "Ability , Ability"
 // on a sheet somebody takes to a table.
 const coreLine = computed(() => {
-  const granted = extraCore.value.map((c) => `${c.ability}*`)
+  const granted = extraCore.value.map((c) => `${coreAbilityText(c.ability, labels.value)}*`)
   return [...coreParts.value, ...granted].join(', ')
 })
 const keywordLine = computed(() => {

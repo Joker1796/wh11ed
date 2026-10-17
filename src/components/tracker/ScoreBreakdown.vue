@@ -223,8 +223,11 @@ const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
 const showBp = computed(() => game.value?.settings?.scoreMode === 'bp')
 const bpNow = computed(() => battlePoints(game.value))
 // Only the rounds that have begun: a round not played yet has no result of its own, and the running
-// total repeated into it read as points already scored (Misha, 2026-10-10). A finished game shows all.
-const bpUpTo = computed(() => (game.value?.finishedAt ? ROUND_COUNT : (game.value?.currentRound || 1)))
+// total repeated into it read as points already scored (Misha, 2026-10-10). A finished game too: it
+// may have ended in round 2 (a concession, "save and start a new one"), and the breakdown is only
+// ever seen once a game is over — "a finished game shows all" made the fix invisible (acceptance,
+// 2026-10-18). A game played out stands on round 5, so it still shows all five.
+const bpUpTo = computed(() => Math.min(ROUND_COUNT, game.value?.currentRound || 1))
 const bpRounds = computed(() => {
   const g = game.value
   if (!g) return [[], []]

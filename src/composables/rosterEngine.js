@@ -304,9 +304,22 @@ function condLive(def, entry, cond) {
  */
 export function wargearGroupBlocker(def, entry, gi) {
   const gear = def?.gear || []
-  // the first condition that does not hold is the one the reader has to act on
-  const cond = condsOf(gear[gi]).find((c) => !condLive(def, entry, c))
-  if (!cond) return stockBlocker(def, entry, gi)
+  const unmet = condsOf(gear[gi]).filter((c) => !condLive(def, entry, c))
+  if (!unmet.length) return stockBlocker(def, entry, gi)
+  // Every condition that does not hold, not just the first: Rod of Office wants a plasma pistol AND
+  // a power weapon, and a reader told only the first took it and found the group still shut
+  // (acceptance, 2026-10-18). Conditions asking the same thing (take / give up) are named together;
+  // a mix keeps the first, which is the one to act on before the other can even be read.
+  const all = unmet.map((c) => condBlocker(gear, entry, c))
+  const same = all.filter((b) => b.need === all[0].need)
+  return { need: all[0].need, ids: [...new Set(same.flatMap((b) => b.ids))] }
+}
+
+/**
+ * @param {GearGroup[]} gear @param {EntryLike | null | undefined} entry @param {GearCond} cond
+ * @returns {{ need: 'gone' | 'present', ids: ItemId[] }}
+ */
+function condBlocker(gear, entry, cond) {
   const sib = gear[cond[0]]
   const rep = sib?.rep?.length ? sib.rep : null
   // Name what the sibling actually took, when it took something — listing every option it offers

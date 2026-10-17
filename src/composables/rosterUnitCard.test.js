@@ -189,7 +189,7 @@ describe('useRosterUnitCard — a condition the list answers', () => {
   it('an enhancement worn by a bearer leading nobody stays on the card, marked not in effect', async () => {
     const alone = [{ uid: 'a', id: 'overlord', size: 0, enh: 'Nether-realm Casket' }]
     const led = [{ uid: 'a', id: 'overlord', size: 0, enh: 'Nether-realm Casket', leaderOf: 'b' }, { uid: 'b', id: 'immortals', size: 0 }]
-    expect(offOf(await cardOf('necrons', 'Awakened Dynasty', 'overlord', alone), 'enh:Nether-realm Casket')).toMatch(/^Not in effect · Leading a unit/)
+    expect(offOf(await cardOf('necrons', 'Awakened Dynasty', 'overlord', alone), 'enh:Nether-realm Casket')).toMatch(/^Not in effect · needs: Leading a unit/)
     expect(offOf(await cardOf('necrons', 'Awakened Dynasty', 'overlord', led), 'enh:Nether-realm Casket')).toBeNull()
   }, 30000)
   it('Strategic Savant: +1 OC on the Aspect Warriors the Autarch leads, not on Guardians', async () => {

@@ -1420,3 +1420,29 @@ describe('Experimental Prototype Cadre on a Commander-led Crisis team (shipped d
     expect(applyStatMods(crisis, entries, own).sheet.ranged[0].range).toBe(printed)
   })
 })
+
+// A detachment rule in force only inside an attached unit (Command Protocols, "While a NECRONS
+// CHARACTER model is leading this unit") stood under "possible modifiers" on a Monolith and a lone
+// Nekrosor although the rule list already hid it (acceptance, 2026-10-18).
+describe('gateStratagems — appliesWhile on any rule', () => {
+  const rule = { kind: 'detachmentRule', det: 'Awakened Dynasty', appliesWhile: ['unit-led'], effects: [] }
+  const plain = { kind: 'detachmentRule', det: 'Awakened Dynasty', effects: [] }
+  it('drops the rule for a unit nobody leads, keeps it for a led one', () => {
+    expect(gateStratagems([rule, plain], [], [], new Set())).toEqual([plain])
+    expect(gateStratagems([rule, plain], [], [], new Set(['unit-led']))).toEqual([rule, plain])
+  })
+  it('rules out an EFFECT whose list condition is unmet, and leaves the game ones as notes', () => {
+    const strat = { kind: 'stratagem', name: 'Protocol of the Hungry Void', effects: [
+      { on: 'melee', stat: 's', op: 'add', value: 1 },
+      { on: 'melee', stat: 'ap', op: 'add', value: -1, cond: ['unit-led'] },
+      { on: 'melee', stat: 'a', op: 'add', value: 1, cond: ['unit-charged'] },
+    ] }
+    const [alone] = gateStratagems([strat], [], [], new Set())
+    expect(alone.effects.map((e) => !!e.ruledOut)).toEqual([false, true, false])
+    const [led] = gateStratagems([strat], [], [], new Set(['unit-led']))
+    expect(led).toBe(strat)
+  })
+  it('keeps it in a preview with no roster entry, where nothing is answered', () => {
+    expect(gateStratagems([rule], [], [], new Set(), false)).toEqual([rule])
+  })
+})

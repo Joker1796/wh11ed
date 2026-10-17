@@ -276,6 +276,7 @@ export const ui = {
     dsWeaponCopy: 'fights with one',
     dsWeaponCopyNote: 'Two rows on purpose: the model holds two of this weapon, but it fights with one melee weapon (04.01).',
     dsWeaponCopyHint: 'The model holds two of this weapon but fights with one of its melee weapons (04.01). A second copy adds attacks only when the unit’s own ability says so.',
+    coreQualifiers: {}, // English is the data's own wording (coreAbilityText)
     dsCore: 'Core',
     dsFaction: 'Faction',
     dsModifiers: 'Modifiers in play',
@@ -554,6 +555,7 @@ export const ui = {
     rosterAttachedTo: 'Attached to',
     rosterInEffect: 'In effect for this unit',
     rosterNotInEffect: 'Not in effect',
+    rosterNeedsCondition: 'needs:',
     rosterAlsoInUnit: 'Also in this unit',
     // A unit an ability of this one brings into the game (Ripper Swarms from a Parasite of Mortrex):
     // the heading over its card, and the note on its row in a list.
@@ -1124,7 +1126,7 @@ export const ui = {
     trackerResultWin: 'VICTORY',
     trackerResultLoss: 'DEFEAT',
     trackerResultDraw: 'DRAW',
-    trackerPrimaryCaps: 'Primary: up to {round} VP a battle round, up to {game} VP a game',
+    trackerPrimaryCaps: 'Primary: up to {round} VP a battle round (End of Battle scoring comes on top), up to {game} VP a game',
     trackerCpWhose: 'Command points: {name}. For the other side, choose its score card above.',
     trackerStartsOf: '{name} starts',
     trackerUndoTurn: 'Undo turn',
@@ -1853,6 +1855,20 @@ export const ui = {
     dsWeaponCopy: 'бьёт одним',
     dsWeaponCopyNote: 'Две строки выведены специально: у модели два таких оружия, но в ближнем бою она бьёт одним (04.01).',
     dsWeaponCopyHint: 'У модели два таких оружия, но в ближнем бою она бьёт одним (04.01). Вторая копия добавляет атаки, только если об этом прямо сказано в способности юнита.',
+    // A granted core ability's own narrowing ("Feel No Pain 5+ (vs mortal wounds)") — every one the
+    // modifier layer writes, keyed by its English; datasheetParts' coreAbilityText swaps it in. Held
+    // by datasheetParts.test.js: a new wording without its Russian fails there.
+    coreQualifiers: {
+      'vs mortal wounds': 'против смертельных ран',
+      'vs Psychic Attacks': 'против Psychic Attacks',
+      'vs psychic attacks': 'против Psychic Attacks',
+      'vs Psychic Attacks and mortal wounds': 'против Psychic Attacks и смертельных ран',
+      'vs mortal wounds and Psychic Attacks': 'против смертельных ран и Psychic Attacks',
+      'vs mortal wounds, Psychic Attacks and [DEVASTATING WOUNDS]': 'против смертельных ран, Psychic Attacks и [DEVASTATING WOUNDS]',
+      'vs attacks with an unmodified Damage characteristic of 1': 'против атак с немодифицированной характеристикой Damage 1',
+      'vs attacks with a Damage characteristic of 1': 'против атак с характеристикой Damage 1',
+      'vs attacks made by Battle-shocked models': 'против атак моделей в состоянии Battle-shocked',
+    },
     dsCore: 'Core',
     dsFaction: 'Faction',
     dsModifiers: 'Действующие модификаторы',
@@ -2101,7 +2117,7 @@ export const ui = {
     rosterAddHostConfirm: 'Добавить и перенести',
     rosterNotes: 'Заметки',
     rosterMoreSettings: 'Ещё настройки',
-    rosterPickUnitHint: 'Выберите юнит, чтобы настроить модели, вооружение и энхансы.',
+    rosterPickUnitHint: 'Выберите юнит, чтобы настроить модели, вооружение и улучшения.',
     rosterNote: 'Заметка',
     rosterNoProfile: 'Нет данных профиля.',
     rosterViewInfo: 'Подробнее',
@@ -2111,6 +2127,7 @@ export const ui = {
     rosterAttachedTo: 'Прикреплён к',
     rosterInEffect: 'Действует на этот юнит',
     rosterNotInEffect: 'Не действует',
+    rosterNeedsCondition: 'условие:',
     rosterAlsoInUnit: 'Тоже в этом юните',
     rosterSpawnHeading: 'Может появиться в партии',
     rosterSpawnNote: 'может появиться',
@@ -2667,7 +2684,7 @@ export const ui = {
     trackerResultWin: 'ПОБЕДА',
     trackerResultLoss: 'ПОРАЖЕНИЕ',
     trackerResultDraw: 'НИЧЬЯ',
-    trackerPrimaryCaps: 'Первичка: до {round} VP за раунд, до {game} VP за игру',
+    trackerPrimaryCaps: 'Первичка: до {round} VP за раунд (очки в конце битвы — сверх этого), до {game} VP за игру',
     trackerCpWhose: 'Командные очки: {name}. Другая сторона — нажмите на её карточку счёта выше.',
     trackerStartsOf: 'Начинает {name}',
     trackerUndoTurn: 'Отменить ход',
