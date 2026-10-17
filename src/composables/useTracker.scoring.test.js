@@ -123,6 +123,25 @@ describe('setPrimaryRow / primaryRowCount', () => {
   })
 })
 
+// Event Companion FAQ: VP scored at the end of the battle are not subject to the 15VP per battle
+// round limit. Inescapable Dominion's fifth round: 4 + 5 + 4 in the round, and 5 at the end.
+describe('a primary\'s End of Battle row', () => {
+  it('rides over the fifth round\'s 15VP', () => {
+    tracker.newGame(setupGame())
+    const pl = tracker.current.value.players[0]
+    pl.primarySlug = 'inescapable-dominion'
+    const m = mod.missionBySlug('inescapable-dominion')
+    const end = m.blocks.findIndex((b) => b.heading === 'End of Battle')
+    tracker.setPrimaryRow(0, 4, 0, 0, 1)
+    tracker.setPrimaryRow(0, 4, 1, 0, 1)
+    tracker.setPrimaryRow(0, 4, 1, 1, 1)
+    tracker.setPrimaryRow(0, 4, 0, 0, 2)   // 8 + 9 = 17 in the round: capped at 15
+    expect(pl.rounds[4].primary).toBe(15)
+    tracker.setPrimaryRow(0, 4, end, 0, 1)
+    expect(pl.rounds[4].primary).toBe(20)
+  })
+})
+
 describe('setCp', () => {
   it('floors at 0 and accepts increments', () => {
     tracker.newGame(setupGame())

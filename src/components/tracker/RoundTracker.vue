@@ -296,7 +296,9 @@
             >
               <span class="mc-name">{{ primaryName(i) }}</span>
               <span class="mc-tag">{{ labels.trackerPrimary }}</span>
-              <span class="mc-vp">{{ current.players[i].rounds[shownRound - 1].primary }} / {{ PRIMARY_ROUND_CAP }} VP</span>
+              <!-- Over the round's 15 only with an End of Battle row, which the cap does not reach: no
+                   "/ 15" then, a figure past it would read as an error. -->
+              <span class="mc-vp">{{ current.players[i].rounds[shownRound - 1].primary }}{{ current.players[i].rounds[shownRound - 1].primary > PRIMARY_ROUND_CAP ? '' : ` / ${PRIMARY_ROUND_CAP}` }} VP</span>
             </button>
             <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no
                  card to tick. The missions themselves are not optional — see trackerOptions.js. -->

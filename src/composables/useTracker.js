@@ -582,6 +582,9 @@ export function useTracker() {
 
   // Record how many times a primary scoring row was achieved this round; the round's
   // primary = min(sum of row contributions, 15). The game cap (45) is applied in primaryTotal.
+  // An End of Battle row is outside the 15 (Event Companion FAQ: "VP scored at the end of the
+  // battle are not subject to the 15VP per battle round scoring limit") — twelve primaries score
+  // one, and the fifth round's cap was eating it.
   function setPrimaryRow(pi, roundIdx, blockIdx, rowIdx, count) {
     const pl = current.value.players[pi]
     const round = pl.rounds[roundIdx]
@@ -591,14 +594,17 @@ export function useTracker() {
     // Selecting one "or" bracket clears the competing brackets in the same group.
     if (count > 0) for (const k of orSiblingKeys(m, blockIdx, rowIdx)) delete round.picks[k]
     let raw = 0
+    let end = 0
     if (m) {
       for (const [key, c] of Object.entries(round.picks)) {
         const [bi, ri] = key.split(':').map(Number)
         const row = m.blocks[bi] && m.blocks[bi].rows[ri]
-        if (row) raw += c * numericVp(row.vp)
+        if (!row) continue
+        if (m.blocks[bi].heading === 'End of Battle') end += c * numericVp(row.vp)
+        else raw += c * numericVp(row.vp)
       }
     }
-    round.primary = Math.min(raw, PRIMARY_ROUND_CAP)
+    round.primary = Math.min(raw, PRIMARY_ROUND_CAP) + end
     round.t = Date.now() // when, for the game log
   }
 
