@@ -83,6 +83,21 @@ describe('useBackToClose', () => {
     await settleOn(() => expect(a.close).toHaveBeenCalledTimes(1))
   })
 
+  it('a dialog open while the router REPLACES the entry does not undo the navigation', async () => {
+    history.pushState({ position: 3 }, '', '/join')
+    const { show, wrapper: w } = host()
+    wrapper = w
+    show.value = true
+    await nextTick()
+    // router.replace keeps history.state's extra keys — the dialog's token rides onto the new URL.
+    history.replaceState({ ...history.state }, '', '/game')
+    show.value = false
+    await nextTick()
+    await settle()
+    await settle()
+    expect(location.pathname).toBe('/game')
+  })
+
   it('a dead copy left behind by close-and-navigate is stepped over on the way back', async () => {
     history.pushState({ position: 1 }, '', '/a')
     const { show, wrapper: w } = host()

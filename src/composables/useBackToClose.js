@@ -86,13 +86,17 @@ function attach(onClose, router) {
   const base = history.state || {}
   lastPosition = base.position ?? null
   lastSkipped = null
-  history.pushState({ ...base, [KEY]: token }, '', location.href)
+  const href = location.href
+  history.pushState({ ...base, [KEY]: token }, '', href)
   open.set(token, onClose)
   return () => {
     if (!open.has(token)) return // Back popped the entry itself
     open.delete(token)
     setTimeout(() => {
-      if (navigating || history.state?.[KEY] !== token) return
+      // The URL is checked too: router.replace keeps history.state's extra keys, so a dialog that
+      // navigated with replace while open left its token on the NEW entry, and the Back below undid
+      // the navigation ("save and join" bounced back to the seat list, acceptance 2026-10-18).
+      if (navigating || history.state?.[KEY] !== token || location.href !== href) return
       history.back()
     }, 0)
   }
