@@ -288,7 +288,7 @@
                       v-else
                       class="faction-pick"
                       panel-width="32rem"
-                      :title="labels.trackerSelectFaction"
+                      :title="labels.trackerFaction"
                       :open="factionPickerKey === ak(i, mi)"
                       @update:open="v => (factionPickerKey = v ? ak(i, mi) : '')"
                     >
@@ -2815,7 +2815,10 @@ function cancel() {
 .actions .btn-ghost { padding: 0.45rem 0.95rem; font-size: 0.85rem; }
 /* Clear of the mobile bottom nav (52px, as .rc-sticky). */
 @media (max-width: 900px) {
-  .actions { bottom: calc(52px + var(--safe-bottom, 0px)); }
+  /* The utility bar's buttons ("to top", "back to the game") float in the bottom-right corner, and
+     the bar is stuck there or ends beside them: the buttons step left of that corner while it is
+     shown (--mobile-bar-h, App.vue) — "Go to the game" sat under "to top" (acceptance, 2026-10-18). */
+  .actions { bottom: calc(52px + var(--safe-bottom, 0px)); padding-right: var(--mobile-bar-h, 0px); }
 }
 @media (max-width: 700px) {
   .players { grid-template-columns: minmax(0, 1fr); }

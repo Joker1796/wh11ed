@@ -121,7 +121,9 @@ function choose(id) {
 
 .tp-body { padding: 0.75rem; }
 .tp-seg { display: flex; width: 100%; margin-bottom: 0.6rem; }
-.tp-seg button { flex: 1 1 0; }
+.tp-seg button { flex: 1 1 0; min-width: 0; padding-inline: 0.35rem; }
+/* 320px: "Максимальный" is the longest name and must fit a third of the dialog. */
+@media (max-width: 359px) { .tp-seg button { padding-inline: 0.15rem; font-size: 0.76rem; } }
 .tp-cards { display: grid; gap: 0.6rem; }
 .tp-card {
   display: flex; flex-direction: column; gap: 0.4rem;
@@ -138,6 +140,8 @@ function choose(id) {
 @media (max-width: 719px) {
   .tp-card:not(.viewed) { display: none; }
   .tp-card { padding: 0; border: none; background: none; }
+  /* One card on screen: its button says it is the one in force; a frame here pressed on the text. */
+  .tp-card.on { box-shadow: none; background: none; }
   .tp-card :deep(.tp-shot) { width: auto; max-width: 100%; max-height: 52dvh; margin: 0 auto; }
   .tp-card-name { display: none; }
 }
