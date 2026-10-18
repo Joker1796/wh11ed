@@ -242,9 +242,10 @@ export default {
             "en": "for the phase, once per battle, when this model uses Chance for Glory",
             "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -255,9 +256,10 @@ export default {
             "en": "for the phase, once per battle, when this model uses Chance for Glory",
             "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -268,9 +270,10 @@ export default {
             "en": "for the phase, once per battle, when this model uses Chance for Glory",
             "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -281,9 +284,10 @@ export default {
             "en": "for the phase, once per battle, when this model uses Chance for Glory",
             "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -374,9 +378,10 @@ export default {
             "en": "once per battle, until the end of the turn, after Dark Ritual",
             "ru": "раз за битву, до конца хода, после Dark Ritual"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         },
         {
           "on": "weapon",
@@ -387,9 +392,10 @@ export default {
             "en": "once per battle, until the end of the turn, after Dark Ritual",
             "ru": "раз за битву, до конца хода, после Dark Ritual"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         },
         {
           "on": "weapon",
@@ -400,10 +406,11 @@ export default {
             "en": "once per battle, until the end of the turn, after Dark Ritual",
             "ru": "раз за битву, до конца хода, после Dark Ritual"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         },
         {
           "on": "weapon",
@@ -414,10 +421,11 @@ export default {
             "en": "once per battle, until the end of the turn, after Dark Ritual",
             "ru": "раз за битву, до конца хода, после Dark Ritual"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         }
       ]
     },
@@ -955,9 +963,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -983,9 +992,10 @@ export default {
             "en": "once per battle, on a Dark Pact",
             "ru": "раз за битву, при Dark Pact"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1490,9 +1500,10 @@ export default {
             "en": "once per battle, on a Dark Pact",
             "ru": "раз за битву, при Dark Pact"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },

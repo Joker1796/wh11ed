@@ -32,9 +32,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "ranged",
@@ -48,9 +49,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "ranged",
@@ -64,9 +66,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -633,9 +636,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -896,9 +900,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         },
         {
           "on": "melee",
@@ -912,9 +917,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         }
       ]
     },

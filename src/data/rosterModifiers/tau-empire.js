@@ -116,9 +116,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -985,9 +986,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1266,7 +1268,11 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "once": {
+            "per": "army",
+            "dur": "battle"
+          }
         }
       ]
     },
@@ -3221,9 +3227,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },

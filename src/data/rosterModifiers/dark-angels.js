@@ -59,9 +59,10 @@ export default {
             "en": "once per battle, after this unit summons a Watcher in the Dark when it suffers a mortal wound",
             "ru": "раз за битву, после того как отряд призвал Watcher in the Dark, получив mortal wound"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "unit",
@@ -72,10 +73,11 @@ export default {
             "en": "once per battle, after this unit summons a Watcher in the Dark when it suffers a mortal wound",
             "ru": "раз за битву, после того как отряд призвал Watcher in the Dark, получив mortal wound"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -954,9 +956,10 @@ export default {
             "en": "until the end of a phase this unit summoned a Watcher in the Dark in (once per battle)",
             "ru": "до конца фазы, в которой отряд призвал Watcher in the Dark (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1012,9 +1015,10 @@ export default {
             "en": "until the end of a phase this unit summoned a Watcher in the Dark in (once per battle)",
             "ru": "до конца фазы, в которой отряд призвал Watcher in the Dark (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     }

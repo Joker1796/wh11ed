@@ -105,6 +105,21 @@
         />
       </CollapseTransition>
     </div>
+    <!-- Its once-per-battle rules (Finest Hour, Moment Shackle, a Plasmacyte…): ticked once used.
+         While the rule's own window is open the card shows what it does; after that the chip stays
+         ticked and says "used" — remembering THAT is half the point. A tap takes a use back. -->
+    <div
+      v-if="useChips.length"
+      class="rum-strats"
+    >
+      <h4 class="rum-strats-h">
+        {{ labels.onceBattle }}
+      </h4>
+      <ConditionChips
+        :switches="useChips"
+        @toggle="$emit('toggle-use', $event)"
+      />
+    </div>
     <!-- Which option of this unit's own ability set is up ("select up to two Relics of the
          Matriarchs"). The same chips its row in the list carries — one store, two ways in. -->
     <div
@@ -395,7 +410,7 @@ const props = defineProps({
   // 2026-10-07: a row of its own cost a line the table needs), so not again here.
   attachedInTitle: { type: Boolean, default: false },
 })
-defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick'])
+defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick', 'toggle-use'])
 
 const { locale } = useLocale()
 const { renderRichText } = useRenderInline()
@@ -519,6 +534,13 @@ const stratChips = computed(() => (props.gameCtx?.strats || []).map((st) => {
     ...(text ? { info: { name: src.name, text, sub: ru || null } } : null),
   }
 }))
+
+// The once-per-battle chips, each saying where its use stands on its second line: running, used,
+// or spent by another unit for the whole army (that one is blocked — ConditionChips says why).
+const useChips = computed(() => (props.gameCtx?.uses || []).map((u) => ({
+  ...u,
+  subLabel: u.live ? labels.value.onceLive : u.spent ? labels.value.onceSpent : null,
+})))
 
 // Battle-shock and "this unit was already targeted this phase" block every chip in the block, so
 // they are stated in its header; a reason belonging to ONE stratagem (its phase, or having been

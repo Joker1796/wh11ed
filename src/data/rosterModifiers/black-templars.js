@@ -121,9 +121,10 @@ export default {
             "en": "once per battle, for the rest of the battle after this unit's melee attacks destroyed an enemy unit",
             "ru": "раз за битву, до конца битвы после того, как атаки ближнего боя отряда уничтожили вражеский отряд"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "battle"
+          }
         }
       ]
     },

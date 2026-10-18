@@ -140,7 +140,8 @@ describe('rosterModifiers data', () => {
           // ability set's OPTION (being the one picked is), both answered by the record's own id.
           // `cond` there is only for what the rule asks ON TOP ("…against MONSTER targets") and
           // may be absent.
-          if (e.kind !== 'stratagem' && !e.ref?.set) {
+          // A once-per-battle effect is the third: the use the player marks is its condition.
+          if (e.kind !== 'stratagem' && !e.ref?.set && !eff.once) {
             expect(Array.isArray(eff.cond) && eff.cond.length > 0, `${where}: cond`).toBe(true)
           }
           for (const id of eff.cond || []) {
@@ -148,6 +149,16 @@ describe('rosterModifiers data', () => {
           }
         } else {
           expect(eff.cond, `${where}: cond on an unconditional effect`).toBeUndefined()
+        }
+        // A once-per-battle effect says who it is counted for and how long a use lasts — the rule's
+        // own "until the end of the phase" — and that it is conditional (`when`), since a number it
+        // rewrote for good would be a use that never ends.
+        if (eff.once !== undefined) {
+          expect(['unit', 'army'], `${where}: once.per`).toContain(eff.once.per)
+          expect(['phase', 'turn', 'round', 'battle'], `${where}: once.dur`).toContain(eff.once.dur)
+          expect(Object.keys(eff.once).sort(), `${where}: once keys`).toEqual(['dur', 'per'])
+          expect(eff.when, `${where}: once without when`).not.toBeNull()
+          expect(e.kind, `${where}: once on a stratagem`).not.toBe('stratagem')
         }
         // An "instead" variant names the effect it replaces, by index into this record's own
         // effects. A dangling or self-referential index would silently suppress the wrong line —

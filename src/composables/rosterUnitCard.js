@@ -327,9 +327,11 @@ export function useRosterUnitCard(props) {
   // pass and the keyword pass so the two cannot disagree about whether one is in force.
   // Everything the player has NAMED on this card, as record ids: stratagems spent on it, and the
   // ability-set options picked anywhere in the army (a relic picked on the Triumph feeds the aura
-  // that lands here — see rosterGameContext's allPicks).
+  // that lands here — see rosterGameContext's allPicks), and the once-per-battle rules used on it
+  // whose window is still open (`live`: a use whose window closed stays ticked but changes nothing).
   const activeStratIds = computed(() => new Set([
     ...(props.gameCtx?.strats || []).filter((st) => st.on).map((st) => st.id),
+    ...(props.gameCtx?.uses || []).filter((u) => u.live).map((u) => u.id),
     ...(props.gameCtx?.chosen || []),
   ]))
 

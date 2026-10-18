@@ -194,9 +194,10 @@ export default {
             "en": "once per battle, for the phase this ability is used",
             "ru": "раз за битву, на фазу, когда способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "weapon",
@@ -210,9 +211,10 @@ export default {
             "en": "once per battle, for the phase this ability is used",
             "ru": "раз за битву, на фазу, когда способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -275,10 +277,11 @@ export default {
             "en": "until the end of a Fight phase this model used this ability in (once per battle)",
             "ru": "до конца Fight phase, в которой модель применила эту способность (раз за битву)"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "unit"
+          "target": "unit",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -834,9 +837,10 @@ export default {
             "en": "once per battle per army, when an enemy unit targets this unit in your opponent's Shooting phase",
             "ru": "раз за битву на армию, когда вражеский отряд выбирает этот отряд целью в Shooting phase оппонента"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },

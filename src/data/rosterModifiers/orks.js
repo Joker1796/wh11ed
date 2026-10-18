@@ -76,9 +76,10 @@ export default {
             "en": "once per battle per unit, after this unit was destroyed and returned to strategic reserves",
             "ru": "раз за битву на отряд, после того как отряд был уничтожен и вернулся в strategic reserves"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "round"
+          }
         }
       ]
     },
@@ -2200,7 +2201,11 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "ranged",
@@ -2213,7 +2218,11 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     }

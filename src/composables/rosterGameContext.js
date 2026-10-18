@@ -379,6 +379,105 @@ export function activeStratagems(player, clock, entry, records) {
   return out
 }
 
+// ── Once per battle ───────────────────────────────────────────────────────────────────────────
+// "Once per battle, when this unit is selected to fight, you can use this ability. If you do…" —
+// 70 rules across the game (Finest Hour, Moment Shackle, Watcher in the Dark, Plasmacyte…). Like a
+// stratagem it is SPENT: the record is its own condition, and what is stored is when it was used
+// (`player.ctx.uses[uid][sid]` = the clock stamp). Unlike a stratagem the stamp stays after its
+// window closes, because "already used" is half of what the player needs from it — the effect
+// stops rewriting the card at the end of the window the rule gives it, and the chip goes on
+// saying it was used. The window and who it is counted for travel on the effect (`once: { per, dur }`):
+// `per: 'army'` ("Once per battle, per army") means a use on any unit spends it for every other.
+/** @param {ModEntry | ModifierRecord} rec */
+const onceOf = (rec) => (rec.effects || []).find((e) => e.once)?.once || null
+/** @param {ModEntry | ModifierRecord} rec */
+export const isOnceRule = (rec) => !!onceOf(rec)
+
+// The entries one use is shared by: a Character's "this unit" ability lands on the unit he leads
+// too (19.04), so Finest Hour ticked on the Captain's card is in force on the Intercessors' card,
+// and the other way round. This entry, the Bodyguard it leads or is, and every Leader on that.
+/** @param {EntryLike | null | undefined} entry @param {RosterEntry[] | null | undefined} units @returns {string[]} */
+export function attachedUids(entry, units) {
+  if (!entry?.uid) return []
+  const host = entry.leaderOf || entry.uid
+  const out = new Set([entry.uid, host])
+  for (const u of units || []) if (u.leaderOf === host && u.uid) out.add(u.uid)
+  return [...out]
+}
+
+// When a record was used on this entry's attached unit, if it was.
+/** @param {GamePlayer | null | undefined} player @param {string[]} uids @param {string} sid */
+const usedAt = (player, uids, sid) => {
+  for (const uid of uids) {
+    const at = player?.ctx?.uses?.[uid]?.[sid]
+    if (at != null) return at
+  }
+  return undefined
+}
+
+/**
+ * The once-per-battle records whose effect is in force on this entry right now.
+ * @param {GamePlayer | null | undefined} player
+ * @param {ClockLike} clock
+ * @param {EntryLike | null | undefined} entry
+ * @param {(ModEntry | ModifierRecord)[] | null | undefined} records
+ * @param {RosterEntry[] | null} [units] the roster's entries, for the attached unit a use is shared by
+ * @returns {Set<string>}
+ */
+export function activeUses(player, clock, entry, records, units = null) {
+  const out = new Set()
+  const uids = attachedUids(entry, units)
+  if (!uids.length || !player?.ctx?.uses) return out
+  for (const rec of records || []) {
+    const once = onceOf(rec)
+    if (once && stampHolds(usedAt(player, uids, rec.sid), once.dur, clock)) out.add(rec.sid)
+  }
+  return out
+}
+
+// The chips: one per once-per-battle record that bears on this card. Ticked = used in this battle;
+// `live` says whether its effect is still running. A use is always taken back by the same chip — a
+// mis-tap has to be undoable — and a per-army one used on ANOTHER unit is blocked, not hidden:
+// "where did Moment Shackle go" is the question it would otherwise raise.
+/**
+ * @param {(ModEntry | ModifierRecord)[] | null | undefined} records
+ * @param {GamePlayer | null | undefined} player
+ * @param {ClockLike} clock
+ * @param {EntryLike | null | undefined} entry
+ * @param {RosterEntry[] | null} [units] the roster's entries, for the attached unit a use is shared by
+ * @returns {CondSwitch[]}
+ */
+export function usesFor(records, player, clock, entry, units = null) {
+  const uses = player?.ctx?.uses || {}
+  const uids = attachedUids(entry, units)
+  const live = activeUses(player, clock, entry, records, units)
+  const seen = new Set()
+  return (records || []).flatMap((rec) => {
+    const once = onceOf(rec)
+    if (!once || seen.has(rec.sid)) return []
+    seen.add(rec.sid)
+    const used = usedAt(player, uids, rec.sid) != null
+    const elsewhere = !used && once.per === 'army'
+      && Object.entries(uses).some(([uid, store]) => !uids.includes(uid) && store?.[rec.sid] != null)
+    const at = rec.name.indexOf(': ')
+    const name = at === -1 ? rec.name : rec.name.slice(at + 2)
+    return [{
+      id: rec.sid,
+      // "Captain: Finest Hour (Once per battle, per unit)" → "Finest Hour": the chip sits under a
+      // heading that already says once per battle, and on the card that already names the unit.
+      label: { en: name.replace(/\s*\(once per battle[^)]*\)/i, ''), ru: name.replace(/\s*\(once per battle[^)]*\)/i, '') },
+      on: used,
+      live: live.has(rec.sid),
+      spent: used && !live.has(rec.sid),
+      auto: false,
+      blocked: elsewhere,
+      blockedBy: elsewhere ? 'usedArmy' : null,
+      duration: once.dur,
+      once: once.per,
+    }]
+  })
+}
+
 // WHICH OPTION OF AN ABILITY SET IS UP — the same shape as a spent stratagem: keyed by the option
 // record's sid, stamped when it was picked, and lasting the battle round the set's own wording
 // gives it ("until the start of the next battle round this model has those abilities"). Every set

@@ -71,9 +71,10 @@ export default {
             "en": "once per battle, in the Fight phase in which this ability is used",
             "ru": "раз за битву, в фазе боя, в которой применена способность"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -84,9 +85,10 @@ export default {
             "en": "once per battle, in the Fight phase in which this ability is used",
             "ru": "раз за битву, в фазе боя, в которой применена способность"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -876,9 +878,10 @@ export default {
             "en": "once per battle, per army, when this unit is selected to fight",
             "ru": "раз за битву на армию, когда отряд выбран для боя"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },

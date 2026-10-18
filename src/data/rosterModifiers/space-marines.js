@@ -334,9 +334,10 @@ export default {
             "en": "once per battle, in the Fight phase this ability is used",
             "ru": "раз за битву, в фазе боя, когда применена способность"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -362,9 +363,10 @@ export default {
             "en": "once per battle, when this unit is selected to fight and the ability is used",
             "ru": "раз за битву, когда отряд выбран для боя и применена способность"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -375,9 +377,10 @@ export default {
             "en": "once per battle, when this unit is selected to fight and the ability is used",
             "ru": "раз за битву, когда отряд выбран для боя и применена способность"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -2398,9 +2401,10 @@ export default {
             "en": "once per battle, when this unit is selected to fight and Ancient Exhortation is used",
             "ru": "раз за битву, когда отряд выбран для боя и применена Ancient Exhortation"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -3191,9 +3195,10 @@ export default {
             "en": "once per battle, when this unit is selected to fight and the banner is used",
             "ru": "раз за битву, когда отряд выбран для боя и применено знамя"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -3204,9 +3209,10 @@ export default {
             "en": "once per battle, when this unit is selected to fight and the banner is used",
             "ru": "раз за битву, когда отряд выбран для боя и применено знамя"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     }

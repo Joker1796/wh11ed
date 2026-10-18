@@ -792,6 +792,29 @@ export function useTracker() {
     if (!Object.keys(pl.ctx.strats[uid]).length) delete pl.ctx.strats[uid]
   }
 
+  // A ONCE-PER-BATTLE rule used by one unit ("Once per battle, when this unit is selected to fight,
+  // you can use this ability…"). Keyed like a spent stratagem — roster entry uid → the modifier
+  // record's sid → the stamp it was used at — and, unlike one, kept after its window closes: the
+  // stamp is also the answer to "has this been used?" (rosterGameContext's usesFor). Taking it back
+  // deletes it, so a mis-tap leaves nothing behind.
+  // `shared` are the other entries of the attached unit (rosterGameContext's attachedUids): a use
+  // ticked on the Captain's card is taken back from the Intercessors' card as well.
+  function setUnitUse(pi, uid, sid, at, on, mi, shared = []) {
+    const pl = memberAt(current.value.players[pi], mi)
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.uses) pl.ctx.uses = {}
+    if (on) {
+      if (!pl.ctx.uses[uid]) pl.ctx.uses[uid] = {}
+      pl.ctx.uses[uid][sid] = at
+      return
+    }
+    for (const u of new Set([uid, ...shared])) {
+      if (!pl.ctx.uses[u]) continue
+      delete pl.ctx.uses[u][sid]
+      if (!Object.keys(pl.ctx.uses[u]).length) delete pl.ctx.uses[u]
+    }
+  }
+
   // An ABILITY SET's choice — "select up to two of the abilities in the Relics of the Matriarchs
   // section; until the start of the next battle round this model has those abilities". Keyed like
   // a spent stratagem (roster entry uid → the option record's sid → the stamp it was picked at),
@@ -1530,7 +1553,7 @@ export function useTracker() {
     current, history, setupDraft,
     startLobby, closeLobby, newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
     setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
-    setArmyCondition, setUnitCondition, setUnitStratagem, setUnitAura, setUnitPick,
+    setArmyCondition, setUnitCondition, setUnitStratagem, setUnitUse, setUnitAura, setUnitPick,
     resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,

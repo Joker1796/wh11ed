@@ -352,9 +352,12 @@ const isSetRule = (rec) => rec.ref?.kind === 'ability' && !!rec.ref.set
 const byChoice = (entry) => entry.kind === 'stratagem' || isSetRule(entry)
 /** @param {ModEntry} entry @param {ModifierEffect} effect @param {IdSet} active @param {IdSet} chosen */
 function effectLive(entry, effect, active, chosen) {
-  if (byChoice(entry) && !chosen?.has(entry.sid)) return false
+  // A once-per-battle effect is proven the same way, by the use the player marked — `chosen` holds
+  // the records whose use is still inside its window (rosterGameContext's activeUses). Per EFFECT,
+  // not per record: Standard of the Emperor Ascendant gives +1 OC for good and +1 A once.
+  if ((byChoice(entry) || effect.once) && !chosen?.has(entry.sid)) return false
   if (effect.cond?.length) return condHolds(effect.cond, active, entry)
-  return byChoice(entry)
+  return byChoice(entry) || !!effect.once
 }
 
 // entries: [{ name, det, kind, body, effects }] — records the caller resolved to their prose.
@@ -423,7 +426,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     // not its effect carries a `when`: unspent and unpicked mean the same thing as an unproven
     // condition, and a reviewer leaving `when` null must not turn the gate off.
     /** @param {ModifierEffect} eff */
-    const gated = (eff) => !!eff.when || byChoice(entry)
+    const gated = (eff) => !!eff.when || byChoice(entry) || !!eff.once
     const replaced = new Set()
     for (const eff of effects) {
       if (eff.alt == null || eff.ruledOut) continue
@@ -576,7 +579,7 @@ export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, activ
     const scopes = entry.scopes || (SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body))
     for (const effect of entry.effects || []) {
       if (effect.op !== 'grant' || effect.stat !== 'keyword') continue
-      if ((effect.when || byChoice(entry)) && !effectLive(entry, effect, active, chosen)) continue
+      if ((effect.when || byChoice(entry) || effect.once) && !effectLive(entry, effect, active, chosen)) continue
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, !!entry.scopes && entry.kind === 'detachmentRule')) continue
       out.push({ kw: String(effect.value), source: entry.name, det: entry.det })
     }

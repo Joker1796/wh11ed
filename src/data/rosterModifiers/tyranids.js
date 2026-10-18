@@ -1231,9 +1231,10 @@ export default {
             "en": "until the end of a phase the bearer used this Enhancement in (once per battle)",
             "ru": "до конца фазы, в которой носитель применил улучшение (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },

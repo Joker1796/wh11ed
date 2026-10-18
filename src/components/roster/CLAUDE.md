@@ -4049,6 +4049,23 @@ table position are out of scope — this is a reference that knows the rules in 
 battlefield. Phases are opt-in per game and offered only where a list is attached, since the roster
 screen is the only thing that reads them.
 
+**Once per battle** (2026-10-18, owner: "начинай с раз за битву"). "Once per battle, when this unit
+is selected to fight, you can use this ability. If you do…" — 70 records, from Finest Hour to a
+Plasmacyte. Each such effect carries `once: { per: 'unit' | 'army', dur }`, and the use the player
+marks is its condition, the way being spent is a stratagem's: `player.ctx.uses[uid][sid]` holds the
+stamp it was used at (`setUnitUse`), `activeUses` puts the record in `chosen` while the stamp is
+inside `dur` (the rule's own "until the end of the phase"), and `effectLive` gates per EFFECT —
+Standard of the Emperor Ascendant gives +1 OC for good and +1 A once. Unlike a stratagem the stamp
+outlives its window: the chip under "Once per battle" on the unit's card stays ticked with "Used"
+on its second line, because remembering that is half of what the player wants from it, and a tap
+takes it back. `per: 'army'` blocks the chip on every other unit once one has used it
+(`blockedBy: 'usedArmy'`). A Character's "this unit" ability is in force on the unit he leads too
+(19.04), so a use is read across the attached unit (`attachedUids`) and taken back from all of it.
+Answered under "unit states" (`trackUnitStates`). Five effects keep `never` on top of the use —
+the use does not answer what they also ask (a target, a choice, one shot of one weapon) — and
+`src/composables/onceRules.test.js` names them; any other effect worded "once per battle" without
+`once` fails that test.
+
 ## Printing a list (added 2026-08-27)
 
 `/roster/:id/print` — `RosterPrintView.vue` (the panel), `RosterPrintSheet.vue` (the document and

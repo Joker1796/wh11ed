@@ -572,9 +572,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -585,9 +586,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1741,10 +1743,11 @@ export default {
             "en": "until the end of a Fight phase the bearer used this Enhancement in (once per battle)",
             "ru": "до конца Fight phase, в которой носитель применил улучшение (раз за битву)"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },

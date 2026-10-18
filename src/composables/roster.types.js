@@ -323,6 +323,8 @@
  * @property {Record<string, number[]>} [rows]
  * @property {string} [best] the rule's own limit on a roll ("3+": Take Cover!)
  * @property {boolean} [ruledOut] set by gateStratagems: the list answered its condition, and answered no
+ * @property {{ per: 'unit' | 'army', dur: string }} [once] a once-per-battle rule: in force while the use
+ *   the player marked is inside `dur` (rosterGameContext's activeUses); `per: 'army'` spends it for every unit
  */
 
 /** A keyword gate read off a rule's prose; `models`/`modelExcludes` are the phrases it names as MODELS (ruleTargets' scopeHits). @typedef {{ targets: string[], excludes: string[], models?: string[], modelExcludes?: string[] }} RuleScope */
@@ -377,6 +379,7 @@
  * @property {CondSwitch[]} [strats]
  * @property {CondSwitch[]} [auras]
  * @property {CondSwitch[]} [picks]
+ * @property {CondSwitch[]} [uses] once-per-battle rules on this card, ticked once used
  * @property {Set<string>} [chosen] ability-set options picked anywhere in the army
  * @property {CondSwitch[]} [switches]
  * @property {CondSwitch[]} [armySwitches]
@@ -515,13 +518,14 @@
 /**
  * What the player has told the game about their army: `army` the army-wide switches, and per roster
  * entry uid its unit switches, the stratagems spent on it, the ability-set options picked on it and
- * the auras marked as reaching it.
+ * the auras marked as reaching it, and the once-per-battle rules it has used.
  * @typedef {object} PlayerCtx
  * @property {StampStore} [army]
  * @property {Record<string, StampStore>} [units]
  * @property {Record<string, StampStore>} [strats]
  * @property {Record<string, StampStore>} [picks]
  * @property {Record<string, StampStore>} [auras]
+ * @property {Record<string, StampStore>} [uses]
  */
 
 /**
@@ -565,10 +569,13 @@
  * @property {{ kind: string, name: string, det: string | null, unit: string | null } | null} [src]
  * @property {string | null} [det]
  * @property {boolean} [blocked]
- * @property {'shock' | 'wrongPhase' | 'unitPhase' | 'usedPhase' | null} [blockedBy]
+ * @property {'shock' | 'wrongPhase' | 'unitPhase' | 'usedPhase' | 'usedArmy' | null} [blockedBy]
  * @property {boolean} [pick]
  * @property {{ owner: string | null, ability: string, set: string, unit: string }} [from]
  * @property {boolean} [aura]
+ * @property {boolean} [live]   a once-per-battle use whose effect is still running
+ * @property {boolean} [spent]  used, and its window has closed
+ * @property {'unit' | 'army'} [once]
  * @property {{ name: string, text: string } | null} [info]
  */
 

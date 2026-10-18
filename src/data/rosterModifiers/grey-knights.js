@@ -284,9 +284,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -297,9 +298,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -688,9 +690,10 @@ export default {
             "en": "once per battle, for the Fight phase the bearer uses this Enhancement in",
             "ru": "один раз за битву, на фазу боя, в которой носитель применил улучшение"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ],
       "ref": {
@@ -716,10 +719,11 @@ export default {
             "en": "once per battle, for the battle round the bearer uses this Enhancement in",
             "ru": "один раз за битву, на раунд, в котором носитель применил улучшение"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "round"
+          }
         }
       ],
       "ref": {
@@ -788,9 +792,10 @@ export default {
             "en": "once per battle, when this unit is selected to fight after making a charge move",
             "ru": "раз за битву, когда юнит выбран для боя после charge-перемещения"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },

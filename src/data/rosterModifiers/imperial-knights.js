@@ -985,9 +985,10 @@ export default {
             "en": "until your next Shooting phase, once per battle per army, when this unit used this ability to go into strategic reserves",
             "ru": "до вашей следующей Shooting phase, раз за битву на армию, если отряд применил эту способность и ушёл в strategic reserves"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "round"
+          }
         }
       ]
     },
@@ -1104,9 +1105,10 @@ export default {
             "en": "once per battle, for the phase the bearer uses this Enhancement in",
             "ru": "раз за битву, на фазу, в которой носитель использовал улучшение"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },

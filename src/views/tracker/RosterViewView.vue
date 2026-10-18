@@ -660,7 +660,7 @@ import { groupModNotes, modDelta, possibleModNotes } from '../../composables/ros
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { conditions } from '../../data/rosterModifiers/conditions.js'
 import { tracks } from '../../data/trackerOptions.js'
-import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf, isShockCondition, groupLimitsFor } from '../../composables/rosterGameContext.js'
+import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, activeUses, usesFor, attachedUids, clockOf, stampOf, isShockCondition, groupLimitsFor } from '../../composables/rosterGameContext.js'
 import { memberAt } from '../../composables/rosterGameLink.js'
 import { normName } from '../../composables/rosterFactionRules.js'
 import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
@@ -1050,6 +1050,7 @@ const viewingHandlers = {
   'toggle-pick': (...a) => toggleViewingPick(...a),
   'toggle-cond': (...a) => toggleUnitCond(...a),
   'toggle-strat': (...a) => toggleUnitStrat(...a),
+  'toggle-use': (...a) => toggleUnitUse(...a),
 }
 
 // Same chamfered stat-box plates as DatasheetCard.vue's statline (its statCells()), scaled
@@ -1172,6 +1173,8 @@ function chosenFor(entry, resolved) {
     // Picks are read army-wide, not per entry: a relic picked on the Triumph feeds an aura that
     // lands on the Sisters, whose own picks know nothing about it (see allPicks).
     ...(keeps('trackAbilitySets') ? allPicks(gamePlayer.value, gameClock.value) : []),
+    // …and the once-per-battle rules used on it whose window is still open.
+    ...(keeps('trackUnitStates') ? activeUses(gamePlayer.value, gameClock.value, entry, resolved, roster.value?.units) : []),
   ])
 }
 
@@ -1477,6 +1480,10 @@ const viewingGameCtx = computed(() => {
     auras: canSwitch.value ? auraSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
     // …and which option of its own ability set is up, likewise the row's chips.
     picks: canSwitch.value ? pickSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
+    // …and its once-per-battle rules, ticked once used — a unit state, so under that option.
+    uses: canSwitch.value && keeps('trackUnitStates')
+      ? usesFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value, roster.value?.units)
+      : [],
     // Picks are army-wide (allPicks): the card of a unit standing in someone else's aura must
     // read the same number its row does.
     chosen: canSwitch.value && keeps('trackAbilitySets') ? allPicks(gamePlayer.value, gameClock.value) : new Set(),
@@ -1517,6 +1524,14 @@ async function toggleUnitStrat(st) {
   // Not asking (`askStratagems` off): the printed cost on this unit at one tap; refused → the dialog.
   if (!keeps('askStratagems') && t.playStratagem(gamePi.value, strat, strat._cost, target)) return
   playingOnCard.value = { strat, target }
+}
+
+// A once-per-battle rule used on this unit, or the use taken back. One blocked because another unit
+// spent it for the army never gets here (the chip is disabled).
+function toggleUnitUse(sw) {
+  if (!viewingEntry.value || sw.blocked) return
+  const entry = viewingEntry.value
+  tracker.value?.setUnitUse(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value, attachedUids(entry, roster.value?.units))
 }
 
 function toggleViewingAura(sw) {

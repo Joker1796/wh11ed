@@ -38,6 +38,7 @@
         @toggle-strat="(...a) => $emit('toggle-strat', ...a)"
         @toggle-aura="(...a) => $emit('toggle-aura', ...a)"
         @toggle-pick="(...a) => $emit('toggle-pick', ...a)"
+        @toggle-use="(...a) => $emit('toggle-use', ...a)"
       />
     </div>
   </BaseModal>
@@ -62,7 +63,7 @@ defineProps({
   gameCtx: { type: Object, default: null },
   building: { type: Boolean, default: false },
 })
-defineEmits(['close', 'toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick'])
+defineEmits(['close', 'toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick', 'toggle-use'])
 
 const card = ref(null)
 const { locale } = useLocale()

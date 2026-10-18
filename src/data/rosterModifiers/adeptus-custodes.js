@@ -153,9 +153,10 @@ export default {
             "en": "when this unit uses No Foe Shall Stand (once per battle)",
             "ru": "когда отряд применяет No Foe Shall Stand (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "ranged",
@@ -166,9 +167,10 @@ export default {
             "en": "when this unit uses No Foe Shall Stand (once per battle)",
             "ru": "когда отряд применяет No Foe Shall Stand (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -331,9 +333,10 @@ export default {
             "en": "the Shooting phase this unit uses Disintegration Beams (once per battle)",
             "ru": "фаза стрельбы, в которой отряд применяет Disintegration Beams (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -406,7 +409,11 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         },
         {
           "on": "profile",
@@ -419,7 +426,11 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -846,9 +857,10 @@ export default {
             "en": "when attacks are allocated to this model and it uses this ability (once per battle)",
             "ru": "когда атаки распределены на эту модель и она применяет эту способность (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },

@@ -593,9 +593,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "profile",
@@ -606,10 +607,11 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
