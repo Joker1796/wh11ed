@@ -468,7 +468,7 @@ onBeforeUnmount(() => { ro?.disconnect(); ro = null })
 .rps :deep(.color-blue),
 .rps :deep(.color-green) { color: var(--text-primary); }
 
-/* A [LETHAL HITS]-style tag: the frame and the monospace are what make it a badge; the wash and
+/* A [LETHAL HITS]-style tag: the frame is what makes it a badge; the wash and
    the accent text are screen colour, and on paper they were the one thing left unbleached. */
 .rps :deep(.keyword) {
   background: none;
