@@ -40,11 +40,14 @@ for (const file of files) {
     ...report.missing.map((u) => `no datasheet: ${u.name}`),
     ...report.detachments.missing.map((d) => `no detachment: ${d}`),
     ...report.units.flatMap((u) => u.gear.missing.map((g) => `${u.name}: unplaced wargear "${g}"`)),
+    ...report.units.filter((u) => u.enh && !u.enh.ok).map((u) => `${u.name}: enhancement not imported "${u.enh?.name}"`),
   ]
   if (problems.length) { console.log(`✗ ${file}\n  ${problems.join('\n  ')}`); bad++; continue }
   const roster = { ...payload, faction: slug, detachments: report.detachments.matched, name: payload.name || basename(file, '.txt') }
   const pts = report.points.stated ? `${report.points.computed}/${report.points.stated} pts` : `${report.points.computed} pts`
-  console.log(`✓ ${roster.name} — ${slug}, ${roster.units.length} units, ${pts}`)
+  // A total that differs from the list's own is not a clean import: a priced line went somewhere else.
+  const off = report.points.stated && report.points.computed !== report.points.stated
+  console.log(`${off ? '⚠' : '✓'} ${roster.name} — ${slug}, ${roster.units.length} units, ${pts}${off ? ' — points differ from the list' : ''}`)
   console.log(`  ${base}${prefix}/roster/shared#r=${await encodeRoster(roster)}`)
 }
 process.exit(bad ? 1 : 0)
