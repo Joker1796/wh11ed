@@ -7,12 +7,29 @@ export function weaponBase(name) {
   return (name || '').split(/ [-–—] /)[0].trim()
 }
 
-export function withGroupPos(list) {
+// A weapon whose profiles are all fired, not one picked — Nazdreg's Kustom Blasta X: "This model's
+// Kustom Blasta X weapon has three separate ranged weapon profiles, each of which can be selected to
+// make attacks with". Grouped, its rows read as "pick one" (the arrow), which is the core rule for a
+// multi-profile weapon and the opposite of this one (a player's report, 2026-10-18). The datasheet
+// says so in its loadout; gen-datasheets reads the names from there into `separateProfiles`, and
+// datasheets/separateProfiles.test.js holds every sheet to it.
+const SEPARATE = /(?:^|\n)This model[’']s (.+?) weapon has \w+ separate (?:ranged |melee )?weapon profiles/g
+export function separateProfileWeapons(loadout) {
+  return [...(loadout || '').matchAll(SEPARATE)].map((m) => m[1])
+}
+
+/**
+ * Rows with their place in a multi-profile group. `separate`: the weapons whose profiles are all
+ * fired (a sheet's `separateProfiles`) — each of their rows stands alone, under its full name.
+ */
+export function withGroupPos(list, separate = []) {
   const rows = list || []
+  const apart = new Set(separate)
+  const baseOf = (w) => (apart.has(weaponBase(w.name)) ? w.name : weaponBase(w.name))
   return rows.map((w, i) => {
-    const base = weaponBase(w.name)
-    const prevSame = i > 0 && weaponBase(rows[i - 1].name) === base
-    const nextSame = i < rows.length - 1 && weaponBase(rows[i + 1].name) === base
+    const base = baseOf(w)
+    const prevSame = i > 0 && baseOf(rows[i - 1]) === base
+    const nextSame = i < rows.length - 1 && baseOf(rows[i + 1]) === base
     let gpos = 'single'
     if (prevSame && nextSame) gpos = 'mid'
     else if (nextSame) gpos = 'start'

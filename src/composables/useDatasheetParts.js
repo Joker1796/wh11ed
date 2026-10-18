@@ -21,8 +21,8 @@ export function useDatasheetParts(props, labels, { showPossible = () => true } =
   // One footnote line per distinct source, grouping every keyword that shares it.
   const keywordNotes = computed(() => keywordNotesOf(extraKeywords.value, labels.value))
 
-  const rangedRows = computed(() => withGroupPos(props.sheet.ranged))
-  const meleeRows = computed(() => withGroupPos(props.sheet.melee))
+  const rangedRows = computed(() => withGroupPos(props.sheet.ranged, props.sheet.separateProfiles))
+  const meleeRows = computed(() => withGroupPos(props.sheet.melee, props.sheet.separateProfiles))
 
   // A stat the modifier layer rewrote wears a mark: the value on the card is no longer what the
   // datasheet prints, and the reader is owed that signal and the footnote naming the rule.

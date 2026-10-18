@@ -44,6 +44,7 @@
  * @property {Array<{ name: string, options: NamedText[] }>} [abilitySets]
  * @property {string[]} [composition]
  * @property {string} [loadout]
+ * @property {string[]} [separateProfiles]  weapons whose profiles are all fired, not one picked — read from `loadout` (weaponGroups.js)
  * @property {string[]} [options]
  * @property {{ text?: string, units?: string[], footer?: string }} [leader]
  * @property {{ note?: string, text: string }} [damaged]
