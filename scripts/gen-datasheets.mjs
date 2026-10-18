@@ -19,6 +19,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { ROOT, APPDATA, norm, currentWargearRules, appdataToMarkup, appdataToParagraphs, loadJson, loadModule, table, nameOfEn, combatPatrolNames } from './lib/sync-common.mjs'
 import { slugify } from '../src/data/slugify.js'
+import { separateProfileWeapons } from '../src/utils/weaponGroups.js'
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
 
 const slug = process.argv[2]
@@ -189,6 +190,8 @@ function convert(ds) {
   const { composition, loadout } = compositionAndLoadout(ds.unitComposition)
   out.composition = composition
   if (loadout) out.loadout = loadout
+  const separate = separateProfileWeapons(loadout)
+  if (separate.length) out.separateProfiles = separate
   const options = currentWargearRules(ds.wargearRules || []).map((r) => bullets(r.rules).replace(/^▪ /, '')).filter(Boolean)
     .filter((o, i, all) => all.findIndex((x) => norm(x) === norm(o)) === i)
   if (options.length) out.options = options
