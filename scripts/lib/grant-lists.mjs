@@ -7,7 +7,7 @@
 // Every reader of "what does this rule grant" — the modifier generator's candidate heuristic and
 // the core-grants gate — looks for the verb right before the thing ("have the Feel No Pain",
 // "have [LETHAL HITS]"), and a colon and a line break stand between them here. Until 2026-10-18
-// that hid 70 rules from both (Lords of the Forge's 4+ invulnerable save and Feel No Pain 5+ among
+// that hid 73 rules from both (Lords of the Forge's 4+ invulnerable save and Feel No Pain 5+ among
 // them, found by a player). Give each item its verb back, so the list reads as the sentences it
 // stands for: "have 4+ InSv. have Feel No Pain 5+."
 //
