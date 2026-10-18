@@ -105,21 +105,6 @@
         />
       </CollapseTransition>
     </div>
-    <!-- Its once-per-battle rules (Finest Hour, Moment Shackle, a Plasmacyte…): ticked once used.
-         While the rule's own window is open the card shows what it does; after that the chip stays
-         ticked and says "used" — remembering THAT is half the point. A tap takes a use back. -->
-    <div
-      v-if="useChips.length"
-      class="rum-strats"
-    >
-      <h4 class="rum-strats-h">
-        {{ labels.onceBattle }}
-      </h4>
-      <ConditionChips
-        :switches="useChips"
-        @toggle="$emit('toggle-use', $event)"
-      />
-    </div>
     <!-- Which option of this unit's own ability set is up ("select up to two Relics of the
          Matriarchs"). The same chips its row in the list carries — one store, two ways in. -->
     <div
@@ -173,14 +158,19 @@
          this, seeing what Empowered does meant opening the accordion on the row to flip it and
          then opening the card to read the number. The chips inside the abilities and rules
          below stay — they sit in collapsed bodies, and are the same store either way. -->
+    <!-- Its once-per-battle rules (Finest Hour, Moment Shackle, a Plasmacyte…) lead the same strip,
+         boxed under their own heading the way a doctrine group is (owner, 2026-10-18: a block of its
+         own spent two rows of a phone on one chip). Ticked once used: while the rule's window is open
+         the card shows what it does, after that the chip stays ticked and says "used" — remembering
+         THAT is half the point. A tap takes a use back. -->
     <div
-      v-if="gameCtx?.switches?.length"
+      v-if="gameCtx?.switches?.length || useChips.length"
       class="rum-strats"
     >
       <!-- No "This unit" heading (owner, 2026-09-30): in a unit's own dialog it says nothing. -->
       <ConditionChips
-        :switches="gameCtx.switches"
-        @toggle="$emit('toggle-cond', $event)"
+        :switches="[...useChips, ...(gameCtx?.switches || [])]"
+        @toggle="(sw) => $emit(sw.once ? 'toggle-use' : 'toggle-cond', sw)"
         @info="openChipInfo"
       />
     </div>
@@ -539,6 +529,8 @@ const stratChips = computed(() => (props.gameCtx?.strats || []).map((st) => {
 // or spent by another unit for the whole army (that one is blocked — ConditionChips says why).
 const useChips = computed(() => (props.gameCtx?.uses || []).map((u) => ({
   ...u,
+  // One boxed group, "Once per battle" in line before its chips (ConditionChips' groupCaption).
+  groupCaption: labels.value.onceBattle,
   subLabel: u.live ? labels.value.onceLive : u.spent ? labels.value.onceSpent : null,
 })))
 
