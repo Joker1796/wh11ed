@@ -1235,6 +1235,49 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "f574a3d4-d1ed-4a60-a2de-f3d989784f63",
+      "kind": "stratagem",
+      "name": "Focused Immolation",
+      "det": "Fires of Purgation",
+      "ref": {
+        "kind": "stratagem",
+        "det": "fires-of-purgation",
+        "name": "Focused Immolation"
+      },
+      "hash": "e601b175",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "against the selected enemy unit",
+            "ru": "против выбранного вражеского отряда"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "against the selected enemy unit",
+            "ru": "против выбранного вражеского отряда"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "5d77830b-d1f3-4b68-be52-4897eec1df38",
       "kind": "stratagem",
       "name": "Giants of the Battlefield",

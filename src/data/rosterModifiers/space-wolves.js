@@ -972,6 +972,20 @@ export default {
       "reviewed": true,
       "effects": [
         {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative 9\"",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        },
+        {
           "on": "profile",
           "stat": "t",
           "op": "add",
@@ -1141,6 +1155,58 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "7a8d5f30-60bd-457c-889a-dc6c3dbc200b:thunderwolf-cavalry",
+      "kind": "wargear",
+      "name": "Thunderwolf Cavalry: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "thunderwolf-cavalry",
+        "item": "storm shield"
+      },
+      "hash": "fb8f103d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "f6a2c8d7-9b59-45f4-a38c-1888a9e997c2:venerable-dreadnought",
+      "kind": "wargear",
+      "name": "Venerable Dreadnought: Blizzard Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "venerable-dreadnought",
+        "item": "blizzard shield"
+      },
+      "hash": "6d6e4478",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "pack:wolf-guard-battle-leader-in-terminator-armour:relic-shield",
       "kind": "wargear",
       "name": "Wolf Guard Battle Leader in Terminator Armour: Relic Shield",
@@ -1218,6 +1284,35 @@ export default {
           "op": "add",
           "value": 1,
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "7a8d5f30-60bd-457c-889a-dc6c3dbc200b:wolf-guard-headtakers",
+      "kind": "wargear",
+      "name": "Wolf Guard Headtakers: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wolf-guard-headtakers",
+        "item": "storm shield"
+      },
+      "hash": "fb8f103d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
         }
       ]
     },
@@ -1390,6 +1485,29 @@ export default {
         }
       ],
       "note": "Read as Ogryn Bodyguard: Slabshield (astra-militarum), the same text."
+    },
+    {
+      "sid": "f6a2c8d7-9b59-45f4-a38c-1888a9e997c2:wulfen-dreadnought",
+      "kind": "wargear",
+      "name": "Wulfen Dreadnought: Blizzard Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wulfen-dreadnought",
+        "item": "blizzard shield"
+      },
+      "hash": "6d6e4478",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
     }
   ]
 }

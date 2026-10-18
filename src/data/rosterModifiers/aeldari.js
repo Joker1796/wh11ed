@@ -615,6 +615,44 @@ export default {
       ]
     },
     {
+      "sid": "e92ba2b2-1d9e-496e-8e7c-b670cd478805:kygharil-s-protectors-dire-avengers",
+      "kind": "ability",
+      "name": "Kygharil's Protectors Dire Avengers: Shimmershield",
+      "det": null,
+      "ref": null,
+      "hash": "534fb70a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "c4e610f4-0715-4ffa-8d0f-c33932b48835:kygharil-s-protectors-dire-avengers",
+      "kind": "ability",
+      "name": "Kygharil's Protectors Dire Avengers: Shimmershield",
+      "det": null,
+      "ref": null,
+      "hash": "534fb70a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "9f3ea182-ed96-41cc-a92e-7f2f2fc107ae:kygharil-s-protectors-warp-spiders",
       "kind": "ability",
       "name": "Kygharil's Protectors Warp Spiders: Engulfing Flames (Once per battle per unit)",
@@ -636,6 +674,25 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "d2258257-bd87-43a4-b199-13d170ef541d:kygharil-s-protectors-wraithblades",
+      "kind": "ability",
+      "name": "Kygharil's Protectors Wraithblades: Forceshield",
+      "det": null,
+      "ref": null,
+      "hash": "534fb70a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
         }
       ]
     },
@@ -1864,6 +1921,25 @@ export default {
         "kind": "detachmentRule",
         "det": "guardian-battlehost"
       }
+    },
+    {
+      "sid": "a308d6d8-a15c-4342-acbf-19b49950f7c0",
+      "kind": "detachmentRule",
+      "name": "Graceful Warriors",
+      "det": "Kygharil's Protectors",
+      "ref": null,
+      "hash": "67359c8d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "da81ccd6-35d7-4a5c-91f4-8bf64cf14ef3",
