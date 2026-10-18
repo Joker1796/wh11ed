@@ -13,16 +13,20 @@
 //   - no narrower: a rule's reach is a set of targets — "LETHAL HITS: non-VEHICLE" (everything but
 //     vehicles) covers "LETHAL HITS: non-MONSTER/VEHICLE", "ANTI-CHARACTER/MONSTER 4+" covers
 //     "ANTI-MONSTER 4+", and the plain ability covers every narrowed one. A list and a "non-" list
-//     never compare: a MONSTER can be a CHARACTER too. A condition in brackets ("Feel No Pain 4+
-//     (vs mortal wounds)") is a narrowing that compares only with itself.
+//     never compare: a MONSTER can be a CHARACTER too. A "(vs …)" condition ("Feel No Pain 4+ (vs
+//     mortal wounds)") is a set of attacks it works against, in any order: "(vs Psychic Attacks and
+//     mortal wounds)" is "(vs mortal wounds and Psychic Attacks)" and covers "(vs mortal wounds)".
+//     Any other bracket is a narrowing that compares only with itself.
 import { foldName } from '../utils/foldName.js'
 
 const NUMBERED = /^(.*?)\s+(\d+)(\+|")?$/
 
-/** "MONSTER/VEHICLE" → { neg: false, set }, "non-VEHICLE" → { neg: true, set }, "(vs …)" → opaque */
+/** "MONSTER/VEHICLE" → { neg: false, set }, "non-VEHICLE" → { neg: true, set }, "(vs A and B)" → { vs, set }, other "(…)" → opaque */
 function reach(q) {
   if (q == null) return null
   const t = foldName(q)
+  const vs = /^\(vs (.+)\)$/.exec(t)
+  if (vs) return { vs: true, neg: false, set: new Set(vs[1].split(/\s*(?:,|\/|\band\b)\s*/).filter(Boolean)) }
   if (t.startsWith('(')) return { opaque: t }
   const neg = t.startsWith('non-')
   return { neg, set: new Set((neg ? t.slice(4) : t).split('/').map((x) => x.trim()).filter(Boolean)) }
@@ -33,6 +37,7 @@ function covers(a, b) {
   if (!a) return true
   if (!b) return false
   if (a.opaque || b.opaque) return a.opaque === b.opaque
+  if (!!a.vs !== !!b.vs) return false
   if (a.neg !== b.neg) return false
   const [small, big] = a.neg ? [a.set, b.set] : [b.set, a.set]
   return [...small].every((x) => big.has(x))
