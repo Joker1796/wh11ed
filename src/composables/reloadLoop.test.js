@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { noteBoot, noteReload, reloadsHeld, LOOP_WINDOW_MS, HOLD_MS } from './reloadLoop.js'
 
 describe('reload loop guard', () => {
@@ -17,7 +17,7 @@ describe('reload loop guard', () => {
     expect(noteBoot(t)).toBe(false)
     expect(noteBoot(t + 2000)).toBe(false)
     expect(noteBoot(t + 4000)).toBe(false)
-    noteReload('sw', t + 4000 - LOOP_WINDOW_MS - 1) // one of ours, but before the window
+    noteReload('launch', t + 4000 - LOOP_WINDOW_MS - 1) // one of ours, but before the window
     noteReload('user', t + 4500) // the reader's own press of Update: not the app reloading itself
     expect(noteBoot(t + 5000)).toBe(false)
     expect(reloadsHeld(t + 5000)).toBe(false)
@@ -25,7 +25,7 @@ describe('reload loop guard', () => {
 
   it('three starts within the window, one of them our reload, hold every reload, then let go', () => {
     const t = 5_000_000
-    noteReload('sw', t + 3000)
+    noteReload('launch', t + 3000)
     expect(noteBoot(t)).toBe(false)
     expect(noteBoot(t + 2000)).toBe(false)
     expect(noteBoot(t + 4000)).toBe(true) // caught — reported once
@@ -35,29 +35,29 @@ describe('reload loop guard', () => {
   })
 })
 
-describe('the service worker reload', () => {
-  beforeEach(() => localStorage.clear())
+describe('the loop report', () => {
+  beforeEach(() => { localStorage.clear(); sessionStorage.clear() })
 
-  it('reloads once, then not again within the floor — and says so in the trail', async () => {
-    const { swReload, reloadTrail, SW_RELOAD_FLOOR_MS } = await import('./reloadLoop.js')
-    const reload = vi.fn()
-    const t = 9_000_000
-    expect(swReload({ now: t, reload })).toBe(true)
-    expect(swReload({ now: t + 2000, reload })).toBe(false) // the iPhone loop: asked again at once
-    expect(reload).toHaveBeenCalledTimes(1)
-    expect(swReload({ now: t + SW_RELOAD_FLOOR_MS + 1, reload })).toBe(true) // a real next update
-    expect(reload).toHaveBeenCalledTimes(2)
+  // 2026-10-18: the starts are counted per device, so tabs restored together look like a loop — the
+  // report names whose starts and reloads they were.
+  it('names the tab of every start and reload, this one marked', async () => {
+    const { bootList, reloadTrail } = await import('./reloadLoop.js')
+    const t = 11_000_000
+    sessionStorage.setItem('wh11ed-tab', 'aaaa')
+    noteBoot(t)
+    noteReload('launch', t + 500)
+    sessionStorage.setItem('wh11ed-tab', 'bbbb')
+    noteBoot(t + 1000)
+    expect(bootList(t + 2000)).toBe('aaaa@-2.0s, bbbb*@-1.0s')
     // jsdom has no service worker: 'no-sw'.
-    expect(reloadTrail(t + SW_RELOAD_FLOOR_MS + 1)).toBe('sw@-30.0s/no-sw, sw-skipped@-28.0s/no-sw, sw@-0.0s/no-sw')
+    expect(reloadTrail(t + 2000)).toBe('launch@-1.5s/no-sw/aaaa')
   })
 
-  it('never reloads while a loop is held', async () => {
-    const { swReload, noteBoot } = await import('./reloadLoop.js')
-    const reload = vi.fn()
-    const t = 7_000_000
-    noteReload('chunk', t + 500)
-    noteBoot(t); noteBoot(t + 1000); noteBoot(t + 2000)
-    expect(swReload({ now: t + 3000, reload })).toBe(false)
-    expect(reload).not.toHaveBeenCalled()
+  it('reads the starts stored before the tab was noted', async () => {
+    const { bootList } = await import('./reloadLoop.js')
+    const t = 13_000_000
+    localStorage.setItem('wh11ed-boots', JSON.stringify([t - 3000]))
+    expect(noteBoot(t)).toBe(false)
+    expect(bootList(t).split(', ')[0]).toBe('?@-3.0s')
   })
 })

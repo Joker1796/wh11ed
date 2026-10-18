@@ -8,7 +8,7 @@
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
-import { swReload, noteReload } from '../composables/reloadLoop.js'
+import { noteReload } from '../composables/reloadLoop.js'
 import { updateFound, updateApplying } from '../composables/useAppUpdate.js'
 
 const route = useRoute()
@@ -47,13 +47,16 @@ let checkSW = () => {}
 
 const { needRefresh, updateServiceWorker } = useRegisterSW({
   // The reload after a new worker takes over is ours, not the plugin's. Asked for by the plate's
-  // button it is the reader's and always happens; anything else is held to once in 30 s and
-  // never while a loop is held (reloadLoop.js — iPhones reloaded in a loop here, 2026-10-15).
+  // button it is the reader's and always happens. A worker that took over without it — another tab
+  // pressed Update, or opened the new build at its start (launchGate.js): the worker is one per
+  // device — does not reload this page; the plate says the new version is in place and its button
+  // reloads. Until 2026-10-18 it reloaded, once in 30 s: every open tab went white together, and
+  // their starts, counted per device, tripped the loop guard (reloadLoop.js) on readers.
   onNeedReload: () => {
     if (updateApplying()) {
       noteReload('user')
       window.location.reload()
-    } else swReload()
+    } else updateFound(() => { noteReload('user'); window.location.reload() }, { inPlace: true })
   },
   onRegisteredSW(_swUrl, registration) {
     if (!registration) return

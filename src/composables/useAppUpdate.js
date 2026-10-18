@@ -15,22 +15,25 @@ import { topUpOffline } from './useOfflineWarmup.js'
 // phase: 'idle' — nothing new; 'downloading' — the installed app fetching the new files (done/total
 // are the warm-up's); 'ready' — the button is there. `tab`: found by a tab with no service worker
 // (tabFreshness.js) — the button only reloads, and a link followed meanwhile loads the new version.
+// `inPlace`: the new worker already controls the page (another tab applied it) — its files are all
+// there, so nothing to download; the button only reloads.
 export const appUpdate = reactive({ phase: 'idle', version: '', tab: false })
 
 let applyFn = null
 let applying = false
 
 /**
- * A new version is there: UpdateToast.vue reports a new worker installed and waiting, or a tab with
- * no worker found a newer number on the server (`version`, `tab`). `apply` makes it current.
+ * A new version is there: UpdateToast.vue reports a new worker installed and waiting, or one that
+ * already took over (`inPlace`), or a tab with no worker found a newer number on the server
+ * (`version`, `tab`). `apply` makes it current.
  */
-export async function updateFound(apply, { version = '', tab = false } = {}) {
+export async function updateFound(apply, { version = '', tab = false, inPlace = false } = {}) {
   applyFn = apply
   if (appUpdate.phase !== 'idle') return
   appUpdate.tab = tab
   if (version) appUpdate.version = version
   else liveVersion().then((v) => { if (v?.app) appUpdate.version = v.app })
-  if (!tab && isStandaloneDisplay()) {
+  if (!tab && !inPlace && isStandaloneDisplay()) {
     appUpdate.phase = 'downloading'
     // A download that fails half-way still ends in the button: the new build tops up the rest.
     await topUpOffline().catch(() => {})
