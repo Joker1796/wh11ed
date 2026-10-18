@@ -1134,7 +1134,14 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     }
   }
 
-  const battle = (core?.battleSizes || []).find((b) => b.points === parsed.limit)
+  // A list that does not name its battle size (WTC, listhammer's compact export) is the smallest one
+  // its points fit: a 1000-point list read as Strike Force got the wrong caps on enhancements,
+  // duplicates and detachment points. Its own total first, the units' sum when it states none.
+  const sizes = [...(core?.battleSizes || [])].sort((a, b) => a.points - b.points)
+  const total = parsed.stated || (parsed.units || []).reduce((n, u) => n + (u.pts || 0), 0)
+  const battle = parsed.limit
+    ? sizes.find((b) => b.points === parsed.limit)
+    : total ? sizes.find((b) => b.points >= total) : undefined
   /** @type {ImportPayload} */
   const payload = {
     name: parsed.name || 'Roster',

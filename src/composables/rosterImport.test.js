@@ -1185,6 +1185,31 @@ describe('matchFaction', () => {
   })
 })
 
+describe('matchRoster — the battle size of a list that does not name one', () => {
+  let ctx
+  beforeAll(async () => {
+    const [{ default: faction }, { default: items }] = await Promise.all([
+      import('../data/roster/world-eaters.js'),
+      import('../data/roster/items.js'),
+    ])
+    ctx = { faction, core: rosterCore, items: items.items }
+  })
+  const size = (text) => matchRoster(parseList(text), ctx).payload.battleSize
+
+  it('is the smallest one its stated total fits', () => {
+    expect(size(WTC)).toBe('strike-force') // 1975
+    expect(size(WTC.replace('1975pts', '995pts'))).toBe('incursion')
+    expect(size(WTC.replace('1975pts', '2500pts'))).toBe('onslaught')
+  })
+  it('the units\' sum when the list states no total', () => {
+    // the fixture is abridged: its units come to less than 1000
+    expect(size(WTC.replace(/^\+ TOTAL ARMY POINTS.*\n/m, ''))).toBe('incursion')
+  })
+  it('a named battle size still wins', () => {
+    expect(size(GW.replace('Strike Force (2000 points)', 'Onslaught (3000 points)'))).toBe('onslaught')
+  })
+})
+
 // End to end against the real generated roster bundle — the only test that proves the names in a
 // stranger's export actually resolve to our datasheets, options and enhancements.
 describe('matchRoster — a real list against our own data', () => {
@@ -1312,9 +1337,10 @@ describe('round trip — export then import', () => {
   })
 
   // Both WTC shapes survive the trip whole — the compact one folds the per-profile breakdown into
-  // the unit's line, which changes how the loadout is WRITTEN but not what it is. The one thing
-  // the format has no field for is the list's own name.
-  it.each(['wtc', 'wtc-compact'])('comes back through %s minus the name the format has no field for', async (fmt) => {
+  // the unit's line, which changes how the loadout is WRITTEN but not what it is. What the format
+  // has no field for is the list's own name and its battle size — read back as the smallest size
+  // the points fit (this three-unit list: Incursion).
+  it.each(['wtc', 'wtc-compact'])('comes back through %s minus the name and size the format has no field for', async (fmt) => {
     const { buildRosterText } = await import('./rosterExport.js')
     const ctx = { faction, core: rosterCore, items }
     const roster = rosterOf(faction)
@@ -1323,7 +1349,8 @@ describe('round trip — export then import', () => {
     expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
     expect(report.points.computed).toBe(report.points.statedUnits)
     expect(payload.name).toBe('Roster')                                   // WTC states no list name
-    expect(buildRosterText({ ...payload, name: roster.name }, ctx, 'compact'))
+    expect(payload.battleSize).toBe('incursion')                          // …nor a battle size
+    expect(buildRosterText({ ...payload, name: roster.name, battleSize: roster.battleSize }, ctx, 'compact'))
       .toBe(buildRosterText(roster, ctx, 'compact'))                      // …everything else, incl. the attachment
   })
 })
