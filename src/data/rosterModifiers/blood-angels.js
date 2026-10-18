@@ -857,6 +857,49 @@ export default {
       ]
     },
     {
+      "sid": "56b4ffc0-1976-4b75-8160-a63e7ea958f5",
+      "kind": "enhancement",
+      "name": "Angelic Executioner",
+      "det": "Encarmine Speartip",
+      "ref": {
+        "kind": "enhancement",
+        "det": "encarmine-speartip"
+      },
+      "hash": "3dc7778f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "one of the two, selected when the bearer's unit is selected to fight",
+            "ru": "одна из двух — выбирается, когда отряд носителя выбран для боя"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "one of the two, selected when the bearer's unit is selected to fight",
+            "ru": "одна из двух — выбирается, когда отряд носителя выбран для боя"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "3e1533b5-dd19-4d7b-9a07-b893c2b6597d",
       "kind": "enhancement",
       "name": "Shadow of Abomination",
@@ -974,6 +1017,30 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "09e0df1e-bf74-489a-96a9-01aedc292914",
+      "kind": "stratagem",
+      "name": "In the Shadow of Great Wings",
+      "det": "Angelic Inheritors",
+      "ref": {
+        "kind": "stratagem",
+        "det": "angelic-inheritors",
+        "name": "In the Shadow of Great Wings"
+      },
+      "hash": "577333b0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "4fbae4b4-42f9-48ca-903e-a362c1fe883e",
       "kind": "stratagem",
       "name": "Strike Now for Glory",
@@ -996,6 +1063,30 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "9cbb9fe9-17f0-4dcf-9f72-779fa947ebb8",
+      "kind": "stratagem",
+      "name": "Blinding Blurs of Vengeance",
+      "det": "Encarmine Speartip",
+      "ref": {
+        "kind": "stratagem",
+        "det": "encarmine-speartip",
+        "name": "Blinding Blurs of Vengeance"
+      },
+      "hash": "577333b0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
         }
       ],
       "dur": "phase"

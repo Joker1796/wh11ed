@@ -437,7 +437,7 @@
  * @property {string} name
  * @property {string} id
  * @property {number | null} models
- * @property {{ picked: string[], missing: string[] }} gear
+ * @property {{ picked: string[], missing: string[], check?: string[] }} gear `check`: weapons whose count came out different from the list's
  * @property {{ name: string, ok: boolean } | null} enh
  * @property {{ stated: number, computed: number }} points
  */

@@ -740,7 +740,12 @@ tr:nth-child(even) td {
   padding: 0 5px;
   font-size: 0.78em;
   font-weight: 600;
-  font-family: var(--font-mono);
+  /* Inter, not the monospace it was until 2026-10-18 (owner): Courier New is a system face, so a
+     phone without it drew whatever monospace it had, and every tag was as wide as a typewriter
+     makes it. Inter is loaded and offline already, the same everywhere, and the frame is what
+     makes this a tag. */
+  font-family: var(--font-sans);
+  letter-spacing: 0.03em;
   white-space: nowrap;
   cursor: pointer;
 }

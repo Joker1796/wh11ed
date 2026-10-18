@@ -1116,6 +1116,45 @@ export default {
       }
     },
     {
+      "sid": "905300ef-5645-49bc-9314-afcb99c473ea",
+      "kind": "detachmentRule",
+      "name": "Leader-beasts",
+      "det": "Warrior Bioform Onslaught",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "warrior-bioform-onslaught"
+      },
+      "hash": "c73409fc",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Tyranid Warriors",
+          "when": null,
+          "scope": 0
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": null,
+          "scope": 0
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null,
+          "scope": 1
+        }
+      ]
+    },
+    {
       "sid": "ce279cdd-c6b1-4b68-9b14-7a506b3c596c",
       "kind": "enhancement",
       "name": "Instinctive Defence",
@@ -1401,6 +1440,29 @@ export default {
           "op": "grant",
           "value": "ANTI-CHARACTER 2+",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "b7b413e4-78cc-4282-8085-202faf35633b",
+      "kind": "enhancement",
+      "name": "Synaptoprescience (Upgrade)",
+      "det": "Talons of the Norn Queen",
+      "ref": {
+        "kind": "enhancement",
+        "det": "talons-of-the-norn-queen"
+      },
+      "hash": "bffe5721",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "target": "unit"
         }
       ]
     },

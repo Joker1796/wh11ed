@@ -52,6 +52,7 @@ import { ROOT, APPDATA, SLUG_MAP, appdataToMarkup, bodyText, loadJson, loadModul
 import { ruleScopes } from '../src/composables/ruleTargets.js'
 import { foldName } from '../src/utils/foldName.js'
 import { appliesWhileOf } from '../src/data/rosterModifiers/appliesWhile.js'
+import { flattenGrantLists } from './lib/grant-lists.mjs'
 
 const OUT_DIR = path.join(ROOT, 'src/data/rosterModifiers')
 const QUEUE = path.join(ROOT, 'MODIFIER-QUEUE.local.json')
@@ -108,6 +109,9 @@ const CANDIDATE = new RegExp([
   // Anchorite Sarcophagus rewrites Move and Save this way and was invisible to every pattern here).
   '(?:has|have) an? [^.]{0,40}characteristic of',
   '\\d\\+ invulnerable save',
+  // The same in the 11th-edition shorthand: "This unit has 4+ InSv" (data 963 on — 39 rules,
+  // Custodes' Flare Shields and every Impulsor's Shield Dome among them, had no record for it).
+  '\\d\\+ InSv\\b',
   'has a \\d\\+ (?:invulnerable )?save',
   '[+-]\\d+ (?:to )?(?:the )?(?:[SATWMD]|OC|AP|BS|WS|LD)\\b',  // the shorthand faction bodies use: "+1 T"
   '[+-]\\d+"? (?:M|Move)\\b',
@@ -152,7 +156,9 @@ export function isCandidate(text) {
   // in a bare stat letter (`+1 OC`, `+2" M`, `+1 **Ld**`) silently failed to match it. 41 army and
   // detachment rules were invisible to this heuristic for that reason alone, which is how a
   // Custodes detachment that plainly says +2" M ended up with no record at all.
-  return CANDIDATE.test((text || '').replace(/\*\*/g, ''))
+  // Lists ("models have: ▪ 4+ InSv ▪ Feel No Pain 5+") are read as the sentences they stand for —
+  // see scripts/lib/grant-lists.mjs.
+  return CANDIDATE.test(flattenGrantLists(text).replace(/\*\*/g, ''))
 }
 
 // Flatten one faction bundle into the sources a modifier can be attached to.

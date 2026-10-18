@@ -34,6 +34,7 @@
 //   node scripts/check-core-grants.mjs --verbose    # also list what ALLOW suppressed
 import { pathToFileURL } from 'node:url'
 import { escapeRegex } from './lib/sync-common.mjs'
+import { flattenGrantLists } from './lib/grant-lists.mjs'
 import { GRANTABLE_CORE, factionSlugs, sourceContext, sourcesForSlug, readExisting } from './gen-roster-modifiers.mjs'
 
 // Records whose prose grants nothing, although it names a core ability in a granting shape. Every
@@ -216,7 +217,8 @@ const GRANT_RE = new RegExp(`\\b(?:has|have|gains?)\\s+(?:the\\s+)?(${GRANTABLE_
 export function grantsInProse(prose) {
   const out = new Set()
   // appdata's own emphasis would otherwise split a name in two ("**Feel No Pain** 5+") and hide it.
-  for (const m of String(prose || '').replace(/\*\*/g, '').matchAll(GRANT_RE)) out.add(m[1].toLowerCase())
+  // A list under one verb ("models have: ▪ Stealth") is read item by item — scripts/lib/grant-lists.mjs.
+  for (const m of flattenGrantLists(prose).replace(/\*\*/g, '').matchAll(GRANT_RE)) out.add(m[1].toLowerCase())
   return out
 }
 

@@ -299,6 +299,45 @@ export default {
       ]
     },
     {
+      "sid": "4430c1b2-4142-4d61-b107-25e763d9348d:manipulus-skand",
+      "kind": "ability",
+      "name": "Manipulus Skand: Defend the Divine Work (Once per battle, per unit)",
+      "det": null,
+      "ref": null,
+      "hash": "78e01e08",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "once per battle, until the end of the phase it is used",
+            "ru": "раз за битву, до конца фазы применения"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "once per battle, until the end of the phase it is used",
+            "ru": "раз за битву, до конца фазы применения"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "34fc460d-17ad-4f87-a136-41f4d23a76ab:onager-dunecrawler",
       "kind": "ability",
       "name": "Onager Dunecrawler: Emanatus Force Field",
@@ -1118,6 +1157,37 @@ export default {
         "kind": "detachmentRule",
         "det": "haloscreed-battle-clade"
       }
+    },
+    {
+      "sid": "37213252-fa9f-46b7-8a8e-4b5d83ae0a22",
+      "kind": "detachmentRule",
+      "name": "War-form Mantles",
+      "det": "Lords of the Forge",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "lords-of-the-forge"
+      },
+      "hash": "9a150a73",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "scope": 0
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 5+",
+          "when": null,
+          "scope": 0
+        }
+      ]
     },
     {
       "sid": "a99aefbc-1a7f-4452-9889-867c64a9d153",

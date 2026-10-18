@@ -63,7 +63,9 @@ function appdataAttachEnhancements() {
   return [...byEnh.values()]
 }
 
-// normalized enhancement name → { slug, det, body } for every wh11ed faction enhancement.
+// normalized enhancement name → { slug, det, body } for every wh11ed faction enhancement. The body
+// includes the enhancement's plate in factions/extras/<slug>.js: since the bodies match the app word
+// for word, "who the bearer can lead" lives there, not in the prose.
 async function wh11edEnhancements() {
   const map = new Map()
   const files = fs.readdirSync(path.join(ROOT, 'src/data/factions')).filter((f) => f.endsWith('.js') && f !== 'index.js')
@@ -72,9 +74,12 @@ async function wh11edEnhancements() {
     const mod = await loadModule(path.join(ROOT, 'src/data/factions', f))
     const en = Object.values(mod || {})[0]?.en
     if (!en?.detachments) continue
+    const extrasFile = path.join(ROOT, 'src/data/factions/extras', f)
+    const extras = (fs.existsSync(extrasFile) && (await loadModule(extrasFile))?.default) || {}
     for (const d of en.detachments) {
       for (const e of d.enhancements || []) {
-        if (e?.name) map.set(norm(e.name), { slug, det: d.name, body: String(e.body || '') })
+        const plate = (extras[`enh:${d.id}:${e?.name}`] || []).map((x) => x.en).join('\n')
+        if (e?.name) map.set(norm(e.name), { slug, det: d.name, body: `${e.body || ''}\n${plate}` })
       }
     }
   }

@@ -100,6 +100,27 @@ Space Marines и другие ордены. Его правила по-преж�
 - Одинаково в EN и RU. `changelogMarks.test.js` («opens every change with its gist in bold»)
   падает на пункт без жирного начала — с 2.8.2.
 
+## 3в. Юниты и правила — ссылками (владелец, 2026-10-14, повторено 2026-10-18)
+
+Каждый юнит и каждое правило фракции, названные в пункте, — ссылка, по первому упоминанию в пункте.
+Игрок нажимает и сразу видит, о чём речь.
+
+- **Юнит** — `[Nazdreg](/factions/orks/datasheets/nazdreg)`. На странице «Что нового» такая ссылка
+  открывает карточку юнита модалкой поверх страницы (`ChangelogView.vue`, `SHEET_LINK`).
+  id брать из `src/data/datasheetIndex.js`, не угадывать по имени.
+- **Правило** — ссылка на страницу фракции с якорем; страница сама выбирает нужный детачмент:
+  - правило армии — `/factions/<slug>#<armyRule.id>`;
+  - правило детачмента — `/factions/<slug>#<det.id>-rule`;
+  - улучшение — `/factions/<slug>#enh-<det.id>-<slugify(имя)>`;
+  - стратагема — `/factions/<slug>#strat-<det.id>-<slugify(имя)>`.
+
+  `slugify` — `src/data/slugify.js`, `det.id` — из `src/data/factions/<slug>.js`.
+- Не ссылки: keywords (TECH-PRIEST), оружие, названия детачментов внутри фразы про правило
+  («War-form Mantles в Lords of the Forge» — ссылка на War-form Mantles), Combat Patrol-правила без
+  страницы фракции.
+- Ссылки одинаковые в EN и RU одного пункта. Вопрос в «Ответах на вопросы» ссылкой не делать —
+  ссылки в ответе.
+
 ## 4. Перед коммитом
 
 ```bash

@@ -1784,6 +1784,49 @@ export default {
       ]
     },
     {
+      "sid": "72dc72d3-3e78-48d4-a16e-396f635c8e07",
+      "kind": "enhancement",
+      "name": "Prelocational Optimiser",
+      "det": "The Phaeron's Armoury",
+      "ref": {
+        "kind": "enhancement",
+        "det": "the-phaerons-armoury"
+      },
+      "hash": "59114045",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "one of the two, if the bearer's unit was set up through a Monolith's Eternity Gate this turn",
+            "ru": "одна из двух, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "one of the two, if the bearer's unit was set up through a Monolith's Eternity Gate this turn",
+            "ru": "одна из двух, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "e911cb72-8416-456b-b29b-9d7e78845c3f",
       "kind": "stratagem",
       "name": "The Spoor of Frailty",

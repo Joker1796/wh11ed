@@ -117,6 +117,15 @@
             <span class="rim-warn-h">{{ labels.rosterImportMissingGear }}</span>
             <span>{{ missingGear.join(', ') }}</span>
           </div>
+          <!-- A chained swap can hide a model from the export: the import then fields other weapon
+               counts than the list prints, and the unit is named rather than guessed at. -->
+          <div
+            v-if="gearCheck.length"
+            class="rim-warn"
+          >
+            <span class="rim-warn-h">{{ labels.rosterImportGearCheck }}</span>
+            <span>{{ gearCheck.join(', ') }}</span>
+          </div>
           <!-- An enhancement can only be placed once the detachment it belongs to is known, so a
                list that names none loses them all — say so instead of dropping them in silence. -->
           <div
@@ -228,6 +237,9 @@ async function read() {
 }
 
 const missingGear = computed(() => [...new Set((report.value?.units || []).flatMap((u) => u.gear.missing))])
+const gearCheck = computed(() => (report.value?.units || [])
+  .filter((u) => u.gear.check?.length)
+  .map((u) => `${u.name} (${u.gear.check?.join(', ')})`))
 const missingEnh = computed(() => [...new Set((report.value?.units || []).filter((u) => u.enh && !u.enh.ok).map((u) => u.enh.name))])
 // A total that differs is a question the reader should not have to answer by hand: the units whose
 // own printed points are not what they cost here are named, so a data-version difference is one
@@ -240,6 +252,7 @@ const clean = computed(() => !!report.value
   && !report.value.missing.length
   && !report.value.detachments.missing.length
   && !missingGear.value.length
+  && !gearCheck.value.length
   && !missingEnh.value.length
   && !repriced.value.length
   && !pointsDiffer.value)

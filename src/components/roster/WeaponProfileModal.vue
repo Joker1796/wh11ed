@@ -206,7 +206,7 @@ function norm(s) {
 }
 const wanted = computed(() => new Set(props.names.map(norm)))
 function matching(list) {
-  return withGroupPos((list || []).filter((w) => wanted.value.has(norm(weaponBase(w.name)))))
+  return withGroupPos((list || []).filter((w) => wanted.value.has(norm(weaponBase(w.name)))), sheet.value?.separateProfiles)
 }
 const rangedRows = computed(() => matching(sheet.value?.ranged))
 const meleeRows = computed(() => matching(sheet.value?.melee))

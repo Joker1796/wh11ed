@@ -458,6 +458,29 @@ export default {
       ]
     },
     {
+      "sid": "660c6d80-149d-439c-b97f-9a7a73c312a3",
+      "kind": "enhancement",
+      "name": "Consecrating Aura",
+      "det": "Vow-sworn Crusaders",
+      "ref": {
+        "kind": "enhancement",
+        "det": "vow-sworn-crusaders"
+      },
+      "hash": "32e6e9d7",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "8a090713-6f7b-4c83-955e-9753324d5366",
       "kind": "enhancement",
       "name": "Incendiary Animus",
@@ -500,6 +523,31 @@ export default {
           "value": "Scouts 6\"",
           "when": null,
           "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "10713481-e8fb-4559-8b59-8a38784a7bf3",
+      "kind": "enhancement",
+      "name": "Divine Protection",
+      "det": "Vow-Sworn of Vedrenn",
+      "ref": null,
+      "hash": "90f238b8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "once per battle, when an enemy unit targets this unit",
+            "ru": "раз за битву, когда вражеский отряд выбирает этот отряд целью"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -659,6 +707,29 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 6\"",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "be985406-cf2d-4f9f-a2ee-8d42ee57486b:impulsor",
+      "kind": "wargear",
+      "name": "Impulsor: Shield Dome",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "impulsor",
+        "item": "shield dome"
+      },
+      "hash": "56160de1",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
           "when": null
         }
       ]

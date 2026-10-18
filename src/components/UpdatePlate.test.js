@@ -74,6 +74,16 @@ describe('the update plate', () => {
     isStandaloneDisplay.mockReturnValue(false)
   })
 
+  // 2026-10-18: another tab applied the update — the new worker already controls this page.
+  it('a worker already in control: no download, straight to the button', async () => {
+    isStandaloneDisplay.mockReturnValue(true)
+    topUpOffline.mockClear()
+    await updateFound(vi.fn(), { version: '2.9.7', inPlace: true })
+    expect(topUpOffline).not.toHaveBeenCalled()
+    expect(appUpdate.phase).toBe('ready')
+    isStandaloneDisplay.mockReturnValue(false)
+  })
+
   it('a tab with no worker: the version it found, and that the page reopens where it is', async () => {
     await updateFound(vi.fn(), { version: '2.9.6', tab: true })
     const w = mount(UpdatePlate)

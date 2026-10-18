@@ -5725,6 +5725,9 @@ export default [
       "1 Nazdreg model"
     ],
     "loadout": "**This model is equipped with:** 1 Kustom Blasta X; 1 Moonchewa.\nThis model’s Kustom Blasta X weapon has three separate ranged weapon profiles, each of which can be selected to make attacks with.",
+    "separateProfiles": [
+      "Kustom Blasta X"
+    ],
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [

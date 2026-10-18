@@ -110,6 +110,108 @@ export default {
       ]
     },
     {
+      "sid": "1937d754-6aa5-49a9-b68f-2bf2ce8ae7d9:coven-of-agonies-wracks",
+      "kind": "ability",
+      "name": "Coven of Agonies Wracks: Experimental Enhancements (Pain)",
+      "det": null,
+      "ref": null,
+      "hash": "49a22d57",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "3",
+          "when": {
+            "en": "when empowered with a Pain token, excluding CHARACTER models' attacks — 3 A, or 4 A with [HAZARDOUS]",
+            "ru": "при усилении жетоном Pain, кроме атак моделей CHARACTER — 3 A или 4 A с [HAZARDOUS]"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "when empowered with a Pain token, excluding CHARACTER models' attacks — 3 A, or 4 A with [HAZARDOUS]",
+            "ru": "при усилении жетоном Pain, кроме атак моделей CHARACTER — 3 A или 4 A с [HAZARDOUS]"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "when empowered with a Pain token, excluding CHARACTER models' attacks — 3 A, or 4 A with [HAZARDOUS]",
+            "ru": "при усилении жетоном Pain, кроме атак моделей CHARACTER — 3 A или 4 A с [HAZARDOUS]"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3aef584a-85c5-47da-8e79-86a65f0065fd:coven-of-agonies-wracks",
+      "kind": "ability",
+      "name": "Coven of Agonies Wracks: Experimental Enhancements (Pain)",
+      "det": null,
+      "ref": null,
+      "hash": "49a22d57",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "3",
+          "when": {
+            "en": "when empowered with a Pain token, excluding CHARACTER models' attacks — 3 A, or 4 A with [HAZARDOUS]",
+            "ru": "при усилении жетоном Pain, кроме атак моделей CHARACTER — 3 A или 4 A с [HAZARDOUS]"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "set",
+          "value": "4",
+          "when": {
+            "en": "when empowered with a Pain token, excluding CHARACTER models' attacks — 3 A, or 4 A with [HAZARDOUS]",
+            "ru": "при усилении жетоном Pain, кроме атак моделей CHARACTER — 3 A или 4 A с [HAZARDOUS]"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "when empowered with a Pain token, excluding CHARACTER models' attacks — 3 A, or 4 A with [HAZARDOUS]",
+            "ru": "при усилении жетоном Pain, кроме атак моделей CHARACTER — 3 A или 4 A с [HAZARDOUS]"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "cb751d0c-daad-47e4-b514-267eccb6f68e:drazhar",
       "kind": "ability",
       "name": "Drazhar: Master of Blades",
@@ -1781,6 +1883,29 @@ export default {
       }
     },
     {
+      "sid": "bb413bfb-9992-48af-8684-70e080379f3a",
+      "kind": "enhancement",
+      "name": "Elixir of the Corpse Courts (Upgrade)",
+      "det": "Tools of Torment",
+      "ref": {
+        "kind": "enhancement",
+        "det": "tools-of-torment"
+      },
+      "hash": "bbc5f9dd",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
       "sid": "bd66d7c1-a2c3-4a8d-962a-7ffb17d0998e",
       "kind": "stratagem",
       "name": "Powerful Creations",
@@ -1847,6 +1972,30 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "36b5c066-0058-4d89-a442-425c63ddf25b",
+      "kind": "stratagem",
+      "name": "Acrobatic Display",
+      "det": "Exhibition of Slaughter",
+      "ref": {
+        "kind": "stratagem",
+        "det": "exhibition-of-slaughter",
+        "name": "Acrobatic Display"
+      },
+      "hash": "f506ad10",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
         }
       ],
       "dur": "phase"

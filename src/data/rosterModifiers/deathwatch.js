@@ -287,6 +287,35 @@ export default {
       ]
     },
     {
+      "sid": "a6f79bdf-9255-45b3-9013-434bfee355a5",
+      "kind": "enhancement",
+      "name": "Beacon Angelis",
+      "det": "Black Spear Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "black-spear-task-force"
+      },
+      "hash": "7c1d2e1e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "if the bearer's unit is a KILL TEAM unit",
+            "ru": "если отряд носителя — KILL TEAM"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "d6434703-aa58-4aa2-ba89-1d5b7404f16a",
       "kind": "enhancement",
       "name": "Osseus Key (Aura)",
@@ -299,6 +328,35 @@ export default {
       "ver": 963,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "ddb6a0cd-2abb-4566-b783-80246c7f9b5b",
+      "kind": "enhancement",
+      "name": "Beacon Angelis",
+      "det": "Deathwatch Support",
+      "ref": {
+        "kind": "enhancement",
+        "det": "deathwatch-support"
+      },
+      "hash": "7c1d2e1e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Deep Strike",
+          "when": {
+            "en": "if the bearer's unit is a KILL TEAM unit",
+            "ru": "если отряд носителя — KILL TEAM"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "f7a3bbc4-2349-42f8-98c7-0084d9b68e5f",
@@ -538,6 +596,64 @@ export default {
           "stat": "w",
           "op": "add",
           "value": 1,
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "7a8d5f30-60bd-457c-889a-dc6c3dbc200b:deathwatch-veterans",
+      "kind": "wargear",
+      "name": "Deathwatch Veterans: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathwatch-veterans",
+        "item": "storm shield"
+      },
+      "hash": "fb8f103d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "7a8d5f30-60bd-457c-889a-dc6c3dbc200b:decimus-kill-team",
+      "kind": "wargear",
+      "name": "Decimus Kill Team: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "decimus-kill-team",
+        "item": "storm shield"
+      },
+      "hash": "fb8f103d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
           "when": {
             "en": "the bearer only",
             "ru": "только носитель"

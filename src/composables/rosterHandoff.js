@@ -7,6 +7,7 @@
 import { DISPOSITIONS, useTracker } from './useTracker.js'
 import { rosterSnapshot } from './rosterGameLink.js'
 import { UNLIMITED_BATTLE } from './rosterEngine.js'
+import rosterCore from '../data/roster/core.js'
 
 /** @typedef {import('./roster.types.js').Roster} Roster */
 
@@ -23,8 +24,9 @@ export function toTrackerBattleSize(id) {
 }
 
 // Write a minimal setup draft from a roster. The roster already stores detachments by name
-// (like the tracker), so they carry over directly. A 'custom' battle size, and a list with no
-// limit, fall back to Strike Force in the tracker (which has neither).
+// (like the tracker), so they carry over directly. The tracker has no custom size: a 'custom' list
+// plays at the smallest size its points fit (a 1000-point custom list was a Strike Force game, with
+// its CP, DP and army-rule numbers); a list with no limit, or one over every size, at Strike Force.
 //
 // The roster is ATTACHED as well as copied from: coming here from "play this list" is the one
 // moment we know for certain which list is being fielded, so the player arrives at the wizard with
@@ -44,8 +46,10 @@ function dispositionId(name) {
  */
 export function prefillDraftFromRoster(roster) {
   const { setupDraft } = useTracker()
-  const size = roster?.battleSize
-  const battleSize = size === 'custom' || size === UNLIMITED_BATTLE ? 'strikeForce' : toTrackerBattleSize(size)
+  const size = roster?.battleSize === 'custom'
+    ? [...rosterCore.battleSizes].sort((a, b) => a.points - b.points).find((b) => b.points >= (roster?.customPoints ?? Infinity))?.id
+    : roster?.battleSize
+  const battleSize = !size || size === UNLIMITED_BATTLE ? 'strikeForce' : toTrackerBattleSize(size)
   setupDraft.value = {
     step: 1,
     players: [

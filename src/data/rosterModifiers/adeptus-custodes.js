@@ -622,6 +622,75 @@ export default {
       ]
     },
     {
+      "sid": "c454c656-46ee-43d1-820d-330b548a84eb",
+      "kind": "detachmentRule",
+      "name": "Flare Shields",
+      "det": "Grav‑Assault Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "grav-assault-force"
+      },
+      "hash": "49a53ed0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "against ranged attacks",
+            "ru": "против стрелковых атак"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "fd5ae554-3112-4712-af1a-f41eaaab7f8c",
+      "kind": "detachmentRule",
+      "name": "Martial Mastery",
+      "det": "Guardians of the Throne",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "guardians-of-the-throne"
+      },
+      "hash": "44d75ac3",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
+            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
+            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "81eba024-15c3-48e9-b17f-ad5b5bafbca4",
       "kind": "detachmentRule",
       "name": "Moritoi Ancients",
@@ -759,6 +828,35 @@ export default {
           "value": "Hover",
           "when": null,
           "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "48853704-6da1-4fa1-838b-83d65d9da2d4",
+      "kind": "enhancement",
+      "name": "Shroud of the Hidden Blade",
+      "det": "Auric Champions",
+      "ref": {
+        "kind": "enhancement",
+        "det": "auric-champions"
+      },
+      "hash": "9663838b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Lone Operative",
+          "when": null
         }
       ]
     },
@@ -1129,6 +1227,49 @@ export default {
         }
       ],
       "dur": "turn"
+    },
+    {
+      "sid": "0094c9e7-8c97-427f-abd4-2955745ca1d1",
+      "kind": "stratagem",
+      "name": "Anathema Blademastery",
+      "det": "Null Maiden Vigil",
+      "ref": {
+        "kind": "stratagem",
+        "det": "null-maiden-vigil",
+        "name": "Anathema Blademastery"
+      },
+      "hash": "d788dec9",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "one of the two, selected when used",
+            "ru": "одна из двух — выбирается при применении"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "one of the two, selected when used",
+            "ru": "одна из двух — выбирается при применении"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "766c8e58-761c-4712-923d-ca5dba526af0",

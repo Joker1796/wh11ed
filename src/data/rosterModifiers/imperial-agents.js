@@ -1280,6 +1280,57 @@ export default {
       }
     },
     {
+      "sid": "9eadf65d-fca8-447c-8a41-d996bb2c13e5",
+      "kind": "detachmentRule",
+      "name": "Marked for Death",
+      "det": "Inquisitor’s Hand",
+      "ref": null,
+      "hash": "2a6b4c24",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "against the enemy unit selected in your Command phase",
+            "ru": "против вражеского отряда, выбранного в вашей фазе Command"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "against the enemy unit selected in your Command phase",
+            "ru": "против вражеского отряда, выбранного в вашей фазе Command"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "against the enemy unit selected in your Command phase",
+            "ru": "против вражеского отряда, выбранного в вашей фазе Command"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "f06dc6ab-3722-4c1f-b2ce-0c0f37b0b520",
       "kind": "detachmentRule",
       "name": "Root out Heresy",
@@ -2259,6 +2310,35 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "7a8d5f30-60bd-457c-889a-dc6c3dbc200b:aquila-kill-team",
+      "kind": "wargear",
+      "name": "Aquila Kill Team: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "aquila-kill-team",
+        "item": "storm shield"
+      },
+      "hash": "fb8f103d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "f7579dbf-b927-430a-8da6-c82b100cc0ba:corvus-blackstar",
       "kind": "wargear",
       "name": "Corvus Blackstar: Auspex Array",
@@ -2278,6 +2358,35 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "7a8d5f30-60bd-457c-889a-dc6c3dbc200b:deathwatch-kill-team",
+      "kind": "wargear",
+      "name": "Deathwatch Kill Team: Storm Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "deathwatch-kill-team",
+        "item": "storm shield"
+      },
+      "hash": "fb8f103d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "the bearer only",
+            "ru": "только носитель"
+          },
+          "cond": [
+            "wargear-bearer"
+          ]
         }
       ]
     },

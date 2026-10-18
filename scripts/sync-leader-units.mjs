@@ -108,7 +108,7 @@ for (const { bundle: d } of allFactionBundles()) {
 
 // wh11ed: id → name (global, for bridging targets), and per-file datasheet arrays
 const dsDir = path.join(ROOT, 'src/data/datasheets')
-const files = fs.readdirSync(dsDir).filter((f) => f.endsWith('.js') && f !== 'index.js' && f !== 'index.test.js')
+const files = fs.readdirSync(dsDir).filter((f) => f.endsWith('.js') && f !== 'index.js' && !f.endsWith('.test.js'))
 const idToName = new Map()
 const fileArrays = new Map()
 for (const f of files) {

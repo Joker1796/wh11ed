@@ -744,6 +744,46 @@ export default {
       ]
     },
     {
+      "sid": "dd22151f-003c-4223-b891-e5386fbe33d4",
+      "kind": "enhancement",
+      "name": "Supreme Combatant",
+      "det": "The Vengeful Brethren",
+      "ref": null,
+      "hash": "96e050f8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "one of the two, selected when the unit is selected to attack",
+            "ru": "одна из двух — выбирается, когда отряд выбран для атаки"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "one of the two, selected when the unit is selected to attack",
+            "ru": "одна из двух — выбирается, когда отряд выбран для атаки"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "a6eb0354-f367-4b37-beb3-712e90d3339c",
       "kind": "enhancement",
       "name": "Ancient Weapons",
@@ -902,6 +942,30 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "929c0f7e-0053-4c56-aa6d-6b780ae7a816:azrael",
+      "kind": "wargear",
+      "name": "Azrael: The Lion Helm",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "azrael",
+        "item": "the lion helm"
+      },
+      "hash": "de3abe4a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "pack:deathwing-command-squad:storm-shield",

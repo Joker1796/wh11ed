@@ -84,6 +84,72 @@ export default {
       ]
     },
     {
+      "sid": "4b0382fa-764d-4c04-82ab-bbe95ecadc27:ardmob-warboss",
+      "kind": "ability",
+      "name": "’Ardmob Warboss: Smash 'Em Up",
+      "det": null,
+      "ref": null,
+      "hash": "73deea5a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
+            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
+            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
+            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
+            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "5be527f6-9a6c-4654-8b35-1d2800f18bc5:battlewagon",
       "kind": "ability",
       "name": "Battlewagon: Mobile Fortress",
@@ -185,6 +251,120 @@ export default {
       ]
     },
     {
+      "sid": "52a0b416-aa88-49fa-905b-1f1afbc9d677:big-mek-in-mega-armour",
+      "kind": "ability",
+      "name": "Big Mek in Mega Armour: More Dakka",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "big-mek-in-mega-armour"
+      },
+      "hash": "5b78623c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "2a134b39-a7e6-4143-90e8-118b50a2e496:big-mek-with-shokk-attack-gun",
+      "kind": "ability",
+      "name": "Big Mek with Shokk Attack Gun: More Dakka",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "big-mek-with-shokk-attack-gun"
+      },
+      "hash": "5b78623c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "9607b1b8-9c07-4213-a930-22296f4b6667:big-mek-with-shokk-attack-gun",
       "kind": "ability",
       "name": "Big Mek with Shokk Attack Gun: Support Shokka",
@@ -209,6 +389,63 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "2d427eaf-1504-4680-b72f-1827f65e2a05:big-mek",
+      "kind": "ability",
+      "name": "Big Mek: More Dakka",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "big-mek"
+      },
+      "hash": "5b78623c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while this unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ],
+          "target": "led"
         }
       ]
     },
@@ -1413,6 +1650,32 @@ export default {
       ]
     },
     {
+      "sid": "88f3bc00-9f19-444c-ae3a-9c44143b06c4",
+      "kind": "enhancement",
+      "name": "Extra Platin’",
+      "det": "’Ardmob",
+      "ref": null,
+      "hash": "8ed427ee",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "3+",
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "dfde7f26-fc85-4e16-879d-79fadb8db2e8",
       "kind": "enhancement",
       "name": "Targetin’ Gizmos (Upgrade)",
@@ -1735,6 +1998,42 @@ export default {
       ]
     },
     {
+      "sid": "0fcb5928-ec67-4ef1-811a-fc9efbb44972",
+      "kind": "enhancement",
+      "name": "Supa-glowy Fing",
+      "det": "Shoota Boyz",
+      "ref": {
+        "kind": "enhancement",
+        "det": "shoota-boyz"
+      },
+      "hash": "8fdc2b5e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-INFANTRY 4+",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUPA-HAZARDOUS",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "4801d50d-f3c8-4526-b771-98c6326101ab",
       "kind": "enhancement",
       "name": "Targetin' Squigs",
@@ -1757,6 +2056,47 @@ export default {
             "notTag": "TORRENT"
           },
           "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "2de8b6d3-68fc-4c7b-a499-0bff89ab1e06",
+      "kind": "enhancement",
+      "name": "Kill Kommanda",
+      "det": "Taktikal Brigade",
+      "ref": {
+        "kind": "enhancement",
+        "det": "taktikal-brigade"
+      },
+      "hash": "7566728a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Infiltrators",
+          "when": {
+            "en": "while this model is part of an Attached unit",
+            "ru": "пока модель входит в Attached unit"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "when": {
+            "en": "while this model is part of an Attached unit",
+            "ru": "пока модель входит в Attached unit"
+          },
+          "cond": [
+            "unit-leading"
+          ]
         }
       ]
     },
@@ -1911,6 +2251,26 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "f3c2ea35-be0f-4526-aff0-037a7291bbbf",
+      "kind": "stratagem",
+      "name": "Medi-Squigs",
+      "det": "’Ardmob",
+      "ref": null,
+      "hash": "f506ad10",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "9579d65f-0b07-430d-9139-fa89007766eb",
       "kind": "stratagem",
       "name": "Flyin’ Headbutt",
@@ -1975,6 +2335,62 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "80502eff-b45e-4cc9-9440-818fe2c5ad7d",
+      "kind": "stratagem",
+      "name": "Vindictive Artillerists",
+      "det": "Madcap Meks",
+      "ref": {
+        "kind": "stratagem",
+        "det": "madcap-meks",
+        "name": "Vindictive Artillerists"
+      },
+      "hash": "93bb58ce",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "one of: [LETHAL HITS]; [SUSTAINED HITS 1]; or both with [HAZARDOUS] — selected when used",
+            "ru": "одно из: [LETHAL HITS]; [SUSTAINED HITS 1]; или оба с [HAZARDOUS] — выбирается при применении"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "one of: [LETHAL HITS]; [SUSTAINED HITS 1]; or both with [HAZARDOUS] — selected when used",
+            "ru": "одно из: [LETHAL HITS]; [SUSTAINED HITS 1]; или оба с [HAZARDOUS] — выбирается при применении"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "only with the option that gives both [LETHAL HITS] and [SUSTAINED HITS 1]",
+            "ru": "только в варианте с [LETHAL HITS] и [SUSTAINED HITS 1] вместе"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"
@@ -2177,6 +2593,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "bb256a9c-6c16-4324-bacf-0ccd63244291:big-mek-in-mega-armour",
+      "kind": "wargear",
+      "name": "Big Mek in Mega Armour: Kustom Force Field",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "big-mek-in-mega-armour",
+        "item": "kustom force field"
+      },
+      "hash": "97fd59d0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "against ranged attacks",
+            "ru": "против стрелковых атак"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "unit"
+        }
+      ]
+    },
+    {
       "sid": "3fff9f1f-547f-4e75-9549-b8cdcf17ff97:tankbustas",
       "kind": "wargear",
       "name": "Tankbustas: Pulsa Rokkit (Once per battle, per unit)",
@@ -2223,6 +2669,29 @@ export default {
             "per": "unit",
             "dur": "phase"
           }
+        }
+      ]
+    },
+    {
+      "sid": "fa3cfe2c-a00b-4477-8704-028a96a3df7d:wazbom-blastajet",
+      "kind": "wargear",
+      "name": "Wazbom Blastajet: Blastajet Force Field",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "wazbom-blastajet",
+        "item": "blastajet force field"
+      },
+      "hash": "e4451b78",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
         }
       ]
     }
