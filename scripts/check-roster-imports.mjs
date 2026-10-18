@@ -66,6 +66,7 @@ for (const { label, text } of lists) {
         for (const u of report.units) {
           for (const g of u.gear.missing) notes.push(`${u.name}: unplaced wargear "${g}"`)
           if (u.enh && !u.enh.ok) notes.push(`${u.name}: unknown enhancement "${u.enh.name}"`)
+          if (u.gear.check?.length) notes.push(`${u.name}: weapon counts differ from the list — ${u.gear.check.join(', ')}`)
         }
         for (const i of issues) notes.push(`invalid: ${i.code} ${JSON.stringify(i.params || {})}`)
       }
