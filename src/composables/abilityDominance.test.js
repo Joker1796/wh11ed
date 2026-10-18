@@ -36,6 +36,13 @@ describe('dominates — one instance at least as good as another (24.02)', () =>
     ['Feel No Pain 4+ (vs mortal wounds)', 'Feel No Pain 5+', false],
     ['Feel No Pain 4+ (vs mortal wounds)', 'Feel No Pain 5+ (vs mortal wounds)', true],
     ['Feel No Pain 4+ (vs mortal wounds)', 'Feel No Pain 4+ (vs Psychic Attacks)', false],
+    // "(vs …)" is a set of attacks, whichever order the sheet names them in
+    ['Feel No Pain 5+ (vs Psychic Attacks and mortal wounds)', 'Feel No Pain 5+ (vs mortal wounds and Psychic Attacks)', true],
+    ['Feel No Pain 5+ (vs mortal wounds and Psychic Attacks)', 'Feel No Pain 5+ (vs Psychic Attacks and mortal wounds)', true],
+    ['Feel No Pain 5+ (vs mortal wounds and Psychic Attacks)', 'Feel No Pain 6+ (vs mortal wounds)', true],
+    ['Feel No Pain 5+ (vs mortal wounds)', 'Feel No Pain 5+ (vs mortal wounds and Psychic Attacks)', false],
+    ['Feel No Pain 4+ (vs mortal wounds, Psychic Attacks and [DEVASTATING WOUNDS])', 'Feel No Pain 5+ (vs Psychic Attacks)', true],
+    ['Feel No Pain 5+ (vs attacks with a Damage characteristic of 1)', 'Feel No Pain 5+ (vs attacks with an unmodified Damage characteristic of 1)', false],
     ['Deadly Demise 2D6', 'Deadly Demise D6', false],
     ['Deadly Demise 2D6', 'Deadly Demise 2D6', true],
   ])('%s over %s → %s', (a, b, want) => expect(dominates(a, b)).toBe(want))
