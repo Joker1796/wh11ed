@@ -869,9 +869,10 @@ export default {
             "en": "once per battle, until the end of the phase it is used",
             "ru": "раз за битву, до конца фазы применения"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },

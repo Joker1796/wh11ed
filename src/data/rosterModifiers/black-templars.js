@@ -545,9 +545,10 @@ export default {
             "en": "once per battle, when an enemy unit targets this unit",
             "ru": "раз за битву, когда вражеский отряд выбирает этот отряд целью"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
