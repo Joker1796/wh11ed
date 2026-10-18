@@ -81,7 +81,9 @@ for (const box of combatPatrol.en.factions) {
   // same convention as sync-army-rule-coverage.mjs's normal-content equivalent — so check each
   // CP-linked row's name is represented in the combined wh11ed name, not an exact 1:1 match.
   // A box that prints no army rule of its own (the Aquilan boxes, 981) uses the Codex rules its
-  // datasheets carry as faction abilities — those names are checked instead.
+  // datasheets carry as faction abilities — those names are checked instead. A rule may also stand
+  // as a subheading of the box's army-rule body rather than in its title (Dark Angels' "The
+  // Ravenwing", T'au's "For the Greater Good" under "Drones") — that counts as carried.
   const bundleArmyRuleIds = new Set((bundle.armyRules || []).map((r) => r.id))
   const ownRows = pub ? armyRuleRows.filter((r) => r.publicationId === pub.id && bundleArmyRuleIds.has(r.id)) : []
   const armyRuleNames = ownRows.length
@@ -91,8 +93,11 @@ for (const box of combatPatrol.en.factions) {
     lines.push('  + missing in appdata: an army rule linked to this box (own publication or its datasheets)')
   } else {
     const combinedName = norm(box.armyRule.name)
+    // a heading line: "### Name" or "**Name**" / "**Name:**" — not a name mentioned in passing
+    const heads = String(box.armyRule.body || '').split('\n')
+      .map((l) => /^(?:###\s*(.+)|\*\*(.+?):?\*\*)/.exec(l)).filter(Boolean).map((m) => norm(m[1] || m[2]))
     for (const name of armyRuleNames) {
-      if (!combinedName.includes(norm(name))) {
+      if (!combinedName.includes(norm(name)) && !heads.includes(norm(name))) {
         lines.push(`  ~ army rule name: wh11ed="${box.armyRule.name}" missing appdata rule "${name}"`)
       }
     }
