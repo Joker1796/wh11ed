@@ -3637,13 +3637,7 @@ export default {
           "stat": "inv",
           "op": "set",
           "value": "4+",
-          "when": {
-            "en": "the bearer only",
-            "ru": "только носитель"
-          },
-          "cond": [
-            "wargear-bearer"
-          ]
+          "when": null
         }
       ]
     },
