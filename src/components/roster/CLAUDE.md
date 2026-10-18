@@ -3680,6 +3680,10 @@ like `+1 OC` or `+2" M`, and `bodyText()` hands it appdata's emphasis intact (`+
 asterisks between the number and the letter hid **141 rules** from the scan — a Custodes detachment
 that plainly says +2" M had no record at all. `isCandidate` strips `**` before testing now; if a
 rule that obviously changes a number is missing, suspect the markup before the pipeline.
+The same lesson again on 2026-10-18: the 11th edition grants in LISTS ("models have: ▪ 4+ InSv
+▪ Feel No Pain 5+") and writes the invulnerable save as `InSv`, and 70 rules had no record. Both
+the generator and `npm run coregrants` read prose through `scripts/lib/grant-lists.mjs` now —
+lesson 102 in `APPDATA-SYNC-LESSONS.md`.
 
 ## A roster attached to a game (`rosterGameLink.js`)
 

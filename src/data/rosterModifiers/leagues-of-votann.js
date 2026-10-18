@@ -75,6 +75,44 @@ export default {
       "effects": []
     },
     {
+      "sid": "e503bc01-d743-40c0-8515-359dc716fc79:bane-slayer-s-bulwark-einhyr-hearthguard",
+      "kind": "ability",
+      "name": "Bane-Slayer's Bulwark Einhyr Hearthguard: Weavefield Crest",
+      "det": null,
+      "ref": null,
+      "hash": "56160de1",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "c6af0efc-fcde-4ce3-addf-cfba431d168c:bane-slayer-s-bulwark-hearthkyn-warriors",
+      "kind": "ability",
+      "name": "Bane-Slayer's Bulwark Hearthkyn Warriors: Weavefield Crest",
+      "det": null,
+      "ref": null,
+      "hash": "56160de1",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "773edacf-28fd-4694-96ab-306ef6329ae6:berehk-stornbr-w",
       "kind": "ability",
       "name": "Berehk Stornbröw: Break the Foe",
@@ -207,6 +245,25 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "ASSAULT",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "0801e3cc-d48b-4cc2-9213-171af0a13913:vynn-bane-slayer",
+      "kind": "ability",
+      "name": "Vynn Bane-Slayer: Weavefield Crest",
+      "det": null,
+      "ref": null,
+      "hash": "534fb70a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
           "when": null
         }
       ]
@@ -866,6 +923,30 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "da07f9ff-6b83-4ccb-b64e-5554fa9ff239",
+      "kind": "stratagem",
+      "name": "Brëkkeknots",
+      "det": "Hearthguard Covenant",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hearthguard-covenant",
+        "name": "Brëkkeknots"
+      },
+      "hash": "6e82d07d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
         }
       ],
       "dur": "phase"

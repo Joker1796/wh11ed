@@ -1379,3 +1379,15 @@ and appdata state fresh; a data model can change between now and when this is ne
     a section "transcribed", look for the join tables that point at it (`grep -l <rule id>
     tables/*.json`), not only at its text components.
 
+
+102. **The 11th edition writes a grant as a list, and its invulnerable save as `InSv`.** "Friendly
+    TECH-PRIEST models have: ▪ 4+ InSv ▪ Feel No Pain 5+" (Lords of the Forge, a player's report
+    edb4f838, 2026-10-18) had no modifier record, so the card never showed either. Both readers of
+    "what does this rule hand out" — the generator's `isCandidate` and the core-grants gate — look
+    for the verb next to the thing ("have the Feel No Pain", "has a 4+ invulnerable save"), and a
+    colon, a line break and a shorthand stood in the way. 70 rules over 20 factions were invisible
+    to both, and both gates were green, because a rule the heuristic never proposes does not exist
+    for either. `scripts/lib/grant-lists.mjs` gives each list item its verb back, the candidate list
+    knows `N+ InSv`, and `scripts/lib/grant-lists.test.js` holds appdata's own wordings. When a new
+    publication changes how rules are WRITTEN, run the candidate scan over its rules and read what it
+    did not propose — a quiet audit there means the pattern is blind, not that the rules are empty.

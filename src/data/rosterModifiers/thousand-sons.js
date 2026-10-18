@@ -1628,6 +1628,59 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "373db87c-d6db-4844-8451-0173ec805139",
+      "kind": "stratagem",
+      "name": "Embroiling Energies",
+      "det": "Prism of Zadophon",
+      "ref": null,
+      "hash": "4ef9f99a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "CLOSE-QUARTERS",
+          "when": null,
+          "only": {
+            "name": "Malefic Curse"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "only": {
+            "name": "Malefic Curse"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "14f6a805-b45f-49c9-b218-98f4e07c9e1b",
+      "kind": "stratagem",
+      "name": "Twist of Fate",
+      "det": "Prism of Zadophon",
+      "ref": null,
+      "hash": "6e82d07d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "2eee2081-a2c8-4686-892f-68f2e3ee2eb9",
       "kind": "stratagem",
       "name": "Relentless Rebirth",

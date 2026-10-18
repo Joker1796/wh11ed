@@ -2680,6 +2680,29 @@ export default {
       ]
     },
     {
+      "sid": "66eae82a-c460-42b5-9d4e-8f3be77fae03",
+      "kind": "enhancement",
+      "name": "Shadowcowl Talisman",
+      "det": "Murdertalon Raiders",
+      "ref": {
+        "kind": "enhancement",
+        "det": "murdertalon-raiders"
+      },
+      "hash": "502d3a63",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "004d85d1-b422-420d-9f03-e78dae340e0f",
       "kind": "enhancement",
       "name": "Greyveil Hex",
@@ -3236,6 +3259,49 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "2fb3b94d-9f11-42b5-8321-2697f3cb7faa",
+      "kind": "stratagem",
+      "name": "Ruination’s Bounty",
+      "det": "Devotees of Destruction",
+      "ref": {
+        "kind": "stratagem",
+        "det": "devotees-of-destruction",
+        "name": "Ruination’s Bounty"
+      },
+      "hash": "9f79d0a4",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "when your unit uses the Dark Pacts ability",
+            "ru": "когда отряд использует способность Dark Pacts"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "when your unit uses the Dark Pacts ability",
+            "ru": "когда отряд использует способность Dark Pacts"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "dfd93880-0f0c-451d-a583-ae840e5c5aec",

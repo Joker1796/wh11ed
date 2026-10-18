@@ -177,6 +177,44 @@ export default {
       "effects": []
     },
     {
+      "sid": "8603e51c-bbb0-4519-acfb-05d2285aa161:claw-of-ascension-atalan-jackals",
+      "kind": "ability",
+      "name": "Claw of Ascension Atalan Jackals: Adaptable Fighters",
+      "det": null,
+      "ref": null,
+      "hash": "9503861f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "one of the two, selected when the unit is selected to attack",
+            "ru": "одна из двух — выбирается, когда отряд выбран для атаки"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "one of the two, selected when the unit is selected to attack",
+            "ru": "одна из двух — выбирается, когда отряд выбран для атаки"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "c08a3b23-279d-4a26-b01f-2f6c41aa60af:locus",
       "kind": "ability",
       "name": "Locus: Bodyguard",
