@@ -31,6 +31,7 @@
 import { factionGroups } from '../data/factionsIndex.js'
 import { DISPOSITION_NAMES } from '../data/dispositionColors.js'
 import { foldChars } from '../utils/foldName.js'
+import { fieldedTotals } from './rosterExport.js'
 import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, pmGroups, swapRoom, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
@@ -1690,6 +1691,25 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // profile stays where it was said to be.
       const said = new Set([...picks.values()].filter((p) => [...p.byMini.keys()].some((m) => m !== '')).map((p) => key2(p)))
       entry.wg = spillPools(def, entry, wg, (gi, oi) => !said.has(`${gi}:${oi}`))
+    }
+
+    // What the list prints and what we field must agree weapon by weapon. A chained swap can hide a
+    // model: the one who took "chainsword + bolt pistol" and then traded both away is in no line of
+    // the export, so a Death Company squad came in one bundle short (2026-10-14) and nothing said
+    // so. The chain is not guessed; the unit is named for the player to check. Only the app's own
+    // export prints every model's every weapon — WTC and the compact formats print what changed.
+    const ours = parsed.format === 'gw' ? fieldedTotals(def, entry, items) : null
+    if (ours) {
+      const fielded = new Map([...ours].map(([name, n]) => [norm(name), n]))
+      /** @type {Map<string, { name: string, n: number }>} */
+      const listed = new Map()
+      for (const w of weapons) {
+        const k = norm(w.name)
+        const had = listed.get(k)
+        listed.set(k, { name: had?.name || w.name, n: (had?.n || 0) + (w.n || 1) })
+      }
+      const off = [...listed].filter(([k, w]) => fielded.has(k) && fielded.get(k) !== w.n).map(([, w]) => w.name)
+      if (off.length) line.gear.check = off
     }
 
     if (pu.enh) {

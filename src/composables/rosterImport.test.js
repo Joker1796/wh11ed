@@ -3092,3 +3092,24 @@ describe('matchRoster — an option offered to several profiles', () => {
     expect(all).toEqual({ 'Shield Drone': 3, 'Gun Drone': 2, 'Marker Drone': 1 })
   })
 })
+
+// A chained swap the export cannot show: a model that took "chainsword + bolt pistol" and then traded
+// both away appears in no line, so the import comes back one bundle short. The chain is not guessed —
+// the unit is named for the player to check (2026-10-14, Death Company).
+describe('matchRoster — weapon counts that differ from the list', () => {
+  it('names a unit whose fielded loadout is not what the list prints', async () => {
+    const [{ default: faction }, { default: items }, { buildRosterText }] = await Promise.all([
+      import('../data/roster/blood-angels.js'),
+      import('../data/roster/items.js'),
+      import('./rosterExport.js'),
+    ])
+    const ctx = { faction, core: rosterCore, items: items.items }
+    const unit = (wg) => ({ name: 'DC', faction: 'blood-angels', detachments: [faction.detachments[0].name], battleSize: 'strike-force',
+      units: [{ uid: 'a', id: 'death-company-marines-with-boltguns', size: 0, wg }] })
+    const reportOf = (wg) => matchRoster(parseList(buildRosterText(unit(wg), ctx, 'gw')), ctx).report.units[0].gear
+    // four bundles, one of whose models then swapped both of its halves
+    expect(reportOf([[0, 0, 4], [1, 2, 1], [2, 0, 1]]).check).toEqual(expect.arrayContaining(['Astartes chainsword', 'Bolt pistol']))
+    // the same picks without the chain come back whole and say nothing
+    expect(reportOf([[0, 0, 3], [1, 2, 1]]).check).toBeUndefined()
+  })
+})

@@ -671,6 +671,7 @@ export const ui = {
     rosterImportRepeated: 'Attached units this export prints twice, counted once: {n}',
     rosterImportMissingUnits: 'Not found in our data — these will be left out',
     rosterImportMissingGear: 'Wargear we could not place',
+    rosterImportGearCheck: 'Weapon counts differ from the list — check the wargear',
     rosterImportMissingDets: 'Detachment not found',
     rosterImportMissingEnh: 'Enhancements we could not place',
     // The short listhammer export names no faction anywhere, so the reader has to.
@@ -2180,6 +2181,7 @@ export const ui = {
     rosterImportRepeated: 'Приложенных юнитов, напечатанных в выгрузке дважды и учтённых один раз: {n}',
     rosterImportMissingUnits: 'Нет в наших данных — не попадут в лист',
     rosterImportMissingGear: 'Вооружение, которое не удалось сопоставить',
+    rosterImportGearCheck: 'Число оружия не совпадает со списком — проверьте снаряжение',
     rosterImportMissingDets: 'Детачмент не найден',
     rosterImportMissingEnh: 'Усиления, которые не удалось сопоставить',
     // Короткая выгрузка listhammer нигде не называет фракцию — её указывает пользователь.

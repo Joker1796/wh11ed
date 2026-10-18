@@ -207,6 +207,22 @@ function loadoutGroups(def, entry, items) {
     .filter((g) => g.items.length)
 }
 
+// The same loadout as one total per weapon, for the importer to hold a list against. `null` where
+// the totals are not known: no printed loadout recorded, or a split between profiles left open.
+/**
+ * @param {RosterUnit} def
+ * @param {RosterEntry} entry
+ * @param {Record<number, string> | null | undefined} items
+ * @returns {Map<string, number> | null}
+ */
+export function fieldedTotals(def, entry, items) {
+  if (!items || !def?.defaults?.length || !modelsPerMini(def, entry)) return null
+  /** @type {Map<string, number>} */
+  const out = new Map()
+  for (const g of loadoutGroups(def, entry, items)) for (const it of g.items) out.set(it.name, (out.get(it.name) || 0) + it.n)
+  return out
+}
+
 /**
  * @param {RosterUnit} def
  * @param {RosterEntry} entry
