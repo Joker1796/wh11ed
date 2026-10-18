@@ -64,4 +64,15 @@ describe('prefillDraftFromRoster', () => {
     expect(d.players[0].detachments).toEqual([])
     expect(d.settings.battleSize).toBe('strikeForce')
   })
+
+  it('plays a custom list at the smallest size its points fit', () => {
+    const at = (customPoints) => {
+      mod.prefillDraftFromRoster({ faction: 'orks', detachments: [], battleSize: 'custom', customPoints })
+      return tracker.setupDraft.value.settings.battleSize
+    }
+    expect(at(1000)).toBe('incursion')
+    expect(at(800)).toBe('incursion')
+    expect(at(2500)).toBe('onslaught')
+    expect(at(5000)).toBe('strikeForce') // over every size: the tracker's default
+  })
 })
