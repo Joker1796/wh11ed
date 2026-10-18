@@ -1385,7 +1385,7 @@ and appdata state fresh; a data model can change between now and when this is ne
     edb4f838, 2026-10-18) had no modifier record, so the card never showed either. Both readers of
     "what does this rule hand out" — the generator's `isCandidate` and the core-grants gate — look
     for the verb next to the thing ("have the Feel No Pain", "has a 4+ invulnerable save"), and a
-    colon, a line break and a shorthand stood in the way. 70 rules over 20 factions were invisible
+    colon, a line break and a shorthand stood in the way. 73 rules over 19 factions were invisible
     to both, and both gates were green, because a rule the heuristic never proposes does not exist
     for either. `scripts/lib/grant-lists.mjs` gives each list item its verb back, the candidate list
     knows `N+ InSv`, and `scripts/lib/grant-lists.test.js` holds appdata's own wordings. When a new
