@@ -243,36 +243,6 @@ export const changelog = [
       '**Поиск находит название с дефисом, как его ни напиши.** По «grav-tank» находится Caladius Grav-Tank.',
     ],
   },
-  {
-    version: '2.9.2',
-    date: '2026-10-15',
-    en: [
-      { h: 'Whole site' },
-      '**You can let the site send me its errors.** It is off until you turn it on: ⚙ → “Send error reports”. Only the error text and the page go, with no account and nothing personal. If you are signed in, the site asks once.',
-      '**The points PDF now has wargear prices and the Chapters’ own units.** Under a unit, what each piece of its wargear costs. Ultramarines, Imperial Fists and the other Chapters’ units are in it too. The files on the [GW changes page](/patches) are already the new ones.',
-      { h: 'Roster builder' },
-      '**A detachment’s rules in the detachment picker no longer close when you open its enhancements or stratagems.** Thanks for the report.',
-      '**Black Templars’ Gladiator Valiant costs 145 points again.** Since 2.9.1 the builder also charged 20 points for its two starting multi-meltas. Only a third multi-melta costs extra, 10 points.',
-      '**A Chaos Daemons Soul Grinder no longer gets the Daemon Prince’s bonus for its god.** With Khorne it got +2 Strength on its melee weapons, with Nurgle +1 Toughness, with Slaanesh +2" Move. Its god only adds a weapon and a keyword. Chaos Space Marines had the same kind of mix-up between the two Mark of Chaos lists, and it is fixed too.',
-      { h: 'Combat Patrol', kind: 'rules' },
-      '**Every Combat Patrol box now has its mission.** It is on the box page, on the new Mission tab. The box’s stratagems and enhancements moved to the Rules tab.',
-      '**There is a page on [how to play Combat Patrol](/combat-patrol/how-to-play).** It has the order of the game, the three deployment maps and how the winner is decided.',
-      '**A Combat Patrol game in the tracker follows its own rules.** Each player scores their box’s mission. There are no secondaries. The battlefield is one of the three Combat Patrol maps, and you can roll a D6 for it. Crushing Impact, Explosives and Rapid Ingress are not on the stratagems page during the game.',
-    ],
-    ru: [
-      { h: 'Весь сайт' },
-      '**Сайт может отправлять мне свои ошибки, если вы разрешите.** Пока вы не включите, отправка выключена: ⚙ → «Отправлять отчёты об ошибках». Уходят только текст ошибки и страница, без аккаунта и личных данных. Если вы вошли в аккаунт, сайт спросит один раз.',
-      '**В PDF с ценами появились цены снаряжения и юниты орденов.** Под юнитом — сколько стоит каждая штука его снаряжения. Юниты Ultramarines, Imperial Fists и других орденов теперь тоже там. Файлы на [странице изменений GW](/patches) уже новые.',
-      { h: 'Конструктор ростеров' },
-      '**Правила детачмента в окне выбора детачментов больше не закрываются, когда разворачиваете улучшения или стратагемы.** Спасибо за баг-репорт.',
-      '**Gladiator Valiant у Black Templars снова стоит 145 очков.** С версии 2.9.1 конструктор брал ещё 20 очков за две стартовые мульти-мельты. Доплата нужна только за третью мульти-мельту, 10 очков.',
-      '**Soul Grinder у Chaos Daemons больше не получает бонус Daemon Prince за своего бога.** С Khorne он получал +2 к силе оружия ближнего боя, с Nurgle +1 к стойкости, со Slaanesh +2" к движению. Его бог даёт только оружие и ключевое слово. У Chaos Space Marines так же путались два списка Mark of Chaos, это тоже исправлено.',
-      { h: 'Combat Patrol', kind: 'rules' },
-      '**У каждого набора Combat Patrol появилась его миссия.** Она на странице набора, на новой вкладке «Миссия». Стратагемы и улучшения набора переехали на вкладку «Правила».',
-      '**Появилась страница [«Как играть в Combat Patrol»](/combat-patrol/how-to-play).** На ней порядок партии, три карты расстановки и как определяется победитель.',
-      '**Партия Combat Patrol в трекере идёт по своим правилам.** Каждый игрок считает миссию своего набора. Вторичных миссий нет. Поле — одна из трёх карт Combat Patrol, её можно выбрать броском D6. Crushing Impact, Explosives и Rapid Ingress во время партии не показываются на странице стратагем.',
-    ],
-  },
 ]
 
 // The latest entry drives the banner + the stored "last seen version". Exported so the composable
