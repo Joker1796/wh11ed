@@ -251,7 +251,9 @@ function clockHolds(c, clock) {
  * @param {GamePlayer | null | undefined} player
  * @param {ClockLike} clock
  * @param {EntryLike | null | undefined} entry
- * @param {{ units?: RosterEntry[] | null, sheetOf?: SheetOf | null, army?: boolean, unit?: boolean, shock?: boolean, groupLimits?: GroupLimits }} [opts]
+ * @param {{ units?: RosterEntry[] | null, sheetOf?: SheetOf | null, army?: boolean, unit?: boolean, shock?: boolean, groupLimits?: GroupLimits, proves?: Set<string>, forbids?: Set<string> }} [opts]
+ *   `proves` / `forbids`: what the unit's own rules settle (doctrineRules.js's unitDoctrines) — on
+ *   whatever the switches say, and never on whatever they say
  * @returns {Set<string>}
  */
 export function activeConditions(player, clock, entry, opts = {}) {
@@ -271,6 +273,11 @@ export function activeConditions(player, clock, entry, opts = {}) {
     // …and a soft-auto condition is also on while the tracker — or the entry's own datasheet —
     // can prove it, switch or no switch.
     if (!on && SOFT_AUTO[id]) on = SOFT_AUTO[id](player, round) || entryProves(id, entry)
+    // …and a state the unit's own rules make permanent is on, switch or no switch (Calgar's
+    // Codex Adept: all three doctrines) — and one they forbid is off whatever turned it on
+    // (Death Company: "regardless of any other rules", the army's pick included).
+    if (opts.proves?.has(id)) on = true
+    if (opts.forbids?.has(id)) on = false
     if (on) out.add(id)
   }
   // The ordinary state holds unless its opposite does. A game not keeping unit states cannot
@@ -279,7 +286,7 @@ export function activeConditions(player, clock, entry, opts = {}) {
   for (const [id, c] of Object.entries(conditions)) {
     if (c.negates && !out.has(c.negates)) out.add(id)
   }
-  capGroups(out, player, entry, opts.groupLimits)
+  capGroups(out, player, entry, opts.groupLimits, opts.proves)
   return out
 }
 
@@ -297,13 +304,17 @@ export function activeConditions(player, clock, entry, opts = {}) {
  * @param {EntryLike | null | undefined} entry
  * @param {RosterEntry[] | null} [units]
  * @param {SheetOf | null} [sheetOf] the printed sheets, for the conditions that read another entry's keywords
+ * @param {Set<string> | null} [proves] states the unit's own rules make permanent (unitDoctrines)
  * @returns {Set<string>}
  */
-export function rosterConditions(entry, units = null, sheetOf = null) {
+export function rosterConditions(entry, units = null, sheetOf = null, proves = null) {
   const out = new Set()
   for (const [id, c] of Object.entries(conditions)) {
     if (c.scope === 'roster' && rosterAnswers(id, entry, units, sheetOf)) out.add(id)
   }
+  // What the unit's own rules make permanent holds off the table too: Calgar's unit has all three
+  // doctrines in the list as much as in the game.
+  for (const id of proves || []) out.add(id)
   // An ordinary state holds unless its opposite does — off the table nothing has happened, so only
   // a state the list itself answers can be its opposite.
   for (const [id, c] of Object.entries(conditions)) {
@@ -322,8 +333,9 @@ export function rosterConditions(entry, units = null, sheetOf = null) {
  * @param {GamePlayer | null | undefined} player
  * @param {EntryLike | null | undefined} entry
  * @param {GroupLimits} [limits] this unit's own sizes, where a rule raises one (groupLimitsFor)
+ * @param {Set<string>} [proves] states the unit's rules hold on — they are never the ones dropped
  */
-function capGroups(out, player, entry, limits) {
+function capGroups(out, player, entry, limits, proves) {
   /** @type {Map<string, string[]>} */
   const byGroup = new Map()
   for (const id of out) {
@@ -337,7 +349,7 @@ function capGroups(out, player, entry, limits) {
     const limit = limits?.[group] ?? groupLimitOf(group)
     if (ids.length <= limit) continue
     /** @param {string} id */
-    const stampFor = (id) => (conditions[id].scope === 'army'
+    const stampFor = (id) => (proves?.has(id) ? Infinity : conditions[id].scope === 'army'
       ? player?.ctx?.army?.[id]
       : entry?.uid ? player?.ctx?.units?.[entry.uid]?.[id] : undefined) ?? 0
     // Oldest first, then drop from the front until the group fits. Ids came out of `out` in
@@ -723,9 +735,12 @@ export function stratagemsFor(resolvedEntries, player, clock, entry) {
  * @param {ClockLike} clock
  * @param {EntryLike | null | undefined} entry
  * @param {GroupLimits} [limits] this unit's own group sizes (groupLimitsFor)
+ * @param {{ proves?: Set<string>, forbids?: Set<string> }} [unitRules] what the unit's own rules
+ *   settle (doctrineRules.js): a proven state is shown on and not the player's to flip, a forbidden
+ *   one shown off and blocked, each saying why
  * @returns {CondSwitch[]}
  */
-export function switchesFor(resolvedEntries, scope, player, clock, entry, limits) {
+export function switchesFor(resolvedEntries, scope, player, clock, entry, limits, unitRules = {}) {
   const ids = new Set()
   // …and WHICH rule named each one. A chip reading "Adrenalight" says nothing on its own: finding
   // out that the six of them are Combat Drugs, off the Spectacle of Spite detachment, meant
@@ -771,27 +786,44 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry, limits
     for (const m of members) namedBy.set(m, namedBy.get(id))
     shown.push(...members)
   }
-  const active = activeConditions(player, clock, entry)
-  return shown.map((id) => ({
-    id,
-    label: conditions[id].label,
-    on: active.has(id),
-    // Shown, but not the player's to flip here: either the tracker already recorded it, or the
-    // entry's own datasheet states it outright.
-    auto: isAuto(id) || entryProves(id, entry),
-    duration: conditions[id].duration,
-    // Who the switch belongs to, so a view that shows army-wide and per-unit switches side by side
-    // (a rule's own chips inside the unit card) still writes each to the right store.
-    scope: conditions[id].scope,
-    // Alternatives travel with the switch so a view can say how many of a set are still free.
-    // The store enforces the cap either way (useTracker's enforceGroupLimit) — this is only for
-    // showing it, because a group of six chips that silently holds two needs to say so.
-    group: conditions[id].group || null,
-    groupLimit: limits?.[conditions[id].group || ''] ?? groupLimitOf(conditions[id].group),
-    // Enough for a view to name the rule and find its text; resolving either needs the faction
-    // data, which this pure layer does not have (see RosterViewView's withRuleInfo).
-    src: srcOf(namedBy.get(id)),
-  }))
+  const active = activeConditions(player, clock, entry, { groupLimits: limits, ...unitRules })
+  const own = entry?.uid ? player?.ctx?.units?.[entry.uid] || {} : {}
+  const round = normaliseClock(clock).round
+  return shown.map((id) => {
+    const proven = !!unitRules.proves?.has(id)
+    const forbidden = !!unitRules.forbids?.has(id)
+    // On because the ARMY picked it (the doctrine of the round) and nothing on this unit did: the
+    // unit cannot take back what the army chose, so the chip says where it came from instead of
+    // looking like a switch that does nothing when tapped. Another doctrine ticked on the unit still
+    // replaces it — that chip is free. Doctrines only: riled up keeps its own switch under a War Cry
+    // (thirty-two other Ork rules rile one unit at a time — see SOFT_AUTO).
+    const fromArmy = !proven && WHOLE_GROUPS.has(conditions[id].group || '') && active.has(id)
+      && !switchOn(own, id, clock) && !!SOFT_AUTO[id]?.(player, round)
+    /** @type {CondSwitch['blockedBy']} */
+    const blockedBy = forbidden ? 'forbidden' : proven ? 'rule' : fromArmy ? 'armyPick' : null
+    return {
+      id,
+      label: conditions[id].label,
+      on: active.has(id),
+      // Shown, but not the player's to flip here: the tracker already recorded it, the entry's own
+      // datasheet states it outright, or the unit's rules settle it either way.
+      auto: isAuto(id) || entryProves(id, entry) || proven || fromArmy,
+      blocked: forbidden,
+      blockedBy,
+      duration: conditions[id].duration,
+      // Who the switch belongs to, so a view that shows army-wide and per-unit switches side by side
+      // (a rule's own chips inside the unit card) still writes each to the right store.
+      scope: conditions[id].scope,
+      // Alternatives travel with the switch so a view can say how many of a set are still free.
+      // The store enforces the cap either way (useTracker's enforceGroupLimit) — this is only for
+      // showing it, because a group of six chips that silently holds two needs to say so.
+      group: conditions[id].group || null,
+      groupLimit: limits?.[conditions[id].group || ''] ?? groupLimitOf(conditions[id].group),
+      // Enough for a view to name the rule and find its text; resolving either needs the faction
+      // data, which this pure layer does not have (see RosterViewView's withRuleInfo).
+      src: srcOf(namedBy.get(id)),
+    }
+  })
 }
 
 /** @param {ModEntry | undefined} rec */

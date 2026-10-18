@@ -655,7 +655,9 @@ import { loadKeywordVocabulary, unitKeywordsOf } from '../../composables/ruleTar
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
-import { itemKey, loadoutItemNames } from '../../composables/rosterModifiers.js'
+import { itemKey, loadoutItemNames, findEnhancementProse, detKey } from '../../composables/rosterModifiers.js'
+import { unitDoctrines } from '../../composables/doctrineRules.js'
+import { foldName } from '../../utils/foldName.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { conditions } from '../../data/rosterModifiers/conditions.js'
@@ -798,8 +800,9 @@ const activeFor = (entry) => (inGame.value
       units: roster.value?.units,
       sheetOf: sheetOfId,
       groupLimits: groupLimitsOf(entry),
+      ...unitRulesOf(entry),
     })
-  : rosterConditions(entry, roster.value?.units, sheetOfId))
+  : rosterConditions(entry, roster.value?.units, sheetOfId, unitRulesOf(entry).proves))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
@@ -1302,7 +1305,7 @@ const unitSwitchCache = computed(() => {
   const m = new Map()
   if (!canSwitch.value || !(keeps('trackUnitStates') || keeps('trackBattleShock'))) return m
   for (const e of roster.value?.units || []) {
-    m.set(e.uid, withRuleInfo(keptUnitSwitches(switchesFor(gatedFor(e), 'unit', gamePlayer.value, gameClock.value, e, groupLimitsOf(e)))))
+    m.set(e.uid, withRuleInfo(keptUnitSwitches(switchesFor(gatedFor(e), 'unit', gamePlayer.value, gameClock.value, e, groupLimitsOf(e), unitRulesOf(e)))))
   }
   return m
 })
@@ -1418,9 +1421,59 @@ function rulesOf(entry) {
     ...(sheet.wargearAbilities || []).filter((a) => carried?.has(itemKey(a.name))),
   ].map((a) => a.text)
 }
-// How many of a group this entry's attached unit may hold where a Leader's rule raises it (two
-// Orders under a Command Rod or Ursula Creed — rosterGameContext's groupLimitsFor).
-const groupLimitsOf = (entry) => groupLimitsFor(entry, roster.value?.units, rulesOf)
+// Every rule text an entry's models carry, for the doctrines a rule makes permanent or adds: its
+// datasheet's abilities and wargear (rulesOf), the options of an ability set (Mephiston's
+// Quickening), and its enhancement's prose (Adept of the Codex).
+function doctrineTextsOf(entry) {
+  const sheet = fullSheets.value.get(entry.id)
+  const enh = entry.enh || mandatoryEnhancementFor(defOf(entry.id), curDetachments.value)?.name || null
+  const prose = enh && factionEn.value ? findEnhancementProse(factionEn.value.detachments, enh, roster.value?.detachments)?.body : null
+  return [
+    ...rulesOf(entry),
+    ...(sheet?.abilitySets || []).flatMap((set) => (set.options || []).map((o) => o.text)),
+    ...(prose ? [prose] : []),
+  ]
+}
+// The detachment rules this list is fielding, and every unit's rules — for Guilliman's Author of the
+// Codex, which lets ANY unit of the army hold a second doctrine. Once per list, not per card.
+const fieldedDetRules = computed(() => {
+  const names = new Set((roster.value?.detachments || []).map((n) => detKey(n)))
+  return (factionEn.value?.detachments || []).filter((d) => names.has(detKey(d.name))).map((d) => d.rule?.body || '')
+})
+const armyDoctrineTexts = computed(() => (roster.value?.units || []).flatMap((u) => rulesOf(u)))
+// What an entry's attached unit has from its rules rather than the army's pick: doctrines always
+// active (Calgar, Logan, Adept of the Codex, Death Company), forbidden (Death Company), and how many
+// it may hold at once (doctrineRules.js). One answer for every card of the attached unit.
+// Worked out once per list and kept (every reader of every card asks, several times per render).
+const NO_DOCTRINES = { proves: new Set(), forbids: new Set(), limit: 1 }
+const doctrineCache = computed(() => {
+  const m = new Map()
+  for (const entry of roster.value?.units || []) {
+    const parts = attachedEntries(entry)
+    const kws = new Set(parts.flatMap((p) => unitKeywordsOf(fullSheets.value.get(p.id))).map((k) => foldName(k)))
+    m.set(entry.uid, unitDoctrines({
+      texts: parts.flatMap(doctrineTextsOf),
+      detTexts: fieldedDetRules.value,
+      armyTexts: armyDoctrineTexts.value,
+      hasKeyword: (kw) => kws.has(foldName(kw)),
+    }))
+  }
+  return m
+})
+const doctrinesOf = (entry) => doctrineCache.value.get(entry?.uid) || NO_DOCTRINES
+// How many of a group this entry's attached unit may hold where a rule raises it: two Orders under a
+// Command Rod or Ursula Creed (rosterGameContext's groupLimitsFor), more than one doctrine under a
+// rule "in addition to any other combat doctrine" or all three at once (doctrinesOf).
+function groupLimitsOf(entry) {
+  const limits = groupLimitsFor(entry, roster.value?.units, rulesOf)
+  const { limit } = doctrinesOf(entry)
+  return limit > 1 ? { ...limits, 'combat-doctrine': limit } : limits
+}
+// …and the doctrines its rules settle, for the switches and for what is true.
+const unitRulesOf = (entry) => {
+  const { proves, forbids } = doctrinesOf(entry)
+  return { proves, forbids }
+}
 
 // Switching a per-unit condition on or off. A condition that forbids stratagems takes the ongoing
 // ones off the unit as it goes on: leaving a spent stratagem rewriting the card of a unit that may
@@ -1488,7 +1541,7 @@ const viewingGameCtx = computed(() => {
     // read the same number its row does.
     chosen: canSwitch.value && keeps('trackAbilitySets') ? allPicks(gamePlayer.value, gameClock.value) : new Set(),
     switches: canSwitch.value
-      ? keptUnitSwitches(switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value, groupLimitsOf(viewingEntry.value)))
+      ? keptUnitSwitches(switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value, groupLimitsOf(viewingEntry.value), unitRulesOf(viewingEntry.value)))
       : [],
     armySwitches: canSwitch.value && keeps('trackArmyStates')
       ? switchesFor(resolved, 'army', gamePlayer.value, gameClock.value, viewingEntry.value)

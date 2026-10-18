@@ -569,7 +569,9 @@
  * @property {{ kind: string, name: string, det: string | null, unit: string | null } | null} [src]
  * @property {string | null} [det]
  * @property {boolean} [blocked]
- * @property {'shock' | 'wrongPhase' | 'unitPhase' | 'usedPhase' | 'usedArmy' | null} [blockedBy]
+ * @property {'shock' | 'wrongPhase' | 'unitPhase' | 'usedPhase' | 'usedArmy' | 'forbidden' | 'rule' | 'armyPick' | null} [blockedBy]
+ *   for a game state: `rule` the unit's own rules hold it on, `forbidden` they forbid it, `armyPick`
+ *   it is the army's pick
  * @property {boolean} [pick]
  * @property {{ owner: string | null, ability: string, set: string, unit: string }} [from]
  * @property {boolean} [aura]

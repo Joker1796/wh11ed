@@ -4066,6 +4066,28 @@ the use does not answer what they also ask (a target, a choice, one shot of one 
 `src/composables/onceRules.test.js` names them; any other effect worded "once per battle" without
 `once` fails that test.
 
+**Combat Doctrines a unit has from its own rules** (2026-10-18, owner's question: "does the army's
+doctrine count on the unit, and what about the rules that add one?"). The army's pick of the round
+reaches every unit (SOFT_AUTO), and its chip on a card now says "The army's pick" instead of looking
+like a switch that does nothing. What the unit's RULES say is read from the sentences by
+`src/composables/doctrineRules.js` — the texts of every model in the attached unit (abilities, an
+ability set's options, wargear, the enhancement's prose) and the fielded detachment rules, gated by
+the keyword they name:
+- always active, all three (Calgar's and Guilliman's Codex Adept, Logan Grimnar): proven, room for three;
+- always active "in addition to any other combat doctrine" (Adept of the Codex, Tactical Insight,
+  Student of the Codex, Dante, Wrath of Angels for SANGUINARY GUARD): proven, room for one more;
+- Death Company (Sanguinius' Fury): assault proven, devastator and tactical forbidden — the army's
+  pick included, "regardless of any other rules";
+- "in addition … until the start of your next Command phase" (Mephiston, Lion El'Jonson, the Tome of
+  Ectoclades): nothing proven, the player switches it, but the unit holds two (three for the Tome);
+- Guilliman's Author of the Codex gives ANOTHER unit within 12" a second doctrine: every unit of an
+  army with him may hold two — which one he picked is the player's to say.
+`activeConditions` takes `proves` / `forbids` (a proven doctrine is never the one `capGroups` drops),
+`switchesFor` marks those chips (`blockedBy: 'rule' | 'forbidden' | 'armyPick'`), and the room goes
+into `groupLimitsOf` as `combat-doctrine`. `doctrineRules.test.js` reads every rule text of the six
+factions sentence by sentence and fails on one that makes a doctrine active and is not understood.
+In the game only: the builder's card (rosterUnitCard.js) does not read them yet.
+
 ## Printing a list (added 2026-08-27)
 
 `/roster/:id/print` — `RosterPrintView.vue` (the panel), `RosterPrintSheet.vue` (the document and
