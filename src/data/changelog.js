@@ -41,6 +41,7 @@ export const changelog = [
       { h: 'Answers to your questions' },
       'Can I take two units of Victrix Honour Guard? No. [Victrix Honour Guard](/factions/space-marines/datasheets/victrix-honour-guard) is an EPIC HERO, and an army can include only one such unit.',
       'Will the other Black Templars detachments be added? [Black Templars](/factions/black-templars) have three detachments in 11th edition: Vow-sworn Crusaders, Marshal’s Household and Fist of the God-Emperor. All three are on the site and in the roster builder. Every chapter detachment from the GW app is already here.',
+      'Hulking Brutes is missing its 2CP part. It was. For 2CP, ranged attacks that target your unit have -1 to wound rolls whatever their S. It is now on the card of [Hulking Brutes](/factions/orks#strat-bully-boyz-hulking-brutes). [Methodical Brutality](/factions/space-marines#strat-medusas-wrath-methodical-brutality) had lost its line for VEHICLE units the same way, and it is back too.',
       'The ability label font was better before. I changed it so the labels look the same on every phone. If you have a specific font in mind, send it through {do:feedback}. I will consider it.',
     ],
     ru: [
@@ -60,6 +61,7 @@ export const changelog = [
       { h: 'Ответы на вопросы' },
       'Можно ли взять два отряда Victrix Honour Guard? Нет. [Victrix Honour Guard](/factions/space-marines/datasheets/victrix-honour-guard) — EPIC HERO, а такой отряд можно взять в армию только один раз.',
       'Будут ли другие детачменты Black Templars? У [Black Templars](/factions/black-templars) в 11-й редакции три детачмента: Vow-sworn Crusaders, Marshal’s Household и Fist of the God-Emperor. Все три есть на сайте и в конструкторе ростеров. Все детачменты орденов из приложения GW уже здесь.',
+      'У Hulking Brutes пропала часть за 2CP. Да, пропала. За 2CP дальнобойные атаки по вашему юниту имеют -1 к броску на ранение при любой S. Теперь она есть на карточке [Hulking Brutes](/factions/orks#strat-bully-boyz-hulking-brutes). У [Methodical Brutality](/factions/space-marines#strat-medusas-wrath-methodical-brutality) так же пропала строка для юнитов VEHICLE, она тоже вернулась.',
       'Шрифт меток способностей раньше был лучше. Я сменил его, чтобы метки выглядели одинаково на всех телефонах. Если у вас есть конкретное предложение, пришлите его через {do:feedback}. Я его рассмотрю.',
     ],
   },

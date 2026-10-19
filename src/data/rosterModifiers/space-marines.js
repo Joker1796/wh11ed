@@ -4597,7 +4597,7 @@ export default {
         "det": "medusas-wrath",
         "name": "Methodical Brutality"
       },
-      "hash": "fdda2835",
+      "hash": "bd8f2776",
       "ver": 995,
       "reviewed": true,
       "effects": [
@@ -4610,6 +4610,19 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit is a VEHICLE unit",
+            "ru": "если это отряд VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"

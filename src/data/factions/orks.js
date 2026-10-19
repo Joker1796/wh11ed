@@ -229,6 +229,13 @@ The following are special **[gloss:move-type:move types]** that certain or all o
           target: `That MEGANOBZ/NOBZ unit.`,
           effect: `Ranged attacks that target your unit with a **[gloss:strength:S]** greater than your unit’s **[gloss:toughness:T]** have -1 to **[gloss:wound-roll:wound rolls]**.`,
           restrictions: ``,
+          extraCost: [
+            {
+              cp: '+1CP',
+              title: 'Or',
+              body: 'Ranged attacks that target your unit have -1 to **[gloss:wound-roll:wound rolls]**.',
+            },
+          ],
         },
         {
           name: 'Too Arrogant to Die',

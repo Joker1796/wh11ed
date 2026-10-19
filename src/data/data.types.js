@@ -104,6 +104,7 @@
  * @property {string} target
  * @property {string} effect
  * @property {string} [restrictions]
+ * @property {Array<{ cp: string, title: string, titleRu?: string, body: string }>} [extraCost]  a second effect for more CP (appdata's secondaryEffect)
  * @property {string} [nameRu]
  * @property {string[]} [_phases]  attached by rosterFactionRules, from the ENGLISH `when`
  * @property {Record<string, string>} [_sides]

@@ -92,6 +92,9 @@ function wordDiff(whPlain, appPlain) {
 
 // Build markup-ready appdata text (what you'd paste into the data file). For a body-block array
 // use bodyText; for a bare string field (stratagem effect/target, enhancement rules) convert it.
+// A stratagem's extra-cost options as one text, the way the app prints its second effect.
+export const extraCostText = (s) => (s.extraCost || []).map((x) => `${x.title}: ${x.body}`).join('\n')
+
 const appMarkup = (v) => (Array.isArray(v) ? bodyText(v) : appdataToMarkup(v || ''))
 
 // One comparison. `appCandidates` is an array of appdata source strings (usually one; several
@@ -214,7 +217,16 @@ export async function eachFactionTextPair(slug, visit, report = () => {}) {
       const lbl = `detachment "${d.name}" · stratagem "${s.name}"`
       visit(`${lbl} · WHEN`, s.when, [a.when])
       visit(`${lbl} · TARGET`, s.target, [a.target])
-      visit(`${lbl} · EFFECT`, s.effect, [a.effect])
+      // A second effect (the bundle carries it since 2026-10-19 — Hulking Brutes' "Or:" for 1CP
+      // more was missing until a player said so): with its own cost it is our `extraCost`, without
+      // one it reads on as part of the effect.
+      if (a.secondaryEffect && a.secondaryCp == null) visit(`${lbl} · EFFECT`, s.effect, [`${a.effect || ''}\n${a.secondaryEffect}`])
+      else visit(`${lbl} · EFFECT`, s.effect, [a.effect])
+      if (a.secondaryEffect && a.secondaryCp != null) {
+        visit(`${lbl} · SECOND EFFECT`, extraCostText(s), [a.secondaryEffect])
+        const cps = (s.extraCost || []).map((x) => x.cp)
+        if (!cps.includes(`+${a.secondaryCp}CP`)) report(`  ~ ${lbl} · SECOND EFFECT: costs +${a.secondaryCp}CP in appdata, wh11ed ${JSON.stringify(cps)}`)
+      }
       visit(`${lbl} · RESTRICTIONS`, s.restrictions, [a.restriction])
     }
 

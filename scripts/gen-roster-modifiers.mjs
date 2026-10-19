@@ -409,7 +409,10 @@ function sourcesOf(bundle, detById) {
         name: st.name,
         det: d.name,
         ref: whDet ? { kind: 'stratagem', det: whDet, name: st.name } : null,
-        prose: appdataToMarkup(st.effect),
+        // …with its second effect, when it has one (Methodical Brutality's VEHICLE line, Hulking
+        // Brutes' "Or:" for 1CP more): it can change a number too, and a record read without it
+        // was read from half the rule.
+        prose: appdataToMarkup(st.secondaryEffect ? `${st.effect}\n${st.secondaryEffect}` : st.effect),
       })
     }
   }

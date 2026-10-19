@@ -1391,3 +1391,15 @@ and appdata state fresh; a data model can change between now and when this is ne
     knows `N+ InSv`, and `scripts/lib/grant-lists.test.js` holds appdata's own wordings. When a new
     publication changes how rules are WRITTEN, run the candidate scan over its rules and read what it
     did not propose — a quiet audit there means the pattern is blind, not that the rules are empty.
+
+103. **The bundle is a reading of the tables, and it can read half a row.** A player (report
+    778bbae5, 2026-10-19) found Hulking Brutes without its "Or:" for 1CP more. appdata's
+    `stratagem` table carries a second effect (`secondaryEffect`, `secondaryEffectAdditionalCPCost`,
+    `secondaryEffectIsMutuallyExclusive`); `build-factions.mjs` in wh40k-appdata copied when / target /
+    effect / restriction and nothing else, so every reader of the bundle — `sync`, `ruletext`, the
+    modifier generator — compared and hashed half a stratagem and stayed green. Three stratagems carry
+    one: Hulking Brutes and Methodical Brutality were missing it, Heroic Intervention was right only
+    because it was transcribed from the rulebook. The bundle now carries it (`secondaryEffect`,
+    `secondaryCp`, `secondaryExclusive`), `ruletext` compares it (our `extraCost` when it costs more,
+    the effect's own lines when it does not) and the modifier hash folds it in. When a table gains a
+    column, check the bundle builder copies it — a field the bundle drops is invisible to every gate.

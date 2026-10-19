@@ -26,6 +26,7 @@
 //   sometimes pre-sums these into mutually-exclusive flat tiers (4vp if W≥4, 3vp otherwise).
 //   Check the arithmetic (base + bonus) before treating this as a mismatch.
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
+import { plainText, extraCostText } from './sync-faction-text.mjs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, loadJson, loadModule, byNormName, diffByName } from './lib/sync-common.mjs'
@@ -75,6 +76,13 @@ async function checkCoreStratagems() {
       const wt = normText(w[whField] || '')
       const at = normText(appdataToMarkup(a[appField] || ''))
       if (wt !== at) textLines.push(`  ~ "${w.name}".${whField}:\n      wh11ed:  ${w[whField] || '(empty)'}\n      appdata: ${appdataToMarkup(a[appField] || '(empty)')}`)
+    }
+    // The second effect (Heroic Intervention's Into the Fray, +1CP) — our `extraCost`.
+    if (a.secondaryEffect) {
+      const wt = normText(plainText(extraCostText(w)))
+      const at = normText(plainText(appdataToMarkup(a.secondaryEffect)))
+      if (wt !== at) textLines.push(`  ~ "${w.name}".extraCost:\n      wh11ed:  ${extraCostText(w) || '(empty)'}\n      appdata: ${appdataToMarkup(a.secondaryEffect)}`)
+      if (a.secondaryCp != null && !(w.extraCost || []).some((x) => x.cp === `+${a.secondaryCp}CP`)) textLines.push(`  ~ "${w.name}".extraCost: costs +${a.secondaryCp}CP in appdata`)
     }
   }
   if (textLines.length) textLines.forEach((l) => console.log(l))

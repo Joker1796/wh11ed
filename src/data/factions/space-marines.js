@@ -1243,7 +1243,7 @@ const en = {
           "flavor": "Once a foe is marked for destruction, the Angels of Death must not relent until the target is annihilated.",
           "when": "Your Shooting phase or the Fight phase when a friendly ADEPTUS ASTARTES unit is selected to attack.",
           "target": "That ADEPTUS ASTARTES unit.",
-          "effect": "Your unit’s attacks have [SUSTAINED HITS 1].",
+          "effect": "Your unit’s attacks have [SUSTAINED HITS 1].\n▪ If your unit is a VEHICLE unit, have +1 to **[gloss:wound-roll:wound rolls]**.",
           "restrictions": ""
         },
         {

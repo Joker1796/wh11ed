@@ -2928,7 +2928,7 @@ export default {
         "det": "bully-boyz",
         "name": "Hulking Brutes"
       },
-      "hash": "f5133a4b",
+      "hash": "48ca9646",
       "ver": 995,
       "reviewed": true,
       "effects": []
