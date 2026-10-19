@@ -81,7 +81,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
           restrictions: "",
         },
         {
-          name: "Emperor’S Will",
+          name: "Emperor’s Will",
           sublabel: "Imperialis Fleet – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "your",

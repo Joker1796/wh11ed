@@ -727,7 +727,7 @@ export default {
       "kind": "armyRule",
       "name": "Cabal of Sorcerers",
       "det": null,
-      "hash": "5736c5d6",
+      "hash": "1e62bd40",
       "ver": 925,
       "reviewed": true,
       "effects": [],

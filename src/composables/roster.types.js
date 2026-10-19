@@ -121,6 +121,7 @@
  * @property {string} name
  * @property {string[]} kws keywords
  * @property {UnitFlags} flags
+ * @property {string[]} [has] which of the names some enhancement `needs` this unit has (an ability, or an item it can carry)
  * @property {SizeBracket[]} sizes
  * @property {1} [linked] has a datasheet page
  * @property {{ at: number, pts: number }} [step] copy tax: `pts` more from the `at`-th copy on
@@ -156,6 +157,7 @@
  * @property {1} [notWarlord] not on the Warlord
  * @property {1} [uncounted] does not count against the army's enhancement limit
  * @property {string[]} [exclKw] keywords that bar it
+ * @property {string[]} [needs] an ability or an item the bearer must have (appdata's enhancement_datasheet_ability / _required_wargear_item); matched against the unit's `has`
  * @property {Array<{ ds?: string, kw?: string[], fac?: string[] }>} [req] who may take it — any one group
  * @property {Array<{ to: string, type: 'leader' | 'support' }>} [attach] units the bearer can then join
  * @property {string[]} [lockDs] only these datasheets, by `sid` (gen-roster-data.mjs ENH_LOCK_FIXES; empty today)

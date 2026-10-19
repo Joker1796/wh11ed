@@ -4,7 +4,7 @@ export const stratNamesRu = {
   'Close-Quarters Barrage': 'Заградительный огонь в упор',
   'Masters of the Void': 'Владыки пустоты',
   'Selfless Bodyguard': 'Самоотверженный телохранитель',
-  'Emperor’S Will': 'Воля Императора',
+  'Emperor’s Will': 'Воля Императора',
   'Violent Acquisition': 'Жестокое изъятие',
   'Displacer Field': 'Поле смещения',
   'Dispense Justice': 'Вершить правосудие',

@@ -109,7 +109,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           name: "Secure Positions",
           sublabel: "Brandfast Oathband – Strategic Ploy Stratagem",
           cp: "1CP",
-          turn: "either",
+          turn: "your",
           flavor: "While there are resources to secure, the Kin will seize any opportunity to effect a rapid and ordered deployment to establish defensive positions.",
           when: "End of any of your phases.",
           target: "One LEAGUES OF VOTANN TRANSPORT unit from your army.",
@@ -620,7 +620,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           restrictions: "",
         },
         {
-          name: "Huntr’S Mark",
+          name: "Huntr’s Mark",
           sublabel: "Needgaârd Oathband – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "your",

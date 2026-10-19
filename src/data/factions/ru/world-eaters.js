@@ -6,7 +6,7 @@ export const stratNamesRu = {
   'Blood Offering': 'Кровавое подношение',
   'Apoplectic Frenzy': 'Апоплексическое неистовство',
   'Skulls for the Skull Throne!': 'Черепа для Трона Черепов!',
-  'Berzerker’S Wrath': 'Гнев берсерка',
+  'Berzerker’s Wrath': 'Гнев берсерка',
   'Bloodthirsty Horde': 'Кровожадная орда',
   'Bloody Vengeance': 'Кровавое возмездие',
   'Brazen Idol': 'Медный идол',

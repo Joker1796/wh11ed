@@ -1551,7 +1551,7 @@ export default {
         "kind": "detachmentRule",
         "det": "veiled-blade-elimination-force"
       },
-      "hash": "1c7e84e4",
+      "hash": "5f5a5f0a",
       "ver": 925,
       "reviewed": true,
       "effects": []

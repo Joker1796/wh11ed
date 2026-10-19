@@ -116,7 +116,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           restrictions: "",
         },
         {
-          name: "Death’S Heads",
+          name: "Death’s Heads",
           sublabel: "Champions of Contagion – Wargear Stratagem",
           cp: "1CP",
           turn: "your",
@@ -212,7 +212,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           restrictions: "",
         },
         {
-          name: "Mortarion'S Teachings",
+          name: "Mortarion’s Teachings",
           sublabel: "Death Lord’s Chosen – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "your",
@@ -837,7 +837,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           name: "Territorial Infection",
           sublabel: "Paragons of Putrescence – Stratagem",
           cp: "1CP",
-          turn: "either",
+          turn: "your",
           flavor: "The intensive contagions that flow in abundance from this champion taint everything around them, making taking ground from them a repulsive prospect for the enemy.",
           when: "Start of the Command phase.",
           target: "One friendly DEATH GUARD CHARACTER unit.",

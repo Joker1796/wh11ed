@@ -37,6 +37,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Sentinel Guard"
@@ -95,6 +98,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "aquilan-wing-sentinel-guard-sodality",
@@ -127,6 +133,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,

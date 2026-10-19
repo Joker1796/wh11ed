@@ -32,6 +32,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "death-company-marines-with-jump-packs",
@@ -479,6 +482,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "sanguinary-guard",
@@ -617,6 +623,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "death-company-marines-with-jump-packs",
@@ -1322,6 +1331,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 30
@@ -1708,6 +1720,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "death-company-marines-with-jump-packs",
@@ -1829,6 +1844,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 15
@@ -2030,6 +2048,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,

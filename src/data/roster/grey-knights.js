@@ -30,6 +30,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "paladin-squad",
@@ -157,6 +160,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "strike-squad",
@@ -209,6 +215,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "brotherhood-terminator-squad",
@@ -261,6 +270,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 2,
         "pts": 10
@@ -332,6 +344,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "strike-squad",
@@ -560,6 +575,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Justicar"
@@ -760,6 +778,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "purifier-squad",
@@ -813,6 +834,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "brotherhood-terminator-squad",
@@ -886,6 +910,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 15
@@ -992,6 +1019,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "brotherhood-terminator-squad",
@@ -1388,6 +1418,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -1814,6 +1847,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 15
@@ -2061,6 +2097,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 40
@@ -2288,6 +2327,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -2436,6 +2478,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -3075,6 +3120,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Justicar"
@@ -3198,6 +3246,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10

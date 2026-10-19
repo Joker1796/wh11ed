@@ -694,7 +694,7 @@ Friendly TECH-PRIEST models have the following ability:
           name: 'Scriptural Prognosis',
           sublabel: 'Lords of the Forge – Stratagem',
           cp: '1CP',
-          turn: 'opponent',
+          turn: 'either',
           flavor: "Analysing data from thousands of sources at once, a disciple of the Omnissiah is able to rationalise the enemy's capabilities and dispense protocols of endurance to their servants.",
           when: "In your opponent's Shooting phase or the Fight phase, when an enemy unit targets a friendly Tech-Priest unit that is within range of an **[gloss:objective:objective]**.",
           target: 'That Tech-Priest unit.',
@@ -985,7 +985,7 @@ Until the start of your next Command phase, those units gain the Halo Override k
         },
         {
           name: 'Guided Retreat',
-          sublabel: 'Haloscreed Battle Clade – Strategic Ploy Stratagem',
+          sublabel: 'Haloscreed Battle Clade – Battle Tactic Stratagem',
           cp: '1CP',
           turn: 'your',
           flavor: "From their distant strategium pulpit, the Tech-Priest commander's guiding hand descends, seizing control of allied minds, steering their troops carefully away from harm whilst maintaining a hail of killing fire.",

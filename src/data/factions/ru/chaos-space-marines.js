@@ -47,7 +47,7 @@ export const stratNamesRu = {
   'Hardened Killers': 'Закалённые убийцы',
   'Seize the Prize': 'Захватить трофей',
   'Reavers’ Flurry': 'Шквал разорителей',
-  'At the Tyrant’S Command': 'По приказу тирана',
+  'At the Tyrant’s Command': 'По приказу тирана',
   'To the Favoured the Spoils': 'Избранным — трофеи',
   'Encircling Surge': 'Окружающий рывок',
   'Malicious Surge': 'Злобный рывок',

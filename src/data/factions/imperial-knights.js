@@ -32,14 +32,14 @@ To determine your army's Deed, you can either select one Deed or you can randoml
 The first time your selected Deed is completed your Oath is fulfilled and, until the end of the battle, your army becomes **Honoured** and you gain 2CP, or 3CP if you randomly selected your Deed and/or Quality (CP gained in this way are an exemption to the Core Rules that limit the maximum number of CP you can gain per battle round to 1).
 
 ### Deeds
-▪ **We vow to lay low the tyrant…** — At the start of the battle, select one CHARACTER model in your opponent's army. This Deed is completed at the end of a turn if that CHARACTER is destroyed.
-▪ **We swear to reclaim the realm…** — This Deed is completed at the end of your opponent's turn if you control more objective markers than your opponent.
-▪ **We pledge to reap a great tally…** — This Deed is completed at the end of the battle round if the number of enemy units destroyed this battle round is greater than the battle round number, even if those units are subsequently returned to the battlefield (for example, two destroyed enemy units in the first battle round).
+▪ **We vow to lay low the tyrant…** (D6: 1-2) — At the start of the battle, select one CHARACTER model in your opponent's army. This Deed is completed at the end of a turn if that CHARACTER is destroyed.
+▪ **We swear to reclaim the realm…** (D6: 3-4) — This Deed is completed at the end of your opponent's turn if you control more objective markers than your opponent.
+▪ **We pledge to reap a great tally…** (D6: 5-6) — This Deed is completed at the end of the battle round if the number of enemy units destroyed this battle round is greater than the battle round number, even if those units are subsequently returned to the battlefield (for example, two destroyed enemy units in the first battle round).
 
 ### Qualities
-▪ **…with all our martial valour risen over all.** — Each time this model is selected to shoot or fight, you can re-roll one Hit roll and you can re-roll one Wound roll.
-▪ **…and we are eager for the challenge.** — Add 2" to this model's Move characteristic and add 1 to Advance and Charge rolls made for this model.
-▪ **…yet shall our legacy be unsullied.** — Improve this model's Objective Control characteristic by 2 and its Leadership characteristic by 1.
+▪ **…with all our martial valour risen over all.** (D6: 1-2) — Each time this model is selected to shoot or fight, you can re-roll one Hit roll and you can re-roll one Wound roll.
+▪ **…and we are eager for the challenge.** (D6: 3-4) — Add 2" to this model's Move characteristic and add 1 to Advance and Charge rolls made for this model.
+▪ **…yet shall our legacy be unsullied.** (D6: 5-6) — Improve this model's Objective Control characteristic by 2 and its Leadership characteristic by 1.
 
 ### Bondsman
 Some IMPERIAL KNIGHTS models have a Bondsman ability, tagged with the word 'Bondsman'. In your Command phase, one or more models from your army with a Bondsman ability can use that ability. For each one that does, select one friendly ARMIGER model within 12" of that model (you cannot select an ARMIGER model that is already being affected by a Bondsman ability). Until the start of your next Command phase, that ARMIGER model is affected by that Bondsman ability.
@@ -326,7 +326,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           restrictions: "",
         },
         {
-          name: "Hero’S Tread",
+          name: "Hero’s Tread",
           sublabel: "Questoris Companions – Epic Deed Stratagem",
           cp: "1CP",
           turn: "your",
@@ -401,7 +401,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           restrictions: "",
         },
         {
-          name: "Exemplar’S Wisdom",
+          name: "Exemplar’s Wisdom",
           sublabel: "Spearhead-At-Arms – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "your",

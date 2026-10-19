@@ -131,10 +131,29 @@ export async function run(argv = process.argv.slice(2)) {
     const a = app.get(num)
     const w = wh.get(num)
     // Same two skips as sync-core: core stratagems are sync-tracker's beat, and a container with
-    // no text has nothing to be missing. A rule with no wh11ed counterpart at all is sync-core's
-    // "+ missing in wh11ed" finding, not this gate's business — it reports words, not absences.
-    if (a.type === 'stratagem' || !a.text || !w) continue
+    // no text has nothing to be missing.
+    if (a.type === 'stratagem' || !a.text) continue
     compared++
+    // A rule with no wh11ed counterpart under its number may still be said somewhere in its
+    // chapter — or nowhere. Until 2026-10-19 this gate left it to sync-core's report (which fails
+    // nothing), and two rules appdata's bundle had just learnt to carry — 05.03.02's attack pools,
+    // 24.37.01's TORRENT limits — were absent from the site with every gate green. Each of its
+    // lines must be found, nearly word for word, in some line of the chapter.
+    if (!w) {
+      const chapterLines = lines(chapters.get(num.slice(0, 2)) || '').map((l) => tokens(l))
+      for (const line of lines(appdataMarkup(a.text))) {
+        if (line.includes('***')) continue
+        const aToks = tokens(line)
+        if (aToks.length < 3) continue
+        const best = Math.max(0, ...chapterLines.map((t) => f1(aToks, t)))
+        if (best >= NEAR) continue
+        const item = { num, title: a.title, file: '(no rule under this number)', kind: 'absent rule', missing: aToks.filter(significant), line: line.replace(/\s+/g, ' ').trim() }
+        const hit = ALLOW.find((e) => e.num === num && e.words.every((x) => item.missing.includes(x)))
+        if (hit) allowed.push({ ...item, why: hit.why })
+        else findings.push(item)
+      }
+      continue
+    }
 
     const whToks = tokens(w.body)
     const whLines = lines(w.body).map((l) => ({ text: l, toks: tokens(l) }))

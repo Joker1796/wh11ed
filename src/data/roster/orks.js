@@ -916,6 +916,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "stormboyz",
@@ -1643,6 +1646,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -3448,6 +3454,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "meganobz",
@@ -4051,6 +4060,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "condBattleline": 1,
       "minis": [
         {
@@ -4790,6 +4802,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,

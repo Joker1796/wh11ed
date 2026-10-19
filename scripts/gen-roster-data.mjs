@@ -239,6 +239,30 @@ for (const g of table('enhancement_required_keyword_group')) {
   reqGroupsByEnh.get(g.enhancementId).push(g.id)
   if (g.datasheetId && dsNameById.get(g.datasheetId)) reqGroupDs.set(g.id, dsNameById.get(g.datasheetId))
 }
+// What an enhancement needs besides keywords: an ability ("DEEP STRIKE model only" —
+// enhancement_datasheet_ability) or an item carried ("Autoch-pattern combi-bolter" —
+// enhancement_required_wargear_item). Unread until 2026-10-19, so six of them were offered to every
+// Character of the faction (Tzagulla to a Chaos Lord on foot). The enhancement says what it needs
+// (`needs`); a unit says which of those few names it has (`has`), so neither list grows past them.
+const abilityName = new Map(table('datasheet_ability').map((a) => [a.id, enOf(a).name]))
+const wgItemNameById = new Map(table('wargear_item').map((w) => [w.id, enOf(w).name]))
+const needsByEnh = new Map() // enhancementId -> [name]
+for (const r of table('enhancement_datasheet_ability')) {
+  if (!needsByEnh.has(r.enhancementId)) needsByEnh.set(r.enhancementId, [])
+  needsByEnh.get(r.enhancementId).push(abilityName.get(r.datasheetAbilityId))
+}
+for (const r of table('enhancement_required_wargear_item')) {
+  if (!needsByEnh.has(r.enhancementId)) needsByEnh.set(r.enhancementId, [])
+  needsByEnh.get(r.enhancementId).push(wgItemNameById.get(r.wargearItemId))
+}
+const NEED_NAMES = new Set([...needsByEnh.values()].flat().filter(Boolean))
+const abilitiesByDs = new Map() // datasheetId -> Set of ability names (only NEED_NAMES)
+for (const r of table('datasheet_datasheet_ability')) {
+  const n = abilityName.get(r.datasheetAbilityId)
+  if (!NEED_NAMES.has(n)) continue
+  if (!abilitiesByDs.has(r.datasheetId)) abilitiesByDs.set(r.datasheetId, new Set())
+  abilitiesByDs.get(r.datasheetId).add(n)
+}
 const exclKwByEnh = new Map() // enhancementId -> [keyword name]
 for (const r of table('enhancement_excluded_keyword')) {
   if (!exclKwByEnh.has(r.enhancementId)) exclKwByEnh.set(r.enhancementId, [])
@@ -364,7 +388,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cp: { boxes: 0, units: 0, missing: [], unmatched: [] }, cond: {}, spawns: [], spawnUnread: [] }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cp: { boxes: 0, units: 0, missing: [], unmatched: [] }, cond: {}, spawns: [], spawnUnread: [], maxModels: [] }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -2007,6 +2031,26 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }
     return s
   })
+  // appdata's own ceiling on the unit (`datasheet.maxModelCount`, 8 sheets): a price row may reach
+  // past it — Corsair Voidscarred's "6-13 @140" let the editor build 13 of a unit printed "a maximum
+  // of 10 models" (2026-10-19). Unread until then.
+  const maxModels = dsById.get(bd.id)?.maxModelCount
+  if (maxModels) {
+    for (const r of rows) {
+      if (r.per[1] <= maxModels) continue
+      report.maxModels.push(`${bd.name}: ${r.per[0]}-${r.per[1]} → ${r.per[0]}-${maxModels}`)
+      // The breakdown's open-ended parts give up the excess, so its parts still add up to the row.
+      let excess = r.per[1] - Math.max(r.per[0], maxModels)
+      for (const c of r.comp || []) {
+        if (excess <= 0 || c.length !== 3) continue
+        const cut = Math.min(excess, c[2] - c[1])
+        c[2] -= cut
+        excess -= cut
+        if (c[2] === c[1]) c.length = 2
+      }
+      r.per[1] = Math.max(r.per[0], maxModels)
+    }
+  }
   const sizes = pickPrices(rows, priced, bd.name, mfmSteps)
   for (const s of sizes) {
     if (s.default && defaultTaken) delete s.default
@@ -2024,6 +2068,11 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     sizes,
   }
   if (linkedId) unit.linked = 1
+  // The names an enhancement may need that this unit has — an ability, or an item it carries
+  // (in its loadout or among its options).
+  const has = [...NEED_NAMES].filter((n) => abilitiesByDs.get(bd.id)?.has(n)
+    || (bd.wargear || []).some((w) => normApost(w.name) === normApost(n)))
+  if (has.length) unit.has = has
   const step = stepByDs.get(bd.id)
   if (step) unit.step = step
   // The copy tax stays appdata's (`datasheet_points_step` knows WHICH copy it starts at, which the
@@ -2889,6 +2938,8 @@ function buildEnhancement(e, nameToDsId, idMap) {
   if (req.length) enh.req = req
   const excl = (exclKwByEnh.get(e.id) || []).filter(Boolean)
   if (excl.length) enh.exclKw = excl
+  const needs = (needsByEnh.get(e.id) || []).filter(Boolean)
+  if (needs.length) enh.needs = needs
   if (ENH_LOCK_FIXES[name]) {
     usedLockFixes.add(name)
     const ids = ENH_LOCK_FIXES[name].map((n) => nameToDsId.get(normApost(n))).filter(Boolean)
@@ -3950,6 +4001,7 @@ if (report.spawnUnread.length) {
   console.log(`\n  ✗ an ability brings in a unit no datasheet of the faction is named or keyworded as — read it, fix spawnPhrases or the match: ${report.spawnUnread.join('; ')}`)
   return 1
 }
+if (report.maxModels.length) console.log(`\n  ${report.maxModels.length} price row(s) cut to the datasheet's own maximum (appdata maxModelCount): ${report.maxModels.join('; ')}`)
 if (report.dnu.length) {
   console.log(`\n  ✗ ${report.dnu.length} enhancement(s) nobody can take — appdata requires its "DNU" placeholder keyword; name the unit in ENH_REQ_FIXES: ${[...new Set(report.dnu)].join(', ')}`)
   return 1

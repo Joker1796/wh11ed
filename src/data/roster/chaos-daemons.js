@@ -131,6 +131,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -177,6 +180,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -240,6 +246,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 40
@@ -357,6 +366,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Bloodreaper"
@@ -454,6 +466,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "bloodletters",
@@ -499,6 +514,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 15
@@ -576,6 +594,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Blue Horror"
@@ -637,6 +658,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -684,6 +708,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "pink-horrors",
@@ -736,6 +763,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -787,6 +817,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "alleg": {
         "g": "daemonic-allegiance",
         "gid": "dbd9b3b1",
@@ -849,6 +882,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "alleg": {
         "g": "daemonic-allegiance",
         "gid": "dbd9b3b1",
@@ -919,6 +955,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Alluress"
@@ -1018,6 +1057,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "plaguebearers",
@@ -1065,6 +1107,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "flamers",
@@ -1115,6 +1160,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "screamers",
@@ -1217,6 +1265,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 25
@@ -1302,6 +1353,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Pyrocaster"
@@ -1390,6 +1444,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Gore Hound"
@@ -1459,6 +1516,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "blue-horrors",
@@ -1589,6 +1649,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 15
@@ -1671,6 +1734,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -1768,6 +1834,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "beasts-of-nurgle",
@@ -1816,6 +1885,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "daemonettes",
@@ -1868,6 +1940,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -1912,6 +1987,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "flesh-hounds",
@@ -1965,6 +2043,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 15
@@ -2035,6 +2116,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 20
@@ -2101,6 +2185,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -2154,6 +2241,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Pink Horror"
@@ -2301,6 +2391,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Plaguebringer"
@@ -2462,6 +2555,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Plagueridden"
@@ -2634,6 +2730,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -2682,6 +2781,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 20
@@ -2731,6 +2833,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -2823,6 +2928,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -2886,6 +2994,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Heartseeker"
@@ -2994,6 +3105,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -3046,6 +3160,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -3110,6 +3227,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -3156,6 +3276,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "bloodcrushers",
@@ -3206,6 +3329,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "bloodletters",
@@ -3250,6 +3376,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "plaguebearers",
@@ -3291,6 +3420,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 15
@@ -3433,6 +3565,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "plaguebearers",
@@ -3484,6 +3619,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "daemonettes",
@@ -3539,6 +3677,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -3580,6 +3721,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -3625,6 +3769,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -3664,6 +3811,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "hellflayers",
@@ -3717,6 +3867,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "daemonettes",

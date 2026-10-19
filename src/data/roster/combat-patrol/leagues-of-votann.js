@@ -289,6 +289,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Autoch-pattern combi-bolter"
+      ],
       "leads": [
         {
           "to": "bane-slayers-bulwark-einhyr-hearthguard",

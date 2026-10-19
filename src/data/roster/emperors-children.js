@@ -215,6 +215,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Terminator Champion"
@@ -500,6 +503,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 2,
         "pts": 20
@@ -555,6 +561,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Alluress"
@@ -809,6 +818,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Blissbringer"
@@ -916,6 +928,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -1153,6 +1168,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 15
@@ -1650,6 +1668,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "minis": [
         {
           "n": "Heartseeker"
@@ -1760,6 +1781,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,

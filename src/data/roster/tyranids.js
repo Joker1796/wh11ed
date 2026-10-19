@@ -491,6 +491,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -1063,6 +1066,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -1250,6 +1256,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -1294,7 +1303,10 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "has": [
+        "Deep Strike"
+      ]
     },
     {
       "id": "neurogaunts",
@@ -1649,6 +1661,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -1790,6 +1805,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -1842,6 +1860,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -2021,7 +2042,10 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "has": [
+        "Deep Strike"
+      ]
     },
     {
       "id": "sporocyst",
@@ -2296,6 +2320,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -2419,6 +2446,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "alleg": {
         "g": "subterranean-assault-keywords",
         "gid": "15b5271c",
@@ -2831,6 +2861,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 4,
         "pts": 10
@@ -3086,6 +3119,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -3150,6 +3186,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "tyranid-warriors-with-ranged-bio-weapons",
@@ -3552,6 +3591,9 @@ export default {
                 "Tyranids"
               ]
             }
+          ],
+          "needs": [
+            "Deep Strike"
           ]
         },
         {

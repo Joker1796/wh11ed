@@ -643,7 +643,7 @@ export default {
       "kind": "armyRule",
       "name": "Code Chivalric",
       "det": null,
-      "hash": "69950e51",
+      "hash": "06d5545b",
       "ver": 925,
       "reviewed": true,
       "effects": [

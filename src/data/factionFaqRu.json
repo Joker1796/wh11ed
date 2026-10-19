@@ -523,7 +523,8 @@
       },
       {
         "type": "errata",
-        "header": "Следующие юниты имеют ключевое слово **FRAME**:"
+        "header": "Следующие юниты имеют ключевое слово **FRAME**:",
+        "body": "**Aegis Defence Line, Baneblade, Banehammer, Banesword, Basilisk, Chimera, Deathstrike, Doomhammer, Hellhammer, Hellhound, Hydra, Leman Russ Battle Tank, Leman Russ Commander, Leman Russ Demolisher, Leman Russ Eradicator, Leman Russ Executioner, Leman Russ Exterminator, Leman Russ Punisher, Leman Russ Vanquisher, Manticore, Rogal Dorn Battle Tank, Rogal Dorn Commander, Shadowsword, Stormlord, Stormsword, Taurox, Taurox Prime, Wyvern.**"
       },
       {
         "type": "errata",

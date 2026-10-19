@@ -140,7 +140,9 @@ export function appdataToParagraphs(text) {
 export function bodyText(body) {
   return (body || [])
     .filter((b) => b.type !== 'loreAccordion' && b.type !== 'quote' && b.type !== 'image')
-    .map((b) => [b.text, b.trigger, b.effect].filter(Boolean).map(appdataToMarkup).filter(Boolean).join('\n'))
+    // A component's subtitle (since 2026-10-19 in the bundle) is part of what the reader is given:
+    // Code Chivalric's "D6: 1-2" ranges, a ritual's Warp Charge.
+    .map((b) => [b.subtitle, b.text, b.trigger, b.effect].filter(Boolean).map(appdataToMarkup).filter(Boolean).join('\n'))
     .filter(Boolean)
     .join('\n')
 }

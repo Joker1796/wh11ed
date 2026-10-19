@@ -108,7 +108,7 @@ const en = {
           restrictions: "",
         },
         {
-          name: "Berzerker’S Wrath",
+          name: "Berzerker’s Wrath",
           sublabel: "Berzerker Warband – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "opponent",

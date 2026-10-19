@@ -1230,6 +1230,13 @@ If a unit was selected to fight and none of the models in it make any attacks, i
               fromApp: true,
               body: `The term 'saving throw' is the same as **save roll**.`,
             },
+            {
+              id: 'section-05-03-02',
+              sectionNum: '05.03.02',
+              title: 'Attacks Modified during Hit and Wound Rolls',
+              fromApp: true,
+              body: `Some attacks may be modified as a result of the values of **hit/wound rolls** made for those attacks. When this happens, split those attacks into attack pools based on their new identical attack profiles. The active player can decide which attack pool to resolve first for steps 5.3 and 5.4. Once those steps have been completed for that attack pool, the active player can decide the next pool to resolve and repeat until all new attack pools are resolved.`,
+            },
           ],
         },
         {
@@ -2431,6 +2438,10 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             {
               title: 'Saving Throw (спас-бросок)',
               body: `Термин «saving throw» — это то же самое, что и **спас-бросок**.`,
+            },
+            {
+              title: 'Атаки, изменённые при бросках на попадание и ранение',
+              body: `Некоторые атаки могут измениться из-за значений **бросков на попадание/ранение**, сделанных для этих атак. В этом случае разделите эти атаки на пулы атак по их новым одинаковым профилям атаки. Активный игрок решает, какой пул атак отыграть первым на шагах 5.3 и 5.4. Когда эти шаги для пула атак завершены, активный игрок выбирает следующий пул и повторяет, пока не будут отыграны все новые пулы атак.`,
             },
           ],
         },

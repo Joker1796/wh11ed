@@ -531,6 +531,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Autoch-pattern combi-bolter"
+      ],
       "leads": [
         {
           "to": "einhyr-hearthguard",
@@ -1736,6 +1739,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Autoch-pattern combi-bolter"
+      ],
       "leads": [
         {
           "to": "einhyr-hearthguard",
@@ -2596,6 +2602,9 @@ export default {
                 "Leagues of Votann"
               ]
             }
+          ],
+          "needs": [
+            "Autoch-pattern combi-bolter"
           ]
         },
         {

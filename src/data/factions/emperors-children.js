@@ -259,7 +259,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       stratagems: [
         {
           name: "Catalytic Stimulus",
-          sublabel: "Court of the Phoenician – Stratagem",
+          sublabel: "Court of the Phoenician – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "opponent",
           flavor: "Invigorated by pain, the Emperor’s Children will embrace an enemy’s attack as a catalyst for masterful vengeance.",
@@ -271,7 +271,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
         },
         {
           name: "Prideful Superiority",
-          sublabel: "Court of the Phoenician – Stratagem",
+          sublabel: "Court of the Phoenician – Battle Tactic Stratagem",
           cp: "2CP",
           turn: "either",
           flavor: "The chance to ostentatiously humble the foe’s champions and prove them worthless rivals is a lure few Emperor’s Children can resist.",
@@ -282,7 +282,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
         },
         {
           name: "Contemptuous Disregard",
-          sublabel: "Court of the Phoenician – Stratagem",
+          sublabel: "Court of the Phoenician – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "either",
           flavor: "With cocktails of resilience-enhancing stimms or armour inlaid with forbidden runes of warding, the Emperor’s Children sneeringly disregard even powerful blows.",
@@ -293,7 +293,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
         },
         {
           name: "Euphoric Inspiration",
-          sublabel: "Court of the Phoenician – Stratagem",
+          sublabel: "Court of the Phoenician – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "your",
           flavor: "Those with the Dark Prince’s blessings inspire euphoric floods of battle-lust in the Emperor’s Children, who power towards the foe with screams of murderous ecstasy.",
@@ -304,7 +304,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
         },
         {
           name: "Close-Quarters Excruciation",
-          sublabel: "Court of the Phoenician – Stratagem",
+          sublabel: "Court of the Phoenician – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "your",
           flavor: "At short range, the Emperor’s Children eagerly target weak points in their enemies, exulting over every cry of pain they elicit.",
@@ -315,7 +315,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
         },
         {
           name: "Sinuous Breach",
-          sublabel: "Court of the Phoenician – Stratagem",
+          sublabel: "Court of the Phoenician – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "your",
           flavor: "The power of Slaanesh is an undulating and writhing thing, and his daemonic servants can mould their forms to slither over and through any obstacle.",

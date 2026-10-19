@@ -271,7 +271,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       stratagems: [
         {
           name: "Snap to It",
-          sublabel: "Grizzled Company – Stratagem",
+          sublabel: "Grizzled Company – Epic Deed Stratagem",
           cp: "1CP",
           turn: "either",
           flavor: "Reading the flow of battle and reacting in accordance, this officer expects their barked orders to be followed post-haste.",
@@ -282,7 +282,7 @@ Until the start of your next Command phase, the unit you selected is affected by
         },
         {
           name: "Veteran Sharpshooters",
-          sublabel: "Grizzled Company – Stratagem",
+          sublabel: "Grizzled Company – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "your",
           flavor: "Marksmanship is a skill that only increases with experience.",
@@ -293,7 +293,7 @@ Until the start of your next Command phase, the unit you selected is affected by
         },
         {
           name: "No Retreat!",
-          sublabel: "Grizzled Company – Stratagem",
+          sublabel: "Grizzled Company – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "your",
           flavor: "Battle-hardened and zealous, the company’s grizzled elites will gladly give their lives to honour the Emperor.",
@@ -304,7 +304,7 @@ Until the start of your next Command phase, the unit you selected is affected by
         },
         {
           name: "Purging Fire",
-          sublabel: "Grizzled Company – Stratagem",
+          sublabel: "Grizzled Company – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "your",
           flavor: "Clear the area and defend your objectives. Take no prisoners.",
@@ -315,7 +315,7 @@ Until the start of your next Command phase, the unit you selected is affected by
         },
         {
           name: "Mordian Minute",
-          sublabel: "Grizzled Company – Stratagem",
+          sublabel: "Grizzled Company – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "your",
           flavor: "Named for the soldiers of Mordian, this rapid-fire drill requires exceptional accuracy and coordination, but renders even the humble lasgun highly lethal.",
@@ -326,7 +326,7 @@ Until the start of your next Command phase, the unit you selected is affected by
         },
         {
           name: "Additional Armour",
-          sublabel: "Grizzled Company – Stratagem",
+          sublabel: "Grizzled Company – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "opponent",
           flavor: "Veteran soldiers know the value of additional protection, whether welded to vehicles or worn under flak armour.",

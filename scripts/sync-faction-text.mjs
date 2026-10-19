@@ -215,6 +215,15 @@ export async function eachFactionTextPair(slug, visit, report = () => {}) {
       const a = appStratByName.get(norm(s.name))
       if (!a) continue
       const lbl = `detachment "${d.name}" · stratagem "${s.name}"`
+      // Whose turn it is played in — the card's colour. appdata's own field (`key`, in the bundle
+      // as `turn` since 2026-10-19); 59 hand-written ones disagreed with it, unseen.
+      const TURN = { yourTurn: 'your', opponentsTurn: 'opponent', eitherPlayer: 'either' }
+      // …and its category, which the card's sublabel names ("Bully Boyz – Battle Tactic Stratagem").
+      const CAT = { strategicPloy: 'Strategic Ploy', battleTactic: 'Battle Tactic', epicDeed: 'Epic Deed', wargear: 'Wargear' }
+      const cat = CAT[a.category] || null
+      const shown = Object.values(CAT).find((c) => (s.sublabel || '').includes(`${c} Stratagem`)) || null
+      if (shown !== cat) report(`  ~ ${lbl} · CATEGORY: wh11ed ${JSON.stringify(shown)}, appdata ${JSON.stringify(cat)}`)
+      if (a.turn && TURN[a.turn] && s.turn !== TURN[a.turn]) report(`  ~ ${lbl} · TURN: wh11ed ${JSON.stringify(s.turn ?? null)}, appdata ${TURN[a.turn]}`)
       visit(`${lbl} · WHEN`, s.when, [a.when])
       visit(`${lbl} · TARGET`, s.target, [a.target])
       // A second effect (the bundle carries it since 2026-10-19 — Hulking Brutes' "Or:" for 1CP

@@ -64,6 +64,9 @@ export function lockedToExactUnit(enh, def) {
  */
 export function enhEligible(enh, def, granted = []) {
   if (!enh || !def) return false
+  // What it needs besides keywords — an ability or an item carried (`needs`, appdata's
+  // enhancement_datasheet_ability / _required_wargear_item): the unit must have each (`has`).
+  if (enh.needs?.some((n) => !(def.has || []).includes(n))) return false
   // `granted` are keywords the ENTRY gained rather than the datasheet printing them — today the
   // allegiance upgrades that hand CHARACTER to a vehicle, which is precisely what makes it able to
   // carry an enhancement. Callers without an entry pass nothing and get the printed sheet's answer.

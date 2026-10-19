@@ -727,7 +727,7 @@ The combined points value of such units you can include in your army depends on 
           restrictions: "",
         },
         {
-          name: "At the Tyrant’S Command",
+          name: "At the Tyrant’s Command",
           sublabel: "Huron’s Marauders – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "your",
@@ -804,7 +804,7 @@ The combined points value of such units you can include in your army depends on 
       stratagems: [
         {
           name: "Malicious Surge",
-          sublabel: "Nightmare Hunt – Stratagem",
+          sublabel: "Nightmare Hunt – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "your",
           flavor: "Pairing unholy power with blistering speed, the full horror of these warriors’ strength is brought crashing into their foes.",
@@ -815,7 +815,7 @@ The combined points value of such units you can include in your army depends on 
         },
         {
           name: "Horrific Incursion",
-          sublabel: "Nightmare Hunt – Stratagem",
+          sublabel: "Nightmare Hunt – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "your",
           flavor: "Accompanied by a burst of sensory torment, a sudden deployment can shatter the prey’s discipline.",
@@ -826,7 +826,7 @@ The combined points value of such units you can include in your army depends on 
         },
         {
           name: "Relentless Terror",
-          sublabel: "Nightmare Hunt – Stratagem",
+          sublabel: "Nightmare Hunt – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "your",
           flavor: "These warriors strike in screaming waves, each charge as brutal as the last.",
@@ -837,7 +837,7 @@ The combined points value of such units you can include in your army depends on 
         },
         {
           name: "Talons Sunk Deep",
-          sublabel: "Nightmare Hunt – Stratagem",
+          sublabel: "Nightmare Hunt – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "either",
           flavor: "When indecision and terror grip the foe, their frailties are exposed to the cruelest of lunges.",
@@ -848,7 +848,7 @@ The combined points value of such units you can include in your army depends on 
         },
         {
           name: "Prey on the Weak",
-          sublabel: "Nightmare Hunt – Stratagem",
+          sublabel: "Nightmare Hunt – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "either",
           flavor: "Suitably wounded, or with the corpses of their comrades around them, the enemy’s faltering cohesion marks them as doomed.",
@@ -859,7 +859,7 @@ The combined points value of such units you can include in your army depends on 
         },
         {
           name: "Sadistic Display",
-          sublabel: "Nightmare Hunt – Stratagem",
+          sublabel: "Nightmare Hunt – Battle Tactic Stratagem",
           cp: "1CP",
           turn: "either",
           flavor: "It is not enough to slay. The foe’s allies must understand exactly what horrors await them.",

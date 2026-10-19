@@ -780,7 +780,7 @@ Each time you use one of the Stratagems opposite, if your Fate dice pool contain
           name: 'Presentiment of Dread',
           sublabel: 'Seer Council – Strategic Ploy Stratagem',
           cp: '1CP',
-          turn: 'your',
+          turn: 'either',
           flavor: 'The seer plucks fate to find the foe suffering a horrible death, then projects it into their minds.',
           when: 'Command phase.',
           target: 'One ASURYANI PSYKER model from your army.',
@@ -1266,7 +1266,7 @@ Each time a **Harlequins** unit from your army disembarks from a TRANSPORT, unti
       stratagems: [
         {
           name: 'Fangs of the Brood',
-          sublabel: "Serpent's Brood – Stratagem",
+          sublabel: "Serpent's Brood – Battle Tactic Stratagem",
           cp: '1CP',
           turn: 'either',
           flavor: "Many are the heads of the brood, and many their fangs. As they spring and tumble over their foes, the Harlequins' weapons echo the multiplicity of strikes unleashed by that mythic nest of snakes.",
@@ -1277,7 +1277,7 @@ Each time a **Harlequins** unit from your army disembarks from a TRANSPORT, unti
         },
         {
           name: 'Venomous Wrath',
-          sublabel: "Serpent's Brood – Stratagem",
+          sublabel: "Serpent's Brood – Strategic Ploy Stratagem",
           cp: '1CP',
           turn: 'your',
           flavor: 'Embodying the serpent that strikes with blinding swiftness, this grav-skimmer lunges suddenly into range and unleashes its full fury on the foe.',
@@ -1288,7 +1288,7 @@ Each time a **Harlequins** unit from your army disembarks from a TRANSPORT, unti
         },
         {
           name: 'Striking Stride',
-          sublabel: "Serpent's Brood – Stratagem",
+          sublabel: "Serpent's Brood – Strategic Ploy Stratagem",
           cp: '1CP',
           turn: 'your',
           flavor: 'Springing between pillars and rubble, bounding forwards as though running on thin air, the Harlequins acrobatically hurl themselves into battle.',
@@ -1299,7 +1299,7 @@ Each time a **Harlequins** unit from your army disembarks from a TRANSPORT, unti
         },
         {
           name: "Weaver’s Coils",
-          sublabel: "Serpent's Brood – Stratagem",
+          sublabel: "Serpent's Brood – Strategic Ploy Stratagem",
           cp: '1CP',
           turn: 'your',
           flavor: 'Inescapable yet impossible to catch, this unit personifies the ever-winding and incorporeal coils of the Skyweavers of myth.',
@@ -1310,7 +1310,7 @@ Each time a **Harlequins** unit from your army disembarks from a TRANSPORT, unti
         },
         {
           name: 'Weaving Stride',
-          sublabel: "Serpent's Brood – Stratagem",
+          sublabel: "Serpent's Brood – Strategic Ploy Stratagem",
           cp: '1CP',
           turn: 'opponent',
           flavor: 'Maintaining their blistering pace, these warriors respond to their foes’ steps in the saedath with their own gravity-defying motions.',
@@ -1321,7 +1321,7 @@ Each time a **Harlequins** unit from your army disembarks from a TRANSPORT, unti
         },
         {
           name: 'Skyward Lunge',
-          sublabel: "Serpent's Brood – Stratagem",
+          sublabel: "Serpent's Brood – Strategic Ploy Stratagem",
           cp: '1CP',
           turn: 'opponent',
           flavor: 'Like a serpent rearing back to strike at its prey anew, the Harlequins sweep high and appear to quit the field, ready to descend in fury a moment later.',
@@ -1378,7 +1378,7 @@ Each time a **Harlequins** unit from your army disembarks from a TRANSPORT, unti
           name: "Raider’s Spoils",
           sublabel: 'Eldritch Raiders – Strategic Ploy Stratagem',
           cp: '1CP',
-          turn: 'your',
+          turn: 'either',
           flavor: 'Even as battle rages around them, the Eldritch Raiders prioritise the seizing of treasures above the destruction of their foes.',
           when: 'Command phase.',
           target: 'One Anhrathe unit from your army that is within Engagement Range of one or more enemy units.',

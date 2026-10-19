@@ -32,6 +32,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "chosen",
@@ -939,6 +942,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "alleg": {
         "g": "mark-of-chaos",
         "gid": "c890819b",
@@ -1710,6 +1716,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "alleg": {
         "g": "mark-of-chaos",
         "gid": "c890819b",
@@ -2242,6 +2251,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 30
@@ -4943,6 +4955,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "raptors",
@@ -5610,6 +5625,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "alleg": {
         "g": "daemonic-allegiance",
         "gid": "4957a102",
@@ -5673,6 +5691,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "chosen",
@@ -5942,6 +5963,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "leads": [
         {
           "to": "mutilators",
@@ -7110,6 +7134,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 20
@@ -7582,6 +7609,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -7821,6 +7851,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -9089,6 +9122,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "alleg": {
         "g": "mark-of-chaos",
         "gid": "7aa26722",
@@ -9866,6 +9902,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "defaults": [
         [
           0,
@@ -10002,6 +10041,9 @@ export default {
         }
       ],
       "linked": 1,
+      "has": [
+        "Deep Strike"
+      ],
       "step": {
         "at": 3,
         "pts": 10
@@ -11236,6 +11278,9 @@ export default {
                 "Heretic Astartes"
               ]
             }
+          ],
+          "needs": [
+            "Deep Strike"
           ]
         },
         {
@@ -11248,6 +11293,9 @@ export default {
                 "Heretic Astartes"
               ]
             }
+          ],
+          "needs": [
+            "Deep Strike"
           ]
         },
         {
@@ -11260,6 +11308,9 @@ export default {
                 "Heretic Astartes"
               ]
             }
+          ],
+          "needs": [
+            "Deep Strike"
           ]
         }
       ]

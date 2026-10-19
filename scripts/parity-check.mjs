@@ -69,7 +69,9 @@ const brackets = (s) => {
   const out = []
   for (const m of S(s).matchAll(/\[([^\]]*)\]/g)) {
     if (/^(gloss|def|img):/.test(m[1])) continue
-    out.push(m[1].trim())
+    // The same list spelt with or without a space after its commas, or with a non-breaking hyphen
+    // (appdata's EN FAQ has both), is the same list.
+    out.push(m[1].trim().replace(/\s*,\s*/g, ', ').replace(/\u2011/g, '-'))
   }
   return out.sort()
 }
@@ -563,9 +565,14 @@ if (!only) {
   const faqEn = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'factionFaq.json'), 'utf8'))
   const faqRu = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'data', 'factionFaqRu.json'), 'utf8'))
   for (const [slug, entry] of Object.entries(faqEn)) {
-    const enItems = Array.isArray(entry) ? entry : entry.items || []
+    // `entries` of { type, header, body } since the FAQ moved to appdata; this read `items` / `a`
+    // until 2026-10-19 and checked none of the 616 entries while printing a clean count. An
+    // unknown shape now fails rather than reading as empty.
+    const itemsOf = (e) => (Array.isArray(e) ? e : e?.entries ?? e?.items)
+    const enItems = itemsOf(entry)
     const ruEntry = faqRu[slug]
-    const ruItems = Array.isArray(ruEntry) ? ruEntry : ruEntry?.items || []
+    const ruItems = itemsOf(ruEntry) || []
+    if (!Array.isArray(enItems)) { errors.push(`faction FAQ ${slug}: no entries list — the file's shape changed under this check`); continue }
     if (!ruEntry) {
       if (enItems.length) notes.push(`faction FAQ ${slug}: ${enItems.length} EN item(s), no RU overlay`)
       continue
@@ -576,7 +583,8 @@ if (!only) {
     }
     enItems.forEach((it, i) => {
       pairs++
-      checkPair(`faction FAQ ${slug}[${i}] · a`, it.a ?? it.answer, ruItems[i]?.a ?? ruItems[i]?.answer, errors, notes)
+      if ((it.type || null) !== (ruItems[i]?.type || null)) errors.push(`faction FAQ ${slug}[${i}]: EN ${it.type}, RU ${ruItems[i]?.type} — the overlay has shifted`)
+      checkPair(`faction FAQ ${slug}[${i}] · body`, it.body ?? it.a ?? it.answer, ruItems[i]?.body ?? ruItems[i]?.a ?? ruItems[i]?.answer, errors, notes)
     })
   }
 

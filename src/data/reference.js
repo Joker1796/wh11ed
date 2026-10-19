@@ -418,7 +418,9 @@ See Attached Units (19).`,
       name: '[TORRENT]',
       type: 'weapon',
       flavor: 'Torrent weapons project clouds of fire, gas or other lethal substances that few foes can hope to evade.',
-      fullText: `Each time an attack is made with a **[TORRENT]** weapon, that attack automatically hits the target.`,
+      fullText: `Each time an attack is made with a **[TORRENT]** weapon, that attack automatically hits the target.
+
+**[TORRENT]** weapons cannot have **[INDIRECT FIRE]** or **[PRECISION]**.`,
     },
     {
       num: '24.38',
@@ -699,7 +701,9 @@ See Attached Units (19).`,
     {
       // 24.37 [TORRENT]
       flavor: 'Оружие с потоковым поражением выбрасывает облака огня, газа или других смертоносных веществ, от которых мало кто из врагов может надеяться уйти.',
-      fullText: `Каждый раз, когда атака совершается оружием **[TORRENT]**, эта атака автоматически попадает в цель.`,
+      fullText: `Каждый раз, когда атака совершается оружием **[TORRENT]**, эта атака автоматически попадает в цель.
+
+Оружие **[TORRENT]** не может иметь **[INDIRECT FIRE]** или **[PRECISION]**.`,
     },
     {
       // 24.38 [TWIN-LINKED]

@@ -1156,7 +1156,7 @@ export default {
       "kind": "detachmentRule",
       "name": "Cosmic Distortion",
       "det": "Pantheon of Woe",
-      "hash": "2e60a45d",
+      "hash": "5c4c5667",
       "ver": 925,
       "reviewed": true,
       "effects": [],

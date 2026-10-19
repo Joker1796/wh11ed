@@ -41,7 +41,7 @@ export const stratNamesRu = {
   'Privateer Arsenal': 'Арсенал капера',
   'Ancestral Sentence': 'Приговор предков',
   'Honour of the Hold': 'Честь Твердыни',
-  'Huntr’S Mark': 'Метка охотника',
+  'Huntr’s Mark': 'Метка охотника',
   'Ordered Retreat': 'Организованный отход',
   'Reactive Reprisal': 'Реактивное возмездие',
   'Void Hardened': 'Закалены пустотой',
