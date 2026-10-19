@@ -318,7 +318,7 @@ function noteOf(entry, effect, applied, via = null, live = true) {
     applied,
     live,
     // A dice modifier: never rewrites the table, and the card says so beside it.
-    roll: ROLL_STATS.has(effect.stat),
+    roll: ROLL_STATS.has(effect.stat || ''),
   }
 }
 
@@ -483,7 +483,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
         }
         // A weapon ability joins that row's printed tags, in the same shape DatasheetCard reads.
         let added = false
-        for (const table of WEAPON_TABLES[effect.on] || []) {
+        for (const table of WEAPON_TABLES[effect.on || ''] || []) {
           const rows = current()[table] || []
           for (let i = 0; i < rows.length; i++) {
             if (!rowMatchesOnly(asFound[table]?.[i], effect.only) || !inRows(effect, table, i)) continue
@@ -513,10 +513,11 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
         const at = TAGGED.exec(String(effect.value).trim())
         let bumped = false
         if (at) {
-          for (const table of WEAPON_TABLES[effect.on] || []) {
+          for (const table of WEAPON_TABLES[effect.on || ''] || []) {
             const rows = current()[table] || []
             for (let i = 0; i < rows.length; i++) {
               if (!rowMatchesOnly(asFound[table]?.[i], effect.only) || !inRows(effect, table, i)) continue
+              /** @type {string[]} */
               const tags = rows[i].tags || []
               const next = tags.map((t) => bumpTag(t, at[1], at[2]) ?? t)
               if (next.every((t, k) => t === tags[k])) continue
@@ -535,12 +536,12 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       // roll". Not a characteristic: +1 to the Hit roll is not BS 3+ → 2+ (roll modifiers cap at
       // ±1 and an unmodified 1 still fails), so no cell is ever rewritten. It is still in force, so
       // it is a LIVE note, and `roll` tells the card to explain why the table above did not move.
-      if (ROLL_STATS.has(effect.stat)) {
+      if (ROLL_STATS.has(effect.stat || '')) {
         notes.push(noteOf(entry, effect, false, via))
         continue
       }
 
-      const tables = effect.on === 'profile' ? ['profiles'] : (WEAPON_TABLES[effect.on] || [])
+      const tables = effect.on === 'profile' ? ['profiles'] : (WEAPON_TABLES[effect.on || ''] || [])
       /** @param {string} t */
       const markPrefix = (t) => (t === 'profiles' ? 'profile' : t)
 
@@ -551,11 +552,12 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           // `only` never applies to a model profile — it names weapons.
           if (table !== 'profiles' && !rowMatchesOnly(asFound[table][i], effect.only)) continue
           if (!inRows(effect, table, i)) continue
-          const before = current()[table][i][effect.stat]
-          const next = applyValue(before, effect.op, effect.value, effect.stat, effect.best)
+          const stat = effect.stat || ''
+          const before = current()[table][i][stat]
+          const next = applyValue(before, effect.op, effect.value, stat, effect.best)
           if (next == null || next === String(before)) continue
-          target()[table][i][effect.stat] = next
-          marks.add(`${markPrefix(table)}:${effect.stat}:${i}`)
+          target()[table][i][stat] = next
+          marks.add(`${markPrefix(table)}:${stat}:${i}`)
           changed = true
         }
       }
@@ -1300,7 +1302,7 @@ export function splitBearers(sheet, entries, def, entry, items) {
           for (const [times, n] of byCopies(layers)) spots.push(groupAt('profiles', p, modelsOf.get(p) ?? 0, n, times))
         }
       } else {
-        for (const table of WEAPON_TABLES[effect.on] || []) {
+        for (const table of WEAPON_TABLES[effect.on || ''] || []) {
           for (const [i, w] of (sheet[table] || []).entries()) {
             if (!rowMatchesOnly(w, effect.only)) continue
             const g = (w.qty || 1) === unitModels ? groupAt(table, i, unitModels, total) : null
