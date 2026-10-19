@@ -975,6 +975,37 @@
               >{{ labels.trackerScoreBp }}</button>
             </div>
           </label>
+          <!-- Strict rules (strictRules.js): agreed at the table like the score, and fixed once the
+               game starts — EditSetupModal shows it, never changes it. -->
+          <div
+            class="field"
+            data-tour="setup-strict"
+          >
+            <span>
+              {{ labels.trackerStrictRules }}
+              <button
+                type="button"
+                class="help-btn"
+                data-press
+                :aria-label="labels.trackerStrictHelpAria"
+                @click="strictHelpOpen = true"
+              ><i class="wi wi-help" /></button>
+            </span>
+            <div class="seg">
+              <button
+                :class="{ on: !settings.strictRules }"
+                @click="settings.strictRules = false"
+              >
+                {{ labels.trackerStrictFree }}
+              </button>
+              <button
+                :class="{ on: !!settings.strictRules }"
+                @click="settings.strictRules = true"
+              >
+                {{ labels.trackerStrictOn }}
+              </button>
+            </div>
+          </div>
           <div
             class="field"
             data-tour="setup-attacker"
@@ -1295,6 +1326,13 @@
     />
 
     <OptionHelpModal
+      v-if="strictHelpOpen"
+      :title="labels.trackerStrictHelpTitle"
+      :text="labels.trackerStrictHelp"
+      @close="strictHelpOpen = false"
+    />
+
+    <OptionHelpModal
       v-if="roleHelpOpen"
       :title="labels.trackerRole"
       :text="labels.trackerRoleHelp"
@@ -1377,6 +1415,8 @@ const lastYouName = lastGame
   : ''
 // Default the score mode to the last game's choice (older games lack it → fall back to VP).
 const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'vp'
+// Strict rules, the same way: off for a first game (owner, 2026-10-19), the last game's after.
+const lastStrict = !!history.value[0]?.settings?.strictRules
 // What the game keeps track of: each option's own default, overridden by the last finished game's
 // choice where the option remembers one. The table (trackerOptions.js) owns both, so a new option
 // is added there and nothing here changes.
@@ -1408,7 +1448,7 @@ function defaultPlayer(role, name = '') {
     teamName: '', forceType: null, members: [defaultMember(), defaultMember()],
   }
 }
-const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, gameType: 'singles', dpPerPlayer: null, twist: null, twistMission: null, scoreMode: lastScoreMode }
+const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, gameType: 'singles', dpPerPlayer: null, twist: null, twistMission: null, scoreMode: lastScoreMode, strictRules: lastStrict }
 
 // WHERE THE FORM'S STATE LIVES. Normally in this component: a draft, persisted so it survives a
 // reload. Once the setup is SHARED it lives in the game itself (`current`, phase 'setup') — and
@@ -1760,6 +1800,7 @@ function randomTwist() {
 }
 
 const scoreHelpOpen = ref(false)
+const strictHelpOpen = ref(false)
 const forceTypeHelpOpen = ref(false)
 const roleHelpOpen = ref(false)
 // Step 3's two-column desktop layout (`.two-col`, >700px): the layout tabs move into the side

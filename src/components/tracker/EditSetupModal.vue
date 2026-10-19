@@ -191,6 +191,27 @@
             >{{ labels.trackerScoreBp }}</button>
           </div>
         </label>
+
+        <!-- Strict rules are agreed before the game and stay as they were (strictRules.js): shown,
+             greyed, with why. -->
+        <div class="field">
+          <span>{{ labels.trackerStrictRules }}</span>
+          <div class="seg">
+            <button
+              disabled
+              :class="{ on: !game.settings.strictRules }"
+            >
+              {{ labels.trackerStrictFree }}
+            </button>
+            <button
+              disabled
+              :class="{ on: !!game.settings.strictRules }"
+            >
+              {{ labels.trackerStrictOn }}
+            </button>
+          </div>
+          <small class="check-note">{{ labels.trackerStrictLocked }}</small>
+        </div>
       </div>
 
       <!-- The same block as the wizard's, off the same table — a row offered there is offered

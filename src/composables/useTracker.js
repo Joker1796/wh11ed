@@ -28,6 +28,7 @@ import { SM_FAMILY } from '../data/smChapters.js'
 import { statusRecord, setupReserves } from './unitStatus.js'
 import { TRACKER_GEN } from './trackerGen.js'
 import { pushAct, pushValueAct, pushUndo, ledgerEvent, discardEvent, COALESCE_MS } from './actionLog.js'
+import { isStrict, isLatest, canClockBack } from './strictRules.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -616,6 +617,57 @@ export function useTracker() {
     return { round: g.currentRound, turn: g.currentTurn === 1 ? 1 : 0 }
   }
 
+  // ── Strict rules (strictRules.js): why an act is refused in a game played by the book ──
+  // null = allowed (always, in a game without the switch). The mutators below ask before acting
+  // and the screen asks the same to grey its button with the reason (ui.js `trackerStrict_<why>`).
+  //   'choose' · 'return' · 'pencil' — refused outright;
+  //   'round' (arg: the round written into) — a round already over;
+  //   'hand' (arg: the card) — a tactical card not in the hand;
+  //   'undo' (arg: when the act taken back was made) — only the side's last act;
+  //   'clock' — the clock back, one step and only right after it moved.
+  function strictWhy(action, pi, arg) {
+    const g = current.value
+    if (!isStrict(g)) return null
+    switch (action) {
+      case 'choose': return 'random'
+      case 'return': return 'noReturn'
+      case 'pencil': return 'noPencil'
+      case 'round': return arg < g.currentRound ? 'pastRound' : null
+      case 'hand': {
+        const pl = g.players[pi]
+        return pl?.secondaryMode === 'tactical' && !pl.secondary?.hand?.includes(arg) ? 'notInHand' : null
+      }
+      case 'undo': return isLatest(g, pi, arg) ? null : 'lastOnly'
+      case 'clock': return canClockBack(g) ? null : 'clockBack'
+    }
+    return null
+  }
+  // The undos by name, each with the stamp of what it would take back — one question for the
+  // mutator and its button.
+  function strictUndoWhy(kind, pi, a, b) {
+    const g = current.value
+    if (!isStrict(g)) return null
+    const pl = g.players[pi]
+    const act = (pred) => lastOpenAct(pl, pred)?.t
+    switch (kind) {
+      case 'strat': return strictWhy('undo', pi, lastStratUse(pi, a)?.t)
+      case 'unplay': {
+        const last = lastUnitPlay(pi, a, b)
+        return last ? strictWhy('undo', pi, last.t) : null
+      }
+      case 'bonus': return strictWhy('undo', pi, bonusIn(pl, g.currentRound)?.t)
+      case 'restore': return strictWhy('undo', pi, (pl.secondary?.discarded || []).find(d => (d.slug ?? d) === a)?.t)
+      case 'revive': return strictWhy('undo', pi, act(x => x.type === 'unit' && x.uid === a && x.s === 'destroyed'))
+      case 'armyFire': return strictWhy('undo', pi, act(x => x.type === 'armyFire' && (x.mi ?? null) === (a ?? null)))
+      case 'armySpend': {
+        const entry = memberAt(pl, b)?.army?.resurrected?.[a]
+        return strictWhy('undo', pi, entry && act(x => x.type === 'armySpend' && x.item === entry.label && x.cost === entry.cost && (x.mi ?? null) === (b ?? null)))
+      }
+      case 'armyBonus': return strictWhy('undo', pi, act(x => x.type === 'armyBonus' && (x.mi ?? null) === (a ?? null)))
+    }
+    return null
+  }
+
   // A score changed after it stood for a while is a correction: the old one stays in the log,
   // struck (owner, 2026-10-19). Within COALESCE_MS it is still being entered — a stepper tapped
   // three times is one score, not two corrections.
@@ -625,6 +677,7 @@ export function useTracker() {
   }
 
   function setRoundPrimary(pi, roundIdx, value) {
+    if (strictWhy('round', pi, roundIdx + 1)) return
     const pl = current.value.players[pi]
     const round = pl.rounds[roundIdx]
     const before = { vp: round.primary, t: round.t }
@@ -639,6 +692,7 @@ export function useTracker() {
   // battle are not subject to the 15VP per battle round scoring limit") — twelve primaries score
   // one, and the fifth round's cap was eating it.
   function setPrimaryRow(pi, roundIdx, blockIdx, rowIdx, count) {
+    if (strictWhy('round', pi, roundIdx + 1)) return
     const pl = current.value.players[pi]
     const round = pl.rounds[roundIdx]
     const before = { vp: round.primary, t: round.t }
@@ -672,6 +726,7 @@ export function useTracker() {
   // does not explain (cpLedger.js).
   function setCp(pi, value) {
     const g = current.value
+    if (strictWhy('pencil', pi)) return
     adjustTo(g.players[pi], value, g.currentRound, g.currentTurn === 1 ? 1 : 0)
   }
 
@@ -697,7 +752,7 @@ export function useTracker() {
   }
   function undoBonusCp(pi) {
     const g = current.value
-    if (!canUndoBonus(pi)) return
+    if (!canUndoBonus(pi) || strictUndoWhy('bonus', pi)) return
     dropLedger(g.players[pi], e => e.kind === 'bonus' && e.round === g.currentRound && e.source === 'manual', clk())
   }
   // Spend / refund: the stratagems' and the replacement's way through the ledger.
@@ -861,6 +916,8 @@ export function useTracker() {
     const pl = memberAt(g.players[pi], mi)
     if (!pl.unitStatus) pl.unitStatus = {}
     const clock = { round: g.begun === false ? 0 : g.currentRound, turn: g.currentTurn === 1 ? 1 : 0, name }
+    // Strict: a destroyed unit comes back only as the side's last act taken back.
+    if (pl.unitStatus[uid]?.s === 'destroyed' && status !== 'destroyed' && strictUndoWhy('revive', pi, uid)) return
     // Moved during the battle — the reserves chosen at setup are the setup, not an act.
     if (g.begun !== false && (pl.unitStatus[uid]?.s || 'table') !== status) {
       armyAct(pi, mi, { type: 'unit', uid, name, s: status })
@@ -979,7 +1036,7 @@ export function useTracker() {
   // Undo the most recent fire (reset / correct a mis-tap).
   function undoArmyToggle(pi, mi) {
     const pl = memberAt(current.value.players[pi], mi)
-    if (!pl.army?.toggleRounds?.length) return
+    if (!pl.army?.toggleRounds?.length || strictUndoWhy('armyFire', pi, mi)) return
     pl.army.toggleRounds.pop()
     if (!pl.army.toggleRounds.length) delete pl.army.toggleRounds
     armyUndo(pi, (a) => a.type === 'armyFire' && (a.mi ?? null) === (mi ?? null))
@@ -1033,7 +1090,7 @@ export function useTracker() {
   function undoArmyResurrect(pi, index, mi) {
     const pl = memberAt(current.value.players[pi], mi)
     const entry = pl.army?.resurrected?.[index]
-    if (!entry) return
+    if (!entry || strictUndoWhy('armySpend', pi, index, mi)) return
     pl.army.resurrected.splice(index, 1)
     if (!pl.army.resurrected.length) delete pl.army.resurrected
     pl.army.counter = Math.max(0, (pl.army.counter ?? 0) + entry.cost)
@@ -1055,7 +1112,7 @@ export function useTracker() {
   // Undo the bonus (mis-tap) — the component passes the counter value with it subtracted back out.
   function undoArmyBonus(pi, newCounterValue, mi) {
     const pl = memberAt(current.value.players[pi], mi)
-    if (!pl.army?.bonusApplied) return
+    if (!pl.army?.bonusApplied || strictUndoWhy('armyBonus', pi, mi)) return
     pl.army.counter = Math.max(0, newCounterValue)
     delete pl.army.bonusApplied
     armyUndo(pi, (a) => a.type === 'armyBonus' && (a.mi ?? null) === (mi ?? null))
@@ -1095,6 +1152,7 @@ export function useTracker() {
   // again until the hand suits — and nobody would know). `returned` keeps the draw it undid and
   // when the card went back; the log tells both, so a put-back hand reads as one in the log.
   function returnSecondaryToDeck(pi, slug) {
+    if (strictWhy('return', pi)) return
     const s = current.value.players[pi].secondary
     if (s.drawn?.[slug] != null) {
       ;(s.returned ||= []).push({
@@ -1146,6 +1204,7 @@ export function useTracker() {
   // turn for 1CP gives that CP back with it, as Undo turn does (settleSide) — the hand cannot
   // keep both the card and the point it was traded for.
   function restoreSecondaryToHand(pi, slug) {
+    if (strictUndoWhy('restore', pi, slug)) return
     const pl = current.value.players[pi]
     const s = pl.secondary
     for (const d of (s.discarded || []).filter(d => (d.slug ?? d) === slug)) {
@@ -1169,7 +1228,7 @@ export function useTracker() {
     const s = current.value.players[pi].secondary
     if (!s.hand.includes(slug)) return
     if (!s.deck.length) return
-    if (pick && (pick === slug || !s.deck.includes(pick))) return
+    if (pick && (pick === slug || !s.deck.includes(pick) || strictWhy('choose', pi))) return
     s.hand = s.hand.filter(x => x !== slug)
     dropCardTrail(pi, slug)
     if (s.drawn) delete s.drawn[slug]
@@ -1203,6 +1262,7 @@ export function useTracker() {
   // to have been achieved in a past round is achieved — it leaves the hand, as it would have at
   // the end of that turn (setAsideAchieved).
   function scoreSecondaryRow(pi, slug, blockIdx, rowIdx, count, round = current.value.currentRound) {
+    if (strictWhy('round', pi, round) || strictWhy('hand', pi, slug)) return
     const s = current.value.players[pi].secondary
     let entry = s.scored.find(e => e.slug === slug && e.round === round)
     if (!entry) { entry = { slug, round, picks: {}, vp: 0 }; s.scored.push(entry) }
@@ -1266,7 +1326,7 @@ export function useTracker() {
     markTook(pi, 'random')
   }
   function takeChosenSecondaries(pi, slugs) {
-    if (!canTakeSecondaries(pi)) return
+    if (!canTakeSecondaries(pi) || strictWhy('choose', pi)) return
     const deck = current.value.players[pi].secondary.deck
     const pick = [...new Set(slugs)].filter(x => deck.includes(x))
     if (pick.length !== Math.min(TAKE_COUNT, deck.length)) return
@@ -1283,7 +1343,7 @@ export function useTracker() {
     return mine.length > 0 && mine.every(slug => s.hand.includes(slug) && !s.scored.some(e => e.slug === slug && (e.vp || 0) > 0))
   }
   function untakeSecondaries(pi) {
-    if (!canUntakeSecondaries(pi)) return
+    if (!canUntakeSecondaries(pi) || strictWhy('return', pi)) return
     const g = current.value
     const s = g.players[pi].secondary
     for (const [slug, r] of Object.entries(s.drawn || {})) if (r === g.currentRound) returnSecondaryToDeck(pi, slug)
@@ -1357,7 +1417,7 @@ export function useTracker() {
   }
   function undoStratagem(pi, key) {
     const last = lastStratUse(pi, key)
-    if (!last) return
+    if (!last || strictUndoWhy('strat', pi, key)) return
     dropLedger(current.value.players[pi], e => e === last, clk())
     unsetTarget(pi, last)
   }
@@ -1389,10 +1449,14 @@ export function useTracker() {
   // The card's box unticked: the latest play of that stratagem on that unit this battle round goes,
   // its CP with it; a mark with no play behind it (set before plays were linked, or in a game not
   // counting CP) just comes off.
-  function unplayOnUnit(pi, uid, sid, mi = null) {
+  function lastUnitPlay(pi, uid, sid) {
     const R = current.value?.currentRound
+    return (current.value.players[pi].cpLog || []).filter(e => e.kind === 'spend' && e.round === R && e.target?.uid === uid && e.target?.sid === sid).at(-1)
+  }
+  function unplayOnUnit(pi, uid, sid, mi = null) {
     const pl = current.value.players[pi]
-    const last = (pl.cpLog || []).filter(e => e.kind === 'spend' && e.round === R && e.target?.uid === uid && e.target?.sid === sid).at(-1)
+    const last = lastUnitPlay(pi, uid, sid)
+    if (strictUndoWhy('unplay', pi, uid, sid)) return
     if (last) dropLedger(pl, e => e === last, clk())
     setUnitStratagem(pi, uid, sid, 0, false, mi)
   }
@@ -1412,7 +1476,7 @@ export function useTracker() {
     const g = current.value
     const s = g.players[pi].secondary
     if (!canCpRedraw(pi) || !s.hand.includes(slug)) return
-    if (pick && !s.deck.includes(pick)) return
+    if (pick && (!s.deck.includes(pick) || strictWhy('choose', pi))) return
     s.hand = s.hand.filter(x => x !== slug)
     s.discarded.push({ slug, round: g.currentRound, t: Date.now() })
     s.cpRedrawUsed = true
@@ -1486,7 +1550,7 @@ export function useTracker() {
   // boundary goes through goToRound so the secondary-card housekeeping there still happens.
   function stepPhase(delta) {
     const g = current.value
-    if (!g || !canStepPhase(delta)) return
+    if (!g || !canStepPhase(delta) || (delta < 0 && strictWhy('clock'))) return
     moveClock(() => stepClock(g, delta))
   }
   function stepClock(g, delta) {
@@ -1517,6 +1581,7 @@ export function useTracker() {
     const starting = g.begun === false
     delete g.begun
     if (starting) pushAct(g, { type: 'turn', round: g.currentRound, turn: 0, pi: 0 })
+    if (starting) g.clockAt = Date.now()
   }
 
   // The turn told in the log (actionLog.js, the game's own `acts`): a turn the clock moved INTO is
@@ -1526,8 +1591,17 @@ export function useTracker() {
   function moveClock(move) {
     const g = current.value
     const from = clk()
+    const fromSlot = clockSlot(g)
     move(g)
     const to = clk()
+    // When the clock last moved, and whether that was back — what strict rules read to allow one
+    // step back right after it (strictRules.js canClockBack).
+    const step = (to.round - from.round) * SLOTS + clockSlot(g) - fromSlot
+    if (step) {
+      g.clockAt = Date.now()
+      if (step < 0) g.clockBack = true
+      else delete g.clockBack
+    }
     if (from.round === to.round && from.turn === to.turn) return
     if (clockBefore(from.round, from.turn, to.round, to.turn)) {
       pushAct(g, { type: 'turn', round: to.round, turn: to.turn, pi: to.turn })
@@ -1563,7 +1637,7 @@ export function useTracker() {
 
   function undoTurn() {
     const g = current.value
-    if (!g || !canUndoTurn()) return
+    if (!g || !canUndoTurn() || strictWhy('clock')) return
     moveClock(() => {
       // goToRound resets the clock to the round's first turn, so the target is decided up front.
       const wasFirst = g.currentTurn !== 1
@@ -1577,6 +1651,8 @@ export function useTracker() {
   function goToPhase(turn, phaseKey) {
     const g = current.value
     if (!g || !BATTLE_PHASES.includes(phaseKey)) return
+    const target = (turn === 1 ? BATTLE_PHASES.length : 0) + BATTLE_PHASES.indexOf(phaseKey)
+    if (target < clockSlot(g) && strictWhy('clock')) return
     moveClock(() => {
       g.currentTurn = turn === 1 ? 1 : 0
       g.currentPhase = phaseKey
@@ -1748,7 +1824,7 @@ export function useTracker() {
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     tookSecondaries, canTakeSecondaries, takeRandomSecondaries, takeChosenSecondaries, canUntakeSecondaries, untakeSecondaries,
     restoreSecondaryToHand, redrawSecondary, canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard,
-    canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, spendCp,
+    canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, spendCp, strictWhy, strictUndoWhy,
     stratUses, stratBlock, useStratagem, lastStratUse, undoStratagem, playStratagem, unplayOnUnit,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     setUnitStatus,
