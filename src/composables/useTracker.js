@@ -16,7 +16,7 @@ import {
   leader as leaderOf,
   youIndex,
 } from './gameScoring.js'
-import { BATTLE_PHASES, usableThisTurn } from './stratagemPhases.js'
+import { BATTLE_PHASES, usableThisTurn, usableInSlot } from './stratagemPhases.js'
 import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 import { membersOf, memberAt } from './rosterGameLink.js'
@@ -1192,6 +1192,14 @@ export function useTracker() {
     if (lim.perRound && uses.some(e => e.round === R)) return 'perRound'
     if (lim.perTurn && uses.some(e => e.round === R && e.turn === T)) return 'perTurn'
     if (tracks(g.settings, 'trackPhases') && uses.some(e => e.round === R && e.turn === T && e.phase === (g.currentPhase || 'command'))) return 'perPhase'
+    // A game not keeping phases cannot say which phase a use was in, but it knows the most a turn
+    // allows: once per phase (15.01), in the phases of this turn the stratagem's WHEN names — Fire
+    // Overwatch once (the opponent's Movement phase), Command Re-roll five times. Exact, so it
+    // holds without a "strict rules" switch (owner, 2026-10-19, after Mikhail's "a hundred times").
+    if (!tracks(g.settings, 'trackPhases')) {
+      const slots = BATTLE_PHASES.filter(p => usableInSlot(strat._phases, strat._sides, p, mine)).length
+      if (uses.filter(e => e.round === R && e.turn === T).length >= slots) return 'turnFull'
+    }
     if ((g.players[pi].cp || 0) < cost) return 'cp'
     return null
   }

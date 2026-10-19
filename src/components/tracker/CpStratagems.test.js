@@ -68,6 +68,25 @@ describe('CpStratagems', () => {
     await vi.waitFor(() => expect(document.body.querySelectorAll('.spm-cost').length).toBe(3))
   })
 
+  // 15.01: once per phase. Without phases the turn's limit is the number of phases its WHEN names
+  // in this turn — Fire Overwatch (the opponent's Movement phase) once, Command Re-roll (any
+  // phase) five times — exact, so it holds with no "strict rules" switch (owner, 2026-10-19).
+  it('without phases, allows a stratagem once per phase of the turn its WHEN names', async () => {
+    tracker.setCp(0, 6)
+    tracker.setCp(1, 5)
+    const w = await mountTab(0)
+    for (let i = 0; i < 5; i++) await row(w, 'Command Re-roll').find('.sr-use').trigger('click')
+    await flushPromises()
+    expect(tracker.current.value.players[0].cp).toBe(1)
+    expect(row(w, 'Command Re-roll').find('.sr-use').attributes('disabled')).toBeDefined()
+    expect(row(w, 'Command Re-roll').find('.sr-why').text()).toContain('every phase of this turn')
+    await w.findAll('.cps-tabs .page-tab')[1].trigger('click')
+    await row(w, 'Fire Overwatch').find('.sr-use').trigger('click')
+    await row(w, 'Fire Overwatch').find('.sr-use').trigger('click')
+    await flushPromises()
+    expect(tracker.current.value.players[1].cp).toBe(4)
+  })
+
   // Not asking (owner, 2026-10-14): one tap spends the printed cost, no dialog — and a play the
   // tracker refuses (short of CP) opens the dialog after all, since it says why.
   it('with "ask the unit and the cost" off, spends the printed cost at one tap', async () => {
