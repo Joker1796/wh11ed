@@ -11,17 +11,11 @@ import path from 'node:path'
 import { ruleScopes, scopesMisread, unitKeywordsOf, _setKeywordVocabulary } from './ruleTargets.js'
 import { unitKeywordVocabulary } from '../data/unitKeywordVocabulary.js'
 
-// Keywords a detachment's own text hands out ("Friendly Pteraxii / … units have Recon Augury",
-// "Armoured Skirmisher units (see Keywords)") that appdata records as no grant — so no unit
-// carries them and the rule stays shown to all, which beats hiding it from the units it is for.
-const KNOWN = [
-  'adeptus-mechanicus · Repolarised Augurs',
-  'astra-militarum · Omnissian Unguents',
-  'astra-militarum · Supporting Ordnance',
-  'chaos-space-marines · Soul-Tally Offerings',
-  'chaos-space-marines · Balefire Boon',
-  'chaos-space-marines · Unholy Fortitude',
-]
+// Empty since 2026-10-19: the six rules that sat here (Repolarised Augurs, Omnissian Unguents,
+// Supporting Ordnance, Soul-Tally Offerings, Balefire Boon, Unholy Fortitude) aimed at keywords their
+// detachment's own text hands out; gen-conditional-keywords.mjs's TEXT_GRANTS now grants them, so the
+// rules reach exactly their units. A new rule of that kind fails here — grant its keyword there.
+const KNOWN = []
 
 const DATA = path.resolve(import.meta.dirname, '../data')
 

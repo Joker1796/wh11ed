@@ -7,6 +7,44 @@
       }
     ]
   },
+  "adeptus-mechanicus": {
+    "pteraxii-skystalkers": [
+      {
+        "kw": "Recon Augury",
+        "det": "cohort-acquisitus"
+      }
+    ],
+    "pteraxii-sterylizors": [
+      {
+        "kw": "Recon Augury",
+        "det": "cohort-acquisitus"
+      }
+    ],
+    "serberys-raiders": [
+      {
+        "kw": "Recon Augury",
+        "det": "cohort-acquisitus"
+      }
+    ],
+    "serberys-sulphurhounds": [
+      {
+        "kw": "Recon Augury",
+        "det": "cohort-acquisitus"
+      }
+    ],
+    "sicarian-infiltrators": [
+      {
+        "kw": "Recon Augury",
+        "det": "cohort-acquisitus"
+      }
+    ],
+    "skitarii-rangers": [
+      {
+        "kw": "Recon Augury",
+        "det": "cohort-acquisitus"
+      }
+    ]
+  },
   "aeldari": {
     "troupe": [
       {
@@ -38,11 +76,131 @@
     ]
   },
   "astra-militarum": {
+    "armoured-sentinels": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "atlas-recovery-vehicle": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "carnodon": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "centaur-light-carrier": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "centaur-rsv": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "chimera": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "colossus": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "commissar-graves": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "elysian-drop-sentinel": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "hellhound": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "hippogriff-afv": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "hydra": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "salamander-command-vehicle": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "salamander-scout-vehicle": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "scout-sentinels": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "sentinel-powerlifter": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "storm-chimera": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "taurox": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
+    "taurox-prime": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
+      }
+    ],
     "tempestus-scions": [
       {
         "kw": "Battleline",
         "det": "bridgehead-strike",
         "extra": true
+      }
+    ],
+    "trojan-support-vehicle": [
+      {
+        "kw": "Armoured Skirmisher",
+        "det": "armoured-infantry"
       }
     ]
   },
@@ -201,10 +359,208 @@
     ]
   },
   "chaos-space-marines": {
+    "blood-slaughterer": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "chaos-deimos-predator": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "chaos-land-raider": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "chaos-predator-annihilator": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "chaos-predator-destructor": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "chaos-rhino": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "chaos-thunderhawk": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "chaos-vindicator": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "decimator": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "defiler": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "dreadclaw-drop-pod": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "forgefiend": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "greater-blight-drone": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "greater-brass-scorpion": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "helbrute": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "heldrake": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "hell-blade": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "hell-talon": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "kharybdis-assault-claw": [
+      {
+        "kw": "Daemon",
+        "det": "cult-of-the-arkifane"
+      },
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "khorne-lord-of-skulls": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "kytan-ravager": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "lord-discordant-on-helstalker": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "maulerfiend": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
     "traitor-guardsmen-squad": [
       {
         "kw": "Battleline",
         "det": "chaos-cult"
+      }
+    ],
+    "vashtorr-the-arkifane": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
+      }
+    ],
+    "venomcrawler": [
+      {
+        "kw": "Soul Forge",
+        "det": "cult-of-the-arkifane"
       }
     ]
   },

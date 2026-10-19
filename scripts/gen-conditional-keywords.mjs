@@ -122,6 +122,32 @@ for (const r of ck) {
 
 // Verify each grant's unit actually renders on that faction page (own or folded-in shared), and
 // drop a grant that the sheet already prints (render dedups too, but keep the sidecar minimal).
+// Keywords a detachment's own TEXT hands out and appdata records as no grant (2026-10-19; hub
+// journal paused/2026-10-15-detachment-keyword-grants). With no unit carrying them, the rules aimed
+// at those keywords were distrusted and shown on every card (ruleTargets' escape 3). Each entry
+// quotes its rule and picks the units by what the rule says — never by hand-listed ids, so a unit a
+// codex adds is picked too. `has` / `name` / `not` read the printed sheet.
+const TEXT_GRANTS = [
+  { slug: 'adeptus-mechanicus', det: 'cohort-acquisitus', kw: 'Recon Augury',
+    says: 'Friendly Pteraxii / Infiltrators / Rangers / Serberys Raiders / Serberys Sulphurhounds units have Recon Augury.',
+    pick: (d) => /\b(Pteraxii|Infiltrators|Rangers|Serberys Raiders|Serberys Sulphurhounds)\b/i.test(d.name) },
+  { slug: 'astra-militarum', det: 'armoured-infantry', kw: 'Armoured Skirmisher',
+    says: 'Astra Militarum Squadron units from your army have the ARMOURED SKIRMISHER keyword (excluding Artillery units and units containing one or more models with a Wounds characteristic of 13 or higher).',
+    pick: (d, kws) => kws.has('Squadron') && !kws.has('Artillery') && !(d.profiles || []).some((p) => Number(p.w) >= 13) },
+  { slug: 'chaos-space-marines', det: 'cult-of-the-arkifane', kw: 'Daemon',
+    says: 'HERETIC ASTARTES VEHICLE units from your army gain the Daemon keyword.',
+    pick: (d, kws) => kws.has('Vehicle') },
+  { slug: 'chaos-space-marines', det: 'cult-of-the-arkifane', kw: 'Soul Forge',
+    says: 'Heretic Astartes Vehicle, Lord Discordant and Vashtorr the Arkifane units from your army gain the SOUL FORGE keyword.',
+    pick: (d, kws) => kws.has('Vehicle') || /^(Lord Discordant|Vashtorr the Arkifane)\b/.test(d.name) },
+]
+for (const g of TEXT_GRANTS) {
+  for (const d of await effectiveSheets(g.slug)) {
+    const kws = new Set([...(d.keywords || []), ...(d.keywordsByModel || []).flatMap((x) => x.list || [])])
+    if (g.pick(d, kws)) pending.push({ slug: g.slug, unitId: d.id, kw: g.kw, det: g.det })
+  }
+}
+
 const bySlug = {}
 for (const p of pending) (bySlug[p.slug] ||= []).push(p)
 
