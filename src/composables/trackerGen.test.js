@@ -14,8 +14,9 @@ describe('trackerGen', () => {
     expect(playableHere({ trackerGen: TRACKER_GEN + 1 })).toBe(false)
   })
 
-  it('every generation with a site has its own', () => {
-    expect(new Set(SITE_GENS.map(siteOfGen)).size).toBe(SITE_GENS.length)
-    expect(siteOfGen(2)).toBe('https://beta.wh-rules.ru')
+  // Since 2.9.8 the new tracker is the site's: both generations live on wh-rules.ru, and an older
+  // host is an app that has not updated (PartyJoinView says so instead of linking anywhere).
+  it('both generations live on the site', () => {
+    expect(SITE_GENS.map(siteOfGen)).toEqual(['https://wh-rules.ru', 'https://wh-rules.ru'])
   })
 })

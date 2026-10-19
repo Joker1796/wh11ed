@@ -44,13 +44,14 @@
           class="pj-err"
         >
           <p>{{ error }}</p>
-          <!-- The host plays the other tracker: the same invite, on its site (trackerGen.js). -->
+          <!-- The host plays a tracker that lives on another site: the same invite, there
+               (trackerGen.js). One on this very site is an older app, and the text says so. -->
           <a
-            v-if="otherGen"
+            v-if="otherHref"
             class="btn-primary pj-other"
             :href="otherHref"
           >
-            {{ labels[`partyJoinOpenGen${otherGen}`] }}
+            {{ labels.partyJoinOpenThere }}
           </a>
         </div>
       </ExpandTransition>
@@ -140,7 +141,7 @@ import ConfirmModal from '../../components/ConfirmModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
-import { SITE_GENS, siteOfGen } from '../../composables/trackerGen.js'
+import { SITE_GENS, TRACKER_GEN, siteOfGen } from '../../composables/trackerGen.js'
 import { useTracker } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
@@ -157,7 +158,11 @@ const busy = ref(false)
 const error = ref('')
 const otherGen = ref(0) // the tracker generation the host plays, when it is not this one
 // A link brought its invite in the path; a code is typed again there.
-const otherHref = computed(() => siteOfGen(otherGen.value) + route.fullPath)
+const otherHref = computed(() => {
+  if (!otherGen.value) return ''
+  const site = siteOfGen(otherGen.value)
+  return typeof location !== 'undefined' && site === location.origin ? '' : site + route.fullPath
+})
 const joined = ref(null) // the server's answer to /join: slices, members, the member token
 
 function errorText(err) {
@@ -167,7 +172,8 @@ function errorText(err) {
   if (err === 'network') return l.partyJoinNetwork
   if (err === 'server') return l.partyJoinServerDown
   if (err === 'seat_taken') return l.partyRejoinBlocked
-  if (err === 'tracker_version') return l[`partyJoinOtherGen${otherGen.value}`] || l.partyStatusError
+  // An older tracker on the host's phone is an app that has not updated: the host updates.
+  if (err === 'tracker_version') return otherGen.value && otherGen.value < TRACKER_GEN ? l.partyJoinHostOlder : l.partyJoinHostNewer
   return l.partyStatusError
 }
 

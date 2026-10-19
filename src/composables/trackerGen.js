@@ -1,13 +1,15 @@
-// Which tracker this build is. The new tracker's beta runs on its own subdomain beside the site's
-// tracker (owner, 2026-10-08), and the two do not share a game: one counts Command points by
-// itself, the other by hand, and two phones at one table would disagree. A game started in the
-// beta carries `trackerGen` (none = 1); a phone says its own on joining a party, and the server
-// turns away the other tracker's phones (wh11ed-api, `tracker_version`) with the generation the
-// host plays — `siteOfGen` is where to send the player.
+// Which tracker this build is. Two trackers do not share a game: one counts Command points by
+// itself, the other by hand, and two phones at one table would disagree. A game carries
+// `trackerGen` (none = 1); a phone says its own on joining a party, and the server turns away the
+// other tracker's phones (wh11ed-api, `tracker_version`) with the generation the host plays.
+// The new tracker (2) began on beta.wh-rules.ru beside the site's (1, 2026-10-08) and moved to the
+// site in 2.9.8: both generations now live on wh-rules.ru, and a host on 1 is a phone that has
+// not updated yet — PartyJoinView asks it to, rather than sending anyone anywhere. `siteOfGen`
+// still names a site for a generation that lives elsewhere (a later one tried out on the beta).
 
 export const TRACKER_GEN = 2
 
-const SITES = { 1: 'https://wh-rules.ru', 2: 'https://beta.wh-rules.ru' }
+const SITES = { 1: 'https://wh-rules.ru', 2: 'https://wh-rules.ru' }
 
 // The generations there is a site for — a `gen` from the server outside these gets no link.
 export const SITE_GENS = Object.keys(SITES).map(Number)
