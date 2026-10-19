@@ -1158,6 +1158,19 @@ describe('the CP ledger', () => {
     expect(pl(0).cp).toBe(1)
   })
 
+  it('a card discarded for 1CP and put back in hand gives the CP back', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.takeRandomSecondaries(0)
+    const [a] = pl(0).secondary.hand
+    tracker.endTurnDiscard(0, a)
+    expect(pl(0).cp).toBe(3)
+    tracker.restoreSecondaryToHand(0, a)
+    expect(pl(0).secondary.hand).toContain(a)
+    expect(pl(0).cp).toBe(2) // Core ×2, the discard's point gone with the discard
+    expect(tracker.canGainBonus(0)).toBe(true)
+  })
+
   it('an end-of-turn discard with the bonus already used gains nothing', () => {
     tracker.newGame(setupGame())
     tracker.beginGame()

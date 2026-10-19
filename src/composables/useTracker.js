@@ -1142,11 +1142,16 @@ export function useTracker() {
 
   // Undo an accidental set-aside: move the card from discarded[] back into the hand as an
   // active card. Unlike returnSecondaryToDeck, this KEEPS any scored VP and its drawn round —
-  // the card resumes exactly as it was before being set aside.
+  // the card resumes exactly as it was before being set aside. A card discarded at the end of a
+  // turn for 1CP gives that CP back with it, as Undo turn does (settleSide) — the hand cannot
+  // keep both the card and the point it was traded for.
   function restoreSecondaryToHand(pi, slug) {
     const pl = current.value.players[pi]
     const s = pl.secondary
-    for (const d of (s.discarded || []).filter(d => (d.slug ?? d) === slug)) pushUndo(pl, discardEvent(d), clk())
+    for (const d of (s.discarded || []).filter(d => (d.slug ?? d) === slug)) {
+      pushUndo(pl, discardEvent(d), clk())
+      if (d.cp) removeEntries(pl, e => e.kind === 'bonus' && e.source === 'discard' && e.ref === d.slug && e.round === d.round)
+    }
     s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
     if (!s.hand.includes(slug)) s.hand.push(slug)
   }
