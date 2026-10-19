@@ -154,6 +154,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
+import { useCombatPatrolBox } from '../../composables/useCombatPatrolBox.js'
 import { localizeSheet } from '../../data/datasheets/ru/index.js'
 import { useDatasheetsRu } from '../../composables/useDatasheetsRu.js'
 import { weaponBase, withGroupPos } from '../../utils/weaponGroups.js'
@@ -179,14 +180,16 @@ const title = computed(() => props.heading || props.names.join(' / '))
 
 const sheet = ref(null)
 const loaded = ref(false)
+// A Combat Patrol box's units have their sheets in combatPatrol.js (useCombatPatrolBox).
+const cpBox = useCombatPatrolBox()
 watch(
-  () => props.factionSlug,
-  async (slug) => {
+  [() => props.factionSlug, cpBox],
+  async ([slug, cp]) => {
     sheet.value = null
     loaded.value = false
     if (!slug) return
-    const list = await loadDatasheets(slug)
-    if (props.factionSlug !== slug) return
+    const list = await loadDatasheets(slug, { cp })
+    if (props.factionSlug !== slug || cpBox.value !== cp) return
     sheet.value = (list || []).find((d) => d.id === props.unitId) || null
     loaded.value = true
   },
@@ -210,7 +213,7 @@ const meleeRows = computed(() => matching(sheet.value?.melee))
 
 // The same sheet with its prose in RU (null outside the RU locale, and while the overlay chunk
 // is still loading — the EN original shows until it arrives, never an empty modal).
-const ruModule = useDatasheetsRu(() => props.factionSlug)
+const ruModule = useDatasheetsRu(() => props.factionSlug, () => cpBox.value)
 const ruSheet = computed(() => {
   const en = sheet.value
   if (!en || !ruModule.value) return null

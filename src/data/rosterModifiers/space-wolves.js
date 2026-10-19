@@ -8,6 +8,31 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "c0a29562-a375-413a-a4c8-1ea25d347923:askar-s-wolfpack-wolf-guard-terminators",
+      "kind": "ability",
+      "name": "Askar's Wolfpack Wolf Guard Terminators: Rugged Resilience",
+      "det": null,
+      "ref": null,
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8d526639-0c20-449c-a3ae-50cb3ecaeeb4:bjorn-the-fell-handed",
+      "kind": "ability",
+      "name": "Bjorn the Fell-handed: Legendary Tenacity",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bjorn-the-fell-handed"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:canis-wolfborn:born-of-wolves",
       "kind": "ability",
       "name": "Canis Wolfborn: Born of Wolves",
@@ -260,7 +285,21 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
+          ],
+          "target": "unit"
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "unit-below-half-strength"
           ],
           "target": "unit"
         },
@@ -274,7 +313,7 @@ export default {
             "ru": "пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ],
           "target": "unit"
         }
@@ -541,6 +580,63 @@ export default {
       ]
     },
     {
+      "sid": "eca05775-4888-49ad-a430-7e22e9c2e04f:ulrik-the-slayer",
+      "kind": "ability",
+      "name": "Ulrik the Slayer: Oathbound",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ulrik-the-slayer"
+      },
+      "hash": "4497acf5",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "also, against this unit’s slayer’s oath",
+            "ru": "также против цели клятвы отряда"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "also, against this unit’s slayer’s oath",
+            "ru": "также против цели клятвы отряда"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "pack:wolf-guard-battle-leader-in-terminator-armour:huskarl-to-the-jarl",
       "kind": "ability",
       "name": "Wolf Guard Battle Leader in Terminator Armour: Huskarl to the Jarl",
@@ -715,6 +811,20 @@ export default {
       ]
     },
     {
+      "sid": "ab352a1b-2f6a-4d03-8306-24c6e3173013:wolf-guard-terminators",
+      "kind": "ability",
+      "name": "Wolf Guard Terminators: Rugged Resilience",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-guard-terminators"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:wolf-guard:chosen-companions",
       "kind": "ability",
       "name": "Wolf Guard: Chosen Companions",
@@ -787,6 +897,34 @@ export default {
       ]
     },
     {
+      "sid": "73e5998c-5956-48c4-9672-6682d24bf9dc:wolf-scouts",
+      "kind": "ability",
+      "name": "Wolf Scouts: Deadly Stalkers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-scouts"
+      },
+      "hash": "16f6758b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit more than 6\" from any other enemy unit",
+            "ru": "против отряда дальше 6\" от других врагов"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "da0e3ebc-2c88-4af7-854c-bb5fc80369ef:wolf-scouts",
       "kind": "ability",
       "name": "Wolf Scouts: Hunting Hounds",
@@ -842,6 +980,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "d96146db-3174-4606-bbcd-7f7fc5ac6f20:wulfen-with-storm-shields",
+      "kind": "ability",
+      "name": "Wulfen with Storm Shields: Hammer Blow",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wulfen-with-storm-shields"
+      },
+      "hash": "33493e9e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "de2e0296-b1c3-40f0-8dc4-81afd0e9a5c9",
@@ -995,6 +1147,80 @@ export default {
       ]
     },
     {
+      "sid": "e92789c3-7ac6-4998-85c1-5e4120e7d661",
+      "kind": "enhancement",
+      "name": "A Giant Amongst Giants",
+      "det": "Champions of Fenris",
+      "ref": {
+        "kind": "enhancement",
+        "det": "champions-of-fenris"
+      },
+      "hash": "3e78c3dc",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "db8b035d-704c-4ee9-a762-8f8ebe410543",
+      "kind": "enhancement",
+      "name": "Wolf-Touched",
+      "det": "Saga of the Beastslayer",
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-beastslayer"
+      },
+      "hash": "67556d5f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Wulfen",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Wulfen",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "af0f6c25-cc30-4454-bf03-6ef1a30c0659",
       "kind": "enhancement",
       "name": "Skjald's Foretelling",
@@ -1074,6 +1300,48 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "fb9f50da-600b-49ab-9aec-f2bfb95da105",
+      "kind": "stratagem",
+      "name": "Birth of a Saga",
+      "det": "Champions of Fenris",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-fenris",
+        "name": "Birth of a Saga"
+      },
+      "hash": "b4c984b0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Character",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "round"
+    },
+    {
+      "sid": "fc6b154a-77e8-4c58-96ef-085df8efc6b3",
+      "kind": "stratagem",
+      "name": "Heroic Resolve",
+      "det": "Champions of Fenris",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-fenris",
+        "name": "Heroic Resolve"
+      },
+      "hash": "a56282a8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c5dc5810-b281-4544-b445-40bb13249e28",
       "kind": "stratagem",
       "name": "Unbridled Feroicity",
@@ -1119,6 +1387,33 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "260cbe60-09d3-4f15-a205-5a54af3ae4ee",
+      "kind": "stratagem",
+      "name": "Fenrisian Ferocity",
+      "det": "Saga of the Great Wolf",
+      "ref": {
+        "kind": "stratagem",
+        "det": "saga-of-the-great-wolf",
+        "name": "Fenrisian Ferocity"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"

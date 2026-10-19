@@ -227,9 +227,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -240,9 +241,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -543,6 +545,17 @@ export default {
       ]
     },
     {
+      "sid": "e61d3f70-e8b4-4f55-9641-2ab44322eb0d",
+      "kind": "enhancement",
+      "name": "Martial Perfection",
+      "det": "Callous Blades",
+      "ref": null,
+      "hash": "21c8743e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "4dd6dec8-03dc-4b0a-919a-b00c3c34f726",
       "kind": "enhancement",
       "name": "Dark Blessings",
@@ -560,9 +573,10 @@ export default {
             "en": "once per battle, for the phase, after an enemy unit selects its targets",
             "ru": "один раз за битву, на фазу, после того как вражеский отряд выбрал цели"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ],
       "ref": {
@@ -926,10 +940,11 @@ export default {
             "en": "until the end of a Fight phase the bearer used this Enhancement in (once per battle)",
             "ru": "до конца Fight phase, в которой носитель применил улучшение (раз за битву)"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1118,6 +1133,17 @@ export default {
       ]
     },
     {
+      "sid": "157019a0-e16a-4ad5-a681-c4d760a06d78",
+      "kind": "stratagem",
+      "name": "Duellist’s Death",
+      "det": "Callous Blades",
+      "ref": null,
+      "hash": "eee8ffc6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "4eb6db28-8316-4d64-a6ab-10333e405814",
       "kind": "stratagem",
       "name": "Shatter Strike",
@@ -1228,6 +1254,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "41273a31-ffea-438c-8b0a-3b1dc379b8eb",
+      "kind": "stratagem",
+      "name": "Delight in Agony",
+      "det": "Elegant Brutes",
+      "ref": {
+        "kind": "stratagem",
+        "det": "elegant-brutes",
+        "name": "Delight in Agony"
+      },
+      "hash": "ed2665e0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "a66b93f1-8245-4923-9b41-2f77873604e0",

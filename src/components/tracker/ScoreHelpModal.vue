@@ -6,9 +6,12 @@
     @close="$emit('close')"
   >
     <div class="modal-body">
-      <p class="sh-text">
-        {{ labels.trackerScoreHelpText }}
-      </p>
+      <!-- One example game's board both ways, above the table that says how BP is reckoned. -->
+      <ScoreDemo />
+      <HelpText
+        class="sh-text"
+        :text="labels.trackerScoreHelpText"
+      />
       <table class="sh-table">
         <thead>
           <tr>
@@ -33,11 +36,14 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import HelpText from './HelpText.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { BP_TABLE } from '../../composables/gameScoring.js'
+
+const ScoreDemo = defineAsyncComponent(() => import('./help/ScoreDemo.vue'))
 
 defineEmits(['close'])
 const { locale } = useLocale()
@@ -46,7 +52,7 @@ const labels = computed(() => ui[locale.value])
 
 <style scoped>
 
-.sh-text { margin: 0 0 0.8rem; font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); }
+.sh-text { margin: 0 0 0.8rem; }
 .sh-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
 .sh-table th {
   text-align: left;

@@ -103,8 +103,9 @@ export default [
     // `props.entry.size = i` and `v-model="settings[o.setting]"` write straight to the thing
     // being persisted. The rule is right in general and stays on everywhere else — only these
     // two opt out, and turning them into `defineModel`/emit is a refactor of the editor's data
-    // flow, not a lint fix.
-    files: ['src/components/roster/UnitEditorFields.vue', 'src/components/tracker/TrackOptions.vue'],
+    // flow, not a lint fix. TrackOptionRow is TrackOptions' own row (split out 2026-10-14), writing
+    // the same draft.
+    files: ['src/components/roster/UnitEditorFields.vue', 'src/components/tracker/TrackOptions.vue', 'src/components/tracker/TrackOptionRow.vue'],
     rules: { 'vue/no-mutating-props': 'off' },
   },
 ]

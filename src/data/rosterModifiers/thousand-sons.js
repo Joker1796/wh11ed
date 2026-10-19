@@ -113,7 +113,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "used-aetherstride"
           ]
         }
       ]
@@ -269,6 +269,45 @@ export default {
           "value": "SUSTAINED HITS 1",
           "when": null,
           "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "fc14d232-6717-4065-a816-0921cd150477:kaa-skrek",
+      "kind": "ability",
+      "name": "Kaa'skrek: Bestial Prophet",
+      "det": null,
+      "ref": null,
+      "hash": "7c7eed8c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is an Attached unit",
+            "ru": "пока отряд присоединённый"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is an Attached unit",
+            "ru": "пока отряд присоединённый"
+          },
+          "cond": [
+            "unit-led"
+          ],
+          "target": "led"
         }
       ]
     },
@@ -616,9 +655,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "weapon",
@@ -632,9 +672,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -897,6 +938,29 @@ export default {
       ]
     },
     {
+      "sid": "573df80f-6ed6-4039-b080-a5ef1721fd9d",
+      "kind": "detachmentRule",
+      "name": "All-seeing Mutant Hordes",
+      "det": "Servants of Change",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "servants-of-change"
+      },
+      "hash": "fa07a981",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": null,
+          "scope": 0
+        }
+      ]
+    },
+    {
       "sid": "c5998d23-f7e0-4fed-bbea-c738c4b1fe66",
       "kind": "detachmentRule",
       "name": "Warpmeld Sacrifice",
@@ -911,11 +975,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "for the phase, after a Warpmeld Sacrifice",
-            "ru": "на фазу, после Warpmeld Sacrifice"
+            "en": "the phase the unit made a Warpmeld Sacrifice before selecting its targets",
+            "ru": "фаза, в которую отряд совершил Warpmeld Sacrifice перед выбором целей"
           },
           "cond": [
-            "never"
+            "used-warpmeld-sacrifice"
           ]
         }
       ],
@@ -956,9 +1020,10 @@ export default {
             "en": "once per battle, for the phase the bearer uses this Enhancement in",
             "ru": "один раз за битву, на фазу, в которой носитель применил улучшение"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ],
       "ref": {
@@ -1038,9 +1103,10 @@ export default {
             "en": "until your next Shooting phase, once per battle per army, when this unit used this ability to go into strategic reserves",
             "ru": "до вашей следующей Shooting phase, раз за битву на армию, если отряд применил эту способность и ушёл в strategic reserves"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "round"
+          }
         }
       ]
     },
@@ -1661,6 +1727,17 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "218de5d5-fd4d-469d-8f1b-ac5d87e02262",
+      "kind": "stratagem",
+      "name": "Spell-warded Armour",
+      "det": "Prism of Zadophon",
+      "ref": null,
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "14f6a805-b45f-49c9-b218-98f4e07c9e1b",
       "kind": "stratagem",
       "name": "Twist of Fate",
@@ -1780,6 +1857,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "d02fa625-dc45-4df7-89ec-44592cb25b81",
+      "kind": "stratagem",
+      "name": "Unwavering Phalanx",
+      "det": "Rubricae Phalanx",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rubricae-phalanx",
+        "name": "Unwavering Phalanx"
+      },
+      "hash": "7c76e2c8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8299add8-e44d-432a-8551-17de6207f066",
+      "kind": "stratagem",
+      "name": "Warp Fields",
+      "det": "Sekhetar Cohort",
+      "ref": {
+        "kind": "stratagem",
+        "det": "sekhetar-cohort",
+        "name": "Warp Fields"
+      },
+      "hash": "edf16e51",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "65974fb7-162a-4917-9850-2a36ba6a793e",
       "kind": "stratagem",
       "name": "Prismatic Displacement",
@@ -1805,6 +1912,33 @@ export default {
         }
       ],
       "dur": "turn"
+    },
+    {
+      "sid": "49c7876a-a57e-4fdd-a091-2d316f2f6222",
+      "kind": "stratagem",
+      "name": "The Land Writhes",
+      "det": "Servants of Change",
+      "ref": {
+        "kind": "stratagem",
+        "det": "servants-of-change",
+        "name": "The Land Writhes"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "b0cb5981-a7ae-4fac-9c49-1415afa964d5",

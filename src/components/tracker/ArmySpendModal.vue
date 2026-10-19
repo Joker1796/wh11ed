@@ -17,6 +17,7 @@
         v-for="(s, i) in spends"
         :key="i"
         class="opt"
+        data-press
         :disabled="remaining < s.cost"
         @click="$emit('spend', s)"
       >

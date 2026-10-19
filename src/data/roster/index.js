@@ -68,12 +68,7 @@ async function allyUnits(data) {
   return out
 }
 
-/**
- * @param {string} slug
- * @param {{ allies?: boolean }} [opts]
- * @returns {Promise<import('../../composables/roster.types.js').RosterFaction | null>}
- */
-export async function loadRosterFaction(slug, { allies = false } = {}) {
+async function loadFactionData(slug, { allies = false } = {}) {
   const raw = await load(slug)
   if (!raw) return null
   // A detachment printed in this faction's book for OTHER armies (`lend`) is not one of its own:
@@ -117,6 +112,26 @@ export async function loadRosterFaction(slug, { allies = false } = {}) {
   }
   const detachments = [...[...data.detachments].sort(byName), ...dets]
   return { ...data, units, detachments }
+}
+
+// A Combat Patrol box fielded as a list (the tracker's Combat Patrol game): its fixed units and its
+// one detachment, a chunk per box in ./combat-patrol/ — a folder the faction glob above never
+// reaches, so no catalogue offers these units. Only a list that names its box (`cp`) asks.
+const boxLoaders = import.meta.glob('./combat-patrol/*.js', { import: 'default' })
+
+/**
+ * @param {string} slug
+ * @param {{ allies?: boolean, cp?: string | null }} [opts] `cp` — the Combat Patrol box id
+ * @returns {Promise<import('../../composables/roster.types.js').RosterFaction | null>}
+ */
+export async function loadRosterFaction(slug, { allies = false, cp = null } = {}) {
+  const data = await loadFactionData(slug, { allies })
+  if (!data || !cp) return data
+  const loader = boxLoaders['./combat-patrol/' + cp + '.js']
+  const box = loader ? await loader() : null
+  if (!box) return data
+  const units = [...data.units, ...box.units].sort((a, b) => a.name.localeCompare(b.name))
+  return { ...data, units, detachments: [box.detachment, ...data.detachments], cp: box.box }
 }
 
 export { default as rosterCore } from './core.js'

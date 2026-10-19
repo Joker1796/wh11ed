@@ -113,9 +113,10 @@ export const conditions = {
   'riled-up': { scope: 'unit', duration: 'round', label: { en: 'Riled up', ru: 'Riled up' } },
   'imperative-protector': { scope: 'army', duration: 'round', label: { en: 'Protector Imperative', ru: 'Protector Imperative' } },
   'imperative-conqueror': { scope: 'army', duration: 'round', label: { en: 'Conqueror Imperative', ru: 'Conqueror Imperative' } },
+  'benediction-panegyric-procession': { scope: 'army', duration: 'battle', group: 'benediction', label: { en: 'Panegyric Procession', ru: 'Panegyric Procession' } },
   // Selected at the start of the first battle round, active until the end of the battle (until
-  // 2026-10-16 this read 'round' and went out after the first).
-  'benediction-citation-in-savagery': { scope: 'army', duration: 'battle', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },
+  // 2026-10-15 this one read 'round' and went out after the first).
+  'benediction-citation-in-savagery': { scope: 'army', duration: 'battle', group: 'benediction', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },
   // Both Blessings that carry a modifier have an auto reader (rosterGameContext's AUTO): the World
   // Eaters army-rule tracker already records which up-to-two are active this round.
   'blessing-martial-excellence': { scope: 'army', duration: 'round', label: { en: 'Martial Excellence', ru: 'Martial Excellence' } },
@@ -291,12 +292,31 @@ export const conditions = {
   'unit-selected-command-phase': { scope: 'unit', duration: 'round', label: { en: 'Selected this Command phase', ru: 'Выбран в эту Command phase' } },
   'unit-favoured-champions': { scope: 'unit', duration: 'round', label: { en: "Army's Favoured Champions", ru: 'Favoured Champions армии' } },
   // Not casualty TRACKING (out of scope) — one switch the player flips when it stops being true.
+  // Where the unit stands against its starting strength — one of three, so marking it below half
+  // takes "at starting strength" off. An effect for "below starting strength" holds below half too;
+  // its record carries the second line for that (one is on at a time, so they never stack).
   'unit-at-starting-strength': {
-    scope: 'unit', duration: 'battle',
+    scope: 'unit', duration: 'battle', group: 'unit-strength',
     label: { en: 'At Starting Strength', ru: 'В полном составе' },
     hint: {
       en: 'The unit still contains every model it had at the start of the first battle round — its **[gloss:starting-strength:starting strength]** (01.02.01).',
       ru: 'В отряде остались все модели, которые были в нём в начале первого раунда боя, — его **[gloss:starting-strength:начальная численность]** (01.02.01).',
+    },
+  },
+  'unit-below-starting-strength': {
+    scope: 'unit', duration: 'battle', group: 'unit-strength',
+    label: { en: 'Below Starting Strength', ru: 'Ниже начальной численности' },
+    hint: {
+      en: 'What **[gloss:below-starting-strength:below starting strength]** means depends on the unit’s starting strength — for a single model it is counted in wounds (01.02.01).',
+      ru: 'Что значит **[gloss:below-starting-strength:ниже начальной численности]**, зависит от начальной численности отряда — у одиночной модели считают раны (01.02.01).',
+    },
+  },
+  'unit-below-half-strength': {
+    scope: 'unit', duration: 'battle', group: 'unit-strength',
+    label: { en: 'Below Half-strength', ru: 'Ниже половины численности' },
+    hint: {
+      en: 'What below **[gloss:half-strength:half-strength]** means depends on the unit’s starting strength — for a single model it is counted in wounds (01.02.01).',
+      ru: 'Что значит ниже **[gloss:half-strength:половины численности]**, зависит от начальной численности отряда — у одиночной модели считают раны (01.02.01).',
     },
   },
   'unit-lost-wounds': { scope: 'unit', duration: 'battle', label: { en: 'Has lost wounds', ru: 'Потерял раны' } },
@@ -364,6 +384,12 @@ export const conditions = {
   'wargear-two-melee': { scope: 'roster', duration: 'battle', gear: { melee: 2 }, label: { en: 'Two melee weapons', ru: 'Два оружия ближнего боя' } },
   // A model the unit's SIZE brings (the Tidewall Shieldline's defence platform is its 105-point
   // option, a second model in the list) — read off the size the entry took, not off its weapons.
+  // A model the unit holds by its size: "while this unit contains a Tempestor Prime".
+  'contains-tempestor-prime': { scope: 'roster', duration: 'battle', gear: { mini: 'Tempestor Prime' }, label: { en: 'With a Tempestor Prime', ru: 'С Tempestor Prime' } },
+  'contains-medicae-servitors': { scope: 'roster', duration: 'battle', gear: { mini: 'Medicae Servitors' }, label: { en: 'With Medicae Servitors', ru: 'С Medicae Servitors' } },
+  'contains-quartermaster-revenant': { scope: 'roster', duration: 'battle', gear: { mini: 'Quartermaster Revenant' }, label: { en: 'With a Quartermaster Revenant', ru: 'С Quartermaster Revenant' } },
+  'contains-deathwing-ancient': { scope: 'roster', duration: 'battle', gear: { mini: 'Deathwing Ancient' }, label: { en: 'With a Deathwing Ancient', ru: 'С Deathwing Ancient' } },
+  'contains-chaplain-cassius': { scope: 'roster', duration: 'battle', gear: { mini: 'Chaplain Cassius' }, label: { en: 'With Chaplain Cassius', ru: 'С Chaplain Cassius' } },
   'wargear-tidewall-platform': { scope: 'roster', duration: 'battle', gear: { mini: 'Tidewall Defence Platform' }, label: { en: 'With a Tidewall defence platform', ru: 'С Tidewall defence platform' } },
   'wargear-spear-and-chainsword':{ scope: 'roster', duration: 'battle', gear: { all: ['Thundershock spear', 'Bellatus reaper chainsword'] }, label: { en: 'Thundershock spear and bellatus reaper chainsword', ru: 'Thundershock spear и bellatus reaper chainsword' } },
   // "The bearer has +1 Wounds", "the bearer's melee weapons have [LANCE]" (2026-10-01). Never put
@@ -371,6 +397,167 @@ export const conditions = {
   // models that carry the item a row of their own and applies the effect to that row alone. Until
   // it is `blocked-subset`'s note, and where the list cannot say who carries what it stays one.
   'wargear-bearer': { scope: 'roster', duration: 'battle', label: { en: 'The bearer only', ru: 'Только носитель' } },
+
+  // ── A rule's own choices (2026-10-15) ───────────────────────────────────────────────────
+  // Options a detachment rule offers and the player picks — a Vow, a Hyper-adaptation, a Contract.
+  // Until then an option was a switch only where a number hung on it, so these were never offered
+  // (src/components/roster/CLAUDE.md → "A state with no number"). Named as GW names them.
+  'vow-abhor-the-witch': { scope: 'army', duration: 'battle', group: 'bt-vow', label: { en: 'Abhor the Witch, Destroy the Witch', ru: 'Abhor the Witch, Destroy the Witch' } },
+  'vow-accept-any-challenge': { scope: 'army', duration: 'battle', group: 'bt-vow', label: { en: 'Accept Any Challenge, No Matter the Odds', ru: 'Accept Any Challenge, No Matter the Odds' } },
+  'vow-uphold-the-honour': { scope: 'army', duration: 'battle', group: 'bt-vow', label: { en: 'Uphold the Honour of the Emperor', ru: 'Uphold the Honour of the Emperor' } },
+  'hyper-swarming-instincts': { scope: 'army', duration: 'battle', group: 'hyper-adaptation', label: { en: 'Swarming Instincts', ru: 'Swarming Instincts' } },
+  'hyper-aggression': { scope: 'army', duration: 'battle', group: 'hyper-adaptation', label: { en: 'Hyper-aggression', ru: 'Hyper-aggression' } },
+  'hyper-hive-predators': { scope: 'army', duration: 'battle', group: 'hyper-adaptation', label: { en: 'Hive Predators', ru: 'Hive Predators' } },
+  'synaptic-augmentation': { scope: 'army', duration: 'round', group: 'synaptic-imperative', label: { en: 'Synaptic Augmentation', ru: 'Synaptic Augmentation' } },
+  'synaptic-surging-vitality': { scope: 'army', duration: 'round', group: 'synaptic-imperative', label: { en: 'Surging Vitality', ru: 'Surging Vitality' } },
+  'synaptic-goaded-to-slaughter': { scope: 'army', duration: 'round', group: 'synaptic-imperative', label: { en: 'Goaded to Slaughter', ru: 'Goaded to Slaughter' } },
+  'contract-trophy-hunters': { scope: 'army', duration: 'battle', group: 'contract', label: { en: 'Trophy Hunters', ru: 'Trophy Hunters' } },
+  'contract-sow-fear-and-terror': { scope: 'army', duration: 'battle', group: 'contract', label: { en: 'Sow Fear and Terror', ru: 'Sow Fear and Terror' } },
+  'contract-show-of-strength': { scope: 'army', duration: 'battle', group: 'contract', label: { en: 'Show of Strength', ru: 'Show of Strength' } },
+  'unit-halo-override': { scope: 'unit', duration: 'round', label: { en: 'Halo Override', ru: 'Halo Override' } },
+  'override-electromotive-energisation': { scope: 'army', duration: 'round', group: 'halo-override', label: { en: 'Electromotive Energisation', ru: 'Electromotive Energisation' } },
+  'override-microactuator-bracing': { scope: 'army', duration: 'round', group: 'halo-override', label: { en: 'Microactuator Bracing', ru: 'Microactuator Bracing' } },
+  'override-predation-protocols': { scope: 'army', duration: 'round', group: 'halo-override', label: { en: 'Predation Protocols', ru: 'Predation Protocols' } },
+  'override-muted-servomotors': { scope: 'army', duration: 'round', group: 'halo-override', label: { en: 'Muted Servomotors', ru: 'Muted Servomotors' } },
+  'tithe-enraged-abjuration': { scope: 'army', duration: 'battle', label: { en: 'Enraged Abjuration', ru: 'Enraged Abjuration' } },
+  'tithe-daemonic-rage': { scope: 'army', duration: 'battle', label: { en: 'Daemonic Rage', ru: 'Daemonic Rage' } },
+  'tithe-boon-of-blood': { scope: 'army', duration: 'battle', label: { en: 'Boon of Blood', ru: 'Boon of Blood' } },
+  'tithe-might-of-khorne': { scope: 'army', duration: 'battle', label: { en: 'Might of Khorne', ru: 'Might of Khorne' } },
+
+  'oath-deed-tyrant': { scope: 'army', duration: 'battle', group: 'oath-deed', label: { en: 'We vow to lay low the tyrant…', ru: 'We vow to lay low the tyrant…' } },
+  'oath-deed-realm': { scope: 'army', duration: 'battle', group: 'oath-deed', label: { en: 'We swear to reclaim the realm…', ru: 'We swear to reclaim the realm…' } },
+  'oath-deed-tally': { scope: 'army', duration: 'battle', group: 'oath-deed', label: { en: 'We pledge to reap a great tally…', ru: 'We pledge to reap a great tally…' } },
+  'oath-quality-valour': { scope: 'army', duration: 'battle', group: 'oath-quality', label: { en: '…with all our martial valour risen over all.', ru: '…with all our martial valour risen over all.' } },
+  'oath-quality-eager': { scope: 'army', duration: 'battle', group: 'oath-quality', label: { en: '…and we are eager for the challenge.', ru: '…and we are eager for the challenge.' } },
+  'oath-quality-legacy': { scope: 'army', duration: 'battle', group: 'oath-quality', label: { en: '…yet shall our legacy be unsullied.', ru: '…yet shall our legacy be unsullied.' } },
+  'army-honoured': { scope: 'army', duration: 'battle', label: { en: 'Honoured', ru: 'Honoured' } },
+  'dread-despair': { scope: 'army', duration: 'battle', label: { en: 'Despair', ru: 'Despair' } },
+  'dread-doom': { scope: 'army', duration: 'battle', label: { en: 'Doom', ru: 'Doom' } },
+  'dread-darkness': { scope: 'army', duration: 'battle', label: { en: 'Darkness', ru: 'Darkness' } },
+  'dread-dismay': { scope: 'army', duration: 'battle', label: { en: 'Dismay', ru: 'Dismay' } },
+  'dread-delirium': { scope: 'army', duration: 'battle', label: { en: 'Delirium', ru: 'Delirium' } },
+  'artillery-creeping-barrage': { scope: 'army', duration: 'round', group: 'artillery-support', label: { en: 'Creeping Barrage', ru: 'Creeping Barrage' } },
+  'artillery-incendiary-bombardment': { scope: 'army', duration: 'round', group: 'artillery-support', label: { en: 'Incendiary Bombardment', ru: 'Incendiary Bombardment' } },
+  'artillery-smoke-shells': { scope: 'army', duration: 'round', group: 'artillery-support', label: { en: 'Smoke Shells', ru: 'Smoke Shells' } },
+  'twisted-doctrine-fell-back': { scope: 'unit', duration: 'turn', group: 'twisted-doctrine', label: { en: 'Default to Doctrine: shoot and charge after Falling Back', ru: 'Default to Doctrine: shoot and charge after Falling Back' } },
+  'twisted-doctrine-advanced': { scope: 'unit', duration: 'turn', group: 'twisted-doctrine', label: { en: 'Default to Doctrine: charge after Advancing', ru: 'Default to Doctrine: charge after Advancing' } },
+  'costs-eliminate': { scope: 'army', duration: 'round', group: 'at-all-costs', label: { en: 'Eliminate At All Costs', ru: 'Eliminate At All Costs' } },
+  'costs-acquire': { scope: 'army', duration: 'round', group: 'at-all-costs', label: { en: 'Acquire At All Costs', ru: 'Acquire At All Costs' } },
+  'tactic-purgatus': { scope: 'army', duration: 'round', group: 'mission-tactic', label: { en: 'Purgatus Tactics', ru: 'Purgatus Tactics' } },
+
+  'hagio-rite': { scope: 'unit', duration: 'phase', group: 'hagiomnifex', label: { en: 'Rite of Revelation', ru: 'Rite of Revelation' } },
+  'hagio-sermon': { scope: 'unit', duration: 'phase', group: 'hagiomnifex', label: { en: 'Sermon of Intolerance', ru: 'Sermon of Intolerance' } },
+  'hagio-chorus': { scope: 'unit', duration: 'phase', group: 'hagiomnifex', label: { en: 'Chorus of Repudiation', ru: 'Chorus of Repudiation' } },
+  'idol-infinite-rage': { scope: 'army', duration: 'round', group: 'idol-of-khorne', label: { en: 'Idol of Infinite Rage', ru: 'Idol of Infinite Rage' } },
+  'idol-burning-wrath': { scope: 'army', duration: 'round', group: 'idol-of-khorne', label: { en: 'Idol of Burning Wrath', ru: 'Idol of Burning Wrath' } },
+  'idol-blessed-blood': { scope: 'army', duration: 'round', group: 'idol-of-khorne', label: { en: 'Idol of Blessed Blood', ru: 'Idol of Blessed Blood' } },
+  'techno-anti-infantry': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[ANTI-INFANTRY 3+]', ru: '[ANTI-INFANTRY 3+]' } },
+  'techno-anti-mounted': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[ANTI-MOUNTED 4+]', ru: '[ANTI-MOUNTED 4+]' } },
+  'techno-assault': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[ASSAULT]', ru: '[ASSAULT]' } },
+  'techno-heavy': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[HEAVY]', ru: '[HEAVY]' } },
+  'techno-ignores-cover': { scope: 'unit', duration: 'phase', group: 'technosorcery', label: { en: '[IGNORES COVER]', ru: '[IGNORES COVER]' } },
+
+  'prey-sustained': { scope: 'unit', duration: 'phase', group: 'prey-adaptation', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'prey-lance': { scope: 'unit', duration: 'phase', group: 'prey-adaptation', label: { en: '[LANCE]', ru: '[LANCE]' } },
+  'prey-lethal': { scope: 'unit', duration: 'phase', group: 'prey-adaptation', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'adaptive-strength': { scope: 'unit', duration: 'phase', group: 'adaptive-instincts', label: { en: 'Melee attacks +1 S', ru: 'Melee attacks +1 S' } },
+  'adaptive-toughness': { scope: 'unit', duration: 'phase', group: 'adaptive-instincts', label: { en: '+1 T', ru: '+1 T' } },
+  'tycho-assault': { scope: 'unit', duration: 'phase', group: 'gifted-commander', label: { en: '[ASSAULT]', ru: '[ASSAULT]' } },
+  'tycho-heavy': { scope: 'unit', duration: 'phase', group: 'gifted-commander', label: { en: '[HEAVY]', ru: '[HEAVY]' } },
+  'tycho-rapid-fire': { scope: 'unit', duration: 'phase', group: 'gifted-commander', label: { en: '[RAPID FIRE 1]', ru: '[RAPID FIRE 1]' } },
+  'aunshi-direct-grace': { scope: 'unit', duration: 'phase', group: 'martial-warrior', label: { en: 'Direct Grace', ru: 'Direct Grace' } },
+  'aunshi-forceful-strike': { scope: 'unit', duration: 'phase', group: 'martial-warrior', label: { en: 'Forceful Strike', ru: 'Forceful Strike' } },
+  'aunshi-whirling-stance': { scope: 'unit', duration: 'phase', group: 'martial-warrior', label: { en: 'Whirling Stance', ru: 'Whirling Stance' } },
+  'optics-ignores-cover': { scope: 'unit', duration: 'phase', group: 'special-issue-optics', label: { en: '[IGNORES COVER]', ru: '[IGNORES COVER]' } },
+  'optics-detection': { scope: 'unit', duration: 'phase', group: 'special-issue-optics', label: { en: '+6" detection range on one enemy unit', ru: '+6" detection range on one enemy unit' } },
+  'troupe-heros-prowess': { scope: 'unit', duration: 'phase', group: 'dance-of-death', label: { en: 'Hero’s Prowess', ru: 'Hero’s Prowess' } },
+  'troupe-villains-doom': { scope: 'unit', duration: 'phase', group: 'dance-of-death', label: { en: 'Villain’s Doom', ru: 'Villain’s Doom' } },
+  'troupe-tricksters-grace': { scope: 'unit', duration: 'phase', group: 'dance-of-death', label: { en: 'Trickster’s Grace', ru: 'Trickster’s Grace' } },
+  'wrath-cleave': { scope: 'unit', duration: 'phase', group: 'wrath-of-khorne', label: { en: '[CLEAVE 1]', ru: '[CLEAVE 1]' } },
+  'wrath-ap': { scope: 'unit', duration: 'phase', group: 'wrath-of-khorne', label: { en: '+1 AP', ru: '+1 AP' } },
+  // Picked each time the unit is selected to fight (or to attack), for that phase.
+  'mastery-sustained': { scope: 'unit', duration: 'phase', group: 'martial-mastery', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'mastery-lethal': { scope: 'unit', duration: 'phase', group: 'martial-mastery', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'executioner-lethal': { scope: 'unit', duration: 'phase', group: 'angelic-executioner', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'executioner-sustained': { scope: 'unit', duration: 'phase', group: 'angelic-executioner', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'cold-lethal': { scope: 'unit', duration: 'phase', group: 'cold-and-calculating', label: { en: '[LETHAL HITS: MONSTER/VEHICLE]', ru: '[LETHAL HITS: MONSTER/VEHICLE]' } },
+  'cold-sustained': { scope: 'unit', duration: 'phase', group: 'cold-and-calculating', label: { en: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]', ru: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]' } },
+  'path-hit-1': { scope: 'unit', duration: 'phase', group: 'path-of-the-warrior', label: { en: 'Re-roll a Hit roll of 1', ru: 'Переброс единиц на попадание' } },
+  'path-wound-1': { scope: 'unit', duration: 'phase', group: 'path-of-the-warrior', label: { en: 'Re-roll a Wound roll of 1', ru: 'Переброс единиц на ранение' } },
+  'combatant-lethal': { scope: 'unit', duration: 'phase', group: 'supreme-combatant', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'combatant-sustained': { scope: 'unit', duration: 'phase', group: 'supreme-combatant', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'adaptable-sustained': { scope: 'unit', duration: 'phase', group: 'adaptable-fighters', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'adaptable-lethal': { scope: 'unit', duration: 'phase', group: 'adaptable-fighters', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'optimiser-lethal': { scope: 'unit', duration: 'turn', group: 'prelocational-optimiser', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'optimiser-sustained': { scope: 'unit', duration: 'turn', group: 'prelocational-optimiser', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'smash-lethal': { scope: 'unit', duration: 'phase', group: 'smash-em-up', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'smash-sustained': { scope: 'unit', duration: 'phase', group: 'smash-em-up', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  // Backroom Deals: the one unit selected in the Declare Battle Formations step, for the battle.
+  'backroom-deals': { scope: 'unit', duration: 'battle', label: { en: 'Selected for Backroom Deals', ru: 'Выбран для Backroom Deals' } },
+  // "You can use this ability. If you do, until the end of the phase…" — the player's call each time,
+  // and nothing the tracker records: one switch per rule, for the window the rule gives it.
+  'used-extremis-trigger-word': { scope: 'unit', duration: 'phase', label: { en: 'Trigger word invoked', ru: 'Trigger word произнесено' } },
+  'used-righteous-repugnance': { scope: 'unit', duration: 'phase', label: { en: 'Miracle dice discarded', ru: 'Miracle dice сброшен' } },
+  'used-daemonic-ordnance': { scope: 'unit', duration: 'phase', label: { en: 'Daemonic Ordnance used', ru: 'Daemonic Ordnance применён' } },
+  'used-sacrificial-dagger': { scope: 'unit', duration: 'phase', label: { en: 'Sacrificial Dagger used', ru: 'Sacrificial Dagger применён' } },
+  'used-frenzied-metabolism': { scope: 'unit', duration: 'phase', label: { en: 'Frenzied Metabolism used', ru: 'Frenzied Metabolism применён' } },
+  'used-resource-transmutation': { scope: 'unit', duration: 'phase', label: { en: 'Resource Transmutation used (1YP)', ru: 'Resource Transmutation применён (1YP)' } },
+  'used-warpmeld-sacrifice': { scope: 'unit', duration: 'phase', label: { en: 'Warpmeld Sacrifice made', ru: 'Warpmeld Sacrifice совершён' } },
+  'used-aetherstride': { scope: 'unit', duration: 'turn', label: { en: 'Aetherstride performed', ru: 'Aetherstride выполнен' } },
+  'spent-yp-etacarn': { scope: 'unit', duration: 'phase', label: { en: '3YP spent (Etacarn SB9)', ru: 'Потрачено 3YP (Etacarn SB9)' } },
+  'spent-yp-oathbound': { scope: 'unit', duration: 'phase', label: { en: '3YP spent (Oathbound Speculator)', ru: 'Потрачено 3YP (Oathbound Speculator)' } },
+  'spent-yp-fury-of-the-hearth': { scope: 'unit', duration: 'phase', onUse: true, label: { en: '1YP spent', ru: 'Потрачен 1YP' } },
+  'spent-pain-eye-of-spite': { scope: 'unit', duration: 'phase', label: { en: 'Pain token spent (Eye of Spite)', ru: 'Потрачен Pain token (Eye of Spite)' } },
+  'spent-flux-pyrogenesis': { scope: 'unit', duration: 'phase', onUse: true, label: { en: 'Flux token spent', ru: 'Потрачен Flux token' } },
+  // A state the unit's own deed puts it in for the rest of the battle.
+  'soul-eater-fed': { scope: 'unit', duration: 'battle', label: { en: 'Destroyed a unit in the Fight phase', ru: 'Уничтожил отряд в фазе боя' } },
+  'tox-cycler-hit': { scope: 'unit', duration: 'battle', label: { en: 'Scored a hit with the tox-cycler', ru: 'Попал из tox-cycler' } },
+  'unit-normal-moved': { scope: 'unit', duration: 'turn', label: { en: 'Made a Normal move', ru: 'Совершил Normal move' } },
+  // Bladeguard (once per turn): +1 to hit with its own melee attacks, or -1 to hit against it.
+  'bladeguard-hit': { scope: 'unit', duration: 'phase', group: 'bladeguard', label: { en: '+1 to hit (melee)', ru: '+1 к попаданию (ближний бой)' } },
+  'bladeguard-defend': { scope: 'unit', duration: 'phase', group: 'bladeguard', label: { en: '-1 to be hit', ru: '−1 к попаданию по отряду' } },
+  // An army's pick of the Command phase, "until the start of your next Command phase" — the round is
+  // the nearest window the clock has, and it errs early.
+  'atonement-path-of-the-penitent': { scope: 'army', duration: 'round', group: 'vow-of-atonement', label: { en: 'The Path of the Penitent', ru: 'The Path of the Penitent' } },
+  'atonement-absolution-in-battle': { scope: 'army', duration: 'round', group: 'vow-of-atonement', label: { en: 'Absolution in Battle', ru: 'Absolution in Battle' } },
+  'atonement-death-before-disgrace': { scope: 'army', duration: 'round', group: 'vow-of-atonement', label: { en: 'Death Before Disgrace', ru: 'Death Before Disgrace' } },
+  'motivation-hurons-elite': { scope: 'army', duration: 'round', group: 'tyrannical-motivation', label: { en: 'Huron’s Elite', ru: 'Huron’s Elite' } },
+  'motivation-mobile-marauders': { scope: 'army', duration: 'round', group: 'tyrannical-motivation', label: { en: 'Mobile Marauders', ru: 'Mobile Marauders' } },
+  // A spent rule's own options ("Your unit's attacks have: [LETHAL HITS]. Or: [SUSTAINED HITS 1].")
+  // — the player says which one when spending a stratagem or using a once-per-battle ability.
+  // `onUse: true` keeps the chips out of sight until a rule naming them is in force on the unit
+  // (rosterGameContext's switchesFor): offered before, they would sit on every card of a detachment
+  // that has the stratagem at all. The window is the rule's own, so the pick ends with it.
+  'blademastery-sustained': { scope: 'unit', duration: 'phase', group: 'anathema-blademastery', onUse: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'blademastery-lethal': { scope: 'unit', duration: 'phase', group: 'anathema-blademastery', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'avowed-lethal': { scope: 'unit', duration: 'phase', group: 'avowed-destruction', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'avowed-sustained': { scope: 'unit', duration: 'phase', group: 'avowed-destruction', onUse: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'mercy-lethal': { scope: 'unit', duration: 'phase', group: 'mercy-is-weakness', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'mercy-sustained': { scope: 'unit', duration: 'phase', group: 'mercy-is-weakness', onUse: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'relentless-sustained': { scope: 'unit', duration: 'phase', group: 'relentless-assault', onUse: true, label: { en: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]', ru: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]' } },
+  'relentless-lethal': { scope: 'unit', duration: 'phase', group: 'relentless-assault', onUse: true, label: { en: '[LETHAL HITS: MONSTER/VEHICLE]', ru: '[LETHAL HITS: MONSTER/VEHICLE]' } },
+  'artillerists-lethal': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'artillerists-sustained': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', onUse: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'artillerists-both': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', onUse: true, label: { en: 'Both, with [HAZARDOUS]', ru: 'Обе, с [HAZARDOUS]' } },
+  // Hardened Killers is spent in your Command phase and lasts "until the start of your next turn":
+  // the round is the nearest window the clock has, and it errs early, never late.
+  'hardened-bs': { scope: 'unit', duration: 'round', group: 'hardened-killers', onUse: true, label: { en: '+1 BS', ru: '+1 BS' } },
+  'hardened-rapid-fire': { scope: 'unit', duration: 'round', group: 'hardened-killers', onUse: true, label: { en: '+1 A, [RAPID FIRE] weapons', ru: '+1 A, оружие [RAPID FIRE]' } },
+  'hardened-save': { scope: 'unit', duration: 'round', group: 'hardened-killers', onUse: true, label: { en: '+1 Sv', ru: '+1 Sv' } },
+  // Experimental Ammunition's first option is +1 S, which the second has too: one chip for the
+  // second is the whole choice.
+  'ammo-overcharge': { scope: 'unit', duration: 'phase', onUse: true, label: { en: '+1 AP, [HAZARDOUS]', ru: '+1 AP, [HAZARDOUS]' } },
+  'augmented-lethal': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'augmented-sustained': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', onUse: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'augmented-both': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', onUse: true, label: { en: 'Both (entrenched)', ru: 'Обе (entrenched)' } },
+  'spear-lethal': { scope: 'unit', duration: 'phase', group: 'spear-thrust', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'spear-lance': { scope: 'unit', duration: 'phase', group: 'spear-thrust', onUse: true, label: { en: '[LANCE]', ru: '[LANCE]' } },
+  'spear-both': { scope: 'unit', duration: 'phase', group: 'spear-thrust', onUse: true, label: { en: 'Both (MOUNTED)', ru: 'Обе (MOUNTED)' } },
+  // Moment Shackle (once per battle): "+3 A on the Watcher's Axe" or "3+ InSv", picked when used.
+  'shackle-axe': { scope: 'unit', duration: 'phase', group: 'moment-shackle', onUse: true, label: { en: 'Watcher’s Axe +3 A', ru: 'Watcher’s Axe +3 A' } },
+  'shackle-save': { scope: 'unit', duration: 'phase', group: 'moment-shackle', onUse: true, label: { en: '3+ InSv', ru: '3+ InSv' } },
+  // Desperate Pledge: "if your unit invokes its contract" — the player knows, the card cannot.
+  'contract-invoked': { scope: 'unit', duration: 'phase', onUse: true, label: { en: 'Contract invoked', ru: 'Контракт заключён' } },
 
   // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
   // Answered by the tracker's clock (rosterGameContext's clockHolds), never by a switch. A phase

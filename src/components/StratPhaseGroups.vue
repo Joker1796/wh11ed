@@ -11,11 +11,13 @@
       <button
         type="button"
         class="phase-head"
-        :class="{ now: g.key === now }"
-        :aria-expanded="open.has(g.key)"
+        :class="{ now: g.key === now, inert: g.inert }"
+        :aria-expanded="g.inert ? undefined : open.has(g.key)"
+        :disabled="g.inert"
         @click="toggle(g.key)"
       >
         <ChevronIcon
+          v-if="!g.inert"
           class="phase-chev"
           :turned="open.has(g.key)"
           from="right"
@@ -25,9 +27,9 @@
           v-if="g.key === now && !g.label"
           class="phase-now"
         > · {{ labels.trackerStratNow }}</small></span>
-        <span class="phase-count">{{ g.strats.length }}</span>
+        <span class="phase-count">{{ g.count ?? g.strats.length }}</span>
       </button>
-      <CollapseTransition :show="open.has(g.key)">
+      <CollapseTransition :show="!g.inert && open.has(g.key)">
         <div class="phase-body">
           <slot :group="g" />
         </div>
@@ -44,7 +46,9 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { phaseLabel } from '../composables/stratagemPhases.js'
 
-// `groups` — groupByPhase() (a group may bring its own `label`); `open` — the open phases (a Set,
+// `groups` — groupByPhase() (a group may bring its own `label`, and its own `count` when what it
+// holds is not stratagems — the tracker's Turn tab; `inert` draws it muted and shut, a head with
+// nothing behind it — the Turn tab's empty start and end of the turn, owner 2026-10-18); `open` — the open phases (a Set,
 // v-model); `now` — the group to mark as the live one (the tracker's; null anywhere else); `card` —
 // each group one card, its head and its rows inside one frame (the tracker's CP tab, owner
 // 2026-10-06: a head and loose cards under it read as a pile of separate things).
@@ -80,5 +84,7 @@ function toggle(key) {
 .phase-group.card { border: 1px solid var(--border); background: var(--bg-card); transition: border-color var(--motion-fast); }
 @media (hover: hover) { .phase-group.card:has(.phase-head:hover) { border-color: var(--accent); } }
 .card .phase-head { border: 0; }
+.phase-head.inert { cursor: default; opacity: 0.55; }
+.phase-head.inert .phase-name { padding-left: 1.2em; }
 .card .phase-body { padding-top: 0; border-top: 1px solid var(--border); }
 </style>

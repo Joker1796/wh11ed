@@ -1,6 +1,10 @@
 <template>
-  <div class="breakdown">
+  <div
+    class="breakdown"
+    :class="controlled ? ['side-frame', { opp: !isYouSide(game.players[side], side) }] : null"
+  >
     <button
+      v-if="!expanded"
       class="bd-toggle"
       :aria-expanded="open"
       @click="open = !open"
@@ -12,14 +16,16 @@
       {{ labels.trackerDetails }}
     </button>
 
-    <CollapseTransition :show="open">
+    <CollapseTransition :show="expanded || open">
       <div class="bd-body">
         <div
-          v-for="(pl, i) in game.players"
+          v-for="{ pl, i } in shown"
           :key="i"
           class="bd-player"
+          :class="{ opp: !isYouSide(pl, i) }"
         >
           <div
+            v-if="!controlled"
             class="bd-name"
             :class="{ win: leaderIdx === i }"
           >
@@ -27,6 +33,20 @@
           </div>
 
           <div class="grid">
+            <!-- The rounds over their columns and the total over its own: without them a reader
+                 had to guess which cell was which round (QA, 2026-10-17). -->
+            <div class="g-label" />
+            <div
+              v-for="r in ROUND_COUNT"
+              :key="'h'+r"
+              class="g-head"
+            >
+              {{ r }}
+            </div>
+            <div class="g-head g-head-total">
+              {{ labels.trackerTotal }}
+            </div>
+
             <!-- Went first -->
             <div class="g-label">
               {{ labels.trackerWentFirst }}
@@ -43,9 +63,9 @@
             </div>
             <div class="g-total" />
 
-            <!-- Primary -->
+            <!-- Primary — named as what it is; the disposition beside the name read as a mission. -->
             <div class="g-label">
-              {{ dispositionName(pl.disposition) }}
+              {{ labels.trackerPrimary }}
             </div>
             <div
               v-for="r in ROUND_COUNT"
@@ -58,9 +78,24 @@
               {{ primaryTotal(i) }}/{{ PRIMARY_GAME_CAP }}
             </div>
 
-            <!-- Secondary missions -->
+            <!-- Secondary missions: the sum per round and the game's total on a line of their own
+                 (with every cap applied — secondaryRounds), then each card's own scores under it.
+                 The total used to sit on the first card's line, as if it were that card's. -->
+            <div class="g-label">
+              {{ labels.trackerSecondary }}
+            </div>
+            <div
+              v-for="r in ROUND_COUNT"
+              :key="'st'+r"
+              class="g-cell"
+            >
+              {{ secRounds(pl)[r - 1] || '-' }}
+            </div>
+            <div class="g-total">
+              {{ secondaryTotal(i) }}/{{ SECONDARY_GAME_CAP }}
+            </div>
             <template
-              v-for="(sec, si) in secondaries(i)"
+              v-for="sec in secondaries(i)"
               :key="'s'+sec.slug"
             >
               <div class="g-label sec-label">
@@ -75,9 +110,7 @@
                   {{ sec.vp[r] || '-' }}
                 </template>
               </div>
-              <div class="g-total">
-                {{ si === 0 ? `${secondaryTotal(i)}/${SECONDARY_GAME_CAP}` : '' }}
-              </div>
+              <div class="g-total" />
             </template>
 
             <!-- Battle Ready -->
@@ -119,6 +152,24 @@
               </div>
             </template>
           </div>
+          <!-- Where the CP went, from the ledger (cpLedger.js): a game started before it has none. -->
+          <div
+            v-if="showCp && spends(pl).length"
+            class="bd-spent"
+          >
+            <div class="bs-head">
+              <span>{{ labels.trackerCpSpent }}</span>
+              <b>{{ spentTotal(pl) }} CP</b>
+            </div>
+            <div
+              v-for="(e, k) in spends(pl)"
+              :key="k"
+              class="bs-row"
+            >
+              <span>{{ labels.trackerRoundShort }} {{ e.round }} · {{ spendName(pl, e) }}</span>
+              <b>{{ -e.amount }} CP</b>
+            </div>
+          </div>
         </div>
       </div>
     </CollapseTransition>
@@ -129,11 +180,12 @@
 import { ref, computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { sideName } from '../../composables/useTracker.js'
+import { sideName, isYouSide } from '../../composables/useTracker.js'
+import { spends } from '../../composables/cpLedger.js'
 import CollapseTransition from '../CollapseTransition.vue'
 import {
   useTracker, ROUND_COUNT, PRIMARY_GAME_CAP, SECONDARY_GAME_CAP, BATTLE_READY_VP,
-  missionBySlug, dispositionName,
+  missionBySlug,
 } from '../../composables/useTracker.js'
 import {
   BATTLE_READY_VP as BR_VP,
@@ -143,15 +195,25 @@ import {
   primaryTotal as primaryTotalOf,
   roundBreakdown,
   secondaryTotal as secondaryTotalOf,
+  secondaryRounds,
 } from '../../composables/gameScoring.js'
 import { tracks } from '../../data/trackerOptions.js'
 
 // `game` prop drives a finished/history game; defaults to the active game from the store.
-const props = defineProps({ game: { type: Object, default: null } })
+// `expanded`: the game screen's Stats tab, where the table IS the content — no toggle over it.
+const props = defineProps({
+  game: { type: Object, default: null },
+  expanded: { type: Boolean, default: false },
+  // The side picked on the score cards (the game screen's Stats tab): that side's table alone,
+  // framed in its colour — the card above already names it. Elsewhere both, one under the other.
+  side: { type: Number, default: null },
+})
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
 const game = computed(() => props.game || current.value)
+const controlled = computed(() => props.side === 0 || props.side === 1)
+const shown = computed(() => game.value.players.map((pl, i) => ({ pl, i })).filter(({ i }) => !controlled.value || i === props.side))
 // Through `tracks`, so an ancient game with no flag at all still shows the row it played with.
 const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
 
@@ -183,8 +245,17 @@ const bpRounds = computed(() => {
   return out
 })
 
+const spentTotal = (pl) => spends(pl).reduce((s, e) => s - e.amount, 0)
+// A stratagem spend carries its name; the 1CP replacement names the card it replaced.
+function spendName(pl, e) {
+  if (e.source === 'redraw') {
+    return `${labels.value.trackerCpRedraw} · ${missionBySlug(e.ref, pl.role, locale.value)?.name || e.ref}`
+  }
+  return e.name || ''
+}
 const primaryTotal = (i) => primaryTotalOf(game.value, i)
 const secondaryTotal = (i) => secondaryTotalOf(game.value, i)
+const secRounds = (pl) => secondaryRounds(pl)
 const open = ref(false)
 const leaderIdx = computed(() => leaderOf(game.value))
 
@@ -215,6 +286,11 @@ function secondaries(pi) {
 
 <style scoped>
 .breakdown { margin-top: 0.75rem; }
+.breakdown.side-frame { --side: var(--side-you); margin-top: 0; }
+.breakdown.side-frame.opp { --side: var(--side-opponent); }
+/* Inside the frame the table is the panel itself: no card of its own (a box in a box). */
+.side-frame .bd-body { margin-top: 0.3rem; }
+.side-frame .bd-player { border: 0; padding: 0; background: none; }
 .bd-toggle {
   display: flex; align-items: center; justify-content: center; gap: 0.4rem;
   width: 100%; padding: 0.6rem 1rem;
@@ -227,7 +303,10 @@ function secondaries(pi) {
   background: var(--bg-card); border: 1px solid var(--border); padding: 0.8rem;
 }
 .bd-name { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.6rem; }
-.bd-name.win { color: var(--accent-ink); }
+.bd-player { --side: var(--side-you); }
+.bd-player.opp { --side: var(--side-opponent); }
+/* The side's own colour, as on its score card — the accent red read as a third side. */
+.bd-name.win { color: var(--side); }
 
 .grid {
   display: grid;
@@ -235,6 +314,8 @@ function secondaries(pi) {
   gap: 3px;
   align-items: center;
 }
+.g-head { text-align: center; font-size: 0.7rem; font-weight: 700; color: var(--text-dim); }
+.g-head-total { text-align: left; padding-left: 0.6rem; }
 .g-label {
   font-size: 0.82rem;
   color: var(--text-muted);
@@ -243,7 +324,8 @@ function secondaries(pi) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.sec-label { font-size: 0.78rem; }
+/* A card's name wraps rather than cut to «A Tempting Ta…» on a 320px phone (acceptance, 2026-10-18). */
+.sec-label { font-size: 0.78rem; white-space: normal; line-height: 1.2; align-self: center; }
 .g-cell {
   height: 28px;
   display: flex;
@@ -267,7 +349,7 @@ function secondaries(pi) {
   display: flex;
   align-items: center;
 }
-.tick { color: var(--accent-ink); font-weight: 700; }
+.tick { color: var(--side); font-weight: 700; }
 
 @media (max-width: 420px) {
   .grid { grid-template-columns: minmax(0, 1fr) repeat(5, 24px) auto; gap: 2px; }
@@ -275,4 +357,10 @@ function secondaries(pi) {
   .g-label { font-size: 0.76rem; }
   .g-total { padding-left: 0.4rem; font-size: 0.76rem; }
 }
+/* Where the CP went: a list under the table, a rule above it. */
+.bd-spent { margin-top: 0.6rem; padding-top: 0.5rem; border-top: 1px solid var(--border); font-size: 0.82rem; }
+.bs-head, .bs-row { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.15rem 0; }
+.bs-head { font-weight: 700; color: var(--text-primary); }
+.bs-row { color: var(--text-muted); }
+.bs-row b { color: var(--text-primary); white-space: nowrap; }
 </style>

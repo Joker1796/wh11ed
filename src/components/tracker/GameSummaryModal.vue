@@ -32,6 +32,7 @@
       </p>
       <button
         class="gs-resume"
+        data-press
         :disabled="!resumable"
         @click="$emit('resume', game.id)"
       >
@@ -42,6 +43,7 @@
 </template>
 
 <script setup>
+import { endReasonFor } from '../../composables/gameScoring.js'
 import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import GameRosterLinks from './GameRosterLinks.vue'
@@ -67,7 +69,7 @@ const END_REASON_LABELS = {
   'opponent-concede': 'trackerEndOpponentConcede',
 }
 const endReasonLabel = computed(() => {
-  const key = END_REASON_LABELS[props.game?.endReason]
+  const key = END_REASON_LABELS[endReasonFor(props.game)]
   return key ? labels.value[key] : ''
 })
 </script>

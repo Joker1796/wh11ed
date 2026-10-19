@@ -28,9 +28,12 @@ import { loadKeywordVocabulary, ruleAppliesTo, unitKeywordsOf } from './ruleTarg
 import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, attachedEnhKeys, armyRuleMatches, armyRuleSection } from './rosterStatMods.js'
 import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
+import { unitDoctrines } from './doctrineRules.js'
+import { foldName } from '../utils/foldName.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
+import { useCombatPatrolBox } from './useCombatPatrolBox.js'
 import { localizeSheet } from '../data/datasheets/ru/index.js'
 import { useDatasheetsRu } from './useDatasheetsRu.js'
 
@@ -56,22 +59,24 @@ export function useRosterUnitCard(props) {
   /** @type {import('vue').Ref<Datasheet[]>} */
   const datasheets = ref([])
   const loaded = ref(false)
+  // A Combat Patrol box's units have their sheets in combatPatrol.js (useCombatPatrolBox).
+  const cpBox = useCombatPatrolBox()
   watch(
-    () => props.factionSlug,
-    async (slug) => {
+    [() => props.factionSlug, cpBox],
+    async ([slug, cp]) => {
       datasheets.value = []
       loaded.value = false
       if (!slug) return
       // The vocabulary first: the rule gates read it as soon as the sheets land (ruleTargets.js).
-      const [list] = await Promise.all([loadDatasheets(slug), loadKeywordVocabulary()])
-      if (props.factionSlug !== slug) return
+      const [list] = await Promise.all([loadDatasheets(slug, { cp }), loadKeywordVocabulary()])
+      if (props.factionSlug !== slug || cpBox.value !== cp) return
       if (list) datasheets.value = list
       loaded.value = true
     },
     { immediate: true },
   )
 
-  const ruModule = useDatasheetsRu(() => props.factionSlug)
+  const ruModule = useDatasheetsRu(() => props.factionSlug, () => cpBox.value)
 
   // Any datasheet from this faction, in the current locale. Shared by the viewed sheet and by an
   // attached Leader's abilities below — those must be translated too, not left English in RU.
@@ -324,9 +329,11 @@ export function useRosterUnitCard(props) {
   // pass and the keyword pass so the two cannot disagree about whether one is in force.
   // Everything the player has NAMED on this card, as record ids: stratagems spent on it, and the
   // ability-set options picked anywhere in the army (a relic picked on the Triumph feeds the aura
-  // that lands here — see rosterGameContext's allPicks).
+  // that lands here — see rosterGameContext's allPicks), and the once-per-battle rules used on it
+  // whose window is still open (`live`: a use whose window closed stays ticked but changes nothing).
   const activeStratIds = computed(() => new Set([
     ...(props.gameCtx?.strats || []).filter((st) => st.on).map((st) => st.id),
+    ...(props.gameCtx?.uses || []).filter((u) => u.live).map((u) => u.id),
     ...(props.gameCtx?.chosen || []),
   ]))
 
@@ -341,8 +348,34 @@ export function useRosterUnitCard(props) {
     const printed = datasheets.value.find((d) => d.id === props.unitId)
     return wargearConditions(props.ctx?.def, props.ctx?.entry, props.ctx?.items, printed)
   })
+  // The doctrines the attached unit's own rules make permanent — Calgar's unit has all three in the
+  // list as much as in the game (doctrineRules.js; the game's view reads the same texts, plus the
+  // wargear it carries, which a list read here does not resolve).
+  const unitProves = computed(() => {
+    const entry = props.ctx?.entry
+    const facEn = rulesFactionEn.value
+    if (!entry || !facEn) return null
+    const units = props.ctx?.units || []
+    const hostUid = entry.leaderOf || entry.uid
+    const parts = units.filter((u) => u.uid === hostUid || u.leaderOf === hostUid)
+    /** @param {string | undefined} id */
+    const sheetOf = (id) => datasheets.value.find((d) => d.id === id)
+    const texts = (parts.length ? parts : [entry]).flatMap((p) => {
+      const sheet = sheetOf(p.id)
+      const enh = p.enh ? findEnhancementProse(facEn.detachments, p.enh, props.ctx?.detachments)?.body : null
+      return [
+        ...(sheet?.abilities || []).map((a) => a.text),
+        ...(sheet?.abilitySets || []).flatMap((set) => (set.options || []).map((o) => o.text)),
+        ...(enh ? [enh] : []),
+      ]
+    })
+    const fielded = new Set((props.ctx?.detachments || []).map((d) => detKey(typeof d === 'string' ? d : d?.name)))
+    const detTexts = (facEn.detachments || []).filter((d) => fielded.has(detKey(d.name))).map((d) => d.rule?.body || '')
+    const kws = new Set((parts.length ? parts : [entry]).flatMap((p) => unitKeywordsOf(sheetOf(p.id))).map((k) => foldName(k)))
+    return unitDoctrines({ texts, detTexts, hasKeyword: (kw) => kws.has(foldName(kw)) }).proves
+  })
   const activeConds = computed(() => {
-    const base = props.gameCtx?.active || rosterConditions(props.ctx?.entry, props.ctx?.units, (id) => datasheets.value.find((d) => d.id === id))
+    const base = props.gameCtx?.active || rosterConditions(props.ctx?.entry, props.ctx?.units, (id) => datasheets.value.find((d) => d.id === id), unitProves.value)
     return gearConds.value.size ? new Set([...base, ...gearConds.value]) : base
   })
 

@@ -89,9 +89,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -120,9 +121,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -136,9 +138,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -192,11 +195,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of the two, selected when the unit is selected to attack",
-            "ru": "одна из двух — выбирается, когда отряд выбран для атаки"
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
           },
           "cond": [
-            "never"
+            "adaptable-sustained"
           ]
         },
         {
@@ -205,11 +208,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of the two, selected when the unit is selected to attack",
-            "ru": "одна из двух — выбирается, когда отряд выбран для атаки"
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
           },
           "cond": [
-            "never"
+            "adaptable-lethal"
           ]
         }
       ]
@@ -383,6 +386,17 @@ export default {
       }
     },
     {
+      "sid": "f4031e00-d3d0-43c0-9dfb-f4c579906260",
+      "kind": "detachmentRule",
+      "name": "Xenos Resilience",
+      "det": "Claw of Ascension",
+      "ref": null,
+      "hash": "6a71d0f1",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7767306f-ad29-4d17-8510-f5dcb2a06f78",
       "kind": "detachmentRule",
       "name": "Psionic Parasitism",
@@ -395,6 +409,29 @@ export default {
         "kind": "detachmentRule",
         "det": "final-day"
       }
+    },
+    {
+      "sid": "28217f4d-ffb6-4df2-b0e5-1e78c7f86366",
+      "kind": "detachmentRule",
+      "name": "Killer Reputation",
+      "det": "Heroes of the Uprising",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "heroes-of-the-uprising"
+      },
+      "hash": "2413320a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Killer",
+          "when": null,
+          "scope": 0
+        }
+      ]
     },
     {
       "sid": "4947e8db-c886-450b-a59c-4e3455f2d533",
@@ -467,6 +504,20 @@ export default {
       }
     },
     {
+      "sid": "5b337e6a-34a4-4fc5-a725-bfb57625867a",
+      "kind": "detachmentRule",
+      "name": "Enemy Within",
+      "det": "Purestrain Broodswarm",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "purestrain-broodswarm"
+      },
+      "hash": "47e4d27b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b58f14db-dd11-4e6c-80f0-7e3915af5840",
       "kind": "detachmentRule",
       "name": "Unquestioning Fanaticism",
@@ -481,6 +532,20 @@ export default {
       "appliesWhile": [
         "unit-led"
       ],
+      "effects": []
+    },
+    {
+      "sid": "289da449-4707-4d3e-91e8-ffe2c81b3c18",
+      "kind": "detachmentRule",
+      "name": "Hordes of the Faithful",
+      "det": "Xenocult Masses",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "xenocult-masses"
+      },
+      "hash": "50f0c6e3",
+      "ver": 995,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -653,6 +718,31 @@ export default {
             "name": "Achilles missile launcher"
           },
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3ddc79d6-e82b-4898-ad3c-c3c174f9e145",
+      "kind": "enhancement",
+      "name": "Practiced Eye",
+      "det": "Claw of Ascension",
+      "ref": null,
+      "hash": "22b570c6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the one enemy unit selected",
+            "ru": "против одного выбранного вражеского отряда"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -1304,10 +1394,14 @@ export default {
             "en": "once per battle, for the phase, against an INFANTRY unit",
             "ru": "раз за битву, на фазу, по отряду INFANTRY"
           },
+          "target": "unit",
           "cond": [
             "never"
           ],
-          "target": "unit"
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     }

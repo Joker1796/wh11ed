@@ -8,6 +8,17 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "d0cc4c05-a640-456f-a04e-d2a15fd9b08f:amonhotekh-s-guard-canoptek-scarab-swarms",
+      "kind": "ability",
+      "name": "Amonhotekh's Guard Canoptek Scarab Swarms: Scarab Interference",
+      "det": null,
+      "ref": null,
+      "hash": "f2b25c39",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "076d361c-d1bb-4e8e-8eb4-251434f9d888:amonhotekh-s-guard-skorpekh-destroyers",
       "kind": "ability",
       "name": "Amonhotekh's Guard Skorpekh Destroyers: Plasmacyte (Once per battle per unit)",
@@ -26,9 +37,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -989,18 +1001,66 @@ export default {
           "when": null
         },
         {
-          "scope": 1,
           "on": "ranged",
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-INFANTRY 3+",
           "when": {
             "en": "in your Shooting phase, if that ability is the one selected for the unit",
-            "ru": "в вашей фазе стрельбы, если для отряда выбрана именно эта способность"
+            "ru": "в вашей фазе стрельбы, если отряд выбрал эту способность"
           },
           "cond": [
-            "never"
+            "techno-anti-infantry"
           ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-MOUNTED 4+",
+          "when": {
+            "en": "in your Shooting phase, if that ability is the one selected for the unit",
+            "ru": "в вашей фазе стрельбы, если отряд выбрал эту способность"
+          },
+          "cond": [
+            "techno-anti-mounted"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HEAVY",
+          "when": {
+            "en": "in your Shooting phase, if that ability is the one selected for the unit",
+            "ru": "в вашей фазе стрельбы, если отряд выбрал эту способность"
+          },
+          "cond": [
+            "techno-heavy"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "in your Shooting phase, if that ability is the one selected for the unit",
+            "ru": "в вашей фазе стрельбы, если отряд выбрал эту способность"
+          },
+          "cond": [
+            "techno-ignores-cover"
+          ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "techno-assault"
+          ],
+          "when": {
+            "en": "in your Shooting phase, if that ability is the one selected for the unit",
+            "ru": "в вашей фазе стрельбы, если отряд выбрал эту способность"
+          }
         }
       ]
     },
@@ -1361,9 +1421,10 @@ export default {
             "en": "until your next Shooting phase, once per battle per army, when this unit used this ability to go into strategic reserves",
             "ru": "до вашей следующей Shooting phase, раз за битву на армию, если отряд применил эту способность и ушёл в strategic reserves"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "round"
+          }
         }
       ]
     },
@@ -1752,11 +1813,40 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of the two, if the bearer's unit was set up through a Monolith's Eternity Gate this turn",
-            "ru": "одна из двух, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
+            "en": "the one picked, if the bearer’s unit was set up through a Monolith’s Eternity Gate this turn",
+            "ru": "выбранная, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
           },
           "cond": [
-            "never"
+            "unit-arrived-from-reserves",
+            "optimiser-lethal"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "the one picked, if the bearer’s unit was set up through a Monolith’s Eternity Gate this turn",
+            "ru": "выбранная, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
+          },
+          "cond": [
+            "unit-arrived-from-reserves",
+            "optimiser-sustained"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "the one picked, if the bearer’s unit was set up through a Monolith’s Eternity Gate this turn",
+            "ru": "выбранная, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
+          },
+          "cond": [
+            "unit-arrived-from-reserves",
+            "optimiser-lethal"
           ],
           "target": "led"
         },
@@ -1766,15 +1856,62 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of the two, if the bearer's unit was set up through a Monolith's Eternity Gate this turn",
-            "ru": "одна из двух, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
+            "en": "the one picked, if the bearer’s unit was set up through a Monolith’s Eternity Gate this turn",
+            "ru": "выбранная, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
           },
           "cond": [
-            "never"
+            "unit-arrived-from-reserves",
+            "optimiser-sustained"
           ],
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "d2ab2c1b-9744-4545-995c-e41df16e488c",
+      "kind": "stratagem",
+      "name": "Gauss Storm",
+      "det": "Amonhotekh’s Guard",
+      "ref": null,
+      "hash": "fe8dfc7e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "a374ab23-5cc9-4eca-97e4-54dfc8cd461f",
+      "kind": "stratagem",
+      "name": "Reinforced Resilience",
+      "det": "Amonhotekh’s Guard",
+      "ref": null,
+      "hash": "97d04864",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e911cb72-8416-456b-b29b-9d7e78845c3f",
@@ -2215,6 +2352,21 @@ export default {
       "dur": "round"
     },
     {
+      "sid": "2d178a91-fe95-4fcf-a613-af03204721ea",
+      "kind": "stratagem",
+      "name": "Evasive Protocols",
+      "det": "Skyshroud Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "skyshroud-spearhead",
+        "name": "Evasive Protocols"
+      },
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "1b7e64e2-00bb-48a9-a88e-6c35d4aa0961",
       "kind": "stratagem",
       "name": "Chronoshift",
@@ -2303,6 +2455,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "c2ffac1d-7059-4e1f-bda2-8fb6ce20d1e3",
+      "kind": "stratagem",
+      "name": "Subsurface Quantumweave",
+      "det": "The Phaeron's Armoury",
+      "ref": {
+        "kind": "stratagem",
+        "det": "the-phaerons-armoury",
+        "name": "Subsurface Quantumweave"
+      },
+      "hash": "8965a6af",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f8700f44-a5d3-43d0-b34f-c2b09a6b504b:canoptek-macrocytes",
@@ -2583,9 +2750,10 @@ export default {
             "en": "once per battle per Plasmacyte, while this ability is used",
             "ru": "раз за битву на каждый Plasmacyte, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -2612,9 +2780,10 @@ export default {
             "en": "once per battle per Plasmacyte, while this ability is used",
             "ru": "раз за битву на каждый Plasmacyte, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },

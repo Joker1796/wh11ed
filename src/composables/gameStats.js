@@ -13,11 +13,16 @@ import {
   ROUND_COUNT,
   TACTICAL_SECONDARY_CAP,
   battlePointsFromVp,
+  concededSide,
   grandTotal,
   primaryTotal,
   secondaryInRound,
   secondaryTotal,
+  youIndex,
 } from './gameScoring.js'
+// youIndex moved to gameScoring.js (the concede logic needs it there); kept exported from here
+// for the readers that already import it from this module.
+export { youIndex }
 import { getItem } from './safeStorage.js'
 
 // The finished-games key. useTracker.js owns the live ref and is their only WRITER; this module
@@ -42,10 +47,6 @@ export function loadHistory() {
 // every breakdown row carries `enough` and the UI shows the raw W–L instead until it flips.
 export const MIN_SAMPLE = 5
 
-export function youIndex(game) {
-  const i = (game?.players || []).findIndex((p) => p?.isYou)
-  return i >= 0 ? i : 0
-}
 
 // VP as they stood when the game was finished. The stored totals are authoritative — recomputing
 // would silently re-score old games under today's caps — but they are absent on the oldest records.
@@ -69,13 +70,14 @@ export function outcomeOf(game) {
   const o = y === 0 ? 1 : 0
   const totals = vpTotals(game)
   const vp = [totals[y] || 0, totals[o] || 0]
+  const c = concededSide(game)
   let bp
-  if (game?.endReason === 'friendly-concede') bp = [0, 20]
-  else if (game?.endReason === 'opponent-concede') bp = [20, 0]
+  if (c === y) bp = [0, 20]
+  else if (c === o) bp = [20, 0]
   else bp = battlePointsFromVp(vp[0], vp[1])
   let side
-  if (game?.endReason === 'friendly-concede') side = 'loss'
-  else if (game?.endReason === 'opponent-concede') side = 'win'
+  if (c === y) side = 'loss'
+  else if (c === o) side = 'win'
   else {
     const [a, b] = game?.settings?.scoreMode === 'bp' ? bp : vp
     side = a === b ? 'draw' : a > b ? 'win' : 'loss'

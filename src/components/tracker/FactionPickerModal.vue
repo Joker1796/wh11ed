@@ -1,6 +1,6 @@
 <template>
   <BaseModal
-    :title="labels.trackerSelectFaction"
+    :title="labels.trackerFaction"
     @close="$emit('close')"
   >
     <FactionPickerList

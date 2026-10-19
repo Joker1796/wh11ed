@@ -2,7 +2,7 @@
   <div
     v-if="roster"
     class="roster-view fa-themed"
-    :class="{ 'rv-in-desk': inDesk, 'rv-split': unitPane }"
+    :class="{ 'rv-in-desk': inDesk, 'rv-split': unitPane, 'rv-in-game': inTracker }"
     :style="accentStyle"
   >
     <!-- On the rosters desk (RosterDeskView, wide screens) the page is a column that scrolls on its
@@ -10,7 +10,10 @@
     <div class="rv-main">
       <!-- The way back. The answer to the Save that landed here stood opposite it until 2026-09-24;
          it is a toast now (below), so on a phone this row is usually empty and takes no height. -->
-      <div class="rv-top">
+      <div
+        v-if="!inTracker"
+        class="rv-top"
+      >
         <!-- On a phone the way back to the list of lists is the bottom nav's Rosters, one thumb away,
            so this line is dropped there (owner, 2026-09-24). From a game or its history it goes
            somewhere the nav does not, and stays. -->
@@ -28,6 +31,7 @@
 
       <header
         class="rv-head"
+        data-tour="rv-head"
         :class="{ own: showPoints && ownLimits }"
       >
         <!-- The name and its points share a wrapping row (owner, 2026-10-03): the points stand at
@@ -68,6 +72,7 @@
             v-if="!inGame"
             :to="`/roster/${roster.id}`"
             class="hdr-icon"
+            data-tour="rv-edit"
             :aria-label="labels.rosterEdit"
           >
             <i class="wi wi-edit" />
@@ -88,6 +93,7 @@
               <button
                 type="button"
                 class="hdr-icon"
+                data-tour="rv-menu"
                 :aria-label="labels.rosterMoreActions"
                 @click="toggle"
               >
@@ -154,10 +160,12 @@
       <!-- What the list breaks, said HERE. The editor has always had this behind its footer badge,
          but a list is read far more often than it is edited, and "why is this illegal" was two
          screens away — the list page shows a warning count and this page said nothing at all. -->
+      <!-- Not in the game's Roster tab: mid-battle the list is what it is (owner, 2026-09-30). -->
       <button
-        v-if="issues.length"
+        v-if="issues.length && !inTracker"
         type="button"
         class="rv-issues"
+        data-tour="rv-issues"
         :class="{ err: errorCount }"
         @click="issuesOpen = true"
       >
@@ -200,6 +208,7 @@
         <section
           v-if="possibleGroups.length"
           class="rv-possible"
+          data-tour="rv-possible"
         >
           <button
             type="button"
@@ -271,8 +280,12 @@
           </CollapseTransition>
         </div>
 
+        <!-- In the game's Roster tab the army's rules and stratagems have tabs of their own (Armies,
+             CP), so the list is all this page shows there (owner, 2026-09-30). -->
         <PageTabs
+          v-if="!inTracker"
           class="rv-tabs"
+          data-tour="rv-tabs"
           :tabs="viewTabs"
           @select="tab = $event"
         />
@@ -333,52 +346,72 @@
                   </div>
                   <div
                     class="rvunit"
+                    data-tour="rv-unit"
                     :class="{
                       'rvunit-attached': e.leaderOf,
                       'rvunit-host': hasAttached(g.entries, e) || companionRows(defOf(e.id)).length > 0,
                       'rvunit-on': unitPane && viewingUid === e.uid,
+                      'rvunit-fallen': fallen(e),
                     }"
                   >
+                    <!-- The unit's stats open it — heard as a card (pressSound.js), and the whole card
+                         sinks with them, Battle-shocked row and all (`data-press-scope`); a crew line
+                         below is a card of its own (owner, 2026-10-08). -->
                     <button
                       type="button"
                       class="rvunit-main"
+                      data-press
+                      data-press-sound="card"
+                      data-press-scope=".rvunit"
                       @click="viewingUid = e.uid"
                     >
                       <span class="rvunit-text">
-                        <span class="rvunit-name">
-                          {{ defOf(e.id)?.name || e.id }}
-                          <!-- The player's own note (rosterEngine's note helpers) — what they wrote to
+                        <!-- In the game the summary (warlord, models, upgrades, enhancement) stands at the
+                       right end of the name's line — a line less per card (owner, 2026-09-30); a
+                       summary that does not fit beside the name wraps under it rather than being cut. -->
+                        <span class="rvunit-head">
+                          <span class="rvunit-name">
+                            {{ defOf(e.id)?.name || e.id }}
+                            <!-- The player's own note (rosterEngine's note helpers) — what they wrote to
                          read HERE, at the table, which is why it is on the row rather than behind
                          the card this row opens. -->
-                          <span
-                            v-if="e.note"
-                            class="rvunit-note"
-                          >({{ e.note }})</span>
-                          <!-- Attached characters sit under their bodyguard (rosterEngine's
+                            <span
+                              v-if="e.note"
+                              class="rvunit-note"
+                            >({{ e.note }})</span>
+                            <!-- Attached characters sit under their bodyguard (rosterEngine's
                          joinAttached); the tag says which slot, which nesting alone can't. -->
-                          <span
-                            v-if="rowMeta.get(e.uid)?.role"
-                            class="rvunit-role"
-                          >{{ rowMeta.get(e.uid).role }}</span>
-                        </span>
-                        <span
-                          v-if="rowMeta.get(e.uid)?.stats.length"
-                          class="rvunit-stats"
-                        >
-                          <span
-                            v-for="s in rowMeta.get(e.uid).stats"
-                            :key="s.label"
-                            class="rvst"
-                            :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }"
-                          >
-                            <span class="rvst-label">{{ s.label }}</span>
-                            <span class="stat-plate rvst-box">{{ s.value }}</span>
+                            <span
+                              v-if="rowMeta.get(e.uid)?.role"
+                              class="rvunit-role"
+                            >{{ rowMeta.get(e.uid).role }}</span>
                           </span>
+                          <span
+                            v-if="inTracker && summaryLine(e)"
+                            class="rvunit-sub"
+                          >{{ summaryLine(e) }}</span>
                         </span>
-                        <span class="rvunit-sub">{{ summaryLine(e) }}</span>
+                        <!-- A destroyed unit folds to its name and the way to change that (owner,
+                             2026-10-08): its numbers and switches say nothing any more. -->
+                        <ExpandTransition>
+                          <RosterStatPlates
+                            v-if="rowMeta.get(e.uid)?.stats.length && !fallen(e)"
+                            class="rvunit-stats"
+                            :stats="rowMeta.get(e.uid).stats"
+                            :large="inTracker"
+                          />
+                        </ExpandTransition>
+                        <span
+                          v-if="!inTracker"
+                          class="rvunit-sub"
+                        >{{ summaryLine(e) }}</span>
                       </span>
-                      <span class="rvunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
-                      <i class="wi wi-chevron-right rvunit-chev" />
+                      <!-- No chevron (owner, 2026-09-30): the row opens a dialog, not a fold, and a
+                           chevron beside it read as one. -->
+                      <span
+                        v-if="!roster.cp"
+                        class="rvunit-pts"
+                      >{{ entryMeta.get(e.uid)?.points }}</span>
                     </button>
                     <!-- What THIS unit has done, right where its numbers are. Army-wide states stay above
                    the list — those are facts about the battle, not about a unit — and these are the
@@ -391,33 +424,43 @@
                    and the numbers they belong to got lost between them. The chevron appears only
                    when there is something behind it. -->
                     <div
-                      v-if="pinnedChipOf(e)"
+                      v-if="pinnedChipOf(e) || inGame"
                       class="rvunit-conds"
                     >
                       <ConditionChips
+                        v-if="pinnedChipOf(e) && !fallen(e)"
                         :switches="[pinnedChipOf(e)]"
                         @toggle="toggleUnitChip(e, $event)"
                         @info="openChipInfo"
                       />
                       <button
-                        v-if="restChipsOf(e).length"
+                        v-if="restChipsOf(e).length && !fallen(e)"
                         type="button"
                         class="rvunit-more"
                         :aria-expanded="openChips.has(e.uid)"
                         :aria-label="labels.rosterMoreStates"
                         @click="toggleChips(e.uid)"
                       >
-                        <span class="rvunit-more-n">{{ restChipsOf(e).length }}</span>
+                        <!-- "more 2", not a bare "2": the number alone said nothing (QA, 2026-10-17). -->
+                        <span class="rvunit-more-n">{{ labels.rosterMoreN.replace('{n}', restChipsOf(e).length) }}</span>
                         <ChevronIcon
                           :turned="openChips.has(e.uid)"
                           from="down"
                           to="up"
                         />
                       </button>
+                      <!-- Where the unit is: the row's other end (owner, 2026-10-08). -->
+                      <UnitStatusButton
+                        v-if="inGame && keeps('trackUnitStates')"
+                        :status="unitStatusOf(gamePlayer, e.uid)"
+                        :name="defOf(e.id)?.name || e.id"
+                        :disabled="!canSwitch"
+                        @set="setStatus(e, $event)"
+                      />
                     </div>
                     <CollapseTransition
                       v-if="restChipsOf(e).length"
-                      :show="openChips.has(e.uid)"
+                      :show="openChips.has(e.uid) && !fallen(e)"
                     >
                       <ConditionChips
                         class="rvunit-conds rvunit-rest"
@@ -437,6 +480,8 @@
                     type="button"
                     class="rvunit rvunit-main rvunit-crew"
                     :class="{ 'rvunit-on': unitPane && viewingCrew === c.id }"
+                    data-press
+                    data-press-sound="card"
                     @click="openCrew(c)"
                   >
                     <i
@@ -451,7 +496,7 @@
                       >{{ labels.rosterSpawnNote }} · {{ c.rule }}</span>
                     </span>
                     <span
-                      v-if="c.kind !== 'spawn'"
+                      v-if="!roster.cp && c.kind !== 'spawn'"
                       class="rvunit-pts"
                     >0</span>
                     <i class="wi wi-chevron-right rvunit-chev" />
@@ -529,6 +574,16 @@
         v-on="viewingHandlers"
         @close="viewingUid = null; viewingCrew = null"
       />
+      <!-- A card's stratagem box ticked in a game counting CP: played like one from the CP tab — on
+           this unit, the cost asked, the CP spent (StratPlayModal, stratagemPlay.js). -->
+      <StratPlayModal
+        v-if="playingOnCard"
+        :strat="playingOnCard.strat"
+        :pi="gamePi"
+        :fixed-target="playingOnCard.target"
+        :z-index="420"
+        @close="playingOnCard = null"
+      />
     </div>
     <aside
       v-if="unitPane"
@@ -552,10 +607,13 @@
 </template>
 
 <script setup>
+import { countLabel } from '../../utils/plural.js'
+import { modelsLabel } from '../../utils/copyTier.js'
 import ChevronIcon from '../../components/ChevronIcon.vue'
-import { computed, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import { computed, markRaw, onMounted, onUnmounted, ref, shallowRef, toRaw, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import CollapseTransition from '../../components/CollapseTransition.vue'
+import ExpandTransition from '../../components/ExpandTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterUnitRulesCard from '../../components/roster/RosterUnitRulesCard.vue'
 import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
@@ -564,6 +622,8 @@ import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import ActionMenu from '../../components/ActionMenu.vue'
 import RosterOwnLimitsMark from '../../components/roster/RosterOwnLimitsMark.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
+import UnitStatusButton from '../../components/tracker/UnitStatusButton.vue'
+import { unitStatusOf, statusTargets } from '../../composables/unitStatus.js'
 import PageTabs from '../../components/PageTabs.vue'
 import RosterMissionsTab from '../../components/roster/RosterMissionsTab.vue'
 import RosterRulesTab from '../../components/roster/RosterRulesTab.vue'
@@ -579,27 +639,37 @@ import { useKeywordContext } from '../../composables/useFactionKeywordUnits.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
+import { provideModalScope } from '../../composables/modalScope.js'
+import { loadArmyStrats } from '../../composables/gameStratagems.js'
+import { deckStratFor } from '../../composables/stratagemPlay.js'
+import StratPlayModal from '../../components/tracker/StratPlayModal.vue'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import { playRoster } from '../../composables/playRoster.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
+import { provideCombatPatrolBox } from '../../composables/useCombatPatrolBox.js'
+import RosterStatPlates from '../../components/roster/RosterStatPlates.vue'
 import { loadKeywordVocabulary, unitKeywordsOf } from '../../composables/ruleTargets.js'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
-import { itemKey, loadoutItemNames } from '../../composables/rosterModifiers.js'
+import { itemKey, loadoutItemNames, findEnhancementProse, detKey, wargearConditions } from '../../composables/rosterModifiers.js'
+import { unitDoctrines } from '../../composables/doctrineRules.js'
+import { foldName } from '../../utils/foldName.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { conditions } from '../../data/rosterModifiers/conditions.js'
+import { variantPassage } from '../../composables/variantPassage.js'
 import { tracks } from '../../data/trackerOptions.js'
-import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, clockOf, stampOf, groupLimitsFor } from '../../composables/rosterGameContext.js'
+import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, activeUses, usesFor, attachedUids, clockOf, stampOf, isShockCondition, groupLimitsFor } from '../../composables/rosterGameContext.js'
 import { memberAt } from '../../composables/rosterGameLink.js'
 import { normName } from '../../composables/rosterFactionRules.js'
 import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 import { APP_VERSION } from '../../buildInfo.js'
+import { useTour, useTourShow } from '../../composables/useTour.js'
 import { companionRows } from '../../composables/rosterCompanionRows.js'
 
 const props = defineProps({
@@ -610,6 +680,13 @@ const props = defineProps({
   inDesk: { type: Boolean, default: false },
   // On the desk from 1200px: a unit's card opens in a column beside the page, not in a dialog.
   unitPane: { type: Boolean, default: false },
+  // The game screen's Roster tab (RoundTracker) holds this page itself, built on its first visit
+  // and kept (owner, 2026-09-30): which army by `pi`/`mi` instead of the address, no way back to
+  // draw, and `frozen` while it is not on screen — see `game` below.
+  inTracker: { type: Boolean, default: false },
+  pi: { type: Number, default: null },
+  mi: { type: Number, default: null },
+  frozen: { type: Boolean, default: false },
 })
 
 const route = useRoute()
@@ -627,9 +704,9 @@ const { saveToCloud } = useRosterSync()
 //
 // useTracker is imported dynamically on purpose: it statically pulls the mission/event datasets,
 // and the ordinary roster route must not carry them.
-const gamePi = computed(() => (route.params.pi != null ? Number(route.params.pi) : null))
+const gamePi = computed(() => (props.inTracker ? props.pi : route.params.pi != null ? Number(route.params.pi) : null))
 // Doubles: which member of the side this list belongs to (absent in singles → the side itself).
-const gameMi = computed(() => (route.params.mi != null && route.params.mi !== '' ? Number(route.params.mi) : null))
+const gameMi = computed(() => (props.inTracker ? props.mi : route.params.mi != null && route.params.mi !== '' ? Number(route.params.mi) : null))
 const inGame = computed(() => gamePi.value != null)
 // A finished game reached from the history list (/tracker/history/:gid/roster/:pi) shows the same
 // screen as a live one, but as a RECORD: the rule switches are what they were when it ended, and
@@ -645,12 +722,27 @@ const gameRoster = ref(undefined) // undefined = not resolved yet, null = no suc
 const tracker = shallowRef(null)
 
 // The game this route is about — the one in progress, or one out of history.
-const game = computed(() => {
+const liveGame = computed(() => {
   if (!tracker.value || !inGame.value) return null
   return historyId.value
     ? tracker.value.history.value.find((g) => g.id === historyId.value) || null
     : tracker.value.current.value
 })
+// The unit whose card is open (see "Unit rules modal" below).
+const viewingUid = ref(!props.inTracker && route.query?.unit ? String(route.query.unit) : null)
+// The game screen opens a unit's card straight from another tab (RoundTracker).
+defineExpose({ openUnit: (uid) => { viewingUid.value = uid } })
+// Kept off screen in the game's Roster tab, the page must not redo its whole modifier layer on
+// every tap of the game (a VP, a CP, a phase step): while `frozen` it reads a plain copy of the
+// game taken as it went out of sight — nothing reactive in it, so nothing below recomputes — and
+// back on screen it reads the live game again, one recount. A unit's card opened over another
+// tab (the Phase tab's line to it) is on screen, so it thaws the page too.
+const stillFrozen = computed(() => props.frozen && !viewingUid.value)
+const frozenGame = shallowRef(null)
+watch([stillFrozen, () => !!liveGame.value], ([f]) => {
+  frozenGame.value = f && liveGame.value ? markRaw(JSON.parse(JSON.stringify(toRaw(liveGame.value)))) : null
+}, { immediate: true })
+const game = computed(() => frozenGame.value || liveGame.value)
 // The roster is frozen in the snapshot, but what is TRUE about the battle is not, and that is
 // what decides whether a conditional modifier applies. In doubles the member is the holder of
 // the roster and of every rule switch, so it stands in for the side everywhere below; the clock
@@ -705,21 +797,28 @@ const activeFor = (entry) => (inGame.value
   ? activeConditions(gamePlayer.value, gameClock.value, entry, {
       army: keeps('trackArmyStates'),
       unit: keeps('trackUnitStates'),
+      shock: keeps('trackBattleShock'),
       units: roster.value?.units,
       sheetOf: sheetOfId,
       groupLimits: groupLimitsOf(entry),
+      ...unitRulesOf(entry),
     })
-  : rosterConditions(entry, roster.value?.units, sheetOfId))
+  : rosterConditions(entry, roster.value?.units, sheetOfId, unitRulesOf(entry).proves))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
 // `roster` is legitimately null, and redirecting then would bounce straight back out of the view.
 watch([roster, gameRoster], () => {
+  if (props.inTracker) return // the tab offers only armies that carry a list
   if (inGame.value && gameRoster.value === undefined) return
   if (!roster.value) router.replace(backTo.value)
 }, { immediate: true })
 
 const tab = ref('units')
+// The tour of this page — its own, not inside a game (there the game's chapter tells about it).
+const ownPage = () => !inGame.value && !props.inTracker
+const { maybeStart: maybeStartTour } = useTour()
+useTourShow('viewTab', (k) => { if (ownPage() && viewTabs.value.some((t) => t.key === k)) tab.value = k })
 // The list's notes start folded on every visit — deliberately not remembered: what is worth a row
 // of the first screen is the army, and a plan is read at a moment, not throughout.
 const notesOpen = ref(false)
@@ -754,9 +853,17 @@ function saveDisposition(name) {
 
 // ── Faction accent (useFactionAccent.js — the same recipe every faction-coloured screen uses) ──
 const { accentStyle } = useFactionAccent(computed(() => roster.value?.faction))
+// In the game screen the dialogs opened from here would wear the game's turn colour (its modal
+// scope); a unit's card is its army's, so this page hands down its own faction colour instead.
+if (props.inTracker) {
+  provideModalScope(computed(() => ({ class: ['fa-themed', 'army-colored'], style: accentStyle.value })))
+}
 
 // ── Compact roster data (unit names/sizes/points), same lazy source the editor uses ──
-const { factionData } = useRosterFactionData(() => roster.value?.faction, { allies: () => usesAllies(roster.value) })
+// A Combat Patrol box fielded as a list (`roster.cp`): its units, detachment and sheets join the
+// faction's, here and in every card under this screen (useCombatPatrolBox).
+provideCombatPatrolBox(() => roster.value?.cp)
+const { factionData } = useRosterFactionData(() => roster.value?.faction, { allies: () => usesAllies(roster.value), cp: () => roster.value?.cp })
 
 // Everything this screen reads off the pair — the unit lookup, the detachments in play, the battle
 // size, the pricing, the sectioning and the legality verdict — is useRosterDerived.js, so the list
@@ -770,7 +877,8 @@ const {
 // its limit (owner, 2026-10-03). A phone has no card beside it and always shows it.
 const overLimit = computed(() => legalityOn(roster.value) && points.value > limit.value)
 const ownLimits = computed(() => ownLimitsLines(effectiveBattle(roster.value || {}, rosterCore), labels.value).length > 0)
-const showPoints = computed(() => !!roster.value?.faction && (!props.inDesk || ownLimits.value || overLimit.value))
+// A Combat Patrol box has no points: neither the total nor a unit's 0 says anything there.
+const showPoints = computed(() => !!roster.value?.faction && !roster.value?.cp && (!props.inDesk || ownLimits.value || overLimit.value))
 // A faction keyword tapped in a rule on this screen lists this list's own units first.
 useKeywordContext(() => ({ faction: roster.value?.faction, unitIds: roster.value?.units?.map((u) => u.id) }))
 
@@ -784,10 +892,10 @@ const fullSheets = ref(new Map())
 // its own faction's file (Draxus is an Imperial Agents sheet), and without this every ally row
 // would quietly lose its statline plates and its live rules.
 const allySlugs = computed(() => [...new Set((roster.value?.units || []).map((u) => allySourceOf(u.id)?.[0]).filter(Boolean))])
-watch([() => roster.value?.faction, allySlugs], async ([slug, srcs]) => {
+watch([() => roster.value?.faction, allySlugs, () => roster.value?.cp], async ([slug, srcs, cp]) => {
   if (!slug) { fullSheets.value = new Map(); return }
   // The keyword vocabulary rides along: the rule gates read it as soon as the sheets land.
-  const [, ...lists] = await Promise.all([loadKeywordVocabulary(), loadDatasheets(slug), ...srcs.map((s) => loadDatasheets(s))])
+  const [, ...lists] = await Promise.all([loadKeywordVocabulary(), loadDatasheets(slug, { cp }), ...srcs.map((s) => loadDatasheets(s))])
   if (roster.value?.faction !== slug) return
   const m = new Map()
   for (const d of lists[0] || []) m.set(d.id, d)
@@ -812,7 +920,7 @@ watch([() => roster.value?.faction, fullSheets, locale], async ([slug, sheets, l
     ;({ localizeSheet } = await import('../../data/datasheets/ru/index.js'))
     const { loadDatasheetsRu } = await import('../../data/datasheets/ru/index.js')
     const slugs = [slug, ...allySlugs.value]
-    const loaded = await Promise.all(slugs.map((s) => loadDatasheetsRu(s)))
+    const loaded = await Promise.all(slugs.map((s, i) => loadDatasheetsRu(s, { cp: i === 0 ? roster.value?.cp : null })))
     if (roster.value?.faction !== slug) return
     slugs.forEach((s, i) => ruBySlug.set(s, loaded[i]))
   }
@@ -859,6 +967,18 @@ function srcInfo(src) {
       if (enh) return { owner: labels.value.rosterEnhancement, name: enh.name, text: enh.body }
     }
   }
+  // A stratagem's own options (spent, then picked — switchesFor's `onUse`): the stratagem's effect.
+  if (src.kind === 'stratagem') {
+    const det = curDetachments.value.find((d) => d.id === src.det)
+    const st = (det?.stratagems || []).find((x) => normName(x.name) === normName(src.name))
+    if (st) return { owner: det.name, name: st.name, text: st.effect }
+  }
+  // A datasheet ability's choice ("Unit: Ability"): that card's own text for it.
+  if (src.kind === 'ability' && src.unit) {
+    const at = src.name.indexOf(': ')
+    const info = ruleInfoOf(src.unit, (at === -1 ? src.name : src.name.slice(at + 2)).replace(/\s*\([^)]*\)\s*$/, ''))
+    if (info?.text) return { owner: at === -1 ? null : src.name.slice(0, at), name: info.name, text: info.text }
+  }
   // Anything else (a datasheet ability naming an army-wide state — one case in the whole dataset)
   // still gets its rule NAMED, which is most of the answer; the text stays on that unit's card.
   return { owner: null, name: src.name, text: null }
@@ -876,12 +996,17 @@ function withRuleInfo(list) {
       if (hint) return { ...sw, info: { name: sw.label[locale.value] || sw.label.en, text: hint[locale.value] || hint.en } }
       const src = srcInfo(sw.src)
       if (!src) return sw
+      // …and each option its own passage of that rule, where the text marks one out (a `### `
+      // subheading or a bullet naming it): "what does Absolution in Battle do" is one paragraph.
+      const label = sw.label[locale.value] || sw.label.en
+      const passage = src.text ? variantPassage(src.text, sw.label.en) || variantPassage(src.text, label) : null
       return {
         ...sw,
         groupOwner: src.owner ? `${src.owner} · ${src.name}` : src.name,
         // On the heading, not on each chip: these six ARE one rule, unlike an ability set whose
         // options each have their own (see ConditionChips' groups()).
         groupInfo: src.text ? { name: src.name, text: src.text } : null,
+        ...(passage && !sw.info ? { info: { name: label, text: passage } } : {}),
       }
     }
     const info = ruleInfoOf(sw.from.unit, sw.from.ability)
@@ -894,6 +1019,16 @@ function withRuleInfo(list) {
     }
   })
 }
+// A once-per-battle chip names its rule the way the card does — in Russian on a Russian card — and
+// its "i" opens that rule, the way an ability set's option does.
+function withUseInfo(list) {
+  return (list || []).map((sw) => {
+    const info = sw.unit ? ruleInfoOf(sw.unit, sw.ability) : null
+    if (!info) return sw
+    const short = (n) => n.replace(/\s*\([^)]*\)\s*$/, '')
+    return { ...sw, label: { en: sw.label.en, ru: short(info.name) }, info: info.text ? { name: info.name, text: info.text } : null }
+  })
+}
 function openChipInfo(sw, rect) {
   if (sw.info) openRule(sw.info.name, sw.info.text, rect, sw.info.sub)
 }
@@ -903,7 +1038,7 @@ function openChipInfo(sw, rect) {
 // reader from "Brides of Death (Pain), Lelith Hesperax" to the card that says what it does. The
 // query is read once, on arrival; closing the card leaves it in the URL, which is harmless (it
 // only ever seeds the initial value) and keeps a reload on the same card.
-const viewingUid = ref(route.query?.unit ? String(route.query.unit) : null)
+// (`viewingUid` is declared with the game above: an open card keeps the page thawed.)
 const viewingEntry = computed(() => roster.value?.units.find((u) => u.uid === viewingUid.value) || null)
 // A crew row's card (Sir Hekhtur) — a datasheet id, not an entry: he is in no list, so his card is
 // the printed sheet with nothing to overlay. Opening one closes the other.
@@ -946,6 +1081,7 @@ const viewingHandlers = {
   'toggle-pick': (...a) => toggleViewingPick(...a),
   'toggle-cond': (...a) => toggleUnitCond(...a),
   'toggle-strat': (...a) => toggleUnitStrat(...a),
+  'toggle-use': (...a) => toggleUnitUse(...a),
 }
 
 // Same chamfered stat-box plates as DatasheetCard.vue's statline (its statCells()), scaled
@@ -1068,6 +1204,8 @@ function chosenFor(entry, resolved) {
     // Picks are read army-wide, not per entry: a relic picked on the Triumph feeds an aura that
     // lands on the Sisters, whose own picks know nothing about it (see allPicks).
     ...(keeps('trackAbilitySets') ? allPicks(gamePlayer.value, gameClock.value) : []),
+    // …and the once-per-battle rules used on it whose window is still open.
+    ...(keeps('trackUnitStates') ? activeUses(gamePlayer.value, gameClock.value, entry, resolved, roster.value?.units) : []),
   ])
 }
 
@@ -1079,7 +1217,11 @@ function modContextFor(entry) {
   const resolved = resolvedFor(entry)
   if (!resolved.length) return null
   const sheet = fullSheets.value.get(entry?.id)
-  const active = activeFor(entry)
+  // …plus what the entry's own loadout proves (a pair of macro-scalpels, the Shieldline's platform,
+  // a Tempestor Prime in the squad), as the card behind the row adds it (rosterUnitCard's
+  // gearConds): without it a plate and its card disagreed on a Tidewall Shieldline's W 15.
+  const gear = wargearConditions(defOf(entry.id), entry, rosterItems.items, sheet)
+  const active = gear.size ? new Set([...activeFor(entry), ...gear]) : activeFor(entry)
   const printed = unitKeywordsOf(sheet)
   // A granted keyword decides which rules bear on the unit at all, so it has to be resolved BEFORE
   // the apply pass gates on the keyword set — the same order RosterUnitRulesModal uses. Skipping it
@@ -1185,11 +1327,17 @@ const armySwitches = computed(() => {
 })
 // This entry's own state switches, for the row in the list. Same source as the card's, so the two
 // can never disagree; cached per entry because the template asks for them on every render.
+// Battle-shock answers to its own row, the other states to the unit-states row (trackerOptions).
+function keptUnitSwitches(list) {
+  const shock = keeps('trackBattleShock')
+  const states = keeps('trackUnitStates')
+  return list.filter((sw) => (isShockCondition(sw.id) ? shock : states))
+}
 const unitSwitchCache = computed(() => {
   const m = new Map()
-  if (!canSwitch.value || !keeps('trackUnitStates')) return m
+  if (!canSwitch.value || !(keeps('trackUnitStates') || keeps('trackBattleShock'))) return m
   for (const e of roster.value?.units || []) {
-    m.set(e.uid, withRuleInfo(switchesFor(gatedFor(e), 'unit', gamePlayer.value, gameClock.value, e, groupLimitsOf(e))))
+    m.set(e.uid, withRuleInfo(keptUnitSwitches(switchesFor(gatedFor(e), 'unit', gamePlayer.value, gameClock.value, e, groupLimitsOf(e), unitRulesOf(e)))))
   }
   return m
 })
@@ -1246,11 +1394,31 @@ const pickSwitchCache = computed(() => {
   }
   return m
 })
+// …and its once-per-battle rules, the chips its card carries under "Once per battle": a use is
+// marked the moment it is made, at the row, as a charge or a Battle-shock is.
+const useSwitchCache = computed(() => {
+  const m = new Map()
+  if (!canSwitch.value || !keeps('trackUnitStates')) return m
+  for (const e of roster.value?.units || []) {
+    const chips = usesFor(gatedFor(e), gamePlayer.value, gameClock.value, e, roster.value?.units)
+    // Drawn as the card draws them (RosterUnitRulesCard's useChips): one "Once per battle" box,
+    // each chip saying on its second line whether its use is running or spent.
+    if (chips.length) {
+      m.set(e.uid, withUseInfo(chips).map((u) => ({
+        ...u,
+        groupCaption: labels.value.onceBattle,
+        subLabel: u.live ? labels.value.onceLive : u.spent ? labels.value.onceSpent : null,
+      })))
+    }
+  }
+  return m
+})
 function unitChipsOf(entry) {
   return [
     ...unitSwitchesOf(entry),
     ...(pickSwitchCache.value.get(entry.uid) || []),
     ...(auraSwitchCache.value.get(entry.uid) || []),
+    ...(useSwitchCache.value.get(entry.uid) || []),
   ]
 }
 // The one chip that stays on the row: Battle-shock rides on every unit in the game and is marked
@@ -1272,6 +1440,11 @@ function toggleChips(uid) {
   openChips.value = next
 }
 function toggleUnitChip(entry, sw) {
+  if (sw.once) {
+    if (sw.blocked) return
+    tracker.value?.setUnitUse(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value, attachedUids(entry, roster.value?.units))
+    return
+  }
   if (sw.aura) {
     tracker.value?.setUnitAura(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value)
     return
@@ -1305,9 +1478,61 @@ function rulesOf(entry) {
     ...(sheet.wargearAbilities || []).filter((a) => carried?.has(itemKey(a.name))),
   ].map((a) => a.text)
 }
-// How many of a group this entry's attached unit may hold where a Leader's rule raises it (two
-// Orders under a Command Rod or Ursula Creed — rosterGameContext's groupLimitsFor).
-const groupLimitsOf = (entry) => groupLimitsFor(entry, roster.value?.units, rulesOf)
+// Every rule text an entry's models carry, for the doctrines a rule makes permanent or adds: its
+// datasheet's abilities and wargear (rulesOf), the options of an ability set (Mephiston's
+// Quickening), and its enhancement's prose (Adept of the Codex).
+function doctrineTextsOf(entry) {
+  const sheet = fullSheets.value.get(entry.id)
+  const enh = entry.enh || mandatoryEnhancementFor(defOf(entry.id), curDetachments.value)?.name || null
+  const prose = enh && factionEn.value ? findEnhancementProse(factionEn.value.detachments, enh, roster.value?.detachments)?.body : null
+  return [
+    ...rulesOf(entry),
+    ...(sheet?.abilitySets || []).flatMap((set) => (set.options || []).map((o) => o.text)),
+    ...(prose ? [prose] : []),
+  ]
+}
+// The detachment rules this list is fielding, and every unit's rules — for Guilliman's Author of the
+// Codex, which lets ANY unit of the army hold a second doctrine. Once per list, not per card.
+const fieldedDetRules = computed(() => {
+  const names = new Set((roster.value?.detachments || []).map((n) => detKey(n)))
+  return (factionEn.value?.detachments || []).filter((d) => names.has(detKey(d.name))).map((d) => d.rule?.body || '')
+})
+const armyDoctrineTexts = computed(() => (roster.value?.units || []).flatMap((u) => rulesOf(u)))
+// What an entry's attached unit has from its rules rather than the army's pick: doctrines always
+// active (Calgar, Logan, Adept of the Codex, Death Company), forbidden (Death Company), and how many
+// it may hold at once (doctrineRules.js). One answer for every card of the attached unit.
+// Worked out once per list and kept (every reader of every card asks, several times per render).
+const NO_DOCTRINES = { proves: new Set(), forbids: new Set(), limit: 1 }
+const doctrineCache = computed(() => {
+  const m = new Map()
+  for (const entry of roster.value?.units || []) {
+    const parts = attachedEntries(entry)
+    const kws = new Set(parts.flatMap((p) => unitKeywordsOf(fullSheets.value.get(p.id))).map((k) => foldName(k)))
+    m.set(entry.uid, unitDoctrines({
+      texts: parts.flatMap(doctrineTextsOf),
+      detTexts: fieldedDetRules.value,
+      armyTexts: armyDoctrineTexts.value,
+      hasKeyword: (kw) => kws.has(foldName(kw)),
+    }))
+  }
+  return m
+})
+const doctrinesOf = (entry) => doctrineCache.value.get(entry?.uid) || NO_DOCTRINES
+// How many of a group this entry's attached unit may hold where a rule raises it: two Orders under a
+// Command Rod or Ursula Creed (rosterGameContext's groupLimitsFor), more than one doctrine under a
+// rule "in addition to any other combat doctrine" or all three at once (doctrinesOf).
+function groupLimitsOf(entry) {
+  const limits = groupLimitsFor(entry, roster.value?.units, rulesOf)
+  const { limit } = doctrinesOf(entry)
+  return limit > 1 ? { ...limits, 'combat-doctrine': limit } : limits
+}
+// …and the doctrines its rules settle, for the switches and for what is true.
+const unitRulesOf = (entry) => {
+  const { proves, forbids } = doctrinesOf(entry)
+  // The roster's entries too: a once-per-battle use ticked on the Leader's card opens its options on
+  // the Bodyguard's (switchesFor's `onUse`).
+  return { proves, forbids, units: roster.value?.units || null }
+}
 
 // Switching a per-unit condition on or off. A condition that forbids stratagems takes the ongoing
 // ones off the unit as it goes on: leaving a spent stratagem rewriting the card of a unit that may
@@ -1328,6 +1553,15 @@ function toggleUnitCondFor(entry, sw) {
       }
     }
     tracker.value?.setUnitCondition(gamePi.value, part.uid, sw.id, at, !sw.on, gameMi.value, limits[conditions[sw.id]?.group || ''])
+  }
+}
+
+const fallen = (entry) => inGame.value && unitStatusOf(gamePlayer.value, entry.uid) === 'destroyed'
+// On the battlefield, in reserves, destroyed — an attached unit moves whole, dies part by part
+// (statusTargets). The store stamps it with the game's clock (unitStatus.js).
+function setStatus(entry, status) {
+  for (const p of statusTargets(gamePlayer.value, entry, attachedEntries(entry), status)) {
+    tracker.value?.setUnitStatus(gamePi.value, p.uid, status, defOf(p.id)?.name || p.id, gameMi.value)
   }
 }
 
@@ -1358,21 +1592,58 @@ const viewingGameCtx = computed(() => {
     auras: canSwitch.value ? auraSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
     // …and which option of its own ability set is up, likewise the row's chips.
     picks: canSwitch.value ? pickSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
+    // …and its once-per-battle rules, ticked once used — a unit state, so under that option.
+    uses: canSwitch.value && keeps('trackUnitStates')
+      ? withUseInfo(usesFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value, roster.value?.units))
+      : [],
     // Picks are army-wide (allPicks): the card of a unit standing in someone else's aura must
     // read the same number its row does.
     chosen: canSwitch.value && keeps('trackAbilitySets') ? allPicks(gamePlayer.value, gameClock.value) : new Set(),
-    switches: canSwitch.value && keeps('trackUnitStates')
-      ? switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value, groupLimitsOf(viewingEntry.value))
+    switches: canSwitch.value
+      ? keptUnitSwitches(switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value, groupLimitsOf(viewingEntry.value), unitRulesOf(viewingEntry.value)))
       : [],
     armySwitches: canSwitch.value && keeps('trackArmyStates')
       ? switchesFor(resolved, 'army', gamePlayer.value, gameClock.value, viewingEntry.value)
       : [],
   }
 })
-// One handler for both scopes — the switch says which store it belongs to.
-function toggleUnitStrat(st) {
-  if (!viewingEntry.value) return
-  tracker.value?.setUnitStratagem(gamePi.value, viewingEntry.value.uid, st.id, stampOf(gameClock.value), !st.on, gameMi.value)
+// A stratagem box on the card. In a game counting CP it is PLAYING the stratagem on this unit — the
+// CP spent, the cost asked (StratPlayModal) — and unticking it takes the play back with its CP
+// (useTracker's playStratagem / unplayOnUnit). Where stratagems are not played (`trackStratPlay`,
+// which needs CP), or for a record with no stratagem in the deck to spend on, it is the plain mark
+// it always was.
+const playingOnCard = ref(null)
+async function toggleUnitStrat(st) {
+  const entry = viewingEntry.value
+  const t = tracker.value
+  if (!entry || !t) return
+  if (!keeps('trackStratPlay')) {
+    t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), !st.on, gameMi.value)
+    return
+  }
+  if (st.on) {
+    t.unplayOnUnit(gamePi.value, entry.uid, st.id, gameMi.value)
+    return
+  }
+  const rec = resolvedFor(entry).find((r) => r.sid === st.id)
+  const deck = await loadArmyStrats(gamePlayer.value, locale.value, !!game.value?.settings?.combatPatrol)
+  const strat = deckStratFor(rec, deck)
+  if (!strat) {
+    t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), true, gameMi.value)
+    return
+  }
+  const target = { uid: entry.uid, mi: gameMi.value, name: defOf(entry.id)?.name || entry.id, sid: st.id }
+  // Not asking (`askStratagems` off): the printed cost on this unit at one tap; refused → the dialog.
+  if (!keeps('askStratagems') && t.playStratagem(gamePi.value, strat, strat._cost, target)) return
+  playingOnCard.value = { strat, target }
+}
+
+// A once-per-battle rule used on this unit, or the use taken back. One blocked because another unit
+// spent it for the army never gets here (the chip is disabled).
+function toggleUnitUse(sw) {
+  if (!viewingEntry.value || sw.blocked) return
+  const entry = viewingEntry.value
+  tracker.value?.setUnitUse(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value, attachedUids(entry, roster.value?.units))
 }
 
 function toggleViewingAura(sw) {
@@ -1472,7 +1743,7 @@ async function copyWholeList() {
 const viewingSrc = computed(() => allySourceOf(viewingDef.value?.id))
 
 function summaryLine(e) {
-  return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel, labels.value.rosterWarlord)
+  return entrySummary(e, defOf(e.id), (n) => modelsLabel(n, locale.value), (n) => countLabel(n, labels.value.rosterUpgradesLabel), labels.value.rosterWarlord)
 }
 
 // What a whole attached unit costs. Which SLOT the character fills is `attachRole` from
@@ -1491,6 +1762,16 @@ const hasAttached = (entries, host) => !host.leaderOf && (entries || []).some((e
 // it: a detachment object carries its `.stratagems` alongside its `.rule`, the same shape
 // FactionRuleView.vue reads.
 const rulesWanted = ref(false)
+onMounted(() => {
+  if (ownPage()) {
+    maybeStartTour('roster-view', {
+      get issues() { return issues.value.length > 0 },
+      get possible() { return possibleGroups.value.length > 0 },
+      // On the rosters' desk the points stand on the list's card, here only over the limit.
+      get points() { return showPoints.value },
+    })
+  }
+})
 onMounted(() => {
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 250))
   idle(() => { rulesWanted.value = true })
@@ -1732,6 +2013,17 @@ const nowSlot = computed(() => {
   border-top: 1px dashed var(--border);
 }
 .rvunit-conds > .cond-chips { flex: 1; min-width: 0; }
+/* One height for everything on this line — the chips, their "i", the fold, the status button
+   (owner, 2026-10-08: 27, 23 and 32px side by side). The status button's 2rem sets it: its drawing
+   needs the room. A chip that wraps to two lines still grows. */
+.rvunit-conds :deep(.cond-chip), .rvunit-conds :deep(.cond-info), .rvunit-conds .rvunit-more { min-height: 2rem; }
+/* A destroyed unit is one line: its name, quieter, and the status button at the line's
+   end — the switches row lifted onto it rather than a second line holding one button. */
+.rvunit-fallen { position: relative; }
+.rvunit-fallen .rvunit-main { padding-block: 0.35rem; padding-right: 3.4rem; }
+.rvunit-fallen .rvunit-name { color: var(--text-dim); }
+.rvunit-fallen .rvunit-pts { display: none; }
+.rvunit-fallen .rvunit-conds { position: absolute; top: 50%; right: 0.5rem; padding: 0; border: 0; transform: translateY(-50%); }
 /* The handle for everything that did not fit on the row: quiet, and it says how much is behind it
    so the row stays honest about what it is hiding. */
 .rvunit-more {
@@ -1786,33 +2078,40 @@ const nowSlot = computed(() => {
 }
 .rvblock-name { flex: 1; min-width: 0; font-weight: 600; font-size: 0.85rem; color: var(--text-primary); }
 .rvblock-total { flex: none; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-primary); }
-/* Mini stat plates — the global `.stat-plate` (style.css, DatasheetCard's plate), scaled down to
-   fit a compact list row. */
-.rvunit-stats { display: inline-flex; gap: 0.3rem; margin: 0.15rem 0; }
-.rvst { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
-/* A plate the modifier layer rewrote — the same accent treatment DatasheetCard gives a modified
-   value, so the list and the card agree at a glance as well as in the number. */
-.rvst-mod .rvst-box { color: var(--accent-ink); }
-.rvst-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text-muted); }
-.rvst-box {
-  --cut: 4px;
-  min-width: 1.85rem;
-  padding: 0.16rem 0.22rem;
-  font-size: 0.84rem;
-}
-/* Invulnerable save — its own plate right after SV, colour-called-out the way DatasheetCard's
-   accent-coloured "Invulnerable Save" label calls it out (a distinct accent fill, not just
-   another neutral box, so it reads as "special" among the plain stats). */
-.rvst-inv .rvst-label { color: var(--accent-ink); }
-.rvst-inv .rvst-box { background: var(--accent); color: var(--text-on-accent, #fff); }
-.rvst-inv .rvst-box::before { background: var(--accent); }
+/* The mini stat plates are RosterStatPlates.vue (shared with the tracker's help). */
 .rvunit-sub { font-size: 0.74rem; color: var(--text-dim); }
 .rvunit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
-.rvunit-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
 
 /* ── On the rosters desk (RosterDeskView) ──
    The page is a column of the desk and scrolls inside it; the way back is not drawn, the list of
    lists stands beside it. From 1200px a second column holds the card of the unit last opened. */
+.rv-in-game { padding: 0; }
+/* In the game every line of height is the game's: the name and the points on one small line. */
+/* The line under it is the quiet border, not the accent — the accent was too bright here (owner,
+   2026-10-02). */
+.rv-in-game .rv-head { margin: 0 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
+.rv-in-game .rv-name, .rv-in-game .rv-name.long, .rv-in-game .rv-name.xlong { font-size: 1.2rem; line-height: 1.2; }
+.rv-in-game .rv-points { font-size: 0.9rem; }
+/* …and the unit cards tighter by their padding and gaps alone — every name, plate and switch keeps
+   its size (owner, 2026-09-30). */
+.rv-in-game .rvunit { margin-bottom: 0.35rem; }
+/* …but the tiles of an attached block still touch: the rule above outranked the block's own. */
+.rv-in-game .rvunit:has(+ .rvunit-attached) { margin-bottom: 0; }
+.rv-in-game .rvunit-main { padding-block: 0.35rem; }
+.rv-in-game .rvunit-conds { padding-block: 0.3rem; }
+/* …and the group headings carry no line under them: one under the list's name is enough (owner,
+   2026-10-02). */
+.rv-in-game .roster-group-head { margin: 0.45rem 0 0.3rem; padding-bottom: 0; border-bottom: 0; }
+.rvunit-head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.5rem; }
+.rv-in-game .rvunit-head .rvunit-sub { margin-left: auto; text-align: right; }
+/* The name's line runs the card's full width, to its right edge; the points sit on the plates'
+   line instead of a column down the whole card, which ended the name's line short. */
+.rv-in-game .rvunit-main { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 0.6rem; row-gap: 0.1rem; }
+.rv-in-game .rvunit-text { display: contents; }
+.rv-in-game .rvunit-head { grid-column: 1 / -1; }
+.rv-in-game .rvunit-stats { grid-area: 2 / 1; }
+.rv-in-game .rvunit-pts { grid-area: 2 / 2; align-self: center; justify-self: end; }
+@media (max-width: 360px) { .rv-in-game .rvunit-main { column-gap: 0.4rem; } }
 .rv-in-desk { height: 100%; padding: 0; }
 .rv-in-desk .rv-top { display: none; }
 .rv-in-desk .rv-main {

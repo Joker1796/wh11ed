@@ -76,9 +76,10 @@ export default {
             "en": "once per battle per unit, after this unit was destroyed and returned to strategic reserves",
             "ru": "раз за битву на отряд, после того как отряд был уничтожен и вернулся в strategic reserves"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "round"
+          }
         }
       ]
     },
@@ -98,11 +99,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
-            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+            "en": "the one picked when the unit is selected to fight",
+            "ru": "выбранная, когда отряд выбран для боя"
           },
           "cond": [
-            "never"
+            "smash-lethal"
           ]
         },
         {
@@ -111,11 +112,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
-            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+            "en": "the one picked when the unit is selected to fight",
+            "ru": "выбранная, когда отряд выбран для боя"
           },
           "cond": [
-            "never"
+            "smash-sustained"
           ]
         },
         {
@@ -124,11 +125,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
-            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+            "en": "the one picked when the unit is selected to fight",
+            "ru": "выбранная, когда отряд выбран для боя"
           },
           "cond": [
-            "never"
+            "smash-lethal"
           ],
           "target": "led"
         },
@@ -138,15 +139,26 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
-            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+            "en": "the one picked when the unit is selected to fight",
+            "ru": "выбранная, когда отряд выбран для боя"
           },
           "cond": [
-            "never"
+            "smash-sustained"
           ],
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "45b7d230-d20a-4f52-9287-207ffeff0f60:ardmob-wartrakk",
+      "kind": "ability",
+      "name": "’Ardmob Wartrakk: Indiscriminate Detonations",
+      "det": null,
+      "ref": null,
+      "hash": "e56e644f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "5be527f6-9a6c-4654-8b35-1d2800f18bc5:battlewagon",
@@ -187,6 +199,36 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "fbb72a0c-2e7c-472a-b1ef-eb89c4cec5e6:beastboss",
+      "kind": "ability",
+      "name": "Beastboss: Dodge Dis!",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "beastboss"
+      },
+      "hash": "9255f4d8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -449,6 +491,109 @@ export default {
       ]
     },
     {
+      "sid": "621c652c-2cb9-4b84-a09c-ab16341ef3b0:biged-bossbunka",
+      "kind": "ability",
+      "name": "Big’Ed Bossbunka: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "biged-bossbunka"
+      },
+      "hash": "3dafedd6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "48238b0d-3286-4a41-89d0-fe9bfc0d395d:bigboss",
+      "kind": "ability",
+      "name": "Bigboss: Sumfin’ to Prove",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bigboss"
+      },
+      "hash": "0b6926a9",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "6837e3fb-126f-4f2c-b4e0-b2bbf624949e:boss-zagstruk",
+      "kind": "ability",
+      "name": "Boss Zagstruk: Drill Boss",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "boss-zagstruk"
+      },
+      "hash": "0b6926a9",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "36d5d345-1ece-46d2-84c7-c9cf89234f43:boyz",
+      "kind": "ability",
+      "name": "Boyz: Ammo Runts (Once per battle, per unit)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "boyz"
+      },
+      "hash": "f994f519",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, when this unit is selected to shoot",
+            "ru": "раз за битву, когда отряд выбран для стрельбы"
+          },
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
+        }
+      ]
+    },
+    {
       "sid": "a46b1a31-629b-429b-b376-42247b2e2fe1:boyz",
       "kind": "ability",
       "name": "Boyz: Tide of Muscle",
@@ -491,6 +636,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "72bfbf1a-4023-4928-8329-ca1868a258cc:dakkajet",
+      "kind": "ability",
+      "name": "Dakkajet: Strafing Run",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "dakkajet"
+      },
+      "hash": "0fc6bb89",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in your Shooting phase, against a unit without FLY",
+            "ru": "в вашей фазе стрельбы, против отряда без FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "85e212a9-e952-45f4-98fd-131d0521b69a:deff-dread",
       "kind": "ability",
       "name": "Deff Dread: Dread ’Ard",
@@ -503,6 +676,34 @@ export default {
       "ver": 946,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "55499b96-9a5c-488e-a461-179dd11c8cfe:deffkoptas",
+      "kind": "ability",
+      "name": "Deffkoptas: Deff from Above",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deffkoptas"
+      },
+      "hash": "ba90905f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made an ingress move this turn",
+            "ru": "если отряд совершил ingress move в этом ходу"
+          },
+          "cond": [
+            "unit-arrived-from-reserves"
+          ]
+        }
+      ]
     },
     {
       "sid": "811b8335-4d1b-4881-97d6-053f966c4ddc:flash-gitz",
@@ -557,6 +758,47 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "bdac3806-ed03-488b-827b-3911923b7f91:ghazghkull-thraka",
+      "kind": "ability",
+      "name": "Ghazghkull Thraka: Prophet of da Great Waaagh! (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ghazghkull-thraka",
+        "scopes": [
+          {
+            "targets": [
+              "ORKS"
+            ],
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
+          }
+        ]
+      },
+      "hash": "2af88ce2",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "aura"
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "aura"
         }
       ]
     },
@@ -679,6 +921,62 @@ export default {
       ]
     },
     {
+      "sid": "6cd7a763-23d8-4e50-afc3-9956be2d670a:killa-kans",
+      "kind": "ability",
+      "name": "Killa Kans: Spiteful Power Trip",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "killa-kans"
+      },
+      "hash": "c56de462",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit with no model of T 7+",
+            "ru": "против отряда без моделей с T 7+"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "d7cc9ee2-359a-4a68-bbd9-d1b492ba0b97:kommandos",
+      "kind": "ability",
+      "name": "Kommandos: Nowhere to Hide",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kommandos"
+      },
+      "hash": "ee41a658",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a hidden unit",
+            "ru": "против отряда hidden"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "7d2251ef-8b7b-4927-86b7-a12b24caae77:meganobz",
       "kind": "ability",
       "name": "Meganobz: Arrogant Invulnerability",
@@ -693,6 +991,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "db0fa7b1-b2bd-45db-99c9-40c9dafcb6af:meganobz",
+      "kind": "ability",
+      "name": "Meganobz: Krumpin’ Time",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "meganobz"
+      },
+      "hash": "8cc072af",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in the Fight phase, while this unit is riled up",
+            "ru": "в фазе боя, пока отряд riled up"
+          },
+          "cond": [
+            "riled-up"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "4822ce71-dbc7-44a0-94af-cb1a56d75cb7:mek-gunz",
       "kind": "ability",
       "name": "Mek Gunz: Madcap Artillery",
@@ -705,6 +1031,51 @@ export default {
       "ver": 946,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "fd87decf-42fc-4b54-b8c4-db3d4aed927c:mek",
+      "kind": "ability",
+      "name": "Mek: Clever Know-wotz",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "mek",
+        "scopes": [
+          {
+            "targets": [
+              "ORKS VEHICLE"
+            ],
+            "excludes": [
+              "AIRCRAFT",
+              "TITANIC"
+            ],
+            "models": [
+              "ORKS VEHICLE"
+            ],
+            "modelExcludes": [
+              "AIRCRAFT",
+              "TITANIC"
+            ]
+          }
+        ]
+      },
+      "hash": "2da7efda",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the VEHICLE model selected in your Movement phase, until your next one",
+            "ru": "модель VEHICLE, выбранная в вашу фазу движения, до следующей"
+          },
+          "target": "aura",
+          "selected": true
+        }
+      ]
     },
     {
       "sid": "7af3688e-25d4-4db3-9291-9ae56ba1ddae:mek",
@@ -735,6 +1106,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "967e719e-06c7-44a1-a580-e6000a8cf783:mekboy-workshop",
+      "kind": "ability",
+      "name": "Mekboy Workshop: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "mekboy-workshop"
+      },
+      "hash": "3dafedd6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "dfcd0ed8-e80d-44e1-acc6-3df268d78d23:mozrog-skragbad",
@@ -810,6 +1195,49 @@ export default {
       ]
     },
     {
+      "sid": "f562c57d-7a3e-4054-802c-5dd38e01df57:nobz",
+      "kind": "ability",
+      "name": "Nobz: Ammo Runts (Once per battle, per unit)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nobz"
+      },
+      "hash": "f994f519",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, when this unit is selected to shoot",
+            "ru": "раз за битву, когда отряд выбран для стрельбы"
+          },
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
+        }
+      ]
+    },
+    {
+      "sid": "edfc0aef-4f04-41f6-9c6c-6dfb323c25d0:painboss",
+      "kind": "ability",
+      "name": "Painboss: Hardy Bioniks",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "painboss"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f6ad63a2-294e-4870-b828-22f0bc750ab7:painboss",
       "kind": "ability",
       "name": "Painboss: Runnin’ wiv da Herd",
@@ -862,6 +1290,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "366ce722-af91-43eb-8b75-2ef7d7cb1d7f:rukkatrukk-squigbuggies",
+      "kind": "ability",
+      "name": "Rukkatrukk Squigbuggies: Squig Barrage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rukkatrukk-squigbuggies"
+      },
+      "hash": "109504da",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "258d1dd6-62ea-453d-9f42-425426be6f27:squighog-boyz",
@@ -1000,6 +1442,65 @@ export default {
       ]
     },
     {
+      "sid": "bcd80793-7120-470e-9a43-1c8b4558a1ef:warboss-on-warbike",
+      "kind": "ability",
+      "name": "Warboss on Warbike: Speedboss",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warboss-on-warbike"
+      },
+      "hash": "0b6926a9",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "55a47782-eb34-4b76-a5a9-9b1edef409c3:warboss",
+      "kind": "ability",
+      "name": "Warboss: Boss’ Ammo Runt (Once per battle, per unit)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warboss"
+      },
+      "hash": "61467b2c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, when this unit is selected to shoot",
+            "ru": "раз за битву, когда отряд выбран для стрельбы"
+          },
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
+        }
+      ]
+    },
+    {
       "sid": "47b04c73-a623-4b32-b82a-1dcd60cb1a21:warboss",
       "kind": "ability",
       "name": "Warboss: Might Is Right",
@@ -1075,6 +1576,34 @@ export default {
           "when": {
             "en": "while within 3\" of the friendly unit this ability names",
             "ru": "пока в пределах 3\" от дружественного отряда, названного способностью"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "e61b4686-8f93-454d-874a-50d6b72605c0:wazbom-blastajet",
+      "kind": "ability",
+      "name": "Wazbom Blastajet: Go fer da Weak Spot",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wazbom-blastajet"
+      },
+      "hash": "dfb3a337",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in your Shooting phase, against a MONSTER or VEHICLE unit",
+            "ru": "в вашей фазе стрельбы, против отряда MONSTER или VEHICLE"
           },
           "cond": [
             "never"
@@ -1337,6 +1866,17 @@ export default {
       ]
     },
     {
+      "sid": "91f65a2c-ce8b-467b-9e78-188cd5aab39c",
+      "kind": "detachmentRule",
+      "name": "’Ard As Nails",
+      "det": "’Ardmob",
+      "ref": null,
+      "hash": "a0d2aa28",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c6468629-bc6a-40df-973b-84c2809c0eda",
       "kind": "detachmentRule",
       "name": "Displays of Savagery",
@@ -1447,6 +1987,35 @@ export default {
       ]
     },
     {
+      "sid": "d8d4323e-9378-495c-b271-5e5da7892896",
+      "kind": "detachmentRule",
+      "name": "Skyborne Loons",
+      "det": "Flyboyz",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "flyboyz"
+      },
+      "hash": "42d3ed1e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the unit is riled up",
+            "ru": "пока отряд riled up"
+          },
+          "scope": 1,
+          "cond": [
+            "riled-up"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "67566eb0-9bb9-491d-b640-d1b9fcdd6b61",
       "kind": "detachmentRule",
       "name": "Mob-handed Brutality",
@@ -1532,6 +2101,29 @@ export default {
       "effects": []
     },
     {
+      "sid": "c645655a-3032-4c32-8000-933c5bf20540",
+      "kind": "detachmentRule",
+      "name": "Sneaky Little Gitz",
+      "det": "Runt Swarm",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "runt-swarm"
+      },
+      "hash": "a558e996",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": null,
+          "scope": 0
+        }
+      ]
+    },
+    {
       "sid": "f0baa3e3-6ccc-4878-a5b0-6fcbbc61c725",
       "kind": "detachmentRule",
       "name": "Dakka! Dakka! Dakka!",
@@ -1563,6 +2155,29 @@ export default {
           "cond": [
             "riled-up"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "193c6cc7-5a22-436a-8b53-9d1d45983c3e",
+      "kind": "detachmentRule",
+      "name": "Suspiciously Well Organised",
+      "det": "Taktikal Brigade",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "taktikal-brigade"
+      },
+      "hash": "5f2caccc",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": null,
+          "scope": 0
         }
       ]
     },
@@ -1865,6 +2480,40 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "3472f66e-cd61-4e21-b2b6-49cf922ec8e7",
+      "kind": "enhancement",
+      "name": "Flyboss (Upgrade)",
+      "det": "Flyboyz",
+      "ref": {
+        "kind": "enhancement",
+        "det": "flyboyz",
+        "scopes": [
+          {
+            "targets": [
+              "ORKS AIRCRAFT",
+              "DEFFKOPTAS"
+            ],
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
+          }
+        ]
+      },
+      "hash": "ceb49152",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Character",
+          "when": null,
+          "target": "unit"
         }
       ]
     },
@@ -2270,6 +2919,63 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "4e4f020e-e883-42b8-a741-8dd01868f5b3",
+      "kind": "stratagem",
+      "name": "Hulking Brutes",
+      "det": "Bully Boyz",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bully-boyz",
+        "name": "Hulking Brutes"
+      },
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "d346f908-20a9-4236-a136-a8d1ef36e762",
+      "kind": "stratagem",
+      "name": "Crazed Rampage",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-mob",
+        "name": "Crazed Rampage"
+      },
+      "hash": "9726d47a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "82c0cb67-c355-4d10-87f6-b6fe2bb1e300",
+      "kind": "stratagem",
+      "name": "Stomping Juggernaut",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-mob",
+        "name": "Stomping Juggernaut"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "9579d65f-0b07-430d-9139-fa89007766eb",
       "kind": "stratagem",
       "name": "Flyin’ Headbutt",
@@ -2358,11 +3064,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of: [LETHAL HITS]; [SUSTAINED HITS 1]; or both with [HAZARDOUS] — selected when used",
-            "ru": "одно из: [LETHAL HITS]; [SUSTAINED HITS 1]; или оба с [HAZARDOUS] — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "artillerists-lethal"
           ]
         },
         {
@@ -2371,11 +3077,37 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of: [LETHAL HITS]; [SUSTAINED HITS 1]; or both with [HAZARDOUS] — selected when used",
-            "ru": "одно из: [LETHAL HITS]; [SUSTAINED HITS 1]; или оба с [HAZARDOUS] — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "artillerists-sustained"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
+          },
+          "cond": [
+            "artillerists-both"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
+          },
+          "cond": [
+            "artillerists-both"
           ]
         },
         {
@@ -2384,11 +3116,11 @@ export default {
           "op": "grant",
           "value": "HAZARDOUS",
           "when": {
-            "en": "only with the option that gives both [LETHAL HITS] and [SUSTAINED HITS 1]",
-            "ru": "только в варианте с [LETHAL HITS] и [SUSTAINED HITS 1] вместе"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "artillerists-both"
           ]
         }
       ],
@@ -2416,6 +3148,36 @@ export default {
           "when": {
             "en": "while this stratagem is in force, against targets within 9\"",
             "ru": "пока действует стратагема, по целям в пределах 9\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "08a3c383-6193-4c71-b9ef-c76d53f2f2f4",
+      "kind": "stratagem",
+      "name": "Kustom Dakka",
+      "det": "Shoota Boyz",
+      "ref": {
+        "kind": "stratagem",
+        "det": "shoota-boyz",
+        "name": "Kustom Dakka"
+      },
+      "hash": "c52715f3",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit other than MONSTER or VEHICLE",
+            "ru": "против отряда не MONSTER и не VEHICLE"
           },
           "cond": [
             "never"
@@ -2592,6 +3354,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "a81e645c-9812-4536-8b54-df88da659b67",
+      "kind": "stratagem",
+      "name": "Drive-By Bustin’",
+      "det": "Wreckas",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wreckas",
+        "name": "Drive-By Bustin’"
+      },
+      "hash": "840de380",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "weapons selected for the Firing Deck ability only",
+            "ru": "только оружие, выбранное для Firing Deck"
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "bb256a9c-6c16-4324-bacf-0ccd63244291:big-mek-in-mega-armour",
       "kind": "wargear",
       "name": "Big Mek in Mega Armour: Kustom Force Field",
@@ -2646,7 +3438,11 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "ranged",
@@ -2659,7 +3455,11 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },

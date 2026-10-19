@@ -22,16 +22,17 @@ function latestOnly() {
 
 // `slug` is a getter. `allies` is a getter too — the screens that BUILD a list always load allies
 // (the catalogue has to offer them), the ones that only read it load them when the list holds one.
-export function useRosterFactionData(slug, { allies = () => true } = {}) {
+// `cp` — the Combat Patrol box a list fields (`roster.cp`): its units and its detachment join.
+export function useRosterFactionData(slug, { allies = () => true, cp = () => null } = {}) {
   const factionData = ref(null)
   const loadingFaction = ref(false)
   const begin = latestOnly()
-  watch(slug, async (s) => {
+  watch([slug, cp], async ([s, box]) => {
     const current = begin()
     if (!s) { factionData.value = null; loadingFaction.value = false; return }
     loadingFaction.value = true
     try {
-      const data = await loadRosterFaction(s, { allies: allies() })
+      const data = await loadRosterFaction(s, { allies: allies(), cp: box || null })
       if (current()) factionData.value = data
     } finally {
       if (current()) loadingFaction.value = false

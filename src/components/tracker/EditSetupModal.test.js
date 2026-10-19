@@ -28,7 +28,7 @@ function startGame(p0 = {}, p1 = {}) {
     },
     players: [
       { name: 'Me', factionSlug: 'orks', detachments: [], disposition: DISPOSITIONS[0].id, role: 'attacker', secondaryMode: 'fixed', fixedSecondaries: [], ...p0 },
-      { name: 'Opp', factionSlug: 'necrons', detachments: [], disposition: DISPOSITIONS[1].id, role: 'defender', secondaryMode: 'fixed', fixedSecondaries: [], ...p1 },
+      { name: 'Opp', factionSlug: 'aeldari', detachments: [], disposition: DISPOSITIONS[1].id, role: 'defender', secondaryMode: 'fixed', fixedSecondaries: [], ...p1 },
     ],
   })
 }
@@ -152,6 +152,32 @@ describe('EditSetupModal — the roster settings', () => {
   })
 })
 
+// Faction colours are the default, and two reds come out one colour: Save asks once
+// (useColorClashGate) — "Customise" stays in the dialog with the pickers open, "Keep them" saves.
+describe('EditSetupModal — two sides of one colour', () => {
+  it('asks before saving, and customising keeps the dialog open with the option on', async () => {
+    startGame({ factionSlug: 'blood-angels' }, { factionSlug: 'world-eaters' })
+    mount(EditSetupModal)
+    await save()
+    expect(body().text()).toContain('The sides look alike')
+    const btn = (label) => body().findAll('.modal-foot button').find((b) => b.text() === label)
+    await btn('Customise').trigger('click')
+    expect(body().findAll('.scp-pick select')).toHaveLength(2)
+    await body().findAll('.scp-pick select')[1].setValue('blue')
+    await save()
+    expect(tracker.current.value.settings.customColors).toBe(true)
+    expect(tracker.current.value.settings.sideColors).toEqual({ opp: 'blue' })
+  })
+
+  it('"Keep them" saves as it was', async () => {
+    startGame({ factionSlug: 'blood-angels' }, { factionSlug: 'world-eaters' })
+    mount(EditSetupModal)
+    await save()
+    await body().findAll('.modal-foot button').find((b) => b.text() === 'Keep them').trigger('click')
+    expect(tracker.current.value.settings.customColors).toBe(false)
+  })
+})
+
 // A guest in a shared game (useParty.js): the setup is the host's, so the dialog offers only
 // the phone-local options and writes only those.
 describe('EditSetupModal — a guest in a shared game', () => {
@@ -159,13 +185,14 @@ describe('EditSetupModal — a guest in a shared game', () => {
     startGame()
     tracker.current.value.party = { id: 'p', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
     tracker.current.value.players.forEach((p, i) => { p.isYou = i === 1 })
+    tracker.current.value.begun = true
     mount(EditSetupModal)
     expect(body().find('.players').exists()).toBe(false)
     expect(body().find('.deploy-opts').exists()).toBe(false)
     expect(body().text()).toContain('host')
     const rowOf = (name) => body().findAll('.opt-row').find(r => r.text().includes(name))
-    expect(rowOf('Track CP').find('input').element.disabled).toBe(true)
-    const opp = rowOf("opponent's army rule")
+    expect(rowOf('Command points (CP)').find('input').element.disabled).toBe(true)
+    const opp = rowOf("Opponent's army rule counter")
     expect(opp.find('input').element.disabled).toBe(false)
     await opp.find('input').setValue(false)
     await save()
@@ -173,5 +200,33 @@ describe('EditSetupModal — a guest in a shared game', () => {
     expect(tracker.current.value.settings.trackCP).toBe(true)
     expect(tracker.current.value.players[0].name).toBe('Me')
   })
-})
 
+  // A player's report (2026-10-15): the opponent who joined could not attach his own list.
+  it('before the battle begins: its own side\'s list, and nothing else of either side', async () => {
+    startGame()
+    tracker.current.value.begun = false
+    tracker.current.value.party = { id: 'p', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
+    tracker.current.value.players.forEach((p, i) => { p.isYou = i === 1 })
+    mount(EditSetupModal)
+    const cards = body().findAll('.player-card')
+    expect(cards.length).toBe(1)
+    expect(cards[0].find('.es-roster').exists()).toBe(true)
+    expect(cards[0].find('input[type="text"]').exists()).toBe(false) // no name field
+    expect(cards[0].find('input[type="checkbox"]').exists()).toBe(false) // no Battle Ready
+    await save()
+    expect(tracker.current.value.players[0].name).toBe('Me')
+  })
+  // Mikhail's report (2026-10-15): the opponent who joined could not see the map. The guest sees
+  // it here, while filling in — read only, the layout is the host's to pick.
+  it('shows the guest the battlefield, without the tabs that change it', () => {
+    startGame()
+    tracker.current.value.begun = false
+    tracker.current.value.party = { id: 'p', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
+    tracker.current.value.players.forEach((p, i) => { p.isYou = i === 1 })
+    mount(EditSetupModal)
+    const block = body().find('.layout-block')
+    expect(block.exists()).toBe(true)
+    expect(block.find('.layout-card').exists()).toBe(true)
+    expect(block.find('[role="tab"], .layout-tabs').exists()).toBe(false)
+  })
+})

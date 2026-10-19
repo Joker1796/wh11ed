@@ -118,10 +118,8 @@ export default {
             "en": "the VEHICLE model selected in your Command phase, until your next one",
             "ru": "модель VEHICLE, выбранная в вашу Command phase, до следующей"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "aura"
+          "target": "aura",
+          "selected": true
         }
       ]
     },
@@ -233,6 +231,31 @@ export default {
       ]
     },
     {
+      "sid": "41323e9d-757a-424c-8048-fd10a69f31ff:crowe-s-sanctifiers-venerable-dreadnought",
+      "kind": "ability",
+      "name": "Crowe's Sanctifiers Venerable Dreadnought: Guidance of the Ancients (Psychic)",
+      "det": null,
+      "ref": null,
+      "hash": "f5064a57",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the enemy unit selected",
+            "ru": "против выбранного вражеского отряда"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "7911d9a1-f1a1-4cbb-9904-d357e491ba53:grand-master-voldus",
       "kind": "ability",
       "name": "Grand Master Voldus: Sanctuary",
@@ -284,9 +307,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -297,9 +321,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -583,6 +608,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "1c8db7d2-8995-4be6-a4ba-a8f9c1c56af3",
+      "kind": "detachmentRule",
+      "name": "Dauntless Champions",
+      "det": "Argent Assault",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "argent-assault"
+      },
+      "hash": "1494fb50",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "when the attack’s S is lower than the target’s T",
+            "ru": "когда S атаки ниже T цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "ed4a222f-7ed6-4e9d-b310-0cb08a3c4906",
       "kind": "detachmentRule",
       "name": "Channelled Force",
@@ -688,9 +741,10 @@ export default {
             "en": "once per battle, for the Fight phase the bearer uses this Enhancement in",
             "ru": "один раз за битву, на фазу боя, в которой носитель применил улучшение"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ],
       "ref": {
@@ -716,10 +770,11 @@ export default {
             "en": "once per battle, for the battle round the bearer uses this Enhancement in",
             "ru": "один раз за битву, на раунд, в котором носитель применил улучшение"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "round"
+          }
         }
       ],
       "ref": {
@@ -788,9 +843,10 @@ export default {
             "en": "once per battle, when this unit is selected to fight after making a charge move",
             "ru": "раз за битву, когда юнит выбран для боя после charge-перемещения"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1233,6 +1289,17 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "48228ed3-39eb-46b6-ba1c-34ad3e8a0613",
+      "kind": "stratagem",
+      "name": "Refusal to Yield",
+      "det": "Crowe’s Sanctifiers",
+      "ref": null,
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f574a3d4-d1ed-4a60-a2de-f3d989784f63",

@@ -188,6 +188,7 @@
 </template>
 
 <script setup>
+import { countLabel } from '../../utils/plural.js'
 // Battle Record (/tracker/stats). All aggregation lives in gameStats.js; this file only decides
 // how it reads — including where it must NOT read as a rate (MIN_SAMPLE), which is why almost
 // every row here can come out dimmed with a raw W–L instead of a percentage.
@@ -230,7 +231,7 @@ const streakText = computed(() => {
   const word = side === 'win' ? labels.value.statsStreakWin
     : side === 'loss' ? labels.value.statsStreakLoss
       : labels.value.statsStreakDraw
-  return `${len} ${word}`
+  return countLabel(len, word)
 })
 
 function pct(v) { return `${Math.round(v * 100)}%` }
@@ -253,9 +254,11 @@ function rateRows(list, labelOf) {
 function factionName(slug) {
   return factionIndexBySlug(slug)?.name || labels.value.trackerUnknownFaction
 }
+// Mission names stay English, as everywhere in the tracker (its CLAUDE.md): the stats page alone
+// named them in Russian, and «Мародёрство» could not be matched with the Plunder on the cards.
 function primaryName(slug) {
   const m = missionBySlug(slug, null, locale.value)
-  return m ? (m.nameRu || m.name) : slug
+  return m ? m.name : slug
 }
 function sizeName(id) {
   if (id === 'combat-patrol') return labels.value.trackerGameTypeCombatPatrol
@@ -286,7 +289,7 @@ const secondaryRows = computed(() => s.value.secondaries.map((r) => {
   if (r.discarded) bits.push(`${l.statsSecDiscarded} ${r.discarded}`)
   return {
     key: `${r.slug}|${r.role}`,
-    label: m ? (m.nameRu || m.name) : r.slug,
+    label: m ? m.name : r.slug,
     sub: bits.join(' · '),
     ratio: Math.min(1, r.avgVp / 5),
     value: `${r.vp} VP`,

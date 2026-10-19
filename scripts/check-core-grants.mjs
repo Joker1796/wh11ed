@@ -76,11 +76,6 @@ const ALLOW = [
     why: 'the ability goes to another CHARACTER sharing the unit, not to the card it is printed on; the '
       + 'layer\'s targets are the card itself, the unit it leads and the Character leading it — none of '
       + 'them names a sibling Character.' },
-  { sid: '44f6e32f-71ad-4198-b5a4-17c2b54d388c',
-    name: 'astra-militarum · Spec Ops Veteran',
-    why: 'the Stealth is carried by an Order the bearer issues to another unit, and only while the attacks '
-      + 'that triggered it are being resolved — the layer can name neither the unit the Order went to nor '
-      + 'a window inside an attack sequence.' },
   { sid: 'b11810ea-a5f1-4a5f-ae70-54c95415b57d',
     name: 'chaos-daemons · First Prince of Chaos',
     why: 'the rule is a five-way split by Chaos god (KHORNE / TZEENTCH / NURGLE / SLAANESH / UNDIVIDED), '

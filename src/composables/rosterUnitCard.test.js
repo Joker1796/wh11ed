@@ -225,3 +225,17 @@ describe('useRosterUnitCard — a condition the list answers', () => {
     expect((await shieldline(0)).statMods.value.sheet.profiles.some((p) => p.w === '15')).toBe(false)
   }, 30000)
 })
+
+// A doctrine the unit's own rules make permanent holds in the list too, not only in a game: Marneus
+// Calgar's unit has all three (doctrineRules.js), and the card off the table says so.
+describe('useRosterUnitCard — doctrines a unit has from its own rules', () => {
+  it('Marneus Calgar leading Intercessors: all three, in the list', async () => {
+    const fac = await loadRosterFaction('space-marines')
+    const detachments = fac.detachments.filter((d) => d.name === 'Gladius Task Force')
+    const calgar = { uid: 'c', id: 'marneus-calgar', leaderOf: 'i' }
+    const squad = { uid: 'i', id: 'intercessor-squad' }
+    const def = fac.units.find((u) => u.id === squad.id)
+    const card = cardFor({ unitId: squad.id, factionSlug: 'space-marines', ctx: { def, items: rosterItems.items, detachments, entry: squad, units: [calgar, squad] } })
+    await vi.waitFor(() => expect([...card.activeConds.value]).toEqual(expect.arrayContaining(['doctrine-assault', 'doctrine-devastator', 'doctrine-tactical'])), { timeout: 15000 })
+  }, 30000)
+})

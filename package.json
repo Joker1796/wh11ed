@@ -57,6 +57,7 @@
     "detachment-row": "node scripts/check-detachment-row.mjs",
     "smoke": "npx vite-node scripts/smoke.mjs",
     "test-rosters": "npx vite-node scripts/test-roster-links.mjs",
+    "stand:seed": "npx vite-node scripts/stand-seed.mjs",
     "imghash": "node scripts/check-image-renames.mjs",
     "images:dims": "node scripts/gen-image-dims.mjs",
     "faction-icons": "node scripts/gen-faction-icons.mjs",

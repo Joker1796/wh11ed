@@ -155,8 +155,11 @@ export function useLobby() {
     if (!lb) return
     delete lb.request
     delete lb.deny
+    // The side alone reopens; the host stays where it is (a player's report, 2026-10-15: sending
+    // everyone back to the armies step made the host's next "Next" lock the guest again, and the
+    // two went round in requests). The host's wizard steps back to the mission on its own while
+    // the side is open (GameSetup's `othersReady` watch), and Start waits for its Done.
     lb.ready = false
-    setStage('armies') // both phones go back to the armies step — that is what was granted
   }
   function denyReopen(pi) {
     const lb = ensureLobby(pi)
@@ -179,6 +182,11 @@ export function useLobby() {
     if (!shared.value || !isHost.value) return true
     return [0, 1].every((pi) => pi === mySide.value || isEditor(pi) || isReady(pi))
   })
+  // The sides another phone fills in: what the host's leaving the armies step locks (GameSetup asks
+  // first). `ready` says whether that phone has pressed Done yet.
+  const guestSides = computed(() => (shared.value && isHost.value
+    ? [0, 1].filter((pi) => pi !== mySide.value && !isEditor(pi)).map((pi) => ({ pi, ready: isReady(pi) }))
+    : []))
   // Someone else holds the side: the host looks, it does not type.
   const canFill = (pi) => isEditor(pi)
 
@@ -188,6 +196,6 @@ export function useLobby() {
     claim, takeOver, release, openForm, confirmSide,
     canReopenFreely, reopen, requestReopen, myRequestPending, myRequestDenied,
     pendingRequest, grantReopen, denyReopen,
-    setStage, othersReady,
+    setStage, othersReady, guestSides,
   }
 }

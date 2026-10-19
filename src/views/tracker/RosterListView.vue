@@ -12,6 +12,7 @@
          opens back into the wizard rather than into the read-only view. -->
     <PageTabs
       class="rl-tabs"
+      data-tour="roster-tabs"
       :tabs="tabs"
       @select="tab = $event"
     />
@@ -64,6 +65,7 @@
             v-for="r in paged"
             :key="r.id"
             class="roster"
+            data-tour="roster-card"
             :class="{ themed: !!factionOf(r), on: inDesk && r.id === activeId }"
             :style="cardStyle(r)"
             role="button"
@@ -114,6 +116,7 @@
                 <template #trigger="{ toggle }">
                   <button
                     class="kebab"
+                    data-tour="roster-card-menu"
                     :aria-label="labels.rosterMoreActions"
                     @click.stop="toggle"
                   >
@@ -314,6 +317,7 @@ import { factionGroups } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
 import { isRosterPinned, toggleRosterPin, pinnedFirst } from '../../composables/useRosterPins.js'
 import { loadHistory, rosterRecords } from '../../composables/gameStats.js'
+import { useTour, useTourShow } from '../../composables/useTour.js'
 
 const props = defineProps({
   // The left column of the rosters desk (RosterDeskView, wide screens): one column of cards, the
@@ -332,6 +336,16 @@ const { status, ensureSession } = useAuth()
 const { syncNow, saveToCloud, removeFromCloud, pulled } = useRosterSync()
 
 const tab = ref('saved')
+// The tour walks the three tabs (useTourShow) and asks for its chapter once the page is up.
+const { maybeStart: maybeStartTour } = useTour()
+useTourShow('listTab', (k) => { tab.value = k })
+onMounted(() => maybeStartTour('roster-list', {
+  get cards() { return activeRosters.value.length > 0 },
+  // A first visit has no list anywhere: the three tabs are told about in one step, not walked.
+  get any() { return activeRosters.value.length + draftRosters.value.length + archivedRosters.value.length > 0 },
+  // The rosters' desk with no roster open shows the statistics beside the list already.
+  get statsOpen() { return props.inDesk && !props.activeId },
+}))
 const tabs = computed(() => [
   { key: 'saved', label: labels.value.rosterTabSaved, count: activeRosters.value.length, active: tab.value === 'saved' },
   { key: 'drafts', label: labels.value.rosterTabDrafts, count: draftRosters.value.length, active: tab.value === 'drafts' },

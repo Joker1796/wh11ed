@@ -67,7 +67,8 @@ export const help = {
         body: `The tracker keeps score for both players: the primary and secondary missions, command points, and the totals by round with a running Battle Points result.
 ▪ The game in progress is remembered. Closing the tab or losing signal mid-game changes nothing.
 **What to track**
-▪ The last step of the setup lists what the app keeps beside the missions: command points, each side's army rule, the turn-and-phase clock and what applies in the current phase. With an army list attached, it also asks how closely to follow the list's own rules: stratagems spent, auras, unit states.
+▪ The last step of the setup lists what the app keeps beside the missions, in four groups: the turn and the score (command points, the turn-and-phase clock, what applies now, the mission check before the turn passes), the armies (each side's army rule, whether playing a stratagem asks the unit and the cost), the army list (modifiers, where each unit is; the finer switches are under "Details") and the screen (the Log and Stats tabs, the broadcast, the colours).
+▪ Three ready sets sit on top: a quick game with only the missions and CP, the normal one, and a full one with the phases and every modifier. Change any box and the set becomes your own.
 ▪ During the game the same list is under the "Setup" button.
 ▪ Turning a row off only hides it. What it recorded stays and comes back with it.
 ▪ Every row has an "i" that says what it does.
@@ -93,7 +94,7 @@ export const help = {
         id: 'help-broadcast',
         title: 'Broadcasting to OBS',
         body: `**A broadcast is a read-only live scoreboard** of the game you are tracking, for OBS or any browser on another device: you keep scoring on your phone, the overlay catches up within a few seconds. It needs a signed-in account — the link is served through the cloud — and a connection on both ends.
-▪ **Turn it on.** In the game settings (step 4 of the setup, or the ⚙ Setup dialog mid-game) enable "Broadcast button (OBS)" — a broadcast button appears next to the game controls. Tap it, start the broadcast, copy the link.
+▪ **Turn it on.** On the last step of the setup, or in "⋯" → "Setup" mid-game, tick "Broadcast (OBS)". "Broadcast" appears in the game screen's "⋯" menu. Open it, start the broadcast, copy the link.
 ▪ **In OBS**: add a **Browser Source**, paste the link, and give the source the size of the slot in your layout. The page background is transparent, so the panels sit straight on the video.
 ▪ **The overlay packs itself into whatever window it gets**: a wide slot puts the teams side by side, a tall one stacks them. Need a hard shape instead? Pick an aspect ratio (16:9, 4:3, 1:1, 9:16) under "Overlay options" and it holds that shape whatever the window does.
 ▪ **What it shows is chosen there too**: round and phase, team rosters, roles, CP, the VP breakdown, mission names, the secondary cards (played-out ones are hidden by default). The choice lives in the link itself — two OBS scenes can hold two differently configured links of one broadcast.
@@ -169,7 +170,8 @@ export const help = {
         body: `Трекер считает за обоих игроков: первичную и вторичные миссии, командные очки и суммы по раундам с текущим результатом в Battle Points.
 ▪ Начатая партия запоминается. Закрыть вкладку или потерять сеть посреди игры ничего не меняет.
 **Что отслеживать**
-▪ На последнем шаге настройки перечислено, что приложение ведёт рядом с миссиями: командные очки, правило армии каждой стороны, часы «ход и фаза» и что действует в текущей фазе. С прикреплённым листом добавляется, насколько подробно следовать его правилам: потраченные стратагемы, ауры, состояния юнитов.
+▪ На последнем шаге настройки перечислено, что приложение ведёт рядом с миссиями, в четырёх группах: ход и счёт (командные очки, часы «ход и фаза», что действует сейчас, проверка миссий перед передачей хода), армии (правило армии каждой стороны, спрашивать ли при розыгрыше стратагемы отряд и цену), список армии (модификаторы, где каждый отряд; подробные переключатели — под «Подробнее») и экран (вкладки «Лог» и «Статистика», трансляция, цвета).
+▪ Сверху три готовых набора: быстрая игра — только миссии и CP, обычная и полная — с фазами и всеми модификаторами. Поменяйте любую галочку — набор станет вашим.
 ▪ Во время партии тот же список открывается кнопкой «Настройки».
 ▪ Выключенная строка только прячется. Записанное остаётся и вернётся вместе с ней.
 ▪ У каждой строки есть «i» с объяснением, что она делает.
@@ -195,7 +197,7 @@ export const help = {
         id: 'help-broadcast',
         title: 'Трансляция в OBS',
         body: `**Трансляция — живое табло вашей партии, только для чтения**, для OBS или любого браузера на другом устройстве: счёт ведётся с телефона, оверлей подхватывает изменения за несколько секунд. Нужны вход в аккаунт — ссылка работает через облако — и связь с обеих сторон.
-▪ **Включение.** В настройках игры (шаг 4 сетапа или диалог ⚙ во время партии) включите «Кнопка трансляции (OBS)» — рядом с управлением игрой появится кнопка трансляции. Нажмите её, запустите трансляцию, скопируйте ссылку.
+▪ **Включение.** На последнем шаге настройки или во время партии в «⋯» → «Настройки» отметьте «Трансляция (OBS)». В меню «⋯» на экране игры появится пункт «Трансляция». Откройте его, запустите трансляцию, скопируйте ссылку.
 ▪ **В OBS**: добавьте **Browser Source**, вставьте ссылку и задайте источнику размер слота вашего макета. Фон страницы прозрачный, панели лягут прямо на видео.
 ▪ **Оверлей сам вписывается в любое окно**: широкий слот кладёт команды рядом, вертикальный — столбиком. Нужна жёсткая форма? В «Настроить оверлей» выберите соотношение сторон (16:9, 4:3, 1:1, 9:16) — и он держит её при любом окне.
 ▪ **Что показывать — выбирается там же**: раунд и фаза, составы команд, роли, CP, разбивка VP, названия миссий, карты вторичек (отыгранные по умолчанию скрыты). Выбор живёт в самой ссылке — две сцены OBS могут держать две по-разному настроенные ссылки одной трансляции.

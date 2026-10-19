@@ -75,6 +75,13 @@ describe('rosterModifiers data', () => {
     for (const { file, e } of allEntries) {
       for (const [i, eff] of (e.effects || []).entries()) {
         const where = `${file} ${e.name}`
+        // A state: a rule's choice made a switch, with no number — its `cond` and `when` only.
+        if (eff.op === 'state') {
+          expect(eff.cond?.length, `${where}: state cond`).toBeGreaterThan(0)
+          expect(eff.cond.every((c) => conditions[c]?.scope), `${where}: state cond ${eff.cond}`).toBe(true)
+          expect(Object.keys(eff).sort(), `${where}: state keys`).toEqual(['cond', 'op', 'when'])
+          continue
+        }
         expect(ON.has(eff.on), `${where}: on=${eff.on}`).toBe(true)
         expect(OP.has(eff.op), `${where}: op=${eff.op}`).toBe(true)
         expect(STAT.has(eff.stat), `${where}: stat=${eff.stat}`).toBe(true)
@@ -133,7 +140,9 @@ describe('rosterModifiers data', () => {
           // ability set's OPTION (being the one picked is), both answered by the record's own id.
           // `cond` there is only for what the rule asks ON TOP ("…against MONSTER targets") and
           // may be absent.
-          if (e.kind !== 'stratagem' && !e.ref?.set) {
+          // A once-per-battle effect is the third: the use the player marks is its condition. An
+          // aura that reaches the one unit a rule SELECTS is the fourth: the aura chip is the selection.
+          if (e.kind !== 'stratagem' && !e.ref?.set && !eff.once && !eff.selected) {
             expect(Array.isArray(eff.cond) && eff.cond.length > 0, `${where}: cond`).toBe(true)
           }
           for (const id of eff.cond || []) {
@@ -141,6 +150,22 @@ describe('rosterModifiers data', () => {
           }
         } else {
           expect(eff.cond, `${where}: cond on an unconditional effect`).toBeUndefined()
+        }
+        // A once-per-battle effect says who it is counted for and how long a use lasts — the rule's
+        // own "until the end of the phase" — and that it is conditional (`when`), since a number it
+        // rewrote for good would be a use that never ends.
+        if (eff.once !== undefined) {
+          expect(['unit', 'army'], `${where}: once.per`).toContain(eff.once.per)
+          expect(['phase', 'turn', 'round', 'battle'], `${where}: once.dur`).toContain(eff.once.dur)
+          expect(Object.keys(eff.once).sort(), `${where}: once keys`).toEqual(['dur', 'per'])
+          expect(eff.when, `${where}: once without when`).not.toBeNull()
+          expect(e.kind, `${where}: once on a stratagem`).not.toBe('stratagem')
+        }
+        // "Select one friendly VEHICLE model…": an aura, and only an aura, can reach a selected unit.
+        if (eff.selected !== undefined) {
+          expect(eff.selected, `${where}: selected`).toBe(true)
+          expect(eff.target, `${where}: selected off an aura`).toBe('aura')
+          expect(eff.when, `${where}: selected without when`).not.toBeNull()
         }
         // An "instead" variant names the effect it replaces, by index into this record's own
         // effects. A dangling or self-referential index would silently suppress the wrong line —
@@ -550,9 +575,6 @@ describe('an effect the list could answer is not parked', () => {
     'Bonesinger: Bonesinger': 'within 3" of a friendly WRAITH CONSTRUCT or ASURYANI VEHICLE — a distance',
     'Brôkhyr Iron-master: Brôkhyr Guild Support': 'within 3" of a friendly VEHICLE — a distance',
     'Lucius the Eternal: Duellist’s Hubris': 'at the start of the Fight phase — the clock and the attachment together',
-    'Janus Draik: Backroom Deals': 'the unit selected in Declare Battle Formations — a choice the list does not record',
-    'Neyam Shai Murad: Backroom Deals': 'the unit selected in Declare Battle Formations',
-    'Rogue Trader Entourage: Backroom Deals': 'the unit selected in Declare Battle Formations',
     'Blightlord Terminators: Blistering Fusillade': 'against Afflicted targets — the game',
     'Coordinated Exploitation': 'while the unit is Guided and targeting its Spotted unit — the game',
     'Through Unity, Devastation': 'while the unit is Guided and targeting its Spotted unit — the game',
@@ -567,4 +589,21 @@ describe('an effect the list could answer is not parked', () => {
     expect([...parked].filter((n) => !PARKED[n]).sort()).toEqual([])
     expect(Object.keys(PARKED).filter((n) => !parked.has(n)).sort()).toEqual([])
   })
+})
+
+// Every detachment on a faction page has at least one record — its rule, an enhancement or a
+// stratagem. The six Codex Supplements' detachments had none until 2026-10-19 (the generator read
+// the Codex bundle alone, and the id bridge did not know them), and nothing said so: a record
+// missing from a file is invisible to every check that reads the records.
+describe('every detachment is in the modifier layer', () => {
+  it('has at least one record', async () => {
+    const { loadFaction } = await import('../factions/index.js')
+    const missing = []
+    for (const [file, data] of Object.entries(files)) {
+      const slug = file.replace(/^\.\/|\.js$/g, '')
+      const dets = new Set(data.entries.map((e) => e.ref?.det).filter(Boolean))
+      for (const d of (await loadFaction(slug))?.en?.detachments || []) if (!dets.has(d.id)) missing.push(`${slug} · ${d.id}`)
+    }
+    expect(missing).toEqual([])
+  }, 60000)
 })

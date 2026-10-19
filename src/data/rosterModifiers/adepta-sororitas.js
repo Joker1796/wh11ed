@@ -56,7 +56,7 @@ export default {
             "ru": "пока произнесено trigger word"
           },
           "cond": [
-            "never"
+            "used-extremis-trigger-word"
           ]
         },
         {
@@ -72,7 +72,7 @@ export default {
             "ru": "пока произнесено trigger word"
           },
           "cond": [
-            "never"
+            "used-extremis-trigger-word"
           ]
         }
       ]
@@ -99,9 +99,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -112,9 +113,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -140,9 +142,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -232,9 +235,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -245,9 +249,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -482,9 +487,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -495,9 +501,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -527,7 +534,7 @@ export default {
             "ru": "если сброшен Miracle die ради этой способности"
           },
           "cond": [
-            "never"
+            "used-righteous-repugnance"
           ]
         },
         {
@@ -543,7 +550,7 @@ export default {
             "ru": "если сброшен Miracle die ради этой способности"
           },
           "cond": [
-            "never"
+            "used-righteous-repugnance"
           ]
         }
       ]
@@ -751,7 +758,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "used-extremis-trigger-word"
           ]
         },
         {
@@ -764,10 +771,21 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "used-extremis-trigger-word"
           ]
         }
       ]
+    },
+    {
+      "sid": "6d5dcd31-c979-4889-8f8b-4d15b8c98339:sanctuary-guardians-celestian-sacresants",
+      "kind": "ability",
+      "name": "Sanctuary Guardians Celestian Sacresants: Sworn Protectors",
+      "det": null,
+      "ref": null,
+      "hash": "cdadac05",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "03cea895-25dc-4be7-b50a-82959b8d514f:triumph-of-saint-katherine",
@@ -1189,6 +1207,36 @@ export default {
           "cond": [
             "blocked-subset"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "atonement-path-of-the-penitent"
+          ],
+          "when": {
+            "en": "the Vow of Atonement picked in your Command phase",
+            "ru": "обет, выбранный в вашей фазе командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "atonement-absolution-in-battle"
+          ],
+          "when": {
+            "en": "the Vow of Atonement picked in your Command phase",
+            "ru": "обет, выбранный в вашей фазе командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "atonement-death-before-disgrace"
+          ],
+          "when": {
+            "en": "the Vow of Atonement picked in your Command phase",
+            "ru": "обет, выбранный в вашей фазе командования"
+          }
         }
       ],
       "ref": {
@@ -1246,6 +1294,17 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "92b25844-f770-40c6-920a-a4a24de42a0a",
+      "kind": "detachmentRule",
+      "name": "Blessed Believers",
+      "det": "Sanctuary Guardians",
+      "ref": null,
+      "hash": "c654eff7",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "1183f5f4-7242-46ba-80c1-2be89be8c9db",
@@ -1698,6 +1757,36 @@ export default {
           "cond": [
             "hagio-psalm"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hagio-rite"
+          ],
+          "when": {
+            "en": "once per turn, the ability selected at the start of this phase",
+            "ru": "раз за ход, способность, выбранная в начале фазы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hagio-sermon"
+          ],
+          "when": {
+            "en": "once per turn, the ability selected at the start of this phase",
+            "ru": "раз за ход, способность, выбранная в начале фазы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hagio-chorus"
+          ],
+          "when": {
+            "en": "once per turn, the ability selected at the start of this phase",
+            "ru": "раз за ход, способность, выбранная в начале фазы"
+          }
         }
       ]
     },
@@ -2010,6 +2099,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "696ce713-6868-49bd-ace7-43653c4e6fe6",
+      "kind": "stratagem",
+      "name": "Harmonised Exorcism",
+      "det": "Chorus of Condemnation",
+      "ref": {
+        "kind": "stratagem",
+        "det": "chorus-of-condemnation",
+        "name": "Harmonised Exorcism"
+      },
+      "hash": "355dac70",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the one unit selected",
+            "ru": "против одного выбранного отряда"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "cf743f7c-6df2-40ea-96f7-cdb0de92947e",
       "kind": "stratagem",
       "name": "Boundless Zeal",
@@ -2200,6 +2319,29 @@ export default {
           "stat": "ap",
           "op": "add",
           "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "437926f7-ad38-4d68-905c-e387c87ec61b",
+      "kind": "stratagem",
+      "name": "Take Cover",
+      "det": "Sanctuary Guardians",
+      "ref": null,
+      "hash": "97d04864",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"

@@ -232,6 +232,15 @@
                 <i :class="offlineIcon" />
                 <span>{{ offlineLabel }}</span>
               </button>
+              <!-- The beta's tutorial: this screen's chapters again (tourScreen.js). -->
+              <button
+                v-if="TOUR_ON && tourReady"
+                class="settings-item"
+                @click="onTour"
+              >
+                <i class="wi wi-help" />
+                <span>{{ labels.tourThisScreen }}</span>
+              </button>
               <button
                 class="settings-item"
                 @click="onFeedback"
@@ -344,9 +353,9 @@ import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import { ui } from '../i18n/ui.js'
 import { factionGroups, factionGroupLabelKey } from '../data/factionsIndex.js'
 import { rulesLanding } from '../data/rulesLanding.js'
+import { replayableNow } from '../composables/tourScreen.js'
+import { IS_BETA } from '../config.js'
 
-// The beta's mark is the site's with a yellow scale (the icon set does the same, 2026-10-09).
-const IS_BETA = import.meta.env.VITE_BETA === '1'
 
 defineProps({
   mobileNavOpen: Boolean,
@@ -415,6 +424,15 @@ async function onSignOut() {
   settingsOpen.value = false
   await signOut()
 }
+// The tutorial loads only when asked for: its chapters stay out of the root bundle.
+const TOUR_ON = true // on everywhere since the new tracker moved to the site (useTour.js)
+// Looked at as the menu opens: whether this screen has a chapter that can show now.
+const tourReady = ref(false)
+async function onTour() {
+  settingsOpen.value = false
+  const { useTour } = await import('../composables/useTour.js')
+  useTour().replay()
+}
 
 const labels = computed(() => ui[locale.value])
 
@@ -447,6 +465,7 @@ function onFeedback() {
 }
 function toggleSettings() {
   settingsOpen.value = !settingsOpen.value
+  if (settingsOpen.value && TOUR_ON) tourReady.value = replayableNow()
   // Read the download size only when the menu is actually opened — it is one small JSON, but
   // fetching it on every page load to fill a label nobody is looking at would be exactly the kind
   // of weight this whole change is removing.

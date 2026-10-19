@@ -15,6 +15,7 @@ import { spawnPhrases } from '../../scripts/lib/spawnPhrases.mjs'
 import { unitLinkPatterns, unitLinksAt } from './unitLinkMarkup.js'
 import { spawnUnits } from '../data/factionUnitKeywords.js'
 import { appliesWhileOf } from '../data/rosterModifiers/appliesWhile.js'
+import { readDoctrineRule } from '../composables/doctrineRules.js'
 
 // foldName.test.js holds every NAME matcher to one fold. This holds every READER of rule prose to
 // it: a regex over raw text whose word class knows only "-" reads nothing where appdata typed
@@ -106,6 +107,10 @@ describe('every prose reader reads a unicode hyphen as a hyphen', () => {
     const texts = strings(items).filter((s) => foldChars(s) !== s)
     expect(texts.length).toBeGreaterThan(0)
     expect(disagreements(texts, equippedCondition)).toEqual([])
+  })
+
+  it('Combat Doctrines a rule makes active (doctrineRules)', () => {
+    expect(disagreements(touched, readDoctrineRule)).toEqual([])
   })
 
   it('where a whole rule is in force (appliesWhile)', () => {

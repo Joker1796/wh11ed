@@ -23,10 +23,7 @@
           :class="{ err: cloud.err }"
           :title="cloud.title"
         >
-          <i
-            class="wi"
-            :class="cloud.icon"
-          />
+          <i :class="cloud.icon" />
           <span class="ca-text">{{ cloud.text }}</span>
         </span>
         <RouterLink
@@ -47,7 +44,10 @@
          it is computed, and the row underneath carries whatever the primary is not. "New game"
          sits there on purpose once something IS in progress: it is the button that throws that
          away, and it has no business next to the one that continues it. -->
-    <div class="cta">
+    <div
+      class="cta"
+      data-tour="home-cta"
+    >
       <RouterLink
         v-if="primary.to"
         :to="primary.to"
@@ -80,17 +80,19 @@
         <button
           type="button"
           class="btn-ghost"
+          data-tour="home-coop"
           @click="sharedOpen = true"
         >
           <i class="wi wi-people" /> {{ labels.lobbyNewGameShort }}
         </button>
         <!-- The way to the statistics (owner, 2026-09-29), the roster list heading's button,
-             kept in the quiet row (owner, 2026-09-30) — taken over from the tracker beta on
+             kept in the quiet row (owner, 2026-09-30) — taken over by the old tracker on
              2026-10-15. It replaced a record bar over the history, which showed only once a game
              counted and was a second door beside this one. Above 900px the subnav's tab is that way. -->
         <RouterLink
           to="/tracker/stats"
           class="btn-ghost cta-stats"
+          data-tour="home-stats"
           :title="labels.statsLink"
           :aria-label="labels.statsLink"
         >
@@ -128,12 +130,12 @@
             :aria-label="labels.cloudSync"
             @click="syncNow"
           >
-            <i class="wi wi-redo" />
+            <i class="wi wi-sync" />
           </button>
         </span>
       </div>
       <p
-        v-if="!history.length"
+        v-if="!history.length && !liveGame"
         class="empty"
       >
         {{ labels.trackerNoGames }}
@@ -144,15 +146,20 @@
         name="list"
         class="games"
       >
+        <!-- The game in progress leads the list as a card of its own (a player's report,
+             2026-10-15: "I always take the last game for the current one and tap it"): the same
+             card, its score as it stands, "in progress" where the result would be, its frame
+             lit — and a tap goes to the game. The Resume button above stays. -->
         <li
-          v-for="g in visibleGames"
-          :key="g.id"
+          v-for="g in rows"
+          :key="g.live ? 'live' : g.id"
           class="game"
-          :class="resultClass(g)"
+          :data-tour="g === visibleGames[0] ? 'home-history' : undefined"
+          :class="g.live ? 'live' : resultClass(g)"
           role="button"
           tabindex="0"
-          @click="openGame(g.id)"
-          @keydown.enter="openGame(g.id)"
+          @click="openRow(g)"
+          @keydown.enter="openRow(g)"
         >
           <FactionEmblem
             v-for="st in stampsOf(g)"
@@ -164,7 +171,19 @@
             stamp
           />
           <div class="gc-top">
-            <span class="gc-date">
+            <!-- In progress: a tag where the date stands, its dot blinking like the live round's
+                 point on the game screen (owner, 2026-10-15). -->
+            <span
+              v-if="g.live"
+              class="gc-live"
+            ><span
+              class="gc-live-dot"
+              aria-hidden="true"
+            />{{ labels.trackerLiveTag }}</span>
+            <span
+              v-else
+              class="gc-date"
+            >
               <i
                 v-if="status === 'authed' && isBackedUp(g)"
                 class="wi wi-cloud-synced cloud-flag"
@@ -173,6 +192,7 @@
               {{ formatDate(g.finishedAt || g.createdAt) }}
             </span>
             <button
+              v-if="!g.live"
               class="del"
               :title="labels.trackerDelete"
               @click.stop="onDeleteGame(g.id)"
@@ -195,7 +215,7 @@
                 {{ score(g)[0] }}<span class="gc-dash">–</span>{{ score(g)[1] }}
               </div>
               <div class="gc-result">
-                {{ resultLabel(g) }}
+                {{ g.live ? labels.trackerLiveRound.replace('{n}', g.currentRound || 1) : resultLabel(g) }}
               </div>
             </div>
             <div class="gc-side gc-side--right">
@@ -246,10 +266,11 @@
 <script setup>
 import ExpandTransition from '../../components/ExpandTransition.vue'
 import { ref, computed, onMounted, watch } from 'vue'
+import { useTour } from '../../composables/useTour.js'
 import { useRoute, useRouter } from 'vue-router'
 import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
-import { battlePointsFromVp } from '../../composables/gameScoring.js'
+import { battlePointsFromVp, concededSide, grandTotal, youIndex as youIdx } from '../../composables/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, membersOf, BATTLE_SIZES } from '../../composables/useTracker.js'
@@ -307,6 +328,18 @@ function showMore() {
   visibleCount.value += PAGE
 }
 const summaryGame = ref(null)
+// The game in progress as a history card: the card reads `result.totals`, which a game only gets
+// when it ends, so its totals as they stand are lent to it here.
+const liveGame = computed(() => {
+  const g = current.value
+  if (!g || g.phase !== 'playing') return null
+  return { ...g, live: true, result: { totals: [grandTotal(g, 0), grandTotal(g, 1)] } }
+})
+const rows = computed(() => (liveGame.value ? [liveGame.value, ...visibleGames.value] : visibleGames.value))
+function openRow(g) {
+  if (g.live) router.push('/tracker/game')
+  else openGame(g.id)
+}
 function openGame(id) {
   summaryGame.value = history.value.find(g => g.id === id) || null
 }
@@ -317,7 +350,9 @@ if (route.query.game) {
   router.replace({ query: {} })
 }
 
+const { maybeStart: maybeStartTour } = useTour()
 onMounted(async () => {
+  maybeStartTour('home')
   initCloudSync()
   // A shared game archived from here ("New game", resuming another) has to say goodbye to the
   // other phones; the watcher that does so is armed once, and this is the earliest screen.
@@ -363,16 +398,16 @@ function doStartNew() {
 // on entry — is what is on this phone also somewhere else.
 const cloud = computed(() => {
   const l = labels.value
-  if (status.value === 'down') return { icon: 'wi-cloud-error', text: l.cloudServerDown, title: l.cloudServerDownHint, err: true }
-  if (status.value !== 'authed') return { icon: 'wi-cloud', text: l.cloudLocalOnly, title: l.cloudSignInHint }
-  if (lastError.value) return { icon: 'wi-cloud-error', text: l.cloudNotSynced, title: l.cloudError, err: true }
-  if (syncing.value) return { icon: 'wi-sync', text: l.cloudSyncing, title: '' }
+  if (status.value === 'down') return { icon: 'wi wi-cloud-error', text: l.cloudServerDown, title: l.cloudServerDownHint, err: true }
+  if (status.value !== 'authed') return { icon: 'wi wi-cloud', text: l.cloudLocalOnly, title: l.cloudSignInHint }
+  if (lastError.value) return { icon: 'wi wi-cloud-error', text: l.cloudNotSynced, title: l.cloudError, err: true }
+  if (syncing.value) return { icon: 'wi wi-sync', text: l.cloudSyncing, title: '' }
   if (inSync.value) {
     return cloudEmpty.value
-      ? { icon: 'wi-cloud', text: l.cloudEmpty, title: '' }
-      : { icon: 'wi-cloud-synced', text: l.cloudInSync, title: '' }
+      ? { icon: 'wi wi-cloud', text: l.cloudEmpty, title: '' }
+      : { icon: 'wi wi-cloud-synced', text: l.cloudInSync, title: '' }
   }
-  return { icon: 'wi-cloud', text: l.cloudSyncing, title: '' }
+  return { icon: 'wi wi-cloud', text: l.cloudSyncing, title: '' }
 })
 
 // What the one big button does, and what it says. A game in progress (or a lobby, or a setup
@@ -449,7 +484,6 @@ function onConfirmAction() {
 // The card is laid out "You"-first (left), regardless of stored order: opponent-first games are
 // saved with You at players[1] (newGame reorders so index 0 is the first-turn player). `side` is
 // 0 = You / left, 1 = opponent / right; map it to the real array index via the isYou flag.
-function youIdx(g) { const i = g.players.findIndex(p => p.isYou); return i >= 0 ? i : 0 }
 function idxOf(g, side) { const y = youIdx(g); return side === 0 ? y : (y === 0 ? 1 : 0) }
 
 function pname(g, side) {
@@ -495,9 +529,8 @@ function armyLines(g, side) {
 // Battle Points per stored array index; concede sweeps 20–0 to the non-conceding player. Uses the
 // stored result.totals (VP at finish) — no recompute, so old saved games never break the list.
 function bp(g) {
-  const y = youIdx(g), o = y === 0 ? 1 : 0
-  if (g.endReason === 'friendly-concede') { const r = [0, 0]; r[o] = 20; return r } // You conceded
-  if (g.endReason === 'opponent-concede') { const r = [0, 0]; r[y] = 20; return r } // Opponent conceded
+  const c = concededSide(g)
+  if (c >= 0) { const r = [0, 0]; r[1 - c] = 20; return r } // the side that did not concede
   const [a, b] = g.result?.totals || [0, 0]
   return battlePointsFromVp(a, b)
 }
@@ -507,10 +540,11 @@ function score(g) {
   return [src[youIdx(g)], src[idxOf(g, 1)]]
 }
 // Result from "You"'s perspective. Winner is decided by BP in BP mode (≤5 VP gap → 10–10 draw),
-// by VP otherwise; concede overrides. The word is the reader's language (owner, 2026-10-18).
+// by VP otherwise; concede overrides. The label follows the locale (owner, 2026-10-18: «ПОБЕДА»,
+// not VICTORY — the finished screen already said «Ничья»).
 function winnerSide(g) {
-  if (g.endReason === 'friendly-concede') return 'loss'
-  if (g.endReason === 'opponent-concede') return 'win'
+  const c = concededSide(g)
+  if (c >= 0) return c === youIdx(g) ? 'loss' : 'win'
   const [you, opp] = score(g)
   if (you === opp) return 'draw'
   return you > opp ? 'win' : 'loss'
@@ -781,6 +815,23 @@ function footLine(g) {
 .res-win .gc-result { color: #e3b341; }
 .res-loss .gc-result { color: var(--danger); }
 .res-draw .gc-result { color: var(--text-dim); }
+/* The game in progress: its frame in the accent, breathing, the card a shade warmer — a fade, never
+   a move (the house rule), and still under reduced motion (the token is 0 there). */
+/* The game in progress: a card a shade warmer, its "In progress" tag's dot breathing — no frame
+   (owner, 2026-10-15: a pulsing frame was tried and taken off). */
+.game.live { background: color-mix(in srgb, var(--accent) 6%, var(--bg-card)); }
+.live .gc-result { color: var(--accent-ink); }
+.gc-live {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.05rem 0.45rem;
+  background: var(--accent); color: var(--text-on-accent, #fff);
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.gc-live-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+  animation: live-dot calc(var(--motion-slow) * 6) ease-in-out infinite;
+}
+@keyframes live-dot { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
 
 .gc-foot { text-align: center; margin-top: 0.4rem; font-size: 0.74rem; color: var(--text-dim); }
 

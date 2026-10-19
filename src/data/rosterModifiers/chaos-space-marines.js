@@ -105,6 +105,50 @@ export default {
       "effects": []
     },
     {
+      "sid": "2de6d3bc-a47d-480a-8683-50565426ab93:aranis-zarkan",
+      "kind": "ability",
+      "name": "Aranis Zarkan: Sacrificial Dagger",
+      "det": null,
+      "ref": null,
+      "hash": "6258748a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the phase this ability is used (this unit suffers 1 mortal wound)",
+            "ru": "фаза, в которую применена способность (отряд получает 1 смертельную рану)"
+          },
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "cond": [
+            "used-sacrificial-dagger"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the phase this ability is used (this unit suffers 1 mortal wound)",
+            "ru": "фаза, в которую применена способность (отряд получает 1 смертельную рану)"
+          },
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "cond": [
+            "used-sacrificial-dagger"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "pack:blood-slaughterer:scuttling-gait",
       "kind": "ability",
       "name": "Blood Slaughterer: Scuttling Gait",
@@ -242,9 +286,10 @@ export default {
             "en": "for the phase, once per battle, when this model uses Chance for Glory",
             "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -255,9 +300,10 @@ export default {
             "en": "for the phase, once per battle, when this model uses Chance for Glory",
             "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -268,9 +314,10 @@ export default {
             "en": "for the phase, once per battle, when this model uses Chance for Glory",
             "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -281,9 +328,10 @@ export default {
             "en": "for the phase, once per battle, when this model uses Chance for Glory",
             "ru": "на фазу, раз за битву, когда модель применила Chance for Glory"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -374,9 +422,10 @@ export default {
             "en": "once per battle, until the end of the turn, after Dark Ritual",
             "ru": "раз за битву, до конца хода, после Dark Ritual"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         },
         {
           "on": "weapon",
@@ -387,9 +436,10 @@ export default {
             "en": "once per battle, until the end of the turn, after Dark Ritual",
             "ru": "раз за битву, до конца хода, после Dark Ritual"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         },
         {
           "on": "weapon",
@@ -400,10 +450,11 @@ export default {
             "en": "once per battle, until the end of the turn, after Dark Ritual",
             "ru": "раз за битву, до конца хода, после Dark Ritual"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         },
         {
           "on": "weapon",
@@ -414,10 +465,11 @@ export default {
             "en": "once per battle, until the end of the turn, after Dark Ritual",
             "ru": "раз за битву, до конца хода, после Dark Ritual"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         }
       ]
     },
@@ -536,7 +588,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "used-daemonic-ordnance"
           ]
         },
         {
@@ -549,7 +601,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "used-daemonic-ordnance"
           ]
         }
       ]
@@ -838,7 +890,7 @@ export default {
             "ru": "психические атаки, на фазу, после Sacrificial Dagger"
           },
           "cond": [
-            "never"
+            "used-sacrificial-dagger"
           ]
         },
         {
@@ -854,7 +906,7 @@ export default {
             "ru": "психические атаки, на фазу, после Sacrificial Dagger"
           },
           "cond": [
-            "never"
+            "used-sacrificial-dagger"
           ]
         }
       ]
@@ -955,9 +1007,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -983,9 +1036,10 @@ export default {
             "en": "once per battle, on a Dark Pact",
             "ru": "раз за битву, при Dark Pact"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1292,6 +1346,34 @@ export default {
       ]
     },
     {
+      "sid": "0d24cda7-bdcb-40f4-9834-1658b6928e06:traitor-guardsmen-squad",
+      "kind": "ability",
+      "name": "Traitor Guardsmen Squad: Twisted Defence Force",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "traitor-guardsmen-squad"
+      },
+      "hash": "7331c5ce",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "against ranged attacks, while within range of an objective",
+            "ru": "против стрелковых атак, пока отряд в зоне объекта"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "8078cf2e-7725-43ca-ab8e-8ca17fcdfcae:vashtorr-the-arkifane",
       "kind": "ability",
       "name": "Vashtorr the Arkifane: Indentured Daemon Engines",
@@ -1397,7 +1479,7 @@ export default {
             "ru": "до конца битвы, если его атаки уничтожили юнит в фазе боя"
           },
           "cond": [
-            "never"
+            "soul-eater-fed"
           ]
         }
       ]
@@ -1436,10 +1518,8 @@ export default {
             "en": "the VEHICLE model selected in your Command phase, until your next one",
             "ru": "модель VEHICLE, выбранная в вашу Command phase, до следующей"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "aura"
+          "target": "aura",
+          "selected": true
         }
       ]
     },
@@ -1490,9 +1570,10 @@ export default {
             "en": "once per battle, on a Dark Pact",
             "ru": "раз за битву, при Dark Pact"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -2045,18 +2126,42 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "while Huron’s Elite is selected, or the unit is visible to Huron Blackheart",
-            "ru": "пока выбрана Huron’s Elite или отряд видит Huron Blackheart"
+            "en": "while Huron’s Elite is the ability picked in your Command phase",
+            "ru": "пока в вашей фазе командования выбрана Huron’s Elite"
           },
           "cond": [
-            "never"
+            "motivation-hurons-elite"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "motivation-mobile-marauders"
+          ],
+          "when": {
+            "en": "the ability picked in your Command phase — both while the unit is visible to Huron Blackheart",
+            "ru": "способность, выбранная в вашей фазе командования; обе — пока отряд видит Huron Blackheart"
+          }
         }
       ],
       "ref": {
         "kind": "detachmentRule",
         "det": "hurons-marauders"
       }
+    },
+    {
+      "sid": "99c64527-965d-47ff-8498-1050fa91925d",
+      "kind": "detachmentRule",
+      "name": "Prey on the Weak",
+      "det": "Murdertalon Raiders",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "murdertalon-raiders"
+      },
+      "hash": "196162de",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "2d05fb7e-ff32-49ee-87f8-8276bc8705e2",
@@ -2153,6 +2258,26 @@ export default {
           "op": "grant",
           "value": "ASSAULT",
           "when": null
+        },
+        {
+          "op": "state",
+          "cond": [
+            "twisted-doctrine-fell-back"
+          ],
+          "when": {
+            "en": "Defaulted to Doctrine this Movement phase, until the end of the turn",
+            "ru": "Default to Doctrine в эту фазу движения, до конца хода"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "twisted-doctrine-advanced"
+          ],
+          "when": {
+            "en": "Defaulted to Doctrine this Movement phase, until the end of the turn",
+            "ru": "Default to Doctrine в эту фазу движения, до конца хода"
+          }
         }
       ]
     },
@@ -2905,10 +3030,8 @@ export default {
             "en": "until your next Command phase, for the one friendly HERETIC ASTARTES VEHICLE unit within 12\" selected in your Command phase",
             "ru": "до вашей следующей Command phase, для одного дружественного отряда HERETIC ASTARTES VEHICLE в пределах 12\", выбранного в вашу Command phase"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "aura"
+          "target": "aura",
+          "selected": true
         }
       ]
     },
@@ -3284,7 +3407,7 @@ export default {
             "ru": "когда отряд использует способность Dark Pacts"
           },
           "cond": [
-            "never"
+            "unit-dark-pact-invoked"
           ]
         },
         {
@@ -3297,11 +3420,26 @@ export default {
             "ru": "когда отряд использует способность Dark Pacts"
           },
           "cond": [
-            "never"
+            "unit-dark-pact-invoked"
           ]
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "9c3df035-418b-40af-9cff-e2a96fefeddc",
+      "kind": "stratagem",
+      "name": "Undying Hatred",
+      "det": "Devotees of Destruction",
+      "ref": {
+        "kind": "stratagem",
+        "det": "devotees-of-destruction",
+        "name": "Undying Hatred"
+      },
+      "hash": "ed2665e0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "dfd93880-0f0c-451d-a583-ae840e5c5aec",
@@ -3407,11 +3545,11 @@ export default {
           "op": "improve",
           "value": 1,
           "when": {
-            "en": "if that effect was the one selected",
-            "ru": "если выбран этот вариант"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "hardened-bs"
           ]
         },
         {
@@ -3423,15 +3561,28 @@ export default {
             "tag": "RAPID FIRE"
           },
           "when": {
-            "en": "if that effect was the one selected",
-            "ru": "если выбран этот вариант"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "hardened-rapid-fire"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
+          },
+          "cond": [
+            "hardened-save"
           ]
         }
       ],
-      "dur": "phase"
+      "dur": "round"
     },
     {
       "sid": "cbe69988-a5c2-472c-9111-a8b2bebba098",
@@ -3854,11 +4005,11 @@ export default {
           "op": "add",
           "value": -1,
           "when": {
-            "en": "if the unit invoked its contract",
-            "ru": "если отряд заключил контракт"
+            "en": "if your unit invokes its contract this phase",
+            "ru": "если в этой фазе отряд заключает контракт"
           },
           "cond": [
-            "never"
+            "contract-invoked"
           ]
         }
       ],

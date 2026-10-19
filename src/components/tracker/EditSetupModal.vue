@@ -4,21 +4,46 @@
     max-width="560px"
     @close="$emit('close')"
   >
+    <!-- What may be changed here: a note read once, so it waits behind an "i" in the header
+         instead of taking the top of the dialog every time (owner, 2026-10-07). -->
+    <template #aside>
+      <button
+        type="button"
+        class="mh-icon"
+        :class="{ on: noteOpen }"
+        :aria-label="labels.trackerEditSetupInfo"
+        :title="labels.trackerEditSetupInfo"
+        :aria-expanded="noteOpen"
+        data-press
+        @click="noteOpen = !noteOpen"
+      >
+        <i class="wi wi-info" />
+      </button>
+    </template>
     <div class="modal-body">
-      <p class="es-note">
-        {{ guest ? labels.trackerEditSetupGuestNote : labels.trackerEditSetupNote }}
-      </p>
+      <ExpandTransition>
+        <p
+          v-if="noteOpen"
+          class="es-note"
+        >
+          {{ guest ? labels.trackerEditSetupGuestNote : labels.trackerEditSetupNote }}
+        </p>
+      </ExpandTransition>
 
       <!-- A guest in a shared game gets only the option blocks — the players, the turn order, the
            score mode and the layout ARE the game and belong to the host (the note above says so
            in place of the controls). Of the options, the rows marked `local` in the table are
-           this phone's; the others are drawn disabled with "host only" (TrackOptions). -->
+           this phone's; the others are drawn disabled with "host only" (TrackOptions).
+           The one exception is its own army list, until the battle begins (a player's report,
+           2026-10-15: "how does the opponent who joined attach his list?" — he could not): the
+           same card, its own side only, the list field alone. -->
       <div
-        v-if="!guest"
+        v-if="cardSides.length"
         class="players"
+        :class="{ 'players-one': guest }"
       >
         <div
-          v-for="(p, i) in players"
+          v-for="i in cardSides"
           :key="i"
           class="player-card"
         >
@@ -26,12 +51,12 @@
             {{ playerLabel(i) }}
           </h3>
           <label
-            v-if="isDoubles"
+            v-if="isDoubles && !guest"
             class="field"
           >
             <span>{{ labels.trackerTeamName }}</span>
             <input
-              v-model="p.teamName"
+              v-model="players[i].teamName"
               type="text"
               :placeholder="labels.trackerTeamName"
             >
@@ -40,7 +65,7 @@
           <!-- The name + list block, once per army: the side itself in singles, each member in
                doubles (same armiesOf recipe as the wizard's step 1). -->
           <div
-            v-for="(m, mi) in armiesOf(p)"
+            v-for="(m, mi) in armiesOf(players[i])"
             :key="mi"
             :class="{ 'member-block': isDoubles }"
           >
@@ -50,7 +75,10 @@
             >
               {{ mi === 0 ? labels.trackerPlayer1 : labels.trackerPlayer2 }}
             </h4>
-            <label class="field">
+            <label
+              v-if="!guest"
+              class="field"
+            >
               <input
                 v-model="m.name"
                 type="text"
@@ -62,7 +90,8 @@
                  to do this; without it here, a player who built a list but forgot to pick it — or
                  whose game predates the feature — had no way back. Unlike the wizard, the list does
                  not decide the army here: the faction is already being played. -->
-            <div class="es-roster">
+            <div class="field es-roster">
+              <span>{{ labels.trackerRoster }}</span>
               <div
                 v-if="m.roster"
                 class="roster-line"
@@ -109,11 +138,12 @@
           </div>
 
           <label
+            v-if="!guest"
             class="check"
-            :class="{ on: p.battleReady }"
+            :class="{ on: players[i].battleReady }"
           >
             <input
-              v-model="p.battleReady"
+              v-model="players[i].battleReady"
               type="checkbox"
             >
             <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
@@ -145,6 +175,7 @@
             <button
               type="button"
               class="help-btn"
+              data-press
               :aria-label="labels.trackerScoreHelp"
               @click="scoreHelpOpen = true"
             ><i class="wi wi-help" /></button>
@@ -167,10 +198,24 @@
            dialog should make the phase row available before Save, and this is the only way a game
            that started without a list can ever get the clock. -->
       <div class="settings">
+        <TrackPresets
+          v-if="!guest"
+          :settings="settings"
+          :ctx="trackCtx"
+          :labels="labels"
+        />
         <TrackOptions
           :settings="settings"
           :ctx="trackCtx"
-          group="game"
+          group="turn"
+          heading="trackerGroupTurn"
+          :lock-shared="guest"
+        />
+        <TrackOptions
+          :settings="settings"
+          :ctx="trackCtx"
+          group="armies"
+          heading="trackerGroupArmies"
           :lock-shared="guest"
         />
         <TrackOptions
@@ -180,16 +225,27 @@
           heading="trackerRosterHeading"
           :lock-shared="guest"
         />
+        <TrackOptions
+          :settings="settings"
+          :ctx="trackCtx"
+          group="look"
+          heading="trackerLookHeading"
+          :lock-shared="guest"
+        />
       </div>
 
+      <!-- The guest sees the map too — read only, the layout is the host's to pick (Mikhail's
+           report, 2026-10-15: "the opponent who joined can't see the map"). Here and not on the
+           game screen: a guest joins in the lobby and reads the battlefield while filling in. -->
       <div
-        v-if="!guest && layouts.length"
+        v-if="guest ? currentLayout : layouts.length"
         class="settings layout-block"
       >
         <h3 class="block-head">
           {{ labels.trackerLayoutHeading }}
         </h3>
         <LayoutTabs
+          v-if="!guest"
           :layouts="layouts"
           :selected="settings.layout"
           :custom="!settings.combatPatrol"
@@ -212,7 +268,7 @@
       </button>
       <button
         class="btn-primary"
-        @click="save"
+        @click="guardColors(save)"
       >
         {{ labels.trackerSave }}
       </button>
@@ -229,23 +285,37 @@
       @pick="onPickLayout"
       @close="layoutPickerOpen = false"
     />
+    <!-- Two sides of one colour ask once before Save (useColorClashGate). -->
+    <ConfirmModal
+      v-if="colorsAskOpen"
+      :title="labels.sideColorsClashTitle"
+      :message="labels.sideColorsClashBody"
+      :confirm-label="labels.sideColorsClashKeep"
+      :cancel-label="labels.sideColorsClashTune"
+      @confirm="keepColors"
+      @close="customiseColors"
+    />
   </BaseModal>
 </template>
 
 <script setup>
 import { reactive, computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import ExpandTransition from '../ExpandTransition.vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import LayoutPickerModal from './LayoutPickerModal.vue'
 import LayoutTabs from './LayoutTabs.vue'
 import RosterPickerModal from './RosterPickerModal.vue'
 import TrackOptions from './TrackOptions.vue'
+import TrackPresets from './TrackPresets.vue'
+import ConfirmModal from '../ConfirmModal.vue'
+import { useColorClashGate } from '../../composables/useColorClashGate.js'
 import { trackSettingsOf, normalizeTrackSettings, LOCAL_TRACK_SETTINGS } from '../../data/trackerOptions.js'
 import { detKey } from '../../data/slugify.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf, isYouSide, sideLabel, BATTLE_SIZES } from '../../composables/useTracker.js'
+import { useTracker, membersOf, isYouSide, sideLabel, gameBegun, BATTLE_SIZES } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
 import { useSetupLayout } from '../../composables/trackerLayout.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
@@ -257,8 +327,11 @@ const { current, updateSetup } = useTracker()
 const game = current.value
 // A guest in a shared game (useParty.js): the setup is the host's, and only the phone-local
 // options are offered here. Resolved once — a hand-over mid-dialog is not worth a live gate.
-const { active: partyActive, isHost, reseat } = useParty()
+const { active: partyActive, isHost, reseat, canEdit } = useParty()
 const guest = partyActive.value && !isHost.value
+// A guest starts with the note open: for them it is not a footnote but the reason the dialog holds
+// only this phone's switches — the names, lists and turn order are the host's.
+const noteOpen = ref(guest)
 
 const isDoubles = game.settings.gameType === 'doubles'
 // The game's battle size in points — a list over it is not offered (the picker's `maxPoints`).
@@ -301,6 +374,8 @@ const settings = reactive({
   // Every "what to track" flag, filled in for a game saved before it existed — the table owns the
   // back-compat (retired field names, per-option defaults), so this dialog carries none of it.
   ...trackSettingsOf(game.settings),
+  // The phone's side-colour picks under "Customise colours" — not a flag, so not in the table's.
+  sideColors: game.settings.sideColors || null,
   // game.settings.firstTurn is always normalized to 1 post-creation (see newGame) — the
   // actual "who's first" lives in player order, so derive the toggle from that instead.
   firstTurn: (game.players[0].isYou ?? true) ? 1 : 2,
@@ -312,6 +387,11 @@ const settings = reactive({
 })
 
 const anyRoster = computed(() => players.some((p) => armiesOf(p).some((m) => !!m.roster)))
+// The army cards on screen: both for the host; for a guest its own side, and only until the battle
+// begins — a list attached mid-battle would change what the game has been scoring against.
+const cardSides = computed(() => (guest
+  ? (gameBegun(game) ? [] : players.map((_, i) => i).filter((i) => canEdit(i)))
+  : players.map((_, i) => i)))
 
 function isYou(i) { return isYouSide(game.players[i], i) }
 function playerLabel(i) { return sideLabel(game.players[i], i, labels.value) }
@@ -382,15 +462,24 @@ const trackCtx = computed(() => ({
   opp: { faction: sideFaction(opp), trackable: armyOppTrackable.value },
   anyRoster: anyRoster.value,
 }))
+const {
+  open: colorsAskOpen, guard: guardColors, confirm: keepColors, customise: customiseColors,
+} = useColorClashGate(trackCtx, settings)
 
 function save() {
   // Same rule as the wizard's Start: a row this game cannot offer is stored off, not at the value
   // a disabled checkbox happened to be carrying.
   const normalized = normalizeTrackSettings(settings, trackCtx.value)
   if (guest) {
-    // Only what is this phone's: the shared settings would be snapped back by the sync anyway,
-    // and the players were never on screen.
-    updateSetup({ settings: Object.fromEntries(LOCAL_TRACK_SETTINGS.filter((k) => k in normalized).map((k) => [k, normalized[k]])) })
+    // Only what is this phone's: the shared settings would be snapped back by the sync anyway.
+    updateSetup({
+      settings: Object.fromEntries(LOCAL_TRACK_SETTINGS.filter((k) => k in normalized).map((k) => [k, normalized[k]])),
+      // Its own side's list, when the card was on screen (cardSides) — nothing of the other side.
+      players: players.map((p, i) => (cardSides.value.includes(i) ? {
+        rosterId: p.rosterId, roster: p.roster, factionSlug: p.factionSlug, detachments: p.detachments,
+        ...(isDoubles ? { members: p.members.map(m => ({ rosterId: m.rosterId, roster: m.roster, factionSlug: m.factionSlug, detachments: m.detachments })) } : {}),
+      } : null)),
+    })
     emit('close')
     return
   }
@@ -416,8 +505,8 @@ function save() {
 
 <style scoped>
 .es-note {
-  margin: 0 0 0.9rem;
-  padding: 0.6rem 0.7rem;
+  margin: 0 0 0.6rem;
+  padding: 0.5rem 0.65rem;
   background: var(--bg-secondary);
   font-size: 0.8rem;
   color: var(--text-muted);
@@ -427,25 +516,34 @@ function save() {
   display: grid;
   /* minmax(0, …) so a long roster name can't widen the card — see GameSetup.vue's .players. */
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
 }
+/* A guest's own side alone: one card across the dialog. */
+.players.players-one { grid-template-columns: minmax(0, 1fr); }
+/* Compact (owner, 2026-10-07): the dialog is read on a phone, and the cards' air was most of it. */
 .player-card, .settings {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 1rem;
+  padding: 0.65rem 0.75rem;
 }
 .settings {
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 0.9rem;
 }
+/* First turn and the score mode: two short choices, side by side on one row (owner, 2026-09-29);
+   they wrap under each other only where the dialog is too narrow for both. */
+.settings.deploy-opts { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 0.7rem 1.25rem; }
+.deploy-opts .field { margin-bottom: 0; }
 /* The list row. Not the wizard's (GameSetup's .roster-line/.rp-open sit in the faction's row and
    name the faction too); here the faction is already being played, so the list gets a line of its
    own and a full-width "attach" button. */
-.es-roster { margin-top: 0.75rem; }
+.es-roster { margin-bottom: 0; }
+/* Battle Ready under the list, not glued to it. */
+.player-card > .check { margin-top: 0.65rem; }
 .roster-line {
   display: flex; align-items: center; gap: 0.35rem;
   padding: 0.45rem 0.55rem;
@@ -478,7 +576,7 @@ function save() {
   font-size: 1.21rem;
   font-weight: 500;
   color: var(--text-muted);
-  margin-bottom: 0.75rem;
+  margin: 0 0 0.45rem;
 }
 /* Doubles member sub-boxes — same frame recipe as the wizard's (GameSetup's .member-block). */
 .member-block {
@@ -498,7 +596,7 @@ function save() {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
 }
 .field input[type="text"] {
   padding: 0.5rem 0.6rem;

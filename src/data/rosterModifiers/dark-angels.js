@@ -59,9 +59,10 @@ export default {
             "en": "once per battle, after this unit summons a Watcher in the Dark when it suffers a mortal wound",
             "ru": "раз за битву, после того как отряд призвал Watcher in the Dark, получив mortal wound"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "unit",
@@ -71,6 +72,49 @@ export default {
           "when": {
             "en": "once per battle, after this unit summons a Watcher in the Dark when it suffers a mortal wound",
             "ru": "раз за битву, после того как отряд призвал Watcher in the Dark, получив mortal wound"
+          },
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
+        }
+      ]
+    },
+    {
+      "sid": "1d9fdc0e-2ce8-4c07-9ab9-aa909584d69e:belial",
+      "kind": "ability",
+      "name": "Belial: Grand Master of the Deathwing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "belial"
+      },
+      "hash": "088c6e74",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "против отряда CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "против отряда CHARACTER"
           },
           "cond": [
             "never"
@@ -102,7 +146,7 @@ export default {
             "ru": "пока в отряде есть Ancient"
           },
           "cond": [
-            "never"
+            "contains-deathwing-ancient"
           ]
         }
       ]
@@ -118,6 +162,20 @@ export default {
       },
       "hash": "294e9608",
       "ver": 972,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "99deacf8-1143-4a9f-9c42-c7e94e4d5a0e:deathwing-knights",
+      "kind": "ability",
+      "name": "Deathwing Knights: Inner Circle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwing-knights"
+      },
+      "hash": "25bc8854",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },
@@ -300,6 +358,34 @@ export default {
       ]
     },
     {
+      "sid": "e3ecf2d7-0ef7-4238-8639-3963bec7c6ad:inner-circle-companions",
+      "kind": "ability",
+      "name": "Inner Circle Companions: Emnity for the Unworthy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inner-circle-companions"
+      },
+      "hash": "d9d7f41c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "против отряда CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "a7a5c8e2-f0d6-4a7d-86d7-ff9050a28f7f:lazarus",
       "kind": "ability",
       "name": "Lazarus: The Spiritshield Helm",
@@ -438,6 +524,20 @@ export default {
       ]
     },
     {
+      "sid": "19726b2e-a787-4c4e-9ffb-d9a2812dba48:lion-eljonson",
+      "kind": "ability",
+      "name": "Lion El'Jonson: The Emperor's Shield",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lion-eljonson"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7a5578e7-bd91-45d4-b94e-8cb69b09ebef:lion-eljonson",
       "kind": "ability",
       "name": "Lion El'Jonson: The Watchers",
@@ -467,6 +567,20 @@ export default {
       "ref": null,
       "hash": "9bdc06bf",
       "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ce554c13-23b1-4a53-ac12-61d40e4e50fb:nephilim-jetfighter",
+      "kind": "ability",
+      "name": "Nephilim Jetfighter: Lightning-fast Manoeuvres",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nephilim-jetfighter"
+      },
+      "hash": "916cf6ab",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },
@@ -636,6 +750,71 @@ export default {
       ]
     },
     {
+      "sid": "ab7e2f84-2fb3-44f6-afdd-66c918248c10:sammael",
+      "kind": "ability",
+      "name": "Sammael: Grand Master of the Ravenwing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sammael"
+      },
+      "hash": "4c612053",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "b8f5141f-daa9-4900-944e-2fe16af75b47:vengeful-brethren-bladeguard-veteran-squad",
+      "kind": "ability",
+      "name": "Vengeful Brethren Bladeguard Veteran Squad: Bladeguard (Once per turn per unit)",
+      "det": null,
+      "ref": null,
+      "hash": "c278d1ae",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the option picked when this unit is selected to fight",
+            "ru": "вариант, выбранный, когда отряд выбран для боя"
+          },
+          "cond": [
+            "bladeguard-hit"
+          ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "bladeguard-defend"
+          ],
+          "when": {
+            "en": "the option picked when an enemy unit targets this unit",
+            "ru": "вариант, выбранный, когда враг выбирает отряд целью"
+          }
+        }
+      ]
+    },
+    {
       "sid": "95dbd786-5940-4348-85b1-074ba54c817f",
       "kind": "armyRule",
       "name": "Combat Doctrines",
@@ -713,6 +892,59 @@ export default {
       ]
     },
     {
+      "sid": "9ca9235c-9f25-471c-973a-1a87ec84bcf8",
+      "kind": "detachmentRule",
+      "name": "Vowed Target",
+      "det": "Inner Circle Task Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "inner-circle-task-force"
+      },
+      "hash": "3411f39a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit within range of the vowed objective",
+            "ru": "против отряда в зоне обетного объекта"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "8be3b67e-d634-44c6-98d0-d31cfee5d32c",
+      "kind": "detachmentRule",
+      "name": "Honoured Knights",
+      "det": "The Vengeful Brethren",
+      "ref": null,
+      "hash": "14514667",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "da94f3da-d6d2-4fea-a0e9-9411155f8659",
+      "kind": "detachmentRule",
+      "name": "Dutiful Tenacity",
+      "det": "Wrath of the Rock",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "wrath-of-the-rock"
+      },
+      "hash": "81078a6a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "5799077c-00bf-4a5d-aa88-b17cdf4c4b78",
       "kind": "enhancement",
       "name": "Champion of the Deathwing",
@@ -757,11 +989,37 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of the two, selected when the unit is selected to attack",
-            "ru": "одна из двух — выбирается, когда отряд выбран для атаки"
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
           },
           "cond": [
-            "never"
+            "combatant-lethal"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
+          },
+          "cond": [
+            "combatant-sustained"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
+          },
+          "cond": [
+            "combatant-lethal"
           ],
           "target": "led"
         },
@@ -771,11 +1029,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of the two, selected when the unit is selected to attack",
-            "ru": "одна из двух — выбирается, когда отряд выбран для атаки"
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
           },
           "cond": [
-            "never"
+            "combatant-sustained"
           ],
           "target": "led"
         }
@@ -861,6 +1119,29 @@ export default {
       "dur": "turn"
     },
     {
+      "sid": "5f1eba48-56b4-451d-aed3-9e8fb763f4f4",
+      "kind": "stratagem",
+      "name": "Mission Focus",
+      "det": "The Vengeful Brethren",
+      "ref": null,
+      "hash": "fe8dfc7e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "31721131-d7b4-4266-9f41-879d32f1ea75",
       "kind": "stratagem",
       "name": "Inescapable Justice",
@@ -879,6 +1160,33 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "74601e3a-aa52-45aa-8243-7fb4159aa658",
+      "kind": "stratagem",
+      "name": "Knights of Iron",
+      "det": "Wrath of the Rock",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrath-of-the-rock",
+        "name": "Knights of Iron"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
@@ -1018,9 +1326,10 @@ export default {
             "en": "until the end of a phase this unit summoned a Watcher in the Dark in (once per battle)",
             "ru": "до конца фазы, в которой отряд призвал Watcher in the Dark (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1076,9 +1385,10 @@ export default {
             "en": "until the end of a phase this unit summoned a Watcher in the Dark in (once per battle)",
             "ru": "до конца фазы, в которой отряд призвал Watcher in the Dark (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     }

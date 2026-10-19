@@ -37,13 +37,45 @@ Start/Save**: a row the game cannot offer is stored OFF, because a disabled chec
 the player's answer. Without it "Track phases", remembered from a game that had a list, raised the
 phase row in a game that had none.
 
-**Two groups.** `group: 'game'` is the tracker's own screen: CP, the army rule per side
-(`trackArmyYou`/`trackArmyOpp`, legacy `trackArmyRule`), the clock (`trackPhases`) and the phase
-reminder under it (`trackPhaseRules`, `requires: 'trackPhases'`). `group: 'roster'` only means
-anything with an army list attached: the modifier master (`trackModifiers`) and the five families
-of switch under it (`trackUnitStates`, `trackArmyStates`, `trackStratagems`, `trackAuras`,
-`trackAbilitySets`, each `requires: 'trackModifiers'`). What each family governs on the roster
-screen is in `src/components/roster/CLAUDE.md`.
+**Four groups, three presets (owner, 2026-10-14; reshaped 2026-10-17).** `turn` — CP (`trackCP`, the
+counter), under it playing stratagems (`trackStratPlay`: the CP tab's list and a unit card's play;
+off, the CP tab is the counter alone and a card's stratagem box is a plain mark), under that
+`askStratagems` (off, a stratagem is spent at its printed cost at one tap — on no unit from the CP
+tab, on the unit from its card — and a play the tracker refuses opens StratPlayModal after all,
+which says why); the clock (`trackPhases`), the phase reminder (`trackPhaseRules` — the Phase tab
+with the clock, the Turn tab without it) and the mission help (`trackMissionAids`, legacy
+`trackTurnChecks`: the check before the turn passes — TurnEndCheckModal — and the take dialog
+opening by itself — SecondaryDeck; the missions themselves are never a row). `armies` — the army
+rule per side (`trackArmyYou`/`trackArmyOpp`, legacy `trackArmyRule`). `roster` only means anything
+with an army list attached: the modifier master (`trackModifiers`) and the six families of switch
+under it (`trackUnitStates` — which also carries UnitStatusButton on the list's rows, "where each
+unit is" being the same thing, owner 2026-10-17 — `trackBattleShock`, `trackArmyStates`,
+`trackStratagems`, `trackAuras`, `trackAbilitySets`; `fold: true` — TrackOptions draws them under a
+"Details" fold beneath the master, counting how many are on). `trackStratagems` requires the master
+AND `trackStratPlay`: without stratagems played there is nothing spent to change a card. `requires`
+takes a list for that; a row is drawn one step in per parent in its own group (`depthOf`). `look` —
+the broadcast button, `showLogStats` (the Log and Stats tabs; `local`) and the side colours. A
+`local` row says "on this phone" under its caption. What each family governs on the roster screen is
+in `src/components/roster/CLAUDE.md`.
+
+`TRACK_PRESETS` — Minimal (nothing), Base (CP without stratagems, the mission help, both army-rule
+counters, the modifiers without a family) and Maximal (everything) — are starting points over the
+rows. `TrackPresets.vue` is a "Preset" button with the preset in force named beside it (or "Your
+own"); the button opens a dialog showing the game screen with each — three columns on a wide screen,
+one picture under a three-way switch on a phone — from pictures in
+`public/images/tracker/preset-<id>-<locale>` shot off the seed's three `preset-*` games
+(scripts/lib/test-games.mjs) — **reshoot them when the game screen changes**, under a new name
+(images are never edited in place). A first game starts as Base (`defaultTrackSettings` with no
+game behind it); a later one from the last game's choices. `presetOf` names the draft's set or null
+comparing only rows the game can offer. The colours and the broadcast are in no preset. The one row
+is drawn by `TrackOptionRow.vue` in the list and in the fold alike.
+
+**Battle-shock is its own row** (2026-10-10, owner, after Misha called the marking bureaucracy): the
+one unit state the app ACTS on (a shocked unit is refused its own side's stratagems, its ongoing ones
+end), so it is switched apart from the other unit states. Its default follows CP (`defaultWhen`):
+where command points are not counted, nothing is spent here for the mark to guard. The game's clock
+carries it (`clockOf().shock`), so `activeConditions` and `stratagemsBlocked` read it with no new
+argument; off, the shock switch is not consulted at all.
 
 **The clock moved out of the roster group on 2026-08-25, and the reason is worth keeping.** It was
 offered only alongside an attached list, because the roster screen was the only thing that read a
@@ -79,6 +111,243 @@ line instead — the same attached pair as the roster's condition chips (`Condit
 of them (prose, blank line = new paragraph); a setting whose answer is a *table* keeps its own
 (`ScoreHelpModal`). `src/data/trackerOptions.test.js` gates that every row's label and help exist in
 **both** locales — `ui.js` has no parity check of its own.
+
+## The turn — always kept (`endTurn` / `undoTurn`)
+
+The game screen moves on by the **turn**, not the round: a headline over the score ("Round 3 · Turn:
+X"), a "Turn" chip on that side's card, and under the board two equal buttons — **← Undo turn** and
+**End turn — X**, the latter in the colour of the side on turn. Ending the second turn of a round
+opens the next round (through `goToRound`, so the secondary housekeeping still runs); the last turn
+of the game offers **Finish game** in its place. **Undo turn** steps back into the turn that ended,
+at its last phase — an action, not a snapshot: in a shared game the other phones already have the
+new turn, and what was scored since stays. (Mikhail's prototype restores a full snapshot of the
+previous turn; that was deliberately not copied, for exactly this reason.) The turn lives in
+`currentTurn` (the `shared` slice), which existed for the phase clock — so the format did not
+change. **Phases stay optional** (`trackPhases`); the turn does not depend on them. In a shared game
+the turn is ended by the side playing it and taken back by the side that ended it; the other phone
+sees the button greyed with the reason on the line under the pair. The score cards follow the same
+prototype: each side in its colour (you `--accent`, the opponent `--side-opponent`) as a stripe and
+on the name, name · faction on one line, VP and BP side by side at one size, the breakdown under a
+rule; the side on turn gets a wash of its colour and the "turn" mark. "Leading" is gone from the
+live board — the gold edge and "Tied" belong to the result screen.
+
+## The game screen's layout (`RoundTracker.vue`)
+
+Top to bottom: headline, score cards, the rounds row (steps 1–5 with **Finish game** at its end and
+the sync indicator), the turn row — **pinned above the bottom nav** (`.tf-sticky`, the window's
+bottom edge on a desk; its height reserved in App.vue as `--roster-sticky-h`, so floating buttons
+and the page's end clear it) — (**End turn** says just that — the name is in the headline and
+its tooltip; in a shared game the tooltip says why it is grey), then the **tabs**. The line "Next:
+X · round N" under the buttons is gone (owner's call, 2026-09-27). **With the phase clock on** (`trackPhases`)
+the phase lives in the turn row itself (owner's call, 2026-09-27): undo turn as an icon, ‹, the
+phase (tap → the phase picker), ›, End turn. The arrows stop at Command and at Fight — a turn
+changes only by End / Undo turn, so never past the end-of-turn check. The reminder ("in this
+phase", `trackPhaseRules`) is the **Phase** tab of the upper row (the **Turn** tab in a game without the clock), its count on the tab
+(`usePhaseRules.js` counts; `PhaseRules.vue embedded` draws). Its lines stay on the game screen
+(2026-09-30): a rule opens the Army tab on that army with the rule unfolded (`ArmiesPanel.reveal`), a unit of an
+attached list opens its card in the Army tab (`RosterTab.openUnit`), several units — the list; a
+mission card opens the Missions tab. No stratagems line since 2026-10-10 — the CP tab is one tap
+away and already filters to the phase.
+**One strip of tabs** over one panel (owner's calls, 2026-09-27: two rows split by a heavy rule
+read as two menus, and they were one menu). Every CLOSED tab is an icon (`aria-label` + `title`
+name it); the OPEN tab takes the rest of the width and shows its icon and its word — one row at any
+width, and the word on screen is always where you are. **Wider than 900px every tab carries its
+word** (owner, 2026-10-02): the tabs are equal, the open one is the filled one, and of the switch
+only the fill and the panel's slide are left. In order, each the owner's own drawing (2026-10-08,
+`.wi-*` in style.css — see components/CLAUDE.md): Missions `wi-missions`, Phase / Turn `wi-phase`
+(with its count in the corner), CP `wi-cp`, Armies `wi-army`, Roster `wi-rosters` (the bottom nav's) (only when an
+army carries a list), Log `wi-log`, Stats `wi-stats`. Switching is animated (owner's mock, 2026-09-30:
+the old fill drains, the new one fills from the bottom, the word rises, the panel slides in from
+the tab's side; timed off `--motion-tab`). **Every panel is built once and kept** (`v-show`): the
+open one at once, the rest one per idle moment — a switch shows, it never builds. The strip stands on a 2px accent line;
+the open tab is filled with the accent, so it reads as attached to the panel. One panel at a time;
+**every new turn opens on Missions** (a watch on round + turn), because a turn starts by drawing and
+scoring. The open tab is **remembered on the device** (`wh11ed-tracker-tab`, with the game id, round and
+turn): leave for a datasheet and come back in the same turn — the same tab; the turn moved meanwhile
+— Missions. The CP tab exists only while the game tracks CP (`trackCP`); switched off mid-game it falls
+back to Missions. What lives where:
+
+- **Missions** — the twist reminder and one card per side: primary, secondaries, the army-rule
+  tracker. The card carries its side's colour down its edge. See "The missions panel" below.
+- **CP** — one bank per side, side by side. See "Command points" below.
+- **Log** — `GameLog.vue`: the game told back, newest first, by round; filters (all / scoring /
+  CP / stratagems / cards; Core CP only under CP) and a plain-text copy. **Derived, not recorded**
+  (`gameLog.js`): read from the CP ledger, the secondaries drawn / scored / set aside and the
+  primary per round — so it costs the game nothing to carry, is the same on every phone of a
+  shared game and cannot disagree with the score (undo a scoring, it leaves the log). Each act the
+  game records carries when it was made (`t` on ledger entries, discards, scorings, when-drawn
+  notes, a round's primary; `secondary.drawnAt` for draws — since 2026-09-30), and within a round
+  the log is newest first by it; acts of one moment, and older games, fall back to turn then side. Mikhail's prototype keeps a
+  separate timed event list; that was deliberately not copied.
+- **Stats** — `ScoreBreakdown` with `expanded` (no toggle: here the table is the content), with
+  the CP spent under each side's table (the ledger's spends; also shown in history).
+- **Side tabs inside a panel** (Missions, CP, Armies, Roster) switch in place and **fade** the new
+  content in (`useSwapFade.js`, Web Animations off `--motion-swap`, 0.6s; the tabs stand). Content that
+  loads (an army's rules, a list) is built once and kept — rebuilt on each switch it came up empty
+  and jumped the page (2026-09-30).
+- **Army** — `ArmiesPanel.vue` + `ArmyCard.vue` (one per army, all built with the panel): one card per army (a side; each member in doubles — up to four;
+  `useGameArmies.js`), its emblem stamped under it (2026-09-30): the faction, the army rule's
+  tracker with the detachment rules as folds (`ArmyTrackerCard bare`), and — without a list — the
+  way to the faction's datasheets. No disposition or detachment line: nobody looked them up mid-game.
+  **The attached list stands under the card, in the same frame** (`RosterTab embedded`, through
+  ArmiesPanel's slot, following its pick via the `army` event): one Army tab since 2026-10-10
+  (owner, from Misha's note) — the separate Roster tab was the same army a tab away, its card's
+  "Roster" button only switched to it, and seven tabs crowded a phone.
+- The list under it — `RosterTab.vue`: the attached lists, each the roster screen itself
+  (`RosterViewView in-tracker`, loaded async so the game chunk never carries it), built on its
+  first visit and kept (owner, 2026-09-30). Off screen a list is `frozen`: it reads a plain copy of
+  the game taken as it left, so a tap elsewhere does not redo its modifier layer; on screen — or
+  with a unit's card open over another tab — it reads the live game again, one recount.
+
+The top is NOT pinned (owner's call, 2026-09-27): the prototype fixes it and scrolls the panel
+inside, which on a 640px phone leaves about half the screen for the game.
+
+## The turn's colour
+
+The whole game screen wears the colour of the side on turn: `RoundTracker`'s root takes `.turn-opp`
+during the opponent's turn, which re-points `--accent` (and `--accent-hover`) at `--side-opponent`,
+so every accented control follows. The SIDES keep their own colours through it — which is why
+every "your side" colour in the tracker reads `--side-you` (style.css), never `--accent`: an
+`--accent` read there turned your own card blue on the opponent's turn. The recipe is the global
+`.side-colored` + `.turn-colored` (+ `.turn-opp`) in style.css. **Dialogs wear it too:** they
+teleport to `<body>`, out of the screen, so RoundTracker hands `{ class, style }` down with
+`provideModalScope` (composables/modalScope.js) and BaseModal puts it on its overlay — every dialog
+opened under the game screen, nested ones included, and nothing outside it.
+
+**Which two colours** is `composables/sideColors.js`: each side's faction accent from
+factionsIndex.js by default (owner, 2026-09-29; a side with no faction takes the standard red /
+blue). The phone's **Customise colours** option (`customColors`, a `local` row) opens a picker per
+side over its live two-card preview (`SideColorPreview.vue`, drawn by TrackOptions from the row's
+`preview`, with each army's emblem): a short `PALETTE` of the site's own pairs, or "faction colour".
+The picks are `settings.sideColors` ({ you, opp }), local like the row. Nothing is swapped
+automatically any more: when the two sides come out alike, the wizard's Start and the edit
+dialog's Save ask once and offer to customise (`useColorClashGate.js`). The screen applies the
+pair through the global `.side-colored` class + `gameSideColorStyle(game)`, which set
+`--side-you` / `--side-opponent` per theme; the score board's emblems take the same colours, and
+a result's columns (ScoreBoard `finished`) wear each army's own colour.
+
+## The missions panel
+
+**One side first, the other folded.** First comes whose turn it is — or, in a shared game, this
+phone's own side (a guest does not want the other phone's cards on top); the other side waits under
+"Show X's missions". A new turn folds it again.
+
+**Scored in the card's dialog.** The primary and every secondary are one line on the screen — name,
+this round's VP (and the "⋯" of a tactical card) — as in the first tracker (owner, 2026-09-29: the
+conditions laid out on every card ran the tab to several screens). A tap opens `ScoringModal` with
+the briefing and the conditions (`ScoreRows.vue`), each under the moment it is scored at; the rows
+tick in the card's side colour (`opp` prop — the dialog teleports out of the card). **The moment comes from the
+data, never from a guess:** `missionTiming.js` maps every English `when` of a scoring block (and
+the End of Battle heading) to one of six moments, and its test fails on a phrasing it does not
+know. One thing is locked: an "end of your opponent's turn" condition during its owner's own turn
+(except the turn that closes round 5, for the "… or the end of the fifth battle round" cards).
+Everything else stays tickable — a condition of "the end of your turn" is often ticked a moment
+after the turn passed — and a past round is never locked.
+
+**The round steps are a view, not a move.** A past round opens for correction (a banner says so,
+"Back to the game" ends it); the live round is marked; a round not yet started is disabled. Only
+End/Undo turn move the game. The view is this phone's own (`viewRound` in `RoundTracker`), and a
+new turn drops it. Scoring a past round writes into THAT round (`scoreSecondaryRow(…, round)`,
+`setPrimaryRow(pi, roundIdx, …)`), and a tactical card still in hand that turns out to have been
+achieved then leaves the hand.
+
+**The turn's two secondaries (tactical).** "At the start of your Command phase, draw two" — so the
+deck offers **Take 2 secondaries** to the side on turn, once per own turn: both at random or both
+by hand (`TakeSecondariesModal`), recorded in `secondary.took[round]`. Every card in the dialog has an "i" for its full text (briefing and conditions, read-only), so
+a card can be read before it is chosen. Right after the take, a card with a WHEN DRAWN rule shows
+the rule's words and its action (discard / shuffle back and draw) — that is the moment the rule is
+written for; `whenDrawn.js` decides when it is on offer (shared with the card sheet). The dialog opens by itself
+once per turn on the phone that plays that side (a module-level memory, so a tab switch does not
+reopen it). A random pair is written at once, so reopening cannot re-roll it; "Put them back"
+undoes the take while neither card has scored. After that the hand changes only through a card's
+own rule — WHEN DRAWN, set aside, return to deck, in the card's "⋯" sheet. The free "Draw" /
+"Choose" buttons are gone. Each card shows how it came in (`secondary.source`: a die or a hand icon — `DieIcon.vue` (our own: Bootstrap draws dice only face-on) and `wi-hand`; icons, never emoji).
+
+**Achieved cards leave at the end of EACH turn** (`setAsideAchieved`, the Event Companion's
+"Achieving Secondary Missions"), not only when the round changes. The entry remembers the turn
+(`discarded[].auto`), and **Undo turn puts exactly those cards back** — never one set aside by hand.
+
+## Ending a turn — the check first (`TurnEndCheckModal`, `missionTiming.turnEndChecks`)
+
+End turn (and the last turn's Finish, and the end-of-turn discard from a card's sheet, which
+`SecondaryDeck` sends up through `inject('requestEndTurn')`) first asks
+`turnEndChecks`: every condition that scores at this very moment, on both sides' cards in hand and
+both primaries — the side on turn's "end of your turn", the other side's "end of your opponent's
+turn", either side's "end of a turn" (the side on turn's own were left out until 2026-10-02; the
+owner wants the card offered whenever a condition falls due) — and on the battle's last turn every
+End of Battle condition plus the "… or the end of the fifth battle round" fallbacks.
+Nothing to check → the turn passes at once. Otherwise the dialog shows those rows to tick (a side
+another phone plays is shown, not scored) and "Checked · end turn" passes it; on the last turn it
+goes on to `GameEndModal`. Mikhail's prototype had the same step, with the four "opponent's turn"
+cards listed by hand; here the data's own timing decides.
+
+## Command points — a ledger (`cpLedger.js`)
+
+`player.cp` is still the balance every reader uses (score cards, broadcast, history), but a game
+started since 2026-09-27 (`cpAuto: true`) keeps **where each point came from** in `player.cpLog`:
+`core` (+1 to both at every Command phase), `bonus` (**at most one a battle round** — the Event
+Companion's "Generating Command Points" cap, applied to every game because the tracker plays the
+Event Companion's missions; source `manual` or `discard`), `spend` (source `redraw` — the
+once-per-battle 1CP secondary replacement — or, next, stratagems) and `adjust` (the stepper, a
+correction). `cp = cpBase + Σ amounts`, never below 0; `cpBase` is an older game's stepper value
+when its ledger started. A game without `cpAuto` gets no Core CP by itself and keeps its number.
+
+**The turn's side effects are settled, not performed** (`settleSide` in `useTracker.js`). Core CP
+for both players and the achieved cards of both hands are effects of the CLOCK, and in a shared
+game a phone writes only its own side (the sync snaps the other back). So nothing is done "at
+end of turn": a module-level watch on the clock (round, turn, phase, game id — fired by this
+phone's taps and by another phone's shared slice alike) calls `settleSide` for every side, which
+brings that side in line with where the clock stands — one `core` entry per turn reached, none for
+a turn not reached; cards set aside at the end of a turn the clock is back inside come back (with
+the end-of-turn discard's CP); cards achieved by the last turn that ended leave the hand. It is
+idempotent, so Undo turn is the same call and a phone that missed a tick catches up on the next.
+
+**The card sheet ("⋯") offers each rule by name**, greyed with the reason when not available:
+WHEN DRAWN, **Replace for 1CP** (`cpRedraw` — side on turn, once per battle, `cpRedrawUsed`),
+**Discard at the end of the turn, +1CP** (`endTurnDiscard` — takes the round's bonus if free,
+confirms, then ends the turn; the card carries `auto` + `cp` so Undo turn returns both), set aside,
+return to deck. A card that came in by hand may be replaced by hand (`ReplaceCardModal`).
+
+## Stratagems in the CP tab (`CpStratagems.vue`, `gameStratagems.js`)
+
+Under the banks: whose CP (a switch — both sides may spend at any moment, half the core
+stratagems are played in the other player's turn; default is the side on turn, or this phone's
+own side), then **the Stratagems page's own toolbar and phase accordions** (`StratFilterBar.vue`,
+`StratPhaseGroups.vue`, `groupByPhase` — one set of parts for the page, the roster screen and this
+tab, owner's call 2026-09-27): All / Core / Army, and flat ↔ by phase. By phase is the tracker's
+default (remembered on the device, apart from the page's choice). **With the clock, a "Now · <phase>"
+group comes first holding only what the chosen side can play right now** — the phase AND whose it
+is, by `usableInSlot` (in your Movement phase Fire Overwatch is the opponent's, not yours), the same
+predicate as the phase reminder and the roster screen; the plain phase groups follow. Groups start
+closed and stay as the player left them (`wh11ed-tracker-strats-open`, on the device). In the mixed list a core stratagem carries a "core" tag. Flat: the army's, then the core. A row: name and
+two lines of timing (tap → the full `StratCard`) and the printed cost, which **plays** it.
+A use is a `spend` entry in the ledger (`source: 'strat'`, `ref` = the stratagem's `_key`, the
+phase too when kept); "Undo" removes the round's latest use.
+
+**Playing a stratagem is one act, from the CP tab or a unit's card** (owner, 2026-09-30;
+`StratPlayModal.vue`, `stratagemPlay.js`, useTracker's `playStratagem` / `unplayOnUnit`). The
+dialog asks **whether a rule changed the cost this time** — every time; reduced / as printed /
+increased, the answer plays it, for this use only — and under the price offers, **optionally**, to
+name **the unit it is played on** (owner, 2026-09-30: a Command Re-roll must not stop at a list),
+whenever the English TARGET line names a unit and a list is attached (the own army's, or the
+opponent's for "One enemy unit"); Battle-shocked units and units already targeted this phase are
+greyed with why. A card's box names its own unit. The ledger entry carries `target: { uid, mi?, name, sid?, opp? }`
+and the log says "used X on Y". When the unit's card has a modifier record for it (`sid`, paired
+by `deckStratFor` / `recordFor` — detachment id + name, loosely; the pairing gate in
+`stratagemPlay.test.js` fails on a record with no deck twin), the card's box goes on at the same
+moment. Taking back either — Undo here, or unticking the card's box — takes back both, CP included.
+The card's box alone (no ledger) only where CP is not counted. A row is locked only when not even a
+reduced cost could pay for it. **Refused, with the reason on the
+row** (`stratBlock`): the stratagem's own limits, read from its ENGLISH restrictions by
+`usageLimits` (once per battle / round / turn, not before round 2 or 3 — the gate in
+`gameStratagems.test.js` fails on a "use this Stratagem …" phrasing it does not understand; limits
+on a TARGET are left to the players), and, only when phases are kept, the Core Rules' once per
+phase. Short of CP greys the button without a line — every row would say it at once.
+
+`gameStratagems.js` is also what the Stratagems page reads (moved out of `StratagemsView.vue`):
+the core deck merged EN/RU (`loadCoreStratagems`) and each side's detachment deck, **both imported
+dynamically** — the CP tab mounts them only while open. A static import of `battlefields.js` here
+once put ~22 KB gzip on every opening of a game (2026-09-27); keep it dynamic.
 
 ## Slices — the game as multi-device sync moves it
 
@@ -156,7 +425,8 @@ yours", one rule instead of a permission matrix — and the host takes it back b
 sides, so a server-side lock would break the host's own dialog. `RoundTracker` greys the locked
 side with the reason under its title (the host's line names the way back) and puts `inert` (a
 presence attribute — `undefined`, not `false`) on what SCORES — the primary, the deck, the CP
-stepper — and passes `readonly` to `ArmyTrackerCard`, which inerts its own controls and leaves the
+stepper; `ArmiesPanel`, where the army rule's tracker lives since 2026-09-29 (owner: everything
+about an army in one place, not under the missions), passes `readonly` to `ArmyTrackerCard`, which inerts its own controls and leaves the
 rule text, the active rule and the spent log live; the card itself is never inert, because the
 opponent's setup facts, list and army rule are things to READ mid-game (the first complaint about
 the shared game was a guest who could not open the other side's rule). The setup gear opens for a
@@ -246,9 +516,13 @@ typed into.
 **Reopening is free, then it is a request.** While the host is still on the armies step
 (`lobby.stage === 'armies'`) a guest reopens its side at will. Once the host has moved on
 (`'host'`), "Change" becomes a request the host answers in a dialog — the mission and the layout
-ahead of it were built on what this side said it was fielding. Granting it reopens that side and
-takes everyone back to the armies step; a denial says so on the waiting screen, where "Leave" is
-always available. **The host's own screen follows** (2026-09-24): a `watch` on `othersReady` pulls
+ahead of it were built on what this side said it was fielding. Granting it reopens that side ALONE
+— the host stays where it is (2026-10-15: sending everyone back to the armies step made the host's
+next "Next" lock the guest again, and a player and his opponent went round in requests until they
+gave up); a denial says so on the waiting screen, where "Leave" is always available. **The host is
+asked before the step that locks a guest** (`guestSides`, `askLeaveArmiesStep`): leaving the armies
+step with a side another phone fills in opens a confirm saying the opponent can change it only with
+the host's permission from there — and that it is still being filled in, when it is. **The host's own screen follows** (2026-09-24): a `watch` on `othersReady` pulls
 it back to the mission step from anything later, `canMission` requires `othersReady` as well as the
 two dispositions — a reopened side KEEPS the disposition it had, so the gate read as passed while
 the guest was re-choosing the very thing the primary is made of — and both primary previews are
@@ -306,8 +580,41 @@ changing who goes first mid-game from `EditSetupModal`, which reorders the playe
 
 ## The phase reminder (`PhaseRules.vue`)
 
-Under the clock, one accordion: **what has something to say in the phase the game is standing on**,
-for both players. `settings.trackPhaseRules`, on by default, and it needs the clock (`requires`).
+The game screen's Phase tab: **what has something to say in the phase the game is standing on**.
+`settings.trackPhaseRules`, on by default. **Without the clock it is the Turn tab** (owner,
+2026-10-08; no `requires` since).
+
+**The turn in the order it is played** (owner, 2026-10-10): `usePhaseRules`' sides carry `turn` —
+Start of turn, each phase step by step (`PHASE_STEPS`, Core Rules 08–12), End of turn; with the
+clock, only its phase (plus the turn's start or end where the phase borders it). At each step what
+fires there: the side's rules by their moment (`start`/`end` at the phase's first/last step, during
+at its main step — `stepOfMoment`), army rules before units, and the side's **mission cards where
+they score** (`missionTiming.cardMoments`: the end of its Command phase, or the end of the turn —
+"while active" has no moment). **One fold per phase** (and the turn's start and end) on the shared
+`StratPhaseGroups` (card mode, as in the CP tab; a group may bring its own `count`), **all shut by
+default**, each counting what fires inside it; the open ones are remembered
+(`wh11ed-turn-steps-open`). Opened, a step with something heads its rows, and a run of steps with
+nothing is ONE quiet line ("Start of phase · Gain Core CP · Battle-shock") — the order stays readable
+without a line apiece (owner, 2026-10-10: a line per empty step gave the screen to emptiness; the
+"only steps with rules" switch that came first is gone). A side with nothing at all gets the empty
+state instead of the folds. `count` is the rules (one named in two phases once) plus the card moments.
+
+**What a unit says, four kinds** (owner, 2026-10-08), all under "Units", the kind before the name
+where it is not a datasheet ability: its **datasheet abilities**; its **wargear abilities**, only
+while it carries the item (the index says `d` — it starts with it — or `g`, the `[group, option]`
+picks of the roster data that give it, matched against the entry's `wg`; an ability no item of the
+unit is named after is `d`, showing over hiding); every **ability-set option** that names a phase,
+under the set's name (which option is up is picked in the game, so all are offered); and its
+**enhancement** — `entry.enh`, or the one the datasheet is forced to take in a fielded detachment
+(`me` in the unit's record, since rosterEngine derives it and never stores it). Enhancements are
+`enh` in the faction's record, by name, anchored to their card (`enh-<detId>-<slug>`).
+
+**When in the phase** (2026-10-08): the index carries `m: { phase: 'start' | 'end' }` from
+`phaseMomentsOf` (stratagemPhases.js) — a phase every mention of which is "at the start/end of …";
+"until the start/end of …" is a duration and does not count, and a phase also named any other way is
+during. ~150 starts and ~130 ends over the 960 entries. A row is what you look for at the table (the
+units, or the rule's name) over one small line (what it is · the ability, or the detachment's name;
+a doubles team's army after it).
 
 **Two sides, not one.** 55 of the datasheet abilities that name a phase name their OPPONENT'S ("In
 your opponent's Movement phase, if an enemy unit ends a move within 8"…"), and those are the ones a
@@ -336,15 +643,6 @@ your opponent's Movement phase, if an enemy unit ends a move within 8"…" are b
 reminder is for, and no phrasing test separates them from a passive mention. Naming the phase is
 the whole test — erring towards SHOWING, the same call `usableInSlot` already makes.
 
-**Stratagems are a link, not a list.** `/stratagems` is in this same subnav, already groups by
-phase and already knows both players' detachments; a second list would be two copies of one thing
-that drift apart. There is no count beside the link because counting would mean loading the faction
-rules bundle onto the playing screen — the one thing the index exists to avoid. **The link carries
-the phase** (`/stratagems?phase=fight`) and `StratagemsView` reads it into the INITIAL values of
-`byPhase`/`openPhases` — not by assigning them afterwards, which would fire the persist watcher
-and remember a view mode the reader never chose. Landing on six collapsed accordions is what makes
-such a link pointless.
-
 **Every line is a way in.** A name the reader cannot get to is half a reminder, so a line
 navigates: a unit to its card — inside the attached list (`/tracker/game/roster/:pi?unit=<uid>`,
 which `RosterViewView` reads into its initial `viewingUid`) so the game's own modifiers apply, or
@@ -355,11 +653,8 @@ index stores the same anchor ids the search index does. A rule carried by more t
 the list instead of a card: three squads of the same datasheet are three cards, and there is no
 single one to mean (counted by entry, not by name — the line still says "Boyz" once).
 
-**Closed by default, count in the header, remembered** (`wh11ed-phase-rules-open`). An open block
-pushes the round's actual scoring down the screen, which is why CP and the army-rule card were put
-BELOW the secondaries in the first place; "3 rules in this phase" does the reminding from the
-closed state. One line per RULE, with the units that carry it named under it — three Intercessor
-Squads with the same ability are one reminder, not three identical lines.
+One line per RULE, with the units that carry it named under it — three Intercessor Squads with the
+same ability are one reminder, not three identical lines.
 
 ## Setup wizard
 
@@ -419,6 +714,18 @@ hides the custom tab) with a D6 roll (`CpLayoutRoll.vue`). The stratagems page d
 Battle Ready's +10 is the ordinary checkbox — GW suggests leaving it off for a newcomer. The caps
 are the ordinary ones too: the Combat Patrol pack in appdata says 15 a round, 45 a game.
 
+**A Combat Patrol army is its box's list** (beta, 2026-10-15). At Start, `GameSetup` builds each
+player's box as a roster (`combatPatrolRoster.js`: the box detachment's `linkedUnits` — a unit
+twice for two of it — its flagged Warlord, and the enhancement picked on step 1, GW's default lit,
+on the unit it names) and attaches the snapshot, so the Armies tab shows the box like any list:
+cards, states, reserves. The list carries `cp: <box id>`; the roster screen provides it
+(`useCombatPatrolBox`) and the loaders take it — `loadRosterFaction(slug, { cp })` adds the box's
+units and detachment (`src/data/roster/combat-patrol/<box>.js`, generated, a folder the faction
+glob never reaches so no catalogue offers them), `loadDatasheets/loadDatasheetsRu(slug, { cp })`
+its sheets from combatPatrol.js (`combatPatrolSheets.js`). No points are shown for such a list.
+Not yet: modifiers from the box's own rules (detachment rule, army rule as printed in the box,
+stratagems, enhancements) — the cards print their characteristics as written.
+
 ## Scoring
 
 **Scoring** is by *condition*, not free entry: each mission block row is scored via `ScoringModal.vue` (a count stepper for "For each…" rows, a checkbox otherwise); `picks` store per-row counts keyed `blockIdx:rowIdx`, and VP = Σ count·rowVP. Caps: primary **15/round** — an **End of Battle** row on top, outside it (Event Companion FAQ; `setPrimaryRow`), **45/game**; fixed secondary **20** each; secondary **15/round** across the cards and **45** total (`secondaryRounds` in `gameScoring.js`); Battle Ready **+10**. `scorableBlocks(slug, role, round, locale)` round-gates blocks by their English heading (`BLOCK_ROUNDS`) — e.g. "Second Battle Round Onwards"/"End of Battle" aren't scorable in round 1 — and derives the per-each flag from the **English** text (display text is localized). Lookup/logic always read `missions.en` (slug/VP/structure are language-agnostic); `missionBySlug(slug, role, locale)` overlays `missionsRu.js` text for display only. **`or` brackets are mutually exclusive:** setting one bracket row clears the competing rows in its group (`orSiblingKeys` in `setPrimaryRow`/`scoreSecondaryRow`); per-tally "For each…/Each time…" `or` rows stay independent (and don't show the "Or" label).
@@ -454,3 +761,44 @@ The row under the round bar (arrows + a "name · phase" button opening `PhasePic
 **A game can also carry each player's army list** (`player.rosterId` + `player.roster`, a self-contained snapshot). Attached in step 1 of the wizard — an icon button in the faction row opens `RosterPickerModal.vue` — automatically when the game was started from a roster, **or after the game has started**, from `EditSetupModal.vue` (the same picker, in the player card); **optional on both sides — a game with no lists is the normal case, and nothing here may require one.** An attached list decides that player's faction and detachments (`resolveArmyChoice`), so it **replaces the faction picker** with a `faction · list name ✕` line; detaching hands the picker back with that faction still selected. (The `resolveArmyChoice` guard that detaches on a faction change is therefore unreachable from the wizard now, and kept for a restored draft whose halves are out of step.) `RoundTracker` gives each player card **one army button**, sharing the CP row **below** the secondaries (both are things you consult between scoring passes, and above they pushed the round's actual scoring down): with a list attached it links to `/tracker/game/roster/:pi`, which renders the Roster Builder's own read-only view from the snapshot; without one it falls back to that player's faction datasheets (`/factions/:slug/datasheets`). Never both — the list is strictly the better answer when it exists (this army's units, with the game's live modifiers), and there's no room for two links beside the CP stepper. Because the button reads the player it belongs to, the opponent's army is one tap from their own card; that is what replaced the bottom nav's conditional «Units» item (root `CLAUDE.md`). The row renders for either half alone, and drops out entirely only for a legacy game with no `factionSlug` and CP off. **Attaching mid-game is deliberately weaker than the wizard's.** In the wizard the list IS the army: it decides the faction and the detachments. Once play has started neither is the list's to decide — missions, the army-rule tracker and the points already scored hang on the faction, the stratagems and DP on the detachments — so `EditSetupModal` only fills in what is still blank (a faction on a game saved before one was mandatory; detachments never chosen) and reports a detachment disagreement as a warning line instead of resolving it. The picker takes an optional `faction` prop for this: lists of another faction stay **visible but disabled** (hiding them makes a collection look empty and reads as "my list is gone"), and a pasted share link of the wrong faction is refused with its own message. Detaching, as in the wizard, leaves the faction and detachments alone. `updateSetup` carries the four fields, and the modal's local draft means Cancel discards the attachment. Nothing measures the game at attach time — see `rosterGameLink.test.js` for why two full lists can't approach the cap. The snapshot deliberately stores the roster's compact stored form — a synced game is capped at 64 KB by `wh11ed-api`. Mechanics and rationale: `src/composables/rosterGameLink.js` + the "roster attached to a game" section in `src/components/roster/CLAUDE.md`.
 
 **`player.ctx`** goes with it: the rule-condition switches (`ctx.army[id]` / `ctx.units[uid][id]`, each storing WHEN it was flipped as a clock stamp, written by `setArmyCondition`/`setUnitCondition` — see the clock below). They answer what the app cannot know — a unit charged, an Order is on it, a Detachment rule is running — so the roster view may apply that modifier instead of only footnoting it. Absent on older games; every read defaults it. Conditions the tracker ALREADY knows (a called Waaagh! lives in `player.army.toggleRounds`) are read from there and are not duplicated as switches.
+
+## The tutorial
+
+`useTour.js` + `TourOverlay.vue` (mounted in `App.vue`), chapters in `src/data/tourChapters.js`;
+on everywhere since 2026-10-19 (written in the beta), mounted only on the tracker and roster
+screens, so a tab reading rules never loads the chapters. Before the first chapter starts by itself
+the player is asked once per device whether to turn the tutorial on ("There is a tutorial now"),
+and told that any screen's tutorial opens from ⚙ → "Tutorial of this screen". A chapter is shown once per device the
+first time its screen asks for it (`maybeStart(id, ctx)`), and again from the game's ⋯ menu;
+`?tour=reset` clears what was seen. The texts follow the owner's voice: every step starts with the
+action, then says what the thing is, in the names the screen prints.
+
+- **A step lights an element by its `data-tour` value**, never a CSS class — a restyle must not
+  lose the tour. A list repeats the attribute on every row; the overlay lights the first visible one.
+- **A step can put the screen in the state it tells about** — `show: { tab: 'cp', side: 'opp' }`.
+  The screen that owns the state answers with `useTourShow(key, apply)`: the game screen (`tab`,
+  `side`), the roster list (`listTab`), the roster page (`viewTab`), the catalogue (`filters`), the
+  editor on a phone (`editorMode`). A chapter never clicks the page; walking back re-applies the
+  step's own state. Keys a step does not name are left alone.
+- **Chapters asked for together wait in line** (the rosters' desk is a list and a roster at once)
+  and start only while something they light is on screen; one not shown within a minute is dropped.
+- **A step whose element is not on screen is left out** when its chapter starts (unless it opens
+  something with `show`), and passed over in the reading direction if it vanishes later — a field
+  a choice not made yet would bring, a column only the desk has. A field that comes later gets a
+  chapter of its own instead (`roster-disposition`).
+- A panel taller than the screen is lit by its tab strip, not by itself: the light would fill the
+  screen and the page would scroll deep into it.
+- **Shared and doubles games change what a step may say.** The game screen's `ctx` carries
+  `shared`, `host`, `canTurn` (the turn buttons are this phone's) and `doubles` as getters, read
+  when the chapter starts — and in a shared game the chapters wait for the server's first answer
+  (`party.held`), or a guest is told to press a "Start game" that is grey on its screen. Steps
+  come in variants by `when`; a doubles step names the partner's army by seat (`member:
+  'partner' | 'mine'`), never by index — a guest may sit on the team's second army. Chapters of
+  their own: `shared` (after the game's), `lobby-invite` (the host's code screen), `lobby-guest`
+  (a guest's side), `lobby-wait`; the setup's chapters take `ctx.lobby`.
+- **Seen once, then on request.** Every screen's chapters come back from the ⚙ menu ("Tutorial of
+  this screen"): `maybeStart` records what the page asked for, seen or not, in `tourScreen.js` (a
+  module without the texts — the navbar is in the root bundle), the overlay forgets it on a new
+  page (App's `pageKey`), and `replay()` shows again those whose elements are on screen. The game
+  screen's own ⋯ menu keeps its item.
+

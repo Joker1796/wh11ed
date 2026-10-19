@@ -334,9 +334,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -423,9 +424,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -2074,6 +2076,33 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "b63bb154-f543-4745-a5a6-ffab323cd921",
+      "kind": "stratagem",
+      "name": "Warp-riders",
+      "det": "Cavalcade of Chaos",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cavalcade-of-chaos",
+        "name": "Warp-riders"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "73f0cc79-068f-4e96-91ab-05c3914bacce",
       "kind": "stratagem",
       "name": "Draught of Terror",
@@ -2123,6 +2152,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "aed28125-92c9-4922-99a2-fee31e24a7fa",
+      "kind": "stratagem",
+      "name": "Rapturous Agony",
+      "det": "Legion of Excess",
+      "ref": {
+        "kind": "stratagem",
+        "det": "legion-of-excess",
+        "name": "Rapturous Agony"
+      },
+      "hash": "7de35e49",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f2338ba8-00d6-45fc-8d14-fb29b2c437fe",
@@ -2283,13 +2327,26 @@ export default {
           "op": "add",
           "value": 3,
           "when": {
-            "en": "if a Flux token was spent, instead (and +1 AP)",
-            "ru": "если потрачен Flux token, вместо этого (и +1 AP)"
+            "en": "instead, if a Flux token was spent",
+            "ru": "вместо этого, если потрачен Flux token"
           },
           "cond": [
-            "never"
+            "spent-flux-pyrogenesis"
           ],
           "alt": 0
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "if a Flux token was spent",
+            "ru": "если потрачен Flux token"
+          },
+          "cond": [
+            "spent-flux-pyrogenesis"
+          ]
         }
       ],
       "dur": "phase"
@@ -2388,6 +2445,21 @@ export default {
       },
       "hash": "48189719",
       "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b3854eac-89e9-415b-8b2f-e9076d220d3a",
+      "kind": "stratagem",
+      "name": "Incorporeal Entities",
+      "det": "Warptide",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warptide",
+        "name": "Incorporeal Entities"
+      },
+      "hash": "edf16e51",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },

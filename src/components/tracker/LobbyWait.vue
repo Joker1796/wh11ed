@@ -1,6 +1,9 @@
 <template>
   <div class="lw">
-    <div class="lw-card">
+    <div
+      class="lw-card"
+      data-tour="lobby-wait"
+    >
       <span
         class="lw-dot"
         aria-hidden="true"
@@ -46,6 +49,7 @@
         <button
           v-if="canChange"
           class="btn-primary"
+          data-tour="lobby-change"
           :disabled="myRequestPending"
           @click="change"
         >
@@ -54,12 +58,14 @@
         <button
           v-else-if="!amEditor"
           class="btn-ghost"
+          data-tour="lobby-takeover"
           @click="takeOverOpen = true"
         >
           {{ labels.lobbyTakeOver }}
         </button>
         <button
           class="btn-ghost"
+          data-tour="lobby-leave"
           @click="leaveOpen = true"
         >
           {{ labels.lobbyLeave }}
@@ -100,6 +106,7 @@ import { useTracker } from '../../composables/useTracker.js'
 import { useLobby } from '../../composables/useLobby.js'
 import { useParty } from '../../composables/useParty.js'
 import { FACTIONS } from '../../composables/trackerFactions.js'
+import { useTour } from '../../composables/useTour.js'
 
 // What a guest sees between "Done" and the first battle round: its side as it was sent, and the
 // one thing it may still do — ask to change it. The screen is deliberately quiet; the game opens
@@ -197,6 +204,10 @@ async function doLeave() {
   leaveOpen.value = false
   await leave()
 }
+
+// The waiting screen's chapter, the first time a guest lands on it.
+const { maybeStart: maybeStartTour } = useTour()
+onMounted(() => maybeStartTour('lobby-wait', { get doubles() { return !!doubles.value } }))
 </script>
 
 <style scoped>

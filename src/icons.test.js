@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 // The app draws its own icons (`.wi`, src/assets/icons) — the Bootstrap icon font went on
-// 2026-10-13, owner's decision: no one else's drawings shipped as ours. A `bi bi-…` written by habit
+// 2026-10-13, owner's decision: no one else's drawings shipped as ours. A `wi bi-…` written by habit
 // would draw nothing at all, and a `wi-…` with no rule draws an empty box, both silently; this
 // fails on either, and on a drawing nothing uses.
 

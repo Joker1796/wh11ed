@@ -33,7 +33,10 @@
            There were three: picking units and configuring them were a step apart, which since
            wargear started deciding a unit's price meant walking back and forth between them. They
            are one step with two panes now — the same layout the editor's Units tab uses. -->
-      <div class="rc-steps">
+      <div
+        class="rc-steps"
+        data-tour="rc-steps"
+      >
         <button
           type="button"
           class="rc-step"
@@ -223,6 +226,7 @@
         </ExpandTransition>
         <RosterPointsTally
           v-if="desk || step === 2"
+          data-tour="rw-tally"
           class="rc-sticky-info"
           :badge="!!factionSlug"
           :checked="checkLegality"
@@ -246,6 +250,7 @@
           <template v-if="desk">
             <button
               class="btn-primary"
+              data-tour="rw-save"
               :disabled="!canLeaveStep1"
               @click="guardFd(finish)"
             >
@@ -255,6 +260,7 @@
           <template v-else-if="step === 1">
             <button
               class="btn-primary"
+              data-tour="rc-next"
               :disabled="!canLeaveStep1"
               @click="goToUnits"
             >
@@ -270,6 +276,7 @@
             </button>
             <button
               class="btn-primary"
+              data-tour="rw-save"
               @click="guardFd(finish)"
             >
               {{ labels.rosterSave }}
@@ -344,6 +351,7 @@ import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
 import { SETUP_CODES, issueText } from '../../composables/rosterValidation.js'
 import { LIMIT_KEYS, limitOf } from '../../composables/rosterLimit.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
+import { useTour } from '../../composables/useTour.js'
 
 const router = useRouter()
 const route = useRoute()
@@ -363,6 +371,17 @@ const rulesOpen = ref(false)
 const rulesList = computed(() => ({ units: units.value || [], defOf, detachments: curDetachments.value, factionSlug: factionSlug.value }))
 const name = ref('')
 const factionSlug = ref(null)
+// The tour: the setup's chapter on step 1 (on a desk, the settings line), the units' once the
+// panes are up — step 2, or on a desk the columns a faction brings.
+const { maybeStart: maybeStartTour } = useTour()
+watch(
+  () => (desk.value ? (factionSlug.value ? 'units' : 'setup') : step.value === 1 ? 'setup' : 'units'),
+  (part) => {
+    maybeStartTour('roster-setup')
+    if (part === 'units') maybeStartTour('roster-units')
+  },
+  { immediate: true, flush: 'post' },
+)
 const detachments = ref([])
 const disposition = ref(null)
 // The points limit as one value (rosterEngine's limitOf): size, custom number, own limits.
@@ -419,6 +438,8 @@ const {
   commit: () => syncUnits(),
   setFaction: (slug) => { factionSlug.value = slug; ensureDraft() },
 })
+// The Force Disposition field comes with the detachments: its own chapter, the first time it does.
+watch(() => dispositionCands.value.length > 0, (on) => { if (on) maybeStartTour('roster-disposition') }, { immediate: true, flush: 'post' })
 
 // Write the units through to the saved roster as soon as there IS one (step 2 onwards). The wizard
 // used to hold them in component state until "Done", so leaving the way every other screen expects

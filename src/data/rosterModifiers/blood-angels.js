@@ -71,9 +71,10 @@ export default {
             "en": "once per battle, in the Fight phase in which this ability is used",
             "ru": "раз за битву, в фазе боя, в которой применена способность"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -84,9 +85,10 @@ export default {
             "en": "once per battle, in the Fight phase in which this ability is used",
             "ru": "раз за битву, в фазе боя, в которой применена способность"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -191,7 +193,7 @@ export default {
             "ru": "если выбрано при стрельбе (одно из трёх)"
           },
           "cond": [
-            "never"
+            "tycho-assault"
           ],
           "target": "unit"
         },
@@ -205,7 +207,7 @@ export default {
             "ru": "если выбрано при стрельбе (одно из трёх)"
           },
           "cond": [
-            "never"
+            "tycho-heavy"
           ],
           "target": "unit"
         },
@@ -219,7 +221,7 @@ export default {
             "ru": "если выбрано при стрельбе (одно из трёх)"
           },
           "cond": [
-            "never"
+            "tycho-rapid-fire"
           ],
           "target": "unit"
         }
@@ -382,7 +384,7 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
           ]
         },
         {
@@ -395,7 +397,7 @@ export default {
             "ru": "вместо этого, пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ],
           "alt": 0
         }
@@ -452,7 +454,7 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
           ]
         },
         {
@@ -465,7 +467,7 @@ export default {
             "ru": "вместо этого, пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ],
           "alt": 0
         }
@@ -522,7 +524,7 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
           ]
         },
         {
@@ -535,7 +537,7 @@ export default {
             "ru": "вместо этого, пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ],
           "alt": 0
         }
@@ -648,6 +650,34 @@ export default {
           "target": "aura"
         }
       ]
+    },
+    {
+      "sid": "70bde792-bb64-4ae8-9dc5-e34ed4d67475:sanguinary-guard",
+      "kind": "ability",
+      "name": "Sanguinary Guard: Angelic Visage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanguinary-guard"
+      },
+      "hash": "07125726",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "3424cb21-6416-4162-adfc-e6a48ba370ca:sanguinary-guard",
+      "kind": "ability",
+      "name": "Sanguinary Guard: Heirs of Azkaellon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanguinary-guard"
+      },
+      "hash": "3e6fde4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "pack:sanguinary-priest-with-jump-pack:blood-chalice",
@@ -873,11 +903,37 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of the two, selected when the bearer's unit is selected to fight",
-            "ru": "одна из двух — выбирается, когда отряд носителя выбран для боя"
+            "en": "the one picked when the bearer’s unit is selected to fight",
+            "ru": "выбранная, когда отряд носителя выбран для боя"
           },
           "cond": [
-            "never"
+            "executioner-lethal"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "the one picked when the bearer’s unit is selected to fight",
+            "ru": "выбранная, когда отряд носителя выбран для боя"
+          },
+          "cond": [
+            "executioner-sustained"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "the one picked when the bearer’s unit is selected to fight",
+            "ru": "выбранная, когда отряд носителя выбран для боя"
+          },
+          "cond": [
+            "executioner-lethal"
           ],
           "target": "led"
         },
@@ -887,11 +943,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of the two, selected when the bearer's unit is selected to fight",
-            "ru": "одна из двух — выбирается, когда отряд носителя выбран для боя"
+            "en": "the one picked when the bearer’s unit is selected to fight",
+            "ru": "выбранная, когда отряд носителя выбран для боя"
           },
           "cond": [
-            "never"
+            "executioner-sustained"
           ],
           "target": "led"
         }
@@ -919,9 +975,10 @@ export default {
             "en": "once per battle, per army, when this unit is selected to fight",
             "ru": "раз за битву на армию, когда отряд выбран для боя"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1038,6 +1095,33 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "7df3533d-f8de-42ec-98a7-3fcb619a3a3c",
+      "kind": "stratagem",
+      "name": "Instant of Grace",
+      "det": "Angelic Inheritors",
+      "ref": {
+        "kind": "stratagem",
+        "det": "angelic-inheritors",
+        "name": "Instant of Grace"
+      },
+      "hash": "5c6aca44",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Character",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "round"
+    },
+    {
       "sid": "4fbae4b4-42f9-48ca-903e-a362c1fe883e",
       "kind": "stratagem",
       "name": "Strike Now for Glory",
@@ -1084,6 +1168,74 @@ export default {
           "op": "grant",
           "value": "Stealth",
           "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "90cbb284-cd76-4dc6-a001-1ce0bed18370",
+      "kind": "stratagem",
+      "name": "Dauntless Bravery",
+      "det": "Sanguinary Spearhead",
+      "ref": null,
+      "hash": "ed2665e0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2bf5458d-94f8-405f-9490-2c449ddecc98",
+      "kind": "stratagem",
+      "name": "Death Begets Vengeance",
+      "det": "Wrath of the Doomed",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrath-of-the-doomed",
+        "name": "Death Begets Vengeance"
+      },
+      "hash": "e59da364",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "DEATH COMPANY attacks against the hated unit",
+            "ru": "атаки DEATH COMPANY против отряда hated"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2328e95a-96ba-4312-844e-709de76d7cfb",
+      "kind": "stratagem",
+      "name": "No Barrier to Retribution",
+      "det": "Wrath of the Doomed",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrath-of-the-doomed",
+        "name": "No Barrier to Retribution"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
         }
       ],
       "dur": "phase"

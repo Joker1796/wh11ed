@@ -14,6 +14,7 @@
           v-model="query"
           type="search"
           class="rub-search"
+          data-tour="cat-search"
           :placeholder="typing ? '' : labels.rosterSearchUnits"
           :aria-label="labels.rosterSearchUnits"
           autocomplete="off"
@@ -26,6 +27,7 @@
       <button
         type="button"
         class="rub-filter-btn"
+        data-tour="cat-filters"
         data-press="pop"
         :class="{ open: filtersOpen, on: activeFilters }"
         :aria-expanded="filtersOpen"
@@ -47,6 +49,7 @@
         v-if="rulesButton"
         type="button"
         class="rub-filter-btn"
+        data-tour="cat-rules"
         :aria-label="labels.rosterFactionRules"
         :title="labels.rosterFactionRules"
         @click="$emit('open-rules')"
@@ -63,6 +66,7 @@
          a closed accordion must not hide why the catalogue is short. -->
     <div
       class="rub-filters"
+      data-tour="cat-filters-body"
       :class="{ folded: !filtersOpen && !hiddenCount }"
     >
       <CollapseTransition :show="filtersOpen">
@@ -186,6 +190,7 @@
                   <button
                     type="button"
                     class="rub-add"
+                    data-tour="cat-add"
                     data-press
                     :disabled="atCap(u)"
                     :aria-label="labels.rosterAddUnit"
@@ -233,6 +238,7 @@ import { useCollection } from '../../composables/useCollection.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from '../../composables/datasheetTags.js'
 import { useUnitSearchGhost } from '../../composables/useUnitSearchExamples.js'
+import { useTourShow } from '../../composables/useTour.js'
 
 const props = defineProps({
   units: { type: Array, required: true },
@@ -327,6 +333,8 @@ const hasBudget = computed(() => Number.isFinite(props.remaining))
 // height is the catalogue's, and the two things outside the fold — the count on this header and
 // the "N hidden" line — already say why the list is short. Owner's call, 2026-09-19.
 const filtersOpen = ref(false)
+// The tour opens them to show what they hold, and folds them again after (useTourShow).
+useTourShow('filters', (on) => { filtersOpen.value = !!on })
 const activeFilters = computed(() => (onlyAffordable.value && hasBudget.value ? 1 : 0) + (onlyOwned.value ? 1 : 0)
   + (hideLegends.value && hasLegends.value ? 1 : 0))
 const anyFilter = computed(() => (onlyAffordable.value && hasBudget.value) || onlyOwned.value

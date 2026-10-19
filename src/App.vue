@@ -4,6 +4,13 @@
     :style="{ '--mobile-bar-h': mobileBarVisible ? '3.5rem' : '0px' }"
   >
     <DomainMoveBanner v-if="!isBare" />
+    <BetaBanner v-if="IS_BETA && !isBare" />
+    <!-- The tracker tour (useTour.js): mounted only where a screen has chapters — the tracker and
+         the rosters — so a tab reading rules never loads it (~19 KB gzip of chapters). -->
+    <TourOverlay
+      v-if="TOUR_ON && tourScreen"
+      :page="pageKey"
+    />
     <UpdateNoticeBar v-if="!isBare" />
 
     <AppNavbar
@@ -148,6 +155,10 @@ const holdReloads = reloadsHeld()
 // off (cacheMigration.js). A tab without one watches the server's version itself (tabFreshness.js).
 const workerOn = ref(workerWanted())
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
+// Loaded only where the tour exists; the flag is read here, not from useTour, so the chapters'
+// texts stay out of the root bundle.
+const TourOverlay = defineAsyncComponent(() => import('./components/TourOverlay.vue'))
+const TOUR_ON = true // on everywhere since the new tracker moved to the site (useTour.js)
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
 const InstallOffer = defineAsyncComponent(() => import('./components/InstallOffer.vue'))
 const ErrorReportsOffer = defineAsyncComponent(() => import('./components/ErrorReportsOffer.vue'))
@@ -180,6 +191,8 @@ import { currentRegistration, tabMayLeaveWorker, tidyAfterWorker, workerWanted }
 import MobileUtilityBar from './components/MobileUtilityBar.vue'
 import BackToTopButton from './components/BackToTopButton.vue'
 import DomainMoveBanner from './components/DomainMoveBanner.vue'
+import BetaBanner from './components/BetaBanner.vue'
+import { IS_BETA } from './config.js'
 import UpdateNoticeBar from './components/UpdateNoticeBar.vue'
 import AppFooter from './components/AppFooter.vue'
 import { useLocale } from './composables/useLocale.js'
@@ -220,6 +233,8 @@ const { locale } = useLocale()
 // The address carries the language (`/ru/…`); everything that asks "which page is this?" must ask
 // without it, or every predicate written against a bare path quietly stops matching in Russian.
 const appPath = computed(() => stripLocale(route.path))
+// The screens that carry tutorial chapters (they import useTour themselves).
+const tourScreen = computed(() => /^\/(?:tracker|roster)(?:\/|$)/.test(appPath.value))
 // What counts as "another page" for the swap above. A route with children (a faction's pages)
 // is one page per faction: moving between its tabs changes the child, drawn by the parent's own
 // RouterView (FactionPagesView), and must not re-create the parent — that is what kept the hero

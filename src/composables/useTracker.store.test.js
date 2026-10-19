@@ -24,9 +24,22 @@ function setupGame(over = {}) {
   return { ...base, ...over, settings: { ...base.settings, ...(over.settings || {}) } }
 }
 
+// The turn's two cards, picked rather than drawn: the first one able to score in round 1 (a
+// tactical row with a plain VP value). A random draw sometimes brings a card whose conditions only
+// open in round 2, and a test that scores it would then fail by chance.
+function takeScorablePair(pi) {
+  const pl = tracker.current.value.players[pi]
+  const scorable = (slug) => mod.scorableBlocks(slug, pl.role, 1).some((b) => b.kind === 'tactical' && b.rows.some((r) => mod.numericVp(r.vp) > 0))
+  const a = pl.secondary.deck.find(scorable)
+  const b = pl.secondary.deck.find((x) => x !== a)
+  tracker.takeChosenSecondaries(pi, [a, b])
+  return [a, b]
+}
+
 describe('newGame', () => {
   it('creates a playing game with two players and resolved primaries', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const g = tracker.current.value
     expect(g.phase).toBe('playing')
     expect(g.currentRound).toBe(1)
@@ -36,11 +49,13 @@ describe('newGame', () => {
   })
   it('carries settings (scoreMode, battleSize) into the game', () => {
     tracker.newGame(setupGame({ settings: { scoreMode: 'bp', battleSize: 'incursion' } }))
+    tracker.beginGame()
     expect(tracker.current.value.settings.scoreMode).toBe('bp')
     expect(tracker.current.value.settings.battleSize).toBe('incursion')
   })
   it('firstTurn:1 — You at index 0 (isYou=true), firstTurn normalized to 1', () => {
     tracker.newGame(setupGame({ settings: { firstTurn: 1 } }))
+    tracker.beginGame()
     const g = tracker.current.value
     expect(g.players[0].isYou).toBe(true)
     expect(g.players[0].name).toBe('Me')
@@ -49,6 +64,7 @@ describe('newGame', () => {
   })
   it('firstTurn:2 — Opponent at index 0 (isYou=false), You at index 1 (isYou=true), firstTurn normalized to 1', () => {
     tracker.newGame(setupGame({ settings: { firstTurn: 2 } }))
+    tracker.beginGame()
     const g = tracker.current.value
     expect(g.players[0].isYou).toBe(false)
     expect(g.players[0].name).toBe('Opp')
@@ -61,6 +77,7 @@ describe('newGame', () => {
 describe('updateSetup', () => {
   it('patches names, battleReady and safe settings without touching scoring state', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setRoundPrimary(0, 0, 12)
     tracker.setCp(0, 3)
     const primarySlugBefore = tracker.current.value.players[0].primarySlug
@@ -89,7 +106,8 @@ describe('updateSetup', () => {
   })
 
   it('flipping firstTurn swaps the player objects (rounds/cp travel with them) and renormalizes to 1', () => {
-    tracker.newGame(setupGame()) // firstTurn:1 → players[0]=Me(isYou), players[1]=Opp
+    tracker.newGame(setupGame())
+    tracker.beginGame() // firstTurn:1 → players[0]=Me(isYou), players[1]=Opp
     tracker.setRoundPrimary(0, 0, 12)
     tracker.setCp(0, 3)
 
@@ -109,6 +127,7 @@ describe('updateSetup', () => {
 
   it('resubmitting the same firstTurn is a no-op (no swap)', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.updateSetup({ settings: { firstTurn: 1 } })
     const g = tracker.current.value
     expect(g.players[0].isYou).toBe(true)
@@ -119,6 +138,7 @@ describe('updateSetup', () => {
 describe('twists at game creation', () => {
   it('Mirrored World with no chosen mission resolves a random shared one for both players', () => {
     tracker.newGame(setupGame({ settings: { twist: 'mirrored-world', twistMission: null } }))
+    tracker.beginGame()
     const g = tracker.current.value
     const mirrorSlugs = mod.MIRROR_MISSIONS.map(m => m.slug)
     expect(mirrorSlugs).toContain(g.settings.twistMission)
@@ -128,10 +148,12 @@ describe('twists at game creation', () => {
   it('Scrambled Communications swaps the two primaries', () => {
     const plain = setupGame()
     tracker.newGame(plain)
+    tracker.beginGame()
     const normal0 = tracker.current.value.players[0].primarySlug
     const normal1 = tracker.current.value.players[1].primarySlug
 
     tracker.newGame(setupGame({ settings: { twist: 'scrambled-communications' } }))
+    tracker.beginGame()
     expect(tracker.current.value.players[0].primarySlug).toBe(normal1)
     expect(tracker.current.value.players[1].primarySlug).toBe(normal0)
   })
@@ -140,6 +162,7 @@ describe('twists at game creation', () => {
 describe('scoring mutations', () => {
   it('setRoundPrimary and setCp update the game and totals', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setRoundPrimary(0, 0, 12)
     tracker.setCp(0, 3)
     expect(tracker.current.value.players[0].rounds[0].primary).toBe(12)
@@ -152,6 +175,7 @@ describe('scoring mutations', () => {
 describe('finishGame', () => {
   it('marks the game finished and records reason + result totals', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setRoundPrimary(0, 0, 12)
     tracker.finishGame('opponent-concede')
     const g = tracker.current.value
@@ -163,6 +187,7 @@ describe('finishGame', () => {
   })
   it('finishes with a null reason when none is given', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.finishGame()
     expect(tracker.current.value.endReason).toBe(null)
   })
@@ -171,6 +196,7 @@ describe('finishGame', () => {
 describe('history: archive & resume', () => {
   it('archiveGame moves the current game into history', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.finishGame('played')
     const id = tracker.current.value.id
     tracker.archiveGame()
@@ -179,6 +205,7 @@ describe('history: archive & resume', () => {
   })
   it('resumeFromHistory pulls a finished game back into active play', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setRoundPrimary(0, 0, 9)
     tracker.finishGame('early')
     const id = tracker.current.value.id
@@ -194,11 +221,25 @@ describe('history: archive & resume', () => {
     expect(g.players[0].rounds[0].primary).toBe(9)   // play state preserved
     expect(tracker.history.value.find(x => x.id === id)).toBeUndefined()
   })
+  it('a game started or resumed here is this tracker’s (trackerGen.js)', async () => {
+    const { TRACKER_GEN } = await import('./trackerGen.js')
+    tracker.newGame(setupGame())
+    expect(tracker.current.value.trackerGen).toBe(TRACKER_GEN)
+    tracker.beginGame()
+    tracker.finishGame('early')
+    const id = tracker.current.value.id
+    tracker.archiveGame()
+    const older = tracker.history.value.find(x => x.id === id)
+    delete older.trackerGen // a game from the site's tracker, reached through the cloud
+    tracker.resumeFromHistory(id)
+    expect(tracker.current.value.trackerGen).toBe(TRACKER_GEN)
+  })
 })
 
 describe('redrawSecondary (WHEN DRAWN actions)', () => {
   it("'shuffle' returns the card to the deck and draws a replacement", () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, 'behind-enemy-lines')
     expect(s.hand).toEqual(['behind-enemy-lines'])
@@ -211,6 +252,7 @@ describe('redrawSecondary (WHEN DRAWN actions)', () => {
 
   it("'discard' removes the card from play and draws a replacement", () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, 'a-grievous-blow')
 
@@ -223,6 +265,7 @@ describe('redrawSecondary (WHEN DRAWN actions)', () => {
 
   it('clears any VP the redrawn card had scored', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, 'behind-enemy-lines')
     tracker.scoreSecondaryRow(0, 'behind-enemy-lines', 0, 0, 1)
@@ -234,16 +277,33 @@ describe('redrawSecondary (WHEN DRAWN actions)', () => {
 
   it('is a no-op when the card is not in hand', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const s = tracker.current.value.players[0].secondary
     const before = [...s.hand]
     tracker.redrawSecondary(0, 'behind-enemy-lines', 'shuffle')
     expect(s.hand).toEqual(before)
+  })
+
+  // The card leaves no trace elsewhere, so the action is noted for the game log.
+  it('notes the action, and an undone take drops a shuffle but keeps a discard', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    const s = tracker.current.value.players[0].secondary
+    tracker.takeRandomSecondaries(0)
+    const [a, b] = s.hand
+    tracker.redrawSecondary(0, a, 'shuffle')
+    tracker.redrawSecondary(0, b, 'discard')
+    expect(s.whenDrawn).toMatchObject([{ slug: a, round: 1, mode: 'shuffle' }, { slug: b, round: 1, mode: 'discard' }])
+    tracker.untakeSecondaries(0)
+    expect(s.whenDrawn).toMatchObject([{ slug: b, round: 1, mode: 'discard' }]) // b is still out of the game
+    expect(s.whenDrawn).toHaveLength(1)
   })
 })
 
 describe('set aside & restore secondaries', () => {
   it('discardFromHand sets the card aside, keeping any scored VP', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, 'behind-enemy-lines')
     tracker.scoreSecondaryRow(0, 'behind-enemy-lines', 0, 0, 1)
@@ -258,6 +318,7 @@ describe('set aside & restore secondaries', () => {
 
   it('restoreSecondaryToHand returns a set-aside card to the hand, preserving VP', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const s = tracker.current.value.players[0].secondary
     tracker.drawSpecificSecondary(0, 'behind-enemy-lines')
     tracker.scoreSecondaryRow(0, 'behind-enemy-lines', 0, 0, 1)
@@ -390,6 +451,7 @@ describe('applyArmyBonus / undoArmyBonus (GSC round-1 start bonus)', () => {
 describe('setArmyCondition / setUnitCondition', () => {
   beforeEach(() => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
   })
 
   it('records the round an army switch was flipped in, and clears it again', () => {
@@ -427,12 +489,14 @@ describe('setArmyCondition / setUnitCondition', () => {
 describe('the phase clock', () => {
   it('a new game starts at the first-turn player\'s Command phase', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     expect(tracker.current.value.currentTurn).toBe(0)
     expect(tracker.current.value.currentPhase).toBe('command')
   })
 
   it('steps through five phases, then hands the turn over', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     for (let i = 0; i < 4; i++) tracker.stepPhase(1)
     expect(tracker.current.value.currentPhase).toBe('fight')
     expect(tracker.current.value.currentTurn).toBe(0)
@@ -443,6 +507,7 @@ describe('the phase clock', () => {
 
   it('rolls into the next battle round after the second player\'s Fight phase', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     for (let i = 0; i < 10; i++) tracker.stepPhase(1)
     const g = tracker.current.value
     expect(g.currentRound).toBe(2)
@@ -452,6 +517,7 @@ describe('the phase clock', () => {
 
   it('steps back across the round boundary onto the second player\'s Fight phase', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.goToRound(3)
     tracker.stepPhase(-1)
     const g = tracker.current.value
@@ -460,8 +526,45 @@ describe('the phase clock', () => {
     expect(g.currentPhase).toBe('fight')
   })
 
+  it('"End turn" hands the game over, then opens the next round', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.goToPhase(0, 'shooting')
+    tracker.endTurn()
+    let g = tracker.current.value
+    expect([g.currentRound, g.currentTurn, g.currentPhase]).toEqual([1, 1, 'command'])
+    tracker.endTurn()
+    g = tracker.current.value
+    expect([g.currentRound, g.currentTurn, g.currentPhase]).toEqual([2, 0, 'command'])
+  })
+
+  it('"Undo turn" goes back into the turn that ended, at its last phase', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.goToRound(2)
+    tracker.undoTurn()
+    let g = tracker.current.value
+    expect([g.currentRound, g.currentTurn, g.currentPhase]).toEqual([1, 1, 'fight'])
+    tracker.undoTurn()
+    g = tracker.current.value
+    expect([g.currentRound, g.currentTurn, g.currentPhase]).toEqual([1, 0, 'fight'])
+    expect(tracker.canUndoTurn()).toBe(false)
+  })
+
+  it('the last turn of the game cannot be ended — only the game can', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.goToRound(mod.ROUND_COUNT)
+    tracker.endTurn()
+    expect(tracker.canEndTurn()).toBe(false)
+    tracker.endTurn()
+    const g = tracker.current.value
+    expect([g.currentRound, g.currentTurn]).toEqual([mod.ROUND_COUNT, 1])
+  })
+
   it('never steps off either end of the battle', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     expect(tracker.canStepPhase(-1)).toBe(false)
     tracker.stepPhase(-1)
     expect(tracker.current.value.currentRound).toBe(1)
@@ -475,6 +578,7 @@ describe('the phase clock', () => {
 
   it('changing the round resets the clock — a leftover phase would read as "now"', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.goToPhase(1, 'charge')
     tracker.goToRound(4)
     expect(tracker.current.value.currentTurn).toBe(0)
@@ -483,6 +587,7 @@ describe('the phase clock', () => {
 
   it('goToPhase ignores a phase that is not one', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.goToPhase(1, 'psychic')
     expect(tracker.current.value.currentPhase).toBe('command')
     expect(tracker.current.value.currentTurn).toBe(0)
@@ -490,6 +595,7 @@ describe('the phase clock', () => {
 
   it('a game saved before the clock existed reads as the opening phase and steps from there', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     delete tracker.current.value.currentTurn
     delete tracker.current.value.currentPhase
     tracker.stepPhase(1)
@@ -502,6 +608,7 @@ describe('the phase clock', () => {
 describe('condition switches', () => {
   it('records when a switch was flipped, and clears it on the way back off', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setUnitCondition(0, 'u1', 'unit-charged', 205, true)
     expect(tracker.current.value.players[0].ctx.units.u1['unit-charged']).toBe(205)
     tracker.setUnitCondition(0, 'u1', 'unit-charged', 205, false)
@@ -512,6 +619,7 @@ describe('condition switches', () => {
   // unit replaces the current one)" — the rule replaces, so the store does too.
   it('an alternative replaces its sibling instead of stacking with it', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setUnitCondition(0, 'u1', 'order-take-aim', 101, true)
     tracker.setUnitCondition(0, 'u1', 'order-fix-bayonets', 102, true)
     expect(tracker.current.value.players[0].ctx.units.u1).toEqual({ 'order-fix-bayonets': 102 })
@@ -532,6 +640,7 @@ describe('condition switches', () => {
   // in the group; a third one pushes out the one that has been on longest.
   it('lets a capped group hold its whole allowance, then evicts the oldest', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setArmyCondition(0, 'augment-cholinergic-accelerants', 101, true)
     tracker.setArmyCondition(0, 'augment-hyperadrenal-infusion', 102, true)
     expect(Object.keys(tracker.current.value.players[0].ctx.army).sort())
@@ -545,6 +654,7 @@ describe('condition switches', () => {
   // order they were written in — and that order is still "which one has been on longest".
   it('breaks a tie on insertion order when a whole group shares one stamp', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setArmyCondition(0, 'augment-paraneural-reactions', 101, true)
     tracker.setArmyCondition(0, 'augment-supracutaneous-chitination', 101, true)
     tracker.setArmyCondition(0, 'augment-ophthalmic-enhancement', 101, true)
@@ -554,6 +664,7 @@ describe('condition switches', () => {
 
   it('leaves ungrouped switches alone — some rules really do allow several', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setArmyCondition(0, 'blessing-martial-excellence', 101, true)
     tracker.setArmyCondition(0, 'blessing-warp-blades', 101, true)
     expect(Object.keys(tracker.current.value.players[0].ctx.army).sort())
@@ -564,6 +675,7 @@ describe('condition switches', () => {
   // the record it came from rather than by a condition id.
   it('records a stratagem spent on a unit, and forgets it when taken back', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setUnitStratagem(0, 'u1', 'strat-a', 205, true)
     tracker.setUnitStratagem(0, 'u1', 'strat-b', 205, true)
     expect(tracker.current.value.players[0].ctx.strats.u1).toEqual({ 'strat-a': 205, 'strat-b': 205 })
@@ -577,6 +689,7 @@ describe('condition switches', () => {
   // caps it: picking a third relic drops the one that has been up longest.
   it('records an ability-set pick, and evicts the oldest when the set is full', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const set = { siblings: ['a', 'b', 'c'], limit: 2 }
     tracker.setUnitPick(0, 'u1', 'a', 201, true, set)
     tracker.setUnitPick(0, 'u1', 'b', 202, true, set)
@@ -592,6 +705,7 @@ describe('condition switches', () => {
   // record it radiates from, in its own map, exactly like a spent stratagem.
   it('records an aura marked on a unit, and forgets it when unmarked', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setUnitAura(0, 'u1', 'fiery-heart', 205, true)
     expect(tracker.current.value.players[0].ctx.auras.u1).toEqual({ 'fiery-heart': 205 })
     tracker.setUnitAura(0, 'u1', 'fiery-heart', 205, false)
@@ -600,6 +714,7 @@ describe('condition switches', () => {
 
   it('keeps the two players\' contexts apart', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setArmyCondition(0, 'tactic-furor', 101, true)
     expect(tracker.current.value.players[1].ctx).toBeUndefined()
   })
@@ -641,6 +756,7 @@ describe('doubles', () => {
 
   it('membersOf/memberAt: a singles side is its own only member', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     const side = tracker.current.value.players[0]
     expect(mod.membersOf(side)).toEqual([side])
     expect(mod.memberAt(side, null)).toBe(side)
@@ -649,6 +765,7 @@ describe('doubles', () => {
 
   it('newGame builds team sides: name = teamName, members populated, side army fields empty', () => {
     tracker.newGame(setupDoubles())
+    tracker.beginGame()
     const g = tracker.current.value
     expect(g.settings.gameType).toBe('doubles')
     const side = g.players[0]
@@ -659,24 +776,27 @@ describe('doubles', () => {
     expect(side.members).toHaveLength(2)
     expect(side.members[0]).toMatchObject({ name: 'Ann', factionSlug: 'orks' })
     expect(mod.membersOf(side)).toBe(side.members)
-    // Scoring state stays side-level.
-    expect(side.cp).toBe(0)
+    // Scoring state stays side-level (round 1's Core CP already in).
+    expect(side.cp).toBe(1)
     expect(side.rounds).toHaveLength(mod.ROUND_COUNT)
     expect(side.primarySlug).toBeTruthy()
   })
 
   it('forceType: derived from the members, overridable via the setup payload', () => {
     tracker.newGame(setupDoubles())
+    tracker.beginGame()
     expect(tracker.current.value.players[0].forceType).toBe('convenience') // orks + aeldari
     expect(tracker.current.value.players[1].forceType).toBe('unified')     // drukhari ×2
     const s = setupDoubles()
     s.players[1].forceType = 'convenience'
     tracker.newGame(s)
+    tracker.beginGame()
     expect(tracker.current.value.players[1].forceType).toBe('convenience')
   })
 
   it('army mutators without mi hit the side (unified shared pool), with mi hit that member', () => {
     tracker.newGame(setupDoubles())
+    tracker.beginGame()
     tracker.setArmyCounter(0, 3)          // side-level: the unified force's shared pool
     tracker.setArmyCounter(0, 5, 1)       // member 1's own pool
     const side = tracker.current.value.players[0]
@@ -687,6 +807,7 @@ describe('doubles', () => {
 
   it('ctx mutators with mi keep member contexts apart', () => {
     tracker.newGame(setupDoubles())
+    tracker.beginGame()
     tracker.setUnitCondition(0, 'u1', 'charged', 101, true, 0)
     const side = tracker.current.value.players[0]
     expect(side.members[0].ctx.units.u1).toEqual({ charged: 101 })
@@ -696,6 +817,7 @@ describe('doubles', () => {
 
   it('updateSetup patches teamName (mirrored into name) and member fields', () => {
     tracker.newGame(setupDoubles())
+    tracker.beginGame()
     tracker.updateSetup({ players: [
       { teamName: 'Alpha Strike', members: [{ name: 'Anna' }, {}] },
       {},
@@ -709,6 +831,7 @@ describe('doubles', () => {
 
   it('a doubles game survives the isValidGame load guard', () => {
     tracker.newGame(setupDoubles())
+    tracker.beginGame()
     expect(mod.isValidGame(JSON.parse(JSON.stringify(tracker.current.value)))).toBe(true)
   })
 })
@@ -722,6 +845,7 @@ describe('applyRemote (multi-device sync)', () => {
 
   it('lands the other side\'s slice on a valid tree and leaves this side\'s edits alone', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setRoundPrimary(0, 0, 12)
     tracker.setCp(0, 3)
     tracker.setUnitCondition(0, 'u1', 'charged', 120, true)
@@ -758,6 +882,7 @@ describe('applyRemote (multi-device sync)', () => {
 
   it('a shared slice moves the clock and the finish state, players untouched', () => {
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.setCp(0, 2)
     const remote = JSON.parse(JSON.stringify(tracker.current.value))
     remote.currentRound = 3
@@ -776,6 +901,7 @@ describe('applyRemote (multi-device sync)', () => {
   it('persists like a local tap — the debounced save picks it up', () => {
     vi.useFakeTimers()
     tracker.newGame(setupGame())
+    tracker.beginGame()
     vi.runAllTimers()
     const remote = JSON.parse(JSON.stringify(tracker.current.value))
     remote.players[1].cp = 9
@@ -845,9 +971,365 @@ describe('lobby', () => {
     expect(tracker.history.value).toHaveLength(0) // a game that never happened is not a record
 
     tracker.newGame(setupGame())
+    tracker.beginGame()
     tracker.putAwayCurrent()
     expect(tracker.current.value).toBe(null)
     expect(tracker.history.value).toHaveLength(1)
     expect(tracker.history.value[0].phase).toBe('finished')
+  })
+})
+
+describe('taking the turn\'s two secondaries', () => {
+  const sec = (pi) => tracker.current.value.players[pi].secondary
+
+  it('draws two at random once per own turn, marks them 🎲, and refuses the other side', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    expect(tracker.canTakeSecondaries(1)).toBe(false) // not their turn
+    tracker.takeRandomSecondaries(0)
+    expect(sec(0).hand).toHaveLength(2)
+    expect(sec(0).hand.map(slug => sec(0).source[slug])).toEqual(['random', 'random'])
+    expect(tracker.tookSecondaries(0)).toBe('random')
+    tracker.takeRandomSecondaries(0) // a second time in the same turn does nothing
+    expect(sec(0).hand).toHaveLength(2)
+  })
+
+  it('takes exactly two chosen ones, marks them ✋, and can put them back while unscored', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    const [a, b] = sec(0).deck
+    tracker.takeChosenSecondaries(0, [a]) // one is not two
+    expect(sec(0).hand).toHaveLength(0)
+    tracker.takeChosenSecondaries(0, [a, b])
+    expect(sec(0).hand).toEqual([a, b])
+    expect(sec(0).source[a]).toBe('chosen')
+    expect(tracker.canUntakeSecondaries(0)).toBe(true)
+    tracker.scoreSecondaryRow(0, a, 0, 0, 1)
+    expect(tracker.canUntakeSecondaries(0)).toBe(false)
+    tracker.scoreSecondaryRow(0, a, 0, 0, 0)
+    tracker.untakeSecondaries(0)
+    expect(sec(0).hand).toEqual([])
+    expect(sec(0).deck).toContain(a)
+    expect(tracker.canTakeSecondaries(0)).toBe(true)
+  })
+
+  it('reads an older game with two cards drawn this round as already taken', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.drawSecondary(0)
+    tracker.drawSecondary(0)
+    delete sec(0).took
+    expect(tracker.tookSecondaries(0)).toBe('legacy')
+    expect(tracker.canTakeSecondaries(0)).toBe(false)
+  })
+})
+
+describe('achieved secondaries leave the hand at the end of each turn', () => {
+  const sec = (pi) => tracker.current.value.players[pi].secondary
+  // A row whose VP is a plain number, so a tick scores it.
+  function scorableRow(pi, slug) {
+    const blocks = mod.scorableBlocks(slug, tracker.current.value.players[pi].role, tracker.current.value.currentRound)
+    const b = blocks.find(x => x.kind === 'tactical' && x.rows.some(r => mod.numericVp(r.vp) > 0))
+    return [b.bi, b.rows.findIndex(r => mod.numericVp(r.vp) > 0)]
+  }
+
+  it('sets an achieved card aside when its turn ends, and Undo turn puts it back', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    const [a, b] = takeScorablePair(0)
+    const [bi, ri] = scorableRow(0, a)
+    tracker.scoreSecondaryRow(0, a, bi, ri, 1)
+    tracker.endTurn()
+    expect(sec(0).hand).toEqual([b])
+    expect(sec(0).discarded).toEqual([{ slug: a, round: 1, auto: 0, t: expect.any(Number) }])
+    tracker.undoTurn()
+    expect(sec(0).hand).toEqual([b, a])
+    expect(sec(0).discarded).toEqual([])
+  })
+
+  it('a card set aside by hand stays set aside through Undo turn', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.takeRandomSecondaries(0)
+    const [a] = sec(0).hand
+    tracker.discardFromHand(0, a)
+    tracker.endTurn()
+    tracker.undoTurn()
+    expect(sec(0).hand).not.toContain(a)
+  })
+
+  it('a past round corrected into an achievement takes the card out of the hand', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    const [a] = takeScorablePair(0)
+    tracker.endTurn()
+    tracker.endTurn() // round 2
+    const [bi, ri] = scorableRow(0, a)
+    tracker.scoreSecondaryRow(0, a, bi, ri, 1, 1)
+    expect(sec(0).hand).not.toContain(a)
+    expect(tracker.secondaryCardVp(0, a, 1)).toBeGreaterThan(0)
+    expect(sec(0).discarded.find(d => d.slug === a).round).toBe(1)
+  })
+})
+
+describe('the CP ledger', () => {
+  const pl = (pi) => tracker.current.value.players[pi]
+  const kinds = (pi) => pl(pi).cpLog.map(e => `${e.kind}${e.amount > 0 ? '+' : ''}${e.amount}@${e.round}.${e.turn}`)
+
+  // Start on the setup opens the game screen; the first turn starts with its own button there.
+  it('gives nothing of turn 1 before the game has begun', () => {
+    tracker.newGame(setupGame())
+    expect(mod.gameBegun(tracker.current.value)).toBe(false)
+    expect([pl(0).cp, pl(1).cp]).toEqual([0, 0])
+    expect(tracker.canTakeSecondaries(0)).toBe(false)
+    tracker.beginGame()
+    expect(mod.gameBegun(tracker.current.value)).toBe(true)
+    expect([pl(0).cp, pl(1).cp]).toEqual([1, 1])
+    expect(tracker.canTakeSecondaries(0)).toBe(true)
+    // a game saved before the flag existed has begun
+    expect(mod.gameBegun({ phase: 'playing' })).toBe(true)
+  })
+
+  it('gives both players 1 Core CP at every Command phase, and takes it back with Undo turn', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    expect([pl(0).cp, pl(1).cp]).toEqual([1, 1])
+    tracker.endTurn()
+    expect([pl(0).cp, pl(1).cp]).toEqual([2, 2])
+    tracker.endTurn()
+    expect(kinds(0)).toEqual(['core+1@1.0', 'core+1@1.1', 'core+1@2.0'])
+    tracker.undoTurn()
+    tracker.undoTurn()
+    expect([pl(0).cp, pl(1).cp]).toEqual([1, 1])
+    // settling twice changes nothing
+    tracker.endTurn()
+    tracker.undoTurn()
+    tracker.endTurn()
+    expect(pl(0).cpLog.filter(e => e.kind === 'core')).toHaveLength(2)
+  })
+
+  it('lets a player gain one bonus CP a round, undo it by hand, and have it again next round', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    expect(tracker.gainBonusCp(0)).toBe(true)
+    expect(tracker.gainBonusCp(0)).toBe(false) // the Event Companion's cap
+    expect(pl(0).cp).toBe(2)
+    expect(tracker.canUndoBonus(0)).toBe(true)
+    tracker.undoBonusCp(0)
+    expect(pl(0).cp).toBe(1)
+    tracker.gainBonusCp(0)
+    tracker.endTurn()
+    tracker.endTurn()
+    expect(tracker.canGainBonus(0)).toBe(true)
+  })
+
+  it('keeps a stepper correction as an adjust entry', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.setCp(1, 4)
+    expect(pl(1).cp).toBe(4)
+    expect(pl(1).cpLog.at(-1)).toMatchObject({ kind: 'adjust', amount: 3 })
+  })
+
+  it('an older game without the ledger keeps its number and gets no Core CP by itself', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    const g = tracker.current.value
+    delete g.cpAuto
+    for (const p of g.players) { delete p.cpLog; delete p.cpBase; p.cp = 5 }
+    tracker.endTurn()
+    expect(pl(0).cp).toBe(5)
+    tracker.setCp(0, 3)
+    expect(pl(0).cp).toBe(3)
+    expect(pl(0).cpBase).toBe(5)
+  })
+
+  it('the end-of-turn discard gains the round\'s bonus CP and ends the turn; Undo turn returns both', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.takeRandomSecondaries(0)
+    const [a] = pl(0).secondary.hand
+    tracker.endTurnDiscard(0, a)
+    expect(tracker.current.value.currentTurn).toBe(1)
+    expect(pl(0).secondary.hand).not.toContain(a)
+    expect(pl(0).cp).toBe(3) // Core ×2 + the discard's bonus
+    tracker.undoTurn()
+    expect(pl(0).secondary.hand).toContain(a)
+    expect(pl(0).cp).toBe(1)
+  })
+
+  it('an end-of-turn discard with the bonus already used gains nothing', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.takeRandomSecondaries(0)
+    tracker.gainBonusCp(0)
+    tracker.endTurnDiscard(0, pl(0).secondary.hand[0])
+    expect(pl(0).cpLog.filter(e => e.kind === 'bonus')).toHaveLength(1)
+  })
+
+  it('replaces a card for 1CP once per battle, on the side\'s own turn', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.takeRandomSecondaries(0)
+    const [a] = pl(0).secondary.hand
+    expect(tracker.canCpRedraw(1)).toBe(false)
+    const pick = pl(0).secondary.deck[3]
+    tracker.cpRedraw(0, a, pick)
+    expect(pl(0).secondary.hand).toContain(pick)
+    expect(pl(0).secondary.source[pick]).toBe('chosen')
+    expect(pl(0).secondary.discarded.map(d => d.slug)).toContain(a)
+    expect(pl(0).cp).toBe(0)
+    expect(pl(0).cpLog.at(-1)).toMatchObject({ kind: 'spend', amount: -1, source: 'redraw', ref: a })
+    tracker.gainBonusCp(0)
+    expect(tracker.canCpRedraw(0)).toBe(false) // once per battle
+  })
+})
+
+describe('spending CP on stratagems', () => {
+  const pl = (pi) => tracker.current.value.players[pi]
+  const strat = (over = {}) => ({ _key: 'core:15.02', name: 'Command Re-roll', _limits: {}, ...over })
+
+  it('lets either side spend at any moment, and takes the latest use back', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.gainBonusCp(1)
+    expect(tracker.useStratagem(1, strat(), 1)).toBeTruthy() // the opponent, in my turn
+    expect(pl(1).cp).toBe(1)
+    expect(tracker.useStratagem(1, strat(), 1)).toBeTruthy() // without phases, twice is fine
+    expect(tracker.stratBlock(1, strat(), 1)).toBe('cp')
+    tracker.undoStratagem(1, 'core:15.02')
+    expect(pl(1).cp).toBe(1)
+    expect(tracker.stratUses(1, 'core:15.02')).toHaveLength(1)
+  })
+
+  it('keeps a stratagem\'s own limits and, with the phase clock on, once per phase', () => {
+    tracker.newGame(setupGame({ settings: { trackPhases: true } }))
+    tracker.beginGame()
+    tracker.setCp(0, 9)
+    expect(tracker.stratBlock(0, strat({ _limits: { minRound: 2 } }), 1)).toBe('minRound')
+    tracker.useStratagem(0, strat({ _key: 'b', _limits: { perBattle: true } }), 1)
+    expect(tracker.stratBlock(0, strat({ _key: 'b', _limits: { perBattle: true } }), 1)).toBe('perBattle')
+    tracker.useStratagem(0, strat(), 1)
+    expect(tracker.stratBlock(0, strat(), 1)).toBe('perPhase')
+    tracker.stepPhase(1)
+    expect(tracker.stratBlock(0, strat(), 1)).toBe(null)
+    expect(pl(0).cpLog.at(-1)).toMatchObject({ kind: 'spend', source: 'strat', phase: 'command' })
+  })
+
+  it('refuses a finished game', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.finishGame('played')
+    expect(tracker.stratBlock(0, strat(), 0)).toBe('finished')
+  })
+})
+
+describe('finishing with a concede', () => {
+  it('records the conceding SIDE, whoever went first', () => {
+    tracker.newGame(setupGame({ settings: { firstTurn: 2 } }))
+    tracker.beginGame() // the opponent goes first: you are players[1]
+    tracker.finishGame('friendly-concede')
+    const g = tracker.current.value
+    expect(g.concededBy).toBe(1)
+    expect(tracker.leader()).toBe(0)
+    tracker.resumeGame()
+    tracker.finishGame('played')
+    expect(g.concededBy).toBeUndefined()
+  })
+})
+
+describe('the clock settles when another phone moves it', () => {
+  it('a turn ended on the other phone gives this phone its Core CP and sets aside its achieved cards', async () => {
+    const { sliceGame } = await import('./gameSlices.js')
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    const pl0 = () => tracker.current.value.players[0]
+    const [a] = takeScorablePair(0)
+    const blocks = mod.scorableBlocks(a, pl0().role, 1)
+    const b = blocks.find((x) => x.kind === 'tactical' && x.rows.some((r) => mod.numericVp(r.vp) > 0))
+    tracker.scoreSecondaryRow(0, a, b.bi, b.rows.findIndex((r) => mod.numericVp(r.vp) > 0), 1)
+    // The other phone ends the turn: only the shared slice (the clock) arrives here.
+    const remote = sliceGame({ ...JSON.parse(JSON.stringify(tracker.current.value)), currentTurn: 1 }).shared
+    tracker.applyRemote('shared', remote)
+    expect(tracker.current.value.currentTurn).toBe(1)
+    expect(pl0().cp).toBe(2)
+    expect(pl0().secondary.hand).not.toContain(a)
+  })
+})
+
+// Owner, 2026-09-30: a stratagem played on a unit is ONE act — the CP spent, the unit named on the
+// ledger entry, and its card's effect switched on — and taking it back from either side takes both.
+describe('playStratagem', () => {
+  const strat = { _key: 'det|Hold Fast', name: 'Hold Fast', _cost: 1, _limits: {}, _phases: ['any'], _sides: [] }
+  const target = { uid: 'u1', name: 'Chosen', sid: 'rec-1' }
+
+  it('spends the CP, names the unit and switches its card record on', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    const pl = tracker.current.value.players[0]
+    const cp = pl.cp
+    const e = tracker.playStratagem(0, strat, 1, target)
+    expect(pl.cp).toBe(cp - 1)
+    expect(e.target).toEqual({ uid: 'u1', name: 'Chosen', sid: 'rec-1' })
+    expect(pl.ctx.strats.u1['rec-1']).toBeGreaterThanOrEqual(100)
+  })
+
+  it('takes both back from the CP tab, and from the card', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    const pl = tracker.current.value.players[0]
+    const cp = pl.cp
+    tracker.playStratagem(0, strat, 1, target)
+    tracker.undoStratagem(0, strat._key)
+    expect(pl.cp).toBe(cp)
+    expect(pl.ctx?.strats?.u1).toBeUndefined()
+
+    tracker.playStratagem(0, strat, 0, target) // a cost a rule reduced
+    expect(pl.cp).toBe(cp)
+    tracker.unplayOnUnit(0, 'u1', 'rec-1')
+    expect(pl.ctx?.strats?.u1).toBeUndefined()
+    expect((pl.cpLog || []).filter((x) => x.kind === 'spend')).toHaveLength(0)
+  })
+
+  it('names an enemy target without touching any card', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    const e = tracker.playStratagem(0, strat, 1, { uid: 'x9', name: 'Boyz', opp: true })
+    expect(e.target).toEqual({ uid: 'x9', name: 'Boyz', opp: true })
+    expect(tracker.current.value.players[0].ctx?.strats).toBeFalsy()
+  })
+})
+
+describe('unit status', () => {
+  it('carries the setup reserves into the game and stamps a change with the clock', () => {
+    const setup = setupGame()
+    setup.players[0].unitStatus = { u1: { s: 'reserve', name: 'Terminators' } }
+    tracker.newGame(setup)
+    const g = tracker.current.value
+    expect(g.players[0].unitStatus.u1).toMatchObject({ s: 'reserve', round: 0 })
+    expect(g.players[1].unitStatus).toEqual({})
+    // Before the first turn begins, a change is still "before the battle".
+    tracker.setUnitStatus(0, 'u2', 'reserve', 'Scouts')
+    expect(g.players[0].unitStatus.u2.round).toBe(0)
+    tracker.beginGame()
+    tracker.goToRound(2)
+    tracker.setUnitStatus(0, 'u1', 'table', 'Terminators')
+    expect(g.players[0].unitStatus.u1).toMatchObject({ s: 'table', round: 2, turn: 0, name: 'Terminators' })
+    tracker.setUnitStatus(1, 'x', 'destroyed', 'Boyz')
+    expect(g.players[1].unitStatus.x).toMatchObject({ s: 'destroyed', round: 2 })
+    tracker.setUnitStatus(1, 'x', 'table', 'Boyz')
+    expect(g.players[1].unitStatus.x).toBeUndefined()
+  })
+
+  // Doubles: each member's list keeps its own statuses, the way it keeps its own switches.
+  it('writes a doubles member, not the side', () => {
+    const setup = setupGame({ settings: { gameType: 'doubles' } })
+    setup.players = setup.players.map((p) => ({ ...p, teamName: p.name, members: [{ name: 'A', unitStatus: { m: { s: 'reserve' } } }, { name: 'B' }] }))
+    tracker.newGame(setup)
+    const side = tracker.current.value.players[0]
+    expect(side.members[0].unitStatus.m.s).toBe('reserve')
+    tracker.setUnitStatus(0, 'n', 'destroyed', 'N', 1)
+    expect(side.members[1].unitStatus.n.s).toBe('destroyed')
+    expect(side.unitStatus).toEqual({})
   })
 })

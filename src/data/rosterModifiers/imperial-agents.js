@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "b82bc4eb-e01d-4fe8-90ae-b1ceefa6670f:aquila-kill-team",
+      "kind": "ability",
+      "name": "Aquila Kill Team: Death to the Alien",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aquila-kill-team"
+      },
+      "hash": "290c3fa6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b7bf8d62-0f75-4e4b-bc0f-662c1a16ef68:aquila-kill-team",
       "kind": "ability",
       "name": "Aquila Kill Team: Kill Team",
@@ -130,6 +144,20 @@ export default {
       ]
     },
     {
+      "sid": "ebff3e61-ed19-4d44-9de6-384714553def:deathwatch-kill-team",
+      "kind": "ability",
+      "name": "Deathwatch Kill Team: Death to the Alien",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwatch-kill-team"
+      },
+      "hash": "290c3fa6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "3abf4a41-24a8-4b00-99ff-070da866be07:eversor-assassin",
       "kind": "ability",
       "name": "Eversor Assassin: Overkill",
@@ -151,9 +179,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         },
         {
           "on": "melee",
@@ -164,9 +193,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
         }
       ]
     },
@@ -300,12 +330,13 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": {
-            "en": "while this ability is used",
-            "ru": "пока способность использована"
+            "en": "once per battle, the phase it is used",
+            "ru": "раз за битву, фаза, в которую применено"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -332,7 +363,20 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "unit-below-half-strength"
           ]
         },
         {
@@ -345,7 +389,7 @@ export default {
             "ru": "пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ]
         }
       ],
@@ -573,7 +617,7 @@ export default {
             "ru": "до конца битвы, если это оружие попало"
           },
           "cond": [
-            "never"
+            "tox-cycler-hit"
           ]
         },
         {
@@ -589,7 +633,7 @@ export default {
             "ru": "до конца битвы, если это оружие попало (Урон не выше 6)"
           },
           "cond": [
-            "never"
+            "tox-cycler-hit"
           ]
         }
       ]
@@ -612,6 +656,68 @@ export default {
           "when": {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
+          },
+          "once": {
+            "per": "unit",
+            "dur": "turn"
+          }
+        }
+      ]
+    },
+    {
+      "sid": "b7876872-429d-42de-a361-23d1e6dca045:inquisitor-s-hand-inquisitorial-agents",
+      "kind": "ability",
+      "name": "Inquisitor's Hand Inquisitorial Agents: Loyal To The Cause",
+      "det": null,
+      "ref": null,
+      "hash": "2cb36b7e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "95a72e50-3b4b-4d55-b16b-d2a29e92d773:inquisitor-s-hand-vigilant-squad",
+      "kind": "ability",
+      "name": "Inquisitor's Hand Vigilant Squad: Merciless Judgement",
+      "det": null,
+      "ref": null,
+      "hash": "ca60952f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit below half-strength",
+            "ru": "против отряда ниже половины численности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "776b5a9d-b02d-4ea2-96f3-430531adbd1e:inquisitor-s-hand-vigilant-squad",
+      "kind": "ability",
+      "name": "Inquisitor's Hand Vigilant Squad: Merciless Judgement",
+      "det": null,
+      "ref": null,
+      "hash": "ca60952f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit below half-strength",
+            "ru": "против отряда ниже половины численности"
           },
           "cond": [
             "never"
@@ -642,7 +748,8 @@ export default {
             "ru": "пока этот отряд — выбранный для этой способности в шаге Declare Battle Formations и ведёт отряд"
           },
           "cond": [
-            "never"
+            "backroom-deals",
+            "unit-leading"
           ],
           "target": "unit"
         }
@@ -723,7 +830,7 @@ export default {
             "ru": "пока в отряде есть Chaplain Cassius"
           },
           "cond": [
-            "never"
+            "contains-chaplain-cassius"
           ]
         }
       ]
@@ -787,9 +894,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -800,9 +908,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -829,7 +938,8 @@ export default {
             "ru": "пока этот отряд — выбранный для этой способности в шаге Declare Battle Formations и ведёт отряд"
           },
           "cond": [
-            "never"
+            "backroom-deals",
+            "unit-leading"
           ],
           "target": "unit"
         }
@@ -875,9 +985,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -888,9 +999,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -959,7 +1071,8 @@ export default {
             "ru": "пока этот отряд — выбранный для этой способности в шаге Declare Battle Formations и ведёт отряд"
           },
           "cond": [
-            "never"
+            "backroom-deals",
+            "unit-leading"
           ],
           "target": "unit"
         }
@@ -1101,7 +1214,11 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1196,6 +1313,7 @@ export default {
             "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
           },
           "cond": [
+            "costs-acquire",
             "never"
           ]
         },
@@ -1209,6 +1327,7 @@ export default {
             "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
           },
           "cond": [
+            "costs-acquire",
             "never"
           ]
         },
@@ -1222,6 +1341,7 @@ export default {
             "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
           },
           "cond": [
+            "costs-acquire",
             "never"
           ]
         },
@@ -1235,8 +1355,29 @@ export default {
             "ru": "при Eliminate At All Costs, по выбранному вражескому отряду"
           },
           "cond": [
+            "costs-eliminate",
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "costs-eliminate"
+          ],
+          "when": {
+            "en": "the option selected this Command phase",
+            "ru": "вариант, выбранный в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "costs-acquire"
+          ],
+          "when": {
+            "en": "the option selected this Command phase",
+            "ru": "вариант, выбранный в эту фазу командования"
+          }
         }
       ],
       "ref": {
@@ -1368,6 +1509,36 @@ export default {
           "cond": [
             "tactic-malleus"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tactic-furor"
+          ],
+          "when": {
+            "en": "the Mission Tactic selected this Command phase",
+            "ru": "Mission Tactic, выбранная в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tactic-malleus"
+          ],
+          "when": {
+            "en": "the Mission Tactic selected this Command phase",
+            "ru": "Mission Tactic, выбранная в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tactic-purgatus"
+          ],
+          "when": {
+            "en": "the Mission Tactic selected this Command phase",
+            "ru": "Mission Tactic, выбранная в эту фазу командования"
+          }
         }
       ]
     },
@@ -1412,6 +1583,31 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "f4e50e8e-c2b2-4202-8dbc-f97bede9e1ec",
+      "kind": "enhancement",
+      "name": "Sanctic Slayers",
+      "det": "Inquisitor’s Hand",
+      "ref": null,
+      "hash": "8394dc76",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per turn, against a unit whose T is at least the attack’s S",
+            "ru": "раз за ход, против отряда, у которого T не меньше S атаки"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "c03746fa-d420-4d0a-b792-5fe5b1e1be66",

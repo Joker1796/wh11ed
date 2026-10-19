@@ -18,7 +18,16 @@ export async function sharedIdsFor(slug) {
   return mod.sharedUnitIds?.length ? mod.sharedUnitIds : null
 }
 
-export async function loadDatasheets(slug) {
+// `cp` — a Combat Patrol box fielded as a list (a roster's `cp`): its sheets come along, from
+// combatPatrol.js (combatPatrolSheets.js). Only the roster screens ask; a faction page never does.
+export async function loadDatasheets(slug, { cp = null } = {}) {
+  const sheets = await loadFactionSheets(slug)
+  if (!cp || !sheets) return sheets
+  const { boxSheets } = await import('../combatPatrolSheets.js')
+  return [...sheets, ...(await boxSheets(cp))]
+}
+
+async function loadFactionSheets(slug) {
   const loader = modules[`./${slug}.js`]
   if (!loader) return null
   const mod = await loader()

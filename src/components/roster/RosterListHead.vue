@@ -9,6 +9,7 @@
     <div class="rlh-cta">
       <button
         class="btn-primary btn-lg"
+        data-tour="roster-new"
         @click="router.push('/roster/new')"
       >
         <i class="wi wi-add" /> {{ labels.rosterNew }}
@@ -17,6 +18,7 @@
            Pasting it beats rebuilding it, so the second way in sits beside the first. -->
       <button
         class="btn-ghost"
+        data-tour="roster-import"
         @click="importOpen = true"
       >
         <i class="wi wi-import" /> {{ labels.rosterImport }}
@@ -28,6 +30,7 @@
       <RouterLink
         :to="desk ? '/roster?stats' : '/tracker/stats'"
         class="btn-ghost rlh-stats"
+        data-tour="roster-stats"
         :class="{ on: desk && statsOn }"
         :title="labels.statsLink"
         :aria-label="labels.statsLink"
@@ -41,6 +44,7 @@
       <RosterCloudBar
         hint
         compact
+        data-tour="roster-cloud"
       />
       <RouterLink
         class="hero-help"

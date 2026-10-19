@@ -57,7 +57,7 @@ export default {
             "ru": "пока для этого боя выбран Direct Grace"
           },
           "cond": [
-            "never"
+            "aunshi-direct-grace"
           ]
         },
         {
@@ -73,7 +73,7 @@ export default {
             "ru": "пока для этого боя выбран Forceful Strike"
           },
           "cond": [
-            "never"
+            "aunshi-forceful-strike"
           ]
         },
         {
@@ -89,7 +89,7 @@ export default {
             "ru": "пока для этого боя выбран Whirling Stance (вместо SUSTAINED HITS 1)"
           },
           "cond": [
-            "never"
+            "aunshi-whirling-stance"
           ]
         }
       ]
@@ -116,9 +116,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -809,12 +810,13 @@ export default {
           "op": "grant",
           "value": "DEVASTATING WOUNDS",
           "when": {
-            "en": "while this ability is used",
-            "ru": "пока способность использована"
+            "en": "once per battle, the phase it is used",
+            "ru": "раз за битву, фаза, в которую применено"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -985,9 +987,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1043,6 +1046,20 @@ export default {
       "ref": {
         "kind": "armyRule"
       }
+    },
+    {
+      "sid": "ee59bdf2-6055-450b-8cff-977c4b7efb79",
+      "kind": "detachmentRule",
+      "name": "Integrated Command Structure",
+      "det": "Auxiliary Cadre",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "auxiliary-cadre"
+      },
+      "hash": "88baa130",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f386b3da-2477-4ce5-8efa-01257e4f6f37",
@@ -1266,7 +1283,11 @@ export default {
           },
           "cond": [
             "never"
-          ]
+          ],
+          "once": {
+            "per": "army",
+            "dur": "battle"
+          }
         }
       ]
     },
@@ -1792,6 +1813,17 @@ export default {
       ]
     },
     {
+      "sid": "ceebb987-c76b-4834-8d70-6f1cc0c5e3ee",
+      "kind": "enhancement",
+      "name": "Earth Caste Modifications",
+      "det": "Sudden Dawn Cadre",
+      "ref": null,
+      "hash": "f467cc09",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "3513ccb4-3398-47a4-9518-5cc2ab78b9cb",
       "kind": "enhancement",
       "name": "Proximity Scanners",
@@ -1815,6 +1847,33 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "f14c3b61-256c-4279-8161-8f663422a056",
+      "kind": "stratagem",
+      "name": "Autoreactive Camouflage",
+      "det": "Advanced Acquisition Cadre",
+      "ref": {
+        "kind": "stratagem",
+        "det": "advanced-acquisition-cadre",
+        "name": "Autoreactive Camouflage"
+      },
+      "hash": "97d04864",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f2aeddba-542d-4aa0-b1ac-1c6a39580385",
@@ -1903,11 +1962,24 @@ export default {
           "op": "add",
           "value": -1,
           "when": {
-            "en": "if the second option was chosen (weapons also gain [HAZARDOUS])",
-            "ru": "если выбран второй вариант (оружие получает [HAZARDOUS])"
+            "en": "if the second option was picked when the stratagem was used",
+            "ru": "если при применении выбран второй вариант"
           },
           "cond": [
-            "never"
+            "ammo-overcharge"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "if the second option was picked when the stratagem was used",
+            "ru": "если при применении выбран второй вариант"
+          },
+          "cond": [
+            "ammo-overcharge"
           ]
         }
       ],
@@ -3221,9 +3293,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },

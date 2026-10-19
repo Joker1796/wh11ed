@@ -25,6 +25,7 @@
           <button
             type="button"
             class="step"
+            data-press
             :class="{ on: step === st.n, done: step > st.n }"
             :aria-current="step === st.n ? 'step' : undefined"
             :disabled="!canGoTo(st.n)"
@@ -68,6 +69,7 @@
       <div
         v-if="!guest"
         class="field game-type seg-thirds"
+        data-tour="setup-gametype"
       >
         <span>{{ labels.trackerGameType }}</span>
         <!-- Locked once the setup is shared: a seat means "a side" in singles and "one member of
@@ -105,6 +107,7 @@
         <div
           v-if="!guest && !settings.combatPatrol"
           class="field battle-size seg-thirds"
+          data-tour="setup-size"
         >
           <span>{{ labels.trackerBattleSize }}</span>
           <!-- The two lines are deliberate structure, not a wrap: the name reads first, the
@@ -115,6 +118,7 @@
               v-for="b in battleSizes"
               :key="b.id"
               class="bs-btn"
+              data-press
               :class="{ on: settings.battleSize === b.id }"
               @click="settings.battleSize = b.id"
             >
@@ -154,6 +158,7 @@
           v-for="{ p, i } in shownPlayers"
           :key="i"
           class="player-card"
+          :data-tour="i === shownPlayers[0].i ? 'setup-player' : undefined"
         >
           <h3 class="player-head">
             {{ playerLabel(i) }}
@@ -176,6 +181,7 @@
           <div
             v-if="mirrored(i)"
             class="side-mirror"
+            data-tour="lobby-other"
           >
             <p
               v-if="!isReady(i)"
@@ -282,20 +288,22 @@
                       v-else
                       class="faction-pick"
                       panel-width="32rem"
-                      :title="labels.trackerSelectFaction"
+                      :title="labels.trackerFaction"
                       :open="factionPickerKey === ak(i, mi)"
                       @update:open="v => (factionPickerKey = v ? ak(i, mi) : '')"
                     >
                       <template #trigger="{ toggle, open }">
                         <button
                           class="btn-choose-twist faction-btn"
+                          data-press
                           :aria-expanded="open"
+                          aria-haspopup="dialog"
                           @click="toggle"
                         >
                           <span
                             class="ct-name"
                             :class="{ placeholder: !m.factionSlug }"
-                          >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerSelectFaction }}</span>
+                          >{{ m.factionSlug ? factionName(m.factionSlug) : labels.trackerChooseFaction }}</span>
                           <i class="wi wi-chevron-down ct-chev" />
                         </button>
                       </template>
@@ -386,7 +394,9 @@
                       <template #trigger="{ toggle, open }">
                         <button
                           class="btn-choose-twist"
+                          data-press
                           :aria-expanded="open"
+                          aria-haspopup="dialog"
                           @click="toggle"
                         >
                           <span
@@ -473,6 +483,28 @@
                       {{ labels.trackerNoDetachments }}
                     </p>
                   </ExpandTransition>
+                  <!-- The one choice a box leaves: which of its two enhancements to take (the
+                       mission sequence's Declare Battle Formations). GW's default is lit until the
+                       other is picked; the game's list puts it on the unit it names. -->
+                  <ExpandTransition>
+                    <div
+                      v-if="cpFactionFor(m)?.enhancements?.length > 1"
+                      class="field cp-enh"
+                    >
+                      <span>{{ labels.trackerCpEnhancement }}</span>
+                      <div class="seg seg-fill">
+                        <button
+                          v-for="e in cpFactionFor(m).enhancements"
+                          :key="e.name"
+                          type="button"
+                          :class="{ on: (m.cpEnh || defaultCombatPatrolEnhancement(cpFactionFor(m))) === e.name }"
+                          @click="m.cpEnh = e.name"
+                        >
+                          {{ e.name }}
+                        </button>
+                      </div>
+                    </div>
+                  </ExpandTransition>
                 </div>
               </ExpandTransition>
             </div>
@@ -491,6 +523,7 @@
                   <button
                     type="button"
                     class="help-btn"
+                    data-press
                     :aria-label="labels.trackerForceTypeHelpAria"
                     @click="forceTypeHelpOpen = true"
                   >
@@ -581,7 +614,7 @@
         <button
           class="btn-primary"
           :disabled="!canArmies"
-          @click="leaveArmiesStep"
+          @click="askLeaveArmiesStep"
         >
           {{ labels.trackerNextStep }} →
         </button>
@@ -604,12 +637,14 @@
       <div
         v-if="!guest && !settings.combatPatrol"
         class="settings twist-block"
+        data-tour="setup-twist"
       >
         <h3 class="block-head">
           {{ labels.trackerTwistHeading }}
         </h3>
         <button
           class="btn-choose-twist"
+          data-press
           @click="twistPickerOpen = true"
         >
           <span
@@ -637,6 +672,7 @@
             <span>{{ labels.trackerTwistMission }}</span>
             <button
               class="btn-choose-twist"
+              data-press
               @click="mirrorPickerOpen = true"
             >
               <span
@@ -685,6 +721,7 @@
           <div
             v-if="mirrored(i)"
             class="side-mirror"
+            data-tour="lobby-other"
           >
             <p
               v-if="!isReady(i)"
@@ -785,7 +822,10 @@
               class="primary-block"
             >
               <span class="primary-label">{{ labels.trackerPrimaryPreview }}</span>
-              <div class="primary-card">
+              <div
+                class="primary-card"
+                data-tour="setup-primary"
+              >
                 <MissionCard
                   :mission="primaryCards[i]"
                   :show-lore="false"
@@ -805,7 +845,10 @@
                `!mirrored` the side is always this phone's to edit. -->
           <!-- No secondaries in Combat Patrol: a player scores their box's mission alone. -->
           <template v-if="!mirrored(i) && !settings.combatPatrol">
-            <label class="field">
+            <label
+              class="field"
+              data-tour="setup-secondary"
+            >
               <span>{{ labels.trackerSecondaryMode }}</span>
               <div class="seg">
                 <button
@@ -827,6 +870,7 @@
                 <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
                 <button
                   class="btn-choose-twist"
+                  data-press
                   @click="fixedPickerFor = i"
                 >
                   <span
@@ -875,6 +919,7 @@
         </button>
         <button
           class="btn-primary"
+          data-tour="lobby-done"
           :disabled="!canConfirmSide"
           @click="guestDone"
         >
@@ -903,12 +948,43 @@
            before it. On a phone the same DOM stacks: questions, then the layout. -->
       <div class="two-col deploy-grid">
         <div class="settings deploy-opts deploy-card">
-          <div class="field">
+          <!-- The score mode leads the step's questions since 2026-10-02 (owner): it is a rule of
+               this game agreed at the table, like the roles below, not a tracker preference. -->
+          <label
+            class="field"
+            data-tour="setup-score"
+          >
+            <span>
+              {{ labels.trackerScoreMode }}
+              <button
+                type="button"
+                class="help-btn"
+                data-press
+                :aria-label="labels.trackerScoreHelp"
+                @click="scoreHelpOpen = true"
+              ><i class="wi wi-help" /></button>
+            </span>
+            <div class="seg">
+              <button
+                :class="{ on: settings.scoreMode === 'vp' }"
+                @click="settings.scoreMode = 'vp'"
+              >{{ labels.trackerScoreVp }}</button>
+              <button
+                :class="{ on: settings.scoreMode === 'bp' }"
+                @click="settings.scoreMode = 'bp'"
+              >{{ labels.trackerScoreBp }}</button>
+            </div>
+          </label>
+          <div
+            class="field"
+            data-tour="setup-attacker"
+          >
             <span>
               {{ labels.trackerAttacker }}
               <button
                 type="button"
                 class="help-btn"
+                data-press
                 :aria-label="labels.trackerRoleHelpAria"
                 @click="roleHelpOpen = true"
               >
@@ -932,7 +1008,10 @@
           </div>
           <!-- Who deploys first sits with the layout: both answer "where and in what order do we
                set up", and neither is a setting of the app. -->
-          <label class="field">
+          <label
+            class="field"
+            data-tour="setup-first"
+          >
             <span>{{ labels.trackerFirstTurn }}</span>
             <div class="seg">
               <button
@@ -942,7 +1021,7 @@
               <button
                 :class="{ on: settings.firstTurn === 2 }"
                 @click="settings.firstTurn = 2"
-              >{{ labels.trackerOpponent }}</button>
+              >{{ playerLabel(1 - youIdx) }}</button>
             </div>
           </label>
           <!-- Desktop: the layout tabs join the questions in the side column, so the picture on
@@ -995,10 +1074,14 @@
                 @roll="selectLayout"
               />
             </LayoutTabs>
-            <LayoutCard
+            <!-- The tour's anchor on a wrapper: LayoutCard has two roots (the card and its
+                 full-size modal), so an attribute on it lands nowhere and the step was skipped. -->
+            <div
               v-if="currentLayout"
-              :layout="currentLayout"
-            />
+              data-tour="setup-layout"
+            >
+              <LayoutCard :layout="currentLayout" />
+            </div>
           </template>
           <p
             v-else
@@ -1033,40 +1116,38 @@
       :ref="el => (panelEls[3] = el)"
       class="step-panel"
     >
-      <!-- Two cards, side by side on desktop: what is about the GAME (the score mode and the
-           `game` option group) and what is about the attached LIST (the `roster` group) — the
-           split trackerOptions.js already makes. Thirteen rows in one column ran past a screen;
-           two columns of six or seven fit one, like the steps before. -->
+      <!-- Three ready sets on top (owner, 2026-10-14), then the rows in four groups: the turn and
+           the score, the armies, the attached list, the screen. Two columns on a desktop — the turn
+           and the armies on the left, the list on the right — and the screen full width under them
+           (its colour preview is both sides' cards wide). -->
+      <TrackPresets
+        :settings="settings"
+        :ctx="trackCtx"
+        :labels="labels"
+      />
       <div class="two-col">
-        <div class="settings deploy-opts">
-          <label class="field">
-            <span>
-              {{ labels.trackerScoreMode }}
-              <button
-                type="button"
-                class="help-btn"
-                :aria-label="labels.trackerScoreHelp"
-                @click="scoreHelpOpen = true"
-              ><i class="wi wi-help" /></button>
-            </span>
-            <div class="seg">
-              <button
-                :class="{ on: settings.scoreMode === 'vp' }"
-                @click="settings.scoreMode = 'vp'"
-              >{{ labels.trackerScoreVp }}</button>
-              <button
-                :class="{ on: settings.scoreMode === 'bp' }"
-                @click="settings.scoreMode = 'bp'"
-              >{{ labels.trackerScoreBp }}</button>
-            </div>
-          </label>
+        <div
+          class="settings deploy-opts"
+          data-tour="setup-opts-game"
+        >
           <TrackOptions
             :settings="settings"
             :ctx="trackCtx"
-            group="game"
+            group="turn"
+            heading="trackerGroupTurn"
+          />
+          <TrackOptions
+            class="opts-next"
+            :settings="settings"
+            :ctx="trackCtx"
+            group="armies"
+            heading="trackerGroupArmies"
           />
         </div>
-        <div class="settings deploy-opts">
+        <div
+          class="settings deploy-opts"
+          data-tour="setup-opts-roster"
+        >
           <TrackOptions
             :settings="settings"
             :ctx="trackCtx"
@@ -1075,6 +1156,17 @@
             guide
           />
         </div>
+      </div>
+      <div
+        class="settings deploy-opts look-opts"
+        data-tour="setup-look"
+      >
+        <TrackOptions
+          :settings="settings"
+          :ctx="trackCtx"
+          group="look"
+          heading="trackerLookHeading"
+        />
       </div>
 
       <div class="actions">
@@ -1086,10 +1178,11 @@
         </button>
         <button
           class="btn-primary"
-          :disabled="!canStart"
-          @click="start"
+          :disabled="!canStart || starting"
+          data-tour="setup-start"
+          @click="guardColors(start)"
         >
-          {{ labels.trackerStart }}
+          {{ labels.trackerToGame }}
         </button>
       </div>
     </div>
@@ -1124,6 +1217,17 @@
       @close="mirrorPickerOpen = false"
     />
 
+    <!-- Two sides of one colour ask once before the game starts (useColorClashGate). -->
+    <ConfirmModal
+      v-if="colorsAskOpen"
+      :title="labels.sideColorsClashTitle"
+      :message="labels.sideColorsClashBody"
+      :confirm-label="labels.sideColorsClashKeep"
+      :cancel-label="labels.sideColorsClashTune"
+      @confirm="keepColors"
+      @close="customiseColors"
+    />
+
     <!-- ── The lobby's own dialogs ──────────────────────────────────────────────────────── -->
     <ConfirmModal
       v-if="cancelConfirmOpen"
@@ -1142,6 +1246,15 @@
       :cancel-label="labels.trackerCancel"
       @confirm="doTakeOver"
       @close="takeOverConfirmOpen = null"
+    />
+    <ConfirmModal
+      v-if="leaveConfirmOpen"
+      :title="labels.lobbyLeaveArmiesTitle"
+      :message="leaveMessage"
+      :confirm-label="labels.lobbyLeaveArmiesGo"
+      :cancel-label="labels.trackerBack"
+      @confirm="leaveArmiesStep"
+      @close="leaveConfirmOpen = false"
     />
     <!-- A guest asking to reopen its side after the host has moved on. The host answers here,
          and the answer is what the guest's waiting screen shows. -->
@@ -1208,6 +1321,7 @@ import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import ConfirmModal from '../ConfirmModal.vue'
+import { useColorClashGate } from '../../composables/useColorClashGate.js'
 import PartyModal from './PartyModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
 import OptionHelpModal from './OptionHelpModal.vue'
@@ -1223,11 +1337,15 @@ import { useParty } from '../../composables/useParty.js'
 import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, primaryOf, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo, mfmDetachmentNames } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
+import { combatPatrolRoster, defaultCombatPatrolEnhancement } from '../../composables/combatPatrolRoster.js'
+import { loadRosterFaction } from '../../data/roster/index.js'
 import RosterPickerModal from './RosterPickerModal.vue'
-import { useRosters } from '../../composables/useRosters.js'
+import { useRosters, uid as newRosterUid } from '../../composables/useRosters.js'
 import { ownLimitsOf, ownLimitsSummary } from '../../composables/ownLimits.js'
 import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
 import TrackOptions from './TrackOptions.vue'
+import TrackPresets from './TrackPresets.vue'
+import { useTour } from '../../composables/useTour.js'
 import { defaultTrackSettings, normalizeTrackSettings } from '../../data/trackerOptions.js'
 
 // Where the Doubles terminology in the force-type help actually comes from — the Event
@@ -1265,8 +1383,11 @@ const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'v
 const lastS = history.value[0]?.settings ?? {}
 // "You" is the side THIS phone plays — 0 in a setup of one and for the host, the seat for a
 // guest. Keyed by side, never by index (the same rule the option table follows).
+// In a shared game the other side has a player of its own, and once they have typed their name the
+// wizard says it rather than "Opponent" (the host read "Opponent" over Boris's own card, 2026-10-18).
 function playerLabel(i) {
-  return i === youIdx.value ? labels.value.trackerYou : labels.value.trackerOpponent
+  if (i === youIdx.value) return labels.value.trackerYou
+  return (lobbyGame && players[i]?.name) || labels.value.trackerOpponent
 }
 function namePlaceholder(i) {
   return i === youIdx.value ? labels.value.trackerYourName : labels.value.trackerOpponentName
@@ -1299,6 +1420,8 @@ const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 
 const lobbyGame = current.value?.phase === 'setup' ? current.value : null
 const draft = lobbyGame ? null : setupDraft.value
 const step = ref(draft?.step ?? 1)
+// Each step's chapter of the tracker tour, the first time the host reaches it (useTour.js).
+const { maybeStart: maybeStartTour } = useTour()
 const players = lobbyGame
   ? lobbyGame.players
   : reactive([
@@ -1317,7 +1440,7 @@ const {
   shared: sharedSetup, mySide, isReady, editorName, canFill, claim,
   openForm, confirmSide, takeOver,
   pendingRequest, grantReopen, denyReopen,
-  setStage, othersReady,
+  setStage, othersReady, guestSides,
 } = useLobby()
 const { canShare, share, setHold, lastError, invite, refreshInvite } = useParty()
 
@@ -1376,8 +1499,19 @@ function cancelLobby() {
 }
 
 // Leaving the armies step confirms the host's own side and tells the other phones that
-// reopening is now a request rather than a free edit.
+// reopening is now a request rather than a free edit. With a side another phone fills in, the host
+// is asked first — that step is what locks the guest (owner, 2026-10-15), and a host clicking on
+// through it while the guest typed is how the two went round in requests.
+const leaveConfirmOpen = ref(false)
+const leaveMessage = computed(() => (guestSides.value.some((g) => !g.ready)
+  ? labels.value.lobbyLeaveArmiesBusy
+  : labels.value.lobbyLeaveArmiesDone))
+function askLeaveArmiesStep() {
+  if (sharedSetup.value && guestSides.value.length) leaveConfirmOpen.value = true
+  else leaveArmiesStep()
+}
 function leaveArmiesStep() {
+  leaveConfirmOpen.value = false
   if (sharedSetup.value) {
     confirmSide(youIdx.value)
     setStage('host')
@@ -1512,6 +1646,13 @@ function editable(i) {
 
 // ── Doubles ────────────────────────────────────────────────────────────────────────────────
 const isDoubles = computed(() => settings.gameType === 'doubles')
+// The setup's chapters, and in a shared setup what it changes: the other side fills itself in.
+// A guest has its own chapter — its side's form and Done.
+const setupTourCtx = () => ({ lobby: !!sharedSetup.value, doubles: isDoubles.value })
+watch(step, (n) => {
+  if (guest.value) maybeStartTour('lobby-guest', setupTourCtx())
+  else maybeStartTour(`setup-${n}`, setupTourCtx())
+}, { immediate: true, flush: 'post' })
 // The armies a side fields: itself in singles, its two members in doubles. The member shape is
 // a subset of the side's (name/factionSlug/detachments/rosterId/roster), so the army-identity
 // template block and every helper below take either.
@@ -1539,7 +1680,10 @@ const armyYouTrackable = ref(false)
 const armyOppTrackable = ref(false)
 
 // Either player having a list is enough: the clock belongs to the game, not to one side.
-const anyRoster = computed(() => players.some((p) => armiesOf(p).some((m) => !!m.roster)))
+// A Combat Patrol game always has lists: each army goes in as its box's (combatPatrolRoster.js),
+// built only at Start — so the roster options are offered now rather than written off as
+// unavailable, which would have started the game with them switched off (owner, 2026-10-15).
+const anyRoster = computed(() => !!settings.combatPatrol || players.some((p) => armiesOf(p).some((m) => !!m.roster)))
 
 // A side's faction for the option table: in doubles, the first member with one (the row's
 // availability question is "does this side field an army at all", not "which").
@@ -1555,6 +1699,9 @@ const trackCtx = computed(() => ({
   opp: { faction: sideFaction(players[1]), trackable: armyOppTrackable.value },
   anyRoster: anyRoster.value,
 }))
+const {
+  open: colorsAskOpen, guard: guardColors, confirm: keepColors, customise: customiseColors,
+} = useColorClashGate(trackCtx, settings)
 watch(
   () => players.map(p => armiesOf(p).map(m => m.factionSlug).join(',')).join('|'),
   async () => {
@@ -1678,6 +1825,7 @@ const cpBoxPickerKey = ref('')
 function applyCpBox(p, cp) {
   p.detachments = [cp.rule.name]
   p.disposition = DISPOSITIONS.find(d => d.name === cp.forceDisposition)?.id ?? null
+  p.cpEnh = defaultCombatPatrolEnhancement(cp)
 }
 function pickCpBox(p, cp) { applyCpBox(p, cp) }
 
@@ -2022,14 +2170,38 @@ watch([step, () => players, () => settings], () => {
 
 function clearDraft() { setupDraft.value = null }
 
-function start() {
-  clearDraft()
-  emit('start', {
-    // Rows this game cannot offer are written OFF rather than at whatever the last game left in
-    // them — the checkbox was disabled, so the value behind it was never the player's answer.
-    settings: normalizeTrackSettings(settings, trackCtx.value),
-    players: players.map(p => ({ ...p })),
-  })
+// A Combat Patrol army goes into the game as its box's list (combatPatrolRoster.js), so the game
+// screen's Armies tab shows its units like any list's. Built here, at the start, from the box and
+// the enhancement picked — the list cannot be chosen, so it is never attached before.
+async function combatPatrolRosterFor(p) {
+  const box = cpFactionFor(p)
+  if (!box) return null
+  const faction = await loadRosterFaction(box.slug, { cp: box.id })
+  return rosterSnapshot(combatPatrolRoster(box, faction, p.cpEnh || defaultCombatPatrolEnhancement(box), newRosterUid))
+}
+
+const starting = ref(false)
+async function start() {
+  if (starting.value) return
+  starting.value = true
+  try {
+    const out = players.map(p => ({ ...p }))
+    if (settings.combatPatrol) {
+      for (const p of out) {
+        p.roster = await combatPatrolRosterFor(p)
+        p.rosterId = null
+      }
+    }
+    clearDraft()
+    emit('start', {
+      // Rows this game cannot offer are written OFF rather than at whatever the last game left in
+      // them — the checkbox was disabled, so the value behind it was never the player's answer.
+      settings: normalizeTrackSettings(settings, trackCtx.value),
+      players: out,
+    })
+  } finally {
+    starting.value = false
+  }
 }
 function cancel() {
   clearDraft()
@@ -2038,6 +2210,8 @@ function cancel() {
 </script>
 
 <style scoped>
+/* A second option group in the same card: ruled off from the first. */
+.opts-next { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--border); }
 /* Entrance replayed on each step change (class re-added from the step watcher). */
 .wizard-in {
   animation: wizard-in var(--motion-med) ease-out;
@@ -2150,6 +2324,23 @@ function cancel() {
 /* Drop the field's bottom margin here so the First Turn control and the Track CP
    checkbox card sit on the same baseline (no vertical offset). */
 .settings .field { margin-bottom: 0; }
+/* Twist: the heading on the left, the picker beside it, and the rules and Mirrored World's mission
+   under the picker in the same column (2026-10-02). The phone stacks it all full width. */
+.settings.twist-block {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.85rem;
+  row-gap: 0.6rem;
+  align-items: center;
+}
+.twist-block > .block-head { margin: 0; }
+.twist-block > :not(.block-head) { grid-column: 2; }
+.twist-block > .twist-chosen,
+.twist-block > .twist-mission { margin-top: 0; }
+@media (max-width: 560px) {
+  .settings.twist-block { grid-template-columns: minmax(0, 1fr); row-gap: 0.45rem; }
+  .twist-block > :not(.block-head) { grid-column: 1; }
+}
 /* Narrow screens: the container padding (especially with the nested MissionCard in the Mission
    step) wastes a lot of the limited width — tighten it and the inter-card gap. */
 @media (max-width: 560px) {
@@ -2180,6 +2371,7 @@ function cancel() {
   align-items: start;
 }
 .two-col > .settings { margin-top: 0; }
+.look-opts { margin-top: var(--stack-gap); }
 /* On a phone the two deployment questions share one row — each is a label over a two-word
    switch, and a column of them spent two rows on what fits in one. They still wrap on a screen
    too narrow for the pair (~330px). Desktop keeps them stacked in the side column. */
@@ -2626,7 +2818,10 @@ function cancel() {
 .actions .btn-ghost { padding: 0.45rem 0.95rem; font-size: 0.85rem; }
 /* Clear of the mobile bottom nav (52px, as .rc-sticky). */
 @media (max-width: 900px) {
-  .actions { bottom: calc(52px + var(--safe-bottom, 0px)); }
+  /* The utility bar's buttons ("to top", "back to the game") float in the bottom-right corner, and
+     the bar is stuck there or ends beside them: the buttons step left of that corner while it is
+     shown (--mobile-bar-h, App.vue) — "Go to the game" sat under "to top" (acceptance, 2026-10-18). */
+  .actions { bottom: calc(52px + var(--safe-bottom, 0px)); padding-right: var(--mobile-bar-h, 0px); }
 }
 @media (max-width: 700px) {
   .players { grid-template-columns: minmax(0, 1fr); }

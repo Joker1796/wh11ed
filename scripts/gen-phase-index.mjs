@@ -31,7 +31,10 @@
 import { existsSync, writeFileSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { join } from 'node:path'
-import { phasesOf, phaseSidesOf } from '../src/composables/stratagemPhases.js'
+import { phasesOf, phaseSidesOf, phaseMomentsOf } from '../src/composables/stratagemPhases.js'
+import { lockedToExactUnit } from '../src/composables/rosterEnhEligible.js'
+import { slugify } from '../src/data/slugify.js'
+import { foldName } from '../src/utils/foldName.js'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const imp = (rel) => import(pathToFileURL(join(ROOT, rel)).href)
@@ -46,6 +49,9 @@ function entryOf(name, text, ru = null) {
   if (!p.length) return null
   const s = phaseSidesOf(text)
   const out = { n: name, p, s }
+  // When inside the phase, where the text says so: 'start' / 'end' per phase, absent = during.
+  const m = Object.fromEntries(Object.entries(phaseMomentsOf(text)).filter(([k]) => p.includes(k)))
+  if (Object.keys(m).length) out.m = m
   if (ru && ru !== name) out.ru = ru
   return out
 }
@@ -65,8 +71,48 @@ async function loadRu(slug) {
   return (await imp(rel)).default ?? {}
 }
 
+// The roster data (src/data/roster/<slug>.js) — what a list's entry indexes into: its `gear`
+// groups and options, its default loadout, its detachments' enhancements. A Chapter's own file
+// lists the Codex units by id, so the Space Marines file answers for those.
+const rosterItems = (await imp('src/data/roster/items.js')).default.items
+const rosterFiles = new Map()
+async function rosterFile(slug) {
+  if (!rosterFiles.has(slug)) rosterFiles.set(slug, has(`src/data/roster/${slug}.js`) ? (await imp(`src/data/roster/${slug}.js`)).default : null)
+  return rosterFiles.get(slug)
+}
+async function rosterDefs(slug) {
+  const own = await rosterFile(slug)
+  const sm = own?.sharedUnitIds?.length ? await rosterFile('space-marines') : null
+  const dets = [...(own?.detachments || []), ...(sm?.detachments || []).filter((d) => own?.sharedDetachments?.includes(d.name))]
+  return (id) => {
+    const def = own?.units.find((x) => x.id === id) || sm?.units.find((x) => x.id === id)
+    return def ? { def, dets } : null
+  }
+}
+const normName = foldName
+// rosterEngine.optionItems, restated — the engine imports a JSON sidecar node cannot load bare.
+const optionIds = (o) => (Array.isArray(o?.[0]) ? o[0].map(([id]) => id) : o?.[0] == null ? [] : [o[0]])
+function gearOf(found, name) {
+  const def = found?.def
+  const ids = new Set(Object.keys(rosterItems).filter((id) => normName(rosterItems[id]) === normName(name)).map(Number))
+  if (!def || !ids.size) return { d: 1 }
+  if ((def.defaults || []).some(([, line]) => line.some(([id]) => ids.has(id)))) return { d: 1 }
+  const g = []
+  ;(def.gear || []).forEach((grp, gi) => grp.o.forEach((o, oi) => { if (optionIds(o).some((id) => ids.has(id))) g.push([gi, oi]) }))
+  return g.length ? { g } : { d: 1 }
+}
+function mandatory(found) {
+  if (!found) return null
+  const out = {}
+  for (const det of found.dets) {
+    const e = (det.enhancements || []).find((x) => x.mandatory && lockedToExactUnit(x, found.def))
+    if (e) out[det.name] = e.name
+  }
+  return Object.keys(out).length ? out : null
+}
+
 const out = {}
-let units = 0, abilities = 0, rules = 0
+let units = 0, abilities = 0, rules = 0, enhancements = 0
 for (const group of factionGroups) {
   for (const f of group.factions) {
     if (!f.ready || !has(`src/data/factions/${f.slug}.js`)) continue
@@ -104,15 +150,52 @@ for (const group of factionGroups) {
         sheets = [...sheets, ...(await spaceMarines()).filter((u) => ids.has(u.id))]
         ru = { ...(await spaceMarinesRu()), ...ru }
       }
+      const defOf = await rosterDefs(f.slug)
       for (const u of sheets) {
         const found = []
         for (const a of u.abilities || []) {
           const e = entryOf(a.name, a.text, ru[u.id]?.abilities?.[a.name]?.name)
           if (e) found.push(e)
         }
+        // Wargear abilities (2026-10-08): the model only has one while it carries the item, so the
+        // entry says which picks give it (`g`, [group, option] pairs of the roster data) or that
+        // the unit starts with it (`d`). An ability no item of the unit is named after (4 of 148
+        // on a sample) is kept as `d` — showing a rule the unit may lack beats hiding one it has.
+        const gear = []
+        for (const w of u.wargearAbilities || []) {
+          const e = entryOf(w.name, w.text)
+          if (e) gear.push({ ...e, ...gearOf(defOf(u.id), w.name) })
+        }
+        // Ability sets: each option is its own rule, picked during the game, so every option that
+        // names a phase is offered with its set's name (`set`) — which one is up is the player's.
+        const sets = []
+        for (const set of u.abilitySets || []) {
+          for (const o of set.options || []) {
+            const e = entryOf(o.name, o.text)
+            if (e) sets.push({ ...e, set: set.name })
+          }
+        }
+        // A mandatory enhancement is never stored on the entry (rosterEngine derives it), so the
+        // unit names it here per detachment that forces it.
+        const forced = mandatory(defOf(u.id))
+        if (!found.length && !gear.length && !sets.length && !forced) continue
         // The unit's own name rides along so the block can say whose ability it is without a
         // second index (datasheetIndex) just for names. Unit names stay English everywhere.
-        if (found.length) { rec.units[u.id] = { n: u.name, a: found }; units++; abilities += found.length }
+        rec.units[u.id] = { n: u.name, a: found }
+        if (gear.length) rec.units[u.id].w = gear
+        if (sets.length) rec.units[u.id].s = sets
+        if (forced) rec.units[u.id].me = forced
+        units++
+        abilities += found.length + gear.length + sets.length
+      }
+    }
+    // Enhancements, by name (what a roster entry stores): the detachment's own text. Only those a
+    // unit of an attached list carries reach the tab.
+    for (const det of faction.detachments || []) {
+      for (const en of det.enhancements || []) {
+        const e = entryOf(en.name, en.body)
+        // `at` is the enhancement's own card on the faction page — the id FactionRuleView gives it.
+        if (e) { (rec.enh ??= {})[en.name] = { ...e, at: `enh-${det.id}-${slugify(en.name)}`, id: det.id }; enhancements++ }
       }
     }
     out[f.slug] = rec
@@ -123,11 +206,12 @@ const body = `// Generated by scripts/gen-phase-index.mjs — do not edit by han
 // Which of a faction's rules have something to say in which battle phase, for the tracker's
 // per-phase reminder. Shape: slug → { army?, dets?: { detId: e }, units: { unitId: [e, …] } },
 // where an entry e is { n: English name, ru?: Russian name, p: [phase, …], s: { phase: side },
-// at?: anchor id, id?: detachment id } — p/s are exactly the arguments usableInSlot(p, s, phase,
+// m?: { phase: 'start' | 'end' } (absent = during the phase), at?: anchor id, id?: detachment id }
+// — p/s are exactly the arguments usableInSlot(p, s, phase,
 // mine) takes. No rule TEXT: the block shows a name and links to where the text already lives. See the generator's header for what is left out
 // and why. Dynamic-imported by the block, so it never rides in the entry bundle.
 export const phaseIndex = ${JSON.stringify(out)}
 `
 writeFileSync(join(ROOT, 'src/data/phaseIndex.js'), body)
 const kb = (body.length / 1024).toFixed(1)
-console.log(`gen-phase-index: ${Object.keys(out).length} factions, ${rules} army/detachment rules, ${abilities} abilities on ${units} units → src/data/phaseIndex.js (${kb} KB)`)
+console.log(`gen-phase-index: ${Object.keys(out).length} factions, ${rules} army/detachment rules, ${enhancements} enhancements, ${abilities} abilities/wargear/set options on ${units} units → src/data/phaseIndex.js (${kb} KB)`)

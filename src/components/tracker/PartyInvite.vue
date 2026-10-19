@@ -46,6 +46,7 @@
 import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { localePath } from '../../router/locale.js'
 import { useParty } from '../../composables/useParty.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
 
@@ -61,10 +62,11 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { invite: liveInvite, newInvite } = useParty()
 
-// The join link: the bare path, and the reader's locale follows in the router's own way.
+// The join link, in the host's language: a friend opening the QR on a phone that has never seen the
+// site would otherwise land on the English one (2026-10-17). They can switch it like anywhere.
 const joinUrl = computed(() =>
   liveInvite.value?.token && typeof window !== 'undefined'
-    ? `${window.location.origin}/tracker/join/${liveInvite.value.token}`
+    ? `${window.location.origin}${localePath(`/tracker/join/${liveInvite.value.token}`, locale.value)}`
     : '',
 )
 const codeText = computed(() =>

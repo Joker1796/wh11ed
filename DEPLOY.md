@@ -197,3 +197,18 @@ The site is an installable PWA via **`vite-plugin-pwa`** (Workbox `generateSW`),
   - **A tab is not moved off where the app may be beside it unannounced**: on a shared storage (not iOS/iPadOS, not Safari on a Mac — `separateAppStorage`) a downloaded offline set without the app's mark may be an app installed before 2.9.4 and not opened since; that tab keeps the worker (`tabMayLeaveWorker`). It costs that tab nothing but the old way of updating.
   - Checked end to end by `scripts/update-delivery/e2e.mjs` (two builds on a local server): first visit, the plate, a link under it, F5, the move and what it leaves, the two tabs that keep the worker, the installed app.
 - **Resume last view (standalone only):** in the installed PWA the app reopens on the last page *and* the section the user was reading; a normal browser tab is untouched. Standalone is detected via `isStandaloneDisplay()` (`src/composables/standalone.js`, the single source for `display-mode: standalone` / iOS `navigator.standalone`). The last location is stored in `localStorage['wh11ed-last-route']` as `path?query` or `path?query#section-anchor` (`storedLocation()`). **The query is part of it and must stay** — `?draft=` is what tells the roster wizard which draft to resume, `?unit=`/`?phase=` which unit or phase a screen was opened on; storing the bare path reopened the wizard empty and let the next faction pick start a *second* draft, orphaning the first on the Drafts tab. **Restore** is a one-time `router.beforeEach` in `src/router/index.js` (runs before the first view mounts, so it never flashes home; skips deep links and `/tracker/auth-callback`). **Persistence** lives in `useViewRestore.js` (called once in `App.vue`): since scrolling never changes the URL hash, a rAF-throttled scroll-spy (`currentSectionId()`) records the topmost section anchor — `section-*` / `ability-*` / Event Companion `step-*`,`missions-*`,`pairing-*`,`ranking-*` ids — and writes it back as the anchor (displacing the URL's own hash); on launch it re-runs the robust `scrollToAnchor()` (extracted from `useRefNavigation.js`) to correct for late-loading illustrations.
+
+## Бета трекера: beta.wh-rules.ru
+
+Новый трекер живёт рядом с сайтом на своём поддомене (2026-10-08) — свой бакет и свой ресурс CDN,
+тот же API. Собирается из ветки трекера **после** выката релиза сайта: сначала влить в неё релиз,
+потом `ENVFILE=.env.deploy.beta npm run deploy` (настройки — `.env.deploy.beta.example`).
+**Первый запуск — наоборот, до релиза** (2.7.20, 2026-10-09): запись чейнджлога и плашка ведут на
+бету ссылкой, и релиз, вышедший раньше неё, отправил бы всех на 404. Бета, в которую релиз уже влит,
+выкатывается первой (в подвале у неё пока прежняя версия — номер поднимает деплой сайта), потом
+релиз, потом бета ещё раз — с бампом.
+`BUMP=none`: бета не поднимает версию, ничего не коммитит и не двигает `main`; архив чейнджлога не
+трогает. `VITE_BETA=1` даёт noindex, `robots.txt` с `Disallow: /`, имя приложения «WH Rules Beta»
+и плашку беты. Партии сайта и беты не смешиваются: поколение трекера (`src/composables/trackerGen.js`,
+сервер — `tracker_version` в `wh11ed-api`). В `ALLOWED_ORIGINS` API должен быть
+`https://beta.wh-rules.ru` — иначе бета не достучится до API и вход не вернёт на неё.

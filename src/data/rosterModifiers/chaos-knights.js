@@ -545,7 +545,7 @@ export default {
             "ru": "пока для армии активна Dread-способность Darkness"
           },
           "cond": [
-            "never"
+            "dread-darkness"
           ]
         },
         {
@@ -558,13 +558,92 @@ export default {
             "ru": "при этой способности Dread, если цель Battle-shocked"
           },
           "cond": [
+            "dread-doom",
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "dread-despair"
+          ],
+          "when": {
+            "en": "a Dread ability selected for your army, until the end of the battle",
+            "ru": "способность Dread, выбранная для армии, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "dread-doom"
+          ],
+          "when": {
+            "en": "a Dread ability selected for your army, until the end of the battle",
+            "ru": "способность Dread, выбранная для армии, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "dread-darkness"
+          ],
+          "when": {
+            "en": "a Dread ability selected for your army, until the end of the battle",
+            "ru": "способность Dread, выбранная для армии, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "dread-dismay"
+          ],
+          "when": {
+            "en": "a Dread ability selected for your army, until the end of the battle",
+            "ru": "способность Dread, выбранная для армии, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "dread-delirium"
+          ],
+          "when": {
+            "en": "a Dread ability selected for your army, until the end of the battle",
+            "ru": "способность Dread, выбранная для армии, до конца битвы"
+          }
         }
       ],
       "ref": {
         "kind": "armyRule"
       }
+    },
+    {
+      "sid": "ee08748e-78e1-428c-8e57-132887580ab5",
+      "kind": "detachmentRule",
+      "name": "Annihilate the Unworthy",
+      "det": "Bastions of Tyranny",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "bastions-of-tyranny"
+      },
+      "hash": "b3c39498",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a Battle-shocked unit",
+            "ru": "против отряда в Battle-shock"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "788a4578-aaf9-4801-a35e-8e4d224c0a90",
@@ -608,6 +687,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "b67c28a7-c32b-4505-8831-7d4942e5bda2",
+      "kind": "detachmentRule",
+      "name": "Scenting Fear",
+      "det": "Hunting Warpack",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "hunting-warpack"
+      },
+      "hash": "b12b51e3",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "ea8bac27-a7f4-40a5-8e9c-ee20b6cc609c",
@@ -960,13 +1053,14 @@ export default {
           "op": "grant",
           "value": "Fights First",
           "when": {
-            "en": "for the phase, when the bearer uses this Enhancement",
-            "ru": "на фазу, когда носитель применил улучшение"
+            "en": "once per battle, the phase it is used",
+            "ru": "раз за битву, фаза, в которую применено"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1063,6 +1157,21 @@ export default {
         "kind": "enhancement",
         "det": "traitoris-lance"
       }
+    },
+    {
+      "sid": "43660e8e-4733-4538-9696-435fc15b0630",
+      "kind": "stratagem",
+      "name": "Intimidating Reminder",
+      "det": "Bastions of Tyranny",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bastions-of-tyranny",
+        "name": "Intimidating Reminder"
+      },
+      "hash": "d14dc66e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "5b7ebc65-f243-4eb0-9af1-17c2f28e7937",
@@ -1165,6 +1274,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "aca351a5-5934-421c-8653-eaf905bdb77b",
+      "kind": "stratagem",
+      "name": "Stalking Focus",
+      "det": "Hunting Warpack",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hunting-warpack",
+        "name": "Stalking Focus"
+      },
+      "hash": "a5d921e6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "39493fcc-0ea8-44a4-92e8-0758641e3074",

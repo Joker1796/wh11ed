@@ -674,9 +674,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -687,9 +688,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1228,6 +1230,36 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "contract-trophy-hunters"
+          ],
+          "when": {
+            "en": "the Contract selected at the start of the battle",
+            "ru": "контракт, выбранный в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "contract-sow-fear-and-terror"
+          ],
+          "when": {
+            "en": "the Contract selected at the start of the battle",
+            "ru": "контракт, выбранный в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "contract-show-of-strength"
+          ],
+          "when": {
+            "en": "the Contract selected at the start of the battle",
+            "ru": "контракт, выбранный в начале битвы"
+          }
         }
       ]
     },
@@ -1254,7 +1286,7 @@ export default {
             "ru": "до конца хода, в котором отряд высадился из Transport"
           },
           "cond": [
-            "never"
+            "unit-disembarked"
           ]
         },
         {
@@ -1267,7 +1299,7 @@ export default {
             "ru": "до конца хода, в котором отряд высадился из Transport"
           },
           "cond": [
-            "never"
+            "unit-disembarked"
           ]
         }
       ]
@@ -1377,6 +1409,20 @@ export default {
         "kind": "detachmentRule",
         "det": "spectacle-of-spite"
       }
+    },
+    {
+      "sid": "c9175da5-73ef-4a67-96fd-f878492d87cd",
+      "kind": "detachmentRule",
+      "name": "Darkest Artifice",
+      "det": "Tools of Torment",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "tools-of-torment"
+      },
+      "hash": "998ac032",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "69f4dbe4-bfd4-4638-b606-a1cc08c2ac0c",
@@ -1686,13 +1732,27 @@ export default {
           "op": "add",
           "value": 2,
           "when": {
-            "en": "Attacks and AP improve by 2 instead, for the phase, by spending 1 Pain token when the unit fights",
-            "ru": "атаки и пробитие улучшаются на 2 вместо 1 на фазу, если потратить 1 жетон боли при выборе отряда для боя"
+            "en": "instead, by spending 1 Pain token when the unit fights, for the phase",
+            "ru": "вместо этого, если потрачен 1 Pain token, когда отряд сражается, до конца фазы"
           },
           "cond": [
-            "never"
+            "spent-pain-eye-of-spite"
           ],
           "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -2,
+          "when": {
+            "en": "instead, by spending 1 Pain token when the unit fights, for the phase",
+            "ru": "вместо этого, если потрачен 1 Pain token, когда отряд сражается, до конца фазы"
+          },
+          "cond": [
+            "spent-pain-eye-of-spite"
+          ],
+          "alt": 1
         }
       ],
       "ref": {
@@ -1813,10 +1873,11 @@ export default {
             "en": "until the end of a Fight phase the bearer used this Enhancement in (once per battle)",
             "ru": "до конца Fight phase, в которой носитель применил улучшение (раз за битву)"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1871,6 +1932,31 @@ export default {
           "target": "unit"
         }
       ]
+    },
+    {
+      "sid": "03586339-4af2-4cd9-bb94-9bddc81d9144",
+      "kind": "enhancement",
+      "name": "Gnarlskin Experimentor",
+      "det": "Tools of Torment",
+      "ref": {
+        "kind": "enhancement",
+        "det": "tools-of-torment"
+      },
+      "hash": "a9a76acc",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8109853a-f449-4a5c-825f-aec1a917eeb5",
+      "kind": "stratagem",
+      "name": "Hardened Physiology",
+      "det": "Coven of Agonies",
+      "ref": null,
+      "hash": "c3a9bf63",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "bd66d7c1-a2c3-4a8d-962a-7ffb17d0998e",

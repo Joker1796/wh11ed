@@ -1852,8 +1852,8 @@ export function duplicateUnitEntry(units, entryUid, newUid) {
 /**
  * @param {EntryLike} e
  * @param {RosterUnit | null | undefined} def
- * @param {string} modelsLabel
- * @param {string} upgradesLabel
+ * @param {string | ((n: number) => string)} modelsLabel
+ * @param {string | ((n: number) => string)} upgradesLabel
  * @param {string} [warlordLabel]
  * @returns {string}
  */
@@ -1863,8 +1863,11 @@ export function entrySummary(e, def, modelsLabel, upgradesLabel, warlordLabel = 
   const n = modelCount(def, e)
   const parts = []
   if (e.warlord && warlordLabel) parts.push(warlordLabel)
-  if (size.per[1] > 1) parts.push(`${n} ${modelsLabel}`)
-  if (e.wg?.length) parts.push(`${e.wg.length} ${upgradesLabel}`)
+  // A label may be a function of the count (the caller's plural forms: «2 улучшения», not «2 улучшений»).
+  /** @param {number} k @param {string | ((n: number) => string)} l */
+  const count = (k, l) => (typeof l === 'function' ? l(k) : `${k} ${l}`)
+  if (size.per[1] > 1) parts.push(count(n, modelsLabel))
+  if (e.wg?.length) parts.push(count(e.wg.length, upgradesLabel))
   if (e.enh) parts.push(e.enh)
   return parts.join(' · ')
 }

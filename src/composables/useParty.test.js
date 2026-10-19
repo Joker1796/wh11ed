@@ -60,6 +60,7 @@ beforeEach(async () => {
       { name: 'Opp', factionSlug: null, detachments: [], disposition: D1, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
     ],
   })
+  tracker.beginGame()
   await vi.advanceTimersByTimeAsync(600)
 })
 afterEach(() => {
@@ -210,7 +211,7 @@ describe('a tick', () => {
     tracker.setCp(0, 5) // the other side's CP — a control the screen has disabled
     await vi.advanceTimersByTimeAsync(900)
     expect(fetchMock).not.toHaveBeenCalled()
-    expect(tracker.current.value.players[0].cp).toBe(0)
+    expect(tracker.current.value.players[0].cp).toBe(1) // round 1's Core CP, and nothing more
     expect(party.canEdit(0)).toBe(false)
     expect(party.canEdit(1)).toBe(true)
   })
@@ -218,15 +219,24 @@ describe('a tick', () => {
   it('a revoked token stops the engine and marks the phone out', async () => {
     await shareAsHost()
     fetchMock.mockResolvedValueOnce(answer(401, { error: 'revoked' }))
-    tracker.setCp(0, 1)
+    tracker.setCp(0, 3)
     await vi.advanceTimersByTimeAsync(900)
     expect(party.status.value).toBe('revoked')
     expect(party.active.value).toBe(false)
     expect(party.canEdit(1)).toBe(true) // the game is this phone's own again
     fetchMock.mockClear()
-    tracker.setCp(0, 2)
+    tracker.setCp(0, 4)
     await vi.advanceTimersByTimeAsync(5000)
     expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  it('a token that names no member means the party is gone, not that this phone was removed', async () => {
+    await shareAsHost()
+    fetchMock.mockResolvedValueOnce(answer(401, { error: 'invalid_member_token' }))
+    tracker.setCp(0, 3)
+    await vi.advanceTimersByTimeAsync(900)
+    expect(party.status.value).toBe('ended')
+    expect(party.active.value).toBe(false)
   })
 })
 
@@ -340,7 +350,7 @@ describe('the other tracker', () => {
   it('a join says which tracker this is, and a refusal says which one the host plays', async () => {
     fetchMock.mockResolvedValueOnce(answer(409, { error: 'tracker_version', gen: 2 }))
     const res = await party.join({ code: '123456' })
-    expect(lastRequest().body).toEqual({ code: '123456', gen: 1 })
+    expect(lastRequest().body).toEqual({ code: '123456', gen: (await import('./trackerGen.js')).TRACKER_GEN })
     expect(res).toEqual({ error: 'tracker_version', gen: 2 })
   })
 })

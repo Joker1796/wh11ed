@@ -81,7 +81,7 @@ export default {
             "ru": "на фазу, после Frenzied Metabolism"
           },
           "cond": [
-            "never"
+            "used-frenzied-metabolism"
           ]
         }
       ]
@@ -236,7 +236,7 @@ export default {
             "ru": "пока для этого боя выбрано SUSTAINED HITS 1"
           },
           "cond": [
-            "never"
+            "prey-sustained"
           ]
         },
         {
@@ -249,7 +249,7 @@ export default {
             "ru": "пока для этого боя выбрано LANCE"
           },
           "cond": [
-            "never"
+            "prey-lance"
           ]
         },
         {
@@ -262,7 +262,7 @@ export default {
             "ru": "пока для этого боя выбрано LETHAL HITS"
           },
           "cond": [
-            "never"
+            "prey-lethal"
           ]
         },
         {
@@ -275,7 +275,7 @@ export default {
             "ru": "пока для этого боя выбрано SUSTAINED HITS 1"
           },
           "cond": [
-            "never"
+            "prey-sustained"
           ],
           "target": "led"
         },
@@ -289,7 +289,7 @@ export default {
             "ru": "пока для этого боя выбрано LANCE"
           },
           "cond": [
-            "never"
+            "prey-lance"
           ],
           "target": "led"
         },
@@ -303,7 +303,7 @@ export default {
             "ru": "пока для этого боя выбрано LETHAL HITS"
           },
           "cond": [
-            "never"
+            "prey-lethal"
           ],
           "target": "led"
         }
@@ -647,7 +647,7 @@ export default {
             "ru": "раз за ход, если выбран этот вариант"
           },
           "cond": [
-            "never"
+            "adaptive-strength"
           ]
         },
         {
@@ -660,7 +660,7 @@ export default {
             "ru": "раз за ход, если выбран другой вариант"
           },
           "cond": [
-            "never"
+            "adaptive-toughness"
           ]
         }
       ]
@@ -730,6 +730,44 @@ export default {
           "value": "Feel No Pain 6+",
           "target": "aura",
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "53aea933-cb25-4dd8-a387-0afe1a127555:vardenghast-swarm-psychophage",
+      "kind": "ability",
+      "name": "Vardenghast Swarm Psychophage: Feeding Frenzy",
+      "det": null,
+      "ref": null,
+      "hash": "3575d79c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit below starting strength",
+            "ru": "против отряда ниже стартовой численности"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit below half-strength",
+            "ru": "против отряда ниже половины численности"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -1009,6 +1047,36 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hyper-swarming-instincts"
+          ],
+          "when": {
+            "en": "the Hyper-adaptation selected at the start of the battle",
+            "ru": "гиперадаптация, выбранная в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hyper-aggression"
+          ],
+          "when": {
+            "en": "the Hyper-adaptation selected at the start of the battle",
+            "ru": "гиперадаптация, выбранная в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "hyper-hive-predators"
+          ],
+          "when": {
+            "en": "the Hyper-adaptation selected at the start of the battle",
+            "ru": "гиперадаптация, выбранная в начале битвы"
+          }
         }
       ]
     },
@@ -1031,6 +1099,7 @@ export default {
             "ru": "пока активен императив Synaptic Augmentation и отряд в радиусе синапса"
           },
           "cond": [
+            "synaptic-augmentation",
             "never"
           ]
         },
@@ -1044,14 +1113,56 @@ export default {
             "ru": "пока активен императив Goaded to Slaughter и отряд в радиусе синапса"
           },
           "cond": [
+            "synaptic-goaded-to-slaughter",
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "synaptic-augmentation"
+          ],
+          "when": {
+            "en": "the Imperative selected this battle round",
+            "ru": "императив, выбранный в этом раунде"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "synaptic-surging-vitality"
+          ],
+          "when": {
+            "en": "the Imperative selected this battle round",
+            "ru": "императив, выбранный в этом раунде"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "synaptic-goaded-to-slaughter"
+          ],
+          "when": {
+            "en": "the Imperative selected this battle round",
+            "ru": "императив, выбранный в этом раунде"
+          }
         }
       ],
       "ref": {
         "kind": "detachmentRule",
         "det": "synaptic-nexus"
       }
+    },
+    {
+      "sid": "4093eaee-fd76-4dcf-b685-917ddf140c4c",
+      "kind": "detachmentRule",
+      "name": "Skittering Hordes",
+      "det": "The Vardenghast Swarm",
+      "ref": null,
+      "hash": "3266efce",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "905300ef-5645-49bc-9314-afcb99c473ea",
@@ -1208,9 +1319,10 @@ export default {
             "en": "until the end of a phase the bearer used this Enhancement in (once per battle)",
             "ru": "до конца фазы, в которой носитель применил улучшение (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1566,6 +1678,36 @@ export default {
       ]
     },
     {
+      "sid": "d2467e3a-c1bb-4d03-84db-047c045ddffa",
+      "kind": "enhancement",
+      "name": "Ocular Adaptation",
+      "det": "Warrior Bioform Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warrior-bioform-onslaught"
+      },
+      "hash": "ff9e6dbf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "0c67be9d-bb57-48fd-8552-913f37a136fc",
       "kind": "stratagem",
       "name": "Counterpredation",
@@ -1862,6 +2004,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "ef33df89-bcee-4d3a-8cc5-1aac7fc319e5",
+      "kind": "stratagem",
+      "name": "Tanglestrike Rounds",
+      "det": "Talons of the Norn Queen",
+      "ref": {
+        "kind": "stratagem",
+        "det": "talons-of-the-norn-queen",
+        "name": "Tanglestrike Rounds"
+      },
+      "hash": "25b83264",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "d6d95f2e-da94-4979-83a9-1651076c015d",
       "kind": "stratagem",
       "name": "Bounding Advance",
@@ -2000,6 +2157,21 @@ export default {
       },
       "hash": "f05dcd4e",
       "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "61097980-8f90-4f13-b2bd-33fd3c629761",
+      "kind": "stratagem",
+      "name": "Alien Physiology",
+      "det": "Warrior Bioform Onslaught",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warrior-bioform-onslaught",
+        "name": "Alien Physiology"
+      },
+      "hash": "ed2665e0",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },

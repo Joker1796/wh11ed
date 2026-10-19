@@ -28,6 +28,7 @@
     <footer class="modal-foot">
       <button
         class="ge-end"
+        data-press
         @click="$emit('confirm', reason)"
       >
         {{ labels.trackerEndBattle }}

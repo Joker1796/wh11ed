@@ -2,7 +2,7 @@
   <div
     v-if="view"
     class="army-card"
-    :style="accentVars"
+    :class="{ bare }"
   >
     <div class="army-head">
       <div class="army-heading">
@@ -73,6 +73,7 @@
         <button
           v-if="!bonusApplied"
           class="army-bonus-btn"
+          data-press
           @click="applyBonus"
         >
           <i class="wi wi-add-circle" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}
@@ -84,6 +85,7 @@
           <span><i class="wi wi-ok" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}</span>
           <button
             class="army-head-reset"
+            data-press
             :aria-label="labels.trackerArmyReset"
             :title="labels.trackerArmyReset"
             @click="undoBonus"
@@ -140,6 +142,7 @@
             v-for="(d, di) in dice"
             :key="di"
             class="army-die"
+            data-press
             :aria-label="`${labels.trackerDiceSpend} (${d})`"
             :title="labels.trackerDiceSpend"
             @click="pendingDie = di"
@@ -163,6 +166,7 @@
           v-for="v in 6"
           :key="v"
           class="army-die-add"
+          data-press
           :aria-label="`${labels.trackerDiceAdd} ${v}`"
           @click="addArmyDie(pi, v, mi)"
         >
@@ -188,6 +192,7 @@
           v-for="o in view.options"
           :key="o.id"
           class="army-opt"
+          data-press
           :class="{ on: o.id === selectedId, spent: spent(o.id) }"
           :disabled="spent(o.id)"
           @click="pickOption(o.id)"
@@ -240,6 +245,7 @@
         <button
           v-if="usedCount === 0"
           class="army-call"
+          data-press
           :inert="lock"
           @click="fireArmyToggle(pi, currentRound, mi)"
         >
@@ -285,6 +291,7 @@
             <button
               v-if="canCallAgain"
               class="army-again"
+              data-press
               :inert="lock"
               @click="fireArmyToggle(pi, currentRound, mi)"
             >
@@ -368,6 +375,32 @@
       </div>
     </template>
 
+    <!-- The rules that go with the army's (owner, 2026-09-29): its full text where the card above is a
+         tracker (a reference card already IS the text), and each chosen detachment's rule — one
+         fold each, closed at first. Handed in by the Armies panel (`texts`). -->
+    <div
+      v-for="t in shownTexts"
+      :key="t.key"
+      class="army-acc"
+    >
+      <button
+        class="army-acc-head"
+        :aria-expanded="openTexts.includes(t.key)"
+        @click="toggleText(t.key)"
+      >
+        <i
+          class="wi army-acc-chev"
+          :class="openTexts.includes(t.key) ? 'wi-chevron-down' : 'wi-chevron-right'"
+        />
+        <span class="army-acc-title">{{ t.title }}</span>
+      </button>
+      <CollapseTransition :show="openTexts.includes(t.key)">
+        <div class="army-acc-body">
+          <RuleBody :body="t.body" />
+        </div>
+      </CollapseTransition>
+    </div>
+
     <!-- Resurrected units (GSC): a running log of what the spend picker bought, so the Resurgence
          pool's history is visible instead of just a number going down. Each entry is undoable (refunds
          the cost, removes the entry) — e.g. a mis-tap in the picker. -->
@@ -398,6 +431,7 @@
               <span class="army-resurrect-cost">−{{ r.cost }}</span>
               <button
                 class="army-resurrect-undo"
+                data-press
                 :aria-label="labels.trackerArmyReset"
                 :title="labels.trackerArmyReset"
                 :inert="lock"
@@ -518,9 +552,7 @@ import ConfirmModal from '../ConfirmModal.vue'
 import RuleBody from '../RuleBody.vue'
 import { useTracker, memberAt, membersOf } from '../../composables/useTracker.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTheme } from '../../composables/useTheme.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
-import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { selectionBudget } from '../../data/armyTrackers/selectionBudget.js'
 import { combatPatrolBoxIn } from '../../composables/combatPatrolBox.js'
 import { ui } from '../../i18n/ui.js'
@@ -535,6 +567,11 @@ const props = defineProps({
   // it stays live: the "How it works" text, the active rule, the spent log. The other side's army
   // rule is a thing to look up mid-game, whoever is keeping its count.
   readonly: { type: Boolean, default: false },
+  // Rules to read under the tracker: [{ key, title, body, army? }] — `army` marks the army rule's
+  // own text, dropped where the card already shows it (a reference card, no tracker spec).
+  texts: { type: Array, default: () => [] },
+  // Inside a card of its own (the Armies panel's army card): no frame, the host draws it.
+  bare: { type: Boolean, default: false },
 })
 // `inert` is a presence attribute: undefined, never false.
 const lock = computed(() => (props.readonly ? true : undefined))
@@ -545,7 +582,6 @@ const {
   resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
 } = useTracker()
 const { locale } = useLocale()
-const { theme } = useTheme()
 const labels = computed(() => ui[locale.value])
 
 const side = computed(() => current.value?.players?.[props.pi] || null)
@@ -579,20 +615,6 @@ const cardLabel = computed(() =>
 const battleSize = computed(() =>
   current.value?.settings?.combatPatrol ? 'combatPatrol' : (current.value?.settings?.battleSize || 'strikeForce')
 )
-// Tint the whole card in the faction's own colour (the same palette FactionLayout applies to the
-// faction pages): resolve light/dark against the active theme and override --accent for the subtree,
-// so every accent-coloured element (dice, chips, spend badges, readout, rule name, stepper) follows.
-const factionColor = computed(() => factionIndexBySlug(specFaction.value)?.color || null)
-const accentVars = computed(() => {
-  const c = factionColor.value
-  if (!c) return undefined
-  const dark = theme.value === 'dark'
-  const base = dark ? c.dark : c.light
-  return {
-    '--accent': base,
-    '--accent-hover': `color-mix(in srgb, ${base} 80%, ${dark ? 'white' : 'black'})`,
-  }
-})
 // A counter may declare a battle-size `start` (GSC Resurgence points begin full and are spent down);
 // an untouched counter defaults to that, else to its min (Drukhari/Votann start at 0).
 const counterStart = computed(() => {
@@ -708,6 +730,20 @@ const toggleUsedText = computed(() => {
 // Accordions — both collapsed by default.
 const showActive = ref(false)
 const showHowto = ref(false)
+const shownTexts = computed(() => props.texts.filter((t) => !(t.army && view.value?.kind === 'reference')))
+const openTexts = ref([])
+// Open one of the card's rules (the Phase tab's line to it, via ArmiesPanel): a text by its key,
+// or the army rule — its own fold where the card is a tracker, "How it works" where the card is
+// the rule itself.
+function reveal(key) {
+  if (shownTexts.value.some((t) => t.key === key)) {
+    if (!openTexts.value.includes(key)) openTexts.value = [...openTexts.value, key]
+  } else if (key === 'army') showHowto.value = true
+}
+defineExpose({ reveal })
+function toggleText(key) {
+  openTexts.value = openTexts.value.includes(key) ? openTexts.value.filter((k) => k !== key) : [...openTexts.value, key]
+}
 
 // The rule active right now ({ name, body }): a counter threshold's state or the picked option.
 // (The toggle effect is handled separately — it's only "active" the round it was called.)
@@ -829,12 +865,18 @@ useFlashOnChange(counter, counterEl)
 .army-card {
   margin-top: 0.75rem;
   padding: 0.6rem 0.75rem;
-  /* --accent is overridden inline per faction (accentVars), so the tint + border carry the
-     faction's own colour; a left stripe makes the coloured block read at a glance. */
+  /* In its side's colour (owner, 2026-09-29): --accent comes from the Armies panel, set to the
+     chosen army's side colour — its faction's by default, or this phone's pick (sideColors.js).
+     A left stripe makes the coloured block read at a glance. */
   background: color-mix(in srgb, var(--accent) 7%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
   border-left: 3px solid var(--accent);
 }
+.army-card.bare { margin-top: 0; padding: 0; background: none; border: 0; }
+/* On the Army tab's card (bare) the folds sit closer (owner, 2026-10-10: the rule's head, "How it
+   works" and the detachment line each stood a line apart): a hairline and a small step, not a gap. */
+.army-card.bare .army-acc { margin-top: 0.3rem; padding-top: 0.25rem; }
+.army-card.bare .army-acc-head { padding: 0.1rem 0; }
 
 .army-head {
   display: flex;

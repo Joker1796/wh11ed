@@ -137,6 +137,7 @@
               <button
                 type="button"
                 class="rul-row"
+                data-tour="rl-unit"
                 :aria-expanded="openUid === e.uid"
                 @click="$emit('toggle', e.uid)"
               >

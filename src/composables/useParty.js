@@ -242,8 +242,12 @@ export function useParty() {
           settle('ok')
           return
         }
+        // Two different 401s (wh11ed-api requireMember): 'revoked' — the host removed this phone;
+        // anything else — the token names no member, because the party is gone (ended or expired).
         if (res.status === 401) {
-          markRevoked()
+          const why = await res.json().catch(() => null)
+          if (why?.error === 'revoked') markRevoked()
+          else markEnded()
           return
         }
         if (res.status === 404) {
@@ -461,6 +465,8 @@ export function useParty() {
     // seat is held from the start. As the TEAM (`mi: null`) it held no member seat at all, and a
     // joining phone could take member 1 out from under the host (owner, 2026-10-05).
     const mi = g.settings?.gameType === 'doubles' ? 0 : null
+    // The party is this tracker's, whatever started the game: the server reads it on every join.
+    g.trackerGen = TRACKER_GEN
     const cut = sliceGame(g)
     try {
       const res = await authedFetch('/party', {

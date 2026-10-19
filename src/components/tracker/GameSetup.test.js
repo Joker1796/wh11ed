@@ -302,3 +302,25 @@ describe('GameSetup gates in a lobby', () => {
     expect(cards.find((c) => !c.find('.side-mirror').exists()).findAll('.seg').length).toBeGreaterThan(0)
   })
 })
+
+// A Combat Patrol army goes in as its box's list, built only at Start — so its setup has no
+// attached list yet, and the roster rows were drawn "available with a list" and written OFF:
+// the game began with no live modifiers and no unit marks (owner's report, 2026-10-15).
+describe('GameSetup — Combat Patrol', () => {
+  it('offers the roster options before the box lists exist', async () => {
+    localStorage.setItem('wh11ed-tracker-setup-draft', JSON.stringify({
+      step: 4,
+      settings: { trackCP: true, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: true, gameType: 'singles', scoreMode: 'vp', twist: null, twistMission: null },
+      players: [
+        { name: 'A', factionSlug: 'orks', detachments: ["'Ard As Nails"], disposition: 'take-and-hold', role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, rosterId: null, roster: null },
+        { name: 'B', factionSlug: 'tyranids', detachments: ['Skittering Hordes'], disposition: 'purge-the-foe', role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, rosterId: null, roster: null },
+      ],
+    }))
+    const { default: Setup } = await import('./GameSetup.vue')
+    const w = mount(Setup)
+    await flushPromises()
+    const row = w.findAll('label').find((l) => l.text().includes('Live modifiers'))
+    expect(row, 'the Live modifiers row').toBeTruthy()
+    expect(row.find('input').element.disabled).toBe(false)
+  })
+})

@@ -2,15 +2,16 @@
   <div class="li">
     <div class="li-card">
       <h2 class="li-title">
-        {{ labels.lobbyInviteTitle }}
+        {{ doubles ? labels.lobbyInviteTitleDoubles : labels.lobbyInviteTitle }}
       </h2>
       <p class="li-hint">
-        {{ labels.lobbyInviteHint }}
+        {{ doubles ? labels.lobbyInviteHintDoubles : labels.lobbyInviteHint }}
       </p>
 
       <PartyInvite
         v-if="invite"
         :invite="invite"
+        data-tour="lobby-code"
       />
       <p
         v-else
@@ -22,7 +23,10 @@
       <!-- Who has arrived. The host does not have to wait for anyone to go on setting the game
            up — the wizard's own gate is what holds the start until the other side is in — so
            this is a report, not a turnstile. -->
-      <div class="li-who">
+      <div
+        class="li-who"
+        data-tour="lobby-people"
+      >
         <span class="li-label">{{ labels.partyMembers }}</span>
         <p
           v-if="!guests.length"
@@ -42,7 +46,7 @@
             v-for="m in guests"
             :key="m.memberId"
           >
-            {{ m.name || labels.trackerOpponent }}
+            {{ memberLabel(m, current, labels) }}
           </li>
         </ul>
       </div>
@@ -56,6 +60,7 @@
         </button>
         <button
           class="btn-primary"
+          data-tour="lobby-go"
           @click="$emit('next')"
         >
           {{ labels.lobbyInviteNext }}
@@ -82,6 +87,9 @@ import ConfirmModal from '../ConfirmModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
+import { useTour } from '../../composables/useTour.js'
+import { useTracker } from '../../composables/useTracker.js'
+import { memberLabel } from './partySeats.js'
 
 // Where a shared game begins: the code and the link, and who has come in so far. It stands
 // BEFORE the wizard because that is the order the table works in — you call the other player
@@ -92,6 +100,8 @@ defineEmits(['next', 'cancel'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { invite, members, refreshMembers, refreshInvite } = useParty()
+const { current } = useTracker()
+const doubles = computed(() => current.value?.settings?.gameType === 'doubles')
 
 const cancelOpen = ref(false)
 const guests = computed(() => members.value.filter((m) => !m.you))
@@ -103,6 +113,10 @@ onMounted(async () => {
   timer = setInterval(refreshMembers, 5000)
 })
 onUnmounted(() => clearInterval(timer))
+
+// The invitation's chapter, the first time a host opens a lobby.
+const { maybeStart: maybeStartTour } = useTour()
+onMounted(() => maybeStartTour('lobby-invite'))
 </script>
 
 <style scoped>

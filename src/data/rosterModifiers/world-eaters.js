@@ -474,9 +474,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "melee",
@@ -487,9 +488,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -619,6 +621,20 @@ export default {
       }
     },
     {
+      "sid": "f8e7c22f-1d9e-439b-9e5c-3fa51d3da5da",
+      "kind": "detachmentRule",
+      "name": "Rampaging Terrors",
+      "det": "Brazen Engines",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "brazen-engines"
+      },
+      "hash": "e3a83735",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "e0bb7c79-6d19-4d69-84ae-f3d0b4036ad3",
       "kind": "detachmentRule",
       "name": "Idols of Khorne",
@@ -626,7 +642,38 @@ export default {
       "hash": "60e57bd1",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "op": "state",
+          "cond": [
+            "idol-infinite-rage"
+          ],
+          "when": {
+            "en": "the Idol selected this Command phase",
+            "ru": "Idol, выбранный в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "idol-burning-wrath"
+          ],
+          "when": {
+            "en": "the Idol selected this Command phase",
+            "ru": "Idol, выбранный в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "idol-blessed-blood"
+          ],
+          "when": {
+            "en": "the Idol selected this Command phase",
+            "ru": "Idol, выбранный в эту фазу командования"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "cult-of-blood",
@@ -701,6 +748,7 @@ export default {
             "ru": "только отряды Blood Legions, после активации способности Boon of Blood за 4 очка Blood Tithe"
           },
           "cond": [
+            "tithe-boon-of-blood",
             "blocked-subset"
           ]
         },
@@ -714,6 +762,7 @@ export default {
             "ru": "отряды BLOOD LEGIONS, пока за 3BTP активирована Daemonic Rage"
           },
           "cond": [
+            "tithe-daemonic-rage",
             "never"
           ]
         },
@@ -727,8 +776,49 @@ export default {
             "ru": "отряды BLOOD LEGIONS и WORLD EATERS, пока за 2BTP активирована Enraged Abjuration"
           },
           "cond": [
+            "tithe-enraged-abjuration",
             "never"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tithe-enraged-abjuration"
+          ],
+          "when": {
+            "en": "activated with 2 Blood Tithe points, until the end of the battle",
+            "ru": "активирована за 2 очка Blood Tithe, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tithe-daemonic-rage"
+          ],
+          "when": {
+            "en": "activated with 3 Blood Tithe points, until the end of the battle",
+            "ru": "активирована за 3 очка Blood Tithe, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tithe-boon-of-blood"
+          ],
+          "when": {
+            "en": "activated with 4 Blood Tithe points, until the end of the battle",
+            "ru": "активирована за 4 очка Blood Tithe, до конца битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "tithe-might-of-khorne"
+          ],
+          "when": {
+            "en": "activated with 5 Blood Tithe points, until the end of the battle",
+            "ru": "активирована за 5 очков Blood Tithe, до конца битвы"
+          }
         }
       ],
       "ref": {
@@ -759,7 +849,7 @@ export default {
             "ru": "атаки ближнего боя моделей Character, если при выборе для боя взят этот вариант"
           },
           "cond": [
-            "never"
+            "wrath-cleave"
           ]
         },
         {
@@ -773,7 +863,7 @@ export default {
             "ru": "вместо этого +1 AP для атак ближнего боя моделей Character"
           },
           "cond": [
-            "never"
+            "wrath-ap"
           ]
         }
       ]
@@ -840,6 +930,29 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "ee328098-14cc-48ec-aaa0-0bc012746e78",
+      "kind": "enhancement",
+      "name": "Murder-forged Entity (Upgrade)",
+      "det": "Brazen Engines",
+      "ref": {
+        "kind": "enhancement",
+        "det": "brazen-engines"
+      },
+      "hash": "ae4c4c9e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Daemon",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "5b1f2f75-b53c-4e8c-b9e0-27b709684271",
@@ -1015,10 +1128,11 @@ export default {
             "en": "until the end of a Fight phase the bearer used this Enhancement in (once per battle)",
             "ru": "до конца Fight phase, в которой носитель применил улучшение (раз за битву)"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1144,6 +1258,28 @@ export default {
       ]
     },
     {
+      "sid": "f3092328-4d66-4932-b3d4-07d3002b8f2a",
+      "kind": "enhancement",
+      "name": "Gateways to Glory",
+      "det": "Vessels of Wrath",
+      "ref": {
+        "kind": "enhancement",
+        "det": "vessels-of-wrath"
+      },
+      "hash": "f0e8c5ed",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "04245333-93c8-497c-9c6c-2bfe63210589",
       "kind": "stratagem",
       "name": "Frenzied Resilience",
@@ -1181,6 +1317,63 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "6f84842b-c1a8-491e-9017-10178271d994",
+      "kind": "stratagem",
+      "name": "Trail of Destruction",
+      "det": "Brazen Engines",
+      "ref": {
+        "kind": "stratagem",
+        "det": "brazen-engines",
+        "name": "Trail of Destruction"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "e164a302-d3ce-4b92-bc6b-fa64578c0661",
+      "kind": "stratagem",
+      "name": "A Trophy for the Throne",
+      "det": "Butchers of Khorne",
+      "ref": {
+        "kind": "stratagem",
+        "det": "butchers-of-khorne",
+        "name": "A Trophy for the Throne"
+      },
+      "hash": "13351643",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "против отряда MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"
@@ -1255,6 +1448,17 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "28f48ed7-7973-407d-a001-a1628c5bbc20",
+      "kind": "stratagem",
+      "name": "Berserk Resilience",
+      "det": "Frenzied Reavers",
+      "ref": null,
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "4713f814-b1e9-4d19-bad3-f6cac53d2c6e",
       "kind": "stratagem",
       "name": "Blessing of Burning Blood",
@@ -1288,7 +1492,7 @@ export default {
             "ru": "пока активен Boon of Blood, вместо этого"
           },
           "cond": [
-            "never"
+            "tithe-boon-of-blood"
           ],
           "alt": 0
         }

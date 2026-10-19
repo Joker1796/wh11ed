@@ -31,6 +31,130 @@ export default {
       ]
     },
     {
+      "sid": "76547058-7bf2-4e78-a224-b8efeae6351e:aleya",
+      "kind": "ability",
+      "name": "Aleya: Tenacious Spirit",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aleya"
+      },
+      "hash": "7cf0257a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below starting strength",
+            "ru": "пока отряд ниже стартовой численности"
+          },
+          "cond": [
+            "unit-below-starting-strength"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below starting strength",
+            "ru": "пока отряд ниже стартовой численности"
+          },
+          "cond": [
+            "unit-below-half-strength"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below half-strength",
+            "ru": "пока отряд ниже половины численности"
+          },
+          "cond": [
+            "unit-below-half-strength"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below starting strength",
+            "ru": "пока отряд ниже стартовой численности"
+          },
+          "cond": [
+            "unit-below-starting-strength"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below starting strength",
+            "ru": "пока отряд ниже стартовой численности"
+          },
+          "cond": [
+            "unit-below-half-strength"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below half-strength",
+            "ru": "пока отряд ниже половины численности"
+          },
+          "cond": [
+            "unit-below-half-strength"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "ff020e37-6eac-4864-aa8f-a2f3dd6d2a16:allarus-custodians",
+      "kind": "ability",
+      "name": "Allarus Custodians: Slayer of Tyrants",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "allarus-custodians"
+      },
+      "hash": "96ff4c4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit with a higher T",
+            "ru": "против отряда с большей T"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "8735690b-1b1a-4cbe-ba33-6c2519712c6b:aquilan-talon-contemptor-achillus-dreadnought",
       "kind": "ability",
       "name": "Aquilan Talon Contemptor-Achillus Dreadnought: Intimidating Presence",
@@ -104,6 +228,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "6b879288-b8e3-4332-8fcf-240631a5163d:blade-champion",
+      "kind": "ability",
+      "name": "Blade Champion: Sword of the Throne",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "blade-champion"
+      },
+      "hash": "74d82bd4",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against this model’s mark",
+            "ru": "против метки этой модели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "d45e0565-51cb-4118-9b02-092cea2f35ee:caladius-grav-tank",
       "kind": "ability",
       "name": "Caladius Grav‑Tank: Destructor Optics",
@@ -132,6 +284,34 @@ export default {
       ]
     },
     {
+      "sid": "fb223225-63c9-4220-b938-5ef8d916d157:contemptor-achillus-dreadnought",
+      "kind": "ability",
+      "name": "Contemptor‑Achillus Dreadnought: Unyielding Ancient",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "contemptor-achillus-dreadnought"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "0f611e5a-4443-4309-a9f6-cecb6c62d22d:contemptor-galatus-dreadnought",
+      "kind": "ability",
+      "name": "Contemptor‑Galatus Dreadnought: Unyielding Ancient",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "contemptor-galatus-dreadnought"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "36f695ef-1638-4dfc-bcf6-fa8674cd5fca:custodian-guard-sodality-with-pyrithite-spears",
       "kind": "ability",
       "name": "Custodian Guard Sodality with Pyrithite Spears: No Foe Shall Stand (Once per battle, per unit)",
@@ -153,9 +333,10 @@ export default {
             "en": "when this unit uses No Foe Shall Stand (once per battle)",
             "ru": "когда отряд применяет No Foe Shall Stand (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "ranged",
@@ -166,9 +347,10 @@ export default {
             "en": "when this unit uses No Foe Shall Stand (once per battle)",
             "ru": "когда отряд применяет No Foe Shall Stand (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -331,11 +513,26 @@ export default {
             "en": "the Shooting phase this unit uses Disintegration Beams (once per battle)",
             "ru": "фаза стрельбы, в которой отряд применяет Disintegration Beams (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
+    },
+    {
+      "sid": "89e9ee78-eb8d-4f75-bcd4-6d04d62dae70:sagittarum-custodians-sodality",
+      "kind": "ability",
+      "name": "Sagittarum Custodians Sodality: Saturation Volleys",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sagittarum-custodians-sodality"
+      },
+      "hash": "75d53950",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "dfdb4fda-d06b-4f00-866e-f6df2056bc84:sentinel-guard-sodality",
@@ -405,8 +602,12 @@ export default {
             "name": "Watcher’s Axe"
           },
           "cond": [
-            "never"
-          ]
+            "shackle-axe"
+          ],
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         },
         {
           "on": "profile",
@@ -418,8 +619,12 @@ export default {
             "ru": "фаза, в которую Moment Shackle применён к защите (раз за битву)"
           },
           "cond": [
-            "never"
-          ]
+            "shackle-save"
+          ],
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -464,6 +669,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "bac9fd53-e34c-47f9-890f-06efaa7083bf:vigilator-squad",
+      "kind": "ability",
+      "name": "Vigilator Squad: Deft Parry",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vigilator-squad"
+      },
+      "hash": "07125726",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "5bdd85ce-39ff-4db1-bcf1-447dde768cf6",
@@ -589,6 +808,34 @@ export default {
       ]
     },
     {
+      "sid": "82414467-90e4-4b4f-a419-631f1ec70fd3",
+      "kind": "detachmentRule",
+      "name": "Assemblage of Might",
+      "det": "Auric Champions",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "auric-champions"
+      },
+      "hash": "85f8d3dd",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the dreadful foe unit",
+            "ru": "против отряда dreadful foe"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "5ec5c950-61d7-4085-b3ba-77c2625887a6",
       "kind": "detachmentRule",
       "name": "Heralds of the Throne",
@@ -657,11 +904,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
-            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+            "en": "the one picked when the unit is selected to fight",
+            "ru": "выбранная, когда отряд выбран для боя"
           },
           "cond": [
-            "never"
+            "mastery-sustained"
           ]
         },
         {
@@ -670,11 +917,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
-            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+            "en": "the one picked when the unit is selected to fight",
+            "ru": "выбранная, когда отряд выбран для боя"
           },
           "cond": [
-            "never"
+            "mastery-lethal"
           ]
         }
       ]
@@ -706,6 +953,43 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "0f95518d-fc22-4034-800a-70b3dc9d987b",
+      "kind": "detachmentRule",
+      "name": "Silent Sisterhood",
+      "det": "Null Maiden Vigil",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "null-maiden-vigil"
+      },
+      "hash": "8ab66126",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": null,
+          "scope": 1
+        }
+      ]
+    },
+    {
+      "sid": "8bdacccb-b14c-41c9-825e-ec6bad410766",
+      "kind": "detachmentRule",
+      "name": "Wardens of the Dark Cells",
+      "det": "Shadowkeepers",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "shadowkeepers"
+      },
+      "hash": "d2050fdb",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "7223f817-3bb5-4fc2-810e-f77ac79c5326",
@@ -916,6 +1200,48 @@ export default {
       ]
     },
     {
+      "sid": "b03df237-9f84-48d0-8c7a-68b3d9b27940",
+      "kind": "enhancement",
+      "name": "Radiant Mantle",
+      "det": "Emperor’s Chosen",
+      "ref": {
+        "kind": "enhancement",
+        "det": "emperors-chosen"
+      },
+      "hash": "4f6b2be2",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "00ed9505-8ef9-4746-bb1e-39113d6e8a4a",
+      "kind": "enhancement",
+      "name": "Bane of Abominations",
+      "det": "Guardians of the Throne",
+      "ref": {
+        "kind": "enhancement",
+        "det": "guardians-of-the-throne"
+      },
+      "hash": "e7d8407e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER, MONSTER or VEHICLE unit",
+            "ru": "против отряда CHARACTER, MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "cf08ff55-fbe1-41a0-a0c6-6d948037ed6a",
       "kind": "enhancement",
       "name": "Eagle’s Eye",
@@ -944,9 +1270,10 @@ export default {
             "en": "when attacks are allocated to this model and it uses this ability (once per battle)",
             "ru": "когда атаки распределены на эту модель и она применяет эту способность (раз за битву)"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1009,6 +1336,63 @@ export default {
       ]
     },
     {
+      "sid": "14fd7119-a08e-47c2-b7b7-cf727d909e42",
+      "kind": "enhancement",
+      "name": "Oblivion Knight",
+      "det": "Null Maiden Vigil",
+      "ref": {
+        "kind": "enhancement",
+        "det": "null-maiden-vigil"
+      },
+      "hash": "0bce4711",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "also, against a PSYKER or Battle-shocked unit",
+            "ru": "также против отряда PSYKER или в Battle-shock"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "also, against a PSYKER or Battle-shocked unit",
+            "ru": "также против отряда PSYKER или в Battle-shock"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "b9ed1806-197f-42d9-bff9-f6ca83c0b473",
       "kind": "enhancement",
       "name": "Genalchemic Warding",
@@ -1052,6 +1436,74 @@ export default {
           "when": {
             "en": "against a target within 9\"",
             "ru": "против цели в пределах 9\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "fd464e11-4a44-4b18-980e-c13981659865",
+      "kind": "stratagem",
+      "name": "Unstoppable Champion",
+      "det": "Aquilan Talon",
+      "ref": null,
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "7efedbb1-34fe-437a-b28a-c7661a1c6bf3",
+      "kind": "stratagem",
+      "name": "Golden Light of the Moiraides",
+      "det": "Dread Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-host",
+        "name": "Golden Light of the Moiraides"
+      },
+      "hash": "8f2279fc",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "bda17696-cc1a-4687-b0aa-51020af18e64",
+      "kind": "stratagem",
+      "name": "Slayers of Nightmares",
+      "det": "Emissaries Imperatus",
+      "ref": {
+        "kind": "stratagem",
+        "det": "emissaries-imperatus",
+        "name": "Slayers of Nightmares"
+      },
+      "hash": "40c78593",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit with a higher T",
+            "ru": "против отряда с большей T"
           },
           "cond": [
             "never"
@@ -1118,6 +1570,21 @@ export default {
       "reviewed": true,
       "effects": [],
       "dur": "phase"
+    },
+    {
+      "sid": "2c35eab3-567c-4672-a8ba-924060f1e46f",
+      "kind": "stratagem",
+      "name": "Shield of Honour",
+      "det": "Guardians of the Throne",
+      "ref": {
+        "kind": "stratagem",
+        "det": "guardians-of-the-throne",
+        "name": "Shield of Honour"
+      },
+      "hash": "5662a22a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "89346c89-ccf5-4462-ba1b-00b7ec639229",
@@ -1217,6 +1684,33 @@ export default {
       "dur": "turn"
     },
     {
+      "sid": "cfabe86c-1933-427d-9c8d-1110e2c2f94d",
+      "kind": "stratagem",
+      "name": "Unstoppable momentum",
+      "det": "Might of the Moritoi",
+      "ref": {
+        "kind": "stratagem",
+        "det": "might-of-the-moritoi",
+        "name": "Unstoppable momentum"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "0094c9e7-8c97-427f-abd4-2955745ca1d1",
       "kind": "stratagem",
       "name": "Anathema Blademastery",
@@ -1236,11 +1730,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of the two, selected when used",
-            "ru": "одна из двух — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "blademastery-sustained"
           ]
         },
         {
@@ -1249,11 +1743,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of the two, selected when used",
-            "ru": "одна из двух — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "blademastery-lethal"
           ]
         }
       ],
@@ -1511,6 +2005,21 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "10ef4be6-f2a9-4cf6-99ea-0253a4ea7ae9:sentinel-guard-sodality",
+      "kind": "wargear",
+      "name": "Sentinel Guard Sodality: Praesidium Shield",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "sentinel-guard-sodality",
+        "item": "praesidium shield"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "cfcf1648-58f3-4e72-b091-8f7f5656f95a:sentinel-guard-sodality",

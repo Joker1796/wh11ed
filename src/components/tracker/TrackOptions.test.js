@@ -15,10 +15,10 @@ const CTX = {
 }
 const RouterLink = { template: '<a><slot /></a>' }
 
-function build(ctx = CTX) {
+function build(ctx = CTX, group = 'turn') {
   const settings = reactive(trackSettingsOf({}))
   const w = mount(TrackOptions, {
-    props: { settings, ctx },
+    props: { settings, ctx, group },
     global: { stubs: { RouterLink } },
   })
   return { w, settings }
@@ -38,13 +38,16 @@ describe('TrackOptions', () => {
     const { w, settings } = build()
     await w.find('.opt-info').trigger('click')
     expect(settings.trackCP).toBe(true)
-    expect(body().text()).toContain('Track CP')
+    expect(body().text()).toContain('Command points (CP)')
   })
 
-  it('prints the reference-only note for a faction with no counter', () => {
-    const { w } = build()
-    const notes = w.findAll('.check-note')
-    expect(notes).toHaveLength(1)   // the opponent's row only
+  // The caveat lives in the help, not under the caption: no row is taller than the rest.
+  it('puts the reference-only note into the help for a faction with no counter', async () => {
+    const { w } = build(CTX, 'armies')
+    expect(w.findAll('.check-note')).toHaveLength(0)
+    const opp = w.findAll('.opt-row').find((r) => r.text().includes("Opponent's army rule counter"))
+    await opp.find('.opt-info').trigger('click')
+    expect(body().text()).toContain('reference only')
   })
 
   // Nothing is hidden: a row the game cannot offer is drawn disabled, with the reason.
@@ -65,17 +68,32 @@ describe('TrackOptions', () => {
   // the host's and say so.
   it('lockShared leaves only the local rows live', () => {
     const w = mount(TrackOptions, {
-      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'game', lockShared: true },
+      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'armies', lockShared: true },
       global: { stubs: { RouterLink } },
     })
     const rows = w.findAll('.opt-row')
     const live = rows.filter((r) => !r.find('input').element.disabled).map((r) => r.text())
     expect(live).toHaveLength(2)
-    expect(live[0]).toContain('your army rule')
-    expect(live[1]).toContain("opponent's army rule")
-    const cp = rows.find((r) => r.text().includes('Track CP'))
-    expect(cp.find('input').element.disabled).toBe(true)
-    expect(cp.text()).toContain('Host only')
+    expect(live[0]).toContain("Your army rule's counter")
+    expect(live[1]).toContain("Opponent's army rule counter")
+    // The ask sits under the stratagems, under CP, since 2026-10-17 — the host's like them.
+    const turn = mount(TrackOptions, {
+      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'turn', lockShared: true },
+      global: { stubs: { RouterLink } },
+    })
+    const ask = turn.findAll('.opt-row').find((r) => r.text().includes('Ask the unit and the cost'))
+    expect(ask.find('input').element.disabled).toBe(true)
+    expect(ask.text()).toContain('Host only')
+    // The colours have a card of their own, and are a way of looking at the game: this phone's.
+    const look = mount(TrackOptions, {
+      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'look', lockShared: true },
+      global: { stubs: { RouterLink } },
+    })
+    const row = (t) => look.findAll('.opt-row').find((r) => r.text().includes(t))
+    expect(row('Customise colours').find('input').element.disabled).toBe(false)
+    expect(row('Log and Stats tabs').find('input').element.disabled).toBe(false)
+    // The broadcast button is the host's: it streams the game, not this phone's view of it.
+    expect(row('Broadcast (OBS)').find('input').element.disabled).toBe(true)
   })
 
   // The five families hang off the master; nothing else does.
@@ -90,5 +108,28 @@ describe('TrackOptions', () => {
     const row = (name) => w.findAll('.opt-row').find((r) => r.text().includes(name))
     expect(row('Stratagems').find('input').element.disabled).toBe(true)
     expect(row('Live modifiers').find('input').element.disabled).toBe(false)   // the master itself
+  })
+})
+
+describe('TrackOptions — the groups of 2026-10-14', () => {
+  it('folds the modifier families under "Details", saying how many are on', async () => {
+    const w = mount(TrackOptions, {
+      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'roster' },
+      global: { stubs: { RouterLink } },
+    })
+    const head = w.find('.opt-fold-head')
+    expect(head.text()).toContain('Details')
+    expect(head.text()).toContain('6/6')
+    expect(head.attributes('aria-expanded')).toBe('false')
+    await head.trigger('click')
+    expect(head.attributes('aria-expanded')).toBe('true')
+  })
+  it('marks a row that is this phone\'s alone', () => {
+    const w = mount(TrackOptions, {
+      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'look' },
+      global: { stubs: { RouterLink } },
+    })
+    const log = w.findAll('.opt-row').find((r) => r.text().includes('Log and Stats tabs'))
+    expect(log.find('.opt-local').text()).toBe('on this phone')
   })
 })

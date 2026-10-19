@@ -1,335 +1,243 @@
 <template>
   <section
-    v-if="sides.length"
+    v-if="shown.length"
     class="pr"
+    :class="{ 'in-frame': controlled }"
   >
-    <!-- Closed by default, with the count in the header — an open block would push the round's
-         actual scoring down the screen, which is exactly why CP and the army-rule card were moved
-         BELOW the secondaries. The count is itself the reminder: "3 rules in this phase" does the
-         job from the closed state, and opening it is one tap. The choice is remembered. -->
-    <button
-      type="button"
-      class="pr-head"
-      :aria-expanded="open"
-      @click="toggle"
+    <!-- The turn in the order it is played (owner, 2026-10-10): one fold per phase (and the turn's
+         start and end), all shut by default, each with how many things fire inside it. Opened, the
+         phase step by step: a step with something to say heads its rows, and steps in a row with
+         nothing are one quiet line — the order of the turn stays readable without a line apiece. -->
+    <div
+      v-for="army in shown"
+      :key="army.pi"
+      class="pr-side"
+      :class="{ opp: !army.you }"
     >
-      <i
-        class="wi pr-chev"
-        :class="open ? 'wi-chevron-down' : 'wi-chevron-right'"
-      />
-      <span class="pr-title">{{ labels.trackerPhaseRules }}</span>
-      <span class="pr-count">{{ total }}</span>
-    </button>
-
-    <CollapseTransition :show="open">
-      <div class="pr-body">
-        <div
-          v-for="side in sides"
-          :key="side.pi"
-          class="pr-side"
-        >
-          <h4 class="pr-who">
-            {{ side.name }}
-          </h4>
-          <ul class="pr-list">
-            <li
-              v-for="r in side.rules"
-              :key="r.key"
-              class="pr-rule"
+      <h4
+        v-if="!controlled"
+        class="pr-who"
+      >
+        {{ army.name }}
+      </h4>
+      <StratPhaseGroups
+        v-model:open="openSecs"
+        :groups="foldsOf(army.turn)"
+        card
+      >
+        <template #default="{ group }">
+          <div class="pr-steps">
+            <template
+              v-for="c in group.chunks"
+              :key="c.key"
             >
-              <!-- A name the reader cannot get to is half a reminder, so every line is a way in:
-                   a unit to its card, a rule to its place on the faction page. -->
-              <button
-                type="button"
-                class="pr-go-btn"
-                @click="go(r)"
+              <p
+                v-if="c.idle"
+                class="pr-idle"
               >
-                <span class="pr-src">{{ r.src }}</span>
-                <span class="pr-name">
-                  {{ r.name }}
-                  <small
-                    v-if="r.sub"
-                    class="pr-sub"
-                  >{{ r.sub }}</small>
-                </span>
-                <i class="wi wi-chevron-right pr-go" />
-              </button>
-            </li>
-          </ul>
-        </div>
-        <!-- Stratagems have their own page in this same subnav, which already groups by phase and
-             already knows both players' detachments. A second list here would be two copies of one
-             thing, and they would drift — so this is a door, not a duplicate. The phase rides in
-             the query so that page opens on it instead of on six collapsed accordions. No count:
-             counting would mean loading the faction rules bundle onto the playing screen, which is
-             the whole thing this block's index exists to avoid. -->
-        <RouterLink
-          class="pr-strats"
-          :to="{ path: '/stratagems', query: { phase } }"
-        >
-          <i class="wi wi-lightning" />
-          {{ labels.trackerPhaseStrats }}
-          <i class="wi wi-chevron-right pr-go" />
-        </RouterLink>
-      </div>
-    </CollapseTransition>
+                {{ c.idle }}
+              </p>
+              <template v-else>
+                <h6
+                  v-if="c.label"
+                  class="pr-step"
+                >
+                  {{ c.label }}
+                </h6>
+                <!-- A row: what you look for at the table on top — the units for an ability, the
+                     rule's or the card's name otherwise — and under it, small, what it is. -->
+                <ul class="pr-list">
+                  <li
+                    v-for="r in c.rows"
+                    :key="r.key"
+                  >
+                    <button
+                      type="button"
+                      class="pr-go-btn"
+                      data-press
+                      @click="lead(r)"
+                    >
+                      <span class="pr-text">
+                        <span class="pr-name">{{ r.units ? r.sub : r.name }}</span>
+                        <span
+                          v-if="r.what || r.units || r.who || (r.src && r.src !== labels.trackerArmyRule)"
+                          class="pr-sub"
+                        >
+                          <span
+                            v-if="r.what"
+                            class="pr-src pr-what"
+                          >{{ r.what }}</span>
+                          <!-- The army rule says nothing the row has not said; a detachment's rule
+                               names its detachment. -->
+                          <span
+                            v-if="r.units || (r.src && r.src !== labels.trackerArmyRule)"
+                            :class="r.units ? 'pr-ability' : 'pr-src'"
+                          >{{ r.units ? r.name : r.src }}</span>
+                          <!-- A doubles team's two armies share the step: whose rule it is. -->
+                          <span
+                            v-if="r.who"
+                            class="pr-src pr-who-tag"
+                          >{{ r.who }}</span>
+                        </span>
+                      </span>
+                      <i class="wi wi-chevron-right pr-go" />
+                    </button>
+                  </li>
+                </ul>
+              </template>
+            </template>
+          </div>
+        </template>
+      </StratPhaseGroups>
+    </div>
   </section>
 </template>
 
 <script setup>
-// "What has something to say in THIS phase" — under the clock, for both players.
-//
-// Two sides, not one: 55 of the datasheet abilities that name a phase name their OPPONENT'S
-// ("In your opponent's Movement phase, if an enemy unit ends a move within 8\"…"), and those are
-// the ones a player forgets, because in the opponent's turn they are not thinking about their own
-// cards. `usableInSlot` answers per player — the same predicate the stratagem filter uses, so the
-// two can never disagree about what "your Shooting phase" means.
-//
-// The data is `src/data/phaseIndex.js`, a generated sidecar of names and phases with no rule text
-// at all (see scripts/gen-phase-index.mjs for why): this screen deliberately imports neither the
-// faction bundle nor the datasheets, and it is not going to start.
+// The turn the clock stands on, step by step, with what fires at each step — the game screen's
+// Turn/Phase tab. What fires is usePhaseRules.js (the tab counts it too); this draws it.
+// `embedded`: inside the game screen, where a row leads to another tab of it rather than away.
 import { computed, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import CollapseTransition from '../CollapseTransition.vue'
-import { ui } from '../../i18n/ui.js'
-import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf, sideName } from '../../composables/useTracker.js'
-import { usableInSlot, BATTLE_PHASES } from '../../composables/stratagemPhases.js'
-import { allySourceOf } from '../../composables/rosterEngine.js'
-import { detachmentSources } from '../../data/detachmentSources.js'
+import StratPhaseGroups from '../StratPhaseGroups.vue'
 import { getItem, setItem } from '../../composables/safeStorage.js'
-import { useFactionChoice } from '../../composables/useFactionChoice.js'
-import { useRefNavigation } from '../../composables/useRefNavigation.js'
-import { foldName } from '../../utils/foldName.js'
+import { usePhaseRules } from '../../composables/usePhaseRules.js'
 
-const { locale } = useLocale()
-const labels = computed(() => ui[locale.value])
-const { current } = useTracker()
-const router = useRouter()
-const { setDetachment } = useFactionChoice()
-const { navigateTo } = useRefNavigation()
-
-const OPEN_KEY = 'wh11ed-phase-rules-open'
-const open = ref(getItem(OPEN_KEY) === '1')
-function toggle() {
-  open.value = !open.value
-  setItem(OPEN_KEY, open.value ? '1' : '0')
-}
-
-// Fetched once, the first time the block is asked for — a game that never turns the clock on
-// never pays for it.
-const index = ref(null)
-watch(() => !!current.value, async (has) => {
-  if (!has || index.value) return
-  index.value = (await import('../../data/phaseIndex.js')).phaseIndex
-}, { immediate: true })
-
-const phase = computed(() => current.value?.currentPhase || BATTLE_PHASES[0])
-const turn = computed(() => (current.value?.currentTurn === 1 ? 1 : 0))
-
-// Detachment names are matched the way the rest of the app matches them — apostrophes and case
-// are the two things that differ between GW's own spellings of one name.
-const norm = foldName
-
-function rulesFor(pi) {
-  const pl = current.value?.players?.[pi]
-  const idx = index.value
-  if (!pl || !idx) return []
-  const mine = turn.value === pi
-  const out = []
-  // Faction-level lines are deduped across a doubles side's members: a unified force of one
-  // faction runs ONE army rule (the companion's shared pool), and even two copies of the same
-  // detachment carry one rule with one anchor — a second identical line reminds of nothing.
-  const seen = new Set()
-
-  membersOf(pl).forEach((m, rawMi) => {
-    const mi = m === pl ? null : rawMi
-    const fac = idx[m.factionSlug]
-    const take = (e, src, sub = null) => {
-      if (!e || !usableInSlot(e.p, e.s, phase.value, mine)) return
-      const k = `${src}|${e.n}|${m.factionSlug}`
-      if (seen.has(k)) return
-      seen.add(k)
-      out.push({ key: k, src, name: nameOf(e), sub, slug: m.factionSlug, at: e.at, det: e.id })
-    }
-
-    if (fac) {
-      take(fac.army, labels.value.trackerArmyRule)
-      // The detachment's own rule, under the detachment's name — which is what the game stores.
-      // A borrowed detachment is indexed under the faction it is printed for (detachmentSources).
-      for (const name of m.detachments || []) {
-        for (const src of detachmentSources(m.factionSlug)) {
-          const byName = idx[src]?.dets || {}
-          const key = Object.keys(byName).find((k) => norm(k) === norm(name))
-          if (key) { take(byName[key], name); break }
-        }
-      }
-    }
-
-    // Unit abilities need a list: without one there is no way to know which units are on the
-    // table, and every datasheet of the faction would be noise rather than a reminder. Kept per
-    // member — the line has to lead into the list that actually holds the unit.
-    const units = m.roster?.units || []
-    const byRule = new Map()
-    for (const u of units) {
-      // An allied unit's id carries its own faction ("agents-of-the-imperium:callidus-assassin"),
-      // so it is looked up in that faction's entry rather than missed.
-      const ally = allySourceOf(u.id)
-      const src = ally ? idx[ally[0]] : fac
-      const rec = src?.units?.[ally ? ally[1] : u.id]
-      if (!rec) continue
-      for (const e of rec.a) {
-        if (!usableInSlot(e.p, e.s, phase.value, mine)) continue
-        // One line per RULE: three Intercessor Squads with the same ability are one reminder with
-        // three names under it, not three identical lines.
-        const key = `${e.n}`
-        if (!byRule.has(key)) {
-          byRule.set(key, {
-            key: `u|${mi ?? ''}|${key}`,
-            src: labels.value.trackerPhaseUnit,
-            name: nameOf(e),
-            units: new Set(),
-            // Where this one unit's card is. Dropped for the list as soon as a SECOND entry turns
-            // up carrying the rule: with three Intercessor Squads there is no single card to mean,
-            // so the line lets the reader pick. Counted by entry, not by name — three squads of
-            // the same datasheet are three cards, even though the line names "Boyz" once.
-            to: cardOf(m, pi, mi, u, ally),
-            entries: 0,
-          })
-        }
-        const r = byRule.get(key)
-        if (++r.entries > 1) r.to = listOf(m, pi, mi)
-        r.units.add(rec.n)
-      }
-    }
-    for (const r of byRule.values()) out.push({ ...r, sub: [...r.units].join(' · ') })
-  })
-  return out
-}
-
-function rosterPath(pi, mi) {
-  return mi == null ? `/tracker/game/roster/${pi}` : `/tracker/game/roster/${pi}/${mi}`
-}
-
-// The unit's card: inside the attached list when the game carries one — that is where this game's
-// own modifiers are applied — and the faction's datasheet page otherwise. `m` is the army that
-// fields the unit (the side in singles, a member in doubles — hence the mi in the roster path).
-function cardOf(m, pi, mi, entry, ally) {
-  if (m.roster) return { path: rosterPath(pi, mi), query: { unit: entry.uid } }
-  const slug = ally ? ally[0] : m.factionSlug
-  const id = ally ? ally[1] : entry.id
-  return `/factions/${slug}/datasheets/${id}`
-}
-function listOf(m, pi, mi) {
-  return m.roster ? rosterPath(pi, mi) : `/factions/${m.factionSlug}/datasheets`
-}
-
-// The RU name where the datasheet overlay had one; rule and unit names stay English by convention.
-function nameOf(e) {
-  return locale.value === 'ru' && e.ru ? e.ru : e.n
-}
-
-// Where a line leads. A unit goes to its card — inside the attached list when there is one (the
-// game's own numbers apply there), on the faction's datasheet page when there is not. A rule goes
-// to its anchor on the faction page, and a DETACHMENT rule has to be selected first, because that
-// page renders only the active one — the same two steps a search result takes.
-async function go(r) {
-  if (r.to) {
-    await router.push(r.to)
-    return
-  }
-  if (r.det) setDetachment(r.slug, r.det)
-  await navigateTo({ route: `/factions/${r.slug}`, anchor: r.at || undefined })
-}
-
-function playerName(pi) {
-  return sideName(current.value?.players?.[pi], pi, labels.value)
-}
-
-// The side whose turn it is first, so the block reads in the order the phase is played.
-const sides = computed(() => {
-  const order = turn.value === 0 ? [0, 1] : [1, 0]
-  return order
-    .map((pi) => ({ pi, name: playerName(pi), rules: rulesFor(pi) }))
-    .filter((s) => s.rules.length)
+const props = defineProps({
+  embedded: { type: Boolean, default: false },
+  // The side picked on the score cards (the game screen's tab, owner 2026-10-06): that army's
+  // turn alone, inside the panel's frame — the card above already names it.
+  side: { type: Number, default: null },
+  // An example turn instead of the game's (the "Phase rules" help, help/PhaseRulesDemo.vue): drawn
+  // the same, and a tap leads nowhere.
+  example: { type: Array, default: null },
 })
-const total = computed(() => sides.value.reduce((n, s) => n + s.rules.length, 0))
+const emit = defineEmits(['army', 'roster', 'missions'])
+const { sides, go, labels } = usePhaseRules()
+const controlled = computed(() => props.side === 0 || props.side === 1)
+const all = computed(() => props.example || sides.value)
+const shown = computed(() => (controlled.value ? all.value.filter((s) => s.pi === props.side) : all.value))
+
+// The open folds, remembered on this device; none by default (owner, 2026-10-10).
+const OPEN_KEY = 'wh11ed-turn-steps-open'
+function readOpen() {
+  try { return new Set(JSON.parse(getItem(OPEN_KEY) || '[]')) } catch { return new Set() }
+}
+// An example opens its first phase and keeps the game's choice untouched.
+const openSecs = ref(props.example ? new Set([props.example[0]?.turn?.[0]?.key]) : readOpen())
+watch(openSecs, (set) => { if (!props.example) setItem(OPEN_KEY, JSON.stringify([...set])) })
+
+// A section of the turn as a fold: its count, and its steps cut into chunks — a step with rows,
+// or a run of steps with none joined into one quiet line ("Start of phase · Gain Core CP · …").
+// The turn's start and end have no steps of their own; empty, they say so.
+function foldsOf(turn) {
+  return turn.map((sec) => {
+    const chunks = []
+    let idle = []
+    const flush = () => {
+      if (idle.length) chunks.push({ key: `idle|${chunks.length}`, idle: idle.join(' · ') })
+      idle = []
+    }
+    for (const st of sec.steps) {
+      if (st.rows.length) {
+        flush()
+        chunks.push({ key: st.id, label: st.label, rows: st.rows })
+      } else if (st.label) idle.push(st.label)
+    }
+    flush()
+    const count = sec.steps.reduce((n, st) => n + st.rows.length, 0)
+    if (!chunks.length) chunks.push({ key: 'none', idle: labels.value.trackerStepsNothing })
+    // The turn's start and end with nothing in them: shown, so the turn reads whole, but muted
+    // and shut — a fold opening on "nothing" read as broken (owner, 2026-10-18).
+    const inert = !count && (sec.key === 'turn-start' || sec.key === 'turn-end')
+    return { key: sec.key, label: sec.title, count, chunks, inert }
+  })
+}
+
+// In the game screen a row stays on it where it can: a rule to the Army tab, a unit of the
+// attached list to its card there, a mission card to the Missions tab — via RoundTracker.
+function lead(r) {
+  if (props.example) return
+  if (r.kind === 'card') emit('missions', r)
+  else if (props.embedded && r.army) emit('army', r.army)
+  else if (props.embedded && r.roster) emit('roster', r.roster)
+  else go(r)
+}
 </script>
 
 <style scoped>
-.pr { margin: 0 0 0.75rem; border: 1px solid var(--border); background: var(--bg-card); }
-.pr-head {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  width: 100%;
-  padding: 0.5rem 0.6rem;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  cursor: pointer;
-  text-align: left;
-}
-.pr-head:hover { color: var(--accent-ink); }
-.pr-chev { font-size: 0.75rem; }
-.pr-title { flex: 1; }
-.pr-count {
-  min-width: 1.4rem;
-  padding: 0 0.3rem;
-  text-align: center;
-  background: var(--accent);
-  color: var(--bg-primary);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-}
-.pr-body { padding: 0 0.6rem 0.6rem; }
+.pr { margin: 0 0 0.75rem; padding: 0 0.6rem 0.6rem; border: 1px solid var(--border); background: var(--bg-card); }
+/* Inside the tab's side frame: the frame is the box. */
+.pr.in-frame { margin: 0; padding: 0; border: 0; background: none; }
 .pr-side + .pr-side { margin-top: 0.6rem; }
+/* Each side in its colour — the same you / opponent colours as the score cards: its heading, and
+   its lines' hover (not the turn's colour: the opponent's line lit in mine read as mine). */
+.pr-side { --side: var(--side-you); --accent: var(--side); --accent-ink: var(--side); }
+.pr-side.opp { --side: var(--side-opponent); }
 .pr-who {
-  margin: 0 0 0.25rem;
-  font-size: 0.68rem;
+  margin: 0 0 0.2rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-dim);
+  letter-spacing: 0.02em;
+  color: var(--side);
 }
-.pr-list { list-style: none; margin: 0; padding: 0; }
-.pr-rule { border-top: 1px solid var(--border); }
-.pr-rule:first-child { border-top: none; }
+/* Inside an open fold: the steps, a small quiet head over each block of rows. */
+.pr-steps { padding: 0.35rem 0.6rem 0.5rem; }
+.pr-step {
+  margin: 0.35rem 0 0.15rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.pr-steps > .pr-step:first-child { margin-top: 0; }
+/* Steps with nothing to say, a run of them on one line: the order, without a line apiece. */
+.pr-idle { margin: 0.35rem 0; font-size: 0.75rem; line-height: 1.3; color: var(--text-dim); }
+.pr-steps > .pr-idle:first-child { margin-top: 0; }
+.pr-steps > .pr-idle:last-child { margin-bottom: 0; }
+/* One block, rows parted by hairlines, the side's bar down its left. */
+.pr-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--side);
+  background: var(--bg-secondary);
+}
+.pr-list > li + li { border-top: 1px solid var(--border); }
+/* The row lights under a pointer — ground a shade lighter, the arrow in the side's colour — the
+   way the app's other tappable plates answer (.act-btn). Behind (hover: hover), so a tap on a
+   phone leaves nothing lit behind it. */
 .pr-go-btn {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   width: 100%;
-  padding: 0.3rem 0;
+  padding: 0.35rem 0.6rem;
+  border: 0;
   background: none;
-  border: none;
-  font-size: 0.82rem;
   text-align: left;
   cursor: pointer;
 }
-.pr-go-btn:hover .pr-name,
-.pr-go-btn:hover .pr-go { color: var(--accent-ink); }
-.pr-src {
-  flex: 0 0 auto;
-  max-width: 40%;
-  color: var(--text-dim);
-  font-size: 0.72rem;
-  line-height: 1.5;
+@media (hover: hover) {
+  .pr-go-btn:hover { background: color-mix(in srgb, var(--text-primary) 5%, var(--bg-secondary)); }
+  .pr-go-btn:hover .pr-go { color: var(--accent-ink); }
 }
-.pr-name { flex: 1; min-width: 0; color: var(--text-primary); }
-.pr-sub { display: block; color: var(--text-muted); font-size: 0.72rem; }
-.pr-strats {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 0.7rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.8rem;
-  color: var(--text-muted);
+.pr-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.pr-name {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1.15;
 }
-.pr-strats:hover { color: var(--accent-ink); }
+.pr-sub { font-size: 0.8rem; line-height: 1.3; }
+.pr-ability { color: var(--accent-ink); }
+.pr-src { color: var(--text-muted); }
+/* What a unit's line is when it is not one of the datasheet's own abilities: wargear, an
+   enhancement, an ability set's name, a mission card's kind. Before the name. */
+.pr-what { margin-right: 0.35rem; }
+.pr-sub > span + .pr-who-tag { margin-left: 0.35rem; }
 .pr-go { flex-shrink: 0; margin-left: auto; font-size: 0.75rem; color: var(--text-dim); }
 </style>

@@ -211,11 +211,13 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         },
         {
@@ -224,11 +226,13 @@ export default {
           "op": "add",
           "value": -1,
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         }
       ]
@@ -252,11 +256,13 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "while the model is affected by Crusader’s Duty",
-            "ru": "пока модель под действием Crusader’s Duty"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         }
       ]
@@ -420,11 +426,13 @@ export default {
           "op": "grant",
           "value": "ASSAULT",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         }
       ]
@@ -448,11 +456,13 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         },
         {
@@ -461,11 +471,13 @@ export default {
           "op": "grant",
           "value": "LANCE",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         }
       ]
@@ -545,11 +557,13 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         },
         {
@@ -558,11 +572,13 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         }
       ]
@@ -637,11 +653,11 @@ export default {
           "op": "add",
           "value": 2,
           "when": {
-            "en": "if that Quality was chosen for the army's Oath",
-            "ru": "если для клятвы армии выбрано соответствующее Качество"
+            "en": "while …and we are eager for the challenge. is the Oath’s Quality",
+            "ru": "пока качество Oath — …and we are eager for the challenge."
           },
           "cond": [
-            "never"
+            "oath-quality-eager"
           ]
         },
         {
@@ -650,11 +666,11 @@ export default {
           "op": "add",
           "value": 2,
           "when": {
-            "en": "if that Quality was chosen for the army's Oath",
-            "ru": "если для клятвы армии выбрано соответствующее Качество"
+            "en": "while …yet shall our legacy be unsullied. is the Oath’s Quality",
+            "ru": "пока качество Oath — …yet shall our legacy be unsullied."
           },
           "cond": [
-            "never"
+            "oath-quality-legacy"
           ]
         },
         {
@@ -663,12 +679,82 @@ export default {
           "op": "improve",
           "value": 1,
           "when": {
-            "en": "if that Quality was chosen for the army's Oath",
-            "ru": "если для клятвы армии выбрано соответствующее Качество"
+            "en": "while …yet shall our legacy be unsullied. is the Oath’s Quality",
+            "ru": "пока качество Oath — …yet shall our legacy be unsullied."
           },
           "cond": [
-            "never"
+            "oath-quality-legacy"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-deed-tyrant"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-deed-realm"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-deed-tally"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-quality-valour"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-quality-eager"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "oath-quality-legacy"
+          ],
+          "when": {
+            "en": "the Oath determined before the battle",
+            "ru": "обет (Oath), определённый перед битвой"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "army-honoured"
+          ],
+          "when": {
+            "en": "once the Oath’s Deed is completed, until the end of the battle",
+            "ru": "после выполнения Deed, до конца битвы"
+          }
         }
       ],
       "ref": {
@@ -688,6 +774,34 @@ export default {
       "reviewed": true,
       "effects": [],
       "note": "army-composition rule — which allied models may be included"
+    },
+    {
+      "sid": "f3611575-52c0-4398-827c-d5e70478e490",
+      "kind": "detachmentRule",
+      "name": "Rain of Devastation",
+      "det": "Dominus Foebreakers",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "dominus-foebreakers"
+      },
+      "hash": "a276ca53",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit in a terrain area",
+            "ru": "против отряда в зоне местности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "c9b67ad0-1baf-45c0-9687-11626725f299",
@@ -915,9 +1029,10 @@ export default {
             "en": "until your next Shooting phase, once per battle per army, when this unit used this ability to go into strategic reserves",
             "ru": "до вашей следующей Shooting phase, раз за битву на армию, если отряд применил эту способность и ушёл в strategic reserves"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "round"
+          }
         }
       ]
     },
@@ -1034,9 +1149,10 @@ export default {
             "en": "once per battle, for the phase the bearer uses this Enhancement in",
             "ru": "раз за битву, на фазу, в которой носитель использовал улучшение"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1053,6 +1169,29 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "649d8237-fd55-4663-a10e-7846287e5368",
+      "kind": "enhancement",
+      "name": "Gyro-optimised Actuators (Upgrade)",
+      "det": "Throne-bonded Outriders",
+      "ref": {
+        "kind": "enhancement",
+        "det": "throne-bonded-outriders"
+      },
+      "hash": "f248d2c4",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "5e130c62-8760-4161-8090-b0b5a1e49cc0",
@@ -1076,10 +1215,8 @@ export default {
             "en": "until your next Movement phase, for the one other IMPERIAL KNIGHTS model within 12\" selected at the end of your Movement phase",
             "ru": "до вашей следующей Movement phase, для одной другой модели IMPERIAL KNIGHTS в пределах 12\", выбранной в конце вашей Movement phase"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "aura"
+          "target": "aura",
+          "selected": true
         }
       ]
     },

@@ -220,6 +220,48 @@ export default {
       ]
     },
     {
+      "sid": "b1c19c06-a678-4713-9b77-0048297e3a52:cybernetica-datasmith",
+      "kind": "ability",
+      "name": "Cybernetica Datasmith: Data-severed",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cybernetica-datasmith"
+      },
+      "hash": "e9f8f595",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Infantry",
+          "when": {
+            "en": "if no KASTELAN ROBOT models are left in this unit",
+            "ru": "если в отряде не осталось моделей KASTELAN ROBOT"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Infantry",
+          "when": {
+            "en": "if no KASTELAN ROBOT models are left in this unit",
+            "ru": "если в отряде не осталось моделей KASTELAN ROBOT"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "ee9ce49a-c67c-4233-a708-dd5510d8d6f8:hastarii-exterminators",
       "kind": "ability",
       "name": "Hastarii Exterminators: Broad‑spectrum Targeting Augurs",
@@ -317,9 +359,10 @@ export default {
             "en": "once per battle, until the end of the phase it is used",
             "ru": "раз за битву, до конца фазы применения"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "profile",
@@ -330,10 +373,11 @@ export default {
             "en": "once per battle, until the end of the phase it is used",
             "ru": "раз за битву, до конца фазы применения"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -632,9 +676,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "profile",
@@ -645,10 +690,11 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -938,6 +984,29 @@ export default {
       }
     },
     {
+      "sid": "2d23adcd-7645-4d4d-99d1-46f03914ae88",
+      "kind": "detachmentRule",
+      "name": "Noospheric Recon",
+      "det": "Cohort Acquisitus",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cohort-acquisitus"
+      },
+      "hash": "5dd87635",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Recon Augury",
+          "when": null,
+          "scope": 0
+        }
+      ]
+    },
+    {
       "sid": "fb242fc6-ca2a-4370-b362-03742b21fb93",
       "kind": "detachmentRule",
       "name": "Cyber-psalm Programming",
@@ -991,6 +1060,7 @@ export default {
             "ru": "при благословении Panegyric Procession, за стрелковую атаку в пределах половины дальности"
           },
           "cond": [
+            "benediction-panegyric-procession",
             "never"
           ]
         },
@@ -1021,6 +1091,26 @@ export default {
             "benediction-citation-in-savagery",
             "unit-charged"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "benediction-panegyric-procession"
+          ],
+          "when": {
+            "en": "the Benediction selected at the start of the battle",
+            "ru": "Benediction, выбранная в начале битвы"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "benediction-citation-in-savagery"
+          ],
+          "when": {
+            "en": "the Benediction selected at the start of the battle",
+            "ru": "Benediction, выбранная в начале битвы"
+          }
         }
       ],
       "ref": {
@@ -1047,7 +1137,8 @@ export default {
             "ru": "для отряда, получившего Halo Override со способностью Electromotive Energisation"
           },
           "cond": [
-            "never"
+            "unit-halo-override",
+            "override-electromotive-energisation"
           ]
         },
         {
@@ -1060,7 +1151,8 @@ export default {
             "ru": "для отряда, получившего Halo Override со способностью Microactuator Bracing"
           },
           "cond": [
-            "never"
+            "unit-halo-override",
+            "override-microactuator-bracing"
           ]
         },
         {
@@ -1073,8 +1165,59 @@ export default {
             "ru": "для отряда, получившего Halo Override со способностью Muted Servomotors"
           },
           "cond": [
-            "never"
+            "unit-halo-override",
+            "override-muted-servomotors"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "unit-halo-override"
+          ],
+          "when": {
+            "en": "a unit given the Halo Override keyword this Command phase",
+            "ru": "отряд с ключевым словом Halo Override с этой фазы командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "override-electromotive-energisation"
+          ],
+          "when": {
+            "en": "the Override ability selected this Command phase",
+            "ru": "способность Override, выбранная в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "override-microactuator-bracing"
+          ],
+          "when": {
+            "en": "the Override ability selected this Command phase",
+            "ru": "способность Override, выбранная в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "override-predation-protocols"
+          ],
+          "when": {
+            "en": "the Override ability selected this Command phase",
+            "ru": "способность Override, выбранная в эту фазу командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "override-muted-servomotors"
+          ],
+          "when": {
+            "en": "the Override ability selected this Command phase",
+            "ru": "способность Override, выбранная в эту фазу командования"
+          }
         }
       ],
       "ref": {
@@ -1577,6 +1720,48 @@ export default {
       ]
     },
     {
+      "sid": "2869e91e-b7a6-41b0-ab24-b01ca6a55a29",
+      "kind": "enhancement",
+      "name": "Vingh’s Wafers of Dynamism",
+      "det": "Lords of the Forge",
+      "ref": {
+        "kind": "enhancement",
+        "det": "lords-of-the-forge"
+      },
+      "hash": "a5a3fed9",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "if this unit is an attached unit at the start of the first battle round",
+            "ru": "если в начале первого раунда отряд присоединённый"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "if this unit is an attached unit at the start of the first battle round",
+            "ru": "если в начале первого раунда отряд присоединённый"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "f8645d3a-a3b2-49df-a2c3-172d8825cceb",
       "kind": "enhancement",
       "name": "Electromiasmic Brazier",
@@ -2049,6 +2234,17 @@ export default {
       },
       "hash": "9e50d86d",
       "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "189fe04e-bb44-4051-85d7-e52e0274f49a",
+      "kind": "stratagem",
+      "name": "Lockdown Protocols",
+      "det": "Purge Corps Deltic-9",
+      "ref": null,
+      "hash": "c3a9bf63",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },

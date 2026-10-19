@@ -237,9 +237,10 @@ export default {
             "en": "once per battle, for the phase this ability is used",
             "ru": "раз за битву, на фазу, когда способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -381,7 +382,20 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "unit-below-half-strength"
           ]
         },
         {
@@ -394,7 +408,7 @@ export default {
             "ru": "пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ]
         }
       ]
@@ -436,6 +450,17 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "26b1cc07-1885-46c7-9479-21454d54bb53:drayden-s-lance-kasrkin",
+      "kind": "ability",
+      "name": "Drayden's Lance Kasrkin: Melta Mine (Once per battle, per unit)",
+      "det": null,
+      "ref": null,
+      "hash": "95df2d8d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "pack:elysian-sniper-squad:mark-the-target",
@@ -787,7 +812,7 @@ export default {
             "ru": "пока в отряде есть Tempestor Prime"
           },
           "cond": [
-            "never"
+            "contains-tempestor-prime"
           ]
         },
         {
@@ -800,7 +825,7 @@ export default {
             "ru": "пока в отряде есть Tempestor Prime"
           },
           "cond": [
-            "never"
+            "contains-tempestor-prime"
           ],
           "target": "led"
         }
@@ -1046,7 +1071,7 @@ export default {
             "ru": "пока в отряде есть Medicae Servitors"
           },
           "cond": [
-            "never"
+            "contains-medicae-servitors"
           ]
         },
         {
@@ -1059,7 +1084,7 @@ export default {
             "ru": "пока в отряде есть Medicae Servitors"
           },
           "cond": [
-            "never"
+            "contains-medicae-servitors"
           ],
           "target": "led"
         }
@@ -1091,7 +1116,7 @@ export default {
             "ru": "пока в отряде есть Quartermaster Revenant"
           },
           "cond": [
-            "never"
+            "contains-quartermaster-revenant"
           ]
         }
       ]
@@ -1194,9 +1219,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         },
         {
           "on": "ranged",
@@ -1210,9 +1236,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -1534,6 +1561,29 @@ export default {
       }
     },
     {
+      "sid": "31fd1a92-acc6-4b73-89a5-fdb7334e3de7",
+      "kind": "detachmentRule",
+      "name": "Absolutist Principles",
+      "det": "Abhuman Auxiliaries",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "abhuman-auxiliaries"
+      },
+      "hash": "ca821946",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Abhuman",
+          "when": null,
+          "scope": 0
+        }
+      ]
+    },
+    {
       "sid": "19c61e87-4eec-4e4c-ba37-e6dfcb4aa815",
       "kind": "detachmentRule",
       "name": "Fire Zone Purge",
@@ -1602,6 +1652,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "4311f790-0f31-4209-a196-142b9a4d9f3b",
+      "kind": "detachmentRule",
+      "name": "Designated Targets",
+      "det": "Designation Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "designation-force"
+      },
+      "hash": "f65d906f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "635a612e-5dec-4bcd-b575-8a799e40c485",
@@ -1713,7 +1777,38 @@ export default {
       "hash": "f8f73c83",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "op": "state",
+          "cond": [
+            "artillery-creeping-barrage"
+          ],
+          "when": {
+            "en": "the artillery support selected this battle round",
+            "ru": "артиллерийская поддержка, выбранная в этом раунде"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "artillery-incendiary-bombardment"
+          ],
+          "when": {
+            "en": "the artillery support selected this battle round",
+            "ru": "артиллерийская поддержка, выбранная в этом раунде"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "artillery-smoke-shells"
+          ],
+          "when": {
+            "en": "the artillery support selected this battle round",
+            "ru": "артиллерийская поддержка, выбранная в этом раунде"
+          }
+        }
+      ]
     },
     {
       "sid": "c1ce9799-014d-4556-b261-ab8fd004daf1",
@@ -1864,7 +1959,20 @@ export default {
       "hash": "e7a36e89",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "target": "aura",
+          "selected": true,
+          "when": {
+            "en": "while affected by the bearer's Move to the Shadows Order",
+            "ru": "пока действует приказ носителя Move to the Shadows"
+          }
+        }
+      ]
     },
     {
       "sid": "4b8b684b-2f0d-41b3-9333-1945e0c3329c",
@@ -2731,9 +2839,10 @@ export default {
             "en": "once per battle, while this ability is used",
             "ru": "раз за битву, пока способность использована"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     }

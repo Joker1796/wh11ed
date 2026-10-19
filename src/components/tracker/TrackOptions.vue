@@ -1,57 +1,13 @@
 <template>
   <div class="track-opts">
-    <h3 class="block-head">
-      {{ labels[heading] }}
-    </h3>
-
-    <!-- A checkbox and the "i" beside it. A <label> forwards any click inside it to its control,
-         so the help button cannot live in there — it would silently flip the setting it explains.
-         The two sit side by side instead, sharing one dividing line, the same pair the roster's
-         condition chips use. -->
-    <div
-      v-for="o in rows"
-      :key="o.id"
-      class="opt-row"
-      :class="{ off: !enabledOf(o), child: !!o.requires }"
-    >
-      <label
-        class="check"
-        :class="{ on: enabledOf(o) && settings[o.setting] }"
-      >
-        <input
-          v-model="settings[o.setting]"
-          type="checkbox"
-          :disabled="!enabledOf(o)"
-        >
-        <span>
-          {{ labels[o.label] }}
-          <!-- Why a row cannot be flipped, or a caveat about what flipping it will get you. The
-               first replaces the second: a row nobody can touch has nothing to caveat. -->
-          <ExpandTransition>
-            <em
-              v-if="reasonOf(o)"
-              class="check-note"
-            >{{ labels[reasonOf(o)] }}</em>
-          </ExpandTransition>
-        </span>
-      </label>
-      <!-- Live even for a disabled row: what a greyed-out option WOULD do is exactly what you
-           want to read while it is greyed out. -->
-      <button
-        type="button"
-        class="opt-info"
-        :aria-label="`${labels[o.label]} — ${labels.trackerOptionHelp}`"
-        @click="helpFor = o"
-      >
-        <i class="wi wi-help" />
-      </button>
-    </div>
-
-    <div
-      v-if="guide"
-      class="opt-guide-row"
-    >
+    <!-- The link out to the guide sits opposite the heading (2026-10-02, owner): under the last
+         row it read as one more line of the list. -->
+    <div class="opt-head">
+      <h3 class="block-head">
+        {{ labels[heading] }}
+      </h3>
       <RouterLink
+        v-if="guide"
         class="opt-guide"
         to="/help/tracker"
       >
@@ -59,12 +15,70 @@
       </RouterLink>
     </div>
 
+    <template
+      v-for="o in mainRows"
+      :key="o.id"
+    >
+      <TrackOptionRow
+        :o="o"
+        :settings="settings"
+        :ctx="ctx"
+        :depth="depthOf(o)"
+        :enabled="enabledOf(o)"
+        :reason="reasonOf(o)"
+        :labels="labels"
+        @help="helpFor = $event"
+      />
+      <!-- The families of switch under the modifier master, folded (owner, 2026-10-14): six rows
+           nobody needs to read to start a game. The fold says how many are on. -->
+      <div
+        v-if="foldRows.length && o.setting === foldParent"
+        class="opt-fold"
+      >
+        <button
+          type="button"
+          class="opt-fold-head"
+          :aria-expanded="foldOpen"
+          @click="foldOpen = !foldOpen"
+        >
+          <ChevronIcon :turned="foldOpen" />
+          <span>{{ labels.trackerOptionsDetails }}</span>
+          <span class="opt-fold-n">{{ foldOn }}/{{ foldRows.length }}</span>
+        </button>
+        <CollapseTransition :show="foldOpen">
+          <div class="opt-fold-body">
+            <TrackOptionRow
+              v-for="f in foldRows"
+              :key="f.id"
+              :o="f"
+              :settings="settings"
+              :ctx="ctx"
+              :enabled="enabledOf(f)"
+              :reason="reasonOf(f)"
+              :labels="labels"
+              @help="helpFor = $event"
+            />
+          </div>
+        </CollapseTransition>
+      </div>
+    </template>
+
     <OptionHelpModal
       v-if="helpFor"
       :title="labels[helpFor.label]"
-      :text="labels[helpFor.help]"
+      :text="helpText(helpFor)"
       @close="helpFor = null"
-    />
+    >
+      <template
+        v-if="HELP_DEMOS[helpFor.id]"
+        #demo
+      >
+        <component
+          :is="HELP_DEMOS[helpFor.id].is"
+          v-bind="HELP_DEMOS[helpFor.id].props"
+        />
+      </template>
+    </OptionHelpModal>
   </div>
 </template>
 
@@ -79,10 +93,32 @@
 // `settings` is the caller's own reactive draft and is written in place (v-model straight onto
 // its fields) — the wizard commits it on Start, the dialog on Save, and neither wants an
 // intermediate copy that could fall out of step.
-import ExpandTransition from '../ExpandTransition.vue'
-import { computed, ref } from 'vue'
+import { computed, defineAsyncComponent, ref } from 'vue'
 import OptionHelpModal from './OptionHelpModal.vue'
-import { optionsIn, optionEnabled } from '../../data/trackerOptions.js'
+
+// A row's help can show what the row draws (owner, 2026-10-15): the real component, with example
+// data held to the rules by help/demos.test.js. Keyed by the option's id; loaded when opened.
+const lazy = (load) => defineAsyncComponent(load)
+const Chips = lazy(() => import('./help/ChipsDemo.vue'))
+const Score = lazy(() => import('./help/ScoreDemo.vue'))
+const chips = (kind) => ({ is: Chips, props: { kind } })
+const HELP_DEMOS = {
+  cp: { is: lazy(() => import('./help/CpDemo.vue')) },
+  phases: { is: lazy(() => import('./help/PhasesDemo.vue')) },
+  'phase-rules': { is: lazy(() => import('./help/PhaseRulesDemo.vue')) },
+  modifiers: { is: lazy(() => import('./help/ModifiersDemo.vue')) },
+  'unit-states': chips('unit-states'),
+  'battle-shock': chips('battle-shock'),
+  stratagems: chips('stratagems'),
+  auras: chips('auras'),
+  'ability-sets': chips('ability-sets'),
+  'army-states': chips('army-states'),
+  'custom-colors': { is: Score, props: { kind: 'colors' } },
+}
+import TrackOptionRow from './TrackOptionRow.vue'
+import CollapseTransition from '../CollapseTransition.vue'
+import ChevronIcon from '../ChevronIcon.vue'
+import { optionsIn, optionEnabled, requiresOf, depthOf, tracks } from '../../data/trackerOptions.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -90,9 +126,9 @@ const props = defineProps({
   settings: { type: Object, required: true },
   // { you: { faction, trackable }, opp: { faction, trackable }, anyRoster } — see trackerOptions.js
   ctx: { type: Object, required: true },
-  group: { type: String, default: 'game' },
+  group: { type: String, default: 'turn' },
   heading: { type: String, default: 'trackerTrackHeading' },
-  // The link out to the guide belongs to the last block on the screen, not to each of them.
+  // The link out to the guide belongs to one block on the screen (beside its heading), not to each.
   guide: { type: Boolean, default: false },
   // A guest in a shared game: only the rows marked `local` in the table are this phone's to flip;
   // the rest are the host's, drawn disabled with that as the reason.
@@ -102,6 +138,11 @@ const props = defineProps({
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const rows = computed(() => optionsIn(props.group))
+const mainRows = computed(() => rows.value.filter((o) => !o.fold))
+const foldRows = computed(() => rows.value.filter((o) => o.fold))
+const foldParent = computed(() => requiresOf(foldRows.value[0])[0] || null)
+const foldOpen = ref(false)
+const foldOn = computed(() => foldRows.value.filter((o) => enabledOf(o) && props.settings[o.setting]).length)
 const helpFor = ref(null)
 
 // A child row is dead while its parent is off, on top of whatever the game itself allows.
@@ -110,51 +151,50 @@ function hostsRow(o) {
 }
 function enabledOf(o) {
   if (hostsRow(o) || !optionEnabled(o, props.ctx)) return false
-  return !o.requires || props.settings[o.requires] !== false
+  // `tracks` follows the whole chain — Stratagems under CP, the family under both
+  return requiresOf(o).every((r) => tracks(props.settings, r))
 }
 function reasonOf(o) {
   if (hostsRow(o)) return 'partyHostOnly'
-  return o.unavailable?.(props.ctx) || (enabledOf(o) ? o.note?.(props.ctx) : null) || null
+  return o.unavailable?.(props.ctx) || null
+}
+// The help, with the row's caveat for THIS game as its last paragraph — a row nobody can touch
+// has nothing to caveat.
+function helpText(o) {
+  const note = enabledOf(o) ? o.note?.(props.ctx) : null
+  return note ? `${labels.value[o.help]}\n\n${labels.value[note]}` : labels.value[o.help]
 }
 </script>
 
 <style scoped>
 .track-opts { flex: 1 1 100%; }
+.opt-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: 0.75rem;
+  margin: 0 0 0.6rem;
+}
 .block-head {
   font-family: var(--font-display);
   font-size: 1.21rem;
   font-weight: 500;
   color: var(--text-muted);
-  margin: 0 0 0.6rem;
+  margin: 0;
 }
-.opt-row { display: flex; align-items: stretch; }
-.opt-row + .opt-row { margin-top: 0.5rem; }
-.opt-row .check { flex: 1; min-width: 0; }
-/* A row that hangs off the one above it is indented under it, so the block reads as the tree it
-   is rather than as eight equal switches. */
-.opt-row.child { margin-left: 1.1rem; }
-/* Dimmed, not removed. The row still says what it is and still opens its help — it just cannot
-   be flipped here. */
-.opt-row.off .check { opacity: 0.55; cursor: default; }
-.opt-row.off .check:hover { border-color: var(--border); }
-.opt-info {
-  display: inline-flex;
-  align-items: center;
-  padding: 0 0.6rem;
-  margin-left: -1px;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  cursor: pointer;
+.opt-fold { margin: 0.5rem 0 0 1.1rem; }
+.opt-fold + :deep(.opt-row) { margin-top: 0.5rem; }
+.opt-fold-head {
+  display: flex; align-items: center; gap: 0.4rem;
+  width: 100%; min-height: 36px; padding: 0.3rem 0.5rem;
+  border: 1px dashed var(--border); background: none;
+  color: var(--text-muted); font: inherit; font-size: 0.86rem; text-align: left; cursor: pointer;
 }
-/* Whichever half is hovered paints its own frame over that shared line — without this the quiet
-   half's grey pixels sit on top and the accent frame stops halfway. Only hover: a ticked row no
-   longer takes an accent border, so it has no frame to win with. */
-.check:hover,
-.opt-info:hover { position: relative; z-index: 1; }
-.opt-info:hover { color: var(--accent-ink); border-color: var(--accent); }
-.opt-guide-row { margin-top: 0.6rem; }
+@media (hover: hover) { .opt-fold-head:hover { color: var(--accent-ink); border-color: var(--accent); } }
+.opt-fold-n { margin-left: auto; font-size: 0.78rem; color: var(--text-dim); }
+.opt-fold-body { padding-top: 0.5rem; }
+.opt-fold-body :deep(.opt-row.child) { margin-left: 0; }
 .opt-guide {
   font-size: 0.78rem;
   color: var(--text-dim);

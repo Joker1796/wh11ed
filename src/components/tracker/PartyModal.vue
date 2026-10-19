@@ -62,12 +62,12 @@
           <span class="pt-label">{{ labels.partyMembers }}</span>
           <ul class="pt-list">
             <li
-              v-for="m in members"
+              v-for="m in shownMembers"
               :key="m.memberId"
               class="pt-member"
             >
               <span class="pt-mname">
-                {{ m.name || seatLabel(m.side, m.mi) }}
+                {{ memberName(m) }}
                 <span
                   v-if="m.you"
                   class="pt-badge"
@@ -77,7 +77,11 @@
                   class="pt-badge"
                 >{{ labels.partyHostBadge }}</span>
               </span>
-              <span class="pt-mseat">{{ m.side == null ? labels.partySeatNone : seatLabel(m.side, m.mi) }}</span>
+              <!-- The host's seat picker below already reads "no seat": said once. -->
+              <span
+                v-if="m.side == null && !(isHost && !m.you)"
+                class="pt-mseat"
+              >{{ labels.partySeatNone }}</span>
               <span class="pt-mseen">{{ seenLabel(m) }}</span>
               <div
                 v-if="isHost && !m.you"
@@ -108,7 +112,7 @@
                 </button>
                 <button
                   class="btn-ghost pt-small pt-danger"
-                  @click="kick(m.memberId)"
+                  @click="confirming = { kind: 'kick', member: m }"
                 >
                   {{ labels.partyKick }}
                 </button>
@@ -148,7 +152,7 @@
             <button
               class="btn-ghost pt-danger"
               :title="labels.partyEndHint"
-              @click="onEnd"
+              @click="confirming = { kind: 'end' }"
             >
               {{ labels.partyEnd }}
             </button>
@@ -171,17 +175,31 @@
         {{ labels.partyStatusError }}
       </p>
     </div>
+    <!-- Both cut another phone off the game, and neither can be undone from here: asked first
+         (a QA pass closed the party with one stray tap, 2026-10-17). -->
+    <ConfirmModal
+      v-if="confirming"
+      :title="confirming.kind === 'end' ? labels.partyEndConfirmTitle : labels.partyKickConfirmTitle.replace('{name}', memberName(confirming.member))"
+      :message="confirming.kind === 'end' ? labels.partyEndHint : labels.partyKickConfirmText"
+      :confirm-label="confirming.kind === 'end' ? labels.partyEnd : labels.partyKick"
+      :cancel-label="labels.trackerCancel"
+      danger
+      @confirm="onConfirm"
+      @close="confirming = null"
+    />
   </BaseModal>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import BaseModal from '../BaseModal.vue'
+import ConfirmModal from '../ConfirmModal.vue'
 import PartyInvite from './PartyInvite.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
-import { useTracker, membersOf, sideName } from '../../composables/useTracker.js'
+import { useTracker } from '../../composables/useTracker.js'
+import { partySeats, seatKey, memberLabel } from './partySeats.js'
 
 const emit = defineEmits(['close'])
 const { locale } = useLocale()
@@ -205,27 +223,10 @@ async function onShare() {
 }
 
 // Seats are named by the game's own players: "Anna" rather than "side 1".
-const seats = computed(() => {
-  const g = current.value
-  if (!g) return []
-  const out = []
-  g.players.forEach((pl, side) => {
-    const ms = membersOf(pl)
-    if (g.settings?.gameType === 'doubles') {
-      ms.forEach((m, mi) => out.push({ key: seatKey(side, mi), side, mi, label: `${pl.name || pl.teamName || ''} · ${m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)}` }))
-    } else {
-      out.push({ key: seatKey(side, null), side, mi: null, label: sideName(pl, side, labels.value) })
-    }
-  })
-  return out
-})
-function seatKey(side, mi) {
-  return side == null ? '' : `${side}:${mi ?? ''}`
-}
+const seats = computed(() => partySeats(current.value, labels.value))
 function seatLabel(side, mi) {
   if (side == null) return labels.value.partySeatNone
-  const s = seats.value.find((x) => x.side === side && (x.mi ?? null) === (mi ?? null))
-  return s ? s.label : current.value?.players?.[side]?.name || ''
+  return memberLabel({ side, mi }, current.value, labels.value)
 }
 
 function seenLabel(m) {
@@ -246,6 +247,22 @@ async function onMakeHost(m) {
 async function onEnd() {
   await end()
   emit('close')
+}
+const confirming = ref(null)
+async function onConfirm() {
+  const c = confirming.value
+  confirming.value = null
+  if (c?.kind === 'end') await onEnd()
+  else if (c?.member) await kick(c.member.memberId)
+}
+
+const memberName = (m) => memberLabel(m, current.value, labels.value)
+// This phone and the host first, then the seats in order, then whoever sits nowhere.
+const shownMembers = computed(() => [...(members.value || [])].sort((a, b) => rank(a) - rank(b)))
+function rank(m) {
+  if (m.you) return 0
+  if (m.host) return 1
+  return m.side == null ? 9 : 2 + m.side * 2 + (m.mi || 0)
 }
 async function onLeave() {
   await leave()

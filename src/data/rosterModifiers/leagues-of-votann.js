@@ -30,7 +30,7 @@ export default {
             "ru": "раз за ход, если способность использована за 1YP"
           },
           "cond": [
-            "never"
+            "used-resource-transmutation"
           ]
         }
       ]
@@ -386,6 +386,34 @@ export default {
       ]
     },
     {
+      "sid": "60b859e0-8b00-4652-9284-3de1abc90a19",
+      "kind": "detachmentRule",
+      "name": "Eye of the Hunt",
+      "det": "Farseekers",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "farseekers"
+      },
+      "hash": "3d060319",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit within 12\"",
+            "ru": "против отряда в пределах 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "fdfc7863-9632-43df-88dd-2e2fda4a6dfa",
       "kind": "detachmentRule",
       "name": "Methodical Annihilation",
@@ -412,6 +440,43 @@ export default {
         "kind": "detachmentRule",
         "det": "hearthband"
       }
+    },
+    {
+      "sid": "b49b5c88-548d-4067-afb5-e585fe983751",
+      "kind": "detachmentRule",
+      "name": "Avatars of the Ancestors",
+      "det": "Hearthguard Covenant",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "hearthguard-covenant"
+      },
+      "hash": "f1cc2751",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "413cc70c-8df1-4d24-828b-3cbfde7af684",
+      "kind": "enhancement",
+      "name": "Optimised Attack Lines (Upgrade)",
+      "det": "Armoured Trailblazers",
+      "ref": {
+        "kind": "enhancement",
+        "det": "armoured-trailblazers"
+      },
+      "hash": "2bbf4d18",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "27e25b2c-5cf3-47df-8e2b-a3dff31cdd95",
@@ -664,7 +729,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "spent-yp-etacarn"
           ]
         }
       ]
@@ -688,7 +753,7 @@ export default {
             "ru": "на фазу, если потратить 3YP, когда отряд выбран для стрельбы или боя"
           },
           "cond": [
-            "never"
+            "spent-yp-oathbound"
           ],
           "target": "led"
         }
@@ -726,6 +791,21 @@ export default {
         "kind": "enhancement",
         "det": "persecution-prospect"
       }
+    },
+    {
+      "sid": "c1aa0ee8-56dc-412b-a482-a706a17be048",
+      "kind": "stratagem",
+      "name": "Built To Last",
+      "det": "Armoured Trailblazers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "armoured-trailblazers",
+        "name": "Built To Last"
+      },
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "d2eda679-eccb-4db2-baac-72ed0d4cf5fb",
@@ -891,7 +971,7 @@ export default {
             "ru": "и ещё, если потрачен 1YP"
           },
           "cond": [
-            "never"
+            "spent-yp-fury-of-the-hearth"
           ]
         }
       ],
@@ -985,7 +1065,7 @@ export default {
             "ru": "и ещё, если потрачен 1YP"
           },
           "cond": [
-            "never"
+            "spent-yp-fury-of-the-hearth"
           ]
         }
       ],

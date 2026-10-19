@@ -1,15 +1,17 @@
 <template>
   <div
     v-if="party"
+    ref="wrapEl"
     class="si-wrap"
   >
     <button
       ref="btn"
       class="sync-ind"
-      :class="[`is-${kind}`, { open }]"
+      :class="[`is-${kind}`, { open, live: st === 'ok' }]"
       type="button"
       :aria-label="text"
       :aria-expanded="open"
+      aria-haspopup="dialog"
       @click="toggle"
     >
       <span
@@ -36,15 +38,10 @@
       <span
         v-if="open"
         class="si-pop"
-        :class="align"
+        :class="[align, drop]"
         role="status"
       >{{ text }}</span>
     </Transition>
-    <div
-      v-if="open"
-      class="si-backdrop"
-      @click="open = false"
-    />
   </div>
 </template>
 
@@ -53,6 +50,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
+import { useOutsideTap } from '../../composables/useOutsideTap.js'
 
 // The sync state of a shared game, in the round bar: three looks and no more. A quiet dot for
 // "in sync" (tap it for how long ago), a spinner only for a request that is taking a while — a
@@ -60,11 +58,20 @@ import { useParty } from '../../composables/useParty.js'
 // within a minute — and a warning glyph, with its reason, when the phone is not in sync and the
 // player should know it.
 
+defineProps({
+  // Where the bubble opens: up (the lobby row, the default), or down — on the game screen's first
+  // line, where up is under the navbar.
+  drop: { type: String, default: 'up' },
+})
+
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { party, status, lastSyncAt } = useParty()
 
 const open = ref(false)
+// Tapping anywhere else closes it (useOutsideTap).
+const wrapEl = ref(null)
+useOutsideTap(open, () => [wrapEl.value], () => { open.value = false })
 // Which edge the bubble hangs from, decided when it opens: an indicator in the left half of the
 // screen opens to the right and one in the right half to the left, so the text never leaves the
 // viewport and the page never scrolls sideways because of it.
@@ -85,15 +92,19 @@ onUnmounted(() => clearInterval(timer))
 
 // Paused is not a problem: it is what the state is between mount and the first answer, and
 // the glyph must not flash a warning for that.
+// A party the host closed, or this phone removed from, says so whatever the last request did —
+// the flag on the game is the fact, and a phone off the live screen never asks again ("paused"
+// was all a guest saw, 2026-10-17).
+const st = computed(() => (party.value?.ended ? 'ended' : party.value?.revoked ? 'revoked' : status.value))
 const kind = computed(() => {
-  if (status.value === 'busy') return 'busy'
-  if (status.value === 'ok' || status.value === 'paused' || status.value === 'off') return 'ok'
+  if (st.value === 'busy') return 'busy'
+  if (st.value === 'ok' || st.value === 'paused' || st.value === 'off') return 'ok'
   return 'problem'
 })
 
 const text = computed(() => {
   const l = labels.value
-  switch (status.value) {
+  switch (st.value) {
     case 'ok': {
       const s = lastSyncAt.value ? Math.round((now.value - lastSyncAt.value) / 1000) : null
       const when = s == null || s < 2 ? l.partySyncedJustNow : l.partySyncedAgo.replace('{n}', s)
@@ -130,11 +141,17 @@ const text = computed(() => {
   cursor: pointer;
 }
 .si-dot {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--accent);
-  opacity: 0.7;
+}
+/* In sync: the dot slowly dims and lights again — the game is live with the other phones (owner,
+   2026-10-08). Only while the last request answered; paused and offline stand still. */
+.live .si-dot { animation: si-breathe 2.8s ease-in-out infinite; }
+@keyframes si-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
 }
 .si-spin {
   width: 0.75rem;
@@ -164,13 +181,8 @@ const text = computed(() => {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.si-pop.down { bottom: auto; top: calc(100% + 0.3rem); }
 .si-pop.start { left: 0; }
 .si-pop.end { right: 0; }
-/* Tapping anywhere else closes it — the same recipe the account menu uses. */
-.si-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 4;
-}
-@media (prefers-reduced-motion: reduce) { .si-spin { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .si-spin, .live .si-dot { animation: none; } }
 </style>

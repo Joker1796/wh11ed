@@ -13,8 +13,14 @@
       v-for="g in groups"
       :key="g.key"
       class="cond-group"
-      :class="{ boxed: g.limit > 1 || g.owner }"
+      :class="{ boxed: g.limit > 1 || g.owner || g.caption }"
     >
+      <!-- A set named in a word or two ("Once per battle") says so in line, the way the count of a
+           capped group does — not on a row of its own. -->
+      <span
+        v-if="g.caption"
+        class="cond-group-h"
+      >{{ g.caption }}</span>
       <!-- A set of options printed on one unit's card is switched here, far from that card, so the
            group says whose rule it is before it says how full it is. -->
       <span
@@ -119,6 +125,10 @@ const BLOCK_HINTS = {
   wrongPhase: 'stratBlockedPhase',
   unitPhase: 'stratBlockedUnit',
   usedPhase: 'stratBlockedUsed',
+  usedArmy: 'onceUsedElsewhere',
+  rule: 'condByRule',
+  forbidden: 'condForbidden',
+  armyPick: 'condArmyPick',
 }
 function blockedHint(sw) {
   const key = BLOCK_HINTS[sw.blockedBy]
@@ -129,7 +139,7 @@ function blockedHint(sw) {
 // stratagem's timing, and one already spent this phase; the two block-wide ones (Battle-shock, the
 // unit having been targeted already) are stated once above the whole group by the view that owns
 // it, and repeating them on every chip is noise.
-const OWN_REASON = new Set(['wrongPhase', 'usedPhase'])
+const OWN_REASON = new Set(['wrongPhase', 'usedPhase', 'usedArmy', 'rule', 'forbidden', 'armyPick'])
 function subLine(sw) {
   const parts = []
   if (sw.subLabel) parts.push(sw.subLabel)
@@ -146,10 +156,10 @@ const groups = computed(() => {
     // Bucketed by the group where there is one, else by the RULE the chips came from — without
     // that second key, two rules' ungrouped chips would share one bucket and one owner heading,
     // which would be a heading that lies about half of them.
-    const key = sw.group || sw.groupOwner || ''
+    const key = sw.group || sw.groupOwner || sw.groupCaption || ''
     let g = byKey.get(key)
     if (!g) {
-      g = { key, limit: sw.group ? sw.groupLimit : 0, picked: 0, items: [], owner: sw.groupOwner || null, info: null }
+      g = { key, limit: sw.group ? sw.groupLimit : 0, picked: 0, items: [], owner: sw.groupOwner || null, caption: sw.groupCaption || null, info: null }
       byKey.set(key, g)
       out.push(g)
     }
@@ -168,6 +178,8 @@ const groups = computed(() => {
 
 <style scoped>
 .cond-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+/* Centred: a single chip beside a boxed group keeps its own height instead of stretching to the box's. */
+.cond-chips { align-items: center; }
 /* An uncapped bucket is not a box: it hands its chips straight to the flex row above. */
 .cond-group { display: contents; }
 .cond-group.boxed {

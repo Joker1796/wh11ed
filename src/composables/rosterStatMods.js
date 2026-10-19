@@ -102,7 +102,7 @@ export function idleOnRow(ability, tags, table) {
 // matching is enough. An enhancement has no scope at all — the caller only passes it for the
 // unit carrying it.
 /**
- * @param {{ scope?: number }} effect
+ * @param {{ scope?: number, reach?: string[] }} effect
  * @param {RuleScope[] | null | undefined} scopes
  * @param {UnitKeywords} keywords the card's own and its attached unit's (ruleTargets' scopeHits), or one list for a unit standing alone
  * @param {string} kind
@@ -110,6 +110,9 @@ export function idleOnRow(ability, tags, table) {
  * @param {boolean} [strict] a detachment rule's aura: an unreadable gate reaches nobody
  */
 function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, strict = false) {
+  // An effect that names whom it reaches itself (`reach`) — a Bondsman ability goes to "one friendly
+  // ARMIGER model", in a rule the generator's prose reader cannot gate — is gated by that alone.
+  if (effect.reach?.length) return scopeHits({ targets: effect.reach, excludes: [] }, keywords)
   // No scopes to gate on. Either the prose named no unit at all (fail-open, see ruleTargets), or
   // the record's kind is one whose prose addresses exactly the card it is applied to — an
   // enhancement modifies its own bearer, an allegiance choice its own chooser, a wargear rule
@@ -352,9 +355,16 @@ const isSetRule = (rec) => rec.ref?.kind === 'ability' && !!rec.ref.set
 const byChoice = (entry) => entry.kind === 'stratagem' || isSetRule(entry)
 /** @param {ModEntry} entry @param {ModifierEffect} effect @param {IdSet} active @param {IdSet} chosen */
 function effectLive(entry, effect, active, chosen) {
-  if (byChoice(entry) && !chosen?.has(entry.sid)) return false
+  // "Select one friendly VEHICLE model within 3\" of this model. Until your next Command phase…" — the
+  // aura chip the player marks on that unit IS the selection, so nothing else proves it: not the
+  // bearer's own unit (22.01 puts it in range, not in the choice), not the unit it leads.
+  if (effect.selected) return entry.from === 'aura' && (!effect.cond?.length || condHolds(effect.cond, active, entry))
+  // A once-per-battle effect is proven the same way, by the use the player marked — `chosen` holds
+  // the records whose use is still inside its window (rosterGameContext's activeUses). Per EFFECT,
+  // not per record: Standard of the Emperor Ascendant gives +1 OC for good and +1 A once.
+  if ((byChoice(entry) || effect.once) && !chosen?.has(entry.sid)) return false
   if (effect.cond?.length) return condHolds(effect.cond, active, entry)
-  return byChoice(entry)
+  return byChoice(entry) || !!effect.once
 }
 
 // entries: [{ name, det, kind, body, effects }] — records the caller resolved to their prose.
@@ -423,7 +433,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     // not its effect carries a `when`: unspent and unpicked mean the same thing as an unproven
     // condition, and a reviewer leaving `when` null must not turn the gate off.
     /** @param {ModifierEffect} eff */
-    const gated = (eff) => !!eff.when || byChoice(entry)
+    const gated = (eff) => !!eff.when || byChoice(entry) || !!eff.once
     const replaced = new Set()
     for (const eff of effects) {
       if (eff.alt == null || eff.ruledOut) continue
@@ -435,6 +445,10 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     for (const [index, effect] of effects.entries()) {
       // The list answered this effect's condition, and answered no (gateStratagems): not a note either.
       if (replaced.has(index) || effect.ruledOut) continue
+      // A state the rule puts the unit or army in, with no number of its own (an Order that only
+      // grants a move, a Vow, a Hyper-adaptation): it exists to be a switch (switchesFor), and the
+      // card has nothing to change or footnote for it.
+      if (effect.op === 'state') continue
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, strict)) continue
 
       // Conditional and unproven: never touch the number, just say what would change and when.
@@ -473,6 +487,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           const rows = current()[table] || []
           for (let i = 0; i < rows.length; i++) {
             if (!rowMatchesOnly(asFound[table]?.[i], effect.only) || !inRows(effect, table, i)) continue
+            /** @type {string[]} */
             const tags = rows[i].tags || []
             if (idleOnRow(effect.value, tags, table)) continue
             // One instance of an ability at a time (24.02): a grant the row already has as well or
@@ -571,7 +586,7 @@ export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, activ
     const scopes = entry.scopes || (SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body))
     for (const effect of entry.effects || []) {
       if (effect.op !== 'grant' || effect.stat !== 'keyword') continue
-      if ((effect.when || byChoice(entry)) && !effectLive(entry, effect, active, chosen)) continue
+      if ((effect.when || byChoice(entry) || effect.once) && !effectLive(entry, effect, active, chosen)) continue
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, !!entry.scopes && entry.kind === 'detachmentRule')) continue
       out.push({ kw: String(effect.value), source: entry.name, det: entry.det })
     }
@@ -948,6 +963,9 @@ export function aurasReaching(records, {
     const ref = rec.ref
     const reaching = (rec.effects || []).filter((e) => e.target === 'aura' && proven(rec, e))
     if (!reaching.length) continue
+    // An aura that reaches only the unit its rule SELECTS is never answered by the list: the unit the
+    // bearer leads is a candidate like any other, so it is offered the chip too.
+    const picked = reaching.every((e) => e.selected)
     // A DETACHMENT RULE's aura has no source ENTRY: the models carrying it are named by keyword, and
     // the player is judging the 6" anyway. So the chip says where the rule comes from — the
     // detachment — and is offered once, to every unit the reach clause names, provided that
@@ -964,7 +982,7 @@ export function aurasReaching(records, {
     // cases (the bearer itself, and the unit the bearer is attached to) are skipped by entry rather
     // than by unit id.
     if (ref.kind === 'enhancement') {
-      if (leaderEnhNames?.has(rec.name)) continue
+      if (leaderEnhNames?.has(rec.name) && !picked) continue
       if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
       for (const u of rosterUnits) {
         if (!u.enh || enhKey(u.enh) !== enhKey(rec.name) || u.uid === entryUid) continue
@@ -972,7 +990,7 @@ export function aurasReaching(records, {
       }
       continue
     }
-    if (automatic.has(ref.unit)) continue
+    if (automatic.has(ref.unit) && !picked) continue
     // The same fail-open escapes the apply pass uses, so a chip is offered exactly when the
     // modifier behind it would land.
     if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets))) continue

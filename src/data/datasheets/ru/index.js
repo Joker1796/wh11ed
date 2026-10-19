@@ -20,9 +20,18 @@ export { localizeSheet } from './localize.js'
 // unit ids — the chapter's own entry for an id wins if both exist.
 /**
  * @param {string} slug
+ * @param {{ cp?: string | null }} [opts] `cp` — a Combat Patrol box fielded as a list: its sheets'
+ *   translation joins the faction's (combatPatrolSheets.js), as loadDatasheets adds its sheets.
  * @returns {Promise<import('../../data.types.js').DatasheetsRuModule | null>}
  */
-export async function loadDatasheetsRu(slug) {
+export async function loadDatasheetsRu(slug, { cp = null } = {}) {
+  const mod = await loadFactionRu(slug)
+  if (!cp) return mod
+  const { boxSheetsRuOverlay } = await import('../../combatPatrolSheets.js')
+  return { ...(mod || {}), default: { ...(mod?.default || {}), ...(await boxSheetsRuOverlay(cp)) } }
+}
+
+async function loadFactionRu(slug) {
   const loader = modules[`./${slug}.js`]
   const own = loader ? await loader() : null
   const { sharedIdsFor } = await import('../index.js')

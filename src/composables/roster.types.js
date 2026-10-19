@@ -309,9 +309,10 @@
  * `stat`, `op`, `value`) and when (`cond` — condition ids from conditions.js; `when` its wording).
  * The overlay adds `rows` when it places a bearer's effect on particular rows (splitBearers).
  * @typedef {object} ModifierEffect
- * @property {string} on
- * @property {string} stat
- * @property {string} op
+ * @property {string} [on] absent on a `state` effect
+ * @property {string} [stat] absent on a `state` effect
+ * @property {string} op `add` / `improve` / `set` / `grant`, or `state`: no number, only the
+ *   condition(s) in `cond` — a choice the rule offers, made a switch (rosterGameContext's switchesFor)
  * @property {string | number} [value]
  * @property {string[] | null} [cond]
  * @property {{ en: string, ru?: string } | null} [when]
@@ -322,6 +323,12 @@
  * @property {Record<string, number[]>} [rows]
  * @property {string} [best] the rule's own limit on a roll ("3+": Take Cover!)
  * @property {boolean} [ruledOut] set by gateStratagems: the list answered its condition, and answered no
+ * @property {{ per: 'unit' | 'army', dur: string }} [once] a once-per-battle rule: in force while the use
+ *   the player marked is inside `dur` (rosterGameContext's activeUses); `per: 'army'` spends it for every unit
+ * @property {string[]} [reach] the keywords of the units this effect reaches, where the record's own
+ *   prose gate cannot say (a Bondsman ability: "one friendly ARMIGER model")
+ * @property {true} [selected] an aura that reaches the ONE unit its rule selects ("select one friendly
+ *   VEHICLE model within 3\""): proven only by the player's aura chip on that unit, never by the list
  */
 
 /** A keyword gate read off a rule's prose; `models`/`modelExcludes` are the phrases it names as MODELS (ruleTargets' scopeHits). @typedef {{ targets: string[], excludes: string[], models?: string[], modelExcludes?: string[] }} RuleScope */
@@ -376,6 +383,7 @@
  * @property {CondSwitch[]} [strats]
  * @property {CondSwitch[]} [auras]
  * @property {CondSwitch[]} [picks]
+ * @property {CondSwitch[]} [uses] once-per-battle rules on this card, ticked once used
  * @property {Set<string>} [chosen] ability-set options picked anywhere in the army
  * @property {CondSwitch[]} [switches]
  * @property {CondSwitch[]} [armySwitches]
@@ -483,6 +491,7 @@
  * @property {string} [bodyguardCore]  in an attached unit whose Bodyguard prints this core ability
  * @property {boolean} [attachedCharacter]  in an attached unit that holds another CHARACTER
  * @property {string[]} [warlord]  the army's Warlord carries all of these keywords
+ * @property {boolean} [onUse]  a spent rule's own option: offered only while a stratagem or once-per-battle use naming it is in force on the unit
  */
 
 /**
@@ -500,6 +509,7 @@
  * @property {string} phase  a BATTLE_PHASES id
  * @property {boolean} mine
  * @property {boolean} tracked  the game keeps phases (settings.trackPhases)
+ * @property {boolean} [shock]  the game keeps Battle-shock (settings.trackBattleShock); absent reads as kept
  */
 
 /**
@@ -513,13 +523,14 @@
 /**
  * What the player has told the game about their army: `army` the army-wide switches, and per roster
  * entry uid its unit switches, the stratagems spent on it, the ability-set options picked on it and
- * the auras marked as reaching it.
+ * the auras marked as reaching it, and the once-per-battle rules it has used.
  * @typedef {object} PlayerCtx
  * @property {StampStore} [army]
  * @property {Record<string, StampStore>} [units]
  * @property {Record<string, StampStore>} [strats]
  * @property {Record<string, StampStore>} [picks]
  * @property {Record<string, StampStore>} [auras]
+ * @property {Record<string, StampStore>} [uses]
  */
 
 /**
@@ -563,10 +574,17 @@
  * @property {{ kind: string, name: string, det: string | null, unit: string | null } | null} [src]
  * @property {string | null} [det]
  * @property {boolean} [blocked]
- * @property {'shock' | 'wrongPhase' | 'unitPhase' | 'usedPhase' | null} [blockedBy]
+ * @property {'shock' | 'wrongPhase' | 'unitPhase' | 'usedPhase' | 'usedArmy' | 'forbidden' | 'rule' | 'armyPick' | null} [blockedBy]
+ *   for a game state: `rule` the unit's own rules hold it on, `forbidden` they forbid it, `armyPick`
+ *   it is the army's pick
  * @property {boolean} [pick]
  * @property {{ owner: string | null, ability: string, set: string, unit: string }} [from]
  * @property {boolean} [aura]
+ * @property {boolean} [live]   a once-per-battle use whose effect is still running
+ * @property {boolean} [spent]  used, and its window has closed
+ * @property {'unit' | 'army'} [once]
+ * @property {string | null} [unit]     a once-per-battle chip: the datasheet its rule is printed on
+ * @property {string} [ability]         and the rule's full name there
  * @property {{ name: string, text: string } | null} [info]
  */
 
