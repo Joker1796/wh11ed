@@ -365,7 +365,7 @@ export default {
         "kind": "detachmentRule",
         "det": "brood-brothers-auxilia"
       },
-      "hash": "e1143466",
+      "hash": "84a0b160",
       "ver": 925,
       "reviewed": true,
       "effects": [],
