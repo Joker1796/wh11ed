@@ -87,6 +87,7 @@
           <button
             v-if="canUntakeSecondaries(pi)"
             class="btn-ghost tk-undo"
+            :disabled="!!noReturn"
             @click="untakeSecondaries(pi)"
           >
             <i
@@ -102,6 +103,10 @@
             {{ labels.trackerTakeDone }}
           </button>
         </div>
+        <small
+          v-if="noReturn && canUntakeSecondaries(pi)"
+          class="check-note tk-why"
+        >{{ labels[`trackerStrict_${noReturn}`] }}</small>
       </template>
 
       <template v-else>
@@ -119,6 +124,11 @@
         <div class="or-sep">
           <span>{{ labels.trackerTakeOrChoose }}</span>
         </div>
+        <!-- Strict rules: the cards are drawn, not chosen — the list stays to be read (its "i"). -->
+        <small
+          v-if="noChoose"
+          class="check-note tk-why"
+        >{{ labels[`trackerStrict_${noChoose}`] }}</small>
         <ul class="pick-list">
           <li
             v-for="m in deckMissions"
@@ -130,7 +140,7 @@
               data-press
               :class="{ on: picked.includes(m.slug) }"
               :aria-pressed="picked.includes(m.slug)"
-              :disabled="!picked.includes(m.slug) && picked.length >= need"
+              :disabled="!!noChoose || (!picked.includes(m.slug) && picked.length >= need)"
               @click="toggle(m.slug)"
             >
               <span class="pick-name">{{ m.name }}</span>
@@ -163,7 +173,7 @@
     >
       <button
         class="btn-primary tk-main"
-        :disabled="picked.length !== need"
+        :disabled="!!noChoose || picked.length !== need"
         @click="onChosen"
       >
         {{ labels.trackerTakeChosen.replace('{n}', picked.length).replace('{of}', need) }}
@@ -222,7 +232,10 @@ const props = defineProps({
 defineEmits(['close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, tookSecondaries, takeRandomSecondaries, takeChosenSecondaries, redrawSecondary, canUntakeSecondaries, untakeSecondaries } = useTracker()
+const { current, tookSecondaries, takeRandomSecondaries, takeChosenSecondaries, redrawSecondary, canUntakeSecondaries, untakeSecondaries, strictWhy } = useTracker()
+// Strict rules: why choosing, and putting the pair back, are refused (null when they are not).
+const noChoose = computed(() => strictWhy('choose', props.pi))
+const noReturn = computed(() => strictWhy('return', props.pi))
 
 const player = computed(() => current.value.players[props.pi])
 const taken = computed(() => tookSecondaries(props.pi))
@@ -285,6 +298,7 @@ function onChosen() { takeChosenSecondaries(props.pi, picked.value) }
 </script>
 
 <style scoped>
+.tk-why { margin-top: 0.35rem; }
 .tk-note { margin: 0 0 0.5rem; font-size: 0.8rem; line-height: 1.4; color: var(--text-muted); }
 .tk-main { width: 100%; justify-content: center; gap: 0.45rem; min-height: 42px; padding: 0.4rem 0.8rem; font-weight: 700; }
 /* The divider sits closer here than its shared default: this dialog is a list to scan. */

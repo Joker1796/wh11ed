@@ -42,8 +42,9 @@
         <button
           v-else-if="view.kind === 'toggle' && usedCount > 0"
           class="army-head-reset"
+          :disabled="!!undoWhy('armyFire', mi)"
           :aria-label="labels.trackerArmyReset"
-          :title="labels.trackerArmyReset"
+          :title="undoWhy('armyFire', mi) || labels.trackerArmyReset"
           :inert="lock"
           @click="undoArmyToggle(pi, mi)"
         >
@@ -86,8 +87,9 @@
           <button
             class="army-head-reset"
             data-press
+            :disabled="!!undoWhy('armyBonus', mi)"
             :aria-label="labels.trackerArmyReset"
-            :title="labels.trackerArmyReset"
+            :title="undoWhy('armyBonus', mi) || labels.trackerArmyReset"
             @click="undoBonus"
           >
             <i class="wi wi-undo" />
@@ -432,8 +434,9 @@
               <button
                 class="army-resurrect-undo"
                 data-press
+                :disabled="!!undoWhy('armySpend', i, mi)"
                 :aria-label="labels.trackerArmyReset"
-                :title="labels.trackerArmyReset"
+                :title="undoWhy('armySpend', i, mi) || labels.trackerArmyReset"
                 :inert="lock"
                 @click="undoArmyResurrect(pi, i, mi)"
               >
@@ -579,7 +582,7 @@ const lock = computed(() => (props.readonly ? true : undefined))
 const {
   current, setArmyCounter, setArmySelection, toggleArmyMulti, setArmyChoice, fireArmyToggle,
   undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
-  resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
+  resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus, strictUndoWhy,
 } = useTracker()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -634,6 +637,12 @@ const showResurrected = ref(false)
 const bonusApplied = computed(() => player.value?.army?.bonusApplied ?? false)
 function applyBonus() {
   applyArmyBonus(props.pi, counter.value + view.value.startBonus.amount, props.mi, { label: view.value.startBonus.label || actLog.value.label })
+}
+// Strict rules: an army-rule use taken back only while it is the side's last act — the button
+// greys and its title says why (strictRules.js).
+function undoWhy(kind, a, b) {
+  const why = strictUndoWhy(kind, props.pi, a, b)
+  return why ? labels.value[`trackerStrict_${why}`] : ''
 }
 function undoBonus() {
   undoArmyBonus(props.pi, counter.value - view.value.startBonus.amount, props.mi)
@@ -1129,7 +1138,8 @@ useFlashOnChange(counter, counterEl)
   line-height: 1;
 }
 
-.army-resurrect-undo:hover {
+.army-resurrect-undo:disabled { opacity: 0.45; cursor: default; }
+.army-resurrect-undo:not(:disabled):hover {
   border-color: var(--accent);
   color: var(--text-primary);
 }
@@ -1308,7 +1318,8 @@ useFlashOnChange(counter, counterEl)
   line-height: 1;
 }
 
-.army-head-reset:hover {
+.army-head-reset:disabled { opacity: 0.45; cursor: default; }
+.army-head-reset:not(:disabled):hover {
   border-color: var(--accent);
   color: var(--text-primary);
 }

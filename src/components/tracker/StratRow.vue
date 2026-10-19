@@ -48,7 +48,7 @@
     <!-- One line under the row, only when there is something to say: used this round (and the
          way back), or why it cannot be used now. -->
     <div
-      v-if="used || reason"
+      v-if="used || reason || (undoable && undoWhy)"
       class="sr-foot"
     >
       <span
@@ -59,6 +59,7 @@
         v-if="undoable"
         class="sr-undo"
         data-press
+        :disabled="!!undoWhy"
         @click="$emit('undo')"
       >
         <i
@@ -68,9 +69,9 @@
         {{ labels.trackerStratUndo }}
       </button>
       <span
-        v-if="reason"
+        v-if="reason || (undoable && undoWhy)"
         class="sr-why"
-      >{{ reason }}</span>
+      >{{ reason || undoWhy }}</span>
     </div>
   </li>
 </template>
@@ -90,6 +91,7 @@ defineProps({
   cost: { type: Number, required: true },
   used: { type: Number, default: 0 },
   undoable: { type: Boolean, default: false },
+  undoWhy: { type: String, default: '' },      // why the undo is refused (strict rules), said under the row
   reason: { type: String, default: '' },
   title: { type: String, default: '' },
   locked: { type: Boolean, default: false },
@@ -161,6 +163,7 @@ const { renderRichText } = useRenderInline()
   min-height: 28px; padding: 0; border: 0; background: none;
   font: inherit; font-weight: 600; color: var(--text-muted); cursor: pointer;
 }
-@media (hover: hover) { .sr-undo:hover { color: var(--accent-ink); } }
+.sr-undo:disabled { opacity: 0.45; cursor: default; }
+@media (hover: hover) { .sr-undo:not(:disabled):hover { color: var(--accent-ink); } }
 .sr-why { color: var(--text-dim); }
 </style>

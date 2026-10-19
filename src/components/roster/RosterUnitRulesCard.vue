@@ -540,8 +540,10 @@ const useChips = computed(() => (props.gameCtx?.uses || []).map((u) => ({
 // What can be spent now, and what cannot. `blocked` is never true for a stratagem already in
 // force (stratagemsFor only asks once it is off), so the fold can never swallow a running one.
 const showBlocked = ref(false)
-const openChips = computed(() => stratChips.value.filter((st) => !st.blocked))
-const blockedChips = computed(() => stratChips.value.filter((st) => st.blocked))
+// A stratagem strict rules keep played (`strictLast`) is ON and stays among the open ones: the
+// fold below is for stratagems that cannot be played, not for one that was.
+const openChips = computed(() => stratChips.value.filter((st) => !st.blocked || st.blockedBy === 'strictLast'))
+const blockedChips = computed(() => stratChips.value.filter((st) => st.blocked && st.blockedBy !== 'strictLast'))
 
 const stratsBlockedNote = computed(() => {
   const blocked = (props.gameCtx?.strats || []).filter((st) => st.blocked)

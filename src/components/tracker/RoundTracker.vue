@@ -166,8 +166,8 @@
           :opp="!isYouSide(current.players[turnIndex], turnIndex)"
           :reserves="!!reservesSide"
           :invite="!partyActive"
-          :can-undo="canUndoTurn() && canEdit(1 - turnIndex)"
-          :can-prev="canStepInTurn(-1)"
+          :can-undo="canUndoTurn() && canEdit(1 - turnIndex) && !strictWhy('clock')"
+          :can-prev="canStepInTurn(-1) && !strictWhy('clock')"
           :can-next="canStepInTurn(1)"
           :can-end="!begun || canEndTurn()"
           :end-locked="!canEdit(turnIndex)"
@@ -192,6 +192,7 @@
       :turn="turnIndex"
       :phase="current.currentPhase || 'command'"
       :round="current.currentRound"
+      :back-why="strictText(strictWhy('clock'))"
       @pick="onPickPhase"
       @close="phasePickerOpen = false"
     />
@@ -263,7 +264,8 @@
         v-if="viewRound"
         class="round-edit"
       >
-        <span>{{ labels.trackerEditingRound.replace('{n}', viewRound).replace('{live}', current.currentRound) }}</span>
+        <!-- Strict rules: a past round is read, not corrected — the banner says so instead. -->
+        <span>{{ pastWhy || labels.trackerEditingRound.replace('{n}', viewRound).replace('{live}', current.currentRound) }}</span>
         <button
           class="re-back"
           @click="viewRound = null"
@@ -335,6 +337,7 @@
                 :model-value="current.players[i].rounds[shownRound - 1].primary"
                 :min="0"
                 :max="PRIMARY_ROUND_CAP"
+                :disabled="!!pastWhy"
                 @update:model-value="v => setRoundPrimary(i, shownRound - 1, v)"
               />
               <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
@@ -376,11 +379,12 @@
             :cp="current.players[side].cp"
             :name="playerName(side)"
             :bonus="!!bonusOf(side)"
-            :bonus-disabled="bonusOf(side) ? !canUndoBonus(side) : !canGainBonus(side)"
-            :bonus-title="bonusOf(side) ? (canUndoBonus(side) ? labels.trackerBonusUndo : bonusSource(side)) : bonusSource(side)"
+            :bonus-disabled="bonusOf(side) ? (!canUndoBonus(side) || !!strictUndoWhy('bonus', side)) : !canGainBonus(side)"
+            :bonus-title="bonusOf(side) ? (canUndoBonus(side) ? strictText(strictUndoWhy('bonus', side)) || labels.trackerBonusUndo : bonusSource(side)) : bonusSource(side)"
             :locked="!canEdit(side)"
             :inert="lock(side)"
             :auto="!!current.cpAuto"
+            :edit-why="strictText(strictWhy('pencil', side))"
             @bonus="bonusOf(side) ? undoBonusCp(side) : gainBonusCp(side)"
             @update:cp="v => setCp(side, v)"
             @help="cpHelpOpen = true"
@@ -487,6 +491,8 @@
       :blocks="primaryBlocks(openPrimary)"
       :briefing="primaryMission(openPrimary).briefing"
       :count="(bi, ri) => primaryRowCount(openPrimary, shownRound - 1, bi, ri)"
+      :readonly="!!pastWhy"
+      :view-only-note="pastWhy"
       :locked="b => primaryLocked(openPrimary, b)"
       :locked-note="labels.trackerOppTurnOnly"
       :opp="!isYouSide(current.players[openPrimary], openPrimary)"
@@ -599,7 +605,9 @@ import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, endTurnDiscard, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, endTurnDiscard, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame, strictWhy, strictUndoWhy } = useTracker()
+// Strict rules' reason (strictRules.js), as the screen says it — '' when nothing is refused.
+const strictText = (why) => (why ? labels.value[`trackerStrict_${why}`] : '')
 const begun = computed(() => gameBegun(current.value))
 // Every tab carries its word on a wide screen (see .game-tabs in the styles).
 const wideTabs = useMediaQuery('(min-width: 901px)')
@@ -817,6 +825,8 @@ function tabsOffset(el) {
 // (`viewRound`). Local to this phone — what one player is correcting is not where the game is.
 const viewRound = ref(null)
 const shownRound = computed(() => viewRound.value || current.value.currentRound)
+// Strict rules: the round on screen is over and cannot be corrected (strictRules.js).
+const pastWhy = computed(() => strictText(strictWhy('round', missionSide.value, shownRound.value)))
 
 // Whose missions come first: this phone's own side in a shared game, otherwise the side on
 // turn. The other is folded until asked for.
@@ -980,7 +990,8 @@ const endTitle = computed(() => {
 // confirm names that player instead (undoMessage).
 const undoTitle = computed(() => {
   const other = 1 - turnIndex.value
-  return canEdit(other) ? labels.value.trackerUndoTurn : labels.value.trackerUndoLocked.replace('{name}', playerName(other))
+  if (!canEdit(other)) return labels.value.trackerUndoLocked.replace('{name}', playerName(other))
+  return strictText(strictWhy('clock')) || labels.value.trackerUndoTurn
 })
 
 // The round's bonus CP entry, if one was gained, and where it came from.

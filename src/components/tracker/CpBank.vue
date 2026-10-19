@@ -32,8 +32,9 @@
       type="button"
       class="cr-edit"
       data-press
+      :disabled="!!editWhy"
       :aria-label="labels.trackerCpEdit"
-      :title="labels.trackerCpEdit"
+      :title="editWhy || labels.trackerCpEdit"
       @click="editOpen = true"
     >
       <i
@@ -100,6 +101,7 @@ defineProps({
   locked: { type: Boolean, default: false },     // another phone's side: dimmed
   inert: { type: Boolean, default: false },
   auto: { type: Boolean, default: true },        // core CP come by themselves (the game's cpAuto)
+  editWhy: { type: String, default: '' },       // why the pencil is refused (strict rules), said on it
 })
 defineEmits(['bonus', 'update:cp', 'help'])
 const { locale } = useLocale()
@@ -126,7 +128,8 @@ const editOpen = ref(false)
 .cr-btn.on:disabled { cursor: default; opacity: 0.75; }
 .cr-count { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--side); }
 .cr-edit { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; padding: 0; border: 1px solid var(--border); background: none; color: var(--text-muted); cursor: pointer; }
-@media (hover: hover) { .cr-edit:hover { color: var(--accent-ink); border-color: var(--accent); } }
+.cr-edit:disabled { opacity: 0.45; cursor: default; }
+@media (hover: hover) { .cr-edit:not(:disabled):hover { color: var(--accent-ink); border-color: var(--accent); } }
 .cr-note { margin: 0 0 0.8rem; line-height: 1.45; }
 .cr-stepper { justify-content: center; }
 .cr-help { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; padding: 0; border: 0; background: none; font-size: 1.35rem; color: var(--text-dim); cursor: pointer; }

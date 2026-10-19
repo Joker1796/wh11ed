@@ -82,6 +82,7 @@
             v-else-if="live && mode === 'tactical' && isSetAside(m.slug)"
             class="manage restore"
             data-press
+            :disabled="!!restoreWhy(m.slug)"
             :title="labels.trackerReturnToHand"
             :aria-label="labels.trackerReturnToHand"
             @click="onRestore(m.slug)"
@@ -89,6 +90,11 @@
             <i class="wi wi-undo" />
           </button>
         </div>
+        <!-- Strict rules: a card set aside before the side's last action stays set aside. -->
+        <small
+          v-if="live && mode === 'tactical' && isSetAside(m.slug) && restoreWhy(m.slug)"
+          class="check-note card-why"
+        >{{ labels[`trackerStrict_${restoreWhy(m.slug)}`] }}</small>
       </li>
     </TransitionGroup>
     <p
@@ -106,7 +112,8 @@
       :blocks="relevantBlocks(openMission)"
       :briefing="openMission.briefing"
       :when-drawn="live ? whenDrawnFor(openMission) : null"
-      :readonly="readonlyCard(openMission.slug)"
+      :readonly="readonlyCard(openMission.slug) || !!pastWhy"
+      :view-only-note="pastWhy ? labels[`trackerStrict_${pastWhy}`] : null"
       :count="(bi, ri) => secondaryRowCount(pi, openMission.slug, bi, ri, round)"
       :locked="b => rowLocked(openMission, b)"
       :locked-note="labels.trackerOppTurnOnly"
@@ -175,10 +182,11 @@
         <button
           class="act-btn act-danger"
           data-press
+          :disabled="!!returnWhy"
           @click="onReturn(actionMission.slug)"
         >
           <strong>{{ labels.trackerReturnToDeck }}</strong>
-          <span>{{ labels.trackerReturnToDeckNote }}</span>
+          <span>{{ returnWhy ? labels[`trackerStrict_${returnWhy}`] : labels.trackerReturnToDeckNote }}</span>
         </button>
       </div>
     </BaseModal>
@@ -191,7 +199,7 @@
       :title="replace.kind === 'cp' ? labels.trackerCpRedraw : labels.trackerWhenDrawn"
       :subtitle="missionName(replace.slug)"
       :note="replace.kind === 'cp' ? labels.trackerCpRedrawConfirm : ''"
-      :choosable="source(replace.slug) === 'chosen'"
+      :choosable="source(replace.slug) === 'chosen' && !strictWhy('choose', pi)"
       @pick="onReplacePick"
       @close="replace = null"
     />
@@ -249,7 +257,7 @@ const {
   current, returnSecondaryToDeck, discardFromHand, restoreSecondaryToHand, redrawSecondary,
   scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
   canTakeSecondaries, tookSecondaries,
-  canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard, canGainBonus,
+  canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard, canGainBonus, strictWhy, strictUndoWhy,
 } = useTracker()
 
 const player = computed(() => current.value.players[props.pi])
@@ -262,6 +270,11 @@ function isSetAside(slug) { return !inHand(slug) }
 // Read-only: a card set aside in the live round (its VP stays, it no longer scores). In a past
 // round every card shown was active then, and is corrected like any other.
 function readonlyCard(slug) { return live.value && isSetAside(slug) }
+// Strict rules (strictRules.js): a past round is read, not corrected; a card is not put back in
+// the deck; a set-aside comes back only as the side's last action.
+const pastWhy = computed(() => strictWhy('round', props.pi, props.round))
+const returnWhy = computed(() => strictWhy('return', props.pi))
+const restoreWhy = (slug) => strictUndoWhy('restore', props.pi, slug)
 function source(slug) { return player.value.secondary.source?.[slug] || null }
 
 // "In play" for the round on screen: cards held in hand that round — either still in hand, or
@@ -397,6 +410,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
    inside it read as noise. The name keeps the side's colour. */
 .card {
   display: flex;
+  flex-wrap: wrap;
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--side, var(--side-you)) 4%, var(--bg-card));
 }
@@ -408,6 +422,8 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .card-leave-to { opacity: 0; }
 /* The primary's card height (RoundTracker .mission-card): its padding, and the "⋯" takes no height
    of its own (negative margins). */
+/* Strict rules' reason, on a line of its own under the card's head. */
+.card-why { flex-basis: 100%; padding: 0 0.6rem 0.4rem; }
 .card-head { flex: 1; min-width: 0; display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.6rem; }
 /* The "⋯" is the card's right end: flush with its frame, a divider on its left, the full height of
    the line — not a box of its own poking through the frame (2026-09-29). */

@@ -134,6 +134,13 @@ export const TOUR_CHAPTERS = {
 
       },
       {
+        target: 'setup-strict',
+        ru: { title: 'Правила', text: 'Выберите «Строго», чтобы играть по правилам без исправлений задним числом. Карты тянутся только случайно, отменить можно только последнее действие. После начала партии это не меняется.' },
+
+        en: { title: 'Rules', text: 'Choose Strict to play by the book, with no corrections after the fact. Cards are drawn at random, and only the last action can be taken back. It cannot be changed once the game starts.' },
+
+      },
+      {
         target: 'setup-attacker',
         ru: { title: 'Attacker', text: 'Отметьте, кто атакует. От этого зависит, с какой стороны стола вы расставляетесь.' },
 

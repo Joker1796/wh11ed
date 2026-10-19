@@ -129,6 +129,8 @@ const BLOCK_HINTS = {
   rule: 'condByRule',
   forbidden: 'condForbidden',
   armyPick: 'condArmyPick',
+  // Strict rules: a stratagem played before the side's last act stays played (strictRules.js).
+  strictLast: 'trackerStrict_lastOnly',
 }
 function blockedHint(sw) {
   const key = BLOCK_HINTS[sw.blockedBy]
@@ -139,7 +141,7 @@ function blockedHint(sw) {
 // stratagem's timing, and one already spent this phase; the two block-wide ones (Battle-shock, the
 // unit having been targeted already) are stated once above the whole group by the view that owns
 // it, and repeating them on every chip is noise.
-const OWN_REASON = new Set(['wrongPhase', 'usedPhase', 'usedArmy', 'rule', 'forbidden', 'armyPick'])
+const OWN_REASON = new Set(['wrongPhase', 'usedPhase', 'usedArmy', 'rule', 'forbidden', 'armyPick', 'strictLast'])
 function subLine(sw) {
   const parts = []
   if (sw.subLabel) parts.push(sw.subLabel)

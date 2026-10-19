@@ -360,7 +360,7 @@ function makePlayer(p, opponent, settings, isYou = false) {
     // a game with no rosters is the normal case. `roster` is a self-contained snapshot (so a game
     // in history still renders the list that was played even after the saved roster is edited or
     // deleted) and `rosterId` is provenance only, and may dangle. Built/read by rosterGameLink.js;
-    // stored in the roster's own compact form (ids + indices) to stay inside the API's 64 KB cap.
+    // stored in the roster's own compact form (ids + indices) to stay small in every save and sync.
     rosterId: doubles ? null : (p.rosterId || null),
     roster: doubles ? null : (p.roster || null),
     // Where each unit of that list is (unitStatus.js) — the setup's reserves to start with.

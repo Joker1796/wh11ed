@@ -12,6 +12,11 @@
     @close="$emit('close')"
   >
     <div class="modal-body pp-body">
+      <!-- Strict rules: the phases already behind the clock are shut, and this says why. -->
+      <small
+        v-if="backWhy"
+        class="check-note"
+      >{{ backWhy }}</small>
       <section
         v-for="(t, ti) in turns"
         :key="ti"
@@ -28,6 +33,7 @@
           class="pp-phase"
           data-press
           :class="{ on: ti === turn && p === phase }"
+          :disabled="!!backWhy && isBehind(ti, p)"
           @click="$emit('pick', ti, p)"
         >
           {{ phaseLabel(p, labels) }}
@@ -51,6 +57,8 @@ const props = defineProps({
   phase: { type: String, default: 'command' },
   // The live round, in the title: the ten rows are this round's (owner, 2026-10-06).
   round: { type: Number, default: 1 },
+  // Why the clock cannot go back (strict rules) — the slots behind the live one are greyed.
+  backWhy: { type: String, default: '' },
 })
 defineEmits(['pick', 'close'])
 
@@ -58,6 +66,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const turns = computed(() => props.names.map((name) => ({ name })))
+const isBehind = (ti, p) => ti < props.turn || (ti === props.turn && BATTLE_PHASES.indexOf(p) < BATTLE_PHASES.indexOf(props.phase))
 </script>
 
 <style scoped>
@@ -87,7 +96,8 @@ const turns = computed(() => props.names.map((name) => ({ name })))
   font-family: inherit;
   cursor: pointer;
 }
-.pp-phase:hover { border-color: var(--accent); }
+.pp-phase:disabled { opacity: 0.45; cursor: default; }
+@media (hover: hover) { .pp-phase:not(:disabled):hover { border-color: var(--accent); } }
 .pp-phase.on {
   background: var(--accent);
   border-color: var(--accent);

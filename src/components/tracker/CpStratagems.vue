@@ -181,7 +181,8 @@ const props = defineProps({
 })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, stratUses, stratBlock, lastStratUse, undoStratagem, playStratagem } = useTracker()
+const { current, stratUses, stratBlock, lastStratUse, undoStratagem, playStratagem, strictUndoWhy: strictWhyOf } = useTracker()
+const strictUndoWhy = (pi, key) => strictWhyOf('strat', pi, key)
 const { canEdit } = useParty()
 
 const controlled = computed(() => props.side === 0 || props.side === 1)
@@ -294,6 +295,7 @@ function rowProps(s) {
     cost: s._cost,
     used: stratUses(side.value, s._key).filter((e) => e.round === R).length,
     undoable: canEdit(side.value) && !!lastStratUse(side.value, s._key),
+    undoWhy: (() => { const w = strictUndoWhy(side.value, s._key); return w ? labels.value[`trackerStrict_${w}`] : '' })(),
     // Short of CP is the one reason every row would repeat at once: the grey button (and its
     // tooltip) says it; the line under a row is kept for the stratagem's own limits.
     reason: block && block !== 'cp' ? labels.value[`trackerStratBlock_${block}`] : '',

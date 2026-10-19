@@ -20,6 +20,15 @@ describe('UnitStatusButton', () => {
     expect(body().find('.us-opt').exists()).toBe(false)
   })
 
+  it('under strict rules a destroyed unit says why and offers nothing else', async () => {
+    const w = mount(UnitStatusButton, { props: { status: 'destroyed', name: 'Boyz', lockedWhy: 'Only the last action' }, attachTo: document.body })
+    await w.find('.us-btn').trigger('click')
+    expect(body().find('.us-why').text()).toBe('Only the last action')
+    const opts = body().findAll('.us-opt')
+    expect(opts[0].attributes('disabled')).toBeDefined()
+    expect(opts[2].attributes('disabled')).toBeUndefined()
+  })
+
   it('opens nothing in a record', async () => {
     const w = mount(UnitStatusButton, { props: { status: 'table', disabled: true }, attachTo: document.body })
     expect(w.find('.us-btn').attributes('disabled')).toBeDefined()

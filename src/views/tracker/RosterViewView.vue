@@ -455,6 +455,7 @@
                         :status="unitStatusOf(gamePlayer, e.uid)"
                         :name="defOf(e.id)?.name || e.id"
                         :disabled="!canSwitch"
+                        :locked-why="reviveWhy(e)"
                         @set="setStatus(e, $event)"
                       />
                     </div>
@@ -1564,6 +1565,12 @@ function toggleUnitCondFor(entry, sw) {
 const fallen = (entry) => inGame.value && unitStatusOf(gamePlayer.value, entry.uid) === 'destroyed'
 // On the battlefield, in reserves, destroyed — an attached unit moves whole, dies part by part
 // (statusTargets). The store stamps it with the game's clock (unitStatus.js).
+// Strict rules: a destroyed unit comes back only as the side's last act taken back (strictRules.js).
+function reviveWhy(entry) {
+  if (unitStatusOf(gamePlayer.value, entry.uid) !== 'destroyed') return ''
+  const why = tracker.value?.strictUndoWhy?.('revive', gamePi.value, entry.uid)
+  return why ? labels.value[`trackerStrict_${why}`] : ''
+}
 function setStatus(entry, status) {
   for (const p of statusTargets(gamePlayer.value, entry, attachedEntries(entry), status)) {
     tracker.value?.setUnitStatus(gamePi.value, p.uid, status, unitNameOf(p), gameMi.value)
@@ -1591,7 +1598,7 @@ const viewingGameCtx = computed(() => {
     // would change a number on this card. Only in a live game: a record's clock is what expires
     // them, and a finished game's clock stopped where the battle did.
     strats: canSwitch.value && keeps('trackStratagems')
-      ? stratagemsFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value)
+      ? strictStrats(stratagemsFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value), viewingEntry.value)
       : [],
     // …and the auras of other entries that reach it, the same chips its row carries.
     auras: canSwitch.value ? auraSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
@@ -1612,6 +1619,14 @@ const viewingGameCtx = computed(() => {
       : [],
   }
 })
+// Strict rules: a stratagem played on this unit before the side's last act cannot be unticked —
+// the box stays on, greyed, with why (ConditionChips' `strictLast`).
+function strictStrats(list, entry) {
+  if (!keeps('trackStratPlay')) return list
+  return list.map((st) => (st.on && tracker.value?.strictUndoWhy?.('unplay', gamePi.value, entry.uid, st.id)
+    ? { ...st, blocked: true, blockedBy: 'strictLast' }
+    : st))
+}
 // A stratagem box on the card. In a game counting CP it is PLAYING the stratagem on this unit — the
 // CP spent, the cost asked (StratPlayModal) — and unticking it takes the play back with its CP
 // (useTracker's playStratagem / unplayOnUnit). Where stratagems are not played (`trackStratPlay`,

@@ -3,6 +3,13 @@
     <!-- What to read: the app's own dropdown (owner, 2026-10-06 — a second row of tabs under the
          game's own read as more navigation, and the system select did not look like the app), the
          plain text beside it. -->
+    <!-- A game played by strict rules says so over its history (strictRules.js). -->
+    <p
+      v-if="current?.settings?.strictRules"
+      class="check-note gl-strict"
+    >
+      {{ labels.trackerLogStrict }}
+    </p>
     <div class="gl-top">
       <AdaptivePicker
         v-model:open="filterOpen"
@@ -253,6 +260,7 @@ async function copy() {
 </script>
 
 <style scoped>
+.gl-strict { margin: 0 0 0.4rem; }
 /* The filter and the plain-text copy on one line. */
 .gl-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
 .gl-pick { flex: 1; min-width: 0; }

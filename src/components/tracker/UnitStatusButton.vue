@@ -28,6 +28,13 @@
     @close="open = false"
   >
     <div class="modal-body">
+      <!-- Strict rules: a destroyed unit stays destroyed unless that was the side's last act. -->
+      <p
+        v-if="lockedWhy"
+        class="check-note us-why"
+      >
+        {{ lockedWhy }}
+      </p>
       <div class="act-list">
         <button
           v-for="s in UNIT_STATUSES"
@@ -36,6 +43,7 @@
           class="act-btn us-opt"
           :class="{ on: s === status }"
           :aria-pressed="s === status"
+          :disabled="!!lockedWhy && s !== status"
           data-press
           @click="pick(s)"
         >
@@ -66,6 +74,8 @@ defineProps({
   // The unit's name, for the dialog's title.
   name: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
+  // Why the unit cannot leave its status (strict rules): the dialog opens, says so, offers nothing.
+  lockedWhy: { type: String, default: '' },
 })
 const emit = defineEmits(['set'])
 const { locale } = useLocale()
@@ -82,6 +92,7 @@ function pick(s) {
 </script>
 
 <style scoped>
+.us-why { margin: 0 0 0.5rem; }
 /* The chip row's other end: a square the height of the Battle-shock chip, the icon the answer. */
 .us-btn {
   flex-shrink: 0;
