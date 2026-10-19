@@ -320,10 +320,10 @@ export const TOUR_CHAPTERS = {
         // A game that does not play stratagems here (`trackStratPlay` off) shows only the counter.
         ru: (ctx) => (ctx.stratPlay
           ? { title: 'CP и стратагемы', text: 'Нажмите на цену стратагемы, чтобы сыграть её: CP спишутся сами. Если правило изменило цену или нужно указать отряд, нажмите ⚙ рядом. Стратагемы, которые сейчас сыграть нельзя, отмечены с причиной.' }
-          : { title: 'Командные очки', text: 'Нажимайте «−» и «+», чтобы поправить командные очки стороны. «Бонус 1 CP» — очко из правила, одно за раунд. Чтобы играть стратагемы прямо здесь, включите их в настройках партии.' }),
+          : { title: 'Командные очки', text: 'Командные очки начисляются сами. «Бонус 1 CP» — очко из правила, одно за раунд. Карандаш поправляет счёт, если он разошёлся со столом. Чтобы играть стратагемы прямо здесь, включите их в настройках партии.' }),
         en: (ctx) => (ctx.stratPlay
           ? { title: 'CP and stratagems', text: 'Tap a stratagem’s cost to play it: the CP are taken off by themselves. If a rule changed the cost or the unit matters, tap the ⚙ beside it. The ones that cannot be played now say why.' }
-          : { title: 'Command Points', text: 'Tap “−” and “+” to correct the side’s Command Points. “Bonus 1 CP” is a point from a rule, one a round. To play stratagems right here, turn them on in the game’s settings.' }),
+          : { title: 'Command Points', text: 'Command Points come by themselves. “Bonus 1 CP” is a point from a rule, one a round. The pencil corrects the count if it drifts from the table’s. To play stratagems right here, turn them on in the game’s settings.' }),
       },
       {
         target: 'game-panel-armies',
