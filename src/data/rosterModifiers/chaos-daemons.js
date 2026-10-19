@@ -2327,13 +2327,26 @@ export default {
           "op": "add",
           "value": 3,
           "when": {
-            "en": "if a Flux token was spent, instead (and +1 AP)",
-            "ru": "если потрачен Flux token, вместо этого (и +1 AP)"
+            "en": "instead, if a Flux token was spent",
+            "ru": "вместо этого, если потрачен Flux token"
           },
           "cond": [
-            "never"
+            "spent-flux-pyrogenesis"
           ],
           "alt": 0
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "if a Flux token was spent",
+            "ru": "если потрачен Flux token"
+          },
+          "cond": [
+            "spent-flux-pyrogenesis"
+          ]
         }
       ],
       "dur": "phase"

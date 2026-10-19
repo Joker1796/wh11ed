@@ -1286,7 +1286,7 @@ export default {
             "ru": "до конца хода, в котором отряд высадился из Transport"
           },
           "cond": [
-            "never"
+            "unit-disembarked"
           ]
         },
         {
@@ -1299,7 +1299,7 @@ export default {
             "ru": "до конца хода, в котором отряд высадился из Transport"
           },
           "cond": [
-            "never"
+            "unit-disembarked"
           ]
         }
       ]
@@ -1732,13 +1732,27 @@ export default {
           "op": "add",
           "value": 2,
           "when": {
-            "en": "Attacks and AP improve by 2 instead, for the phase, by spending 1 Pain token when the unit fights",
-            "ru": "атаки и пробитие улучшаются на 2 вместо 1 на фазу, если потратить 1 жетон боли при выборе отряда для боя"
+            "en": "instead, by spending 1 Pain token when the unit fights, for the phase",
+            "ru": "вместо этого, если потрачен 1 Pain token, когда отряд сражается, до конца фазы"
           },
           "cond": [
-            "never"
+            "spent-pain-eye-of-spite"
           ],
           "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -2,
+          "when": {
+            "en": "instead, by spending 1 Pain token when the unit fights, for the phase",
+            "ru": "вместо этого, если потрачен 1 Pain token, когда отряд сражается, до конца фазы"
+          },
+          "cond": [
+            "spent-pain-eye-of-spite"
+          ],
+          "alt": 1
         }
       ],
       "ref": {

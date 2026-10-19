@@ -127,7 +127,7 @@ export default {
             "tag": "PSYCHIC"
           },
           "cond": [
-            "never"
+            "used-sacrificial-dagger"
           ]
         },
         {
@@ -143,7 +143,7 @@ export default {
             "tag": "PSYCHIC"
           },
           "cond": [
-            "never"
+            "used-sacrificial-dagger"
           ]
         }
       ]
@@ -588,7 +588,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "used-daemonic-ordnance"
           ]
         },
         {
@@ -601,7 +601,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "used-daemonic-ordnance"
           ]
         }
       ]
@@ -890,7 +890,7 @@ export default {
             "ru": "психические атаки, на фазу, после Sacrificial Dagger"
           },
           "cond": [
-            "never"
+            "used-sacrificial-dagger"
           ]
         },
         {
@@ -906,7 +906,7 @@ export default {
             "ru": "психические атаки, на фазу, после Sacrificial Dagger"
           },
           "cond": [
-            "never"
+            "used-sacrificial-dagger"
           ]
         }
       ]
@@ -1479,7 +1479,7 @@ export default {
             "ru": "до конца битвы, если его атаки уничтожили юнит в фазе боя"
           },
           "cond": [
-            "never"
+            "soul-eater-fed"
           ]
         }
       ]
@@ -3407,7 +3407,7 @@ export default {
             "ru": "когда отряд использует способность Dark Pacts"
           },
           "cond": [
-            "never"
+            "unit-dark-pact-invoked"
           ]
         },
         {
@@ -3420,7 +3420,7 @@ export default {
             "ru": "когда отряд использует способность Dark Pacts"
           },
           "cond": [
-            "never"
+            "unit-dark-pact-invoked"
           ]
         }
       ],

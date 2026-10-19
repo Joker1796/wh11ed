@@ -494,6 +494,25 @@ export const conditions = {
   'smash-sustained': { scope: 'unit', duration: 'phase', group: 'smash-em-up', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
   // Backroom Deals: the one unit selected in the Declare Battle Formations step, for the battle.
   'backroom-deals': { scope: 'unit', duration: 'battle', label: { en: 'Selected for Backroom Deals', ru: 'Выбран для Backroom Deals' } },
+  // "You can use this ability. If you do, until the end of the phase…" — the player's call each time,
+  // and nothing the tracker records: one switch per rule, for the window the rule gives it.
+  'used-extremis-trigger-word': { scope: 'unit', duration: 'phase', label: { en: 'Trigger word invoked', ru: 'Trigger word произнесено' } },
+  'used-righteous-repugnance': { scope: 'unit', duration: 'phase', label: { en: 'Miracle dice discarded', ru: 'Miracle dice сброшен' } },
+  'used-daemonic-ordnance': { scope: 'unit', duration: 'phase', label: { en: 'Daemonic Ordnance used', ru: 'Daemonic Ordnance применён' } },
+  'used-sacrificial-dagger': { scope: 'unit', duration: 'phase', label: { en: 'Sacrificial Dagger used', ru: 'Sacrificial Dagger применён' } },
+  'used-frenzied-metabolism': { scope: 'unit', duration: 'phase', label: { en: 'Frenzied Metabolism used', ru: 'Frenzied Metabolism применён' } },
+  'used-resource-transmutation': { scope: 'unit', duration: 'phase', label: { en: 'Resource Transmutation used (1YP)', ru: 'Resource Transmutation применён (1YP)' } },
+  'used-warpmeld-sacrifice': { scope: 'unit', duration: 'phase', label: { en: 'Warpmeld Sacrifice made', ru: 'Warpmeld Sacrifice совершён' } },
+  'used-aetherstride': { scope: 'unit', duration: 'turn', label: { en: 'Aetherstride performed', ru: 'Aetherstride выполнен' } },
+  'spent-yp-etacarn': { scope: 'unit', duration: 'phase', label: { en: '3YP spent (Etacarn SB9)', ru: 'Потрачено 3YP (Etacarn SB9)' } },
+  'spent-yp-oathbound': { scope: 'unit', duration: 'phase', label: { en: '3YP spent (Oathbound Speculator)', ru: 'Потрачено 3YP (Oathbound Speculator)' } },
+  'spent-yp-fury-of-the-hearth': { scope: 'unit', duration: 'phase', onUse: true, label: { en: '1YP spent', ru: 'Потрачен 1YP' } },
+  'spent-pain-eye-of-spite': { scope: 'unit', duration: 'phase', label: { en: 'Pain token spent (Eye of Spite)', ru: 'Потрачен Pain token (Eye of Spite)' } },
+  'spent-flux-pyrogenesis': { scope: 'unit', duration: 'phase', onUse: true, label: { en: 'Flux token spent', ru: 'Потрачен Flux token' } },
+  // A state the unit's own deed puts it in for the rest of the battle.
+  'soul-eater-fed': { scope: 'unit', duration: 'battle', label: { en: 'Destroyed a unit in the Fight phase', ru: 'Уничтожил отряд в фазе боя' } },
+  'tox-cycler-hit': { scope: 'unit', duration: 'battle', label: { en: 'Scored a hit with the tox-cycler', ru: 'Попал из tox-cycler' } },
+  'unit-normal-moved': { scope: 'unit', duration: 'turn', label: { en: 'Made a Normal move', ru: 'Совершил Normal move' } },
   // Bladeguard (once per turn): +1 to hit with its own melee attacks, or -1 to hit against it.
   'bladeguard-hit': { scope: 'unit', duration: 'phase', group: 'bladeguard', label: { en: '+1 to hit (melee)', ru: '+1 к попаданию (ближний бой)' } },
   'bladeguard-defend': { scope: 'unit', duration: 'phase', group: 'bladeguard', label: { en: '-1 to be hit', ru: '−1 к попаданию по отряду' } },

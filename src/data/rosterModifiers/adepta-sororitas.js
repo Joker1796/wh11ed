@@ -56,7 +56,7 @@ export default {
             "ru": "пока произнесено trigger word"
           },
           "cond": [
-            "never"
+            "used-extremis-trigger-word"
           ]
         },
         {
@@ -72,7 +72,7 @@ export default {
             "ru": "пока произнесено trigger word"
           },
           "cond": [
-            "never"
+            "used-extremis-trigger-word"
           ]
         }
       ]
@@ -534,7 +534,7 @@ export default {
             "ru": "если сброшен Miracle die ради этой способности"
           },
           "cond": [
-            "never"
+            "used-righteous-repugnance"
           ]
         },
         {
@@ -550,7 +550,7 @@ export default {
             "ru": "если сброшен Miracle die ради этой способности"
           },
           "cond": [
-            "never"
+            "used-righteous-repugnance"
           ]
         }
       ]
@@ -758,7 +758,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "used-extremis-trigger-word"
           ]
         },
         {
@@ -771,7 +771,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "used-extremis-trigger-word"
           ]
         }
       ]

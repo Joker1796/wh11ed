@@ -30,7 +30,7 @@ export default {
             "ru": "раз за ход, если способность использована за 1YP"
           },
           "cond": [
-            "never"
+            "used-resource-transmutation"
           ]
         }
       ]
@@ -729,7 +729,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "spent-yp-etacarn"
           ]
         }
       ]
@@ -753,7 +753,7 @@ export default {
             "ru": "на фазу, если потратить 3YP, когда отряд выбран для стрельбы или боя"
           },
           "cond": [
-            "never"
+            "spent-yp-oathbound"
           ],
           "target": "led"
         }
@@ -971,7 +971,7 @@ export default {
             "ru": "и ещё, если потрачен 1YP"
           },
           "cond": [
-            "never"
+            "spent-yp-fury-of-the-hearth"
           ]
         }
       ],
@@ -1065,7 +1065,7 @@ export default {
             "ru": "и ещё, если потрачен 1YP"
           },
           "cond": [
-            "never"
+            "spent-yp-fury-of-the-hearth"
           ]
         }
       ],

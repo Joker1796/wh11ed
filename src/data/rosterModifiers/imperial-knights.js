@@ -211,11 +211,13 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         },
         {
@@ -224,11 +226,13 @@ export default {
           "op": "add",
           "value": -1,
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         }
       ]
@@ -252,11 +256,13 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "while the model is affected by Crusader’s Duty",
-            "ru": "пока модель под действием Crusader’s Duty"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         }
       ]
@@ -420,11 +426,13 @@ export default {
           "op": "grant",
           "value": "ASSAULT",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         }
       ]
@@ -448,11 +456,13 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         },
         {
@@ -461,11 +471,13 @@ export default {
           "op": "grant",
           "value": "LANCE",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         }
       ]
@@ -545,11 +557,13 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         },
         {
@@ -558,11 +572,13 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": {
-            "en": "while affected by this Bondsman ability",
-            "ru": "пока действует эта способность Bondsman"
+            "en": "the ARMIGER model selected for this Bondsman ability in your Command phase, until your next one",
+            "ru": "модель ARMIGER, выбранная для этой способности Bondsman в вашей фазе командования, до следующей"
           },
-          "cond": [
-            "never"
+          "target": "aura",
+          "selected": true,
+          "reach": [
+            "ARMIGER"
           ]
         }
       ]

@@ -110,6 +110,9 @@ export function idleOnRow(ability, tags, table) {
  * @param {boolean} [strict] a detachment rule's aura: an unreadable gate reaches nobody
  */
 function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, strict = false) {
+  // An effect that names whom it reaches itself (`reach`) — a Bondsman ability goes to "one friendly
+  // ARMIGER model", in a rule the generator's prose reader cannot gate — is gated by that alone.
+  if (effect.reach?.length) return scopeHits({ targets: effect.reach, excludes: [] }, keywords)
   // No scopes to gate on. Either the prose named no unit at all (fail-open, see ruleTargets), or
   // the record's kind is one whose prose addresses exactly the card it is applied to — an
   // enhancement modifies its own bearer, an allegiance choice its own chooser, a wargear rule

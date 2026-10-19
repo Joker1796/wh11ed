@@ -1053,13 +1053,14 @@ export default {
           "op": "grant",
           "value": "Fights First",
           "when": {
-            "en": "for the phase, when the bearer uses this Enhancement",
-            "ru": "на фазу, когда носитель применил улучшение"
+            "en": "once per battle, the phase it is used",
+            "ru": "раз за битву, фаза, в которую применено"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "led"
+          "target": "led",
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },

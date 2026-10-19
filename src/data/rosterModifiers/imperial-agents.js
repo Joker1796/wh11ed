@@ -330,12 +330,13 @@ export default {
           "op": "grant",
           "value": "IGNORES COVER",
           "when": {
-            "en": "while this ability is used",
-            "ru": "пока способность использована"
+            "en": "once per battle, the phase it is used",
+            "ru": "раз за битву, фаза, в которую применено"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },
@@ -616,7 +617,7 @@ export default {
             "ru": "до конца битвы, если это оружие попало"
           },
           "cond": [
-            "never"
+            "tox-cycler-hit"
           ]
         },
         {
@@ -632,7 +633,7 @@ export default {
             "ru": "до конца битвы, если это оружие попало (Урон не выше 6)"
           },
           "cond": [
-            "never"
+            "tox-cycler-hit"
           ]
         }
       ]

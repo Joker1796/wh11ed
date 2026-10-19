@@ -2848,7 +2848,7 @@ export default {
             "ru": "в ходу, когда отряд совершил normal move"
           },
           "cond": [
-            "never"
+            "unit-normal-moved"
           ]
         }
       ]

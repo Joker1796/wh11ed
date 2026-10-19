@@ -1492,7 +1492,7 @@ export default {
             "ru": "пока активен Boon of Blood, вместо этого"
           },
           "cond": [
-            "never"
+            "tithe-boon-of-blood"
           ],
           "alt": 0
         }

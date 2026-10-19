@@ -810,12 +810,13 @@ export default {
           "op": "grant",
           "value": "DEVASTATING WOUNDS",
           "when": {
-            "en": "while this ability is used",
-            "ru": "пока способность использована"
+            "en": "once per battle, the phase it is used",
+            "ru": "раз за битву, фаза, в которую применено"
           },
-          "cond": [
-            "never"
-          ]
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
         }
       ]
     },

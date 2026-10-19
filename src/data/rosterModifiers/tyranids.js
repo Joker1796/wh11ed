@@ -81,7 +81,7 @@ export default {
             "ru": "на фазу, после Frenzied Metabolism"
           },
           "cond": [
-            "never"
+            "used-frenzied-metabolism"
           ]
         }
       ]

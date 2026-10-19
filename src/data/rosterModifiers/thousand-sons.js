@@ -113,7 +113,7 @@ export default {
             "ru": "пока способность использована"
           },
           "cond": [
-            "never"
+            "used-aetherstride"
           ]
         }
       ]
@@ -975,11 +975,11 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "for the phase, after a Warpmeld Sacrifice",
-            "ru": "на фазу, после Warpmeld Sacrifice"
+            "en": "the phase the unit made a Warpmeld Sacrifice before selecting its targets",
+            "ru": "фаза, в которую отряд совершил Warpmeld Sacrifice перед выбором целей"
           },
           "cond": [
-            "never"
+            "used-warpmeld-sacrifice"
           ]
         }
       ],

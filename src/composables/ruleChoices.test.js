@@ -80,6 +80,10 @@ describe('a datasheet ability offers its choices on the unit', () => {
     ['space-marines', 'bladeguard-veteran-squad', {}, ['bladeguard-hit', 'bladeguard-defend']],
     // A unit's own strength: a state the player marks, three in one group.
     ['blood-angels', 'death-company-marines', {}, ['unit-below-starting-strength', 'unit-below-half-strength']],
+    // "You can use this ability. If you do, until the end of the phase…": the player's call.
+    ['adepta-sororitas', 'arco-flagellants', {}, ['used-extremis-trigger-word']],
+    ['tyranids', 'harridan', {}, ['used-frenzied-metabolism']],
+    ['chaos-space-marines', 'forgefiend', {}, ['used-daemonic-ordnance']],
   ])('%s · %s', async (slug, unitId, opts, ids) => {
     expect(await unitSwitches(slug, unitId, opts)).toEqual(expect.arrayContaining(ids))
   }, 30000)
