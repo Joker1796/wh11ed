@@ -107,7 +107,7 @@ npm run build    # production build → dist/
 npm run preview  # preview the production build
 npm run lint     # GATE: ESLint + eslint-plugin-vue (see eslint.config.js; runs in CI)
 npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deployment)
-npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction structure/text/tracker/core diffs (report-only) — see DATA-SYNC.md for the full update procedure
+npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction structure/text/tracker/core diffs; a gate since 2026-10-19 (exit 1 on any unread finding) — see DATA-SYNC.md for the full update procedure
 npm run sync -- --baseline  # re-record scripts/lib/sync-baseline.json (the accepted findings the report above suppresses) — read the diff before committing it
 npm run sync:text    # just the faction rule/stratagem/enhancement/ability PROSE diff vs appdata (errata drift; a slug or --all)
 npm run sync:mfm     # audit datasheet points against src/data/mfm/* (scraped from the live MFM by scripts/scrape-mfm.py); --write applies the diff — see DATA-SYNC.md
@@ -118,6 +118,9 @@ npm run wtags        # GATE: every weapon tag printed on a datasheet must have t
 npm run dsrules      # GATE: a named rule appdata files on a datasheet must be on ours too (see Data gates)
 npm run imgrules     # GATE: a figure appdata draws as a picture inside an army/detachment rule must be in our text (see Data gates)
 npm run coregrants   # GATE: a rule that hands a unit a core ability must say so in the modifier layer (see Data gates)
+npm run columns      # GATE: a new appdata table, or a column starting to carry data, that nobody has decided about (scripts/lib/appdata-columns.json)
+npm run missions     # GATE: the mission pack's limits, each card's Fixed / WHEN DRAWN / first-turn marks and every Action against the app (see src/data/CLAUDE.md)
+npm run packs        # GATE: a Faction Pack PDF in ../sources newer than the Legends sheets read from it (sourceVersion)
 npm run bases        # GATE: base sizes are appdata's; a model's own size only from scripts/lib/model-bases.mjs, with evidence (see src/data/CLAUDE.md)
 npm run dsids        # GATE: a datasheet id that left the build must be recorded as renamed or retired — a player's marks hang off it (see src/data/CLAUDE.md)
 npm run exceptions   # GATE: each recorded departure from appdata (scripts/lib/appdata-exceptions.mjs) still needed and still applied (see src/data/CLAUDE.md)

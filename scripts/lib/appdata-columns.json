@@ -1,0 +1,1185 @@
+{
+  "note": "Every non-empty appdata column as of data 995, audited column by column on 2026-10-19 (lesson 105): a blank means 'read where the bundle builder or a generator reads it, or decided not needed' as of that audit. A column recorded after that date says where it is read, or why not.",
+  "tables": {
+    "all_model_wargear_choice": {
+      "why": "",
+      "columns": {
+        "allModelWargearChoiceSetId": "",
+        "id": "",
+        "substitute": ""
+      }
+    },
+    "all_model_wargear_choice_set": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "id": "",
+        "miniatureId": ""
+      }
+    },
+    "all_model_wargear_choice_wargear_item": {
+      "why": "",
+      "columns": {
+        "allModelWargearChoiceId": "",
+        "count": "",
+        "id": "",
+        "wargearItemId": ""
+      }
+    },
+    "allegiance_ability": {
+      "why": "",
+      "columns": {
+        "allegianceAbilityGroupId": "",
+        "displayOrder": "",
+        "en.name": "",
+        "en.rules": "",
+        "id": "",
+        "requiresWargearItemId": ""
+      }
+    },
+    "allegiance_ability_group": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "en.name": "",
+        "id": "",
+        "isMandatory": "",
+        "maxRosterLimit": "",
+        "minRosterLimit": ""
+      }
+    },
+    "allied_faction": {
+      "why": "",
+      "columns": {
+        "canTakeEnhancements": "",
+        "id": "",
+        "isMutuallyExclusiveKeywordLimit": "",
+        "isSiblingFaction": "",
+        "replacesRosterFactionKeyword": ""
+      }
+    },
+    "allied_faction_allegiance_ability": {
+      "why": "",
+      "columns": {}
+    },
+    "allied_faction_allowed_warlord_miniature": {
+      "why": "",
+      "columns": {}
+    },
+    "allied_faction_datasheet": {
+      "why": "",
+      "columns": {
+        "alliedFactionId": "",
+        "datasheetId": ""
+      }
+    },
+    "allied_faction_keyword": {
+      "why": "",
+      "columns": {
+        "alliedFactionId": "",
+        "battleSizeId": "",
+        "id": "",
+        "keywordId": "",
+        "limitCount": ""
+      }
+    },
+    "allied_faction_keyword_slotless_keyword_group": {
+      "why": "",
+      "columns": {
+        "alliedFactionKeywordId": "",
+        "id": ""
+      }
+    },
+    "allied_faction_keyword_slotless_keyword_group_donor_keyword": {
+      "why": "",
+      "columns": {
+        "alliedFactionKeywordSlotlessKeywordGroupId": "",
+        "keywordId": ""
+      }
+    },
+    "allied_faction_keyword_slotless_keyword_group_receiver_keyword": {
+      "why": "",
+      "columns": {
+        "alliedFactionKeywordSlotlessKeywordGroupId": "",
+        "keywordId": ""
+      }
+    },
+    "allied_faction_parent_faction_keyword": {
+      "why": "",
+      "columns": {
+        "alliedFactionId": "",
+        "factionKeywordId": ""
+      }
+    },
+    "allied_faction_points_limit": {
+      "why": "",
+      "columns": {
+        "alliedFactionId": "",
+        "battleSizeId": "",
+        "pointsLimit": ""
+      }
+    },
+    "allied_faction_required_detachment": {
+      "why": "",
+      "columns": {
+        "alliedFactionId": "",
+        "detachmentId": ""
+      }
+    },
+    "amendment": {
+      "why": "",
+      "columns": {}
+    },
+    "army_rule": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "en.name": "",
+        "hiddenFromCommandBunker": "",
+        "id": "",
+        "publicationId": ""
+      }
+    },
+    "army_rule_behaviour_type": {
+      "why": "",
+      "columns": {
+        "armyRuleId": "",
+        "behaviourTypeId": "",
+        "displayOrder": "",
+        "id": ""
+      }
+    },
+    "army_rule_excluded_from_command_bunker_faction_keyword": {
+      "why": "",
+      "columns": {
+        "armyRuleId": "",
+        "factionKeywordId": ""
+      }
+    },
+    "army_rule_faction_keyword": {
+      "why": "",
+      "columns": {
+        "armyRuleId": "",
+        "factionKeywordId": ""
+      }
+    },
+    "base_miniature_loadout": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "id": "",
+        "miniatureId": ""
+      }
+    },
+    "base_miniature_loadout_wargear_option": {
+      "why": "",
+      "columns": {
+        "baseMiniatureLoadoutId": "",
+        "count": "",
+        "id": "",
+        "wargearOptionId": ""
+      }
+    },
+    "battle_size": {
+      "why": "",
+      "columns": {
+        "detachmentPointsLimit": "",
+        "duplicateUnitLimit": "",
+        "en.name": "",
+        "enhancementLimit": "",
+        "id": "",
+        "pointsLimit": ""
+      }
+    },
+    "behaviour_type": {
+      "why": "",
+      "columns": {
+        "en.afterMoving": "",
+        "en.afterShooting": "",
+        "en.beforeMoving": "",
+        "en.effect": "",
+        "en.eligibleIf": "",
+        "en.maximumDistance": "",
+        "en.name": "",
+        "en.ruleReference": "",
+        "en.setupDistance": "",
+        "en.whileMoving": "",
+        "en.whileShooting": "",
+        "id": "",
+        "type": ""
+      }
+    },
+    "bullet_point": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "en.text": "bundle: a bullets component's lines",
+        "id": "",
+        "indent": "",
+        "ruleContainerComponentId": ""
+      }
+    },
+    "conditional_keyword": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "id": "",
+        "keywordId": "",
+        "requiredAllegianceAbilityId": "",
+        "requiredDetachmentId": "",
+        "requiredRosterFactionKeywordId": "",
+        "requiredWarlordMiniatureId": ""
+      }
+    },
+    "datasheet": {
+      "why": "",
+      "columns": {
+        "allegianceAbilityGroupId": "",
+        "bannerImage": "",
+        "displayOrder": "",
+        "en.baseSize": "",
+        "en.lore": "",
+        "en.name": "",
+        "en.unitComposition": "",
+        "id": "",
+        "isFreeFromEntitlements": "",
+        "isLegends": "",
+        "maxModelCount": "gen-roster-data: caps a price row",
+        "publicationId": "",
+        "rowImage": ""
+      }
+    },
+    "datasheet_ability": {
+      "why": "",
+      "columns": {
+        "abilityType": "",
+        "armyRuleId": "",
+        "en.lore": "",
+        "en.name": "",
+        "en.rules": "",
+        "en.subAbilityHeader": "",
+        "id": "",
+        "isAura": "",
+        "isBondsman": "",
+        "isPain": "",
+        "isPsychic": ""
+      }
+    },
+    "datasheet_bodyguard_group": {
+      "why": "",
+      "columns": {
+        "bodyguardType": "",
+        "datasheetId": "",
+        "excludedDetachmentId": "",
+        "id": "",
+        "requiredDetachmentId": "",
+        "requiresAllUnitsHaveKeywordId": ""
+      }
+    },
+    "datasheet_bodyguard_group_datasheet": {
+      "why": "",
+      "columns": {
+        "datasheetBodyguardGroupId": "",
+        "datasheetId": ""
+      }
+    },
+    "datasheet_bodyguard_group_excluded_roster_datasheet": {
+      "why": "",
+      "columns": {
+        "datasheetBodyguardGroupId": "",
+        "datasheetId": "gen-roster-data: lead.exclDs"
+      }
+    },
+    "datasheet_bodyguard_group_keyword": {
+      "why": "",
+      "columns": {
+        "datasheetBodyguardGroupId": "",
+        "keywordId": ""
+      }
+    },
+    "datasheet_bodyguard_group_required_roster_datasheet": {
+      "why": "",
+      "columns": {
+        "datasheetBodyguardGroupId": "",
+        "datasheetId": "gen-roster-data: lead.reqDs"
+      }
+    },
+    "datasheet_damage": {
+      "why": "",
+      "columns": {
+        "damagedAt": "",
+        "datasheetId": "",
+        "displayOrder": "",
+        "en.name": "",
+        "en.rules": "",
+        "id": ""
+      }
+    },
+    "datasheet_datasheet_ability": {
+      "why": "",
+      "columns": {
+        "datasheetAbilityId": "",
+        "datasheetId": "",
+        "displayOrder": "",
+        "en.restriction": "",
+        "id": ""
+      }
+    },
+    "datasheet_faction_keyword": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "displayOrder": "",
+        "factionKeywordId": "",
+        "id": ""
+      }
+    },
+    "datasheet_points_step": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "id": "",
+        "stepAt": "",
+        "stepPoints": ""
+      }
+    },
+    "datasheet_rule": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "displayOrder": "",
+        "en.name": "",
+        "en.rules": "",
+        "id": ""
+      }
+    },
+    "datasheet_sub_ability": {
+      "why": "",
+      "columns": {
+        "datasheetAbilityId": "",
+        "displayOrder": "",
+        "en.name": "",
+        "en.rules": "",
+        "id": ""
+      }
+    },
+    "detachment": {
+      "why": "",
+      "columns": {
+        "bannerImage": "",
+        "detachmentPointsCost": "",
+        "displayOrder": "",
+        "en.name": "",
+        "id": "",
+        "isCombatPatrol": "",
+        "isFreeFromEntitlements": "",
+        "publicationId": "",
+        "rowImage": ""
+      }
+    },
+    "detachment_detail": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "displayOrder": "",
+        "en.title": "",
+        "id": ""
+      }
+    },
+    "detachment_detail_bullet_point": {
+      "why": "",
+      "columns": {
+        "detachmentDetailId": "",
+        "displayOrder": "",
+        "en.text": "",
+        "id": ""
+      }
+    },
+    "detachment_excluded_datasheet": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "detachmentId": ""
+      }
+    },
+    "detachment_faction_detachment_points_cost": {
+      "why": "",
+      "columns": {}
+    },
+    "detachment_faction_keyword": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "factionKeywordId": ""
+      }
+    },
+    "detachment_force_disposition": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "forceDispositionId": ""
+      }
+    },
+    "detachment_granted_warlord_miniature": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "miniatureId": ""
+      }
+    },
+    "detachment_linked_datasheet": {
+      "why": "",
+      "columns": {
+        "count": "",
+        "datasheetId": "",
+        "detachmentId": "",
+        "isWarlord": ""
+      }
+    },
+    "detachment_mandatory_warlord_miniature": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "miniatureId": ""
+      }
+    },
+    "detachment_required_datasheet": {
+      "why": "",
+      "columns": {}
+    },
+    "detachment_rule": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "displayOrder": "",
+        "en.name": "",
+        "hiddenFromCommandBunker": "",
+        "id": ""
+      }
+    },
+    "detachment_unique_keyword": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "keywordId": ""
+      }
+    },
+    "enhancement": {
+      "why": "",
+      "columns": {
+        "basePointsCost": "",
+        "cannotBeWarlord": "",
+        "detachmentId": "",
+        "displayOrder": "",
+        "en.lore": "",
+        "en.name": "",
+        "en.rules": "",
+        "enhancementType": "",
+        "id": "",
+        "isCombatPatrol": "",
+        "isCombatPatrolDefault": "",
+        "isEquipableByEpicHero": "",
+        "isEquipableByNonCharacterUnit": "",
+        "isIncludedInEnhancementLimit": "",
+        "limit": "",
+        "publicationId": ""
+      }
+    },
+    "enhancement_bodyguard_group": {
+      "why": "",
+      "columns": {
+        "bodyguardType": "",
+        "enhancementId": "",
+        "id": ""
+      }
+    },
+    "enhancement_bodyguard_group_datasheet": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "enhancementBodyguardGroupId": ""
+      }
+    },
+    "enhancement_bodyguard_group_keyword": {
+      "why": "",
+      "columns": {}
+    },
+    "enhancement_datasheet_ability": {
+      "why": "",
+      "columns": {
+        "datasheetAbilityId": "",
+        "enhancementId": "gen-roster-data: enh.needs / unit.has"
+      }
+    },
+    "enhancement_excluded_keyword": {
+      "why": "",
+      "columns": {
+        "enhancementId": "",
+        "keywordId": ""
+      }
+    },
+    "enhancement_keyword_points_cost": {
+      "why": "",
+      "columns": {}
+    },
+    "enhancement_required_keyword_group": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "enhancementId": "",
+        "id": ""
+      }
+    },
+    "enhancement_required_keyword_group_faction_keyword": {
+      "why": "",
+      "columns": {
+        "enhancementRequiredKeywordGroupId": "",
+        "factionKeywordId": ""
+      }
+    },
+    "enhancement_required_keyword_group_keyword": {
+      "why": "",
+      "columns": {
+        "enhancementRequiredKeywordGroupId": "",
+        "keywordId": ""
+      }
+    },
+    "enhancement_required_wargear_item": {
+      "why": "",
+      "columns": {
+        "enhancementId": "gen-roster-data: enh.needs / unit.has",
+        "wargearItemId": ""
+      }
+    },
+    "enhancement_wargear_item_profile": {
+      "why": "",
+      "columns": {
+        "enhancementId": "",
+        "wargearItemProfileId": ""
+      }
+    },
+    "faction_keyword": {
+      "why": "",
+      "columns": {
+        "armySelectionImage": "",
+        "en.commonName": "",
+        "en.lore": "",
+        "en.name": "",
+        "excludedFromArmyBuilder": "",
+        "id": "",
+        "moreInfoImage": "",
+        "parentFactionKeywordId": "",
+        "rosterFactionImage": "",
+        "rosterHeaderImage": ""
+      }
+    },
+    "faction_keyword_allied_faction": {
+      "why": "",
+      "columns": {
+        "alliedFactionId": "",
+        "factionKeywordId": ""
+      }
+    },
+    "faction_keyword_excluded_datasheet": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "factionKeywordId": ""
+      }
+    },
+    "faction_keyword_mandatory_allegiance_ability": {
+      "why": "",
+      "columns": {}
+    },
+    "faq": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "en.answer": "",
+        "en.errataHeader": "",
+        "en.errataText": "",
+        "en.question": "",
+        "id": "",
+        "publicationId": ""
+      }
+    },
+    "faq_config": {
+      "why": "",
+      "columns": {
+        "armyRuleId": "",
+        "datasheetId": "",
+        "detachmentId": "",
+        "enhancementId": "",
+        "faqId": "",
+        "id": "",
+        "publicationId": "",
+        "ruleContainerId": "",
+        "stratagemId": ""
+      }
+    },
+    "force_disposition": {
+      "why": "",
+      "columns": {
+        "en.name": "",
+        "id": ""
+      }
+    },
+    "force_disposition_mission": {
+      "why": "",
+      "columns": {
+        "friendlyForceDispositionId": "",
+        "id": "",
+        "oppositionForceDispositionId": "",
+        "primaryMissionId": ""
+      }
+    },
+    "force_disposition_mission_recommended_preset": {
+      "why": "",
+      "columns": {
+        "forceDispositionMissionId": "",
+        "missionPresetId": ""
+      }
+    },
+    "invulnerable_save": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "en.rules": "",
+        "id": "",
+        "meleeSave": "",
+        "miniatureId": "",
+        "rangedSave": "",
+        "save": ""
+      }
+    },
+    "keyword": {
+      "why": "",
+      "columns": {
+        "allyRestrictingFactionKeywordId": "",
+        "allyRestrictingKeywordId": "",
+        "en.name": "",
+        "id": ""
+      }
+    },
+    "keyword_restriction_group": {
+      "why": "",
+      "columns": {
+        "excludedFactionKeywordId": "",
+        "factionKeywordId": "",
+        "id": "",
+        "limit": ""
+      }
+    },
+    "keyword_restriction_group_keyword": {
+      "why": "",
+      "columns": {
+        "keywordId": "",
+        "keywordRestrictionGroupId": ""
+      }
+    },
+    "limited_wargear_choice": {
+      "why": "",
+      "columns": {
+        "id": "",
+        "limitedWargearChoiceSetId": ""
+      }
+    },
+    "limited_wargear_choice_set": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "id": "",
+        "miniatureId": ""
+      }
+    },
+    "limited_wargear_choice_wargear_item": {
+      "why": "",
+      "columns": {
+        "count": "",
+        "id": "",
+        "limitedWargearChoiceId": "",
+        "wargearItemId": ""
+      }
+    },
+    "loadout_choice": {
+      "why": "",
+      "columns": {
+        "id": "",
+        "loadoutChoiceSetId": ""
+      }
+    },
+    "loadout_choice_set": {
+      "why": "",
+      "columns": {
+        "allowDuplicates": "",
+        "alternate": "",
+        "datasheetId": "",
+        "id": "",
+        "limit": "",
+        "miniatureId": ""
+      }
+    },
+    "loadout_choice_wargear_item": {
+      "why": "",
+      "columns": {
+        "count": "",
+        "id": "",
+        "loadoutChoiceId": "",
+        "wargearItemId": ""
+      }
+    },
+    "miniature": {
+      "why": "",
+      "columns": {
+        "canBeNonCharacterWarlord": "",
+        "cannotBeWarlord": "",
+        "datasheetId": "",
+        "displayOrder": "",
+        "en.name": "",
+        "excludedFromEnhancements": "",
+        "id": "",
+        "isIndividualModels": "",
+        "isSupremeCommander": "",
+        "leadership": "",
+        "miniatureSlots": "",
+        "movement": "",
+        "objectiveControl": "",
+        "save": "",
+        "statlineHidden": "",
+        "toughness": "",
+        "wounds": ""
+      }
+    },
+    "miniature_keyword": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "id": "",
+        "keywordId": "",
+        "miniatureId": ""
+      }
+    },
+    "mission_deployment": {
+      "why": "",
+      "columns": {
+        "en.name": "",
+        "id": "",
+        "missionPackId": ""
+      }
+    },
+    "mission_layout": {
+      "why": "",
+      "columns": {
+        "en.name": "",
+        "id": "",
+        "missionPackId": ""
+      }
+    },
+    "mission_layout_linked_deployment": {
+      "why": "",
+      "columns": {
+        "missionDeploymentId": "",
+        "missionLayoutId": ""
+      }
+    },
+    "mission_pack": {
+      "why": "",
+      "columns": {
+        "battleReadyArmyPointModifier": "",
+        "en.name": "",
+        "fixedSecondaryMissionCapLimit": "",
+        "id": "",
+        "primaryMissionScoreBattleRoundLimit": "",
+        "primaryMissionScoreGameLimit": "check-missions: the pack limits",
+        "secondaryMissionScoreBattleRoundLimit": "",
+        "secondaryMissionScoreGameLimit": ""
+      }
+    },
+    "mission_pack_agenda_achieved": {
+      "why": "",
+      "columns": {}
+    },
+    "mission_pack_briefing": {
+      "why": "",
+      "columns": {}
+    },
+    "mission_pack_briefing_narrative_point": {
+      "why": "",
+      "columns": {}
+    },
+    "mission_pack_location": {
+      "why": "",
+      "columns": {}
+    },
+    "mission_pack_location_location_bonus": {
+      "why": "",
+      "columns": {}
+    },
+    "mission_pack_location_warzone_rule": {
+      "why": "",
+      "columns": {}
+    },
+    "mission_pack_upgrade": {
+      "why": "",
+      "columns": {}
+    },
+    "mission_preset": {
+      "why": "",
+      "columns": {
+        "en.name": "",
+        "id": "",
+        "missionDeploymentId": "",
+        "missionLayoutId": "",
+        "missionPackId": ""
+      }
+    },
+    "mission_twist": {
+      "why": "",
+      "columns": {
+        "en.lore": "",
+        "en.name": "",
+        "en.rules": "",
+        "id": "",
+        "missionPackId": ""
+      }
+    },
+    "objective": {
+      "why": "",
+      "columns": {}
+    },
+    "primary_mission": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "en.description": "",
+        "en.lore": "",
+        "en.name": "",
+        "id": "",
+        "missionPackId": ""
+      }
+    },
+    "primary_mission_action": {
+      "why": "",
+      "columns": {
+        "en.completesText": "",
+        "en.effectText": "",
+        "en.name": "",
+        "en.restrictionText": "",
+        "en.startsText": "",
+        "en.unitsText": "",
+        "en.useLimitText": "",
+        "id": "",
+        "primaryMissionId": ""
+      }
+    },
+    "primary_mission_objective": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "en.name": "",
+        "en.whenText": "",
+        "id": "",
+        "primaryMissionId": ""
+      }
+    },
+    "primary_mission_objective_scorable_period": {
+      "why": "",
+      "columns": {
+        "primaryMissionObjectiveId": "",
+        "scorablePeriod": ""
+      }
+    },
+    "primary_mission_objective_scoring": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "en.scoringCriteria": "",
+        "id": "",
+        "inputType": "",
+        "isCumulative": "",
+        "isMutuallyExclusive": "",
+        "primaryMissionObjectiveId": "",
+        "victoryPoints": ""
+      }
+    },
+    "publication": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "en.combatPatrolName": "",
+        "en.name": "",
+        "errataDate": "",
+        "factionBackgroundImage": "",
+        "factionKeywordId": "",
+        "id": "",
+        "isCombatPatrol": "",
+        "isCoreRules": "",
+        "isLegends": "",
+        "productId": ""
+      }
+    },
+    "restriction_group_detachment_limit": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "id": "",
+        "maxRosterLimit": "",
+        "minRosterLimit": "",
+        "restrictionGroupId": ""
+      }
+    },
+    "rule_container": {
+      "why": "",
+      "columns": {
+        "behaviourTypeId": "",
+        "containerType": "",
+        "displayOrder": "",
+        "en.subtitle": "",
+        "en.title": "",
+        "id": "",
+        "ruleSectionId": "",
+        "stratagemId": ""
+      }
+    },
+    "rule_container_component": {
+      "why": "",
+      "columns": {
+        "armyRuleId": "",
+        "backgroundColor": "",
+        "detachmentRuleId": "",
+        "displayOrder": "",
+        "en.altText": "",
+        "en.effect": "",
+        "en.subtitle": "bundle body subtitle (ruletext)",
+        "en.textContent": "",
+        "en.title": "",
+        "en.trigger": "",
+        "id": "",
+        "imageUrl": "",
+        "ruleContainerId": "",
+        "type": ""
+      }
+    },
+    "rule_section": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "en.name": "",
+        "id": "",
+        "mpath": "",
+        "publicationId": ""
+      }
+    },
+    "secondary_mission": {
+      "why": "",
+      "columns": {
+        "en.description": "",
+        "en.lore": "",
+        "en.name": "",
+        "id": "",
+        "isFixedSecondary": "",
+        "isScorableFirstTurn": "",
+        "missionPackId": ""
+      }
+    },
+    "secondary_mission_action": {
+      "why": "",
+      "columns": {
+        "en.completesText": "",
+        "en.effectText": "",
+        "en.name": "",
+        "en.startsText": "",
+        "en.unitsText": "",
+        "en.useLimitText": "",
+        "id": "",
+        "secondaryMissionId": ""
+      }
+    },
+    "secondary_mission_objective": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "en.name": "",
+        "en.whenText": "",
+        "id": "",
+        "secondaryMissionId": ""
+      }
+    },
+    "secondary_mission_objective_scorable_period": {
+      "why": "",
+      "columns": {}
+    },
+    "secondary_mission_objective_scoring": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "en.scoringCriteria": "",
+        "id": "",
+        "inputType": "",
+        "isCumulative": "",
+        "isMutuallyExclusive": "",
+        "scoringType": "",
+        "secondaryMissionObjectiveId": "",
+        "victoryPoints": "",
+        "victoryPointsCap": ""
+      }
+    },
+    "secondary_mission_restricted_secondary_mission": {
+      "why": "",
+      "columns": {}
+    },
+    "secondary_objective": {
+      "why": "",
+      "columns": {}
+    },
+    "stratagem": {
+      "why": "",
+      "columns": {
+        "category": "",
+        "cpCost": "",
+        "detachmentId": "",
+        "displayOrder": "",
+        "en.effectRules": "",
+        "en.lore": "",
+        "en.name": "",
+        "en.restrictionRules": "",
+        "en.secondaryEffect": "bundle secondaryEffect (ruletext, modifier hash)",
+        "en.targetRules": "",
+        "en.whenRules": "",
+        "id": "",
+        "key": "bundle turn → our stratagem turn (ruletext)",
+        "publicationId": "",
+        "secondaryEffectAdditionalCPCost": "bundle secondaryCp → our extraCost (ruletext)"
+      }
+    },
+    "stratagem_phase": {
+      "why": "",
+      "columns": {
+        "phase": "",
+        "stratagemId": ""
+      }
+    },
+    "unit_composition": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "displayOrder": "",
+        "id": "",
+        "isDefault": "",
+        "points": "",
+        "referenceGroupingKeywordId": ""
+      }
+    },
+    "unit_composition_miniature": {
+      "why": "",
+      "columns": {
+        "id": "",
+        "max": "",
+        "min": "",
+        "miniatureId": "",
+        "unitCompositionId": ""
+      }
+    },
+    "unit_composition_required_detachment": {
+      "why": "",
+      "columns": {
+        "detachmentId": "",
+        "unitCompositionId": ""
+      }
+    },
+    "unit_composition_required_faction_keyword": {
+      "why": "",
+      "columns": {
+        "factionKeywordId": "",
+        "unitCompositionId": ""
+      }
+    },
+    "wargear_ability": {
+      "why": "",
+      "columns": {
+        "en.lore": "",
+        "en.name": "",
+        "en.rules": "",
+        "id": ""
+      }
+    },
+    "wargear_item": {
+      "why": "",
+      "columns": {
+        "en.name": "",
+        "en.ruleText": "",
+        "id": "",
+        "noMultiProfileIcon": "",
+        "wargearType": ""
+      }
+    },
+    "wargear_item_profile": {
+      "why": "",
+      "columns": {
+        "armourPenetration": "",
+        "attacks": "",
+        "ballisticSkill": "",
+        "damage": "",
+        "displayOrder": "",
+        "en.hunterProfileKeyword": "",
+        "en.name": "",
+        "id": "",
+        "range": "",
+        "strength": "",
+        "type": "",
+        "wargearItemId": "",
+        "weaponSkill": ""
+      }
+    },
+    "wargear_item_profile_wargear_ability": {
+      "why": "",
+      "columns": {
+        "displayOrder": "",
+        "id": "",
+        "wargearAbilityId": "",
+        "wargearItemProfileId": ""
+      }
+    },
+    "wargear_limit": {
+      "why": "",
+      "columns": {
+        "choiceLimit": "",
+        "duplicateLimit": "",
+        "id": "",
+        "limitedWargearChoiceSetId": "",
+        "modelCount": ""
+      }
+    },
+    "wargear_option": {
+      "why": "",
+      "columns": {
+        "defaultValue": "",
+        "displayOrder": "",
+        "id": "",
+        "inputType": "",
+        "points": "",
+        "wargearItemId": "",
+        "wargearOptionGroupId": ""
+      }
+    },
+    "wargear_option_group": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "displayOrder": "",
+        "en.instructionText": "",
+        "id": "",
+        "miniatureId": ""
+      }
+    },
+    "wargear_rule": {
+      "why": "",
+      "columns": {
+        "datasheetId": "",
+        "displayOrder": "",
+        "en.rulesText": "",
+        "id": ""
+      }
+    }
+  }
+}

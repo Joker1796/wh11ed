@@ -194,6 +194,18 @@ found the bug first: 09.07 Fall-back Move lost the word "shoot" in June and stay
 September even though `sync-core` printed it on every run — one finding among 287 — and on
 2026-09-10 the same reader-before-gate pattern produced the two below it.
 
+- **`npm run columns`** (`scripts/check-appdata-columns.mjs`, record in `scripts/lib/appdata-columns.json`)
+  — every appdata table's non-empty columns, as decided about on 2026-10-19 (lesson 105). A new
+  table or a column that starts carrying data fails until it is recorded with where it is read, or
+  why not: a stratagem's second effect, a subtitle, a model ceiling sat unread for months.
+- **`npm run missions`** (`scripts/check-missions.mjs`) — what sync-tracker's row diff never read
+  of the missions, all transcribed by hand from the card images: the mission pack's limits
+  (mission_pack: 45 / 15 / 20 / +10) against gameScoring's constants and PRIMARY_ROUND_CAP, a
+  tactical card's 5VP cap, which secondaries may be Fixed, each card's WHEN DRAWN text (by words),
+  the first-turn gate (Defend Stronghold), and every Action's five lines.
+- **`npm run packs`** (`scripts/check-packs.mjs`) — the Faction Pack PDFs in `../sources` against the
+  `sourceVersion` of the Legends sheets read from them: a newer pack fails until its changes are
+  read and the sheets re-stamped. A faction with no PDF on this machine is reported as not checked.
 - **`npm run bases`** (`scripts/check-bases.mjs`, lists in `scripts/lib/model-bases.mjs`) — a
   datasheet's `baseSize` is appdata's, word for word: one size for the unit, or a "<model>: <size>"
   line per model where GW gives them (the formatter names each, `src/utils/baseSize.js`). A

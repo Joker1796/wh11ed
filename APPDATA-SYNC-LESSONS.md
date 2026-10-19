@@ -1403,3 +1403,28 @@ and appdata state fresh; a data model can change between now and when this is ne
     `secondaryCp`, `secondaryExclusive`), `ruletext` compares it (our `extraCost` when it costs more,
     the effect's own lines when it does not) and the modifier hash folds it in. When a table gains a
     column, check the bundle builder copies it — a field the bundle drops is invisible to every gate.
+
+104. **A report that always exits 0 is read by nobody.** `npm run sync` printed 32 FLAGGED lines
+    from 2.9.6 to 2026-10-19 and passed. Read one by one, nearly all were the reports' own
+    blindness — four never read the plate under a rule (`extras`, "Applies also"), one compared
+    a Combat Patrol copy of a chapter rule, one bridged a Faction Pack sheet to another faction's
+    id — and the few real ones (four sheets with no wargear options) had waited a month behind
+    them. sync now ends with a verdict and exit 1 on anything unread; every report a gate reads
+    shares `extrasText()`; a known-list entry that matches nothing fails too.
+105. **The bundle drops more than one kind of column.** After lesson 103 the same builder was
+    found to drop accordions numbered "5.3.2" or bare "24.37.01" (two core rules absent from the
+    site, omissions green: it skipped a rule with no counterpart instead of searching the chapter
+    for it), components' `subtitle` (Code Chivalric's D6 ranges), a stratagem's `key` (58 card
+    colours) and a `bullets` component's lines (Brood Brothers' 500/1000/1500 as "-"). The
+    generator side had its own: `maxModelCount` (Corsair Voidscarred to 13),
+    enhancement_datasheet_ability / _required_wargear_item (six enhancements on the wrong bearers),
+    the bodyguard groups' roster-datasheet conditions (Cato Sicarius). `npm run columns` now records every
+    table's non-empty columns (scripts/lib/appdata-columns.json) and fails on a new table or a
+    column that starts carrying data, until someone writes where it is read or why not.
+106. **A name is not a key when two owners print it.** Two detachments of one faction can print an
+    enhancement of the same name at different prices (four factions); the builder offered and
+    priced the first. Entries now record whose (`enhDet`). Any lookup by name across several
+    detachments or factions asks the same question.
+107. **A tag in a name is data.** "(Aura)" / "(Psychic)" on an ability name is what rules about
+    auras read; five had lost it, five kept one an errata had removed. dsrules compares each
+    faction's sheet with its own appdata copy (flag or name).
