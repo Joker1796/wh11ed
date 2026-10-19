@@ -1047,6 +1047,20 @@ export default {
       }
     },
     {
+      "sid": "ee59bdf2-6055-450b-8cff-977c4b7efb79",
+      "kind": "detachmentRule",
+      "name": "Integrated Command Structure",
+      "det": "Auxiliary Cadre",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "auxiliary-cadre"
+      },
+      "hash": "88baa130",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f386b3da-2477-4ce5-8efa-01257e4f6f37",
       "kind": "detachmentRule",
       "name": "Superior Craftsmanship",
@@ -1821,6 +1835,33 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "f14c3b61-256c-4279-8161-8f663422a056",
+      "kind": "stratagem",
+      "name": "Autoreactive Camouflage",
+      "det": "Advanced Acquisition Cadre",
+      "ref": {
+        "kind": "stratagem",
+        "det": "advanced-acquisition-cadre",
+        "name": "Autoreactive Camouflage"
+      },
+      "hash": "97d04864",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f2aeddba-542d-4aa0-b1ac-1c6a39580385",

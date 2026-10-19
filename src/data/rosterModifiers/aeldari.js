@@ -1921,6 +1921,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "773800e9-fbea-434d-a848-c857a5879e37",
+      "kind": "detachmentRule",
+      "name": "Acrobatic Onslaught",
+      "det": "Fateful Performance",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "fateful-performance"
+      },
+      "hash": "6f29f280",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "ffd11536-5f6e-44a3-8f8a-f3833e44dc1c",
       "kind": "detachmentRule",
       "name": "Defend At All Costs",

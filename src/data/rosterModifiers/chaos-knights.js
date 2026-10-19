@@ -661,6 +661,20 @@ export default {
       ]
     },
     {
+      "sid": "b67c28a7-c32b-4505-8831-7d4942e5bda2",
+      "kind": "detachmentRule",
+      "name": "Scenting Fear",
+      "det": "Hunting Warpack",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "hunting-warpack"
+      },
+      "hash": "b12b51e3",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "ea8bac27-a7f4-40a5-8e9c-ee20b6cc609c",
       "kind": "detachmentRule",
       "name": "Malefic Surge",
@@ -1216,6 +1230,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "aca351a5-5934-421c-8653-eaf905bdb77b",
+      "kind": "stratagem",
+      "name": "Stalking Focus",
+      "det": "Hunting Warpack",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hunting-warpack",
+        "name": "Stalking Focus"
+      },
+      "hash": "a5d921e6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "39493fcc-0ea8-44a4-92e8-0758641e3074",

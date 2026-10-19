@@ -995,6 +995,80 @@ export default {
       ]
     },
     {
+      "sid": "e92789c3-7ac6-4998-85c1-5e4120e7d661",
+      "kind": "enhancement",
+      "name": "A Giant Amongst Giants",
+      "det": "Champions of Fenris",
+      "ref": {
+        "kind": "enhancement",
+        "det": "champions-of-fenris"
+      },
+      "hash": "3e78c3dc",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "db8b035d-704c-4ee9-a762-8f8ebe410543",
+      "kind": "enhancement",
+      "name": "Wolf-Touched",
+      "det": "Saga of the Beastslayer",
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-beastslayer"
+      },
+      "hash": "67556d5f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Wulfen",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Wulfen",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "af0f6c25-cc30-4454-bf03-6ef1a30c0659",
       "kind": "enhancement",
       "name": "Skjald's Foretelling",
@@ -1074,6 +1148,48 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "fb9f50da-600b-49ab-9aec-f2bfb95da105",
+      "kind": "stratagem",
+      "name": "Birth of a Saga",
+      "det": "Champions of Fenris",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-fenris",
+        "name": "Birth of a Saga"
+      },
+      "hash": "b4c984b0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Character",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "round"
+    },
+    {
+      "sid": "fc6b154a-77e8-4c58-96ef-085df8efc6b3",
+      "kind": "stratagem",
+      "name": "Heroic Resolve",
+      "det": "Champions of Fenris",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-fenris",
+        "name": "Heroic Resolve"
+      },
+      "hash": "a56282a8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c5dc5810-b281-4544-b445-40bb13249e28",
       "kind": "stratagem",
       "name": "Unbridled Feroicity",
@@ -1119,6 +1235,33 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "260cbe60-09d3-4f15-a205-5a54af3ae4ee",
+      "kind": "stratagem",
+      "name": "Fenrisian Ferocity",
+      "det": "Saga of the Great Wolf",
+      "ref": {
+        "kind": "stratagem",
+        "det": "saga-of-the-great-wolf",
+        "name": "Fenrisian Ferocity"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"

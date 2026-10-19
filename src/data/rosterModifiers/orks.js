@@ -1533,6 +1533,29 @@ export default {
       "effects": []
     },
     {
+      "sid": "c645655a-3032-4c32-8000-933c5bf20540",
+      "kind": "detachmentRule",
+      "name": "Sneaky Little Gitz",
+      "det": "Runt Swarm",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "runt-swarm"
+      },
+      "hash": "a558e996",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": null,
+          "scope": 0
+        }
+      ]
+    },
+    {
       "sid": "f0baa3e3-6ccc-4878-a5b0-6fcbbc61c725",
       "kind": "detachmentRule",
       "name": "Dakka! Dakka! Dakka!",
@@ -1564,6 +1587,29 @@ export default {
           "cond": [
             "riled-up"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "193c6cc7-5a22-436a-8b53-9d1d45983c3e",
+      "kind": "detachmentRule",
+      "name": "Suspiciously Well Organised",
+      "det": "Taktikal Brigade",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "taktikal-brigade"
+      },
+      "hash": "5f2caccc",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": null,
+          "scope": 0
         }
       ]
     },
@@ -1866,6 +1912,40 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "3472f66e-cd61-4e21-b2b6-49cf922ec8e7",
+      "kind": "enhancement",
+      "name": "Flyboss (Upgrade)",
+      "det": "Flyboyz",
+      "ref": {
+        "kind": "enhancement",
+        "det": "flyboyz",
+        "scopes": [
+          {
+            "targets": [
+              "ORKS AIRCRAFT",
+              "DEFFKOPTAS"
+            ],
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
+          }
+        ]
+      },
+      "hash": "ceb49152",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Character",
+          "when": null,
+          "target": "unit"
         }
       ]
     },
@@ -2266,6 +2346,48 @@ export default {
           "op": "set",
           "value": "5+",
           "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "d346f908-20a9-4236-a136-a8d1ef36e762",
+      "kind": "stratagem",
+      "name": "Crazed Rampage",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-mob",
+        "name": "Crazed Rampage"
+      },
+      "hash": "9726d47a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "82c0cb67-c355-4d10-87f6-b6fe2bb1e300",
+      "kind": "stratagem",
+      "name": "Stomping Juggernaut",
+      "det": "Dread Mob",
+      "ref": {
+        "kind": "stratagem",
+        "det": "dread-mob",
+        "name": "Stomping Juggernaut"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
         }
       ],
       "dur": "phase"

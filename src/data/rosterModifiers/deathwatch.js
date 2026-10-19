@@ -8,6 +8,34 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "4529122e-5417-4976-b683-ebad029258e0:deathwatch-veterans",
+      "kind": "ability",
+      "name": "Deathwatch Veterans: Death to the Alien",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwatch-veterans"
+      },
+      "hash": "290c3fa6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f3737a33-aed7-426f-9e1c-7aefb0339ff1:decimus-kill-team",
+      "kind": "ability",
+      "name": "Decimus Kill Team: Death to the Alien",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "decimus-kill-team"
+      },
+      "hash": "290c3fa6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "1a965117-329d-4465-b439-e41eeb5f533c:indomitor-kill-team",
       "kind": "ability",
       "name": "Indomitor Kill Team: Indomitor Doctrines",
@@ -546,6 +574,43 @@ export default {
           "only": {
             "notTag": "DEVASTATING WOUNDS"
           },
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2fc23ad2-c2d9-4cf0-8fb6-7ad4368e382b",
+      "kind": "stratagem",
+      "name": "Kraken Rounds",
+      "det": "Deathwatch Support",
+      "ref": {
+        "kind": "stratagem",
+        "det": "deathwatch-support",
+        "name": "Kraken Rounds"
+      },
+      "hash": "5412d0ed",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"

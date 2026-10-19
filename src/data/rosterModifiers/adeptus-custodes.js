@@ -719,6 +719,29 @@ export default {
       ]
     },
     {
+      "sid": "0f95518d-fc22-4034-800a-70b3dc9d987b",
+      "kind": "detachmentRule",
+      "name": "Silent Sisterhood",
+      "det": "Null Maiden Vigil",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "null-maiden-vigil"
+      },
+      "hash": "8ab66126",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": null,
+          "scope": 1
+        }
+      ]
+    },
+    {
       "sid": "7223f817-3bb5-4fc2-810e-f77ac79c5326",
       "kind": "detachmentRule",
       "name": "Talon Sortie",
@@ -1073,6 +1096,29 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "fd464e11-4a44-4b18-980e-c13981659865",
+      "kind": "stratagem",
+      "name": "Unstoppable Champion",
+      "det": "Aquilan Talon",
+      "ref": null,
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "409957e9-4bc7-48a5-96f6-8943e545ac7c",
       "kind": "stratagem",
       "name": "In Auramite clad",
@@ -1227,6 +1273,33 @@ export default {
         }
       ],
       "dur": "turn"
+    },
+    {
+      "sid": "cfabe86c-1933-427d-9c8d-1110e2c2f94d",
+      "kind": "stratagem",
+      "name": "Unstoppable momentum",
+      "det": "Might of the Moritoi",
+      "ref": {
+        "kind": "stratagem",
+        "det": "might-of-the-moritoi",
+        "name": "Unstoppable momentum"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "0094c9e7-8c97-427f-abd4-2955745ca1d1",

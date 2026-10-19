@@ -220,6 +220,48 @@ export default {
       ]
     },
     {
+      "sid": "b1c19c06-a678-4713-9b77-0048297e3a52:cybernetica-datasmith",
+      "kind": "ability",
+      "name": "Cybernetica Datasmith: Data-severed",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cybernetica-datasmith"
+      },
+      "hash": "e9f8f595",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Infantry",
+          "when": {
+            "en": "if no KASTELAN ROBOT models are left in this unit",
+            "ru": "если в отряде не осталось моделей KASTELAN ROBOT"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Infantry",
+          "when": {
+            "en": "if no KASTELAN ROBOT models are left in this unit",
+            "ru": "если в отряде не осталось моделей KASTELAN ROBOT"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "ee9ce49a-c67c-4233-a708-dd5510d8d6f8:hastarii-exterminators",
       "kind": "ability",
       "name": "Hastarii Exterminators: Broad‑spectrum Targeting Augurs",
@@ -942,6 +984,29 @@ export default {
       }
     },
     {
+      "sid": "2d23adcd-7645-4d4d-99d1-46f03914ae88",
+      "kind": "detachmentRule",
+      "name": "Noospheric Recon",
+      "det": "Cohort Acquisitus",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cohort-acquisitus"
+      },
+      "hash": "5dd87635",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Recon Augury",
+          "when": null,
+          "scope": 0
+        }
+      ]
+    },
+    {
       "sid": "fb242fc6-ca2a-4370-b362-03742b21fb93",
       "kind": "detachmentRule",
       "name": "Cyber-psalm Programming",
@@ -1652,6 +1717,48 @@ export default {
       ],
       "appliesWhile": [
         "unit-leading-kastelan-robots"
+      ]
+    },
+    {
+      "sid": "2869e91e-b7a6-41b0-ab24-b01ca6a55a29",
+      "kind": "enhancement",
+      "name": "Vingh’s Wafers of Dynamism",
+      "det": "Lords of the Forge",
+      "ref": {
+        "kind": "enhancement",
+        "det": "lords-of-the-forge"
+      },
+      "hash": "a5a3fed9",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "if this unit is an attached unit at the start of the first battle round",
+            "ru": "если в начале первого раунда отряд присоединённый"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "if this unit is an attached unit at the start of the first battle round",
+            "ru": "если в начале первого раунда отряд присоединённый"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
       ]
     },
     {

@@ -621,6 +621,20 @@ export default {
       }
     },
     {
+      "sid": "f8e7c22f-1d9e-439b-9e5c-3fa51d3da5da",
+      "kind": "detachmentRule",
+      "name": "Rampaging Terrors",
+      "det": "Brazen Engines",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "brazen-engines"
+      },
+      "hash": "e3a83735",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "e0bb7c79-6d19-4d69-84ae-f3d0b4036ad3",
       "kind": "detachmentRule",
       "name": "Idols of Khorne",
@@ -916,6 +930,29 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "ee328098-14cc-48ec-aaa0-0bc012746e78",
+      "kind": "enhancement",
+      "name": "Murder-forged Entity (Upgrade)",
+      "det": "Brazen Engines",
+      "ref": {
+        "kind": "enhancement",
+        "det": "brazen-engines"
+      },
+      "hash": "ae4c4c9e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Daemon",
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "5b1f2f75-b53c-4e8c-b9e0-27b709684271",
@@ -1221,6 +1258,28 @@ export default {
       ]
     },
     {
+      "sid": "f3092328-4d66-4932-b3d4-07d3002b8f2a",
+      "kind": "enhancement",
+      "name": "Gateways to Glory",
+      "det": "Vessels of Wrath",
+      "ref": {
+        "kind": "enhancement",
+        "det": "vessels-of-wrath"
+      },
+      "hash": "f0e8c5ed",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "04245333-93c8-497c-9c6c-2bfe63210589",
       "kind": "stratagem",
       "name": "Frenzied Resilience",
@@ -1254,6 +1313,33 @@ export default {
           "stat": "ap",
           "op": "add",
           "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "6f84842b-c1a8-491e-9017-10178271d994",
+      "kind": "stratagem",
+      "name": "Trail of Destruction",
+      "det": "Brazen Engines",
+      "ref": {
+        "kind": "stratagem",
+        "det": "brazen-engines",
+        "name": "Trail of Destruction"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"

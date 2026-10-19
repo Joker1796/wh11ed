@@ -593,3 +593,20 @@ describe('an effect the list could answer is not parked', () => {
     expect(Object.keys(PARKED).filter((n) => !parked.has(n)).sort()).toEqual([])
   })
 })
+
+// Every detachment on a faction page has at least one record — its rule, an enhancement or a
+// stratagem. The six Codex Supplements' detachments had none until 2026-10-19 (the generator read
+// the Codex bundle alone, and the id bridge did not know them), and nothing said so: a record
+// missing from a file is invisible to every check that reads the records.
+describe('every detachment is in the modifier layer', () => {
+  it('has at least one record', async () => {
+    const { loadFaction } = await import('../factions/index.js')
+    const missing = []
+    for (const [file, data] of Object.entries(files)) {
+      const slug = file.replace(/^\.\/|\.js$/g, '')
+      const dets = new Set(data.entries.map((e) => e.ref?.det).filter(Boolean))
+      for (const d of (await loadFaction(slug))?.en?.detachments || []) if (!dets.has(d.id)) missing.push(`${slug} · ${d.id}`)
+    }
+    expect(missing).toEqual([])
+  }, 60000)
+})

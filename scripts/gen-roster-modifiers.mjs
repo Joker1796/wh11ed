@@ -48,7 +48,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion, invertSourceIds, table } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion, invertSourceIds, table } from './lib/sync-common.mjs'
 import { ruleScopes } from '../src/composables/ruleTargets.js'
 import { foldName } from '../src/utils/foldName.js'
 import { appliesWhileOf } from '../src/data/rosterModifiers/appliesWhile.js'
@@ -113,8 +113,12 @@ const CANDIDATE = new RegExp([
   // Custodes' Flare Shields and every Impulsor's Shield Dome among them, had no record for it).
   '\\d\\+ InSv\\b',
   'has a \\d\\+ (?:invulnerable )?save',
-  '[+-]\\d+ (?:to )?(?:the )?(?:[SATWMD]|OC|AP|BS|WS|LD)\\b',  // the shorthand faction bodies use: "+1 T"
-  '[+-]\\d+"? (?:M|Move)\\b',
+  // The shorthand faction bodies use: "+1 T" — and, in 11th-edition data, "+2W" with no space and
+  // "+1 Sv" (Champions of Fenris' A Giant Amongst Giants and Advanced Acquisition Cadre's
+  // Autoreactive Camouflage had no record for those two spellings, 2026-10-19). The sign may be any
+  // of the hyphens appdata types (U+2010/U+2011/U+2212) as well as the ASCII one.
+  '[+\\-\u2010\u2011\u2212]\\d+ ?(?:to )?(?:the )?(?:[SATWMD]|OC|AP|BS|WS|LD|Sv)\\b',
+  '[+\\-\u2010\u2011\u2212]\\d+"? ?(?:M|Move)\\b',
   // Range in the 11th-edition shorthand: "Your unit's ranged attacks have +6\" R" (Codex: Adeptus
   // Custodes, data 981 — Aquilan Shield's Favoured Ka'tah had no record for this one letter).
   '[+-]\\d+" (?:R|Range)\\b',
@@ -150,6 +154,11 @@ const CANDIDATE = new RegExp([
   'select (?:one|two) of the (?:following )?abilities(?! in )',
 ].join('|'), 'i')
 
+// A keyword granted in the 11th-edition shorthand — "your unit has CHARACTER" — with no "keyword"
+// after it for the pattern above to find (Champions of Fenris' Birth of a Saga). Case-SENSITIVE,
+// unlike everything above: it is the capitals that make it a keyword.
+const KEYWORD_GRANT = /\b(?:has|have|gains?) (?:the )?[A-Z][A-Z'’-]{2,}(?:[ /][A-Z][A-Z'’-]{2,})*(?![\w\]])/
+
 export function isCandidate(text) {
   // Test against the prose WITHOUT its emphasis markers. appdata bolds the characteristic letter
   // in the shorthand form, so bodyText() hands us `+2" **M**` — and every pattern above that ends
@@ -158,7 +167,8 @@ export function isCandidate(text) {
   // Custodes detachment that plainly says +2" M ended up with no record at all.
   // Lists ("models have: ▪ 4+ InSv ▪ Feel No Pain 5+") are read as the sentences they stand for —
   // see scripts/lib/grant-lists.mjs.
-  return CANDIDATE.test(flattenGrantLists(text).replace(/\*\*/g, ''))
+  const plain = flattenGrantLists(text).replace(/\*\*/g, '')
+  return CANDIDATE.test(plain) || KEYWORD_GRANT.test(plain)
 }
 
 // Flatten one faction bundle into the sources a modifier can be attached to.
@@ -427,8 +437,16 @@ export function sourcesForSlug(slug, ctx) {
   const appSlug = SLUG_MAP[slug] || slug
   const bundle = loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
   if (!bundle) return null
+  // The six Codex Supplements ship one detachment each, as "factions" of their own in appdata; on
+  // our side they are Space Marines detachments (gen-faction-rules.mjs folds them in the same way).
+  // Until 2026-10-19 this read the Codex bundle alone, so not one of the six had a record: Oath of
+  // Macragge's +1 S and AP, Spearpoint Paragon, every Ceramite Sentinels stratagem.
+  const supplements = slug === 'space-marines'
+    ? SM_SUPPLEMENT_BUNDLES.map((s) => loadJson(path.join(APPDATA, 'factions', `${s}.json`))).filter(Boolean)
+    : []
   return [
     ...sourcesOf(bundle, ctx.detBySid),
+    ...supplements.flatMap((b) => sourcesOf({ detachments: b.detachments }, ctx.detBySid)),
     ...allegianceSources(ctx.allegTables, (bundle.datasheets || []).map((d) => d.id)),
     ...abilitySources(bundle, ctx.dsBySid),
     ...wargearSources(bundle, ctx.dsBySid),

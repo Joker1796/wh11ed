@@ -770,6 +770,29 @@ export default {
       "note": "grants an ability and extends Contagion Range — neither is a printed characteristic"
     },
     {
+      "sid": "6e0f3baf-ed09-4117-a0a1-181dee486e68",
+      "kind": "enhancement",
+      "name": "Lancet of the Worldsore (Upgrade)",
+      "det": "Contagion Engines",
+      "ref": {
+        "kind": "enhancement",
+        "det": "contagion-engines"
+      },
+      "hash": "bf3d4b90",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
       "sid": "e9aee006-05f7-44cd-9622-5a7a43b13bcc",
       "kind": "enhancement",
       "name": "Helm of The Fly King",

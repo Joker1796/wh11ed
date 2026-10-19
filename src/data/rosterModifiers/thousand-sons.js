@@ -899,6 +899,29 @@ export default {
       ]
     },
     {
+      "sid": "573df80f-6ed6-4039-b080-a5ef1721fd9d",
+      "kind": "detachmentRule",
+      "name": "All-seeing Mutant Hordes",
+      "det": "Servants of Change",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "servants-of-change"
+      },
+      "hash": "fa07a981",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": null,
+          "scope": 0
+        }
+      ]
+    },
+    {
       "sid": "c5998d23-f7e0-4fed-bbea-c738c4b1fe66",
       "kind": "detachmentRule",
       "name": "Warpmeld Sacrifice",
@@ -1809,6 +1832,33 @@ export default {
         }
       ],
       "dur": "turn"
+    },
+    {
+      "sid": "49c7876a-a57e-4fdd-a091-2d316f2f6222",
+      "kind": "stratagem",
+      "name": "The Land Writhes",
+      "det": "Servants of Change",
+      "ref": {
+        "kind": "stratagem",
+        "det": "servants-of-change",
+        "name": "The Land Writhes"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "b0cb5981-a7ae-4fac-9c49-1415afa964d5",

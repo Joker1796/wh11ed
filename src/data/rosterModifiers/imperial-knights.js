@@ -1127,6 +1127,29 @@ export default {
       "effects": []
     },
     {
+      "sid": "649d8237-fd55-4663-a10e-7846287e5368",
+      "kind": "enhancement",
+      "name": "Gyro-optimised Actuators (Upgrade)",
+      "det": "Throne-bonded Outriders",
+      "ref": {
+        "kind": "enhancement",
+        "det": "throne-bonded-outriders"
+      },
+      "hash": "f248d2c4",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
       "sid": "5e130c62-8760-4161-8090-b0b5a1e49cc0",
       "kind": "enhancement",
       "name": "Bearer of the Evanescent Ion",

@@ -86,6 +86,9 @@ describe('a stratagem offers its options once spent', () => {
     ['chaos-space-marines', 'Huron’s Marauders', 'Hardened Killers', ['hardened-bs', 'hardened-rapid-fire', 'hardened-save']],
     ['chaos-space-marines', 'Soulforged Warpack', 'Desperate Pledge', ['contract-invoked']],
     ['tau-empire', 'Experimental Prototype Cadre', 'Experimental Ammunition', ['ammo-overcharge']],
+    // A Codex Supplement's detachment: the six had no records at all until 2026-10-19.
+    ['space-marines', 'Ceramite Sentinels', 'Augmented Targeting', ['augmented-lethal', 'augmented-sustained', 'augmented-both']],
+    ['space-marines', 'Spearpoint Task Force', 'Spear Thrust and Sabre Swing', ['spear-lethal', 'spear-lance', 'spear-both']],
   ])('%s · %s', async (slug, det, name, ids) => {
     const recs = usableEntries(await loadRosterModifiersFor(slug))
     const fac = (await loadFactionWithCodex(slug, 'en')).en

@@ -400,6 +400,29 @@ export default {
       }
     },
     {
+      "sid": "28217f4d-ffb6-4df2-b0e5-1e78c7f86366",
+      "kind": "detachmentRule",
+      "name": "Killer Reputation",
+      "det": "Heroes of the Uprising",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "heroes-of-the-uprising"
+      },
+      "hash": "2413320a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Killer",
+          "when": null,
+          "scope": 0
+        }
+      ]
+    },
+    {
       "sid": "4947e8db-c886-450b-a59c-4e3455f2d533",
       "kind": "detachmentRule",
       "name": "A Perfect Ambush",
@@ -470,6 +493,20 @@ export default {
       }
     },
     {
+      "sid": "5b337e6a-34a4-4fc5-a725-bfb57625867a",
+      "kind": "detachmentRule",
+      "name": "Enemy Within",
+      "det": "Purestrain Broodswarm",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "purestrain-broodswarm"
+      },
+      "hash": "47e4d27b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b58f14db-dd11-4e6c-80f0-7e3915af5840",
       "kind": "detachmentRule",
       "name": "Unquestioning Fanaticism",
@@ -484,6 +521,20 @@ export default {
       "appliesWhile": [
         "unit-led"
       ],
+      "effects": []
+    },
+    {
+      "sid": "289da449-4707-4d3e-91e8-ffe2c81b3c18",
+      "kind": "detachmentRule",
+      "name": "Hordes of the Faithful",
+      "det": "Xenocult Masses",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "xenocult-masses"
+      },
+      "hash": "50f0c6e3",
+      "ver": 995,
+      "reviewed": true,
       "effects": []
     },
     {

@@ -124,6 +124,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "99deacf8-1143-4a9f-9c42-c7e94e4d5a0e:deathwing-knights",
+      "kind": "ability",
+      "name": "Deathwing Knights: Inner Circle",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwing-knights"
+      },
+      "hash": "25bc8854",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:deathwing-strikemaster:tactical-precision",
       "kind": "ability",
       "name": "Deathwing Strikemaster: Tactical Precision",
@@ -638,6 +652,36 @@ export default {
       ]
     },
     {
+      "sid": "ab7e2f84-2fb3-44f6-afdd-66c918248c10:sammael",
+      "kind": "ability",
+      "name": "Sammael: Grand Master of the Ravenwing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sammael"
+      },
+      "hash": "4c612053",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "95dbd786-5940-4348-85b1-074ba54c817f",
       "kind": "armyRule",
       "name": "Combat Doctrines",
@@ -881,6 +925,33 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "PRECISION",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "74601e3a-aa52-45aa-8243-7fb4159aa658",
+      "kind": "stratagem",
+      "name": "Knights of Iron",
+      "det": "Wrath of the Rock",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrath-of-the-rock",
+        "name": "Knights of Iron"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"

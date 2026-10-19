@@ -37,12 +37,21 @@ describe('isCandidate', () => {
     // Added 2026-10-14 (data 981): range in the shorthand, "+6\" R" — Aquilan Shield's Favoured
     // Ka'tah reached no record.
     ['a range in the shorthand', 'Your unit’s ranged attacks have +6" **R**.'],
+    // Added 2026-10-19: 66 rules reached no record — a stat glued to its number, Sv, a keyword with
+    // no "keyword" after it, a sign typed as U+2011.
+    ['a stat glued to its number', '▪ This model has +2**W**. ▪ This model’s melee attacks have +1**S**.'],
+    ['a save in the shorthand', 'Your unit has +1 **Sv**.'],
+    ['a keyword granted in capitals', 'Until the start of your next Command phase, your unit has CHARACTER.'],
+    ['a sign typed as a non-breaking hyphen', 'Attacks that target your unit have \u20111 **D** until that enemy unit has attacked.'],
   ])('proposes %s', (_label, prose) => {
     expect(isCandidate(prose)).toBe(true)
   })
 
   it('still says no to prose that changes no printed number', () => {
     expect(isCandidate('Each time a model in this unit makes an attack, you can re-roll the Hit roll.')).toBe(false)
+    // Capitals inside a bracket are a weapon ability, which the bracket patterns already answer;
+    // a capital word that is not granted is not a grant.
+    expect(isCandidate('Each time a CHARACTER model in this unit is destroyed, roll one D6.')).toBe(false)
   })
 
   // …and no to an ability SET's picking instruction: appdata carries its options as subAbilities,

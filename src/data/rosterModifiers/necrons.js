@@ -1827,6 +1827,29 @@ export default {
       ]
     },
     {
+      "sid": "a374ab23-5cc9-4eca-97e4-54dfc8cd461f",
+      "kind": "stratagem",
+      "name": "Reinforced Resilience",
+      "det": "Amonhotekh’s Guard",
+      "ref": null,
+      "hash": "97d04864",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "e911cb72-8416-456b-b29b-9d7e78845c3f",
       "kind": "stratagem",
       "name": "The Spoor of Frailty",
@@ -2353,6 +2376,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "c2ffac1d-7059-4e1f-bda2-8fb6ce20d1e3",
+      "kind": "stratagem",
+      "name": "Subsurface Quantumweave",
+      "det": "The Phaeron's Armoury",
+      "ref": {
+        "kind": "stratagem",
+        "det": "the-phaerons-armoury",
+        "name": "Subsurface Quantumweave"
+      },
+      "hash": "8965a6af",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f8700f44-a5d3-43d0-b34f-c2b09a6b504b:canoptek-macrocytes",

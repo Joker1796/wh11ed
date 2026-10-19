@@ -777,6 +777,17 @@ export default {
       ]
     },
     {
+      "sid": "6d5dcd31-c979-4889-8f8b-4d15b8c98339:sanctuary-guardians-celestian-sacresants",
+      "kind": "ability",
+      "name": "Sanctuary Guardians Celestian Sacresants: Sworn Protectors",
+      "det": null,
+      "ref": null,
+      "hash": "cdadac05",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "03cea895-25dc-4be7-b50a-82959b8d514f:triumph-of-saint-katherine",
       "kind": "ability",
       "name": "Triumph of Saint Katherine: Censer of the Sacred Rose (Aura)",
@@ -2237,6 +2248,29 @@ export default {
           "stat": "ap",
           "op": "add",
           "value": -1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "437926f7-ad38-4d68-905c-e387c87ec61b",
+      "kind": "stratagem",
+      "name": "Take Cover",
+      "det": "Sanctuary Guardians",
+      "ref": null,
+      "hash": "97d04864",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
           "when": {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"

@@ -414,6 +414,43 @@ export default {
       }
     },
     {
+      "sid": "b49b5c88-548d-4067-afb5-e585fe983751",
+      "kind": "detachmentRule",
+      "name": "Avatars of the Ancestors",
+      "det": "Hearthguard Covenant",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "hearthguard-covenant"
+      },
+      "hash": "f1cc2751",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "413cc70c-8df1-4d24-828b-3cbfde7af684",
+      "kind": "enhancement",
+      "name": "Optimised Attack Lines (Upgrade)",
+      "det": "Armoured Trailblazers",
+      "ref": {
+        "kind": "enhancement",
+        "det": "armoured-trailblazers"
+      },
+      "hash": "2bbf4d18",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": null,
+          "target": "unit"
+        }
+      ]
+    },
+    {
       "sid": "27e25b2c-5cf3-47df-8e2b-a3dff31cdd95",
       "kind": "enhancement",
       "name": "Saturation Rounds (Upgrade)",

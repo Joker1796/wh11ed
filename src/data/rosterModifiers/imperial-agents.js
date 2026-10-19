@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "b82bc4eb-e01d-4fe8-90ae-b1ceefa6670f:aquila-kill-team",
+      "kind": "ability",
+      "name": "Aquila Kill Team: Death to the Alien",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aquila-kill-team"
+      },
+      "hash": "290c3fa6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "b7bf8d62-0f75-4e4b-bc0f-662c1a16ef68:aquila-kill-team",
       "kind": "ability",
       "name": "Aquila Kill Team: Kill Team",
@@ -128,6 +142,20 @@ export default {
           "target": "leader"
         }
       ]
+    },
+    {
+      "sid": "ebff3e61-ed19-4d44-9de6-384714553def:deathwatch-kill-team",
+      "kind": "ability",
+      "name": "Deathwatch Kill Team: Death to the Alien",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "deathwatch-kill-team"
+      },
+      "hash": "290c3fa6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "3abf4a41-24a8-4b00-99ff-070da866be07:eversor-assassin",

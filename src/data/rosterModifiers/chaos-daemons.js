@@ -2076,6 +2076,33 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "b63bb154-f543-4745-a5a6-ffab323cd921",
+      "kind": "stratagem",
+      "name": "Warp-riders",
+      "det": "Cavalcade of Chaos",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cavalcade-of-chaos",
+        "name": "Warp-riders"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "73f0cc79-068f-4e96-91ab-05c3914bacce",
       "kind": "stratagem",
       "name": "Draught of Terror",

@@ -474,6 +474,12 @@ export const conditions = {
   // Experimental Ammunition's first option is +1 S, which the second has too: one chip for the
   // second is the whole choice.
   'ammo-overcharge': { scope: 'unit', duration: 'phase', stratagem: true, label: { en: '+1 AP, [HAZARDOUS]', ru: '+1 AP, [HAZARDOUS]' } },
+  'augmented-lethal': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'augmented-sustained': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', stratagem: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'augmented-both': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', stratagem: true, label: { en: 'Both (entrenched)', ru: 'Обе (entrenched)' } },
+  'spear-lethal': { scope: 'unit', duration: 'phase', group: 'spear-thrust', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'spear-lance': { scope: 'unit', duration: 'phase', group: 'spear-thrust', stratagem: true, label: { en: '[LANCE]', ru: '[LANCE]' } },
+  'spear-both': { scope: 'unit', duration: 'phase', group: 'spear-thrust', stratagem: true, label: { en: 'Both (MOUNTED)', ru: 'Обе (MOUNTED)' } },
   // Desperate Pledge: "if your unit invokes its contract" — the player knows, the card cannot.
   'contract-invoked': { scope: 'unit', duration: 'phase', stratagem: true, label: { en: 'Contract invoked', ru: 'Контракт заключён' } },
 

@@ -29,7 +29,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, byNormName, matchWeapon, combatPatrolNames } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, loadJson, loadModule, byNormName, matchWeapon, combatPatrolNames } from './lib/sync-common.mjs'
 import { combatPatrol } from '../src/data/combatPatrol.js'
 
 // A faction can have several boxes (Adeptus Custodes since data 981): every one of them is mapped,
@@ -77,7 +77,14 @@ async function mapFaction(slug, cp, stats) {
   }
 
   // Detachments + their stratagems/enhancements.
-  const appDetachments = (bundle.detachments || []).filter((d) => !cp.detachments.has(norm(d.name)))
+  // The six Codex Supplements' detachments are Space Marines detachments on our side, but each ships
+  // in a bundle of its own (gen-faction-rules.mjs folds them in the same way). Read only here they
+  // had no ids, so gen-roster-modifiers could not hang a record on any of them.
+  const supplements = slug === 'space-marines'
+    ? (await Promise.all(SM_SUPPLEMENT_BUNDLES.map((s) => loadJson(path.join(APPDATA, 'factions', `${s}.json`))))).filter(Boolean)
+    : []
+  const appDetachments = [...(bundle.detachments || []), ...supplements.flatMap((b) => b.detachments || [])]
+    .filter((d) => !cp.detachments.has(norm(d.name)))
   const appDetByName = byNormName(appDetachments, (d) => d.name)
   for (const d of en.detachments || []) {
     const appDet = appDetByName.get(norm(d.name))

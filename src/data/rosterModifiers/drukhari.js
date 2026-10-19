@@ -1411,6 +1411,20 @@ export default {
       }
     },
     {
+      "sid": "c9175da5-73ef-4a67-96fd-f878492d87cd",
+      "kind": "detachmentRule",
+      "name": "Darkest Artifice",
+      "det": "Tools of Torment",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "tools-of-torment"
+      },
+      "hash": "998ac032",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "69f4dbe4-bfd4-4638-b606-a1cc08c2ac0c",
       "kind": "enhancement",
       "name": "Toxin-laced Blades",

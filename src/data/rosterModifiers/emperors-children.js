@@ -1122,6 +1122,17 @@ export default {
       ]
     },
     {
+      "sid": "157019a0-e16a-4ad5-a681-c4d760a06d78",
+      "kind": "stratagem",
+      "name": "Duellist’s Death",
+      "det": "Callous Blades",
+      "ref": null,
+      "hash": "eee8ffc6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "4eb6db28-8316-4d64-a6ab-10333e405814",
       "kind": "stratagem",
       "name": "Shatter Strike",

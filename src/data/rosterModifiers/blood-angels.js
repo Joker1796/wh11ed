@@ -1041,6 +1041,33 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "7df3533d-f8de-42ec-98a7-3fcb619a3a3c",
+      "kind": "stratagem",
+      "name": "Instant of Grace",
+      "det": "Angelic Inheritors",
+      "ref": {
+        "kind": "stratagem",
+        "det": "angelic-inheritors",
+        "name": "Instant of Grace"
+      },
+      "hash": "5c6aca44",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Character",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "round"
+    },
+    {
       "sid": "4fbae4b4-42f9-48ca-903e-a362c1fe883e",
       "kind": "stratagem",
       "name": "Strike Now for Glory",
@@ -1087,6 +1114,33 @@ export default {
           "op": "grant",
           "value": "Stealth",
           "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2328e95a-96ba-4312-844e-709de76d7cfb",
+      "kind": "stratagem",
+      "name": "No Barrier to Retribution",
+      "det": "Wrath of the Doomed",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrath-of-the-doomed",
+        "name": "No Barrier to Retribution"
+      },
+      "hash": "6ab50acf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Mobile",
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
         }
       ],
       "dur": "phase"

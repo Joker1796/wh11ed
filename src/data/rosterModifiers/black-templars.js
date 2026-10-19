@@ -140,6 +140,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "d5a1bd8e-1443-464f-ab24-62282f44a1a1:emperors-champion",
+      "kind": "ability",
+      "name": "Emperor's Champion: Armour of Faith",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "emperors-champion"
+      },
+      "hash": "c34ba455",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "3c0da470-0cea-498b-bd7f-4cfd39096821:gladiator-reaper",
       "kind": "ability",
       "name": "Gladiator Reaper: Reaping Tally",

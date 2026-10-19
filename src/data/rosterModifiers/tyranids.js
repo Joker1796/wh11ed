@@ -1925,6 +1925,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "ef33df89-bcee-4d3a-8cc5-1aac7fc319e5",
+      "kind": "stratagem",
+      "name": "Tanglestrike Rounds",
+      "det": "Talons of the Norn Queen",
+      "ref": {
+        "kind": "stratagem",
+        "det": "talons-of-the-norn-queen",
+        "name": "Tanglestrike Rounds"
+      },
+      "hash": "25b83264",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "d6d95f2e-da94-4979-83a9-1651076c015d",
       "kind": "stratagem",
       "name": "Bounding Advance",

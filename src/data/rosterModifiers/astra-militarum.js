@@ -439,6 +439,17 @@ export default {
       ]
     },
     {
+      "sid": "26b1cc07-1885-46c7-9479-21454d54bb53:drayden-s-lance-kasrkin",
+      "kind": "ability",
+      "name": "Drayden's Lance Kasrkin: Melta Mine (Once per battle, per unit)",
+      "det": null,
+      "ref": null,
+      "hash": "95df2d8d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:elysian-sniper-squad:mark-the-target",
       "kind": "ability",
       "name": "Elysian Sniper Squad: Mark the Target",
@@ -1537,6 +1548,29 @@ export default {
       }
     },
     {
+      "sid": "31fd1a92-acc6-4b73-89a5-fdb7334e3de7",
+      "kind": "detachmentRule",
+      "name": "Absolutist Principles",
+      "det": "Abhuman Auxiliaries",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "abhuman-auxiliaries"
+      },
+      "hash": "ca821946",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Abhuman",
+          "when": null,
+          "scope": 0
+        }
+      ]
+    },
+    {
       "sid": "19c61e87-4eec-4e4c-ba37-e6dfcb4aa815",
       "kind": "detachmentRule",
       "name": "Fire Zone Purge",
@@ -1605,6 +1639,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "4311f790-0f31-4209-a196-142b9a4d9f3b",
+      "kind": "detachmentRule",
+      "name": "Designated Targets",
+      "det": "Designation Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "designation-force"
+      },
+      "hash": "f65d906f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "635a612e-5dec-4bcd-b575-8a799e40c485",

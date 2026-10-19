@@ -1302,6 +1302,34 @@ export default {
       ]
     },
     {
+      "sid": "0d24cda7-bdcb-40f4-9834-1658b6928e06:traitor-guardsmen-squad",
+      "kind": "ability",
+      "name": "Traitor Guardsmen Squad: Twisted Defence Force",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "traitor-guardsmen-squad"
+      },
+      "hash": "7331c5ce",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "against ranged attacks, while within range of an objective",
+            "ru": "против стрелковых атак, пока отряд в зоне объекта"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "8078cf2e-7725-43ca-ab8e-8ca17fcdfcae:vashtorr-the-arkifane",
       "kind": "ability",
       "name": "Vashtorr the Arkifane: Indentured Daemon Engines",
@@ -2066,6 +2094,20 @@ export default {
         "kind": "detachmentRule",
         "det": "hurons-marauders"
       }
+    },
+    {
+      "sid": "99c64527-965d-47ff-8498-1050fa91925d",
+      "kind": "detachmentRule",
+      "name": "Prey on the Weak",
+      "det": "Murdertalon Raiders",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "murdertalon-raiders"
+      },
+      "hash": "196162de",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "2d05fb7e-ff32-49ee-87f8-8276bc8705e2",
