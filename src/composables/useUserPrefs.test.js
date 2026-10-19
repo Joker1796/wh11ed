@@ -111,6 +111,20 @@ describe('pulling an account\'s marks', () => {
 })
 
 describe('pushing what changed', () => {
+  // Found on the stand with two devices (2026-10-19): the first pass after a sign-in often has
+  // nothing to send, and it returned before releasing its lock — every later star stayed on the
+  // device until the page was reloaded.
+  it('still sends after a pass that had nothing to send', async () => {
+    h.fetchImpl = async () => json({ scopes: [] })
+    await prefs.pullPrefs()
+    await prefs.pushPrefs() // nothing to send
+    h.calls = []
+    h.fetchImpl = async () => json({ ok: true, scope: 'orks', version: 1 })
+    favorites.toggleUnitFavorite('orks', 'boyz')
+    await prefs.pushPrefs()
+    expect(h.calls.map(([path]) => path)).toEqual(['/prefs/orks'])
+  })
+
   it('sends a scope this device has and the account has never heard of', async () => {
     collection.toggleOwned('orks', 'boyz', 'Boyz')
     h.fetchImpl = async () => json({ scopes: [] })

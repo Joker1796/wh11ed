@@ -156,10 +156,16 @@ export async function pushPrefs() {
   const { status, authedFetch } = useAuth()
   if (status.value !== 'authed' || !checked.value) return
   if (pushing) return pushing
+  // Anything the stores changed since we last looked belongs in this pass too. Decided BEFORE the
+  // pass starts: until 2026-10-19 an empty pass returned inside the async body — which runs
+  // synchronously up to its first await, so it released `pushing` before `pushing` was even assigned
+  // the promise, and that stale promise then answered every later call. The first push after a
+  // sign-in is often empty (a device whose marks the cloud already holds, or a new account), so no
+  // star, box or pin left the device for the rest of the session (found on the stand with two
+  // devices; useUserPrefs.test.js).
+  for (const { store } of PARTS) for (const scope of store.takeDirty()) pending.add(scope)
+  if (!pending.size) return
   pushing = (async () => {
-    // Anything the stores changed since we last looked belongs in this pass too.
-    for (const { store } of PARTS) for (const scope of store.takeDirty()) pending.add(scope)
-    if (!pending.size) return
     syncing.value = true
     const scopes = [...pending]
     pending.clear()
