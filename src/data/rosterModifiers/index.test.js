@@ -140,8 +140,9 @@ describe('rosterModifiers data', () => {
           // ability set's OPTION (being the one picked is), both answered by the record's own id.
           // `cond` there is only for what the rule asks ON TOP ("…against MONSTER targets") and
           // may be absent.
-          // A once-per-battle effect is the third: the use the player marks is its condition.
-          if (e.kind !== 'stratagem' && !e.ref?.set && !eff.once) {
+          // A once-per-battle effect is the third: the use the player marks is its condition. An
+          // aura that reaches the one unit a rule SELECTS is the fourth: the aura chip is the selection.
+          if (e.kind !== 'stratagem' && !e.ref?.set && !eff.once && !eff.selected) {
             expect(Array.isArray(eff.cond) && eff.cond.length > 0, `${where}: cond`).toBe(true)
           }
           for (const id of eff.cond || []) {
@@ -159,6 +160,12 @@ describe('rosterModifiers data', () => {
           expect(Object.keys(eff.once).sort(), `${where}: once keys`).toEqual(['dur', 'per'])
           expect(eff.when, `${where}: once without when`).not.toBeNull()
           expect(e.kind, `${where}: once on a stratagem`).not.toBe('stratagem')
+        }
+        // "Select one friendly VEHICLE model…": an aura, and only an aura, can reach a selected unit.
+        if (eff.selected !== undefined) {
+          expect(eff.selected, `${where}: selected`).toBe(true)
+          expect(eff.target, `${where}: selected off an aura`).toBe('aura')
+          expect(eff.when, `${where}: selected without when`).not.toBeNull()
         }
         // An "instead" variant names the effect it replaces, by index into this record's own
         // effects. A dangling or self-referential index would silently suppress the wrong line —

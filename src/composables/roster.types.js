@@ -325,6 +325,8 @@
  * @property {boolean} [ruledOut] set by gateStratagems: the list answered its condition, and answered no
  * @property {{ per: 'unit' | 'army', dur: string }} [once] a once-per-battle rule: in force while the use
  *   the player marked is inside `dur` (rosterGameContext's activeUses); `per: 'army'` spends it for every unit
+ * @property {true} [selected] an aura that reaches the ONE unit its rule selects ("select one friendly
+ *   VEHICLE model within 3\""): proven only by the player's aura chip on that unit, never by the list
  */
 
 /** A keyword gate read off a rule's prose; `models`/`modelExcludes` are the phrases it names as MODELS (ruleTargets' scopeHits). @typedef {{ targets: string[], excludes: string[], models?: string[], modelExcludes?: string[] }} RuleScope */

@@ -1446,10 +1446,8 @@ export default {
             "en": "the VEHICLE model selected in your Command phase, until your next one",
             "ru": "модель VEHICLE, выбранная в вашу Command phase, до следующей"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "aura"
+          "target": "aura",
+          "selected": true
         }
       ]
     },
@@ -2936,10 +2934,8 @@ export default {
             "en": "until your next Command phase, for the one friendly HERETIC ASTARTES VEHICLE unit within 12\" selected in your Command phase",
             "ru": "до вашей следующей Command phase, для одного дружественного отряда HERETIC ASTARTES VEHICLE в пределах 12\", выбранного в вашу Command phase"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "aura"
+          "target": "aura",
+          "selected": true
         }
       ]
     },

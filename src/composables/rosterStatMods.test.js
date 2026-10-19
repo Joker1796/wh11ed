@@ -1084,6 +1084,34 @@ describe('attachedUnitKeywords', () => {
   })
 })
 
+// "Select one friendly VEHICLE model within 3\" of this model…" — the aura chip the player marks is
+// the selection. Nothing else proves it: not the bearer standing in its own aura (22.01), not the list.
+describe('an aura that reaches the one unit its rule selects', () => {
+  const sheet = () => ({ profiles: [{ m: '10"', t: '10', sv: '3+', w: '12', oc: '4' }] })
+  const rec = {
+    sid: 'evanescent-ion', kind: 'ability', name: 'Knight: Bearer of the Evanescent Ion',
+    ref: { kind: 'ability', unit: 'knight-paladin', scopes: [] },
+    effects: [{ on: 'profile', stat: 'oc', op: 'add', value: 1, target: 'aura', selected: true, when: { en: 'for the one model selected', ru: 'для одной выбранной модели' } }],
+  }
+  const oc = (entries) => applyStatMods(sheet(), entries, ['Imperial Knights', 'Vehicle'], []).sheet.profiles[0].oc
+
+  it('does not land on the bearer by itself', () => {
+    expect(oc(datasheetEntriesFor([rec], { unitId: 'knight-paladin' }))).toBe('4')
+  })
+  it('lands on the unit the player marked', () => {
+    expect(oc(datasheetEntriesFor([rec], { unitId: 'knight-warden', auraOn: new Set(['evanescent-ion']) }))).toBe('5')
+  })
+  it('is offered as a chip on the units it could reach', () => {
+    const units = [{ uid: 'a', id: 'knight-paladin', name: 'Knight Paladin' }, { uid: 'b', id: 'knight-warden', name: 'Knight Warden' }]
+    expect(aurasReaching([rec], { unitId: 'knight-warden', entryUid: 'b', rosterUnits: units, keywords: ['Imperial Knights'] })).toHaveLength(1)
+  })
+  // An Officer's Order goes to the squad he leads as readily as to the one beside it.
+  it('is offered on the unit the bearer leads too — the list does not answer a selection', () => {
+    const units = [{ uid: 'a', id: 'knight-paladin', name: 'Knight Paladin' }, { uid: 'b', id: 'armiger-warglaive', name: 'Armiger Warglaive' }]
+    expect(aurasReaching([rec], { unitId: 'armiger-warglaive', entryUid: 'b', rosterUnits: units, leaderUnitIds: ['knight-paladin'], keywords: ['Imperial Knights'] })).toHaveLength(1)
+  })
+})
+
 describe('an aura ability', () => {
   const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }] })
   const aura = {

@@ -352,6 +352,10 @@ const isSetRule = (rec) => rec.ref?.kind === 'ability' && !!rec.ref.set
 const byChoice = (entry) => entry.kind === 'stratagem' || isSetRule(entry)
 /** @param {ModEntry} entry @param {ModifierEffect} effect @param {IdSet} active @param {IdSet} chosen */
 function effectLive(entry, effect, active, chosen) {
+  // "Select one friendly VEHICLE model within 3\" of this model. Until your next Command phase…" — the
+  // aura chip the player marks on that unit IS the selection, so nothing else proves it: not the
+  // bearer's own unit (22.01 puts it in range, not in the choice), not the unit it leads.
+  if (effect.selected) return entry.from === 'aura' && (!effect.cond?.length || condHolds(effect.cond, active, entry))
   // A once-per-battle effect is proven the same way, by the use the player marked — `chosen` holds
   // the records whose use is still inside its window (rosterGameContext's activeUses). Per EFFECT,
   // not per record: Standard of the Emperor Ascendant gives +1 OC for good and +1 A once.
@@ -956,6 +960,9 @@ export function aurasReaching(records, {
     const ref = rec.ref
     const reaching = (rec.effects || []).filter((e) => e.target === 'aura' && proven(rec, e))
     if (!reaching.length) continue
+    // An aura that reaches only the unit its rule SELECTS is never answered by the list: the unit the
+    // bearer leads is a candidate like any other, so it is offered the chip too.
+    const picked = reaching.every((e) => e.selected)
     // A DETACHMENT RULE's aura has no source ENTRY: the models carrying it are named by keyword, and
     // the player is judging the 6" anyway. So the chip says where the rule comes from — the
     // detachment — and is offered once, to every unit the reach clause names, provided that
@@ -972,7 +979,7 @@ export function aurasReaching(records, {
     // cases (the bearer itself, and the unit the bearer is attached to) are skipped by entry rather
     // than by unit id.
     if (ref.kind === 'enhancement') {
-      if (leaderEnhNames?.has(rec.name)) continue
+      if (leaderEnhNames?.has(rec.name) && !picked) continue
       if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
       for (const u of rosterUnits) {
         if (!u.enh || enhKey(u.enh) !== enhKey(rec.name) || u.uid === entryUid) continue
@@ -980,7 +987,7 @@ export function aurasReaching(records, {
       }
       continue
     }
-    if (automatic.has(ref.unit)) continue
+    if (automatic.has(ref.unit) && !picked) continue
     // The same fail-open escapes the apply pass uses, so a chip is offered exactly when the
     // modifier behind it would land.
     if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets))) continue

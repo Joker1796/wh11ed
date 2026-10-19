@@ -118,10 +118,8 @@ export default {
             "en": "the VEHICLE model selected in your Command phase, until your next one",
             "ru": "модель VEHICLE, выбранная в вашу Command phase, до следующей"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "aura"
+          "target": "aura",
+          "selected": true
         }
       ]
     },

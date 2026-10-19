@@ -1898,7 +1898,20 @@ export default {
       "hash": "e7a36e89",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Stealth",
+          "target": "aura",
+          "selected": true,
+          "when": {
+            "en": "while affected by the bearer's Move to the Shadows Order",
+            "ru": "пока действует приказ носителя Move to the Shadows"
+          }
+        }
+      ]
     },
     {
       "sid": "4b8b684b-2f0d-41b3-9333-1945e0c3329c",

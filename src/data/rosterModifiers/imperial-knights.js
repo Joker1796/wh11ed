@@ -1148,10 +1148,8 @@ export default {
             "en": "until your next Movement phase, for the one other IMPERIAL KNIGHTS model within 12\" selected at the end of your Movement phase",
             "ru": "до вашей следующей Movement phase, для одной другой модели IMPERIAL KNIGHTS в пределах 12\", выбранной в конце вашей Movement phase"
           },
-          "cond": [
-            "never"
-          ],
-          "target": "aura"
+          "target": "aura",
+          "selected": true
         }
       ]
     },
