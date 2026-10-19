@@ -3,7 +3,15 @@ import { mount, DOMWrapper } from '@vue/test-utils'
 import SharedGameModal from './SharedGameModal.vue'
 
 // An account is what creating needs; the dialog reads it from useParty.
-vi.mock('../../composables/useParty.js', () => ({ useParty: () => ({ canShare: { value: true } }) }))
+const { signIn } = vi.hoisted(() => ({ signIn: vi.fn() }))
+// A real ref, so the template reads it as the component does.
+vi.mock('../../composables/useParty.js', async () => {
+  const { ref } = await import('vue')
+  const canShare = ref(true)
+  return { useParty: () => ({ canShare }), shareRef: canShare }
+})
+const { shareRef: share } = await import('../../composables/useParty.js')
+vi.mock('../../composables/useAccountActions.js', () => ({ useAccountActions: () => ({ signIn }) }))
 
 // BaseModal teleports to body (see modals.test.js).
 const body = () => new DOMWrapper(document.body)
@@ -78,5 +86,23 @@ describe('SharedGameModal — the game type comes before the lobby', () => {
     await body().find('.sg-field input').setValue('Host')
     await body().find('.sg-actions .btn-primary').trigger('click')
     expect(w.emitted('create')[0]).toEqual([{ mode: 'singles', name: 'Host', teams: ['', ''] }])
+  })
+})
+
+// Signed out, "Start a new one" is the way in — not a dead button that says "sign in" and offers no
+// way to (owner, 2026-10-19).
+describe('SharedGameModal — signed out', () => {
+  it('"Start a new one" opens the sign-in dialog', async () => {
+    share.value = false
+    try {
+      const w = mountIt()
+      const start = body().find('.sg-act')
+      expect(start.attributes('disabled')).toBeUndefined()
+      await start.trigger('click')
+      expect(signIn).toHaveBeenCalled()
+      expect(w.emitted('close')).toBeTruthy()
+    } finally {
+      share.value = true
+    }
   })
 })

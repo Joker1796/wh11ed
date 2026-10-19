@@ -25,12 +25,20 @@
             {{ labels.partyLeave }}
           </button>
         </p>
-        <p
-          v-if="!canShare"
-          class="pt-note"
-        >
-          {{ labels.partySignIn }}
-        </p>
+        <template v-if="!canShare">
+          <p class="pt-note">
+            {{ authStatus === 'down' ? labels.partyServerDown : labels.partySignIn }}
+          </p>
+          <!-- The way in, here: the reader asked to play together, and "sign in" with no button sent
+               them looking for the ⚙ menu (owner, 2026-10-19). Coming back lands on this page. -->
+          <button
+            v-if="authStatus !== 'down'"
+            class="btn-primary pt-share"
+            @click="onSignIn"
+          >
+            {{ labels.cloudSignIn }}
+          </button>
+        </template>
         <button
           v-else
           class="btn-primary pt-share"
@@ -199,6 +207,8 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
 import { useTracker } from '../../composables/useTracker.js'
+import { useAuth } from '../../composables/useAuth.js'
+import { useAccountActions } from '../../composables/useAccountActions.js'
 import { partySeats, seatKey, memberLabel } from './partySeats.js'
 
 const emit = defineEmits(['close'])
@@ -209,6 +219,13 @@ const {
   share, refreshMembers, refreshInvite, newInvite, kick, moveSeat, transferHost, end, leave, setScoreAll,
 } = useParty()
 const { current } = useTracker()
+const { status: authStatus } = useAuth()
+const { signIn } = useAccountActions()
+// The sign-in dialog opens over this one's place: close it first, one dialog at a time.
+function onSignIn() {
+  emit('close')
+  signIn()
+}
 
 // The clock behind "seen N minutes ago" (the invite block keeps its own for the code's
 // expiry — see PartyInvite.vue).

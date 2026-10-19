@@ -16,8 +16,8 @@
           <button
             type="button"
             class="act-btn sg-act"
-            :disabled="!canShare"
-            @click="creating = true"
+            :disabled="!canShare && authStatus === 'down'"
+            @click="canShare ? (creating = true) : onSignIn()"
           >
             <span class="sg-act-name">{{ labels.lobbyChoiceCreate }}</span>
             <span class="sg-act-sub">{{ canShare ? labels.lobbyChoiceCreateHint : authStatus === 'down' ? labels.partyServerDown : labels.partySignIn }}</span>
@@ -118,6 +118,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
 import { useAuth } from '../../composables/useAuth.js'
+import { useAccountActions } from '../../composables/useAccountActions.js'
 
 // The two ways into a shared game, behind one button. They were two entries side by side on the
 // tracker home and that was wrong in two ways: it made "join someone else's table" look as
@@ -128,6 +129,13 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { canShare } = useParty()
 const { status: authStatus } = useAuth()
+// Signed out, "Start new" is the way in rather than a dead button: it opens the sign-in dialog,
+// which comes back to this page (owner, 2026-10-19).
+const { signIn } = useAccountActions()
+function onSignIn() {
+  emit('close')
+  signIn()
+}
 
 // The same three modes as the setup's own "Game type" row (GameSetup's setGameMode).
 const MODES = [
