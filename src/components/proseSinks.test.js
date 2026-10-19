@@ -41,6 +41,7 @@ const MULTILINE = {
   entry: 'a map keyed by name: the RU overlay\'s ability texts (renderRichText), a rule\'s extras (RuleExtras)',
   texts: 'roster wargear texts — read, not shown as prose',
   default: 'roster/ru/texts.js — read, not shown as prose',
+  baseSize: 'appdata\'s "<model>: <size>" lines — formatBaseSize joins them with " · " (utils/baseSize.js)',
 }
 // The fields an inline renderer must never be handed (the rule-prose ones of the list above).
 const PROSE = ['body', 'effect', 'when', 'text', 'loadout', 'transport', 'note', 'example', 'keyNote', 'flavor']
