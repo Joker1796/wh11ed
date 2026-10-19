@@ -278,8 +278,11 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
         add('overWargearLimit', 'error', { uid: u.uid, params: { count: spent, limit: cap.limit } })
         continue
       }
-      const over = cap.dup && (u.wg || []).find(([g, , n]) => g === gi && (n || 1) > cap.dup)
-      if (over) add('overWargearDup', 'error', { uid: u.uid, params: { count: over[2] || 1, limit: cap.dup } })
+      // Each pick against its OWN option's cap — the group's, or one option's own `od` (Strike Team's
+      // guardian drone, where the rest of the group takes duplicates).
+      const dupOf = (/** @type {number} */ oi) => wargearGroupCap(def, u, gi, oi)?.dup || 0
+      const over = (u.wg || []).find(([g, oi, n]) => g === gi && dupOf(oi) && (n || 1) > dupOf(oi))
+      if (over) add('overWargearDup', 'error', { uid: u.uid, params: { count: over[2] || 1, limit: dupOf(over[1]) } })
       // "…replaced with two different weapons": the count is exact (`ex`), so one pick leaves the
       // model one weapon short of its datasheet. A `solo` option ("either 1 twin lightning claws,
       // or two different…") is a complete answer on its own.

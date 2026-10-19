@@ -2752,6 +2752,24 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     return noDup ? [per, 1] : lim.every((r) => r.length === 2) ? [per] : null
   }
   for (const d of drafts) if (d.copies && !d.pmb) d.pmb = budgetOf(d.lim)
+  // "…and can take duplicates: ▪ 1 guardian drone (it cannot take duplicates of this piece of
+  // wargear)" — the no-duplicates belongs to ONE option. appdata's set records it on the whole group
+  // (Strike Team: two shield drones refused, 2026-10-19); the prose says otherwise, so the group's
+  // duplicate cap goes and that option gets its own (`od`: option index → most copies).
+  for (const d of drafts) {
+    const lines = String(d.text || '').split('\n')
+    if (!/\bcan take duplicates\b/i.test(lines[0]) || !d.lim?.some((r) => r[2])) continue
+    const od = {}
+    d.opts.forEach((o, oi) => {
+      const name = wgItemName.get(o.uuid) || ''
+      const named = (l) => new RegExp(`\\b${reEsc(norm(name))}(?:e?s)?\\b`).test(norm(l.replace(/\(.*$/, '')))
+      if (name && lines.slice(1).some((l) => /cannot take duplicates/i.test(l) && named(l))) od[oi] = 1
+    })
+    if (!Object.keys(od).length) continue
+    d.lim = d.lim.map(([n, c]) => [n, c])
+    d.od = od
+    report.limit.optionDup = [...(report.limit.optionDup || []), `${bd.name}: ${Object.keys(od).map((oi) => wgItemName.get(d.opts[oi].uuid)).join(', ')}`]
+  }
   const extra = []
   const pools = []
   for (const d of drafts) {
@@ -2802,6 +2820,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }
     // A copy's allowance is its pool's (`unit.pools`), or — for a budget per model — its own.
     if (d.lim && !copy) grp.lim = d.lim
+    if (d.od) grp.od = d.od
     if (copy && d.pmb) grp.pb = d.pmb
     if (d.cp) grp.cp = d.cp
     if (d.rc) grp.rc = d.rc

@@ -496,9 +496,24 @@ export function defaultSizeIndex(def) {
  * @param {RosterUnit | null | undefined} def
  * @param {EntryLike | null | undefined} entry
  * @param {number} gi
+ * @param {number | null} [oi] asked about one option: its own duplicate cap (`od`) counts too
  * @returns {{ limit: number, dup: number } | null}
  */
-export function wargearGroupCap(def, entry, gi) {
+export function wargearGroupCap(def, entry, gi, oi = null) {
+  const cap = groupCap(def, entry, gi)
+  // One option's own no-duplicates (`od`, option index → most copies): Strike Team's guardian drone
+  // in a group that otherwise takes duplicates. Asked about that option, its cap is the smaller.
+  const own = oi != null ? def?.gear?.[gi]?.od?.[oi] : null
+  if (!cap || own == null) return cap
+  return { ...cap, dup: cap.dup ? Math.min(cap.dup, own) : own }
+}
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {{ limit: number, dup: number } | null}
+ */
+function groupCap(def, entry, gi) {
   const g = def?.gear?.[gi]
   // A budget per MODEL on a profile's copy of a unit-wide instruction (`pb`: "any number of models
   // can each be equipped with up to two of the following", [per, noDup]) — the copy's own models.
@@ -2460,7 +2475,7 @@ export function fitWargear(def, entry) {
     let i = -1
     for (let k = wg.length - 1; k >= 0 && i < 0; k--) {
       const gi = wg[k][0]
-      const cap = wargearGroupCap(def, e, gi)
+      const cap = wargearGroupCap(def, e, gi, wg[k][1])
       const ceiling = cap ? cap.limit : wargearGroupFallbackCap(def, e, gi)
       if (ceiling != null && wargearGroupSpent(e, gi) > ceiling) i = k
       else if (cap?.dup && (wg[k][2] || 1) > cap.dup) i = k

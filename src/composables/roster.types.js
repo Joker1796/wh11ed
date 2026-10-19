@@ -48,6 +48,7 @@
  * @property {number[][]} [excl] sets of options of which each model holds at most one
  * @property {ItemId[]} [keep] items the model keeps ("that model's boltgun cannot be replaced")
  * @property {Array<[number, number, number?]>} [lim] `[modelCount, choiceLimit, duplicateLimit?]` steps
+ * @property {Record<string, number>} [od] one option's own duplicate cap, by option index (Strike Team's guardian drone in a group that takes duplicates)
  * @property {ItemId[]} [rep] items a pick replaces
  * @property {1} [repall] a tick swaps the whole profile, not one model
  */

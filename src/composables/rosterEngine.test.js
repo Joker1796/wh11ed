@@ -2121,3 +2121,14 @@ describe('attachments tied to another datasheet in the army', () => {
     expect(leadTypeFor(sicarius, null, victrix, [])).toBe('leader') // no list in hand
   })
 })
+
+// "…can take duplicates: ▪ 1 guardian drone (it cannot take duplicates of this piece of wargear)":
+// the no-duplicates is ONE option's (Strike Team, 2026-10-19 — two shield drones were refused).
+describe('one option\'s own duplicate cap', () => {
+  const def = { id: 'st', name: 'Strike Team', sizes: [{ pts: 75, per: [10, 10] }], gear: [{ m: 0, o: [[1], [2]], lim: [[0, 2]], od: { 0: 1 } }] }
+  it('caps that option only', () => {
+    expect(wargearGroupCap(def, {}, 0)).toEqual({ limit: 2, dup: 0 })
+    expect(wargearGroupCap(def, {}, 0, 0)).toEqual({ limit: 2, dup: 1 })
+    expect(wargearGroupCap(def, {}, 0, 1)).toEqual({ limit: 2, dup: 0 })
+  })
+})

@@ -746,7 +746,8 @@ function groupStepMax(gi, oi) {
   // five combi-weapons have no combi-bolter left for a heavy weapon. `room` is what the other
   // groups left this one, so it is the group's whole budget here, whatever its own cap says.
   const room = swapRoom(props.def, props.entry, gi, oi)
-  const cap = caps.value[gi]
+  // The group's cap, with this option's own no-duplicates (`od`) if it has one.
+  const cap = caps.value[gi] && wargearGroupCap(props.def, props.entry, gi, oi)
   // One per model across a set of options (Broadside's twin plasma rifle / twin smart missile
   // system): what the set's other options left of the model count.
   const excl = wargearExclRoom(props.def, props.entry, gi, oi)
