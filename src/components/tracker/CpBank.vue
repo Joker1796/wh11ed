@@ -24,13 +24,23 @@
       />
       {{ labels.trackerBonusToggle }}
     </button>
-    <NumberStepper
-      class="cr-adjust"
-      :model-value="cp"
-      :min="0"
-      :aria-label="`${name} — CP`"
-      @update:model-value="v => $emit('update:cp', v)"
-    />
+    <!-- The balance, and a pencil for the rare correction (owner, 2026-10-19 — Mikhail asked why
+         − and + sat beside the stratagems when CP come by themselves and go on stratagems): the
+         stepper lives in a dialog that says what it is for. -->
+    <span class="cr-adjust cr-count">{{ cp }} CP</span>
+    <button
+      type="button"
+      class="cr-edit"
+      data-press
+      :aria-label="labels.trackerCpEdit"
+      :title="labels.trackerCpEdit"
+      @click="editOpen = true"
+    >
+      <i
+        class="wi wi-edit"
+        aria-hidden="true"
+      />
+    </button>
     <button
       type="button"
       class="cr-help"
@@ -41,6 +51,33 @@
     >
       <i class="wi wi-help" />
     </button>
+    <BaseModal
+      v-if="editOpen"
+      :title="labels.trackerCpEditTitle"
+      max-width="400px"
+      @close="editOpen = false"
+    >
+      <div class="modal-body">
+        <p class="cr-note">
+          {{ auto ? labels.trackerCpEditNote : labels.trackerCpEditNoteManual }}
+        </p>
+        <NumberStepper
+          class="cr-stepper"
+          :model-value="cp"
+          :min="0"
+          :aria-label="`${name} — CP`"
+          @update:model-value="v => $emit('update:cp', v)"
+        />
+      </div>
+      <div class="modal-footer">
+        <button
+          class="btn-primary"
+          @click="editOpen = false"
+        >
+          {{ labels.trackerTakeDone }}
+        </button>
+      </div>
+    </BaseModal>
   </div>
 </template>
 
@@ -48,10 +85,11 @@
 // One side's command points, the line under CpStratagems' side tabs: the round's bonus point, the
 // balance and a "?" for where CP come from. Pure presentation — RoundTracker decides every value
 // and what a tap does; the CP help shows the same line with example values (help/CpDemo.vue).
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import NumberStepper from './NumberStepper.vue'
+import BaseModal from '../BaseModal.vue'
 
 defineProps({
   cp: { type: Number, required: true },
@@ -61,10 +99,12 @@ defineProps({
   bonusTitle: { type: String, default: '' },
   locked: { type: Boolean, default: false },     // another phone's side: dimmed
   inert: { type: Boolean, default: false },
+  auto: { type: Boolean, default: true },        // core CP come by themselves (the game's cpAuto)
 })
 defineEmits(['bonus', 'update:cp', 'help'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const editOpen = ref(false)
 </script>
 
 <style scoped>
@@ -84,6 +124,11 @@ const labels = computed(() => ui[locale.value])
 .cr-btn:disabled:not(.on) { border-color: var(--border); background: var(--bg-secondary); color: var(--text-dim); cursor: default; }
 /* Taken by a discard: still reads taken, just not a button here. */
 .cr-btn.on:disabled { cursor: default; opacity: 0.75; }
+.cr-count { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--side); }
+.cr-edit { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; padding: 0; border: 1px solid var(--border); background: none; color: var(--text-muted); cursor: pointer; }
+@media (hover: hover) { .cr-edit:hover { color: var(--accent-ink); border-color: var(--accent); } }
+.cr-note { margin: 0 0 0.8rem; line-height: 1.45; }
+.cr-stepper { justify-content: center; }
 .cr-help { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; padding: 0; border: 0; background: none; font-size: 1.35rem; color: var(--text-dim); cursor: pointer; }
 @media (hover: hover) { .cr-help:hover { color: var(--accent-ink); } }
 </style>

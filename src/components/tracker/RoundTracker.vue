@@ -380,6 +380,7 @@
             :bonus-title="bonusOf(side) ? (canUndoBonus(side) ? labels.trackerBonusUndo : bonusSource(side)) : bonusSource(side)"
             :locked="!canEdit(side)"
             :inert="lock(side)"
+            :auto="!!current.cpAuto"
             @bonus="bonusOf(side) ? undoBonusCp(side) : gainBonusCp(side)"
             @update:cp="v => setCp(side, v)"
             @help="cpHelpOpen = true"
