@@ -285,7 +285,21 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
+          ],
+          "target": "unit"
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while that unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "unit-below-half-strength"
           ],
           "target": "unit"
         },
@@ -299,7 +313,7 @@ export default {
             "ru": "пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ],
           "target": "unit"
         }

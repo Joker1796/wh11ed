@@ -292,12 +292,31 @@ export const conditions = {
   'unit-selected-command-phase': { scope: 'unit', duration: 'round', label: { en: 'Selected this Command phase', ru: 'Выбран в эту Command phase' } },
   'unit-favoured-champions': { scope: 'unit', duration: 'round', label: { en: "Army's Favoured Champions", ru: 'Favoured Champions армии' } },
   // Not casualty TRACKING (out of scope) — one switch the player flips when it stops being true.
+  // Where the unit stands against its starting strength — one of three, so marking it below half
+  // takes "at starting strength" off. An effect for "below starting strength" holds below half too;
+  // its record carries the second line for that (one is on at a time, so they never stack).
   'unit-at-starting-strength': {
-    scope: 'unit', duration: 'battle',
+    scope: 'unit', duration: 'battle', group: 'unit-strength',
     label: { en: 'At Starting Strength', ru: 'В полном составе' },
     hint: {
       en: 'The unit still contains every model it had at the start of the first battle round — its **[gloss:starting-strength:starting strength]** (01.02.01).',
       ru: 'В отряде остались все модели, которые были в нём в начале первого раунда боя, — его **[gloss:starting-strength:начальная численность]** (01.02.01).',
+    },
+  },
+  'unit-below-starting-strength': {
+    scope: 'unit', duration: 'battle', group: 'unit-strength',
+    label: { en: 'Below Starting Strength', ru: 'Ниже начальной численности' },
+    hint: {
+      en: 'What **[gloss:below-starting-strength:below starting strength]** means depends on the unit’s starting strength — for a single model it is counted in wounds (01.02.01).',
+      ru: 'Что значит **[gloss:below-starting-strength:ниже начальной численности]**, зависит от начальной численности отряда — у одиночной модели считают раны (01.02.01).',
+    },
+  },
+  'unit-below-half-strength': {
+    scope: 'unit', duration: 'battle', group: 'unit-strength',
+    label: { en: 'Below Half-strength', ru: 'Ниже половины численности' },
+    hint: {
+      en: 'What below **[gloss:half-strength:half-strength]** means depends on the unit’s starting strength — for a single model it is counted in wounds (01.02.01).',
+      ru: 'Что значит ниже **[gloss:half-strength:половины численности]**, зависит от начальной численности отряда — у одиночной модели считают раны (01.02.01).',
     },
   },
   'unit-lost-wounds': { scope: 'unit', duration: 'battle', label: { en: 'Has lost wounds', ru: 'Потерял раны' } },
@@ -365,6 +384,12 @@ export const conditions = {
   'wargear-two-melee': { scope: 'roster', duration: 'battle', gear: { melee: 2 }, label: { en: 'Two melee weapons', ru: 'Два оружия ближнего боя' } },
   // A model the unit's SIZE brings (the Tidewall Shieldline's defence platform is its 105-point
   // option, a second model in the list) — read off the size the entry took, not off its weapons.
+  // A model the unit holds by its size: "while this unit contains a Tempestor Prime".
+  'contains-tempestor-prime': { scope: 'roster', duration: 'battle', gear: { mini: 'Tempestor Prime' }, label: { en: 'With a Tempestor Prime', ru: 'С Tempestor Prime' } },
+  'contains-medicae-servitors': { scope: 'roster', duration: 'battle', gear: { mini: 'Medicae Servitors' }, label: { en: 'With Medicae Servitors', ru: 'С Medicae Servitors' } },
+  'contains-quartermaster-revenant': { scope: 'roster', duration: 'battle', gear: { mini: 'Quartermaster Revenant' }, label: { en: 'With a Quartermaster Revenant', ru: 'С Quartermaster Revenant' } },
+  'contains-deathwing-ancient': { scope: 'roster', duration: 'battle', gear: { mini: 'Deathwing Ancient' }, label: { en: 'With a Deathwing Ancient', ru: 'С Deathwing Ancient' } },
+  'contains-chaplain-cassius': { scope: 'roster', duration: 'battle', gear: { mini: 'Chaplain Cassius' }, label: { en: 'With Chaplain Cassius', ru: 'С Chaplain Cassius' } },
   'wargear-tidewall-platform': { scope: 'roster', duration: 'battle', gear: { mini: 'Tidewall Defence Platform' }, label: { en: 'With a Tidewall defence platform', ru: 'С Tidewall defence platform' } },
   'wargear-spear-and-chainsword':{ scope: 'roster', duration: 'battle', gear: { all: ['Thundershock spear', 'Bellatus reaper chainsword'] }, label: { en: 'Thundershock spear and bellatus reaper chainsword', ru: 'Thundershock spear и bellatus reaper chainsword' } },
   // "The bearer has +1 Wounds", "the bearer's melee weapons have [LANCE]" (2026-10-01). Never put

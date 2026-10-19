@@ -384,7 +384,7 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
           ]
         },
         {
@@ -397,7 +397,7 @@ export default {
             "ru": "вместо этого, пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ],
           "alt": 0
         }
@@ -454,7 +454,7 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
           ]
         },
         {
@@ -467,7 +467,7 @@ export default {
             "ru": "вместо этого, пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ],
           "alt": 0
         }
@@ -524,7 +524,7 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
           ]
         },
         {
@@ -537,7 +537,7 @@ export default {
             "ru": "вместо этого, пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ],
           "alt": 0
         }

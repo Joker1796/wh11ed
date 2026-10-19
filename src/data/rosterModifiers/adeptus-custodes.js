@@ -53,20 +53,7 @@ export default {
             "ru": "пока отряд ниже стартовой численности"
           },
           "cond": [
-            "never"
-          ]
-        },
-        {
-          "on": "weapon",
-          "stat": "wound",
-          "op": "add",
-          "value": 1,
-          "when": {
-            "en": "while this unit is below half-strength",
-            "ru": "пока отряд ниже половины численности"
-          },
-          "cond": [
-            "never"
+            "unit-below-starting-strength"
           ]
         },
         {
@@ -79,7 +66,47 @@ export default {
             "ru": "пока отряд ниже стартовой численности"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below half-strength",
+            "ru": "пока отряд ниже половины численности"
+          },
+          "cond": [
+            "unit-below-half-strength"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below starting strength",
+            "ru": "пока отряд ниже стартовой численности"
+          },
+          "cond": [
+            "unit-below-starting-strength"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below starting strength",
+            "ru": "пока отряд ниже стартовой численности"
+          },
+          "cond": [
+            "unit-below-half-strength"
           ],
           "target": "led"
         },
@@ -93,7 +120,7 @@ export default {
             "ru": "пока отряд ниже половины численности"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ],
           "target": "led"
         }

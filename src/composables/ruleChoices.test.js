@@ -78,6 +78,8 @@ describe('a datasheet ability offers its choices on the unit', () => {
     ['aeldari', 'troupe', {}, ['troupe-heros-prowess', 'troupe-villains-doom', 'troupe-tricksters-grace']],
     ['space-marines', 'caanok-var', {}, ['cold-lethal', 'cold-sustained']],
     ['space-marines', 'bladeguard-veteran-squad', {}, ['bladeguard-hit', 'bladeguard-defend']],
+    // A unit's own strength: a state the player marks, three in one group.
+    ['blood-angels', 'death-company-marines', {}, ['unit-below-starting-strength', 'unit-below-half-strength']],
   ])('%s · %s', async (slug, unitId, opts, ids) => {
     expect(await unitSwitches(slug, unitId, opts)).toEqual(expect.arrayContaining(ids))
   }, 30000)

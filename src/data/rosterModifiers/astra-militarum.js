@@ -382,7 +382,20 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "unit-below-half-strength"
           ]
         },
         {
@@ -395,7 +408,7 @@ export default {
             "ru": "пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ]
         }
       ]
@@ -799,7 +812,7 @@ export default {
             "ru": "пока в отряде есть Tempestor Prime"
           },
           "cond": [
-            "never"
+            "contains-tempestor-prime"
           ]
         },
         {
@@ -812,7 +825,7 @@ export default {
             "ru": "пока в отряде есть Tempestor Prime"
           },
           "cond": [
-            "never"
+            "contains-tempestor-prime"
           ],
           "target": "led"
         }
@@ -1058,7 +1071,7 @@ export default {
             "ru": "пока в отряде есть Medicae Servitors"
           },
           "cond": [
-            "never"
+            "contains-medicae-servitors"
           ]
         },
         {
@@ -1071,7 +1084,7 @@ export default {
             "ru": "пока в отряде есть Medicae Servitors"
           },
           "cond": [
-            "never"
+            "contains-medicae-servitors"
           ],
           "target": "led"
         }
@@ -1103,7 +1116,7 @@ export default {
             "ru": "пока в отряде есть Quartermaster Revenant"
           },
           "cond": [
-            "never"
+            "contains-quartermaster-revenant"
           ]
         }
       ]

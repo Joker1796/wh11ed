@@ -146,7 +146,7 @@ export default {
             "ru": "пока в отряде есть Ancient"
           },
           "cond": [
-            "never"
+            "contains-deathwing-ancient"
           ]
         }
       ]

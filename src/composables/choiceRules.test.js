@@ -25,7 +25,7 @@ const WHY = {
     'ability: Adrax Agatone: Unto the Anvil', 'ability: Aquila Kill Team: Death to the Alien',
     'ability: Deathwatch Kill Team: Death to the Alien', 'ability: Deathwatch Veterans: Death to the Alien',
     'ability: Decimus Kill Team: Death to the Alien', 'ability: Fortis Kill Team: Fortis Doctrines',
-    'ability: Death Company Marines: An Honourable Death in Combat', 'ability: Ulrik the Slayer: Oathbound',
+'ability: Ulrik the Slayer: Oathbound',
     'ability: Custodian Guard Sodality with Adrasite Spears: Stand Vigil', 'ability: Centurion Devastator Squad: Decimator Protocols',
     'ability: Beast Snagga Boyz: Mobbed', 'enhancement: Null Maiden Vigil: Oblivion Knight',
     'enhancement: Phobos Shadow Force: Venator Omni-auspex', 'enhancement: Phobos Shock Force: Venator Omni-auspex',

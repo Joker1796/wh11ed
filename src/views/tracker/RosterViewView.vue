@@ -655,7 +655,7 @@ import { loadKeywordVocabulary, unitKeywordsOf } from '../../composables/ruleTar
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
 import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
-import { itemKey, loadoutItemNames, findEnhancementProse, detKey } from '../../composables/rosterModifiers.js'
+import { itemKey, loadoutItemNames, findEnhancementProse, detKey, wargearConditions } from '../../composables/rosterModifiers.js'
 import { unitDoctrines } from '../../composables/doctrineRules.js'
 import { foldName } from '../../utils/foldName.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
@@ -1217,7 +1217,11 @@ function modContextFor(entry) {
   const resolved = resolvedFor(entry)
   if (!resolved.length) return null
   const sheet = fullSheets.value.get(entry?.id)
-  const active = activeFor(entry)
+  // …plus what the entry's own loadout proves (a pair of macro-scalpels, the Shieldline's platform,
+  // a Tempestor Prime in the squad), as the card behind the row adds it (rosterUnitCard's
+  // gearConds): without it a plate and its card disagreed on a Tidewall Shieldline's W 15.
+  const gear = wargearConditions(defOf(entry.id), entry, rosterItems.items, sheet)
+  const active = gear.size ? new Set([...activeFor(entry), ...gear]) : activeFor(entry)
   const printed = unitKeywordsOf(sheet)
   // A granted keyword decides which rules bear on the unit at all, so it has to be resolved BEFORE
   // the apply pass gates on the keyword set — the same order RosterUnitRulesModal uses. Skipping it

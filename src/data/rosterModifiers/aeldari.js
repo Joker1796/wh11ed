@@ -1825,7 +1825,21 @@ export default {
             "ru": "в начале Fight phase, пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
+          ],
+          "target": "unit"
+        },
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Fights First",
+          "when": {
+            "en": "at the start of the Fight phase, while this unit is below its Starting Strength",
+            "ru": "в начале Fight phase, пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "unit-below-half-strength"
           ],
           "target": "unit"
         }

@@ -712,3 +712,13 @@ describe('overlaySheet — a weapon the enhancement gives', () => {
     expect(overlaySheet(sheet, { entry: {} }).sheet).toBe(sheet)
   })
 })
+
+// "While this unit contains a Tempestor Prime" — a model the unit's size brings, answered by the
+// list as the Shieldline's platform is (`gear.mini`).
+describe('wargearConditions — a model the unit contains', () => {
+  it('Militarum Tempestus Command Squad: with its Tempestor Prime', async () => {
+    const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
+    const def = (await loadRosterFaction('astra-militarum')).units.find((u) => u.id === 'militarum-tempestus-command-squad')
+    expect(wargearConditions(def, { size: 0 }, rosterItems.items, { melee: [] }).has('contains-tempestor-prime')).toBe(true)
+  })
+})

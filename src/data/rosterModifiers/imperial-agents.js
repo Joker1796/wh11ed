@@ -362,7 +362,20 @@ export default {
             "ru": "пока отряд ниже Starting Strength"
           },
           "cond": [
-            "never"
+            "unit-below-starting-strength"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is below its Starting Strength",
+            "ru": "пока отряд ниже Starting Strength"
+          },
+          "cond": [
+            "unit-below-half-strength"
           ]
         },
         {
@@ -375,7 +388,7 @@ export default {
             "ru": "пока отряд Below Half-strength"
           },
           "cond": [
-            "never"
+            "unit-below-half-strength"
           ]
         }
       ],
@@ -816,7 +829,7 @@ export default {
             "ru": "пока в отряде есть Chaplain Cassius"
           },
           "cond": [
-            "never"
+            "contains-chaplain-cassius"
           ]
         }
       ]
