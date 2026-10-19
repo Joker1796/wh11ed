@@ -11,15 +11,17 @@
 //     either that the scan no longer finds.
 import fs from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, loadJson, loadModule } from './lib/sync-common.mjs'
 import { MODEL_BASES, SAME_AS_UNIT, GUIDE_ONLY, baseOf } from './lib/model-bases.mjs'
 
+export async function run() {
 const tables = path.join(APPDATA, 'tables')
 const sheets = loadJson(path.join(tables, 'datasheet.json'))
 const minis = loadJson(path.join(tables, 'miniature.json'))
 if (!sheets || !minis) {
-  console.error(`bases: wh40k-appdata not found at ${APPDATA}`)
-  process.exit(1)
+  console.log(`bases: wh40k-appdata not found at ${APPDATA}`)
+  return 1
 }
 const en = (r) => r.localisations?.en || {}
 const appById = new Map(sheets.map((d) => [d.id, d]))
@@ -117,7 +119,12 @@ for (const e of SAME_AS_UNIT) {
 }
 
 if (fails.length) {
-  console.error(`bases: ${fails.length} problem(s)\n  ${fails.join('\n  ')}`)
-  process.exit(1)
+  console.log(`bases: ${fails.length} problem(s)\n  ${fails.join('\n  ')}`)
+  return 1
 }
 console.log(`bases: ok — ${MODEL_BASES.length} model sizes, ${SAME_AS_UNIT.length} decided as the unit's, ${GUIDE_ONLY.length} from the guide`)
+return 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exitCode = await run()
