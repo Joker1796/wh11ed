@@ -762,10 +762,13 @@ The row under the round bar (arrows + a "name · phase" button opening `PhasePic
 
 **`player.ctx`** goes with it: the rule-condition switches (`ctx.army[id]` / `ctx.units[uid][id]`, each storing WHEN it was flipped as a clock stamp, written by `setArmyCondition`/`setUnitCondition` — see the clock below). They answer what the app cannot know — a unit charged, an Order is on it, a Detachment rule is running — so the roster view may apply that modifier instead of only footnoting it. Absent on older games; every read defaults it. Conditions the tracker ALREADY knows (a called Waaagh! lives in `player.army.toggleRounds`) are read from there and are not duplicated as switches.
 
-## The tutorial (beta only)
+## The tutorial
 
 `useTour.js` + `TourOverlay.vue` (mounted in `App.vue`), chapters in `src/data/tourChapters.js`;
-on only in the beta build and the dev stand (`TOUR_ON`). A chapter is shown once per device the
+on everywhere since 2026-10-19 (written in the beta), mounted only on the tracker and roster
+screens, so a tab reading rules never loads the chapters. Before the first chapter starts by itself
+the player is asked once per device whether to turn the tutorial on ("There is a tutorial now"),
+and told that any screen's tutorial opens from ⚙ → "Tutorial of this screen". A chapter is shown once per device the
 first time its screen asks for it (`maybeStart(id, ctx)`), and again from the game's ⋯ menu;
 `?tour=reset` clears what was seen. The texts follow the owner's voice: every step starts with the
 action, then says what the thing is, in the names the screen prints.

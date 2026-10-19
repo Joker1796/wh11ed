@@ -5,9 +5,10 @@
   >
     <DomainMoveBanner v-if="!isBare" />
     <BetaBanner v-if="IS_BETA && !isBare" />
-    <!-- The tracker tour (useTour.js): the beta's, and the dev stand's where it is written. -->
+    <!-- The tracker tour (useTour.js): mounted only where a screen has chapters — the tracker and
+         the rosters — so a tab reading rules never loads it (~19 KB gzip of chapters). -->
     <TourOverlay
-      v-if="TOUR_ON"
+      v-if="TOUR_ON && tourScreen"
       :page="pageKey"
     />
     <UpdateNoticeBar v-if="!isBare" />
@@ -157,7 +158,7 @@ const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.
 // Loaded only where the tour exists; the flag is read here, not from useTour, so the chapters'
 // texts stay out of the root bundle.
 const TourOverlay = defineAsyncComponent(() => import('./components/TourOverlay.vue'))
-const TOUR_ON = IS_BETA || import.meta.env.DEV
+const TOUR_ON = true // on everywhere since the new tracker moved to the site (useTour.js)
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
 const InstallOffer = defineAsyncComponent(() => import('./components/InstallOffer.vue'))
 const ErrorReportsOffer = defineAsyncComponent(() => import('./components/ErrorReportsOffer.vue'))
@@ -232,6 +233,8 @@ const { locale } = useLocale()
 // The address carries the language (`/ru/…`); everything that asks "which page is this?" must ask
 // without it, or every predicate written against a bare path quietly stops matching in Russian.
 const appPath = computed(() => stripLocale(route.path))
+// The screens that carry tutorial chapters (they import useTour themselves).
+const tourScreen = computed(() => /^\/(?:tracker|roster)(?:\/|$)/.test(appPath.value))
 // What counts as "another page" for the swap above. A route with children (a faction's pages)
 // is one page per faction: moving between its tabs changes the child, drawn by the parent's own
 // RouterView (FactionPagesView), and must not re-create the parent — that is what kept the hero

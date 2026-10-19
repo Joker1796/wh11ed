@@ -1,5 +1,4 @@
 import { ref, computed, watch } from 'vue'
-import { IS_BETA } from '../config.js'
 import { TOUR_CHAPTERS } from '../data/tourChapters.js'
 import { getItem, setItem } from './safeStorage.js'
 import { asked } from './tourScreen.js'
@@ -9,12 +8,12 @@ export { forgetScreen } from './tourScreen.js'
 // The new tracker's guided tour (owner, 2026-10-08): chapters along the game's own flow — the
 // tracker home, each setup step, the game screen — each shown by itself the first time its screen
 // comes up, and again on request. A step darkens the screen and lights one element
-// (`data-tour="…"` on it, never a CSS class: a restyle must not lose the tour). The beta only —
-// and the dev stand, where it is being written.
+// (`data-tour="…"` on it, never a CSS class: a restyle must not lose the tour). Written in the
+// beta; on everywhere since the new tracker moved to the site (owner, 2026-10-19).
 //
 // The state is a module singleton: one tour on screen at a time, whichever screen asked.
 
-export const TOUR_ON = IS_BETA || import.meta.env.DEV
+export const TOUR_ON = true
 
 const SEEN_KEY = 'wh11ed-tour-seen'
 

@@ -425,7 +425,7 @@ async function onSignOut() {
   await signOut()
 }
 // The tutorial loads only when asked for: its chapters stay out of the root bundle.
-const TOUR_ON = IS_BETA || import.meta.env.DEV
+const TOUR_ON = true // on everywhere since the new tracker moved to the site (useTour.js)
 // Looked at as the menu opens: whether this screen has a chapter that can show now.
 const tourReady = ref(false)
 async function onTour() {
