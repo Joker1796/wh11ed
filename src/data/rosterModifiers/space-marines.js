@@ -3106,11 +3106,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of the two, selected when used",
-            "ru": "одна из двух — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "mercy-lethal"
           ]
         },
         {
@@ -3119,11 +3119,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of the two, selected when used",
-            "ru": "одна из двух — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "mercy-sustained"
           ]
         }
       ],
@@ -3292,11 +3292,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
           "when": {
-            "en": "one of the two, selected when used",
-            "ru": "одна из двух — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "relentless-sustained"
           ]
         },
         {
@@ -3305,11 +3305,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS: MONSTER/VEHICLE",
           "when": {
-            "en": "one of the two, selected when used",
-            "ru": "одна из двух — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "relentless-lethal"
           ]
         }
       ],
@@ -3426,11 +3426,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
           "when": {
-            "en": "one of the two, selected when used",
-            "ru": "одна из двух — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "relentless-sustained"
           ]
         },
         {
@@ -3439,11 +3439,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS: MONSTER/VEHICLE",
           "when": {
-            "en": "one of the two, selected when used",
-            "ru": "одна из двух — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "relentless-lethal"
           ]
         }
       ],

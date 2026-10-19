@@ -2359,11 +2359,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of: [LETHAL HITS]; [SUSTAINED HITS 1]; or both with [HAZARDOUS] — selected when used",
-            "ru": "одно из: [LETHAL HITS]; [SUSTAINED HITS 1]; или оба с [HAZARDOUS] — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "artillerists-lethal"
           ]
         },
         {
@@ -2372,11 +2372,37 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of: [LETHAL HITS]; [SUSTAINED HITS 1]; or both with [HAZARDOUS] — selected when used",
-            "ru": "одно из: [LETHAL HITS]; [SUSTAINED HITS 1]; или оба с [HAZARDOUS] — выбирается при применении"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "artillerists-sustained"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
+          },
+          "cond": [
+            "artillerists-both"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
+          },
+          "cond": [
+            "artillerists-both"
           ]
         },
         {
@@ -2385,11 +2411,11 @@ export default {
           "op": "grant",
           "value": "HAZARDOUS",
           "when": {
-            "en": "only with the option that gives both [LETHAL HITS] and [SUSTAINED HITS 1]",
-            "ru": "только в варианте с [LETHAL HITS] и [SUSTAINED HITS 1] вместе"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "artillerists-both"
           ]
         }
       ],

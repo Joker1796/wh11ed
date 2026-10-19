@@ -72,3 +72,28 @@ describe('a datasheet ability offers its choices on the unit', () => {
     expect(await unitSwitches(slug, unitId, opts)).toEqual(expect.arrayContaining(ids))
   }, 30000)
 })
+
+// A stratagem's own options ("[LETHAL HITS]. Or: [SUSTAINED HITS 1].") are asked once it is spent on
+// the unit — before, they would sit on every card of the detachment.
+describe('a stratagem offers its options once spent', () => {
+  it.each([
+    ['adeptus-custodes', 'Null Maiden Vigil', 'Anathema Blademastery', ['blademastery-sustained', 'blademastery-lethal']],
+    ['black-templars', 'Fist of the God-Emperor', 'Avowed Destruction', ['avowed-lethal', 'avowed-sustained']],
+    ['space-marines', 'Ironclad Champions', 'Mercy is Weakness', ['mercy-lethal', 'mercy-sustained']],
+    ['space-marines', 'Tacticus Attack Force', 'Relentless Assault', ['relentless-sustained', 'relentless-lethal']],
+    ['space-marines', 'Tacticus Firestorm Force', 'Relentless Assault', ['relentless-sustained', 'relentless-lethal']],
+    ['orks', 'Madcap Meks', 'Vindictive Artillerists', ['artillerists-lethal', 'artillerists-sustained', 'artillerists-both']],
+    ['chaos-space-marines', 'Huron’s Marauders', 'Hardened Killers', ['hardened-bs', 'hardened-rapid-fire', 'hardened-save']],
+    ['chaos-space-marines', 'Soulforged Warpack', 'Desperate Pledge', ['contract-invoked']],
+    ['tau-empire', 'Experimental Prototype Cadre', 'Experimental Ammunition', ['ammo-overcharge']],
+  ])('%s · %s', async (slug, det, name, ids) => {
+    const recs = usableEntries(await loadRosterModifiersFor(slug))
+    const fac = (await loadFactionWithCodex(slug, 'en')).en
+    const resolved = resolveModifierEntries(recs, fac, [det], null, null)
+    const strat = resolved.find((r) => r.kind === 'stratagem' && r.name === name)
+    const entry = { uid: 'u1', id: 'x' }
+    const ask = (strats) => switchesFor(resolved, 'unit', { factionSlug: slug, ctx: { strats } }, { round: 1 }, entry).map((s) => s.id)
+    expect(ask({})).not.toEqual(expect.arrayContaining([ids[0]]))
+    expect(ask({ u1: { [strat.sid]: 100 } })).toEqual(expect.arrayContaining(ids))
+  }, 30000)
+})

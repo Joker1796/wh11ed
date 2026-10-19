@@ -755,9 +755,12 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry, limits
     if (c.scope !== 'clock') return true
     return c.rounds ? true : normaliseClock(clock).tracked
   }
+  // A stratagem's own options are asked only once it is spent here — before, there is nothing to pick.
+  const spentHere = activeStratagems(player, clock, entry, resolvedEntries)
   for (const rec of resolvedEntries || []) {
     for (const eff of rec.effects || []) {
       if (!eff.cond?.length) continue
+      if (eff.cond.some((cid) => conditions[cid]?.stratagem) && !(rec.kind === 'stratagem' && spentHere.has(rec.sid))) continue
       // A clock half is answered by the clock, not by a switch — so it no longer disqualifies the
       // effect. A battle-round window always answers; a phase only in a game keeping phases,
       // without which an effect whose other half can be flipped would offer a switch that changes

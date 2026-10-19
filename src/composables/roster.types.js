@@ -487,6 +487,7 @@
  * @property {string} [bodyguardCore]  in an attached unit whose Bodyguard prints this core ability
  * @property {boolean} [attachedCharacter]  in an attached unit that holds another CHARACTER
  * @property {string[]} [warlord]  the army's Warlord carries all of these keywords
+ * @property {boolean} [stratagem]  a stratagem's own option: offered only while a stratagem naming it is in force on the unit
  */
 
 /**

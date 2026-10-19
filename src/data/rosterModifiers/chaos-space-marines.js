@@ -3438,11 +3438,11 @@ export default {
           "op": "improve",
           "value": 1,
           "when": {
-            "en": "if that effect was the one selected",
-            "ru": "если выбран этот вариант"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "hardened-bs"
           ]
         },
         {
@@ -3454,15 +3454,28 @@ export default {
             "tag": "RAPID FIRE"
           },
           "when": {
-            "en": "if that effect was the one selected",
-            "ru": "если выбран этот вариант"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "hardened-rapid-fire"
+          ]
+        },
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
+          },
+          "cond": [
+            "hardened-save"
           ]
         }
       ],
-      "dur": "phase"
+      "dur": "round"
     },
     {
       "sid": "cbe69988-a5c2-472c-9111-a8b2bebba098",
@@ -3885,11 +3898,11 @@ export default {
           "op": "add",
           "value": -1,
           "when": {
-            "en": "if the unit invoked its contract",
-            "ru": "если отряд заключил контракт"
+            "en": "if your unit invokes its contract this phase",
+            "ru": "если в этой фазе отряд заключает контракт"
           },
           "cond": [
-            "never"
+            "contract-invoked"
           ]
         }
       ],

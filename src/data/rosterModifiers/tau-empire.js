@@ -1909,11 +1909,24 @@ export default {
           "op": "add",
           "value": -1,
           "when": {
-            "en": "if the second option was chosen (weapons also gain [HAZARDOUS])",
-            "ru": "если выбран второй вариант (оружие получает [HAZARDOUS])"
+            "en": "if the second option was picked when the stratagem was used",
+            "ru": "если при применении выбран второй вариант"
           },
           "cond": [
-            "never"
+            "ammo-overcharge"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HAZARDOUS",
+          "when": {
+            "en": "if the second option was picked when the stratagem was used",
+            "ru": "если при применении выбран второй вариант"
+          },
+          "cond": [
+            "ammo-overcharge"
           ]
         }
       ],

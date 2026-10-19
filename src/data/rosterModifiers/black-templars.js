@@ -572,11 +572,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "while this stratagem is in force, if [LETHAL HITS] is the option chosen",
-            "ru": "пока действует стратагема, если выбран вариант [LETHAL HITS]"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "avowed-lethal"
           ]
         },
         {
@@ -585,11 +585,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "while this stratagem is in force, if [SUSTAINED HITS 1] is the option chosen",
-            "ru": "пока действует стратагема, если выбран вариант [SUSTAINED HITS 1]"
+            "en": "if this option was picked when the stratagem was used",
+            "ru": "если при применении выбран этот вариант"
           },
           "cond": [
-            "never"
+            "avowed-sustained"
           ]
         }
       ],

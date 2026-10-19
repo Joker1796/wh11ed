@@ -450,6 +450,32 @@ export const conditions = {
   'troupe-tricksters-grace': { scope: 'unit', duration: 'phase', group: 'dance-of-death', label: { en: 'Trickster’s Grace', ru: 'Trickster’s Grace' } },
   'wrath-cleave': { scope: 'unit', duration: 'phase', group: 'wrath-of-khorne', label: { en: '[CLEAVE 1]', ru: '[CLEAVE 1]' } },
   'wrath-ap': { scope: 'unit', duration: 'phase', group: 'wrath-of-khorne', label: { en: '+1 AP', ru: '+1 AP' } },
+  // A stratagem's own options ("Your unit's attacks have: [LETHAL HITS]. Or: [SUSTAINED HITS 1].")
+  // — the player says which one when spending it. `stratagem: true` keeps the chips out of sight
+  // until a stratagem naming them is in force on the unit (rosterGameContext's switchesFor): offered
+  // before, they would sit on every card of a detachment that has the stratagem at all. The window
+  // is the stratagem's own, so the pick ends with it.
+  'blademastery-sustained': { scope: 'unit', duration: 'phase', group: 'anathema-blademastery', stratagem: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'blademastery-lethal': { scope: 'unit', duration: 'phase', group: 'anathema-blademastery', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'avowed-lethal': { scope: 'unit', duration: 'phase', group: 'avowed-destruction', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'avowed-sustained': { scope: 'unit', duration: 'phase', group: 'avowed-destruction', stratagem: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'mercy-lethal': { scope: 'unit', duration: 'phase', group: 'mercy-is-weakness', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'mercy-sustained': { scope: 'unit', duration: 'phase', group: 'mercy-is-weakness', stratagem: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'relentless-sustained': { scope: 'unit', duration: 'phase', group: 'relentless-assault', stratagem: true, label: { en: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]', ru: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]' } },
+  'relentless-lethal': { scope: 'unit', duration: 'phase', group: 'relentless-assault', stratagem: true, label: { en: '[LETHAL HITS: MONSTER/VEHICLE]', ru: '[LETHAL HITS: MONSTER/VEHICLE]' } },
+  'artillerists-lethal': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'artillerists-sustained': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', stratagem: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'artillerists-both': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', stratagem: true, label: { en: 'Both, with [HAZARDOUS]', ru: 'Обе, с [HAZARDOUS]' } },
+  // Hardened Killers is spent in your Command phase and lasts "until the start of your next turn":
+  // the round is the nearest window the clock has, and it errs early, never late.
+  'hardened-bs': { scope: 'unit', duration: 'round', group: 'hardened-killers', stratagem: true, label: { en: '+1 BS', ru: '+1 BS' } },
+  'hardened-rapid-fire': { scope: 'unit', duration: 'round', group: 'hardened-killers', stratagem: true, label: { en: '+1 A, [RAPID FIRE] weapons', ru: '+1 A, оружие [RAPID FIRE]' } },
+  'hardened-save': { scope: 'unit', duration: 'round', group: 'hardened-killers', stratagem: true, label: { en: '+1 Sv', ru: '+1 Sv' } },
+  // Experimental Ammunition's first option is +1 S, which the second has too: one chip for the
+  // second is the whole choice.
+  'ammo-overcharge': { scope: 'unit', duration: 'phase', stratagem: true, label: { en: '+1 AP, [HAZARDOUS]', ru: '+1 AP, [HAZARDOUS]' } },
+  // Desperate Pledge: "if your unit invokes its contract" — the player knows, the card cannot.
+  'contract-invoked': { scope: 'unit', duration: 'phase', stratagem: true, label: { en: 'Contract invoked', ru: 'Контракт заключён' } },
 
   // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
   // Answered by the tracker's clock (rosterGameContext's clockHolds), never by a switch. A phase
