@@ -58,6 +58,32 @@ npm run smoke -- --wide       # + все фракции, ~180 страниц н�
 
 ## 4. Деплой
 
+### Сначала бета, потом сайт (владелец, 2026-10-19)
+
+С 2.9.8 каждый релиз сначала едет на `beta.wh-rules.ru`, владелец смотрит его там, и только по его
+команде — на основной сайт. Бета — тестовая площадка, а не отдельная ветка: она собирается из той же
+`release/X.Y.Z`. Номер поднимается **руками до беты**, потому что `deploy.sh` с бампом коммитит и
+перематывает `main` (это шаг сайта), а бета под номером, который на ней уже стоит, не поедет:
+
+```bash
+cd wh11ed                                     # на release/X.Y.Z, дерево чистое
+npm version X.Y.Z --no-git-tag-version
+git commit -am "chore: release vX.Y.Z"
+ENVFILE=.env.deploy.beta bash deploy.sh > /tmp/deploy-beta.log 2>&1   # BUMP=none из env беты
+```
+
+Владелец смотрит бету → «катим» → сайт тем же номером, без бампа:
+
+```bash
+BUMP=none bash deploy.sh > /tmp/deploy.log 2>&1
+git add src/data/changelog.js && git commit -m "chore: changelog rollover vX.Y.Z"   # если шаг 0b его порезал
+git push origin release/X.Y.Z
+git checkout main && git merge --ff-only release/X.Y.Z && git push origin main
+```
+
+`.env.deploy.beta` лежит и в `wh11ed`, и в worktree беты (оба в `.gitignore`). На бете архив
+чейнджлога не режется (`CHANGELOG_SSH` пуст), поэтому файл чейнджлога там целый.
+
 Долгий (3100+ ключей бакета). **Запускать в фоне и не пайпить в `tail`** — вывод нужен целиком:
 
 ```bash
