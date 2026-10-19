@@ -18,7 +18,23 @@
       />
     </button>
     <div class="sr-ctrl">
-      <!-- The printed cost; playing asks whether a rule changed it this time (StratPlayModal). -->
+      <!-- The other way to play it: the dialog with the cost and the unit, for the time a rule
+           changed the cost or the unit matters (Mikhail, 2026-10-19: "a tap spends it, a gear
+           beside it sets the price"). The cost button beside it spends at the printed cost. -->
+      <button
+        class="sr-adjust"
+        data-press
+        :disabled="locked"
+        :title="labels.trackerStratAdjust"
+        :aria-label="labels.trackerStratAdjust"
+        @click="$emit('adjust')"
+      >
+        <i
+          class="wi wi-settings"
+          aria-hidden="true"
+        />
+      </button>
+      <!-- The printed cost: a tap spends it (unless the game asks every time — askStratagems). -->
       <button
         class="sr-use"
         data-press
@@ -78,7 +94,7 @@ defineProps({
   title: { type: String, default: '' },
   locked: { type: Boolean, default: false },
 })
-defineEmits(['open', 'use', 'undo'])
+defineEmits(['open', 'use', 'adjust', 'undo'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { renderRichText } = useRenderInline()
@@ -128,6 +144,12 @@ const { renderRichText } = useRenderInline()
   .sr-use:not(:disabled):hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
 }
 .sr-use:disabled { border-color: var(--border); color: var(--text-dim); cursor: default; }
+.sr-adjust {
+  width: 36px; height: 36px; padding: 0;
+  border: 1px solid var(--border); background: none; color: var(--text-muted); cursor: pointer;
+}
+@media (hover: hover) { .sr-adjust:not(:disabled):hover { color: var(--accent-ink); border-color: var(--accent); } }
+.sr-adjust:disabled { color: var(--text-dim); cursor: default; }
 .sr-foot {
   grid-column: 1 / -1;
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0.75rem;

@@ -88,6 +88,7 @@
               v-bind="rowProps(s)"
               @open="openStrat = s"
               @use="use(s)"
+              @adjust="ask(s)"
               @undo="undoStratagem(side, s._key)"
             />
           </ul>
@@ -314,6 +315,13 @@ async function use(s, fromCard = false) {
     if (fromCard) openStrat.value = null
     return
   }
+  await ask(s, fromCard)
+}
+// The dialog: the cost (a rule may have changed it) and the unit — the row's ⚙, and the cost
+// button when the game asks every time or the tracker refused the plain spend.
+async function ask(s, fromCard = false) {
+  if (!canEdit(side.value)) return
+  const pi = side.value
   const targets = await loadStratTargets(current.value, pi, s)
   if (fromCard) openStrat.value = null
   playing.value = { strat: s, pi, targets }

@@ -30,10 +30,11 @@ async function mountTab(side = 0, extra = {}) {
   await vi.waitFor(async () => { await flushPromises(); expect(w.findAll('.sr').length).toBeGreaterThan(0) }, { timeout: 5000 })
   return w
 }
-// Playing one opens the dialog (StratPlayModal) — no list attached here, so it asks only whether a
-// rule changed the cost: [reduced, as printed, increased].
+// Playing one through the dialog (StratPlayModal): the row's ⚙ — the cost button spends at once since
+// 2026-10-19. No list attached here, so it asks only whether a rule changed the cost: [reduced, as
+// printed, increased].
 async function play(w, name, pick = 1) {
-  await row(w, name).find('.sr-use').trigger('click')
+  await row(w, name).find('.sr-adjust').trigger('click')
   await vi.waitFor(() => expect(document.body.querySelectorAll('.spm-cost').length).toBe(3))
   document.body.querySelectorAll('.spm-cost')[pick].click()
   await flushPromises()
@@ -52,6 +53,19 @@ describe('CpStratagems', () => {
     expect(row(w, 'Fire Overwatch').text()).toContain('used ×1')
     await row(w, 'Fire Overwatch').find('.sr-undo').trigger('click')
     expect(tracker.current.value.players[1].cp).toBe(1)
+  })
+
+  // Mikhail, 2026-10-19: a tap on the cost spends it; the ⚙ beside it opens the dialog.
+  it('spends the printed cost at one tap by default, and asks from the ⚙', async () => {
+    const w = await mountTab(0)
+    await w.findAll('.cps-tabs .page-tab')[1].trigger('click')
+    await row(w, 'Fire Overwatch').find('.sr-use').trigger('click')
+    await flushPromises()
+    expect(document.body.querySelector('.spm-cost')).toBeNull()
+    expect(tracker.current.value.players[1].cp).toBe(0)
+    await row(w, 'Fire Overwatch').find('.sr-undo').trigger('click')
+    await row(w, 'Fire Overwatch').find('.sr-adjust').trigger('click')
+    await vi.waitFor(() => expect(document.body.querySelectorAll('.spm-cost').length).toBe(3))
   })
 
   // Not asking (owner, 2026-10-14): one tap spends the printed cost, no dialog — and a play the

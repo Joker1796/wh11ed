@@ -114,7 +114,8 @@ export const TRACK_OPTIONS = [
     group: 'turn',
     label: 'trackerAskStratagems',
     help: 'trackerHelpAskStratagems',
-    default: true,
+    // Off: a tap spends the printed cost, and the row's ⚙ asks (Mikhail, 2026-10-19).
+    default: false,
     remember: true,
     requires: 'trackStratPlay',
   },
