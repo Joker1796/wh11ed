@@ -57,6 +57,18 @@ import { foldChars } from '../../src/utils/foldName.js'
 
 export const APPDATA_EXCEPTIONS = [
   {
+    id: 'tyr-red-terror-gaping-maw-ap',
+    kind: 'weapon-stat',
+    slug: 'tyranids',
+    item: 'Gaping maw',
+    field: 'AP',
+    from: '-',
+    to: '0',
+    datasheets: ['The Red Terror'],
+    why: 'appdata prints AP "-" — the only AP in the whole corpus that is not a number, and no source gives another. Owner, 2026-10-19: read it as 0.',
+    source: 'Owner\'s decision 2026-10-19 (gap audit, hub journal 2026-10-19-gap-audit.md); appdata tables (wargear profile of Gaping maw, The Red Terror)',
+  },
+  {
     id: 'sw-bjorn-assault-cannon-bs',
     kind: 'weapon-stat',
     slug: 'space-wolves',
