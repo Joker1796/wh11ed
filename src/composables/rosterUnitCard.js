@@ -28,6 +28,8 @@ import { loadKeywordVocabulary, ruleAppliesTo, unitKeywordsOf } from './ruleTarg
 import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, attachedEnhKeys, armyRuleMatches, armyRuleSection } from './rosterStatMods.js'
 import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
+import { unitDoctrines } from './doctrineRules.js'
+import { foldName } from '../utils/foldName.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
@@ -346,8 +348,34 @@ export function useRosterUnitCard(props) {
     const printed = datasheets.value.find((d) => d.id === props.unitId)
     return wargearConditions(props.ctx?.def, props.ctx?.entry, props.ctx?.items, printed)
   })
+  // The doctrines the attached unit's own rules make permanent — Calgar's unit has all three in the
+  // list as much as in the game (doctrineRules.js; the game's view reads the same texts, plus the
+  // wargear it carries, which a list read here does not resolve).
+  const unitProves = computed(() => {
+    const entry = props.ctx?.entry
+    const facEn = rulesFactionEn.value
+    if (!entry || !facEn) return null
+    const units = props.ctx?.units || []
+    const hostUid = entry.leaderOf || entry.uid
+    const parts = units.filter((u) => u.uid === hostUid || u.leaderOf === hostUid)
+    /** @param {string} id */
+    const sheetOf = (id) => datasheets.value.find((d) => d.id === id)
+    const texts = (parts.length ? parts : [entry]).flatMap((p) => {
+      const sheet = sheetOf(p.id)
+      const enh = p.enh ? findEnhancementProse(facEn.detachments, p.enh, props.ctx?.detachments)?.body : null
+      return [
+        ...(sheet?.abilities || []).map((a) => a.text),
+        ...(sheet?.abilitySets || []).flatMap((set) => (set.options || []).map((o) => o.text)),
+        ...(enh ? [enh] : []),
+      ]
+    })
+    const fielded = new Set((props.ctx?.detachments || []).map((d) => detKey(typeof d === 'string' ? d : d?.name)))
+    const detTexts = (facEn.detachments || []).filter((d) => fielded.has(detKey(d.name))).map((d) => d.rule?.body || '')
+    const kws = new Set((parts.length ? parts : [entry]).flatMap((p) => unitKeywordsOf(sheetOf(p.id))).map((k) => foldName(k)))
+    return unitDoctrines({ texts, detTexts, hasKeyword: (kw) => kws.has(foldName(kw)) }).proves
+  })
   const activeConds = computed(() => {
-    const base = props.gameCtx?.active || rosterConditions(props.ctx?.entry, props.ctx?.units, (id) => datasheets.value.find((d) => d.id === id))
+    const base = props.gameCtx?.active || rosterConditions(props.ctx?.entry, props.ctx?.units, (id) => datasheets.value.find((d) => d.id === id), unitProves.value)
     return gearConds.value.size ? new Set([...base, ...gearConds.value]) : base
   })
 
