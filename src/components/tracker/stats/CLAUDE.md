@@ -23,9 +23,10 @@ Entry points: the record strip above the history on `/tracker`, the `.rrec` badg
 2. **`MIN_SAMPLE` (5).** Under it, no percentage is printed — the headline card shows `—` and every
    breakdown row shows its raw `W–L–D` and dims (`.dim`). Rows are never hidden for being small:
    the games happened. If you add a breakdown, carry `enough` through to the UI.
-3. **An unfinished game is not a result.** `endReason: 'early'` is what `archiveCurrent()` writes
-   when a live game is shelved to start another; those are excluded and counted in `skipped`, which
-   the page states out loud. Concessions *are* results (`friendly-concede` → loss, and a 20–0 BP
+3. **Every game in the history is a result** (owner, 2026-10-19). `endReason: 'early'` — what
+   `archiveCurrent()` writes when a live game is shelved to start another — counts at the score it
+   stood on; until then those were left out. Only a game still in progress (`skipped`, stated out
+   loud) is not. Concessions *are* results (`friendly-concede` → loss, and a 20–0 BP
    sweep), matching `gameScoring.leader()` and the history cards.
 4. **Stored totals win.** `vpTotals()` prefers `result.totals` — the VP as they stood at the finish
    — and only recomputes for records too old to have it. Re-scoring an old game under today's caps

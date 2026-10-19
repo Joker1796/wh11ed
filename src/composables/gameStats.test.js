@@ -55,8 +55,8 @@ describe('outcomeOf', () => {
 })
 
 describe('isResult', () => {
-  it('leaves out a game that was shelved rather than played out', () => {
-    expect(isResult(mk({ endReason: 'early' }))).toBe(false)
+  it('counts every game in the history, an interrupted one too; not one still in progress', () => {
+    expect(isResult(mk({ endReason: 'early' }))).toBe(true)
     expect(isResult(mk({ endReason: 'friendly-concede' }))).toBe(true)
     expect(isResult(mk())).toBe(true)
     expect(isResult({ ...mk(), phase: 'playing' })).toBe(false)
@@ -68,7 +68,7 @@ describe('buildStats — the headline record', () => {
     mk({ vp: [90, 60] }),                       // win
     mk({ vp: [50, 70] }),                       // loss
     mk({ vp: [65, 65] }),                       // draw
-    mk({ endReason: 'early', vp: [10, 10] }),   // not a result at all
+    { ...mk({ vp: [10, 10] }), phase: 'playing' }, // still in progress: not a result
   ]
 
   it('counts a draw as half a win and says how many games it left out', () => {
@@ -80,6 +80,14 @@ describe('buildStats — the headline record', () => {
     expect(s.avgFor).toBeCloseTo((90 + 50 + 65) / 3)
     expect(s.avgAgainst).toBeCloseTo((60 + 70 + 65) / 3)
     expect(s.avgDiff).toBeCloseTo(s.avgFor - s.avgAgainst)
+  })
+
+  // An interrupted game counts at the score it stood on (owner, 2026-10-19).
+  it('counts an interrupted game', () => {
+    const s = buildStats([mk({ vp: [90, 60] }), mk({ endReason: 'early', vp: [10, 30] })])
+    expect(s.games).toBe(2)
+    expect(s.skipped).toBe(0)
+    expect(s.record).toEqual({ w: 1, l: 1, d: 0 })
   })
 
   // The threshold is the whole defence against "67% winrate" printed off three games.

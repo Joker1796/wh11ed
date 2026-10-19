@@ -370,9 +370,9 @@ export const ui = {
     trackerVs: 'vs',
     // Battle record (/tracker/stats) — everything is from YOUR side of the table.
     statsTitle: 'Statistics',
-    statsDesc: 'Every game you have finished, from your side of the table. Built on this device from your game history.',
+    statsDesc: 'Every game in your history, played out or interrupted, from your side of the table. Built on this device.',
     statsLink: 'Statistics',
-    statsEmpty: 'No finished games yet — play one through and this page fills itself in.',
+    statsEmpty: 'No games yet — play one and this page fills itself in.',
     statsSkipped: 'Unfinished games left out: {n}',
     statsGames: 'Games',
     statsRecord: 'Won–lost–drawn',
@@ -1963,9 +1963,9 @@ export const ui = {
     trackerNoGames: 'Игр пока нет. Нажмите «Новая игра».',
     // Боевой лист (/tracker/stats) — всё считается с вашей стороны стола.
     statsTitle: 'Статистика',
-    statsDesc: 'Все ваши доигранные партии — с вашей стороны стола. Считается на этом устройстве по истории игр.',
+    statsDesc: 'Все партии из вашей истории, доигранные и прерванные, — с вашей стороны стола. Считается на этом устройстве.',
     statsLink: 'Статистика',
-    statsEmpty: 'Доигранных партий пока нет — сыграйте первую, и страница заполнится сама.',
+    statsEmpty: 'Партий пока нет — сыграйте первую, и страница заполнится сама.',
     statsSkipped: 'Незавершённых партий не учтено: {n}',
     statsGames: 'Партий',
     statsRecord: 'Победы–поражения–ничьи',

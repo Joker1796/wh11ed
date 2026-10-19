@@ -85,10 +85,9 @@ describe('TrackerStatsView', () => {
     expect(w.findAll('.sb-row').length).toBeGreaterThan(0)
   })
 
-  it('leaves an unfinished game out and says how many it left out', async () => {
+  it('counts an interrupted game with the rest', async () => {
     const w = await mountWith([game({ vp: [90, 60] }), game({ vp: [10, 10], endReason: 'early' })])
-    expect(w.findAll('.card')[0].text()).toContain('1')
-    expect(w.findAll('.note').some((n) => n.text().includes('1'))).toBe(true)
+    expect(w.findAll('.card')[0].text()).toContain('2')
   })
 
   it('gives each attached list its own record, and marks one that is no longer saved', async () => {

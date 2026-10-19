@@ -56,11 +56,11 @@ export function vpTotals(game) {
   return [grandTotal(game, 0), grandTotal(game, 1)]
 }
 
-// A game only counts as a result once it has one: 'early' is the reason written when an in-progress
-// game is shelved to start another, i.e. a game that was never played out. Concessions DO count —
-// they are how a real game ended.
+// Every game that went into the history counts — played out, conceded, or interrupted ('early',
+// shelved to start another), the last at the score it stood on (owner, 2026-10-19: "an interrupted
+// game goes into the statistics too"). Only a game still in progress is not a result.
 export function isResult(game) {
-  return !!game && game.phase === 'finished' && game.endReason !== 'early'
+  return !!game && game.phase === 'finished'
 }
 
 // One game, from your side: VP, Battle Points and who won. Mirrors TrackerHomeView's card logic —
