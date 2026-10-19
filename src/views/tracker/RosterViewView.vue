@@ -661,6 +661,7 @@ import { foldName } from '../../utils/foldName.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { conditions } from '../../data/rosterModifiers/conditions.js'
+import { variantPassage } from '../../composables/variantPassage.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { activeConditions, rosterConditions, switchesFor, stratagemsFor, stratagemsClearedBy, activeStratagems, activeAuras, auraSwitchesFor, allPicks, pickSwitchesFor, activeUses, usesFor, attachedUids, clockOf, stampOf, isShockCondition, groupLimitsFor } from '../../composables/rosterGameContext.js'
 import { memberAt } from '../../composables/rosterGameLink.js'
@@ -966,6 +967,18 @@ function srcInfo(src) {
       if (enh) return { owner: labels.value.rosterEnhancement, name: enh.name, text: enh.body }
     }
   }
+  // A stratagem's own options (spent, then picked — switchesFor's `onUse`): the stratagem's effect.
+  if (src.kind === 'stratagem') {
+    const det = curDetachments.value.find((d) => d.id === src.det)
+    const st = (det?.stratagems || []).find((x) => normName(x.name) === normName(src.name))
+    if (st) return { owner: det.name, name: st.name, text: st.effect }
+  }
+  // A datasheet ability's choice ("Unit: Ability"): that card's own text for it.
+  if (src.kind === 'ability' && src.unit) {
+    const at = src.name.indexOf(': ')
+    const info = ruleInfoOf(src.unit, (at === -1 ? src.name : src.name.slice(at + 2)).replace(/\s*\([^)]*\)\s*$/, ''))
+    if (info?.text) return { owner: at === -1 ? null : src.name.slice(0, at), name: info.name, text: info.text }
+  }
   // Anything else (a datasheet ability naming an army-wide state — one case in the whole dataset)
   // still gets its rule NAMED, which is most of the answer; the text stays on that unit's card.
   return { owner: null, name: src.name, text: null }
@@ -983,12 +996,17 @@ function withRuleInfo(list) {
       if (hint) return { ...sw, info: { name: sw.label[locale.value] || sw.label.en, text: hint[locale.value] || hint.en } }
       const src = srcInfo(sw.src)
       if (!src) return sw
+      // …and each option its own passage of that rule, where the text marks one out (a `### `
+      // subheading or a bullet naming it): "what does Absolution in Battle do" is one paragraph.
+      const label = sw.label[locale.value] || sw.label.en
+      const passage = src.text ? variantPassage(src.text, sw.label.en) || variantPassage(src.text, label) : null
       return {
         ...sw,
         groupOwner: src.owner ? `${src.owner} · ${src.name}` : src.name,
         // On the heading, not on each chip: these six ARE one rule, unlike an ability set whose
         // options each have their own (see ConditionChips' groups()).
         groupInfo: src.text ? { name: src.name, text: src.text } : null,
+        ...(passage && !sw.info ? { info: { name: label, text: passage } } : {}),
       }
     }
     const info = ruleInfoOf(sw.from.unit, sw.from.ability)
