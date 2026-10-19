@@ -180,7 +180,7 @@
 import { ref, computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { sideName, isYouSide } from '../../composables/useTracker.js'
+import { sideName, isYouSide, sidesYouFirst } from '../../composables/useTracker.js'
 import { spends } from '../../composables/cpLedger.js'
 import CollapseTransition from '../CollapseTransition.vue'
 import {
@@ -213,7 +213,7 @@ const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
 const game = computed(() => props.game || current.value)
 const controlled = computed(() => props.side === 0 || props.side === 1)
-const shown = computed(() => game.value.players.map((pl, i) => ({ pl, i })).filter(({ i }) => !controlled.value || i === props.side))
+const shown = computed(() => sidesYouFirst(game.value).map((i) => ({ pl: game.value.players[i], i })).filter(({ i }) => !controlled.value || i === props.side))
 // Through `tracks`, so an ancient game with no flag at all still shows the row it played with.
 const showCp = computed(() => tracks(game.value?.settings, 'trackCP'))
 

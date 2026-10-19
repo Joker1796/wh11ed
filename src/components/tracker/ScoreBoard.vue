@@ -8,7 +8,7 @@
          army's — as a stripe down the card and on the name; the side on turn adds a wash of it and
          the "turn" mark. -->
     <div
-      v-for="(pl, i) in game.players"
+      v-for="{ pl, i } in sides"
       :key="i"
       class="col tone"
       :class="{ lost: finished && leaderIdx !== -1 && leaderIdx !== i, turn: turnIdx === i, opp: !isYouSide(pl, i), themed: finished && !!sideFaction(pl), pickable: selected >= 0, picked: selected === i }"
@@ -99,7 +99,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { useCountUp } from '../../composables/useCountUp.js'
-import { useTracker, sideName, isYouSide, membersOf } from '../../composables/useTracker.js'
+import { useTracker, sideName, isYouSide, membersOf, sidesYouFirst } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
 import FactionEmblem from '../FactionEmblem.vue'
@@ -119,6 +119,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
 const game = computed(() => props.game || current.value)
+// Your side on the left, whoever moves first (sidesYouFirst).
+const sides = computed(() => sidesYouFirst(game.value).map((i) => ({ pl: game.value.players[i], i })))
 
 const primaryTotal = (i) => primaryTotalOf(game.value, i)
 const secondaryTotal = (i) => secondaryTotalOf(game.value, i)

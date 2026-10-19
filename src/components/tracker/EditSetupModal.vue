@@ -315,7 +315,7 @@ import { trackSettingsOf, normalizeTrackSettings, LOCAL_TRACK_SETTINGS } from '.
 import { detKey } from '../../data/slugify.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf, isYouSide, sideLabel, gameBegun, BATTLE_SIZES } from '../../composables/useTracker.js'
+import { useTracker, membersOf, isYouSide, sideLabel, gameBegun, BATTLE_SIZES, sidesYouFirst } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
 import { useSetupLayout } from '../../composables/trackerLayout.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
@@ -391,7 +391,7 @@ const anyRoster = computed(() => players.some((p) => armiesOf(p).some((m) => !!m
 // begins — a list attached mid-battle would change what the game has been scoring against.
 const cardSides = computed(() => (guest
   ? (gameBegun(game) ? [] : players.map((_, i) => i).filter((i) => canEdit(i)))
-  : players.map((_, i) => i)))
+  : sidesYouFirst(game)))
 
 function isYou(i) { return isYouSide(game.players[i], i) }
 function playerLabel(i) { return sideLabel(game.players[i], i, labels.value) }
