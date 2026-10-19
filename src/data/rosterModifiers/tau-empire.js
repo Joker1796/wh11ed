@@ -2039,7 +2039,7 @@ export default {
             "ru": "против отмеченного (Spotted) юнита"
           },
           "cond": [
-            "never"
+            "unit-markerlight"
           ]
         },
         {

@@ -560,7 +560,7 @@ export default {
             "ru": "если у отряда есть KILL TEAM, до конца вашей следующей фазы движения"
           },
           "cond": [
-            "never"
+            "unit-kill-team"
           ]
         }
       ],

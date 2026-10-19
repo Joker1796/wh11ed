@@ -4621,7 +4621,7 @@ export default {
             "ru": "если это отряд VEHICLE"
           },
           "cond": [
-            "never"
+            "unit-vehicle"
           ]
         }
       ],

@@ -581,6 +581,15 @@ describe('rosterConditions', () => {
     const other = [{ uid: 'w', id: 'ragnar', warlord: true }, { uid: 's', id: 'claws' }]
     expect(rosterConditions(other[1], other, sheetOf).has('warlord-tempestus-officer')).toBe(false)
   })
+  // The unit's own printed keywords (2026-10-19): Methodical Brutality's "if this unit is a
+  // VEHICLE unit" was a note on every card; the sheet answers it.
+  it('answers the unit\'s own keyword from its own sheet', async () => {
+    const { rosterConditions } = await import('./rosterGameContext.js')
+    const own = { rhino: { name: 'Rhino', keywords: ['VEHICLE', 'TRANSPORT'] }, ...sheets }
+    const list = [{ uid: 'v', id: 'rhino' }, { uid: 'i', id: 'claws' }]
+    expect(rosterConditions(list[0], list, (id) => own[id]).has('unit-vehicle')).toBe(true)
+    expect(rosterConditions(list[1], list, (id) => own[id]).has('unit-vehicle')).toBe(false)
+  })
 })
 
 describe('stratagems', () => {

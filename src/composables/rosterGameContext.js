@@ -208,6 +208,10 @@ function rosterAnswers(id, entry, units, sheetOf = null) {
     const kws = kwsOf(w?.id)
     return !!w && c.warlord.every((k) => kws.has(foldName(k)))
   }
+  if (c.self) {
+    const kws = kwsOf(entry.id)
+    return c.self.some((k) => kws.has(foldName(k)))
+  }
   if (!c.bodyguard && !c.bodyguardCore && !c.attachedCharacter) return false
   // The attached unit this entry is in: the Bodyguard it leads (or itself), and every Leader on it.
   const host = entry.leaderOf ? list.find((u) => u.uid === entry.leaderOf) : entry

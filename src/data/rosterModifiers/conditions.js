@@ -356,6 +356,13 @@ export const conditions = {
   // `unit-led` the way every negation is (rosterGameContext).
   'unit-not-led': { scope: 'roster', duration: 'battle', negates: 'unit-led', label: { en: 'Not an Attached unit', ru: 'Не в отряде с лидером' } },
   'unit-warlord': { scope: 'roster', duration: 'battle', label: { en: 'Is your Warlord', ru: 'Ваш WARLORD' } },
+  // The unit's OWN printed keywords (2026-10-19): "if this unit is a VEHICLE unit" (Methodical
+  // Brutality), "if your unit has the Markerlight keyword", "if your unit has KILL TEAM". Parked
+  // as `never` until then, although the sheet answers each as surely as the Bodyguard's:
+  //   self: [kws] — this entry's datasheet carries ANY of them
+  'unit-vehicle': { scope: 'roster', duration: 'battle', self: ['VEHICLE'], label: { en: 'A VEHICLE unit', ru: 'Отряд VEHICLE' } },
+  'unit-markerlight': { scope: 'roster', duration: 'battle', self: ['MARKERLIGHT'], label: { en: 'Has the MARKERLIGHT keyword', ru: 'Есть ключевое слово MARKERLIGHT' } },
+  'unit-kill-team': { scope: 'roster', duration: 'battle', self: ['KILL TEAM'], label: { en: 'A KILL TEAM unit', ru: 'Отряд KILL TEAM' } },
   'warlord-tempestus-officer': { scope: 'roster', duration: 'battle', warlord: ['MILITARUM TEMPESTUS', 'OFFICER'], label: { en: 'A Militarum Tempestus Officer is your Warlord', ru: 'WARLORD — Militarum Tempestus Officer' } },
   'unit-leading-aspect-warriors': { scope: 'roster', duration: 'battle', bodyguard: ['ASPECT WARRIORS'], label: { en: 'Leading an Aspect Warriors unit', ru: 'Ведёт отряд Aspect Warriors' } },
   'unit-leading-dire-avengers-or-guardians': { scope: 'roster', duration: 'battle', bodyguard: ['DIRE AVENGERS', 'GUARDIANS'], label: { en: 'Leading a Dire Avengers or Guardians unit', ru: 'Ведёт отряд Dire Avengers или Guardians' } },

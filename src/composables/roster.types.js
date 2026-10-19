@@ -493,6 +493,7 @@
  * @property {'own' | 'any'} [side]
  * @property {{ copies?: number, name?: string, melee?: number, besides?: string[], all?: string[], mini?: string }} [gear]
  * @property {string[]} [bodyguard]  in an attached unit whose Bodyguard carries any of these keywords
+ * @property {string[]} [self]  this entry's own datasheet carries any of these keywords
  * @property {string} [bodyguardCore]  in an attached unit whose Bodyguard prints this core ability
  * @property {boolean} [attachedCharacter]  in an attached unit that holds another CHARACTER
  * @property {string[]} [warlord]  the army's Warlord carries all of these keywords
