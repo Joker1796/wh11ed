@@ -630,6 +630,8 @@ const tourCtx = () => ({
   get begun() { return begun.value },
   get phases() { return tracks(current.value?.settings, 'trackPhases') },
   get cp() { return tracks(current.value?.settings, 'trackCP') },
+  // Whether the CP tab lists stratagems to play (CpStratagems' `stratsPlayed`), or only counts CP.
+  get stratPlay() { return tracks(current.value?.settings, 'trackStratPlay') },
   get turnChecks() { return tracks(current.value?.settings, 'trackMissionAids') },
   get broadcast() { return broadcastOn.value || tracks(current.value?.settings, 'trackBroadcast') },
   get lists() { return !!listSide.value },
