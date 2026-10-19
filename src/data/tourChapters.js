@@ -454,26 +454,14 @@ export const TOUR_CHAPTERS = {
         ru: { title: 'Статистика', text: 'Посмотрите справа свои сыгранные партии: победы, соперников, вторичные миссии и итоги по каждому ростеру. Когда открыт ростер, кнопка «Статистика» возвращает сюда.' },
         en: { title: 'Statistics', text: 'See your finished games on the right: wins, opponents, secondary missions and how each roster did. With a roster open, “Statistics” brings you back here.' },
       },
+      // One step for the three tabs, not one each (owner, 2026-10-19: a roster opened from this
+      // list ran this chapter and the roster's back to back, eighteen cards).
       {
         target: 'roster-tabs',
         show: { listTab: 'saved' },
         when: (ctx) => ctx.any,
-        ru: { title: 'Списки', text: 'Нажмите на вкладку, чтобы переключить раздел. «Списки» — ваши сохранённые ростеры.' },
-        en: { title: 'Lists', text: 'Tap a tab to switch the section. “Lists” holds your saved rosters.' },
-      },
-      {
-        target: 'roster-tabs',
-        show: { listTab: 'drafts' },
-        when: (ctx) => ctx.any,
-        ru: { title: 'Черновики', text: '«Черновики» — ростеры, которые вы начали собирать и ещё не сохранили. Нажмите на черновик, чтобы продолжить с того же места.' },
-        en: { title: 'Drafts', text: '“Drafts” holds rosters you started and have not saved yet. Tap a draft to carry on where you left off.' },
-      },
-      {
-        target: 'roster-tabs',
-        show: { listTab: 'archived' },
-        when: (ctx) => ctx.any,
-        ru: { title: 'Архив', text: '«Архив» — ростеры, которые вы убрали из списков. Они не проверяются по правилам. Вернуть ростер можно из его меню «⋮».' },
-        en: { title: 'Archive', text: '“Archive” holds rosters you put away. They are not checked against the rules. A roster comes back from its “⋮” menu.' },
+        ru: { title: 'Разделы', text: 'Нажмите на вкладку, чтобы переключить раздел. «Списки» — сохранённые ростеры. «Черновики» — начатые и ещё не сохранённые. «Архив» — убранные из списков, их можно вернуть из меню «⋮».' },
+        en: { title: 'Sections', text: 'Tap a tab to switch the section. “Lists” holds your saved rosters. “Drafts” holds the ones you started and have not saved. “Archive” holds the ones you put away; they come back from the “⋮” menu.' },
       },
       {
         target: 'roster-tabs',
@@ -543,35 +531,18 @@ export const TOUR_CHAPTERS = {
         ru: { title: 'Возможные модификаторы', text: 'Нажмите, чтобы раскрыть список. Это правила, которые меняют характеристики юнитов при условии, — например, когда юнит атаковал. В партии они учитываются, когда условие выполнено.' },
         en: { title: 'Possible modifiers', text: 'Tap to open the list. These are rules that change a unit’s characteristics on a condition — when it charged, for example. In a game they count once the condition is met.' },
       },
+      // The four tabs in one step rather than a step each (see roster-list's).
       {
         target: 'rv-tabs',
         show: { viewTab: 'units' },
-        ru: { title: 'Вкладки', text: 'Нажмите на вкладку, чтобы переключить раздел. Дальше туториал откроет каждую.' },
-        en: { title: 'Tabs', text: 'Tap a tab to switch the section. Next the tutorial opens each one.' },
+        ru: { title: 'Вкладки', text: 'Нажмите на вкладку, чтобы переключить раздел. «Правила» — правило армии и правила детачментов. «Стратагемы» — стратагемы детачментов. «Миссии» — первичная миссия против каждой Force Disposition соперника.' },
+        en: { title: 'Tabs', text: 'Tap a tab to switch the section. “Rules” holds the army rule and the detachment rules. “Stratagems” holds the detachment stratagems. “Missions” holds the primary mission against each of the opponent’s Force Dispositions.' },
       },
       {
         target: 'rv-unit',
         show: { viewTab: 'units' },
         ru: { title: 'Юниты', text: 'Нажмите на юнит, чтобы открыть его карточку: характеристики, оружие и способности. Улучшения и правила детачмента в ней уже учтены.' },
         en: { title: 'Units', text: 'Tap a unit to open its card: characteristics, weapons and abilities. Enhancements and the detachment’s rules are already applied to it.' },
-      },
-      {
-        target: 'rv-tabs',
-        show: { viewTab: 'rules' },
-        ru: { title: 'Правила', text: 'На вкладке «Правила» — правило армии и правила детачментов этого ростера.' },
-        en: { title: 'Rules', text: 'The Rules tab holds the army rule and this roster’s detachment rules.' },
-      },
-      {
-        target: 'rv-tabs',
-        show: { viewTab: 'stratagems' },
-        ru: { title: 'Стратагемы', text: 'На вкладке «Стратагемы» — стратагемы детачментов этого ростера.' },
-        en: { title: 'Stratagems', text: 'The Stratagems tab holds this roster’s detachment stratagems.' },
-      },
-      {
-        target: 'rv-tabs',
-        show: { viewTab: 'missions' },
-        ru: { title: 'Миссии', text: 'На вкладке «Миссии» — Force Disposition ростера и первичная миссия против каждой Force Disposition соперника. Так можно подготовиться к партии заранее.' },
-        en: { title: 'Missions', text: 'The Missions tab holds the roster’s Force Disposition, with the primary mission against each of the opponent’s. It helps to prepare for a game in advance.' },
       },
       {
         target: 'rv-menu',
