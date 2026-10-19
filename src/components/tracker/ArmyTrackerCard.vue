@@ -18,7 +18,7 @@
           :model-value="counter"
           :min="view.min ?? 0"
           :inert="lock"
-          @update:model-value="v => setArmyCounter(pi, v, mi)"
+          @update:model-value="v => setArmyCounter(pi, v, mi, { ...actLog, from: counter })"
         />
         <!-- A counter with dedicated spend buttons (GSC): the spend picker + the round-1 bonus now
              cover every way the value changes, so manual +/- would just risk drifting from the actual
@@ -36,7 +36,7 @@
           :min="0"
           :max="roundStart"
           :inert="lock"
-          @update:model-value="v => setArmyPool(pi, currentRound, v, mi)"
+          @update:model-value="v => setArmyPool(pi, currentRound, v, mi, { ...actLog, from: poolRemaining })"
         />
         <!-- Toggle reset lives top-right (compact) once fired, instead of a full-width row. -->
         <button
@@ -168,7 +168,7 @@
           class="army-die-add"
           data-press
           :aria-label="`${labels.trackerDiceAdd} ${v}`"
-          @click="addArmyDie(pi, v, mi)"
+          @click="addArmyDie(pi, v, mi, actLog)"
         >
           <i
             class="wi"
@@ -247,7 +247,7 @@
           class="army-call"
           data-press
           :inert="lock"
-          @click="fireArmyToggle(pi, currentRound, mi)"
+          @click="fireArmyToggle(pi, currentRound, mi, actLog)"
         >
           {{ labels.trackerArmyCall }} {{ view.label }}
         </button>
@@ -293,7 +293,7 @@
               class="army-again"
               data-press
               :inert="lock"
-              @click="fireArmyToggle(pi, currentRound, mi)"
+              @click="fireArmyToggle(pi, currentRound, mi, actLog)"
             >
               {{ view.againLabel || labels.trackerArmyCallAgain }}
             </button>
@@ -507,7 +507,7 @@
       :options="view.options"
       :selected="multiIds"
       :max="view.max"
-      @toggle="(id) => toggleArmyMulti(pi, currentRound, id, view.max, mi)"
+      @toggle="(id) => toggleArmyMulti(pi, currentRound, id, view.max, mi, pickLog)"
       @close="showBlessingPicker = false"
     />
 
@@ -518,7 +518,7 @@
       :title="view.label"
       :spends="view.spends"
       :remaining="counter"
-      @spend="(s) => resurrectArmyUnit(pi, counter - s.cost, s.label, s.cost, mi)"
+      @spend="(s) => resurrectArmyUnit(pi, counter - s.cost, s.label, s.cost, mi, actLog)"
       @close="showSpendPicker = false"
     />
 
@@ -633,7 +633,7 @@ const showResurrected = ref(false)
 // GSC round-1 start-bonus (Deeds That Speak to the Masses) — applied at most once per game.
 const bonusApplied = computed(() => player.value?.army?.bonusApplied ?? false)
 function applyBonus() {
-  applyArmyBonus(props.pi, counter.value + view.value.startBonus.amount, props.mi)
+  applyArmyBonus(props.pi, counter.value + view.value.startBonus.amount, props.mi, { label: view.value.startBonus.label || actLog.value.label })
 }
 function undoBonus() {
   undoArmyBonus(props.pi, counter.value - view.value.startBonus.amount, props.mi)
@@ -647,7 +647,7 @@ const showBlessingPicker = ref(false)
 // GSC resurrect/spend picker (the ~10 unit costs, kept off the card).
 const showSpendPicker = ref(false)
 function confirmSpendDie() {
-  if (pendingDie.value !== null) removeArmyDie(props.pi, pendingDie.value, props.mi)
+  if (pendingDie.value !== null) removeArmyDie(props.pi, pendingDie.value, props.mi, actLog.value)
   pendingDie.value = null
 }
 // Pool primitive (Battle Focus): tokens refill each round to the battle-size allotment plus any
@@ -685,8 +685,8 @@ function spent(id) {
 }
 // Pick (or clear) the option — battle-long for `once` specs, per-round otherwise.
 function pickOption(id) {
-  if (view.value?.once) setArmyChoice(props.pi, id, props.mi)
-  else setArmySelection(props.pi, currentRound.value, id, props.mi)
+  if (view.value?.once) setArmyChoice(props.pi, id, props.mi, pickLog.value)
+  else setArmySelection(props.pi, currentRound.value, id, props.mi, pickLog.value)
 }
 // A battle-long (`once`) pick is chosen at the start of the first battle round and committed for the
 // rest of the game (Death Guard's Plague). Once made, from round 2 on the picker is
@@ -766,6 +766,11 @@ const hasActiveBody = computed(() => activeRules.value.some((r) => r.body))
 
 // Raw (un-localized) resolved spec; null for unsupported factions.
 const spec = ref(null)
+// What the game log tells of this card's acts (useTracker's army mutators): the rule's label in
+// both languages, off the spec — the log is read later, maybe in the other language — and the
+// options' names for a pick.
+const actLog = computed(() => ({ label: spec.value?.label ?? view.value?.label ?? '' }))
+const pickLog = computed(() => ({ ...actLog.value, options: (spec.value?.options || []).map((o) => ({ id: o.id, label: o.name })) }))
 let token = 0
 async function resolve() {
   if (!specFaction.value) { spec.value = null; return }

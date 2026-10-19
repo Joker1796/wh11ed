@@ -20,13 +20,14 @@ import { BATTLE_PHASES, usableThisTurn, usableInSlot } from './stratagemPhases.j
 import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 import { membersOf, memberAt } from './rosterGameLink.js'
-import { applySlice } from './gameSlices.js'
+import { applySlice, LOCAL_SETTING_KEYS } from './gameSlices.js'
 import { tracks } from '../data/trackerOptions.js'
 import { ledger, addEntry, removeEntries, clockBefore, adjustTo, bonusIn } from './cpLedger.js'
 import { clockOf, stampOf } from './rosterGameContext.js'
 import { SM_FAMILY } from '../data/smChapters.js'
 import { statusRecord, setupReserves } from './unitStatus.js'
 import { TRACKER_GEN } from './trackerGen.js'
+import { pushAct, pushValueAct, pushUndo, ledgerEvent, discardEvent, COALESCE_MS } from './actionLog.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -424,9 +425,10 @@ function settleSide(pi) {
   if (!pl) return
   const R = g.currentRound
   const T = g.currentTurn === 1 ? 1 : 0
+  const clock = { round: R, turn: T }
   if (g.cpAuto) {
     ledger(pl)
-    removeEntries(pl, e => e.kind === 'core' && clockBefore(R, T, e.round, e.turn))
+    dropLedger(pl, e => e.kind === 'core' && clockBefore(R, T, e.round, e.turn), clock)
     for (let r = 1; r <= R; r++) {
       for (let t = 0; t <= 1; t++) {
         if (clockBefore(R, T, r, t)) continue
@@ -442,6 +444,7 @@ function settleSide(pi) {
   if (back.length) {
     s.discarded = s.discarded.filter(d => !back.includes(d))
     for (const d of back) {
+      pushUndo(pl, discardEvent(d), clock)
       if (!s.hand.includes(d.slug)) s.hand.push(d.slug)
       if (d.cp) removeEntries(pl, e => e.kind === 'bonus' && e.source === 'discard' && e.ref === d.slug && e.round === d.round)
     }
@@ -455,6 +458,39 @@ function settleSide(pi) {
     s.discarded.push({ slug, round: last.round, auto: last.turn, t: Date.now() })
   }
 }
+// Ledger entries taken out of the game, each one told in the log as taken back (actionLog.js).
+// The two a card already tells — its replacement's 1CP, its discard's bonus point — go silently:
+// the card's own entry is what is struck.
+function dropLedger(pl, pred, clock) {
+  for (const e of (pl.cpLog || []).filter(pred)) {
+    if ((e.kind === 'spend' && e.source === 'redraw') || (e.kind === 'bonus' && e.source === 'discard')) continue
+    pushUndo(pl, ledgerEvent(e), clock)
+  }
+  return removeEntries(pl, pred)
+}
+
+// What a setup edit can change that the game log tells: the shared settings and the sides' names,
+// lists and armies — not the settings that are each phone's own (gameSlices.js).
+function setupSig(g) {
+  const settings = Object.fromEntries(Object.entries(g.settings || {}).filter(([k]) => !LOCAL_SETTING_KEYS.includes(k)))
+  const side = (p) => [p.name, p.battleReady, p.rosterId, p.factionSlug, p.detachments, p.teamName, (p.members || []).map((m) => [m.name, m.rosterId, m.factionSlug, m.detachments])]
+  return JSON.stringify([settings, (g.players || []).map(side)])
+}
+
+// The latest act of `holder` matching `pred` that has not been taken back — what an "off" undoes.
+function lastOpenAct(holder, pred) {
+  const acts = holder?.acts || []
+  const undone = acts.filter(a => a.type === 'undo').map(a => a.of)
+  for (let i = acts.length - 1; i >= 0; i--) {
+    const a = acts[i]
+    if (a.type === 'undo' || !pred(a)) continue
+    const k = undone.findIndex(o => o.type === a.type && o.t === a.t)
+    if (k === -1) return a
+    undone.splice(k, 1)
+  }
+  return null
+}
+
 // The first turn has started (see `begun` in newGame); every game saved before the flag has.
 export function gameBegun(g) { return !!g && g.begun !== false }
 
@@ -574,9 +610,26 @@ export function useTracker() {
   }
 
   // Fallback (no primary card): set the round primary directly, clamped to the round cap.
+  // Where the clock stands — every act the log records is placed by it.
+  function clk() {
+    const g = current.value
+    return { round: g.currentRound, turn: g.currentTurn === 1 ? 1 : 0 }
+  }
+
+  // A score changed after it stood for a while is a correction: the old one stays in the log,
+  // struck (owner, 2026-10-19). Within COALESCE_MS it is still being entered — a stepper tapped
+  // three times is one score, not two corrections.
+  function scoreCorrected(pl, before, after, of) {
+    if (!(before.vp > 0) || before.vp === after || before.t == null || Date.now() - before.t < COALESCE_MS) return
+    pushUndo(pl, { ...of, vp: before.vp, t: before.t }, clk())
+  }
+
   function setRoundPrimary(pi, roundIdx, value) {
-    const round = current.value.players[pi].rounds[roundIdx]
+    const pl = current.value.players[pi]
+    const round = pl.rounds[roundIdx]
+    const before = { vp: round.primary, t: round.t }
     round.primary = Math.max(0, Math.min(value, PRIMARY_ROUND_CAP))
+    scoreCorrected(pl, before, round.primary, { type: 'primary', kind: 'points', round: roundIdx + 1, turn: pi, slug: pl.primarySlug })
     round.t = Date.now() // when, for the game log
   }
 
@@ -588,6 +641,7 @@ export function useTracker() {
   function setPrimaryRow(pi, roundIdx, blockIdx, rowIdx, count) {
     const pl = current.value.players[pi]
     const round = pl.rounds[roundIdx]
+    const before = { vp: round.primary, t: round.t }
     if (!round.picks) round.picks = {}
     round.picks[`${blockIdx}:${rowIdx}`] = Math.max(0, count)
     const m = missionBySlug(pl.primarySlug)
@@ -605,6 +659,7 @@ export function useTracker() {
       }
     }
     round.primary = Math.min(raw, PRIMARY_ROUND_CAP) + end
+    scoreCorrected(pl, before, round.primary, { type: 'primary', kind: 'points', round: roundIdx + 1, turn: pi, slug: pl.primarySlug })
     round.t = Date.now() // when, for the game log
   }
 
@@ -643,7 +698,7 @@ export function useTracker() {
   function undoBonusCp(pi) {
     const g = current.value
     if (!canUndoBonus(pi)) return
-    removeEntries(g.players[pi], e => e.kind === 'bonus' && e.round === g.currentRound && e.source === 'manual')
+    dropLedger(g.players[pi], e => e.kind === 'bonus' && e.round === g.currentRound && e.source === 'manual', clk())
   }
   // Spend / refund: the stratagems' and the replacement's way through the ledger.
   function spendCp(pi, amount, source, ref, name) {
@@ -660,27 +715,49 @@ export function useTracker() {
   // Every army/ctx mutator below takes a trailing optional `mi` (doubles member index):
   // memberAt resolves the holder — the side itself when mi is null (singles, or a unified
   // doubles force's shared pool), otherwise that member. Existing callers pass nothing.
-  function setArmyCounter(pi, value, mi) {
+  //
+  // …and, after it, what the game log needs to tell the act (actionLog.js): the army rule's own
+  // `label` ({ en, ru } off the spec — the store has no faction data), the counter's value `from`,
+  // the option labels. The act goes on the SIDE (`acts`), tagged with `mi`, so it travels in the
+  // side's slice. A caller passing nothing changes the state and leaves no line in the log.
+  const armyAct = (pi, mi, act) => pushAct(current.value.players[pi], { ...clk(), ...act, ...(mi != null ? { mi } : {}) })
+  const armyUndo = (pi, pred) => {
+    const pl = current.value.players[pi]
+    const a = lastOpenAct(pl, pred)
+    if (a) pushUndo(pl, a, clk())
+  }
+  function setArmyCounter(pi, value, mi, log) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
+    const from = pl.army.counter ?? log?.from ?? 0
     pl.army.counter = Math.max(0, value)
+    if (log) pushValueAct(current.value.players[pi], { ...clk(), type: 'armyValue', label: log.label, from, to: pl.army.counter, ...(mi != null ? { mi } : {}) }, `counter${mi ?? ''}`)
   }
 
   // Army-rule selection primitive (Doctrina Imperative, etc.) — a per-round pick (the choice resets
   // each battle round, so it's keyed by round). Clicking the active option again clears it.
-  function setArmySelection(pi, round, id, mi) {
+  function setArmySelection(pi, round, id, mi, log) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (!pl.army.selectionByRound) pl.army.selectionByRound = {}
-    if (pl.army.selectionByRound[round] === id) delete pl.army.selectionByRound[round]
+    const prev = pl.army.selectionByRound[round]
+    if (prev === id) delete pl.army.selectionByRound[round]
     else pl.army.selectionByRound[round] = id
+    if (log) logPick(pi, mi, prev, prev === id ? null : id, log)
+  }
+
+  // A pick changed: the one it replaced (or cleared) is taken back, the new one is an act.
+  function logPick(pi, mi, prev, next, log) {
+    const optLabel = (id) => log.options?.find((o) => o.id === id)?.label ?? id
+    if (prev != null) armyUndo(pi, (a) => a.type === 'armyPick' && a.opt === prev && (a.mi ?? null) === (mi ?? null))
+    if (next != null) armyAct(pi, mi, { type: 'armyPick', label: log.label, opt: next, optLabel: optLabel(next) })
   }
 
   // Army-rule multi-selection primitive (World Eaters' Blessings of Khorne) — pick UP TO `max`
   // options per battle round (unlike setArmySelection's single per-round pick), reset each round.
   // Stored as a per-round array of ids. Tapping an active option removes it; a new pick is ignored
   // once the round is at its cap (the widget also disables the chips then).
-  function toggleArmyMulti(pi, round, id, max, mi) {
+  function toggleArmyMulti(pi, round, id, max, mi, log) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (!pl.army.multiByRound) pl.army.multiByRound = {}
@@ -689,19 +766,23 @@ export function useTracker() {
       const next = cur.filter((x) => x !== id)
       if (next.length) pl.army.multiByRound[round] = next
       else delete pl.army.multiByRound[round]
+      if (log) logPick(pi, mi, id, null, log)
     } else if (cur.length < max) {
       pl.army.multiByRound[round] = [...cur, id]
+      if (log) logPick(pi, mi, null, id, log)
     }
   }
 
   // Army-rule battle-long selection (Death Guard Plague) — a single pick made once for
   // the whole battle (unlike setArmySelection's per-round choice, so it's not keyed by round).
   // Clicking the active option again clears it.
-  function setArmyChoice(pi, id, mi) {
+  function setArmyChoice(pi, id, mi, log) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
-    if (pl.army.choice === id) delete pl.army.choice
+    const prev = pl.army.choice
+    if (prev === id) delete pl.army.choice
     else pl.army.choice = id
+    if (log) logPick(pi, mi, prev, prev === id ? null : id, log)
   }
 
   // ── Rule-condition switches (roster-in-game) ──────────────────────────────────────────────
@@ -744,19 +825,27 @@ export function useTracker() {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.army) pl.ctx.army = {}
+    const was = pl.ctx.army[id] != null
     if (on) {
       enforceGroupLimit(pl.ctx.army, id)
       pl.ctx.army[id] = at
     } else delete pl.ctx.army[id]
+    // A state the army is in, switched on or off — an act either way, not a taking back.
+    if (was !== !!on) armyAct(pi, mi, { type: 'armyCond', id, on: !!on })
   }
 
   // Keyed by the roster ENTRY's uid — the game carries its own snapshot of the list, so those
   // uids are stable for the life of the game whatever happens to the saved roster.
-  function setUnitCondition(pi, uid, id, at, on, mi, limit = null) {
+  // `name` — the unit's, for the game log (the store has no datasheets). A state switched on or off
+  // is an act either way: Battle-shock ends, a unit stops having charged.
+  function setUnitCondition(pi, uid, id, at, on, mi, limit = null, name = null) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.units) pl.ctx.units = {}
     if (!pl.ctx.units[uid]) pl.ctx.units[uid] = {}
+    if ((pl.ctx.units[uid][id] != null) !== !!on && name) {
+      armyAct(pi, mi, { type: 'unitSwitch', sw: 'cond', uid, name, id, on: !!on })
+    }
     if (on) {
       enforceGroupLimit(pl.ctx.units[uid], id, limit)
       pl.ctx.units[uid][id] = at
@@ -772,6 +861,10 @@ export function useTracker() {
     const pl = memberAt(g.players[pi], mi)
     if (!pl.unitStatus) pl.unitStatus = {}
     const clock = { round: g.begun === false ? 0 : g.currentRound, turn: g.currentTurn === 1 ? 1 : 0, name }
+    // Moved during the battle — the reserves chosen at setup are the setup, not an act.
+    if (g.begun !== false && (pl.unitStatus[uid]?.s || 'table') !== status) {
+      armyAct(pi, mi, { type: 'unit', uid, name, s: status })
+    }
     const rec = statusRecord(pl.unitStatus[uid], status, clock)
     if (rec) pl.unitStatus[uid] = rec
     else delete pl.unitStatus[uid]
@@ -782,7 +875,11 @@ export function useTracker() {
   // that stops meaning anything (rosterGameContext's activeStratagems). Kept apart from `ctx.units`
   // because a stratagem is not a state of the unit: several can be up at once, they are alternatives
   // to nothing, and they are identified by the record they came from rather than by a condition id.
-  function setUnitStratagem(pi, uid, sid, at, on, mi) {
+  // `log` ({ name, label } — the unit's name, the record's label) is passed by a hand mark only:
+  // a stratagem PLAYED is told by its spend, and the marks a play or a cleared state switch on and
+  // off by themselves are part of that act. On is an act; off takes it back (unitSwitchLog).
+  function setUnitStratagem(pi, uid, sid, at, on, mi, log = null) {
+    if (log) unitSwitchLog(pi, mi, 'strat', uid, sid, on, log)
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.strats) pl.ctx.strats = {}
@@ -796,10 +893,11 @@ export function useTracker() {
   // you can use this ability…"). Keyed like a spent stratagem — roster entry uid → the modifier
   // record's sid → the stamp it was used at — and, unlike one, kept after its window closes: the
   // stamp is also the answer to "has this been used?" (rosterGameContext's usesFor). Taking it back
-  // deletes it, so a mis-tap leaves nothing behind.
+  // deletes it, so a mis-tap leaves nothing behind in the game — the log keeps it, struck.
   // `shared` are the other entries of the attached unit (rosterGameContext's attachedUids): a use
   // ticked on the Captain's card is taken back from the Intercessors' card as well.
-  function setUnitUse(pi, uid, sid, at, on, mi, shared = []) {
+  function setUnitUse(pi, uid, sid, at, on, mi, shared = [], log = null) {
+    if (log) unitSwitchLog(pi, mi, 'use', uid, sid, on, log)
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.uses) pl.ctx.uses = {}
@@ -824,7 +922,8 @@ export function useTracker() {
   // `siblings` are the set's other option sids and `limit` how many it holds, both from the record
   // (`ref.set` / `ref.pickLimit`): the store enforces the cap without knowing what a set IS,
   // evicting the OLDEST pick the same way a condition group does.
-  function setUnitPick(pi, uid, sid, at, on, { siblings = [], limit = 1 } = {}, mi) {
+  function setUnitPick(pi, uid, sid, at, on, { siblings = [], limit = 1 } = {}, mi, log = null) {
+    if (log) unitSwitchLog(pi, mi, 'pick', uid, sid, on, log)
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.picks) pl.ctx.picks = {}
@@ -848,7 +947,8 @@ export function useTracker() {
   // window (rosterGameContext's activeAuras — a battle round, since what changes it is movement).
   // The bearer's own unit and the unit it is attached to are never in here: Core Rules 22.01 makes
   // those certain, and the app answers them from the list.
-  function setUnitAura(pi, uid, sid, at, on, mi) {
+  function setUnitAura(pi, uid, sid, at, on, mi, log = null) {
+    if (log) unitSwitchLog(pi, mi, 'aura', uid, sid, on, log)
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.ctx) pl.ctx = {}
     if (!pl.ctx.auras) pl.ctx.auras = {}
@@ -858,14 +958,23 @@ export function useTracker() {
     if (!Object.keys(pl.ctx.auras[uid]).length) delete pl.ctx.auras[uid]
   }
 
+  // A rule switched on for a unit by hand — a stratagem marked, a once-per-battle rule used, an
+  // ability set's option picked, an aura said to reach it — is an act; switched off, it is that
+  // act taken back (a mis-tap, or a window the player closes early).
+  function unitSwitchLog(pi, mi, sw, uid, id, on, log) {
+    if (on) armyAct(pi, mi, { type: 'unitSwitch', sw, uid, name: log.name, id, label: log.label, on: true })
+    else armyUndo(pi, (a) => a.type === 'unitSwitch' && a.sw === sw && a.uid === uid && a.id === id && a.on)
+  }
+
   // Army-rule once-per-battle toggle (Waaagh!, etc.) — records the round(s) it was fired in. It's a
   // list because a few abilities can be fired more than once a battle (e.g. an Ork Warboss with the
   // Raucous Warcaller enhancement gets a second Waaagh!); the widget caps how many via the spec.
-  function fireArmyToggle(pi, round, mi) {
+  function fireArmyToggle(pi, round, mi, log) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (!pl.army.toggleRounds) pl.army.toggleRounds = []
     pl.army.toggleRounds.push(round)
+    if (log) armyAct(pi, mi, { type: 'armyFire', label: log.label })
   }
   // Undo the most recent fire (reset / correct a mis-tap).
   function undoArmyToggle(pi, mi) {
@@ -873,45 +982,51 @@ export function useTracker() {
     if (!pl.army?.toggleRounds?.length) return
     pl.army.toggleRounds.pop()
     if (!pl.army.toggleRounds.length) delete pl.army.toggleRounds
+    armyUndo(pi, (a) => a.type === 'armyFire' && (a.mi ?? null) === (mi ?? null))
   }
 
   // Army-rule dice-pool primitive (Miracle dice, …) — a bank of D6 values. Add records a rolled
   // value; remove spends one die by index. (A Miracle die's value can't change once rolled, so
   // there's no in-place edit — a wrong one is removed and re-added.)
-  function addArmyDie(pi, value, mi) {
+  function addArmyDie(pi, value, mi, log) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (!pl.army.dice) pl.army.dice = []
     pl.army.dice.push(value)
+    if (log) armyAct(pi, mi, { type: 'armyDie', label: log.label, v: value })
   }
-  function removeArmyDie(pi, index, mi) {
+  function removeArmyDie(pi, index, mi, log) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army?.dice) return
-    pl.army.dice.splice(index, 1)
+    const [v] = pl.army.dice.splice(index, 1)
     if (!pl.army.dice.length) delete pl.army.dice
+    if (log) armyAct(pi, mi, { type: 'armyDieUse', label: log.label, v })
   }
 
   // Army-rule pool primitive (Battle Focus, …) — a per-round resource that REFILLS each battle round
   // (unspent tokens are lost at round's end), so the remaining count is stored per round, keyed like
   // selectionByRound. An untouched round has no entry; the widget defaults it to the battle-size
   // allotment (+ any detachment bonus) and this records the explicit remaining after a spend. ≥ 0.
-  function setArmyPool(pi, round, value, mi) {
+  function setArmyPool(pi, round, value, mi, log) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (!pl.army.poolByRound) pl.army.poolByRound = {}
+    const from = pl.army.poolByRound[round] ?? log?.from ?? 0
     pl.army.poolByRound[round] = Math.max(0, value)
+    if (log) pushValueAct(current.value.players[pi], { ...clk(), type: 'armyValue', label: log.label, from, to: pl.army.poolByRound[round], ...(mi != null ? { mi } : {}) }, `pool${mi ?? ''}`)
   }
 
   // Army-rule spend log (GSC's Resurgence-point resurrects) — records what a `spends` entry bought,
   // on top of the counter change itself, so the spend has a visible history instead of just a number
   // going down. The component computes the new counter value (current effective value − cost), same
   // convention as setArmyCounter, so this stays a generic "counter + its spend log" primitive.
-  function resurrectArmyUnit(pi, newCounterValue, label, cost, mi) {
+  function resurrectArmyUnit(pi, newCounterValue, label, cost, mi, log) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     pl.army.counter = Math.max(0, newCounterValue)
     if (!pl.army.resurrected) pl.army.resurrected = []
     pl.army.resurrected.push({ label, cost })
+    if (log) armyAct(pi, mi, { type: 'armySpend', label: log.label, item: label, cost })
   }
   // Undo one spend-log entry (a mis-tap in the picker) — refunds its cost back onto the counter and
   // drops the entry.
@@ -922,18 +1037,20 @@ export function useTracker() {
     pl.army.resurrected.splice(index, 1)
     if (!pl.army.resurrected.length) delete pl.army.resurrected
     pl.army.counter = Math.max(0, (pl.army.counter ?? 0) + entry.cost)
+    armyUndo(pi, (a) => a.type === 'armySpend' && a.item === entry.label && a.cost === entry.cost && (a.mi ?? null) === (mi ?? null))
   }
 
   // Army-rule one-time start-of-battle bonus (GSC's Deeds That Speak to the Masses enhancement) —
   // the tracker doesn't record enhancement picks, so this is a manual bump gated to round 1 (it's a
   // STARTING-pool bonus, meaningless once the battle is under way). `bonusApplied` guards against
   // double-tapping; the component computes the new counter value, same convention as setArmyCounter.
-  function applyArmyBonus(pi, newCounterValue, mi) {
+  function applyArmyBonus(pi, newCounterValue, mi, log) {
     const pl = memberAt(current.value.players[pi], mi)
     if (!pl.army) pl.army = {}
     if (pl.army.bonusApplied) return
     pl.army.counter = Math.max(0, newCounterValue)
     pl.army.bonusApplied = true
+    if (log) armyAct(pi, mi, { type: 'armyBonus', label: log.label })
   }
   // Undo the bonus (mis-tap) — the component passes the counter value with it subtracted back out.
   function undoArmyBonus(pi, newCounterValue, mi) {
@@ -941,6 +1058,7 @@ export function useTracker() {
     if (!pl.army?.bonusApplied) return
     pl.army.counter = Math.max(0, newCounterValue)
     delete pl.army.bonusApplied
+    armyUndo(pi, (a) => a.type === 'armyBonus' && (a.mi ?? null) === (mi ?? null))
   }
 
   // A card came into the hand: the round it did (`drawn`) and when (`drawnAt`, ms — the game log
@@ -985,8 +1103,7 @@ export function useTracker() {
       })
     }
     s.hand = s.hand.filter(x => x !== slug)
-    s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
-    s.scored = s.scored.filter(e => e.slug !== slug)
+    dropCardTrail(pi, slug)
     const R = current.value.currentRound
     const thisTurns = s.drawn?.[slug] === R
     if (s.drawn) delete s.drawn[slug]
@@ -996,6 +1113,20 @@ export function useTracker() {
     // The last of this turn's cards put back undoes the take itself: the turn may take again.
     // Otherwise the dialog said "taken" with nothing to show (2026-09-29).
     if (thisTurns && s.took?.[R] && !Object.values(s.drawn || {}).includes(R)) delete s.took[R]
+  }
+
+  // A card leaving the game's record — put back in the deck, or replaced by its own WHEN DRAWN rule:
+  // what it scored and where it was set aside go too, and the log keeps them struck.
+  function dropCardTrail(pi, slug) {
+    const pl = current.value.players[pi]
+    const s = pl.secondary
+    const redrawn = new Set((pl.cpLog || []).filter(e => e.kind === 'spend' && e.source === 'redraw').map(e => e.ref))
+    for (const e of s.scored.filter(e => e.slug === slug && e.vp > 0)) {
+      pushUndo(pl, { type: 'scored', kind: 'points', round: e.round, turn: null, vp: e.vp, slug, t: e.t }, clk())
+    }
+    for (const d of (s.discarded || []).filter(d => (d.slug ?? d) === slug)) pushUndo(pl, discardEvent(d, redrawn), clk())
+    s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
+    s.scored = s.scored.filter(e => e.slug !== slug)
   }
 
   function discardFromHand(pi, slug) {
@@ -1013,7 +1144,9 @@ export function useTracker() {
   // active card. Unlike returnSecondaryToDeck, this KEEPS any scored VP and its drawn round —
   // the card resumes exactly as it was before being set aside.
   function restoreSecondaryToHand(pi, slug) {
-    const s = current.value.players[pi].secondary
+    const pl = current.value.players[pi]
+    const s = pl.secondary
+    for (const d of (s.discarded || []).filter(d => (d.slug ?? d) === slug)) pushUndo(pl, discardEvent(d), clk())
     s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
     if (!s.hand.includes(slug)) s.hand.push(slug)
   }
@@ -1033,8 +1166,7 @@ export function useTracker() {
     if (!s.deck.length) return
     if (pick && (pick === slug || !s.deck.includes(pick))) return
     s.hand = s.hand.filter(x => x !== slug)
-    s.scored = s.scored.filter(e => e.slug !== slug)
-    s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
+    dropCardTrail(pi, slug)
     if (s.drawn) delete s.drawn[slug]
     if (s.drawnAt) delete s.drawnAt[slug]
     if (s.source) delete s.source[slug]
@@ -1069,6 +1201,7 @@ export function useTracker() {
     const s = current.value.players[pi].secondary
     let entry = s.scored.find(e => e.slug === slug && e.round === round)
     if (!entry) { entry = { slug, round, picks: {}, vp: 0 }; s.scored.push(entry) }
+    const before = { vp: entry.vp, t: entry.t }
     if (!entry.picks) entry.picks = {}
     entry.picks[`${blockIdx}:${rowIdx}`] = Math.max(0, count)
     // Selecting one "or" bracket clears the competing brackets in the same group.
@@ -1077,6 +1210,7 @@ export function useTracker() {
       for (const k of orSiblingKeys(m, blockIdx, rowIdx)) delete entry.picks[k]
     }
     entry.vp = entryVp(pi, entry)
+    scoreCorrected(current.value.players[pi], before, entry.vp, { type: 'scored', kind: 'points', round, turn: null, slug })
     entry.t = Date.now() // the latest change, for the game log
     if (round < current.value.currentRound && entry.vp > 0) settleSide(pi)
   }
@@ -1219,7 +1353,7 @@ export function useTracker() {
   function undoStratagem(pi, key) {
     const last = lastStratUse(pi, key)
     if (!last) return
-    removeEntries(current.value.players[pi], e => e === last)
+    dropLedger(current.value.players[pi], e => e === last, clk())
     unsetTarget(pi, last)
   }
 
@@ -1254,7 +1388,7 @@ export function useTracker() {
     const R = current.value?.currentRound
     const pl = current.value.players[pi]
     const last = (pl.cpLog || []).filter(e => e.kind === 'spend' && e.round === R && e.target?.uid === uid && e.target?.sid === sid).at(-1)
-    if (last) removeEntries(pl, e => e === last)
+    if (last) dropLedger(pl, e => e === last, clk())
     setUnitStratagem(pi, uid, sid, 0, false, mi)
   }
 
@@ -1348,6 +1482,9 @@ export function useTracker() {
   function stepPhase(delta) {
     const g = current.value
     if (!g || !canStepPhase(delta)) return
+    moveClock(() => stepClock(g, delta))
+  }
+  function stepClock(g, delta) {
     let next = clockSlot(g) + delta
     if (next < 0) {
       goToRound(g.currentRound - 1)
@@ -1371,18 +1508,44 @@ export function useTracker() {
 
   function beginGame() {
     const g = current.value
-    if (g && g.phase === 'playing') delete g.begun
+    if (!g || g.phase !== 'playing') return
+    const starting = g.begun === false
+    delete g.begun
+    if (starting) pushAct(g, { type: 'turn', round: g.currentRound, turn: 0, pi: 0 })
+  }
+
+  // The turn told in the log (actionLog.js, the game's own `acts`): a turn the clock moved INTO is
+  // an act — "Opp's turn" — and one it moved back out of is that act taken back. The phases are not
+  // told (owner, 2026-10-19: five lines a turn would bury the rest). Every way the clock moves goes
+  // through here: End turn, Undo turn, the phase arrows and the phase picker.
+  function moveClock(move) {
+    const g = current.value
+    const from = clk()
+    move(g)
+    const to = clk()
+    if (from.round === to.round && from.turn === to.turn) return
+    if (clockBefore(from.round, from.turn, to.round, to.turn)) {
+      pushAct(g, { type: 'turn', round: to.round, turn: to.turn, pi: to.turn })
+      return
+    }
+    for (;;) {
+      const a = lastOpenAct(g, a => a.type === 'turn' && clockBefore(to.round, to.turn, a.round, a.turn))
+      if (!a) break
+      pushUndo(g, a, to, { pi: a.pi })
+    }
   }
 
   function endTurn() {
     const g = current.value
     if (!g || !canEndTurn()) return
-    if (g.currentTurn === 1) {
-      goToRound(g.currentRound + 1)
-    } else {
-      g.currentTurn = 1
-      g.currentPhase = BATTLE_PHASES[0]
-    }
+    moveClock(() => {
+      if (g.currentTurn === 1) {
+        goToRound(g.currentRound + 1)
+      } else {
+        g.currentTurn = 1
+        g.currentPhase = BATTLE_PHASES[0]
+      }
+    })
   }
 
   // "Undo turn": back into the turn that just ended, at its last phase — the moment it was ended
@@ -1396,19 +1559,23 @@ export function useTracker() {
   function undoTurn() {
     const g = current.value
     if (!g || !canUndoTurn()) return
-    // goToRound resets the clock to the round's first turn, so the target is decided up front.
-    const wasFirst = g.currentTurn !== 1
-    if (wasFirst) goToRound(g.currentRound - 1)
-    g.currentTurn = wasFirst ? 1 : 0
-    g.currentPhase = BATTLE_PHASES[BATTLE_PHASES.length - 1]
+    moveClock(() => {
+      // goToRound resets the clock to the round's first turn, so the target is decided up front.
+      const wasFirst = g.currentTurn !== 1
+      if (wasFirst) goToRound(g.currentRound - 1)
+      g.currentTurn = wasFirst ? 1 : 0
+      g.currentPhase = BATTLE_PHASES[BATTLE_PHASES.length - 1]
+    })
   }
 
   // Jump straight to one phase of one player's turn (the phase picker).
   function goToPhase(turn, phaseKey) {
     const g = current.value
     if (!g || !BATTLE_PHASES.includes(phaseKey)) return
-    g.currentTurn = turn === 1 ? 1 : 0
-    g.currentPhase = phaseKey
+    moveClock(() => {
+      g.currentTurn = turn === 1 ? 1 : 0
+      g.currentPhase = phaseKey
+    })
   }
 
   // Finish = show the final summary; the game stays current so it can be resumed.
@@ -1426,10 +1593,14 @@ export function useTracker() {
     else if (reason === 'opponent-concede') g.concededBy = 1 - you
     else delete g.concededBy
     g.result = { totals: g.players.map((_, i) => grandTotal(i)) }
+    pushAct(g, { ...clk(), type: 'finish', reason: g.endReason, pi: you })
   }
 
   function resumeGame() {
-    if (current.value) current.value.phase = 'playing'
+    const g = current.value
+    if (!g) return
+    g.phase = 'playing'
+    pushAct(g, { ...clk(), type: 'resume', pi: youIndex(g) })
   }
 
   // Edit setup fields on a game already in progress — only the ones that don't feed
@@ -1437,6 +1608,7 @@ export function useTracker() {
   // mid-game correction can't orphan anything already recorded.
   function updateSetup({ settings, players } = {}) {
     if (!current.value) return
+    const before = setupSig(current.value)
     if (players) players.forEach((p, i) => {
       const pl = current.value.players[i]
       if (!p || !pl) return
@@ -1475,6 +1647,9 @@ export function useTracker() {
       }
       Object.assign(current.value.settings, settings, { firstTurn: 1 })
     }
+    // A change the whole game sees goes in its log; a phone's own display switches do not.
+    const g = current.value
+    if (g.phase !== 'setup' && setupSig(g) !== before) pushAct(g, { ...clk(), type: 'setup', pi: youIndex(g) })
   }
 
   // ── Multi-device sync: the one door another device's changes come in through ────────────────
@@ -1497,6 +1672,7 @@ export function useTracker() {
     if (!g) return
     const resumed = JSON.parse(JSON.stringify(g))
     resumed.phase = 'playing'
+    pushAct(resumed, { round: resumed.currentRound, turn: resumed.currentTurn === 1 ? 1 : 0, type: 'resume', pi: youIndex(resumed) })
     // Played on here, it is this tracker's game from now on (trackerGen.js).
     resumed.trackerGen = TRACKER_GEN
     delete resumed.finishedAt

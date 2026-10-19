@@ -171,14 +171,25 @@ back to Missions. What lives where:
   tracker. The card carries its side's colour down its edge. See "The missions panel" below.
 - **CP** — one bank per side, side by side. See "Command points" below.
 - **Log** — `GameLog.vue`: the game told back, newest first, by round; filters (all / scoring /
-  CP / stratagems / cards; Core CP only under CP) and a plain-text copy. **Derived, not recorded**
-  (`gameLog.js`): read from the CP ledger, the secondaries drawn / scored / set aside and the
-  primary per round — so it costs the game nothing to carry, is the same on every phone of a
-  shared game and cannot disagree with the score (undo a scoring, it leaves the log). Each act the
-  game records carries when it was made (`t` on ledger entries, discards, scorings, when-drawn
-  notes, a round's primary; `secondary.drawnAt` for draws — since 2026-09-30), and within a round
-  the log is newest first by it; acts of one moment, and older games, fall back to turn then side. Mikhail's prototype keeps a
-  separate timed event list; that was deliberately not copied.
+  CP / stratagems / cards / units / army; Core CP only under CP, the turns only under all) and a
+  plain-text copy. **The whole history of what was done** (owner, 2026-10-19), built by
+  `gameLog.js` from two sources:
+  - **read from the game**: the CP ledger, the secondaries drawn / scored / set aside, the primary
+    per round. That costs nothing to carry and cannot disagree with the score. Each act the game
+    records carries when it was made (`t` on ledger entries, discards, scorings, when-drawn notes,
+    a round's primary; `secondary.drawnAt` for draws — since 2026-09-30), and within a round the
+    log is newest first by it; acts of one moment, and older games, fall back to turn then side.
+  - **recorded as it happens** (`actionLog.js`, `acts`): what the game state cannot tell — a unit
+    destroyed or arriving, a rule switched on a unit's card, the army rule's counter / pick / call,
+    the turn beginning, the game finished, resumed or re-set up — on the side (`players[i].acts`,
+    in the side's slice) or on the game (`acts`, the shared slice). The store's mutators write
+    them; a caller passes the names the store cannot know (a unit's, a rule's `{ en, ru }` label).
+  - **Nothing taken back disappears.** An undo — a stratagem, a bonus CP, a card back from the
+    discards, a turn, a once-per-battle use, a score changed after it stood a minute — is an act
+    `{ type: 'undo', of }` with a copy of the entry; the log draws that entry **struck** where it
+    was and the undo as a line of its own. Phases are not told (five lines a turn). A stepper
+    tapped in a row is one act (`COALESCE_MS`). A side keeps at most `MAX_ACTS` (150, oldest go
+    first): a side travels in one 32 KB slice of a shared game.
 - **Stats** — `ScoreBreakdown` with `expanded` (no toggle: here the table is the content), with
   the CP spent under each side's table (the ledger's spends; also shown in history).
 - **Side tabs inside a panel** (Missions, CP, Armies, Roster) switch in place and **fade** the new

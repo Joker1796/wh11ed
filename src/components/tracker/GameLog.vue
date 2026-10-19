@@ -66,7 +66,7 @@
             v-for="(e, k) in r.events"
             :key="k"
             class="gl-item"
-            :class="{ opp: !isYouSide(current.players[e.pi], e.pi) }"
+            :class="{ opp: !isYouSide(current.players[e.pi], e.pi), undone: e.undone, undo: e.type === 'undo' }"
           >
             <span class="gl-who">{{ names[e.pi] }}</span>
             <span class="gl-what">{{ line(e) }}<DieIcon
@@ -117,6 +117,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide, missionBySlug } from '../../composables/useTracker.js'
 import { buildGameLog } from '../../composables/gameLog.js'
+import { conditions } from '../../data/rosterModifiers/conditions.js'
 import { grandTotal, primaryTotal, secondaryTotal } from '../../composables/gameScoring.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
 
@@ -128,7 +129,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current } = useTracker()
 
-const FILTERS = ['all', 'points', 'cp', 'strat', 'cards']
+const FILTERS = ['all', 'points', 'cp', 'strat', 'cards', 'units', 'army']
 // Each with its count (the list's corner tag) — an empty one says so up front.
 const filterOptions = computed(() => FILTERS.map((f) => ({ id: f, name: labels.value[`trackerLogFilter_${f}`], tag: String(countOf(f)) })))
 const shownFilter = computed(() => filterOptions.value.find((o) => o.id === filter.value) || filterOptions.value[0])
@@ -138,9 +139,11 @@ const filter = ref('all')
 const listEl = ref(null)
 useSwapFade(filter, () => listEl.value)
 const events = computed(() => buildGameLog(current.value))
-// Core CP come four a round, by themselves: under "All" they only bury the rest. The CP filter
-// still shows them, so every point is accounted for there.
-const passes = (e, f) => (f === 'all' ? e.type !== 'core' : e.kind === f)
+// Core CP come four a round, by themselves: under "All" they only bury the rest — and so does one
+// taken back with the turn it came with. The CP filter still shows them, so every point is
+// accounted for there. The turns ('turn' kind) have no filter of their own: they frame "All".
+const isCore = (e) => e.type === 'core' || (e.type === 'undo' && e.of?.type === 'core')
+const passes = (e, f) => (f === 'all' ? !isCore(e) : e.kind === f)
 const countOf = (f) => events.value.filter((e) => passes(e, f)).length
 const rounds = computed(() => {
   const by = new Map()
@@ -157,6 +160,12 @@ function cardName(pi, slug) {
   return missionBySlug(slug, pl.role, locale.value)?.name || slug
 }
 const signed = (n) => (n > 0 ? `+${n}` : `${n}`)
+// A name the act carries in both languages ({ en, ru } — a rule's label) or in one (a unit's).
+const loc = (x) => (x && typeof x === 'object' ? x[locale.value] || x.en || '' : x || '')
+// A state's name is the vocabulary's (conditions.js) — not carried by the act; a record's is.
+const labelOf = (e) => loc(e.label) || loc(conditions[e.id]?.label) || e.id || ''
+const UNIT_SW = { strat: 'trackerLogUnitStrat', use: 'trackerLogUnitUse', aura: 'trackerLogUnitAura', pick: 'trackerLogUnitPick' }
+const STATUS = { table: 'unitStatusTable', reserve: 'unitStatusReserve', destroyed: 'unitStatusDestroyed' }
 
 // Why a card's own WHEN DRAWN rule let it be replaced (owner, 2026-10-10): the condition the rule
 // names, read off the card — the first battle round, or its paired card in hand — so the log says
@@ -186,6 +195,24 @@ function line(e) {
     case 'bonus': return l.trackerLogBonus
     case 'adjust': return l.trackerLogAdjust.replace('{n}', signed(e.amount))
     case 'strat': return (e.target ? l.trackerLogStratOn.replace('{unit}', e.target.name || '') : l.trackerLogStrat).replace('{name}', e.name || '').replace('{cp}', -e.amount)
+    case 'undo': return e.of ? l.trackerLogUndo.replace('{what}', line({ ...e.of, pi: e.pi })) : ''
+    case 'turn': return l.trackerLogTurn
+    case 'finish': return e.reason === 'early' ? l.trackerLogPaused : l.trackerLogFinished
+    case 'resume': return l.trackerLogResumed
+    case 'setup': return l.trackerLogSetup
+    case 'unit': return l.trackerLogUnit.replace('{unit}', e.name || '').replace('{status}', (l[STATUS[e.s]] || e.s || '').toLowerCase())
+    case 'unitSwitch': {
+      const key = e.sw === 'cond' ? (e.on ? 'trackerLogUnitOn' : 'trackerLogUnitOff') : UNIT_SW[e.sw] || 'trackerLogUnitOn'
+      return l[key].replace('{unit}', e.name || '').replace('{label}', labelOf(e))
+    }
+    case 'armyCond': return (e.on ? l.trackerLogArmyOn : l.trackerLogArmyOff).replace('{label}', labelOf(e))
+    case 'armyValue': return l.trackerLogArmyValue.replace('{label}', loc(e.label)).replace('{from}', e.from).replace('{to}', e.to)
+    case 'armyPick': return l.trackerLogArmyPick.replace('{label}', loc(e.label)).replace('{opt}', loc(e.optLabel) || e.opt)
+    case 'armyFire': return l.trackerLogArmyFire.replace('{label}', loc(e.label))
+    case 'armyDie': return l.trackerLogArmyDie.replace('{label}', loc(e.label)).replace('{v}', e.v)
+    case 'armyDieUse': return l.trackerLogArmyDieUse.replace('{label}', loc(e.label)).replace('{v}', e.v)
+    case 'armySpend': return l.trackerLogArmySpend.replace('{label}', loc(e.label)).replace('{item}', loc(e.item)).replace('{cost}', e.cost)
+    case 'armyBonus': return l.trackerLogArmyBonus.replace('{label}', loc(e.label))
     default: return ''
   }
 }
@@ -205,7 +232,9 @@ const plainText = computed(() => {
   out.push('')
   // The card's source is an icon on screen; in text it is a word.
   const src = (e) => (e.type === 'drawn' && e.source ? ` (${e.source === 'random' ? l.trackerSourceRandom : l.trackerSourceChosen})` : '')
-  for (const e of [...events.value].reverse()) out.push(`${l.trackerRoundShort} ${e.round} · ${props.names[e.pi]} — ${line(e)}${src(e)}`)
+  // A struck entry has no strike in plain text: it says so.
+  const mark = (e) => (e.undone ? ` (${l.trackerLogUndoneMark})` : '')
+  for (const e of [...events.value].reverse()) out.push(`${l.trackerRoundShort} ${e.round} · ${props.names[e.pi]} — ${line(e)}${src(e)}${mark(e)}`)
   return out.join('\n')
 })
 
@@ -252,6 +281,9 @@ async function copy() {
 .gl-item.opp { --side: var(--side-opponent); }
 .gl-who { font-weight: 700; color: var(--side); }
 .gl-what { color: var(--text-muted); }
+/* Taken back: struck where it was, and the taking back a line of its own (owner, 2026-10-19). */
+.gl-item.undone .gl-what { text-decoration: line-through; color: var(--text-dim); }
+.gl-item.undo .gl-what { font-style: italic; }
 .gl-src { margin-left: 0.35rem; }
 .gl-area {
   width: 100%; min-height: 50vh; padding: 0.6rem;

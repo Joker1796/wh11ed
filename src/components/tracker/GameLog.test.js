@@ -64,3 +64,31 @@ describe('GameLog — a card shuffled back by its own rule', () => {
     w.unmount()
   })
 })
+
+// Owner, 2026-10-19: what was taken back stays, struck; the taking back is its own line — on
+// screen, and in the plain text, where a strike cannot be drawn, in words.
+describe('GameLog — acts taken back', () => {
+  it('strikes the undone stratagem and tells the undo, the unit and the turn in words', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(1000)
+    startGame()
+    vi.setSystemTime(2000)
+    tracker.useStratagem(0, { _key: 'core:cr', name: 'Command Re-roll', _limits: {}, _phases: ['any'], _sides: [] }, 1)
+    vi.setSystemTime(3000)
+    tracker.undoStratagem(0, 'core:cr')
+    vi.setSystemTime(4000)
+    tracker.setUnitStatus(0, 'u1', 'destroyed', 'Intercessor Squad')
+    vi.setSystemTime(5000)
+    tracker.endTurn()
+    const w = mount(GameLog, { props: { names: ['Me', 'Opp'] }, attachTo: document.body })
+    const items = w.findAll('.gl-item').map((li) => ({ text: li.find('.gl-what').text(), cls: li.classes() }))
+    expect(items[0].text).toBe('turn begins')
+    expect(items.find((i) => i.text === 'Intercessor Squad: destroyed')).toBeTruthy()
+    expect(items.find((i) => i.text === 'took back: used «Command Re-roll» for 1CP').cls).toContain('undo')
+    expect(items.find((i) => i.text === 'used «Command Re-roll» for 1CP').cls).toContain('undone')
+    await w.find('.gl-text').trigger('click')
+    expect(document.body.querySelector('.gl-area').value).toContain('used «Command Re-roll» for 1CP (taken back)')
+    w.unmount()
+    vi.useRealTimers()
+  })
+})

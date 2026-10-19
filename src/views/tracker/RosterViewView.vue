@@ -1439,21 +1439,25 @@ function toggleChips(uid) {
   next.has(uid) ? next.delete(uid) : next.add(uid)
   openChips.value = next
 }
+// What the game log tells of a switch flipped on a unit's card (useTracker's unit mutators): the
+// unit's name — the store has no datasheets — and the switch's label in both languages.
+const unitNameOf = (entry) => defOf(entry.id)?.name || entry.id
+const actOf = (entry, sw) => ({ name: unitNameOf(entry), label: sw.label })
 function toggleUnitChip(entry, sw) {
   if (sw.once) {
     if (sw.blocked) return
-    tracker.value?.setUnitUse(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value, attachedUids(entry, roster.value?.units))
+    tracker.value?.setUnitUse(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value, attachedUids(entry, roster.value?.units), actOf(entry, sw))
     return
   }
   if (sw.aura) {
-    tracker.value?.setUnitAura(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value)
+    tracker.value?.setUnitAura(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value, actOf(entry, sw))
     return
   }
   if (sw.pick) {
     // The set's own size caps it, and the store evicts the oldest pick — the same way a condition
     // group behaves, so picking a third relic drops the one that has been up longest.
     const siblings = (pickSwitchCache.value.get(entry.uid) || []).filter((c) => c.group === sw.group).map((c) => c.id)
-    tracker.value?.setUnitPick(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, { siblings, limit: sw.groupLimit }, gameMi.value)
+    tracker.value?.setUnitPick(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, { siblings, limit: sw.groupLimit }, gameMi.value, actOf(entry, sw))
     return
   }
   toggleUnitCondFor(entry, sw)
@@ -1552,7 +1556,8 @@ function toggleUnitCondFor(entry, sw) {
         tracker.value?.setUnitStratagem(gamePi.value, part.uid, sid, at, false, gameMi.value)
       }
     }
-    tracker.value?.setUnitCondition(gamePi.value, part.uid, sw.id, at, !sw.on, gameMi.value, limits[conditions[sw.id]?.group || ''])
+    // One state of one unit: the log tells it once, under the name of the card it was flipped on.
+    tracker.value?.setUnitCondition(gamePi.value, part.uid, sw.id, at, !sw.on, gameMi.value, limits[conditions[sw.id]?.group || ''], part.uid === entry.uid ? unitNameOf(entry) : null)
   }
 }
 
@@ -1561,7 +1566,7 @@ const fallen = (entry) => inGame.value && unitStatusOf(gamePlayer.value, entry.u
 // (statusTargets). The store stamps it with the game's clock (unitStatus.js).
 function setStatus(entry, status) {
   for (const p of statusTargets(gamePlayer.value, entry, attachedEntries(entry), status)) {
-    tracker.value?.setUnitStatus(gamePi.value, p.uid, status, defOf(p.id)?.name || p.id, gameMi.value)
+    tracker.value?.setUnitStatus(gamePi.value, p.uid, status, unitNameOf(p), gameMi.value)
   }
 }
 
@@ -1618,7 +1623,7 @@ async function toggleUnitStrat(st) {
   const t = tracker.value
   if (!entry || !t) return
   if (!keeps('trackStratPlay')) {
-    t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), !st.on, gameMi.value)
+    t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), !st.on, gameMi.value, actOf(entry, st))
     return
   }
   if (st.on) {
@@ -1629,7 +1634,7 @@ async function toggleUnitStrat(st) {
   const deck = await loadArmyStrats(gamePlayer.value, locale.value, !!game.value?.settings?.combatPatrol)
   const strat = deckStratFor(rec, deck)
   if (!strat) {
-    t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), true, gameMi.value)
+    t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), true, gameMi.value, actOf(entry, st))
     return
   }
   const target = { uid: entry.uid, mi: gameMi.value, name: defOf(entry.id)?.name || entry.id, sid: st.id }
@@ -1643,12 +1648,12 @@ async function toggleUnitStrat(st) {
 function toggleUnitUse(sw) {
   if (!viewingEntry.value || sw.blocked) return
   const entry = viewingEntry.value
-  tracker.value?.setUnitUse(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value, attachedUids(entry, roster.value?.units))
+  tracker.value?.setUnitUse(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value, attachedUids(entry, roster.value?.units), actOf(entry, sw))
 }
 
 function toggleViewingAura(sw) {
   if (!viewingEntry.value) return
-  tracker.value?.setUnitAura(gamePi.value, viewingEntry.value.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value)
+  tracker.value?.setUnitAura(gamePi.value, viewingEntry.value.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value, actOf(viewingEntry.value, sw))
 }
 
 function toggleViewingPick(sw) {
