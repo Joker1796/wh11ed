@@ -102,16 +102,3 @@ describe('ScoreBoard — doubles emblems', () => {
     expect(cols[1].findAll('.stamp')).toHaveLength(1)
   })
 })
-
-// players[] is in turn order; the board is not: your side stands on the left whoever moved first,
-// as on the history's cards and in the setup (owner, 2026-10-19).
-describe('ScoreBoard — your side first', () => {
-  it('puts you on the left when the opponent moved first', () => {
-    const game = finishedGame(10, 30)
-    game.players[0].name = 'Opp'
-    game.players[1] = { ...game.players[1], name: 'Me', isYou: true }
-    const w = mount(ScoreBoard, { props: { game, finished: true } })
-    const names = w.findAll('.pname').map((n) => n.text())
-    expect(names).toEqual(['Me', 'Opp'])
-  })
-})

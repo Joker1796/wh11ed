@@ -78,16 +78,6 @@ export { membersOf, memberAt }
 // first player was always the owner then — which is why every read goes through here (the
 // history's roster links once read the flag bare and called an old game's owner "Opponent").
 export function isYouSide(pl, i) { return pl?.isYou ?? i === 0 }
-// The sides as a screen lays them out: this device's own first, then the rest. `players` is kept
-// in TURN order (players[0] moves first — see newGame), which put the opponent on the left of the
-// board in every game they went first, while the history and the setup put you there (owner,
-// 2026-10-19: one order everywhere). Indices, so a caller still writes to the right side.
-/** @param {{ players?: unknown[] } | null | undefined} game @returns {number[]} */
-export function sidesYouFirst(game) {
-  const all = (game?.players || []).map((_, i) => i)
-  const y = youIndex(game)
-  return all.length ? [y, ...all.filter((i) => i !== y)] : all
-}
 // "You" / "Opponent", and a side's name falling back to it — nine screens spelled these out.
 export function sideLabel(pl, i, labels) { return isYouSide(pl, i) ? labels.trackerYou : labels.trackerOpponent }
 export function sideName(pl, i, labels) { return pl?.name || sideLabel(pl, i, labels) }
