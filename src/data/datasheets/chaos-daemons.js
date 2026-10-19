@@ -2529,7 +2529,7 @@ export default [
         "text": "At the end of your Command phase, if this model is on the battlefield, take a Leadership test for this model; if that test is passed, you gain 1CP."
       },
       {
-        "name": "One Head Looks Back (Aura)",
+        "name": "One Head Looks Back",
         "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a **[gloss:stratagem:Stratagem]**, you can use this ability. If you do, increase the CP cost of the use of that **Stratagem** by 1CP."
       }
     ],
@@ -5077,7 +5077,7 @@ export default [
         "text": "While a friendly SLAANESH LEGIONES DAEMONICA unit is within 6\" of this model, melee weapons in that unit have the [SUSTAINED HITS 1] ability."
       },
       {
-        "name": "Hysterical Frenzy (Psychic)",
+        "name": "Hysterical Frenzy",
         "text": "Each time a model in this model’s unit is destroyed, if that model has not fought this phase, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
       }
     ],

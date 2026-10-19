@@ -2080,7 +2080,7 @@ export default [
     "faction": "Combat Doctrines",
     "abilities": [
       {
-        "name": "Wind Walker",
+        "name": "Wind Walker (Psychic)",
         "text": "▪ This unit's ranged attacks have [ASSAULT].\n▪ When this unit is selected to make an **[gloss:advance-move:advance move]**, this unit can change **[gloss:advance-roll:advance rolls]** to a 6."
       },
       {

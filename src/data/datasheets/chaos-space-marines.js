@@ -3671,7 +3671,7 @@ export default [
     "faction": "Dark Pacts",
     "abilities": [
       {
-        "name": "Agent of Discord",
+        "name": "Agent of Discord (Aura)",
         "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a Stratagem, you can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP."
       },
       {

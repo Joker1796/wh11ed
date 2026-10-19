@@ -161,7 +161,7 @@ export default {
     abilities: {
       'Horrifying Visage':
         'Каждый раз, когда эта модель завершает манёвр нападения, выберите один вражеский юнит в дистанции ввязывания от неё. Этот юнит обязан пройти проверку боевого шока, вычтя 1 из этой проверки.',
-      'Enfeebling Miasma (Aura)':
+      'Enfeebling Miasma':
         'Пока вражеский юнит (исключая MONSTER и VEHICLE) находится в пределах 6" от этой модели, каждый раз, когда этот юнит выбирается для отступления, модели этого вражеского юнита обязаны пройти проверки Desperate Escape. При этом, если этот вражеский юнит в боевом шоке, вычтите 1 из каждой из этих проверок Desperate Escape.',
     },
     loadout: `${EQUIP_THIS} infernal cannon; hellforged weapons.`,
@@ -347,7 +347,7 @@ export default {
     flavor:
       'Увешанные качающимися чумными кадилами и осквернёнными колоколами, Miasmic Malignifier изрыгают густой дым из своих ржавых труб. Посеянные, как споры, по мирам, это паразиты, что высасывают скверну из земли и цепляются за местную инфраструктуру, отравляя планету на всех уровнях.',
     abilities: {
-      'Putrescent Fog (Aura)':
+      'Putrescent Fog':
         'Вражеские юниты, что развёртываются на поле боя как Подкрепления, не могут быть размещены в пределах 12" от этой модели.',
       'Diseased Cover':
         'Каждый раз, когда дальнобойная атака распределяется по модели, если эта модель не полностью видима каждой модели атакующего юнита из-за этого Fortification, эта модель имеет Benefit of Cover против этой атаки.',
@@ -664,7 +664,7 @@ export const abilityNamesRu = {
   'Blight Bombardment': 'Гнилостный обстрел',
   'Gift of Contagion (Psychic)': 'Дар контагии (Психика)',
   'Pestilent Fallout (Psychic)': 'Моровые осадки (Психика)',
-  'Putrescent Fog (Aura)': 'Гнилостный туман (Аура)',
+  'Putrescent Fog': 'Гнилостный туман',
   'Diseased Cover': 'Больное укрытие',
   Fortification: 'Укрепление',
   'Lord of the Death Guard': 'Владыка Death Guard',
@@ -686,7 +686,7 @@ export const abilityNamesRu = {
   'Fevered Strategist': 'Лихорадочный стратег',
   'Miasma of Pestilence (Aura)': 'Миазм мора (Аура)',
   'Horrifying Visage': 'Ужасающий лик',
-  'Enfeebling Miasma (Aura)': 'Обессиливающий миазм (Аура)',
+  'Enfeebling Miasma': 'Обессиливающий миазм',
   'Silent Bodyguard': 'Безмолвный телохранитель',
   'Death Approaches': 'Смерть приближается',
   'Icon of Despair (Aura)': 'Икона отчаяния (Аура)',

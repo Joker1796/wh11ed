@@ -3881,7 +3881,7 @@ export default [
         "text": "This unit's ranged attacks can re-roll **[gloss:hit-roll:hit rolls]**."
       },
       {
-        "name": "Ded Glowy Ammo",
+        "name": "Ded Glowy Ammo (Aura)",
         "text": "Enemy units within 6\" of this model have -1 **[gloss:toughness:T]**."
       }
     ],

@@ -468,7 +468,7 @@ export default {
     abilities: {
       'Flashiest Gitz':
         'Дальнобойные атаки этого юнита могут перебрасывать **[gloss:hit-roll:броски на попадание]**.',
-      'Ded Glowy Ammo':
+      'Ded Glowy Ammo (Aura)':
         'Вражеские юниты в пределах 6" от этой модели имеют -1 **[gloss:toughness:T]**.',
     },
     loadout: '**Эта модель вооружена:** 1 Choppa; 1 Da Rippa; 1 Slugga.',
@@ -1000,7 +1000,7 @@ export const abilityNamesRu = {
   'Da Biggest Boom': 'Самый большой бум',
   'Da Grand Warlord\'s Ladz': 'Пацаны Великого Вождя',
   'Dat\'s Our Loot': 'Это наш лут',
-  'Ded Glowy Ammo': 'Дюже светящиеся патроны',
+  'Ded Glowy Ammo (Aura)': 'Дюже светящиеся патроны (Аура)',
   'Deff from Above': 'Смерть с неба',
   'Deff from the Shadows (First battle round onwards)': 'Смерть из теней (начиная с первого раунда боя)',
   'Dodge Dis!': 'Уклонись-ка!',

@@ -54,6 +54,7 @@ export async function run(argv = process.argv.slice(2)) {
   const findings = []
   const allowed = []
   let compared = 0
+  const tagFindings = []
 
   for (const slug of slugs) {
     const bundle = loadJson(path.join(APPDATA, 'factions', `${SLUG_MAP[slug] || slug}.json`))
@@ -63,6 +64,20 @@ export async function run(argv = process.argv.slice(2)) {
 
     for (const sheet of mod?.default || []) {
       const app = appByName.get(norm(sheet.name))
+      // An ability appdata marks (Aura) or (Psychic) says so in its name on our sheet — the rules
+      // that act on auras and psychic abilities read the tag. Unchecked until 2026-10-19, and five
+      // had lost it (Soulless Horror, Agent of Discord, Bio-stimulus, Ded Glowy Ammo, Wind Walker).
+      // appdata marks a tag by its flag or, now and then, in the name itself ("… (Aura)").
+      const untag = (n) => norm(String(n).replace(/\s*\((?:aura|psychic)(?:,\s*(?:aura|psychic))*\)/gi, ''))
+      const tagged = (n, tag) => new RegExp(`\\((?:[^)]*,\\s*)?${tag}(?:,[^)]*)?\\)`, 'i').test(String(n))
+      for (const a of app?.abilities || []) {
+        const ours = (sheet.abilities || []).find((x) => untag(x.name) === untag(a.name))
+        if (!ours) continue
+        for (const [flag, tag] of [['aura', 'Aura'], ['psychic', 'Psychic']]) {
+          const theirs = !!a[flag] || tagged(a.name, tag)
+          if (theirs !== tagged(ours.name, tag)) tagFindings.push(`${slug}/${sheet.id} "${ours.name}": appdata ${theirs ? 'marks' : 'does not mark'} it (${tag})`)
+        }
+      }
       if (!app?.rules?.length) continue
       const hay = plain(JSON.stringify(sheet))
       const names = new Set(
@@ -100,10 +115,12 @@ export async function run(argv = process.argv.slice(2)) {
     }
   }
 
-  if (!findings.length) {
-    console.log('  every named datasheet rule appdata carries is on the sheet.')
+  for (const t of tagFindings) console.log(`  ✗ ${t}`)
+  if (!findings.length && !tagFindings.length) {
+    console.log('  every named datasheet rule appdata carries is on the sheet, every Aura / Psychic tag too.')
     return 0
   }
+  if (!findings.length) return 1
   console.log(`\n  ${findings.length} datasheet rule(s) appdata prints and wh11ed does not. Transcribe into that`)
   console.log('  sheet\'s `rules` (RU overlay in the same commit — ru/index.js\'s SHARED_RULE_TEXTS already')
   console.log('  answers for the plates whose English is identical everywhere), or add an ALLOW entry.')

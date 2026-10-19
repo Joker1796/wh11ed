@@ -2710,7 +2710,7 @@ export default [
     "faction": "Synapse",
     "abilities": [
       {
-        "name": "Bio-stimulus",
+        "name": "Bio-stimulus (Aura)",
         "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the turn, each time a friendly TYRANIDS unit makes a melee attack that targets that enemy unit, improve the Armour Penetration characteristic of that attack by 1. The same enemy unit can only be affected by this ability once per turn."
       },
       {

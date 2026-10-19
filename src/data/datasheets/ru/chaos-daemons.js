@@ -425,7 +425,7 @@ export default {
         'Пока дружественный юнит TZEENTCH LEGIONES DAEMONICA находится в пределах 6" от этой модели, этот юнит находится в Shadow of Chaos вашей армии.',
       'One Head Looks Forward':
         'В конце вашей фазы командования, если эта модель на поле боя, пройдите проверку лидерства для этой модели; если она пройдена, вы получаете 1 CP.',
-      'One Head Looks Back (Aura)':
+      'One Head Looks Back':
         'Один раз за ход, когда ваш оппонент нацеливает **[gloss:stratagem:стратагему]** на юнит из своей армии в пределах 12" от этой модели, вы можете задействовать эту способность. Если вы это делаете, увеличьте стоимость этого применения этой **стратагемы** на 1 CP.',
     },
     loadout: `${EQUIP_THIS} Infernal Gateway; Staff of Tomorrow.`,
@@ -815,7 +815,7 @@ export default {
     abilities: {
       'Tormentbringer (Aura)':
         'Пока дружественный юнит SLAANESH LEGIONES DAEMONICA находится в пределах 6" от этой модели, оружие ближнего боя в этом юните имеет способность [SUSTAINED HITS 1].',
-      'Hysterical Frenzy (Psychic)':
+      'Hysterical Frenzy':
         'Каждый раз, когда модель юнита этой модели уничтожается, если эта модель ещё не сражалась в этой фазе, не убирайте её из игры. Уничтоженная модель может сражаться после того, как атакующий юнит закончил свои атаки, а затем убирается из игры.',
     },
     loadout: `${EQUIP_THIS} lashes of torment; Seeker tongues; slashing claws.`,
@@ -987,7 +987,7 @@ export const abilityNamesRu = {
   'The Eternal Dance': 'Вечный танец',
   'Dazzling Acrobatics': 'Ослепительная акробатика',
   'Tormentbringer (Aura)': 'Носитель мучений (Аура)',
-  'Hysterical Frenzy (Psychic)': 'Истерическое неистовство (Психика)',
+  'Hysterical Frenzy': 'Истерическое неистовство',
   Tranceweaver: 'Ткач транса',
   'Symphony of Pain (Psychic)': 'Симфония боли (Психика)',
   'Bounding Leaps': 'Скачки',
@@ -1004,7 +1004,7 @@ export const abilityNamesRu = {
   'Discordant Disruption (Aura)': 'Диссонансное расстройство (Аура)',
   'Greater Daemon of Tzeentch (Aura)': 'Великий демон Тзинча (Аура)',
   'One Head Looks Forward': 'Одна голова смотрит вперёд',
-  'One Head Looks Back (Aura)': 'Одна голова смотрит назад (Аура)',
+  'One Head Looks Back': 'Одна голова смотрит назад',
   'Pack Leader': 'Вожак стаи',
   'Prey of the Blood God': 'Добыча Кровавого Бога',
   'Brass Collar of Bloody Vengeance': 'Латунный ошейник кровавой мести',

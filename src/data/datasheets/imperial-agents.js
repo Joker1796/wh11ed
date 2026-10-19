@@ -637,7 +637,7 @@ export default [
         "text": "This model has the Feel No Pain 2+ ability against Psychic Attacks."
       },
       {
-        "name": "Soulless Horror",
+        "name": "Soulless Horror (Aura)",
         "text": "Once per battle, at the start of any Command phase, this model can use this ability. If it does, each enemy unit within 9\" of this model must take a Battle-shock test, subtracting 1 from that test (or subtracting 2 if that unit is a PSYKER)."
       }
     ],

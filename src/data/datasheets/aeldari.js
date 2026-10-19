@@ -7149,7 +7149,7 @@ export default [
         "text": "While this model is within 3\" of one or more friendly Wraith Construct units, this model has the Lone Operative ability."
       },
       {
-        "name": "Spirit Mark (Psychic)",
+        "name": "Spirit Mark",
         "text": "Once per turn, in your Movement phase, when this model starts or ends a move, select one friendly Wraith Construct unit within 6\" of this model (excluding TITANIC units) and one enemy unit visible to this model. Until the start of your next Movement phase, weapons equipped by models in that friendly unit have the [SUSTAINED HITS 1] ability while targeting that enemy unit."
       },
       {

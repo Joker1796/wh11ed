@@ -1111,7 +1111,7 @@ export default [
         "text": "Each time this model ends a Charge move, select one enemy unit within Engagement Range of it. That unit must take a Battle-shock test, subtracting 1 from that test."
       },
       {
-        "name": "Enfeebling Miasma (Aura)",
+        "name": "Enfeebling Miasma",
         "text": "While an enemy unit (excluding MONSTERS and VEHICLES) is within 6\" of this model, each time that unit is selected to Fall Back, models in that enemy unit must take Desperate Escape tests. When doing so, if that enemy unit is Battle-shocked, subtract 1 from each of those Desperate Escape tests."
       }
     ],
@@ -3283,7 +3283,7 @@ export default [
     "faction": "Nurgle’s Gift (Aura)",
     "abilities": [
       {
-        "name": "Putrescent Fog (Aura)",
+        "name": "Putrescent Fog",
         "text": "Enemy units that are set up on the battlefield as Reinforcements cannot be set up within 12\" of this model."
       },
       {
