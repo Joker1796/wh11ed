@@ -3952,6 +3952,11 @@ if (b.stockRemnant.length) {
 // The Faction Pack Legends, read from their own printed text — every line below is a sheet the
 // roster shows less of than the PDF says; the parser guesses nothing, so each is a template to add.
 const pk = report.pack
+// Faction Pack sheets read short of their PDF on purpose, each with why (the --check gate below).
+const PACK_KNOWN = {
+  'Renegade Ogryn Beast Handler': 'The Faction Pack prints 1 Ogryn Pack Master and 3 Chaos Mauler Hounds; the MFM also prices 7 models (40 / 70), which the PDF never fields. The printed unit is what the builder offers (2026-10-19).',
+  'Tactical Drones': 'No points in the MFM: the sheet is on the faction page, the builder cannot price it.',
+}
 console.log(`  Faction Pack Legends: ${pk.units} units read from their printed composition/loadout/options${pk.dropped.length ? `, ${pk.dropped.length} not readable` : ''}`)
 for (const [why, list] of [['sheet dropped', pk.dropped], ['composition line unreadable', pk.composition], ['price bracket outside the composition', pk.bracket], ['no usable price', pk.noPoints], ['loadout paragraph unplaced (unit keeps no default loadout)', pk.loadout], ['option sentence unread (choice left out)', pk.option], ['replaced item not in the printed loadout (group has no rep)', pk.rep], ['item the sheet does not print (kept under its printed name)', pk.unknownItem], ['Leader target not found', pk.lead], ['notes', pk.note]]) {
   if (!list.length) continue
@@ -4049,6 +4054,19 @@ if (CHECK) {
   }
   if (b.unclaimed.length) {
     console.log(`\n  --check: ${b.unclaimed.length} wargear group(s) whose prose the bundle parser could not account for — read them above; a misspelling in appdata's instruction is the usual cause (flatText).`)
+    return 1
+  }
+  // A Faction Pack sheet the builder shows less of than its PDF: dropped, a price it cannot place,
+  // no price, a composition or an option it could not read. Printed and passed until 2026-10-19 —
+  // Shadow Spectres' Exarch rode free for a month in the "outside the composition" list. Each one is
+  // a gate now unless PACK_KNOWN says why it stands.
+  const packProblems = [...pk.dropped, ...pk.bracket, ...pk.noPoints, ...pk.composition, ...pk.option, ...pk.loadout, ...pk.rep]
+    .filter((l) => !Object.keys(PACK_KNOWN).some((name) => l.includes(name)))
+  const packStale = Object.keys(PACK_KNOWN).filter((name) => ![...pk.dropped, ...pk.bracket, ...pk.noPoints, ...pk.composition, ...pk.option, ...pk.loadout, ...pk.rep].some((l) => l.includes(name)))
+  if (packProblems.length || packStale.length) {
+    console.log(`\n  --check: Faction Pack sheets the builder reads short of their PDF (read them above; PACK_KNOWN holds the ones that stand):`)
+    for (const l of packProblems) console.log(`    - ${l}`)
+    for (const n of packStale) console.log(`    - PACK_KNOWN "${n}" matched nothing — drop it`)
     return 1
   }
   console.log('\n  --check: up to date.')

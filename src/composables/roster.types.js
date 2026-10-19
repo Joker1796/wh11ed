@@ -227,6 +227,7 @@
  * @property {number} [count] models fielded, when not the bracket's minimum
  * @property {WargearPick[]} [wg] picks on top of the default loadout, in the order last touched
  * @property {string} [enh] the chosen enhancement, by name
+ * @property {string} [enhDet] the detachment it was taken from, by name — two can print one of the same name
  * @property {boolean} [warlord]
  * @property {string} [leaderOf] uid of the unit this one is attached to
  * @property {string} [alleg] the chosen allegiance option, by name

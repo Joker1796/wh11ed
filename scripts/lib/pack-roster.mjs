@@ -99,6 +99,22 @@ function sizes(points, minis, report, who) {
   const hi = minis.reduce((s, m) => s + m.max, 0)
   const rows = (points || []).map((p) => ({ models: Number(p.models), pts: p.points }))
     .filter((p) => Number.isFinite(p.models) && Number.isFinite(p.pts)).sort((a, b) => a.models - b.models)
+  // An optional model priced on a row of its own — Shadow Spectres' "1 model 30" beside "5 models
+  // 115 / 10 models 230" is the Exarch ("0-1 Shadow Spectre Exarch"). It is the model's surcharge,
+  // not a bracket: dropped as "outside the composition" until 2026-10-19, the Exarch rode free in
+  // the 6–10 bracket and five Spectres with one cost 230, not 145. The brackets are built without
+  // the model, then again with it, its price added and its count on the composition.
+  const addon = rows.find((r) => r.models < lo && minis.some((m) => m.min === 0 && m.max === r.models))
+  const oi = addon ? minis.findIndex((m) => m.min === 0 && m.max === addon.models) : -1
+  if (addon && oi >= 0) {
+    const rest = rows.filter((r) => r !== addon)
+    const without = sizes(rest.map((r) => ({ models: r.models, points: r.pts })), minis.map((m, i) => (i === oi ? { ...m, max: 0 } : m)), report, who)
+    const withIt = sizes(rest.map((r) => ({ models: r.models + addon.models, points: r.pts + addon.pts })),
+      minis.map((m, i) => (i === oi ? { ...m, min: addon.models, max: addon.models } : m)), report, who)
+    for (const x of withIt) delete x.default
+    report.addon.push(`${who}: ${minis[oi].n} +${addon.pts} (${addon.models} model)`)
+    return [...without, ...withIt].sort((a, b) => a.pts - b.pts)
+  }
   const out = []
   let prev = null
   for (const r of rows) {
@@ -772,5 +788,5 @@ function splitUnitWide(gear, raws, { minis, sz, defaultNames, pm }) {
 }
 
 export function emptyPackReport() {
-  return { units: 0, composition: [], bracket: [], noPoints: [], loadout: [], option: [], rep: [], unknownItem: [], note: [], lead: [], alongside: [] }
+  return { units: 0, composition: [], bracket: [], noPoints: [], loadout: [], option: [], rep: [], unknownItem: [], note: [], lead: [], alongside: [], addon: [] }
 }

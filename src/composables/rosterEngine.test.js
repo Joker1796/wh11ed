@@ -445,7 +445,7 @@ describe('mandatory enhancements', () => {
 
   it('enhOptionsFor still lists a mandatory enhancement (flagged, not filtered out)', () => {
     const opts = enhOptionsFor(ctan, dets, [], null)
-    expect(opts).toEqual([{ name: 'Reletavistic Tether', pts: 40, eligible: true, used: false, mandatory: true }])
+    expect(opts).toEqual([{ name: 'Reletavistic Tether', det: 'Pantheon of Woe', pts: 40, eligible: true, used: false, mandatory: true }])
     // For a unit it isn't locked to, it still appears but ineligible.
     expect(enhOptionsFor(otherShard, dets, [], null)[0].eligible).toBe(false)
   })
@@ -2085,5 +2085,24 @@ describe('splitInstruction — every marked list in the data', () => {
       if (/[◦•■▪▫]/.test(splitInstruction(t).head)) bad.push(id)
     }
     expect(bad).toEqual([])
+  })
+})
+
+// Two selected detachments can each print an enhancement of the same name at a different price
+// (Drukhari's Towering Arrogance: 15 in Kabalite Agonysts, 20 in Kabalite Cartel). Until 2026-10-19
+// the editor offered the first only and every reader priced the first.
+describe('same-named enhancements of two detachments', () => {
+  const char = { id: 'archon', name: 'Archon', kws: ['Character'], flags: { char: 1 }, sizes: [{ pts: 70, per: [1, 1] }] }
+  const dets = [
+    { name: 'A', enhancements: [{ name: 'Towering Arrogance', pts: 15 }] },
+    { name: 'B', enhancements: [{ name: 'Towering Arrogance', pts: 20 }] },
+  ]
+  it('offers both, each naming its detachment', () => {
+    const opts = enhOptionsFor(char, dets, [], null)
+    expect(opts.map((o) => [o.det, o.pts, o.dup])).toEqual([['A', 15, true], ['B', 20, true]])
+  })
+  it('prices the one the entry took, and an old entry the first', () => {
+    expect(enhancementPoints(dets, { enh: 'Towering Arrogance', enhDet: 'B' })).toBe(20)
+    expect(enhancementPoints(dets, { enh: 'Towering Arrogance' })).toBe(15)
   })
 })

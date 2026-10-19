@@ -1131,13 +1131,20 @@ export function allegSpent(units, defOf, groupKey, detachments) {
 }
 
 // Find an enhancement by name across the roster's selected detachments (an army may field
-// several detachments, up to its Detachment-Points budget — like the tracker).
+// several detachments, up to its Detachment-Points budget — like the tracker). Two detachments can
+// each print an enhancement of the same name at a different price (Drukhari's Towering Arrogance,
+// 15 and 20; four factions, 2026-10-19), so the entry also records whose it is (`enhDet`, the
+// detachment's name) and that one is asked first. An entry from before it was recorded falls back
+// to the first of the name, as every entry did.
 /**
  * @param {Detachment[] | null | undefined} detachments
  * @param {string | null | undefined} name no name finds nothing: every enhancement has one
+ * @param {string | null} [det] the detachment it was taken from (`entry.enhDet`)
  * @returns {Enhancement | null}
  */
-export function findEnhancement(detachments, name) {
+export function findEnhancement(detachments, name, det = null) {
+  const own = det && (detachments || []).find((d) => d?.name === det)?.enhancements?.find((x) => x.name === name)
+  if (own) return own
   for (const d of detachments || []) {
     const e = d?.enhancements?.find((x) => x.name === name)
     if (e) return e
@@ -1215,19 +1222,25 @@ export function enhOptionsFor(def, detachments, units, excludeUid, factionSlug) 
   const entry = (units || []).find((u) => u.uid === excludeUid)
   const granted = grantedKeywords(def, entry, detachments, factionSlug)
   if (!detachments?.length || !def) return []
+  // One option per detachment's enhancement — a name two selected detachments both print is two
+  // options, each saying whose (`det`, and `dup` so the editor names the detachment beside it).
+  /** @param {string | undefined} name @param {string | undefined} det */
+  const keyOf = (name, det) => `${det}\u0000${name}`
+  /** @param {RosterEntry} u */
+  const ownerOf = (u) => u.enhDet || detachments.find((d) => d.enhancements?.some((x) => x.name === u.enh))?.name
   const countElsewhere = new Map()
   for (const u of units || []) {
     if (u.uid === excludeUid || !u.enh) continue
-    countElsewhere.set(u.enh, (countElsewhere.get(u.enh) || 0) + 1)
+    const k = keyOf(u.enh, ownerOf(u))
+    countElsewhere.set(k, (countElsewhere.get(k) || 0) + 1)
   }
-  const seen = new Set()
+  const names = new Map()
+  for (const det of detachments) for (const e of det.enhancements || []) names.set(e.name, (names.get(e.name) || 0) + 1)
   const out = []
   for (const det of detachments) {
-    for (const e of det.enhancements) {
-      if (seen.has(e.name)) continue
-      seen.add(e.name)
-      const used = (countElsewhere.get(e.name) || 0) >= (e.limit || 1)
-      out.push({ name: e.name, pts: e.pts, eligible: enhEligible(e, def, granted), used, mandatory: !!e.mandatory })
+    for (const e of det.enhancements || []) {
+      const used = (countElsewhere.get(keyOf(e.name, det.name)) || 0) >= (e.limit || 1)
+      out.push({ name: e.name, det: det.name, ...(names.get(e.name) > 1 ? { dup: true } : {}), pts: e.pts, eligible: enhEligible(e, def, granted), used, mandatory: !!e.mandatory })
     }
   }
   return out
@@ -1595,7 +1608,7 @@ export function leaderHostsFor(leaderUid, units, catalogue, defOf, detachments =
  * @returns {Array<{ to: string, type: 'leader' | 'support' }>}
  */
 export function enhAttachOf(def, entry, detachments) {
-  const e = entry?.enh ? findEnhancement(detachments, entry.enh) : mandatoryEnhancementFor(def, detachments)
+  const e = entry?.enh ? findEnhancement(detachments, entry.enh, entry.enhDet) : mandatoryEnhancementFor(def, detachments)
   return e?.attach || []
 }
 
@@ -1681,7 +1694,7 @@ export function leadTo(leads, id) {
  * @returns {number}
  */
 export function enhancementPoints(detachments, entry, def) {
-  if (entry?.enh) return findEnhancement(detachments, entry.enh)?.pts || 0
+  if (entry?.enh) return findEnhancement(detachments, entry.enh, entry.enhDet)?.pts || 0
   return mandatoryEnhancementFor(def, detachments)?.pts || 0
 }
 

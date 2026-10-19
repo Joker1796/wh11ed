@@ -648,7 +648,7 @@ export function entryContext(ctx) {
 
   let enhancement = null
   if (entry.enh) {
-    const found = findEnhancement(detachments, entry.enh)
+    const found = findEnhancement(detachments, entry.enh, entry.enhDet)
     enhancement = { name: entry.enh, pts: found?.pts || 0, mandatory: false }
   } else {
     const auto = mandatoryEnhancementFor(def, detachments)

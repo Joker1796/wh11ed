@@ -307,7 +307,7 @@
         <div class="opt-col">
           <div
             v-for="e in visibleEnhOptions"
-            :key="e.name"
+            :key="`${e.det}|${e.name}`"
             class="opt-tile"
             :class="{
               on: e.mandatory ? e.eligible : entry.enh === e.name,
@@ -317,12 +317,16 @@
             <label class="opt-select">
               <input
                 type="checkbox"
-                :checked="e.mandatory ? e.eligible : entry.enh === e.name"
-                :disabled="e.mandatory || (e.used && entry.enh !== e.name)"
-                @change="toggleEnh(e.name)"
+                :checked="e.mandatory ? e.eligible : isEnh(e)"
+                :disabled="e.mandatory || (e.used && !isEnh(e))"
+                @change="toggleEnh(e)"
               >
               <span class="opt-name">
                 {{ e.name }}
+                <span
+                  v-if="e.dup"
+                  class="opt-tag"
+                >{{ e.det }}</span>
                 <span
                   v-if="e.mandatory && e.eligible"
                   class="opt-tag"
@@ -672,7 +676,7 @@ function openEnhInfo(name) { enhInfoName.value = name }
 // visible: anything eligible, plus whatever's currently selected even if it's since become
 // ineligible (e.g. a detachment swap) so the user can still see/clear it.
 const visibleEnhOptions = computed(() =>
-  props.enhOptions.filter((e) => e.eligible || e.name === props.entry.enh))
+  props.enhOptions.filter((e) => e.eligible || isEnh(e)))
 
 // ── Size / model count ──
 const curSize = computed(() => sizeOf(props.def, props.entry))
@@ -820,11 +824,21 @@ function setWg(next) {
   props.entry.wg = next
 }
 
-function setEnh(name) { if (name) props.entry.enh = name; else delete props.entry.enh }
+// The entry keeps whose enhancement it is (`enhDet`) beside its name: two selected detachments can
+// each print one of that name at a different price (rosterEngine findEnhancement).
+function setEnh(e) {
+  delete props.entry.enhDet
+  if (!e) { delete props.entry.enh; return }
+  props.entry.enh = e.name
+  if (e.det) props.entry.enhDet = e.det
+}
+// An entry saved before `enhDet` holds the first detachment's of the name — as findEnhancement reads it.
+const isEnh = (e) => props.entry.enh === e.name && (!e.dup
+  || (props.entry.enhDet ?? props.enhOptions.find((o) => o.name === e.name)?.det) === e.det)
 // There's no separate "No enhancement" option — unticking the currently-selected checkbox IS
 // "no enhancement" (mutual exclusivity means only one can ever be checked at a time, so ticking
 // a different one already implies the same thing without needing an explicit toggle).
-function toggleEnh(name) { setEnh(props.entry.enh === name ? null : name) }
+function toggleEnh(e) { setEnh(isEnh(e) ? null : e) }
 function setLeader(uid) { if (uid) props.entry.leaderOf = uid; else delete props.entry.leaderOf }
 // Same mutual-exclusivity toggle as enhancements: unticking the currently-attached target IS
 // "not attached", so there's no separate pseudo-option for it.

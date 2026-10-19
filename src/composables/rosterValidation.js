@@ -390,19 +390,22 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // only), on a legal unit.
   // An enhancement its own rules bar from the Warlord (World Eaters' Disciple of Khorne).
   for (const w of warlords) {
-    const e = findEnhancement(detachments, w.enh)
+    const e = findEnhancement(detachments, w.enh, w.enhDet)
     if (e?.notWarlord) add('enhNotWarlord', 'error', { uid: w.uid, params: { enh: w.enh } })
   }
 
   const enhUnits = units.filter((u) => u.enh)
-  const byEnhName = new Map()
+  // Keyed by the enhancement itself — its name AND whose it is: two detachments' same-named
+  // enhancements are two enhancements, each with its own cap.
+  const byEnh = new Map()
   for (const u of enhUnits) {
-    if (!byEnhName.has(u.enh)) byEnhName.set(u.enh, [])
-    byEnhName.get(u.enh).push(u)
+    const e = findEnhancement(detachments, u.enh, u.enhDet)
+    if (!byEnh.has(e || u.enh)) byEnh.set(e || u.enh, [])
+    byEnh.get(e || u.enh).push(u)
   }
-  for (const [name, list] of byEnhName) {
-    const limit = findEnhancement(detachments, name)?.limit || 1
-    for (const u of list.slice(limit)) add('dupEnh', 'error', { uid: u.uid, params: { enh: name } })
+  for (const [e, list] of byEnh) {
+    const limit = (typeof e === 'object' && e?.limit) || 1
+    for (const u of list.slice(limit)) add('dupEnh', 'error', { uid: u.uid, params: { enh: u.enh } })
   }
   // The army-wide limit counts an Upgrade ONCE however many units carry it — the muster rules:
   // "the second and third instances of the same Upgrade do not count towards the total number of
@@ -413,11 +416,11 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     const seenUpgrades = new Set()
     let counted = 0
     for (const u of enhUnits) {
-      const e = findEnhancement(detachments, u.enh)
+      const e = findEnhancement(detachments, u.enh, u.enhDet)
       if (!e || e.uncounted) continue
       if (e.type === 'upgrade') {
-        if (seenUpgrades.has(u.enh)) continue
-        seenUpgrades.add(u.enh)
+        if (seenUpgrades.has(e)) continue
+        seenUpgrades.add(e)
       }
       counted++
     }
@@ -425,7 +428,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   }
   for (const u of enhUnits) {
     if (!detachments.length) { add('enhNoDetachment', 'error', { uid: u.uid }); continue }
-    const e = findEnhancement(detachments, u.enh)
+    const e = findEnhancement(detachments, u.enh, u.enhDet)
     const def = defOf(u.id)
     // Asked about the ENTRY, not the printed datasheet — the same question enhOptionsFor answers
     // when the editor offers the enhancement in the first place, through the same helper so the two
