@@ -2108,11 +2108,17 @@ export default {
       "leads": [
         {
           "to": "victrix-honour-guard",
-          "type": "support"
+          "type": "support",
+          "reqDs": [
+            "de36bfa7-9cc5-4875-b9d8-d3940027b48c"
+          ]
         },
         {
           "to": "victrix-honour-guard",
-          "type": "leader"
+          "type": "leader",
+          "exclDs": [
+            "de36bfa7-9cc5-4875-b9d8-d3940027b48c"
+          ]
         }
       ],
       "defaults": [

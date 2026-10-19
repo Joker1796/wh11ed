@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, wargearPoolCap, wargearPoolOver, wargearPoolRoom, wargearPoolTakenBy, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, sharedKeywordClash, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, sectionsOfUnits, entrySummary } from './rosterEngine.js'
+import { leadTypeFor, dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, wargearPoolCap, wargearPoolOver, wargearPoolRoom, wargearPoolTakenBy, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, sharedKeywordClash, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, sectionsOfUnits, entrySummary } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -2104,5 +2104,20 @@ describe('same-named enhancements of two detachments', () => {
   it('prices the one the entry took, and an old entry the first', () => {
     expect(enhancementPoints(dets, { enh: 'Towering Arrogance', enhDet: 'B' })).toBe(20)
     expect(enhancementPoints(dets, { enh: 'Towering Arrogance' })).toBe(15)
+  })
+})
+
+// An attachment that depends on another datasheet in the army (datasheet_bodyguard_group_
+// {required,excluded}_roster_datasheet): Cato Sicarius is Victrix Honour Guard's Leader, or its
+// Support with Marneus Calgar in the list. Both rows applied at once until 2026-10-19.
+describe('attachments tied to another datasheet in the army', () => {
+  const calgar = 'sid-calgar'
+  const sicarius = { id: 'cato-sicarius', name: 'Cato Sicarius', flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1] }],
+    leads: [{ to: 'victrix', type: 'support', reqDs: [calgar] }, { to: 'victrix', type: 'leader', exclDs: [calgar] }] }
+  const victrix = { id: 'victrix', name: 'Victrix Honour Guard', sizes: [{ pts: 100, per: [2, 2] }] }
+  it('is a Leader without Calgar, Support with him', () => {
+    expect(leadTypeFor(sicarius, null, victrix, [], new Set())).toBe('leader')
+    expect(leadTypeFor(sicarius, null, victrix, [], new Set([calgar]))).toBe('support')
+    expect(leadTypeFor(sicarius, null, victrix, [])).toBe('leader') // no list in hand
   })
 })

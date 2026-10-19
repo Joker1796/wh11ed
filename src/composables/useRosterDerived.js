@@ -22,7 +22,7 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import {
   rosterDetachments,
-  allyBars, allySourceOf, capKeyOf, effectiveBattle, grantedKeywordsFor, leadTo, leadsFor, legalityOn, rosterPoints,
+  allyBars, allySourceOf, capKeyOf, effectiveBattle, grantedKeywordsFor, leadTo, leadsFor, armySidsOf, legalityOn, rosterPoints,
   sectionsOf, sectionsOfUnits, unitPoints,
 } from './rosterEngine.js'
 import { duplicateCounts, duplicateLimit, validateRoster } from './rosterValidation.js'
@@ -86,7 +86,7 @@ export function useRosterDerived(roster, factionData) {
   function attachRole(e) {
     const host = e.leaderOf && units.value.find((u) => u.uid === e.leaderOf)
     if (!host) return ''
-    const type = leadTo(leadsFor(defOf(e.id), e, curDetachments.value), host.id)?.type
+    const type = leadTo(leadsFor(defOf(e.id), e, curDetachments.value, armySidsOf(units.value, defOf)), host.id)?.type
     return type === 'support' ? labels.value.rosterSupportTag : labels.value.rosterLeaderTag
   }
 

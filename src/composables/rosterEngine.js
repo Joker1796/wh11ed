@@ -1312,12 +1312,13 @@ export function hostLimitsFor(def, entry) {
  * @param {RosterUnit | null | undefined} hostDef
  * @param {Array<{ entry: EntryLike, def: RosterUnit | null | undefined }>} attached
  * @param {Detachment[] | null | undefined} [detachments]
+ * @param {Set<string> | null} [armySids] see gatedLeads
  * @returns {boolean}
  */
-export function hostSlotTaken(def, entry, host, hostDef, attached, detachments = []) {
+export function hostSlotTaken(def, entry, host, hostDef, attached, detachments = [], armySids = null) {
   const lim = hostLimitsFor(hostDef, host)
-  const type = leadTypeFor(def, entry, hostDef, detachments)
-  const same = attached.filter((o) => leadTypeFor(o.def, o.entry, hostDef, detachments) === type && occupies(def, o.def))
+  const type = leadTypeFor(def, entry, hostDef, detachments, armySids)
+  const same = attached.filter((o) => leadTypeFor(o.def, o.entry, hostDef, detachments, armySids) === type && occupies(def, o.def))
   if (same.length >= (type === 'leader' ? lim.leader : lim.support)) return true
   const { oneKw } = lim
   if (oneKw && hasKeyword(def, oneKw) && attached.some((o) => o.def && hasKeyword(o.def, oneKw))) return true
@@ -1342,11 +1343,12 @@ export function hostSlotTaken(def, entry, host, hostDef, attached, detachments =
  * @param {RosterUnit | null | undefined} targetDef
  * @param {EntryLike | null | undefined} targetEntry
  * @param {Detachment[] | null | undefined} [detachments]
+ * @param {Set<string> | null} [armySids] see gatedLeads
  * @returns {{ own: string, theirs: string } | null}
  */
-export function sharedKeywordClash(def, entry, targetDef, targetEntry, detachments = []) {
+export function sharedKeywordClash(def, entry, targetDef, targetEntry, detachments = [], armySids = null) {
   if (!def || !targetDef) return null
-  const direct = leadTo(leadsFor(def, entry, detachments), targetDef.id)
+  const direct = leadTo(leadsFor(def, entry, detachments, armySids), targetDef.id)
   const lead = direct || gatedLeads((def.leadKw || []).map((g) => ({ ...g, to: (g.kw || []).join('+') })), detachments)
     .find((g) => (g.kw || []).every((k) => hasKeyword(targetDef, k)))
   const need = lead?.allKw
@@ -1384,11 +1386,12 @@ export function isSupportUnit(def) {
  * @param {EntryLike | null | undefined} entry
  * @param {RosterUnit | null | undefined} targetDef
  * @param {Detachment[] | null | undefined} [detachments]
+ * @param {Set<string> | null} [armySids] see gatedLeads
  * @returns {'leader' | 'support' | null}
  */
-export function leadTypeFor(def, entry, targetDef, detachments = []) {
+export function leadTypeFor(def, entry, targetDef, detachments = [], armySids = null) {
   if (!def || !targetDef) return null
-  const direct = leadTo(leadsFor(def, entry, detachments), targetDef.id)
+  const direct = leadTo(leadsFor(def, entry, detachments, armySids), targetDef.id)
   if (direct) return direct.type
   const kwGroups = gatedLeads((def.leadKw || []).map((g) => ({ ...g, to: (g.kw || []).join('+') })), detachments)
   const hit = kwGroups.find((g) => (g.kw || []).every((k) => hasKeyword(targetDef, k)))
@@ -1428,22 +1431,23 @@ const occupies = (def, other) => (joinsAlongside(def, other) || joinsAlongside(o
  */
 export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = [], items = null) {
   const entry = (units || []).find((u) => u.uid === excludeUid)
-  const leads = leadsFor(def, entry, detachments)
+  const army = defOf ? armySidsOf(units, defOf) : null
+  const leads = leadsFor(def, entry, detachments, army)
   if (!leads.length && !def?.leadKw?.length) return []
   /** @param {string} id */
-  const typeOf = (id) => leadTypeFor(def, entry, defOf ? defOf(id) : null, detachments)
+  const typeOf = (id) => leadTypeFor(def, entry, defOf ? defOf(id) : null, detachments, army)
   // Pactbound Zealots: only a unit sharing one of the keywords the attachment requires
   // (sharedKeywordClash). One that hasn't chosen its mark yet stays offered: marks are picked per
   // unit, in any order.
   return (units || [])
     .filter((u) => u.uid !== excludeUid && typeOf(u.id))
-    .filter((u) => !defOf || !sharedKeywordClash(def, entry, defOf(u.id), u, detachments))
+    .filter((u) => !defOf || !sharedKeywordClash(def, entry, defOf(u.id), u, detachments, army))
     .map((u) => {
       const type = typeOf(u.id)
       const attached = (units || [])
         .filter((o) => o.uid !== excludeUid && o.uid !== u.uid && o.leaderOf === u.uid)
         .map((o) => ({ entry: o, def: defOf(o.id) }))
-      const used = hostSlotTaken(def, entry, u, defOf(u.id), attached, detachments)
+      const used = hostSlotTaken(def, entry, u, defOf(u.id), attached, detachments, army)
       const tDef = defOf(u.id)
       // Everything that can tell two copies of one datasheet apart, as FACTS — the caller builds
       // the sentence, because this module knows no locale. A list holds "Necron Warriors" twice
@@ -1538,6 +1542,7 @@ export function leaderCandidatesFor(targetUid, units, catalogue, defOf, detachme
   const target = (units || []).find((u) => u.uid === targetUid)
   const targetDef = target && defOf(target.id)
   if (!targetDef) return []
+  const army = armySidsOf(units, defOf)
   const freeInList = new Set((units || []).filter((u) => u.uid !== targetUid && !u.leaderOf).map((u) => u.id))
   const attached = (units || [])
     .filter((o) => o.uid !== targetUid && o.leaderOf === targetUid)
@@ -1545,14 +1550,14 @@ export function leaderCandidatesFor(targetUid, units, catalogue, defOf, detachme
   const out = []
   for (const def of catalogue || []) {
     if (!def || def.id === targetDef.id || freeInList.has(def.id)) continue
-    const type = leadTo(leadsFor(def, null, detachments), targetDef.id)?.type
+    const type = leadTo(leadsFor(def, null, detachments, army), targetDef.id)?.type
     if (!type) continue
     out.push({
       id: def.id,
       name: def.name,
       type,
       pts: unitBasePoints(def, defaultSizeIndex(def)),
-      used: hostSlotTaken(def, null, target, targetDef, attached, detachments),
+      used: hostSlotTaken(def, null, target, targetDef, attached, detachments, army),
       // For the caller's "Hide Legends units" (useRosterPrefs) — a reader preference, not a rule.
       legends: !!def.flags?.legends,
     })
@@ -1577,7 +1582,7 @@ export function leaderHostsFor(leaderUid, units, catalogue, defOf, detachments =
   const entry = (units || []).find((u) => u.uid === leaderUid)
   const def = entry && defOf(entry.id)
   if (!def) return []
-  const leads = leadsFor(def, entry, detachments)
+  const leads = leadsFor(def, entry, detachments, armySidsOf(units, defOf))
   if (!leads.length) return []
   const joinable = new Set(leaderTargetsFor(def, units, leaderUid, defOf, detachments)
     .filter((t) => !t.used).map((t) => (units || []).find((u) => u.uid === t.uid)?.id))
@@ -1620,19 +1625,27 @@ export function enhAttachOf(def, entry, detachments) {
 // would offer an attachment that is legal in a detachment the army didn't take. Deduped by
 // target+type afterwards, because the two halves of such a pair collapse to one entry once gated
 // and the list's callers (`.find()` first-wins, `new Map()` last-wins) need exactly one.
+//
+// …and one appdata ties to another datasheet in the army — `reqDs`/`exclDs`, datasheet uuids (Cato
+// Sicarius: Victrix Honour Guard's Support with Marneus Calgar in the army, its Leader without).
+// `armySids` are the sids of the units in the list; a caller without the list in hand passes none,
+// and reads the army as holding neither — Sicarius a Leader, as he is in most lists.
 /**
- * @template {{ to: string, type: string, reqDet?: string, exclDet?: string }} L
+ * @template {{ to: string, type: string, reqDet?: string, exclDet?: string, reqDs?: string[], exclDs?: string[] }} L
  * @param {L[]} leads
  * @param {Detachment[] | null | undefined} detachments
+ * @param {Set<string> | null} [armySids]
  * @returns {L[]}
  */
-function gatedLeads(leads, detachments) {
-  if (!leads.some((l) => l.reqDet || l.exclDet)) return leads
+function gatedLeads(leads, detachments, armySids = null) {
+  if (!leads.some((l) => l.reqDet || l.exclDet || l.reqDs || l.exclDs)) return leads
   const sids = new Set((detachments || []).map((d) => d?.sid).filter(Boolean))
   const seen = new Set()
   return leads.filter((l) => {
     if (l.reqDet && !sids.has(l.reqDet)) return false
     if (l.exclDet && sids.has(l.exclDet)) return false
+    if (l.reqDs && !l.reqDs.some((x) => armySids?.has(x))) return false
+    if (l.exclDs && l.exclDs.some((x) => armySids?.has(x))) return false
     const k = `${l.to}|${l.type}`
     if (seen.has(k)) return false
     seen.add(k)
@@ -1652,14 +1665,25 @@ function gatedLeads(leads, detachments) {
  * @param {RosterUnit | null | undefined} def
  * @param {EntryLike | null | undefined} entry
  * @param {Detachment[] | null | undefined} detachments
+ * @param {Set<string> | null} [armySids] the sids of the list's units — see gatedLeads
  * @returns {LeadLink[]}
  */
-export function leadsFor(def, entry, detachments) {
-  const own = gatedLeads(def?.leads || [], detachments)
+export function leadsFor(def, entry, detachments, armySids = null) {
+  const own = gatedLeads(def?.leads || [], detachments, armySids)
   const extra = enhAttachOf(def, entry, detachments)
   if (!extra.length) return own
   const seen = new Set(own.map((l) => l.to))
   return [...own, ...extra.filter((l) => !seen.has(l.to))]
+}
+
+// The sids of the units in a list, for the attachments that depend on who else is in it.
+/**
+ * @param {Array<{ id: string }> | null | undefined} units
+ * @param {(id: string) => RosterUnit | null | undefined} defOf
+ * @returns {Set<string>}
+ */
+export function armySidsOf(units, defOf) {
+  return new Set((units || []).map((u) => defOf(u.id)?.sid).filter(/** @returns {x is string} */ (x) => !!x))
 }
 
 // The lead in `leads` that names the unit `id`. A lead names a datasheet by its id in its own

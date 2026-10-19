@@ -184,6 +184,20 @@ for (const r of table('datasheet_bodyguard_group_keyword')) {
   if (!bgKeywords.has(r.datasheetBodyguardGroupId)) bgKeywords.set(r.datasheetBodyguardGroupId, [])
   bgKeywords.get(r.datasheetBodyguardGroupId).push(bgKwName.get(r.keywordId))
 }
+// An attachment that holds only with another datasheet in the army, or only without it — Cato
+// Sicarius joins Victrix Honour Guard as a Leader unless Marneus Calgar is in the army, and as
+// Support only if he is (datasheet_bodyguard_group_{required,excluded}_roster_datasheet). Unread
+// until 2026-10-19: both rows applied at once and the first, Support, won everywhere.
+const bgReqDs = new Map() // groupId -> [datasheetId]
+for (const r of table('datasheet_bodyguard_group_required_roster_datasheet')) {
+  if (!bgReqDs.has(r.datasheetBodyguardGroupId)) bgReqDs.set(r.datasheetBodyguardGroupId, [])
+  bgReqDs.get(r.datasheetBodyguardGroupId).push(r.datasheetId)
+}
+const bgExclDs = new Map() // groupId -> [datasheetId]
+for (const r of table('datasheet_bodyguard_group_excluded_roster_datasheet')) {
+  if (!bgExclDs.has(r.datasheetBodyguardGroupId)) bgExclDs.set(r.datasheetBodyguardGroupId, [])
+  bgExclDs.get(r.datasheetBodyguardGroupId).push(r.datasheetId)
+}
 const bgByLeader = new Map() // leader datasheetId -> [group]
 // Every field an attachment group carries is read below — a new one is a condition on who may join
 // whom, and dropping it widens the attachment silently. `requiresAllUnitsHaveKeywordId` was
@@ -2146,6 +2160,8 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       const lead = { to: idMap.get(targetDsId) || slugify(enOf(dsById.get(targetDsId)).name || ''), type: g.bodyguardType }
       if (g.requiredDetachmentId) lead.reqDet = g.requiredDetachmentId
       if (g.excludedDetachmentId) lead.exclDet = g.excludedDetachmentId
+      if (bgReqDs.has(g.id)) lead.reqDs = [...bgReqDs.get(g.id)]
+      if (bgExclDs.has(g.id)) lead.exclDs = [...bgExclDs.get(g.id)]
       // "Requires all units have keyword": the leader AND the unit it joins must both carry it —
       // appdata's own statement of Pactbound Zealots' "a CHARACTER unit can only be attached to a
       // unit if both units share the same keyword" (300 groups, 60 leaders × the five marks). It
@@ -2186,7 +2202,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   // do); one without that requirement among them leaves the attachment unrestricted.
   const byLeadKey = new Map()
   for (const l of leads) {
-    const k = `${l.to}|${l.type}|${l.reqDet || ''}|${l.exclDet || ''}`
+    const k = `${l.to}|${l.type}|${l.reqDet || ''}|${l.exclDet || ''}|${l.reqDs || ''}|${l.exclDs || ''}`
     const had = byLeadKey.get(k)
     if (!had) { byLeadKey.set(k, l.allKw ? { ...l, allKw: [...l.allKw] } : l); continue }
     if (!had.allKw) continue

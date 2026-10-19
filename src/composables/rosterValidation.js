@@ -4,7 +4,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, wargearPoolOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
+import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, armySidsOf, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, wargearPoolOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
@@ -91,6 +91,8 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   const defOf = (id) => (id == null ? undefined : defMap.get(id))
   const battle = effectiveBattle(roster, core)
   const detachments = rosterDetachments(roster, faction)
+  // Who else is in the list, for an attachment that depends on it (Cato Sicarius with Calgar).
+  const armySids = armySidsOf(units, (id) => defOf(id))
 
   // Battleline gained from a Detachment, per unit — the doubled duplicate cap below asks this,
   // and so does the section a unit is filed under (rosterEngine's sectionsOf).
@@ -342,7 +344,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     for (const u of units) {
       if (!u.leaderOf) continue
       const target = units.find((x) => x.uid === u.leaderOf)
-      const clash = target && sharedKeywordClash(defOf(u.id), u, defOf(target.id), target, detachments)
+      const clash = target && sharedKeywordClash(defOf(u.id), u, defOf(target.id), target, detachments, armySids)
       if (!clash) continue
       add('allegMismatch', 'error', {
         uid: u.uid,
@@ -467,7 +469,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     // leadTypeFor, not def.leads: an enhancement can grant an attach the datasheet doesn't list,
     // and a datasheet can name its targets by KEYWORD rather than by name — which is the only way
     // an allied leader can join anything in the army it was lent to.
-    if (!target || !leadTypeFor(def, u, defOf(target.id), detachments)) {
+    if (!target || !leadTypeFor(def, u, defOf(target.id), detachments, armySids)) {
       add('leaderTargetInvalid', 'warn', { uid: u.uid, params: { target: (target && nameOf(target.uid)) || '—' } })
     }
   }
@@ -508,7 +510,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
       const slots = new Map()
       for (const u of list) {
         const own = defOf(u.id)
-        const type = leadTypeFor(own, u, hostDef, detachments) || ''
+        const type = leadTypeFor(own, u, hostDef, detachments, armySids) || ''
         // …and a leader that takes no slot at all (`flags.alongside`, see leaderOccupies): the
         // Death Guard characters join a Plague Marines unit that already has a Leader, and only a
         // second copy of the SAME one is barred — which is what keying them by their own id leaves.

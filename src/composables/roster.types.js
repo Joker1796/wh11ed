@@ -75,6 +75,8 @@
  * @property {string[]} [allKw] keywords one of which leader and unit must BOTH have (Pactbound Zealots)
  * @property {string} [reqDet] only in this detachment (its appdata uuid, a detachment's `sid`)
  * @property {string} [exclDet] never in this detachment
+ * @property {string[]} [reqDs] only with one of these datasheets (uuids) in the army (Cato Sicarius: Support with Calgar)
+ * @property {string[]} [exclDs] never with one of these in the army
  */
 
 /**
