@@ -245,12 +245,9 @@ for (const g of krg) {
 // the actual wh11ed files (2026-07-28), not assumed; see the coverage audit's script #3 notes.
 // Filtered out here so they don't false-flag every run.
 const KNOWN_EQUIVALENT = {
-  'Shadow Legion': { names: null, note: 'covered by this detachment\'s own "Thralls of the First Prince" category ban (Daemon Prince/Daemon Prince with Wings/Epic Hero, excluding Be’lakor)' },
-  'Black Spear Task Force': {
-    names: null,
-    note:
-      'these appdata rows are the Codex: Imperial Agents-printed Watch Master/Corvus Blackstar/Watch Captain Artemis/Deathwatch Kill Team datasheets (verified via wh40k-appdata/tables/datasheet.json publicationId, distinct ids from the Index: Deathwatch versions already in deathwatch.js) plus the same 5 Codex: Space Marines squads — already covered by this faction\'s own armyRule ("cannot include any Agents of the Imperium Deathwatch units" + the Chapter/squad exclusion list), which applies regardless of detachment',
-  },
+  // Named one by one (2026-10-19): `names: null` silenced the detachment whole, so a new exclusion
+  // appdata added to it would have been covered by a note written for these fourteen.
+  'Shadow Legion': { names: ['Kairos Fateweaver', 'Epidemius', 'Skarbrand', 'Syll’Esske', 'The Masque of Slaanesh', 'Shalaxi Helbane', 'Karanak', 'Daemon Prince of Chaos', 'The Changeling', 'Skulltaker', 'Horticulous Slimux', 'The Blue Scribes', 'Rotigus', 'Daemon Prince of Chaos with Wings'], note: 'covered by this detachment\'s own "Thralls of the First Prince" category ban (Daemon Prince/Daemon Prince with Wings/Epic Hero, excluding Be’lakor)' },
   'Black Templars': { names: ['Librarian in Terminator Armour', 'Librarian in Phobos Armour', 'Librarian'], note: 'covered by this faction\'s own "cannot include any Adeptus Astartes Psyker models" category ban' },
   'Imperial Knights': { names: ['Sir Hekhtur'], note: 'already carries no factionKeywords and no points cost in wh11ed — structurally not includable, no prose needed' },
   'Emperor’s Children': { names: ['Khorne Lord of Skulls'], note: 'exists only in world-eaters.js — Emperor’s Children’s own datasheets file never lists it, so it’s already structurally unavailable' },
@@ -259,12 +256,13 @@ const KNOWN_EQUIVALENT = {
 const resolvedStructural = []
 // Returns the subset of `names` that ISN'T covered by a known equivalent for `key`, and records a
 // resolved-note for the ones that are.
+const knownUsed = new Set()
 function filterKnownEquivalent(key, names, context) {
   const known = KNOWN_EQUIVALENT[key]
   if (!known) return names
-  const covered = known.names ? names.filter((n) => known.names.includes(n)) : names
-  if (covered.length) resolvedStructural.push({ key, context, covered, note: known.note })
-  return known.names ? names.filter((n) => !known.names.includes(n)) : []
+  const covered = names.filter((n) => known.names.includes(n))
+  if (covered.length) { resolvedStructural.push({ key, context, covered, note: known.note }); knownUsed.add(key) }
+  return names.filter((n) => !known.names.includes(n))
 }
 
 // --- 2. detachment_excluded_datasheet -----------------------------------------------------------
@@ -347,7 +345,10 @@ if (needsReview.length) {
     console.log(`    [${r.kind}] ${r.subject || r.detachment || r.faction} — ${r.note}`)
   }
 }
-return flagged.length ? 1 : 0
+// A known equivalent that covered nothing this run has outlived what it excused.
+const knownStale = Object.keys(KNOWN_EQUIVALENT).filter((k) => !knownUsed.has(k))
+for (const k of knownStale) console.log(`  ! KNOWN_EQUIVALENT "${k}" matched nothing — delete it or fix what it was excusing.`)
+return flagged.length || knownStale.length ? 1 : 0
 }
 
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href

@@ -520,6 +520,7 @@ export default {
       'Любому числу Long Fang их boltgun можно заменить на одно из следующего:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon',
       'boltgun у Long Fang Pack Leader можно заменить на одно из следующего:\n▪ 1 flamer\n▪ 1 grav-gun\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 plasma pistol',
       'close combat weapon у Long Fang Pack Leader можно заменить на одно из следующего:\n▪ 1 Astartes chainsword\n▪ 1 power fist\n▪ 1 power weapon',
+      '* Профили heavy flamer и flamer, grav-gun, meltagun, plasma gun и plasma pistol у Pack Leader пак отсылает к карте Space Wolves Armoury, которой в нём нет. Показаны профили того же оружия с других листов пака.',
     ],
   },
 

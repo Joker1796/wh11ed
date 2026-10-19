@@ -179,6 +179,7 @@ const layoutArtFailed = await run('check-layout-art (GATE)', './check-layout-art
 const companionsFailed = await run('check-companion-pdfs (GATE)', './check-companion-pdfs.mjs')
 const missionsFailed = await run('check-missions (GATE)', './check-missions.mjs')
 const basesFailed = await run('check-bases (GATE)', './check-bases.mjs')
+const packsFailed = await run('check-packs (GATE)', './check-packs.mjs')
 await run('sync-appdata (all factions)', './sync-appdata.mjs', ['--all'], { filtered: true })
 await run('sync-faction-text (all factions)', './sync-faction-text.mjs', ['--all'], { filtered: true })
 await run('sync-tracker', './sync-tracker.mjs', [], { filtered: true })
@@ -256,7 +257,7 @@ const failed = [
   [omissionsFailed, 'omissions'], [detMetaFailed, 'detmeta'], [wTagsFailed, 'wtags'], [dsRulesFailed, 'dsrules'],
   [imgRulesFailed, 'imgrules'], [coreGrantsFailed, 'coregrants'], [dsIdsFailed, 'dsids'], [exceptionsFailed, 'exceptions'],
   [errataTablesFailed, 'errata-tables'], [coreFaqFailed, 'corefaq'], [emphasisFailed, 'emphasis'],
-  [layoutArtFailed, 'layouts'], [companionsFailed, 'companions'], [missionsFailed, 'missions'], [basesFailed, 'bases'],
+  [layoutArtFailed, 'layouts'], [companionsFailed, 'companions'], [missionsFailed, 'missions'], [basesFailed, 'bases'], [packsFailed, 'packs'],
 ].filter(([v]) => v).map(([, name]) => name)
 if (RECORD_BASELINE) {
   console.log('Done (baseline recorded).')

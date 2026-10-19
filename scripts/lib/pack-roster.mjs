@@ -564,6 +564,9 @@ export function packRosterUnit(printedSheet, ctx) {
   }
   let firstOfDo = null
   for (const { raw, head, exclusive } of optionTexts) {
+    // A footnote under the options, as the packs print them ("* The profiles for these weapons can
+    // be found on the … Armoury card") — said to the reader, not a choice.
+    if (/^\*\s/.test(String(raw).trim())) continue
     const opt = parseOption(head || raw, ctxOpt)
     if (opt?.none) continue
     if (!opt || opt.fail) { report.option.push(`${who}: ${opt?.fail || 'no template'} — ${String(raw).split('\n')[0].slice(0, 80)}`); continue }

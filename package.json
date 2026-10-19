@@ -43,6 +43,7 @@
     "dsids": "node scripts/check-datasheet-ids.mjs",
     "bases": "node scripts/check-bases.mjs",
     "missions": "node scripts/check-missions.mjs",
+    "packs": "node scripts/check-packs.mjs",
     "exceptions": "node scripts/check-appdata-exceptions.mjs",
     "errata-tables": "node scripts/check-errata-tables.mjs",
     "corefaq": "node scripts/check-core-faq.mjs",

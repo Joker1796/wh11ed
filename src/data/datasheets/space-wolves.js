@@ -1778,7 +1778,8 @@ export default [
     "options": [
       "Any number of Long Fangs can each have their boltgun replaced with one of the following:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon",
       "The Long Fang Pack Leader’s boltgun can be replaced with one of the following:\n▪ 1 flamer\n▪ 1 grav-gun\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 plasma pistol",
-      "The Long Fang Pack Leader’s close combat weapon can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 power fist\n▪ 1 power weapon"
+      "The Long Fang Pack Leader’s close combat weapon can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 power fist\n▪ 1 power weapon",
+      "* The pack sends the profiles of the heavy flamer and of the Pack Leader’s flamer, grav-gun, meltagun, plasma gun and plasma pistol to the Space Wolves Armoury card, which it does not include. The profiles shown are the same weapons’ from the pack’s other sheets."
     ],
     "keywords": [
       "Infantry",
