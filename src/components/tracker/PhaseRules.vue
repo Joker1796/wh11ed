@@ -5,7 +5,7 @@
     :class="{ 'in-frame': controlled }"
   >
     <!-- The turn in the order it is played (owner, 2026-10-10): one fold per phase (and the turn's
-         start and end), all shut by default, each with how many things fire inside it. Opened, the
+         start and end), each with how many things fire inside it — open as defaultOpen() says. Opened, the
          phase step by step: a step with something to say heads its rows, and steps in a row with
          nothing are one quiet line — the order of the turn stays readable without a line apiece. -->
     <div
@@ -99,7 +99,8 @@
 // `embedded`: inside the game screen, where a row leads to another tab of it rather than away.
 import { computed, ref, watch } from 'vue'
 import StratPhaseGroups from '../StratPhaseGroups.vue'
-import { getItem, setItem } from '../../composables/safeStorage.js'
+import { useTracker } from '../../composables/useTracker.js'
+import { tracks } from '../../data/trackerOptions.js'
 import { usePhaseRules } from '../../composables/usePhaseRules.js'
 
 const props = defineProps({
@@ -117,14 +118,20 @@ const controlled = computed(() => props.side === 0 || props.side === 1)
 const all = computed(() => props.example || sides.value)
 const shown = computed(() => (controlled.value ? all.value.filter((s) => s.pi === props.side) : all.value))
 
-// The open folds, remembered on this device; none by default (owner, 2026-10-10).
-const OPEN_KEY = 'wh11ed-turn-steps-open'
-function readOpen() {
-  try { return new Set(JSON.parse(getItem(OPEN_KEY) || '[]')) } catch { return new Set() }
+// Which folds are open (owner, 2026-10-19, after Mikhail asked for them open as the stratagems'
+// are; it was none, remembered, since 2026-10-10): in a game keeping phases the tab is the phase
+// the game stands in, and that phase is open — and opens again as the clock moves on. Without
+// phases the whole turn is listed, all open; a reader folds what they do not need. An example
+// opens its first phase.
+const { current } = useTracker()
+const phaseNow = computed(() => (tracks(current.value?.settings, 'trackPhases') ? current.value?.currentPhase || 'command' : null))
+function defaultOpen() {
+  if (props.example) return new Set([props.example[0]?.turn?.[0]?.key])
+  if (phaseNow.value) return new Set([phaseNow.value])
+  return new Set(shown.value.flatMap((army) => foldsOf(army.turn).filter((f) => !f.inert).map((f) => f.key)))
 }
-// An example opens its first phase and keeps the game's choice untouched.
-const openSecs = ref(props.example ? new Set([props.example[0]?.turn?.[0]?.key]) : readOpen())
-watch(openSecs, (set) => { if (!props.example) setItem(OPEN_KEY, JSON.stringify([...set])) })
+const openSecs = ref(new Set())
+watch([phaseNow, () => shown.value.length], () => { openSecs.value = defaultOpen() }, { immediate: true })
 
 // A section of the turn as a fold: its count, and its steps cut into chunks — a step with rows,
 // or a run of steps with none joined into one quiet line ("Start of phase · Gain Core CP · …").

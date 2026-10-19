@@ -167,22 +167,29 @@ describe('PhaseRules', () => {
     expect(w.text()).toContain('Animus Damper')
   })
 
-  // One fold per phase, all shut by default, each with what it holds counted; what is opened is
-  // remembered (owner, 2026-10-10).
-  it('folds each phase shut with its count, and remembers what was opened', async () => {
+  // One fold per phase, each with what it holds counted. Without phases the whole turn is open
+  // (owner, 2026-10-19 — it was all shut, remembered, since 2026-10-10); an empty start of the turn
+  // stays a muted, disabled line.
+  it('opens every phase of the turn when the game keeps no phases, each with its count', async () => {
     startGame({}, {}, { trackPhases: false })
     const w = await mountBlock()
     const side = w.findAll('.pr-side')[0]
-    // Every fold shut — an empty start of the turn is no fold at all: muted, disabled (owner, 2026-10-18).
-    expect(side.findAll('.phase-head').every((h) => h.attributes('aria-expanded') === 'false' || h.classes('inert'))).toBe(true)
+    expect(side.findAll('.phase-head').every((h) => h.attributes('aria-expanded') === 'true' || h.classes('inert'))).toBe(true)
     const cmd = side.findAll('.phase-head').find((h) => h.text().includes('Command phase'))
     expect(Number(cmd.find('.phase-count').text())).toBeGreaterThan(0)
     const start = side.findAll('.phase-head')[0] // the turn's start, with nothing in it
     expect(start.find('.phase-count').text()).toBe('0')
     expect(start.classes()).toContain('inert')
     expect(start.attributes('disabled')).toBeDefined()
-    await cmd.trigger('click')
-    expect(JSON.parse(localStorage.getItem('wh11ed-turn-steps-open'))).toEqual(['command'])
+  })
+
+  // With phases the tab is the phase the game stands in — open.
+  it('opens the phase the game stands in when it keeps phases', async () => {
+    startGame({}, {}, { trackPhases: true })
+    tracker.current.value.currentPhase = 'command'
+    const w = await mountBlock()
+    const cmd = w.findAll('.pr-side')[0].findAll('.phase-head').find((h) => h.text().includes('Command phase'))
+    expect(cmd.attributes('aria-expanded')).toBe('true')
   })
 
   // A mission card stands where it scores: the side on turn's primary, for one, at the end of
