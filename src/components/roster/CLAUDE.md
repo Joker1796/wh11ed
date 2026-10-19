@@ -3706,7 +3706,7 @@ from the cloud on another device, still has to show the army that was fielded.
 - **Migrated on READ** (`rosterFromPlayer`), not on write: wargear/size picks are indices into
   generated data the generator renumbers, and a game is kept for months. Same treatment
   `importRoster` gives a share payload.
-- **Size.** `wh11ed-api` caps a synced game at 64 KB (`config.maxGameBytes`) and both players share
+- **Size.** `wh11ed-api` caps a synced game at 512 KB (`config.maxGameBytes`) and both players share
   that budget with the game itself, so the snapshot stays in the stored ids-and-indices form —
   never resolved names or datasheets. `rosterGameLink.test.js` pins it (~150 bytes per entry).
 - **The list decides the army.** Picking a roster in the wizard sets that player's faction, and

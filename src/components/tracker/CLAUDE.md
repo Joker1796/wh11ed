@@ -188,8 +188,8 @@ back to Missions. What lives where:
     discards, a turn, a once-per-battle use, a score changed after it stood a minute — is an act
     `{ type: 'undo', of }` with a copy of the entry; the log draws that entry **struck** where it
     was and the undo as a line of its own. Phases are not told (five lines a turn). A stepper
-    tapped in a row is one act (`COALESCE_MS`). A side keeps at most `MAX_ACTS` (150, oldest go
-    first): a side travels in one 32 KB slice of a shared game.
+    tapped in a row is one act (`COALESCE_MS`). A side keeps at most `MAX_ACTS` (1000, oldest go
+    first): a side travels in one 256 KB slice of a shared game.
 - **Stats** — `ScoreBreakdown` with `expanded` (no toggle: here the table is the content), with
   the CP spent under each side's table (the ledger's spends; also shown in history).
 - **Side tabs inside a panel** (Missions, CP, Armies, Roster) switch in place and **fade** the new
@@ -406,8 +406,8 @@ invite on that site. A beta game that reached this history through the cloud is 
 
 **The tick.** `sync()` compares the game's cut against the base, sends the slices that differ
 (each with the version it was based on) together with `since` — the last party `seq` this phone
-saw — and takes back every slice someone else changed, in ONE `POST /party/{id}/sync` (the gateway
-charges per request). A `409` means a write was based on a stale version: the server's copies
+saw — and takes back every slice someone else changed, in ONE `POST /party/{id}/sync` (one round
+trip a tick, both directions). A `409` means a write was based on a stale version: the server's copies
 land through `applyRemote`, this phone's change is gone, and the player taps again — the honest
 outcome when two partners edit one side inside two seconds. `423` is a finished game a guest
 cannot reopen; `401` the host removed this phone (`party.revoked`); `404` the host ended it

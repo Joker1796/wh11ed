@@ -27,7 +27,7 @@ describe('rosterSnapshot', () => {
     expect(rosterSnapshot({ name: 'no units' })).toBeNull()
   })
 
-  // wh11ed-api rejects a synced game over 64 KB (config.maxGameBytes) and BOTH players' lists share
+  // wh11ed-api rejects a synced game over 512 KB (config.maxGameBytes) and BOTH players' lists share
   // that budget with the game itself, so the snapshot has to stay in the ids-and-indices form.
   it('stays small enough for two lists to fit a synced game', () => {
     const big = {

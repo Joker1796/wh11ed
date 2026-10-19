@@ -9,7 +9,7 @@
 // another device — has to render exactly the army that was fielded, so the army travels INSIDE the
 // game. `rosterId` is kept alongside purely as provenance and may dangle.
 //
-// SIZE: wh11ed-api caps a synced game at 64 KB (config.maxGameBytes) and the whole game shares
+// SIZE: wh11ed-api caps a synced game at 512 KB (config.maxGameBytes) and the whole game shares
 // that budget, so the snapshot stores the roster the way it is STORED (ids and indices into the
 // generated data), never resolved names or datasheets. Measured: ~150 bytes per unit entry, so
 // two full Strike Force lists cost single-digit KB. rosterGameLink.test.js pins that.

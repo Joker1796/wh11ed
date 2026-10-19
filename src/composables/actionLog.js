@@ -15,17 +15,17 @@
 // (where it was) and the undo as a line of its own (when it was) — owner, 2026-10-19. `of` is a
 // copy, not a pointer: the thing undone is usually gone from the game by then.
 //
-// Kept small on purpose — a whole game travels under the API's 64 KB cap: no text but the names a
-// reader needs, and a counter turned several times in a row is one act (COALESCE_MS).
+// Kept small on purpose — every save and every sync carries it: no text but the names a reader
+// needs, and a counter turned several times in a row is one act (COALESCE_MS).
 
 // Writing in a row to the same counter within this many ms reads as one change, not five.
 export const COALESCE_MS = 60_000
 
 // The most acts one holder keeps — a fuse, not a budget. A side travels in one slice of a shared
-// game, capped at 32 KB by the API (maxPartySliceBytes), and an act weighs ~100–150 bytes; a busy
-// game measured ~60 a side. Past the fuse the OLDEST go: the log loses its start rather than the
-// game losing its sync.
-export const MAX_ACTS = 150
+// game, capped at 256 KB by the API (maxPartySliceBytes; 32 KB until 2026-10-19), and an act
+// weighs ~100–150 bytes; a busy game measured ~60 a side. Past the fuse the OLDEST go: the log
+// loses its start rather than the game losing its sync.
+export const MAX_ACTS = 1000
 
 function holderActs(holder) {
   if (!Array.isArray(holder.acts)) holder.acts = []

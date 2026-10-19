@@ -16,8 +16,8 @@ import { APP_DATA_VERSION } from '../data/appDataVersion.js'
 //  2. UPLOADS FOLLOW EDITS, not clicks. A star is a single tap and there is no "Save" to hang an
 //     upload on, so changes are collected and sent after a short quiet spell (and on the way out
 //     of the page) — a player sweeping through a catalogue spends one request, not forty.
-//  3. ONE REQUEST PER VISIT to read. The whole shelf is a few kilobytes and the scarce resource
-//     is requests, not bytes; an ETag makes a visit that changed nothing free.
+//  3. ONE REQUEST PER VISIT to read. The whole shelf is a few kilobytes, so there is nothing to
+//     page; an ETag makes a visit that changed nothing free.
 //
 // A stale write is refused by the API with the row that beat it attached, so a conflict costs a
 // re-merge and a retry rather than someone's marks.
