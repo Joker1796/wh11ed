@@ -80,6 +80,25 @@ describe('StratagemsView with an active game', () => {
   }, 20000)
 })
 
+// An empty deck says why, on that side's tab only — not over the core cards on All, and not
+// while anything is still loading (owner, 2026-10-19).
+describe('StratagemsView — an empty deck', () => {
+  it('names the missing detachment on the side\'s tab, and says nothing on All', async () => {
+    const saved = activeGame.players[1].detachments
+    activeGame.players[1].detachments = []
+    try {
+      const w = mount(StratagemsView)
+      await vi.waitFor(() => expect(w.findAll('.seg [role=tab]')).toHaveLength(4), WAIT)
+      await seen(w, 'Command Re-roll')
+      expect(w.find('.empty-note').exists()).toBe(false)
+      await w.findAll('.seg [role=tab]')[3].trigger('click')
+      await vi.waitFor(() => expect(w.find('.empty-note').text()).toContain('No detachment chosen'), WAIT)
+    } finally {
+      activeGame.players[1].detachments = saved
+    }
+  }, 20000)
+})
+
 // A link from the tracker's phase reminder names the phase it wants (`/stratagems?phase=fight`).
 // Landing on six collapsed accordions would make that link pointless.
 describe('StratagemsView opened on a phase', () => {

@@ -22,12 +22,15 @@
       :filters="filters"
     />
 
+    <!-- Only on one side's deck, once it has loaded, and saying why it is empty (owner,
+         2026-10-19): on All it stood over the core cards, and on every visit it flashed while
+         the core stratagems were still loading. -->
     <Transition name="fade">
       <p
-        v-if="!visibleStratagems.length"
+        v-if="emptyNote"
         class="empty-note"
       >
-        {{ labels.stratNoneForFilter }}
+        {{ emptyNote }}
       </p>
     </Transition>
 
@@ -73,7 +76,7 @@ import StratFilterBar from '../components/StratFilterBar.vue'
 import StratPhaseGroups from '../components/StratPhaseGroups.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
-import { useTracker } from '../composables/useTracker.js'
+import { useTracker, membersOf } from '../composables/useTracker.js'
 import { loadCoreStratagems, loadSideStratagems, sideSignature } from '../composables/gameStratagems.js'
 import { PHASE_ORDER, groupByPhase } from '../composables/stratagemPhases.js'
 import { getItem, setItem } from '../composables/safeStorage.js'
@@ -101,6 +104,8 @@ watch([locale, cpGame], async ([loc, combatPatrol]) => {
 }, { immediate: true })
 const youStrats = ref([])
 const oppStrats = ref([])
+// Whether the two decks above are the ones for this game yet — an empty deck says nothing before.
+const sidesLoaded = ref(false)
 
 let loadToken = 0
 async function loadStrats() {
@@ -110,6 +115,7 @@ async function loadStrats() {
     return
   }
   const token = ++loadToken
+  sidesLoaded.value = false
   const loc = locale.value
   const combatPatrol = !!current.value?.settings?.combatPatrol
   const [y, o] = await Promise.all([
@@ -119,6 +125,7 @@ async function loadStrats() {
   if (token !== loadToken) return // a newer load superseded this one
   youStrats.value = y
   oppStrats.value = o
+  sidesLoaded.value = true
 }
 
 watch(
@@ -161,6 +168,18 @@ const visibleStratagems = computed(() => {
   if (filter.value === 'you') return youStrats.value
   if (filter.value === 'opp') return oppStrats.value
   return coreStrats.value
+})
+
+// Why one side's deck is empty: no detachment chosen (it comes with a list attached in the game's
+// settings — the detachments are not edited mid-game), or a detachment with no stratagems of its own.
+const emptyNote = computed(() => {
+  const key = filter.value
+  if (!hasGame.value || (key !== 'you' && key !== 'opp') || !sidesLoaded.value) return null
+  if ((key === 'you' ? youStrats.value : oppStrats.value).length) return null
+  const dets = membersOf((key === 'you' ? you.value : opp.value) || {}).flatMap((m) => m?.detachments || [])
+  return dets.length
+    ? labels.value.stratDetachmentNone.replace('{det}', dets.join(', '))
+    : labels.value.stratNoDetachment
 })
 
 // The player's own name where they gave one, else the tab's word for them.
