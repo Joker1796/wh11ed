@@ -14,7 +14,7 @@
 
     <div
       class="changelog-body"
-      @click="openSheet"
+      @click="onNoteClick"
     >
       <!-- "Show more" and the archive fade their releases in rather than dropping them in. -->
       <TransitionGroup
@@ -131,6 +131,7 @@ import { useRenderInline } from '../composables/useRenderInline.js'
 import { useFormatDate } from '../composables/useFormatDate.js'
 import { useUpdateNotice } from '../composables/useUpdateNotice.js'
 import { useChangelogArchive } from '../composables/useChangelogArchive.js'
+import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 
 // Loaded on the first tap: the card and its rules data must not ride in this page's chunk.
 const RosterUnitRulesModal = defineAsyncComponent(() => import('../components/roster/RosterUnitRulesModal.vue'))
@@ -139,6 +140,18 @@ const sheet = ref(null)
 // every other in-app link is App.vue's (a route change). Stopped here, before App.vue's document
 // listener sees it.
 const SHEET_LINK = /^(?:\/ru)?\/factions\/([a-z-]+)\/datasheets\/([^/?#]+)$/
+const { openFeedback } = useFeedbackModal()
+// A note's working button ({do:…}, changelogMarks.js) does what the app's own one does.
+const DO = { feedback: openFeedback }
+function onNoteClick(e) {
+  const act = e.target.closest?.('a.cl-do')
+  if (act) {
+    e.preventDefault()
+    DO[act.dataset.do]?.()
+    return
+  }
+  openSheet(e)
+}
 function openSheet(e) {
   const a = e.target.closest?.('a.int-link')
   if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
@@ -261,6 +274,11 @@ useUpdateNotice().markSeen()
 /* A text button sits on the line's baseline — its label is text among text; the icon's -0.2em is
    for a glyph with no baseline of its own, and pulled the label below the line. */
 .cl-list :deep(.cl-key) { vertical-align: baseline; height: auto; padding: 0.15em 0.45em; font-size: 0.85em; font-weight: 600; }
+/* …and one that works ({do:…}): the accent frame of a control you can press, and the pointer. */
+.cl-list :deep(.cl-do) { border-color: var(--accent); text-decoration: none; cursor: pointer; }
+@media (hover: hover) {
+  .cl-list :deep(.cl-do:hover) { background: color-mix(in srgb, var(--accent) 12%, var(--bg-secondary)); }
+}
 /* A contributor's name ({who:…}, changelogMarks.js) — the amber token, AA in both themes. */
 .cl-list :deep(.cl-who) { color: var(--warning); font-weight: 700; }
 
