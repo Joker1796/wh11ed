@@ -1813,11 +1813,40 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of the two, if the bearer's unit was set up through a Monolith's Eternity Gate this turn",
-            "ru": "одна из двух, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
+            "en": "the one picked, if the bearer’s unit was set up through a Monolith’s Eternity Gate this turn",
+            "ru": "выбранная, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
           },
           "cond": [
-            "never"
+            "unit-arrived-from-reserves",
+            "optimiser-lethal"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "the one picked, if the bearer’s unit was set up through a Monolith’s Eternity Gate this turn",
+            "ru": "выбранная, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
+          },
+          "cond": [
+            "unit-arrived-from-reserves",
+            "optimiser-sustained"
+          ]
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "the one picked, if the bearer’s unit was set up through a Monolith’s Eternity Gate this turn",
+            "ru": "выбранная, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
+          },
+          "cond": [
+            "unit-arrived-from-reserves",
+            "optimiser-lethal"
           ],
           "target": "led"
         },
@@ -1827,11 +1856,12 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of the two, if the bearer's unit was set up through a Monolith's Eternity Gate this turn",
-            "ru": "одна из двух, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
+            "en": "the one picked, if the bearer’s unit was set up through a Monolith’s Eternity Gate this turn",
+            "ru": "выбранная, если отряд носителя выставлен через Eternity Gate монолита в этот ход"
           },
           "cond": [
-            "never"
+            "unit-arrived-from-reserves",
+            "optimiser-sustained"
           ],
           "target": "led"
         }

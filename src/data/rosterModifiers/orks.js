@@ -99,11 +99,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
-            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+            "en": "the one picked when the unit is selected to fight",
+            "ru": "выбранная, когда отряд выбран для боя"
           },
           "cond": [
-            "never"
+            "smash-lethal"
           ]
         },
         {
@@ -112,11 +112,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
-            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+            "en": "the one picked when the unit is selected to fight",
+            "ru": "выбранная, когда отряд выбран для боя"
           },
           "cond": [
-            "never"
+            "smash-sustained"
           ]
         },
         {
@@ -125,11 +125,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
-            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+            "en": "the one picked when the unit is selected to fight",
+            "ru": "выбранная, когда отряд выбран для боя"
           },
           "cond": [
-            "never"
+            "smash-lethal"
           ],
           "target": "led"
         },
@@ -139,11 +139,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "in the Fight phase, one of the two, selected when the unit is selected to fight",
-            "ru": "в фазе Fight — одна из двух, выбирается, когда отряд выбран для боя"
+            "en": "the one picked when the unit is selected to fight",
+            "ru": "выбранная, когда отряд выбран для боя"
           },
           "cond": [
-            "never"
+            "smash-sustained"
           ],
           "target": "led"
         }

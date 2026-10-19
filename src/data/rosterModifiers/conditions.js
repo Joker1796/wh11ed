@@ -459,6 +459,16 @@ export const conditions = {
   'cold-sustained': { scope: 'unit', duration: 'phase', group: 'cold-and-calculating', label: { en: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]', ru: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]' } },
   'path-hit-1': { scope: 'unit', duration: 'phase', group: 'path-of-the-warrior', label: { en: 'Re-roll a Hit roll of 1', ru: 'Переброс единиц на попадание' } },
   'path-wound-1': { scope: 'unit', duration: 'phase', group: 'path-of-the-warrior', label: { en: 'Re-roll a Wound roll of 1', ru: 'Переброс единиц на ранение' } },
+  'combatant-lethal': { scope: 'unit', duration: 'phase', group: 'supreme-combatant', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'combatant-sustained': { scope: 'unit', duration: 'phase', group: 'supreme-combatant', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'adaptable-sustained': { scope: 'unit', duration: 'phase', group: 'adaptable-fighters', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'adaptable-lethal': { scope: 'unit', duration: 'phase', group: 'adaptable-fighters', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'optimiser-lethal': { scope: 'unit', duration: 'turn', group: 'prelocational-optimiser', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'optimiser-sustained': { scope: 'unit', duration: 'turn', group: 'prelocational-optimiser', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'smash-lethal': { scope: 'unit', duration: 'phase', group: 'smash-em-up', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'smash-sustained': { scope: 'unit', duration: 'phase', group: 'smash-em-up', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  // Backroom Deals: the one unit selected in the Declare Battle Formations step, for the battle.
+  'backroom-deals': { scope: 'unit', duration: 'battle', label: { en: 'Selected for Backroom Deals', ru: 'Выбран для Backroom Deals' } },
   // Bladeguard (once per turn): +1 to hit with its own melee attacks, or -1 to hit against it.
   'bladeguard-hit': { scope: 'unit', duration: 'phase', group: 'bladeguard', label: { en: '+1 to hit (melee)', ru: '+1 к попаданию (ближний бой)' } },
   'bladeguard-defend': { scope: 'unit', duration: 'phase', group: 'bladeguard', label: { en: '-1 to be hit', ru: '−1 к попаданию по отряду' } },

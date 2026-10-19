@@ -734,7 +734,8 @@ export default {
             "ru": "пока этот отряд — выбранный для этой способности в шаге Declare Battle Formations и ведёт отряд"
           },
           "cond": [
-            "never"
+            "backroom-deals",
+            "unit-leading"
           ],
           "target": "unit"
         }
@@ -923,7 +924,8 @@ export default {
             "ru": "пока этот отряд — выбранный для этой способности в шаге Declare Battle Formations и ведёт отряд"
           },
           "cond": [
-            "never"
+            "backroom-deals",
+            "unit-leading"
           ],
           "target": "unit"
         }
@@ -1055,7 +1057,8 @@ export default {
             "ru": "пока этот отряд — выбранный для этой способности в шаге Declare Battle Formations и ведёт отряд"
           },
           "cond": [
-            "never"
+            "backroom-deals",
+            "unit-leading"
           ],
           "target": "unit"
         }

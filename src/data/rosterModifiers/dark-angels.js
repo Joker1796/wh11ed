@@ -989,11 +989,37 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of the two, selected when the unit is selected to attack",
-            "ru": "одна из двух — выбирается, когда отряд выбран для атаки"
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
           },
           "cond": [
-            "never"
+            "combatant-lethal"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
+          },
+          "cond": [
+            "combatant-sustained"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
+          },
+          "cond": [
+            "combatant-lethal"
           ],
           "target": "led"
         },
@@ -1003,11 +1029,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of the two, selected when the unit is selected to attack",
-            "ru": "одна из двух — выбирается, когда отряд выбран для атаки"
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
           },
           "cond": [
-            "never"
+            "combatant-sustained"
           ],
           "target": "led"
         }
