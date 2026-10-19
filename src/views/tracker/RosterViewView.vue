@@ -1019,6 +1019,16 @@ function withRuleInfo(list) {
     }
   })
 }
+// A once-per-battle chip names its rule the way the card does — in Russian on a Russian card — and
+// its "i" opens that rule, the way an ability set's option does.
+function withUseInfo(list) {
+  return (list || []).map((sw) => {
+    const info = sw.unit ? ruleInfoOf(sw.unit, sw.ability) : null
+    if (!info) return sw
+    const short = (n) => n.replace(/\s*\([^)]*\)\s*$/, '')
+    return { ...sw, label: { en: sw.label.en, ru: short(info.name) }, info: info.text ? { name: info.name, text: info.text } : null }
+  })
+}
 function openChipInfo(sw, rect) {
   if (sw.info) openRule(sw.info.name, sw.info.text, rect, sw.info.sub)
 }
@@ -1380,11 +1390,31 @@ const pickSwitchCache = computed(() => {
   }
   return m
 })
+// …and its once-per-battle rules, the chips its card carries under "Once per battle": a use is
+// marked the moment it is made, at the row, as a charge or a Battle-shock is.
+const useSwitchCache = computed(() => {
+  const m = new Map()
+  if (!canSwitch.value || !keeps('trackUnitStates')) return m
+  for (const e of roster.value?.units || []) {
+    const chips = usesFor(gatedFor(e), gamePlayer.value, gameClock.value, e, roster.value?.units)
+    // Drawn as the card draws them (RosterUnitRulesCard's useChips): one "Once per battle" box,
+    // each chip saying on its second line whether its use is running or spent.
+    if (chips.length) {
+      m.set(e.uid, withUseInfo(chips).map((u) => ({
+        ...u,
+        groupCaption: labels.value.onceBattle,
+        subLabel: u.live ? labels.value.onceLive : u.spent ? labels.value.onceSpent : null,
+      })))
+    }
+  }
+  return m
+})
 function unitChipsOf(entry) {
   return [
     ...unitSwitchesOf(entry),
     ...(pickSwitchCache.value.get(entry.uid) || []),
     ...(auraSwitchCache.value.get(entry.uid) || []),
+    ...(useSwitchCache.value.get(entry.uid) || []),
   ]
 }
 // The one chip that stays on the row: Battle-shock rides on every unit in the game and is marked
@@ -1406,6 +1436,11 @@ function toggleChips(uid) {
   openChips.value = next
 }
 function toggleUnitChip(entry, sw) {
+  if (sw.once) {
+    if (sw.blocked) return
+    tracker.value?.setUnitUse(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value, attachedUids(entry, roster.value?.units))
+    return
+  }
   if (sw.aura) {
     tracker.value?.setUnitAura(gamePi.value, entry.uid, sw.id, stampOf(gameClock.value), !sw.on, gameMi.value)
     return
@@ -1555,7 +1590,7 @@ const viewingGameCtx = computed(() => {
     picks: canSwitch.value ? pickSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
     // …and its once-per-battle rules, ticked once used — a unit state, so under that option.
     uses: canSwitch.value && keeps('trackUnitStates')
-      ? usesFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value, roster.value?.units)
+      ? withUseInfo(usesFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value, roster.value?.units))
       : [],
     // Picks are army-wide (allPicks): the card of a unit standing in someone else's aura must
     // read the same number its row does.

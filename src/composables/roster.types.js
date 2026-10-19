@@ -581,6 +581,8 @@
  * @property {boolean} [live]   a once-per-battle use whose effect is still running
  * @property {boolean} [spent]  used, and its window has closed
  * @property {'unit' | 'army'} [once]
+ * @property {string | null} [unit]     a once-per-battle chip: the datasheet its rule is printed on
+ * @property {string} [ability]         …and the rule's full name there
  * @property {{ name: string, text: string } | null} [info]
  */
 

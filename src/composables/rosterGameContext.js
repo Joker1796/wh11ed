@@ -486,6 +486,10 @@ export function usesFor(records, player, clock, entry, units = null) {
       blockedBy: elsewhere ? 'usedArmy' : null,
       duration: once.dur,
       once: once.per,
+      // The card the rule is printed on and its full name there, for the view to put the RU name
+      // and the rule's text on the chip (it holds the sheets; this layer does not).
+      unit: rec.ref && 'unit' in rec.ref ? rec.ref.unit || null : null,
+      ability: name,
     }]
   })
 }
