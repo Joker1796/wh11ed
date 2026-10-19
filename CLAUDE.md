@@ -118,6 +118,7 @@ npm run wtags        # GATE: every weapon tag printed on a datasheet must have t
 npm run dsrules      # GATE: a named rule appdata files on a datasheet must be on ours too (see Data gates)
 npm run imgrules     # GATE: a figure appdata draws as a picture inside an army/detachment rule must be in our text (see Data gates)
 npm run coregrants   # GATE: a rule that hands a unit a core ability must say so in the modifier layer (see Data gates)
+npm run bases        # GATE: base sizes are appdata's; a model's own size only from scripts/lib/model-bases.mjs, with evidence (see src/data/CLAUDE.md)
 npm run dsids        # GATE: a datasheet id that left the build must be recorded as renamed or retired — a player's marks hang off it (see src/data/CLAUDE.md)
 npm run exceptions   # GATE: each recorded departure from appdata (scripts/lib/appdata-exceptions.mjs) still needed and still applied (see src/data/CLAUDE.md)
 npm run errata-tables # GATE: every codex errata table of changed characteristics is what our datasheets print (see src/data/CLAUDE.md)

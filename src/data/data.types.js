@@ -19,7 +19,7 @@
  * @property {string} oc
  * @property {string} [inv]
  * @property {string} [invNote]
- * @property {string} [baseSize]
+ * @property {string} [baseSize]   a model on another base than its unit's — only from MODEL_BASES (scripts/lib/model-bases.mjs)
  */
 
 /** One Munitorum price row. @typedef {{ models: number, points: number, note?: string }} DatasheetPoints */
@@ -52,7 +52,7 @@
  * @property {string[]} [keywords]
  * @property {string[]} [factionKeywords]
  * @property {Array<{ model: string, list: string[] }>} [keywordsByModel]
- * @property {string} [baseSize]
+ * @property {string} [baseSize]   appdata's, word for word: one size, or a "<model>: <size>" line per model (`npm run bases`)
  * @property {boolean} [legends]
  * @property {string} [source]        'faction-pack' for a Legends sheet transcribed from its PDF
  * @property {string} [sourceVersion]

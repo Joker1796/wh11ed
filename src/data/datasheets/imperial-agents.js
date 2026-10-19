@@ -1718,7 +1718,7 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "28.5mm / 25mm"
+    "baseSize": "Proctor-Exactant, Exaction Vigilants: 28.5mm\nCyber-mastiff: 25mm"
   },
   {
     "id": "fortis-kill-team",
@@ -2330,7 +2330,7 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "25mm / 28.5mm"
+    "baseSize": "Imperial Navy Breachers: 25mm\nNavis las-volley, endurant shield: 28.5mm"
   },
   {
     "id": "imperial-rhino",
@@ -3963,7 +3963,7 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "25mm / 32mm",
+    "baseSize": "Inquisitorial Agents: 25mm\nGun Servitors: 32mm",
     "rules": [
       {
         "name": "INQUISITORIAL HENCHMEN",
@@ -5266,8 +5266,7 @@ export default [
         "w": "4",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "25mm"
+        "inv": "4+"
       },
       {
         "name": "Death Cult Assassin",
@@ -5277,8 +5276,7 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "25mm"
+        "inv": "4+"
       },
       {
         "name": "Lectro‐Maester",
@@ -5288,8 +5286,7 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "25mm"
+        "inv": "4+"
       },
       {
         "name": "Rejuvenat Adept",
@@ -5299,8 +5296,7 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "25mm"
+        "inv": "4+"
       }
     ],
     "ranged": [
@@ -5430,7 +5426,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "sanctifiers",
@@ -6382,7 +6379,7 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "28.5mm / 25mm"
+    "baseSize": "Proctor-Subductor, Subductors: 28.5mm\nCyber-mastiff: 25mm"
   },
   {
     "id": "ur-025",
@@ -6756,7 +6753,7 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "28.5mm / 25mm"
+    "baseSize": "Proctor-Vigilant, Vigilants: 28.5mm\nCyber-mastiff: 25mm"
   },
   {
     "id": "vindicare-assassin",

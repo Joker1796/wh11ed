@@ -4173,8 +4173,7 @@ export default [
         "w": "16",
         "ld": "6+",
         "oc": "6",
-        "inv": "4+",
-        "baseSize": "100mm"
+        "inv": "4+"
       },
       {
         "name": "TRIARCHAL MENHIR",
@@ -4184,8 +4183,7 @@ export default [
         "w": "5",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "50mm"
+        "inv": "4+"
       }
     ],
     "ranged": [
@@ -4304,6 +4302,7 @@ export default [
     "factionKeywords": [
       "Necrons"
     ],
+    "baseSize": "The Silent King: Szarekh: 100mm\nTriarchal Menhir: 50mm",
     "abilitySets": [
       {
         "name": "Triarch Abilities",

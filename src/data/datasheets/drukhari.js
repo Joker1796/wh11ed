@@ -1257,8 +1257,7 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       },
       {
         "name": "KLAIVEX",
@@ -1268,8 +1267,7 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       }
     ],
     "melee": [
@@ -1335,7 +1333,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "kabalite-warriors",

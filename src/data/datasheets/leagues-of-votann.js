@@ -218,8 +218,7 @@ export default [
         "sv": "4+",
         "w": "4",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       },
       {
         "name": "IRONKIN ASSISTANT",
@@ -228,8 +227,7 @@ export default [
         "sv": "4+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "28.5mm"
+        "oc": "1"
       },
       {
         "name": "E-COG",
@@ -238,8 +236,7 @@ export default [
         "sv": "4+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "25mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -355,7 +352,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "Brôkhyr Iron-master: 32mm\nIronkin Assistant: 28.5mm\nE-COG: 25mm"
   },
   {
     "id": "br-khyr-thunderkyn",
@@ -666,7 +664,7 @@ export default [
     "factionKeywords": [
       "Leagues of Votann"
     ],
-    "baseSize": "28.5mm / 50mm"
+    "baseSize": "Cthonian Beserks: 28.5mm\nMole grenade launcher: 50mm"
   },
   {
     "id": "cthonian-earthshakers",
@@ -1035,8 +1033,7 @@ export default [
         "w": "4",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "40mm"
+        "inv": "4+"
       },
       {
         "name": "CORV",
@@ -1046,8 +1043,7 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "25mm"
+        "inv": "4+"
       }
     ],
     "ranged": [
@@ -1140,7 +1136,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "Grimnyr: 40mm\nCORV: 25mm"
   },
   {
     "id": "hearthkyn-warriors",

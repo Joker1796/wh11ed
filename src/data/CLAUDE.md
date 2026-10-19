@@ -194,6 +194,18 @@ found the bug first: 09.07 Fall-back Move lost the word "shoot" in June and stay
 September even though `sync-core` printed it on every run — one finding among 287 — and on
 2026-09-10 the same reader-before-gate pattern produced the two below it.
 
+- **`npm run bases`** (`scripts/check-bases.mjs`, lists in `scripts/lib/model-bases.mjs`) — a
+  datasheet's `baseSize` is appdata's, word for word: one size for the unit, or a "<model>: <size>"
+  line per model where GW gives them (the formatter names each, `src/utils/baseSize.js`). A
+  PROFILE carries a size only from `MODEL_BASES` — a model that stands on another base than its
+  unit's one size, with an appdata datasheet of that model as evidence. Until 2026-10-19 the July
+  back-fill handed a unit's size to every profile, and a player found Pink Horrors' Blue and
+  Brimstone Horrors on 32mm (GW's own Blue Horrors datasheet: 25mm). The gate also scans appdata
+  for every model of a one-size unit that stands on another base elsewhere: each case is decided in
+  `MODEL_BASES` or `SAME_AS_UNIT` (with why — a squad's Nob is not the Nobz unit), so an appdata
+  update that brings a new one fails until a person decides it. `GUIDE_ONLY` names the sheets
+  appdata gives no size for, whose size comes from the Event Companion's Base Size Guide.
+  `gen-datasheets` writes the same shape.
 - **`npm run ruletext`** (`scripts/check-rule-text.mjs`) — a faction's rule text (army rule,
   detachment rules, enhancements, stratagems) **reads as the GW app prints it** (owner,
   2026-10-06). `sync-faction-text` compares it; every difference we keep on purpose (a GW typo we

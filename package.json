@@ -41,6 +41,7 @@
     "ruletext": "node scripts/check-rule-text.mjs",
     "coregrants": "node scripts/check-core-grants.mjs",
     "dsids": "node scripts/check-datasheet-ids.mjs",
+    "bases": "node scripts/check-bases.mjs",
     "exceptions": "node scripts/check-appdata-exceptions.mjs",
     "errata-tables": "node scripts/check-errata-tables.mjs",
     "corefaq": "node scripts/check-core-faq.mjs",

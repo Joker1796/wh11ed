@@ -2270,8 +2270,7 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "1",
-        "inv": "6+",
-        "baseSize": "32mm"
+        "inv": "6+"
       },
       {
         "name": "Gun Servitor",
@@ -2281,8 +2280,7 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "1",
-        "inv": "6+",
-        "baseSize": "32mm"
+        "inv": "6+"
       },
       {
         "name": "Combat Servitor",
@@ -2292,8 +2290,7 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "1",
-        "inv": "6+",
-        "baseSize": "25mm"
+        "inv": "6+"
       }
     ],
     "ranged": [
@@ -2427,7 +2424,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "Servitor Underseer, Gun Servitors: 32mm\nCombat Servitors: 25mm"
   },
   {
     "id": "sicarian-infiltrators",
@@ -2895,7 +2893,7 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "25mm / 60x35.5mm Oval Base"
+    "baseSize": "Skitarii Rangers: 25mm\nTransuranic Arquebus: 60x35.5mm Oval Base"
   },
   {
     "id": "skitarii-vanguard",
@@ -3055,7 +3053,7 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "25mm / 60x35.5mm Oval Base"
+    "baseSize": "Skitarii Vanguards: 25mm\nTransuranic Arquebus: 60x35.5mm Oval Base"
   },
   {
     "id": "skorpius-disintegrator",

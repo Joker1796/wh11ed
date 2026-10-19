@@ -1619,8 +1619,7 @@ export default [
         "sv": "4+",
         "w": "6",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "40mm"
+        "oc": "1"
       },
       {
         "name": "Raveners",
@@ -1629,8 +1628,7 @@ export default [
         "sv": "4+",
         "w": "3",
         "ld": "8+",
-        "oc": "1",
-        "baseSize": "40mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -1711,7 +1709,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "lictor",
@@ -2115,7 +2114,7 @@ export default [
     "factionKeywords": [
       "Tyranids"
     ],
-    "baseSize": "25mm / 28.5mm"
+    "baseSize": "Neurogaunts: 25mm\nNodebeast: 28.5mm"
   },
   {
     "id": "neurolictor",

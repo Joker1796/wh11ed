@@ -158,8 +158,7 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "25mm"
+        "oc": "1"
       },
       {
         "name": "TORMENT",
@@ -168,8 +167,7 @@ export default [
         "sv": "6+",
         "w": "3",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "40mm"
+        "oc": "1"
       }
     ],
     "melee": [
@@ -213,7 +211,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Mutant: 25mm\nTorment: 40mm"
   },
   {
     "id": "blood-slaughterer",
@@ -3716,8 +3715,7 @@ export default [
         "w": "4",
         "ld": "5+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "40mm"
+        "inv": "4+"
       },
       {
         "name": "DARK DISCIPLE",
@@ -3727,8 +3725,7 @@ export default [
         "w": "1",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "25mm"
+        "inv": "4+"
       }
     ],
     "ranged": [
@@ -3808,7 +3805,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Dark Apostle: 40mm\nDark Disciple: 25mm"
   },
   {
     "id": "dark-commune",
@@ -3834,8 +3832,7 @@ export default [
         "sv": "6+",
         "w": "4",
         "ld": "6+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       },
       {
         "name": "Mindwitch",
@@ -3844,8 +3841,7 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       },
       {
         "name": "Iconarch",
@@ -3854,8 +3850,7 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       },
       {
         "name": "Blessed Blade",
@@ -3864,8 +3859,7 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "28.5mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -3985,7 +3979,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Cult Demagogue, Mindwhich, Iconarch: 32mm\nBlessed Blade: 28.5mm"
   },
   {
     "id": "decimator",
@@ -4526,8 +4521,7 @@ export default [
         "sv": "3+",
         "w": "5",
         "ld": "6+",
-        "oc": "1",
-        "baseSize": "40mm"
+        "oc": "1"
       },
       {
         "name": "SURGEON ACOLYTE",
@@ -4536,8 +4530,7 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -4629,7 +4622,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Fabius Bile: 40mm\nSurgeon Acolyte: 32mm"
   },
   {
     "id": "fellgor-beastmen",
@@ -7439,8 +7433,7 @@ export default [
         "sv": "3+",
         "w": "4",
         "ld": "6+",
-        "oc": "1",
-        "baseSize": "40mm"
+        "oc": "1"
       },
       {
         "name": "Garlon Souleater",
@@ -7449,8 +7442,7 @@ export default [
         "sv": "3+",
         "w": "4",
         "ld": "6+",
-        "oc": "1",
-        "baseSize": "40mm"
+        "oc": "1"
       },
       {
         "name": "Katar Garrix",
@@ -7459,8 +7451,7 @@ export default [
         "sv": "3+",
         "w": "4",
         "ld": "6+",
-        "oc": "1",
-        "baseSize": "40mm"
+        "oc": "1"
       },
       {
         "name": "Captain Sargotta",
@@ -7469,8 +7460,7 @@ export default [
         "sv": "4+",
         "w": "3",
         "ld": "6+",
-        "oc": "1",
-        "baseSize": "40mm"
+        "oc": "1"
       },
       {
         "name": "The Enforcer",
@@ -7479,8 +7469,7 @@ export default [
         "sv": "4+",
         "w": "3",
         "ld": "6+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -7641,7 +7630,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Garlon Souleater, Garreon the Corpsemaster, Katar Garrix, Captain Sargotta: 40mm\nThe Enforcer: 32mm"
   },
   {
     "id": "maulerfiend",
@@ -10658,8 +10648,7 @@ export default [
         "ld": "6+",
         "oc": "1",
         "inv": "5+",
-        "invNote": "* Traitor Enforcer model only.",
-        "baseSize": "32mm"
+        "invNote": "* Traitor Enforcer model only."
       },
       {
         "name": "TRAITOR OGRYN",
@@ -10668,8 +10657,7 @@ export default [
         "sv": "5+",
         "w": "4",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "40mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -10742,7 +10730,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Traitor Enforcer: 32mm\nTraitor Ogryn: 40mm"
   },
   {
     "id": "traitor-guardsmen-squad",

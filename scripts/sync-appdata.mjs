@@ -311,8 +311,8 @@ async function syncFaction(slug) {
     // baseSize: exact scalar (both sides are short strings like "32mm") — appdata always spaces
     // out "170 x 109mm", wh11ed always writes "170x109mm" — and for a mixed-base unit (a wargear
     // variant on its own base, e.g. Cthonian Beserks' Mole grenade launcher) appdata spells out
-    // "<Model name>: <size>" per line while wh11ed's own convention (see e.g.
-    // adeptus-mechanicus.js) is a bare "<size> / <size>" list with no names at all. So extract
+    // "<Model name>: <size>" per line — which wh11ed keeps as it is since 2026-10-19 (`npm run
+    // bases` holds it word for word; before, the names were stripped). So extract
     // just the size tokens in order from both sides (ignoring any per-line name prefix) instead
     // of a literal string compare — this also makes the whitespace-only fold below redundant, but
     // subsumes it (a plain "170 x 109mm" line still yields just "170x109mm").

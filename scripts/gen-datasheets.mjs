@@ -21,6 +21,7 @@ import { ROOT, APPDATA, norm, currentWargearRules, appdataToMarkup, appdataToPar
 import { slugify } from '../src/data/slugify.js'
 import { separateProfileWeapons } from '../src/utils/weaponGroups.js'
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
+import { MODEL_BASES, baseOf } from './lib/model-bases.mjs'
 
 const slug = process.argv[2]
 const WRITE = process.argv.includes('--write')
@@ -167,7 +168,11 @@ function convert(ds) {
   if (ambiguous) report.ambiguousInv.push(ds.name)
   out.profiles = (ds.statlines || []).map((s, i) => {
     const p = { name: s.name, m: s.M, t: s.T, sv: s.Sv, w: s.W, ld: s.Ld, oc: s.OC }
-    return Object.assign(p, byStatline.get(i) || {})
+    Object.assign(p, byStatline.get(i) || {})
+    // A model on another base than the unit's one size (scripts/lib/model-bases.mjs).
+    const own = MODEL_BASES.find((e) => e.sheet === ds.name && e.model.toLowerCase() === String(s.name).toLowerCase())
+    if (own) p.baseSize = own.size
+    return p
   })
   const ranged = (ds.wargear || []).flatMap((w) => weaponRows(w, 'ranged'))
   const melee = (ds.wargear || []).flatMap((w) => weaponRows(w, 'melee'))
@@ -215,7 +220,8 @@ function convert(ds) {
 
   out.keywords = [...(ds.keywords || [])]
   out.factionKeywords = factionKeywordsOf.get(ds.id) || (ds.factionKeywords?.length ? ds.factionKeywords : old?.factionKeywords || [])
-  if (ds.baseSize) out.baseSize = ds.baseSize.replace(/\s*x\s*/g, 'x').replace(/\n+/g, ' / ')
+  // appdata's own value, a model's name on each line where it gives one (model-bases.mjs).
+  if (ds.baseSize) out.baseSize = baseOf(ds.baseSize)
   if (legendsIds.has(ds.id)) out.legends = true
   ;(old ? report.kept : report.added).push(id)
   return out

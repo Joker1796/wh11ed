@@ -2395,8 +2395,7 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       },
       {
         "name": "DARK REAPER EXARCH",
@@ -2406,8 +2405,7 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       }
     ],
     "ranged": [
@@ -2528,7 +2526,8 @@ export default [
     ],
     "factionKeywords": [
       "Asuryani"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "death-jester",
@@ -2637,8 +2636,7 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       },
       {
         "name": "DIRE AVENGER EXARCH",
@@ -2648,8 +2646,7 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       }
     ],
     "ranged": [
@@ -2745,7 +2742,8 @@ export default [
     ],
     "factionKeywords": [
       "Asuryani"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "dragon-knights",
@@ -3438,8 +3436,7 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       },
       {
         "name": "FIRE DRAGON EXARCH",
@@ -3449,8 +3446,7 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       }
     ],
     "ranged": [
@@ -3573,7 +3569,8 @@ export default [
     ],
     "factionKeywords": [
       "Asuryani"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "fire-prism",
@@ -3915,8 +3912,7 @@ export default [
         "sv": "4+",
         "w": "1",
         "ld": "7+",
-        "oc": "2",
-        "baseSize": "28.5mm"
+        "oc": "2"
       },
       {
         "name": "HEAVY WEAPON PLATFORM",
@@ -3925,8 +3921,7 @@ export default [
         "sv": "4+",
         "w": "2",
         "ld": "7+",
-        "oc": "0",
-        "baseSize": "40mm"
+        "oc": "0"
       }
     ],
     "ranged": [
@@ -4049,7 +4044,8 @@ export default [
     ],
     "factionKeywords": [
       "Asuryani"
-    ]
+    ],
+    "baseSize": "Guardian Defenders: 28.5mm\nHeavy Weapon Platform: 40mm"
   },
   {
     "id": "hemlock-wraithfighter",
@@ -4285,8 +4281,7 @@ export default [
         "ld": "6+",
         "oc": "1",
         "inv": "5+",
-        "invNote": "This invulnerable save is improved to 4+ against melee attacks.",
-        "baseSize": "28.5mm"
+        "invNote": "This invulnerable save is improved to 4+ against melee attacks."
       },
       {
         "name": "HOWLING BANSHEE EXARCH",
@@ -4297,8 +4292,7 @@ export default [
         "ld": "6+",
         "oc": "1",
         "inv": "5+",
-        "invNote": "This invulnerable save is improved to 4+ against melee attacks.",
-        "baseSize": "28.5mm"
+        "invNote": "This invulnerable save is improved to 4+ against melee attacks."
       }
     ],
     "ranged": [
@@ -4407,7 +4401,8 @@ export default [
     ],
     "factionKeywords": [
       "Asuryani"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "illic-nightspear",
@@ -6523,8 +6518,7 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "2",
-        "inv": "5+",
-        "baseSize": "Large Flying Base"
+        "inv": "5+"
       },
       {
         "name": "SHINING SPEAR EXARCH",
@@ -6534,8 +6528,7 @@ export default [
         "w": "3",
         "ld": "6+",
         "oc": "2",
-        "inv": "5+",
-        "baseSize": "Large Flying Base"
+        "inv": "5+"
       }
     ],
     "ranged": [
@@ -6658,7 +6651,8 @@ export default [
     ],
     "factionKeywords": [
       "Asuryani"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "shroud-runners",
@@ -7486,8 +7480,7 @@ export default [
         "sv": "4+",
         "w": "1",
         "ld": "7+",
-        "oc": "2",
-        "baseSize": "28.5mm"
+        "oc": "2"
       },
       {
         "name": "SERPENT’S SCALE PLATFORM",
@@ -7496,8 +7489,7 @@ export default [
         "sv": "4+",
         "w": "2",
         "ld": "7+",
-        "oc": "0",
-        "baseSize": "40mm"
+        "oc": "0"
       }
     ],
     "ranged": [
@@ -7599,7 +7591,8 @@ export default [
     ],
     "factionKeywords": [
       "Asuryani"
-    ]
+    ],
+    "baseSize": "Storm Guardians: 28.5mm\nSerpent Scale Platform: 40mm"
   },
   {
     "id": "striking-scorpions",
@@ -7624,8 +7617,7 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       },
       {
         "name": "STRIKING SCORPION EXARCH",
@@ -7635,8 +7627,7 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       }
     ],
     "ranged": [
@@ -7744,7 +7735,8 @@ export default [
     ],
     "factionKeywords": [
       "Asuryani"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "swooping-hawks",
@@ -7781,8 +7773,7 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "32mm"
+        "inv": "5+"
       },
       {
         "name": "SWOOPING HAWK EXARCH",
@@ -7792,8 +7783,7 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "32mm"
+        "inv": "5+"
       }
     ],
     "ranged": [
@@ -7916,7 +7906,8 @@ export default [
     ],
     "factionKeywords": [
       "Asuryani"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "the-visarch",
@@ -9602,8 +9593,7 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       },
       {
         "name": "WARP SPIDER EXARCH",
@@ -9613,8 +9603,7 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       }
     ],
     "ranged": [
@@ -9740,7 +9729,8 @@ export default [
     ],
     "factionKeywords": [
       "Asuryani"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "wasp-assault-walker",
@@ -11134,8 +11124,7 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       },
       {
         "name": "KLAIVEX",
@@ -11145,8 +11134,7 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+",
-        "baseSize": "28.5mm"
+        "inv": "5+"
       }
     ],
     "melee": [
@@ -11202,7 +11190,8 @@ export default [
     ],
     "factionKeywords": [
       "Ynnari"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "ynnari-kabalite-warriors",

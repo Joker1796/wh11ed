@@ -2453,7 +2453,7 @@ export default [
     "factionKeywords": [
       "World Eaters"
     ],
-    "baseSize": "28.5mm / 40mm"
+    "baseSize": "Jakhals: 28.5mm\nDishonoured: 40mm"
   },
   {
     "id": "kh-rn-the-betrayer",

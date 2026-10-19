@@ -3518,8 +3518,7 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       },
       {
         "name": "Kroot Farstalker",
@@ -3528,8 +3527,7 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "28.5mm"
+        "oc": "1"
       },
       {
         "name": "Kroot Hound",
@@ -3538,8 +3536,7 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "0",
-        "baseSize": "28.5mm"
+        "oc": "0"
       }
     ],
     "ranged": [
@@ -3668,7 +3665,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "Kroot Kill-broker: 32mm\nOther models: 28.5mm"
   },
   {
     "id": "kroot-flesh-shaper",
@@ -6854,7 +6852,7 @@ export default [
     "factionKeywords": [
       "T’au Empire"
     ],
-    "baseSize": "60mm / 32mm"
+    "baseSize": "Ri’Lantar / Ri’Locai: 60mm\nMV15 gun drone: 32mm"
   },
   {
     "id": "tidewall-droneport",

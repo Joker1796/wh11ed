@@ -629,8 +629,7 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "60x35.5mm"
+        "oc": "1"
       },
       {
         "name": "ATALAN WOLFQUAD",
@@ -639,8 +638,7 @@ export default [
         "sv": "5+",
         "w": "4",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "60mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -765,7 +763,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "Atalan Jackal: 60x35.5mm Oval Base\nWolfquad: 60mm"
   },
   {
     "id": "benefictus",
@@ -1948,7 +1947,7 @@ export default [
     "factionKeywords": [
       "Genestealer Cults"
     ],
-    "baseSize": "25mm / 32mm"
+    "baseSize": "Neophyte Hybrids: 25mm\nHeavy Stubber, Mining Laser, Seismic Cannon: 32mm"
   },
   {
     "id": "nexos",

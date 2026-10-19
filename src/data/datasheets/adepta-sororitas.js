@@ -21,8 +21,7 @@ export default [
         "w": "4",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "32mm"
+        "inv": "4+"
       },
       {
         "name": "AGATHAE DOLAN",
@@ -32,8 +31,7 @@ export default [
         "w": "3",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "25mm"
+        "inv": "4+"
       }
     ],
     "ranged": [
@@ -110,7 +108,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "Aestred Thurga: 32mm\nAgathae Dolan: 25mm"
   },
   {
     "id": "arco-flagellants",
@@ -1421,8 +1420,7 @@ export default [
         "w": "5",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "32mm"
+        "inv": "4+"
       },
       {
         "name": "KYGANIL OF THE BLOODY TEARS",
@@ -1432,8 +1430,7 @@ export default [
         "w": "3",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "32mm"
+        "inv": "4+"
       }
     ],
     "ranged": [
@@ -1502,7 +1499,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "death-cult-assassins",
@@ -3437,8 +3435,7 @@ export default [
         "w": "1",
         "ld": "7+",
         "oc": "1",
-        "inv": "6+",
-        "baseSize": "32mm"
+        "inv": "6+"
       },
       {
         "name": "Sister Repentia",
@@ -3448,8 +3445,7 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "1",
-        "inv": "6+",
-        "baseSize": "28.5mm"
+        "inv": "6+"
       }
     ],
     "ranged": [
@@ -3512,7 +3508,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "Repentia Superior: 32mm\nSister Repentia: 28.5mm"
   },
   {
     "id": "repressor",
@@ -3893,8 +3890,7 @@ export default [
         "w": "5",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "40mm"
+        "inv": "4+"
       },
       {
         "name": "GEMINAE SUPERIA",
@@ -3904,8 +3900,7 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "32mm"
+        "inv": "4+"
       }
     ],
     "ranged": [
@@ -3997,7 +3992,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "Saint Celestine: 40mm\nGeminae Superia: 32mm"
   },
   {
     "id": "sanctifiers",
@@ -4377,8 +4373,7 @@ export default [
         "w": "1",
         "ld": "7+",
         "oc": "2",
-        "inv": "6+",
-        "baseSize": "32mm"
+        "inv": "6+"
       },
       {
         "name": "SISTER NOVITIATE",
@@ -4388,8 +4383,7 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "2",
-        "inv": "6+",
-        "baseSize": "28.5mm"
+        "inv": "6+"
       }
     ],
     "ranged": [
@@ -4547,7 +4541,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "Novitiate Superior: 32mm\nSister Novitiate: 28.5mm"
   },
   {
     "id": "sororitas-rhino",

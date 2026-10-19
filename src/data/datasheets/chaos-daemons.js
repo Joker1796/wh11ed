@@ -3025,8 +3025,7 @@ export default [
         "w": "1",
         "ld": "7+",
         "oc": "2",
-        "inv": "4+",
-        "baseSize": "32mm"
+        "inv": "4+"
       },
       {
         "name": "Blue Horror",
@@ -3037,7 +3036,7 @@ export default [
         "ld": "8+",
         "oc": "1",
         "inv": "4+",
-        "baseSize": "32mm"
+        "baseSize": "25mm"
       },
       {
         "name": "Brimstone Horror",
@@ -3048,7 +3047,7 @@ export default [
         "ld": "8+",
         "oc": "1",
         "inv": "4+",
-        "baseSize": "32mm"
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -3161,6 +3160,7 @@ export default [
     "factionKeywords": [
       "Legiones Daemonica"
     ],
+    "baseSize": "32mm",
     "rules": [
       {
         "name": "HORRORS ARE PINK. HORRORS ARE BLUE. WHEREONCE THERE WAS ONE, NOW THERE ARE TWO.",

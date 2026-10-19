@@ -2,13 +2,20 @@
 // wh40k-appdata's datasheet.localisations.en.baseSize and diffed by scripts/sync-appdata.mjs)
 // into a short display label. Round bases get the diameter sign (⌀32mm); oval bases keep
 // their W×H dimensions (75×42mm); Hull / Unique / flying bases are localized words.
-// Mixed-base profiles are joined with " / " in the raw value — format each part.
+// A unit whose models stand on different bases carries appdata's lines as they are, one
+// "<model>: <size>" a line (scripts/lib/model-bases.mjs) — each is shown with its name, joined by
+// " · ". The name before the LAST colon: "The Silent King: Szarekh: 100mm".
 export function formatBaseSize(raw, labels) {
   if (!raw) return ''
-  return raw
-    .split(' / ')
-    .map((part) => formatOne(part.trim(), labels))
-    .join(' / ')
+  return String(raw)
+    .split('\n')
+    .map((line) => {
+      const m = line.trim().match(/^(.*):\s*(\S.*)$/)
+      if (!m) return formatOne(line.trim(), labels)
+      const name = m[1] === 'Other models' ? labels.baseOtherModels : m[1]
+      return `${name} ${formatOne(m[2], labels)}`
+    })
+    .join(' · ')
 }
 
 function formatOne(s, labels) {

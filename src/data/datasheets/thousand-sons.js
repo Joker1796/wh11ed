@@ -2772,8 +2772,7 @@ export default [
         "w": "1",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "32mm"
+        "inv": "4+"
       },
       {
         "name": "Blue Horror",
@@ -2784,7 +2783,7 @@ export default [
         "ld": "8+",
         "oc": "0",
         "inv": "4+",
-        "baseSize": "32mm"
+        "baseSize": "25mm"
       },
       {
         "name": "Brimstone Horror",
@@ -2795,7 +2794,7 @@ export default [
         "ld": "8+",
         "oc": "0",
         "inv": "4+",
-        "baseSize": "32mm"
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -2909,6 +2908,7 @@ export default [
     "factionKeywords": [
       "Scintillating Legions"
     ],
+    "baseSize": "32mm",
     "rules": [
       {
         "name": "HORRORS ARE PINK. HORRORS ARE BLUE. WHEREONCE THERE WAS ONE, NOW THERE ARE TWO.",
@@ -2951,8 +2951,7 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "2",
-        "inv": "5+",
-        "baseSize": "32mm"
+        "inv": "5+"
       },
       {
         "name": "Aspiring Sorcerer",
@@ -2962,8 +2961,7 @@ export default [
         "w": "3",
         "ld": "6+",
         "oc": "2",
-        "inv": "5+",
-        "baseSize": "32mm"
+        "inv": "5+"
       }
     ],
     "ranged": [
@@ -3100,7 +3098,8 @@ export default [
     ],
     "factionKeywords": [
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "scarab-occult-terminators",
@@ -3137,8 +3136,7 @@ export default [
         "w": "3",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "40mm"
+        "inv": "4+"
       },
       {
         "name": "Scarab Occult Sorcerer",
@@ -3148,8 +3146,7 @@ export default [
         "w": "4",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+",
-        "baseSize": "40mm"
+        "inv": "4+"
       }
     ],
     "ranged": [
@@ -3266,7 +3263,8 @@ export default [
     ],
     "factionKeywords": [
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "screamers",

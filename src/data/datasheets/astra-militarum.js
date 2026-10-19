@@ -2024,8 +2024,7 @@ export default [
         "sv": "5+",
         "w": "3",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "28.5mm"
+        "oc": "1"
       },
       {
         "name": "CADIAN VETERAN GUARDSMAN",
@@ -2034,8 +2033,7 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "28.5mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -2264,6 +2262,7 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
+    "baseSize": "28.5mm",
     "rules": [
       {
         "name": "ORDERS",
@@ -3032,8 +3031,7 @@ export default [
         "sv": "5+",
         "w": "3",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "25mm"
+        "oc": "1"
       },
       {
         "name": "VETERAN GUARDSMAN",
@@ -3042,8 +3040,7 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "25mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -3313,6 +3310,7 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
+    "baseSize": "25mm",
     "rules": [
       {
         "name": "ORDERS",
@@ -6416,8 +6414,7 @@ export default [
         "ld": "6+",
         "oc": "1",
         "inv": "5+",
-        "invNote": "Ibram Gaunt only.",
-        "baseSize": "28.5mm"
+        "invNote": "Ibram Gaunt only."
       },
       {
         "name": "Colm Corbec",
@@ -6426,8 +6423,7 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "28.5mm"
+        "oc": "1"
       },
       {
         "name": "Elim Rawne",
@@ -6436,8 +6432,7 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "28.5mm"
+        "oc": "1"
       },
       {
         "name": "Hlaine Larkin",
@@ -6446,8 +6441,7 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "28.5mm"
+        "oc": "1"
       },
       {
         "name": "’Try Again’ Bragg",
@@ -6456,8 +6450,7 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "28.5mm"
+        "oc": "1"
       },
       {
         "name": "Oan Mkoll",
@@ -6466,8 +6459,7 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "28.5mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -6607,6 +6599,7 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
+    "baseSize": "28.5mm",
     "rules": [
       {
         "name": "ORDERS",
@@ -8536,8 +8529,7 @@ export default [
         "sv": "5+",
         "w": "3",
         "ld": "6+",
-        "oc": "1",
-        "baseSize": "32mm"
+        "oc": "1"
       },
       {
         "name": "VETERAN GUARDSMAN",
@@ -8546,8 +8538,7 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "25mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -8803,6 +8794,7 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
+    "baseSize": "25mm",
     "rules": [
       {
         "name": "ORDERS",
@@ -8831,8 +8823,7 @@ export default [
         "sv": "4+",
         "w": "2",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "50mm"
+        "oc": "1"
       },
       {
         "name": "FIRE COORDINATOR",
@@ -8841,8 +8832,7 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "25mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -8933,6 +8923,7 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
+    "baseSize": "Heavy Weapons Squad: 50mm\nFire Coordinator: 25mm",
     "rules": [
       {
         "name": "EMBARKING",
@@ -12630,8 +12621,7 @@ export default [
         "sv": "4+",
         "w": "1",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "25mm"
+        "oc": "1"
       },
       {
         "name": "TEMPESTOR PRIME",
@@ -12640,8 +12630,7 @@ export default [
         "sv": "4+",
         "w": "3",
         "ld": "7+",
-        "oc": "1",
-        "baseSize": "25mm"
+        "oc": "1"
       }
     ],
     "ranged": [
@@ -12868,6 +12857,7 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
+    "baseSize": "25mm",
     "rules": [
       {
         "name": "ORDERS",
@@ -14321,7 +14311,7 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "25mm / 28.5mm"
+    "baseSize": "Ratlings: 25mm\nRatlings, Tankstopper Rifle: 28.5mm"
   },
   {
     "id": "regimental-attaches",
