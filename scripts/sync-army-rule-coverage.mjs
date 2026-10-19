@@ -53,7 +53,7 @@
 
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, SLUG_MAP, norm, loadModule, allFactionBundles } from './lib/sync-common.mjs'
+import { ROOT, SLUG_MAP, norm, loadModule, allFactionBundles, combatPatrolNames } from './lib/sync-common.mjs'
 
 function bodyText(body) {
   return (body || [])
@@ -124,7 +124,10 @@ export async function run() {
 
   for (const { appSlug, bundle } of allFactionBundles()) {
     const byName = new Map()
-    for (const r of bundle.armyRules || []) if (!byName.has(r.name)) byName.set(r.name, r)
+    // A Combat Patrol box carries its own copy of the army rule (often the long or older wording);
+    // the first copy won here, so five "missing" rules on 2026-10-19 were the boxes' — not ours to carry.
+    const cpIds = combatPatrolNames().armyRuleIds
+    for (const r of bundle.armyRules || []) if (!cpIds.has(r.id) && !byName.has(r.name)) byName.set(r.name, r)
     if (byName.size < 2) continue // a single army rule — nothing for this script to cross-check
 
     const slug = appdataSlugToWh11edSlug.get(appSlug) || appSlug

@@ -3137,6 +3137,11 @@ export default [
       "1 Venerable Dreadnought model"
     ],
     "loadout": "**This model is equipped with:** 1 Assault Cannon; 1 Dreadnought Combat Weapon; 1 Storm Bolter.",
+    "options": [
+      "This model's Assault Cannon can be replaced with one of the following: 1 Helfrost Cannon, 1 Multi-melta",
+      "This model's Storm Bolter can be replaced with 1 Heavy Flamer.",
+      "This model's Assault Cannon and Dreadnought Combat Weapon can be replaced with 1 Fenrisian Great Axe and 1 Blizzard Shield."
+    ],
     "keywords": [
       "Dreadnought",
       "Imperium",
@@ -5281,6 +5286,9 @@ export default [
       "5-10 Wulfen models"
     ],
     "loadout": "**Every model is equipped with:** Death Totem; 1 Wulfen Weapons.",
+    "options": [
+      "Any number of models can each have their death totem replaced with 1 stormfrag auto‑launcher."
+    ],
     "keywords": [
       "Imperium",
       "Infantry",

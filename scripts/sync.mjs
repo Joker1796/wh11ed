@@ -88,6 +88,10 @@ const baseline = RECORD_BASELINE ? {} : previousBaseline
 const seenKeys = new Set()
 const recorded = {}
 let totalSuppressed = 0
+// Report sections that still owe a reading: a finding the baseline does not hold, or a section that
+// returned non-zero (its own FLAGGED list). Until 2026-10-19 this audit always exited 0, and the
+// 32 FLAGGED lines of that day had waited for a reader since the 2.9.6 release.
+const unread = []
 
 // Each check runs in the SAME process as every other — a thrown exception in one (a new appdata
 // shape a script didn't expect, say) must not take down the rest of the audit the way it would
@@ -124,6 +128,8 @@ async function run(label, modulePath, args = [], { filtered = false } = {}) {
   }
 
   const { kept, suppressed, seen } = applyBaseline(buffered, baseline)
+  const fresh = kept.filter((l) => /^\s{0,4}[~+\-?]\s/.test(l)).length
+  if (fresh || code) unread.push(`${label}: ${fresh ? `${fresh} finding(s) not in the baseline` : ''}${fresh && code ? ', ' : ''}${code ? 'flagged items' : ''}`)
   for (const k of seen) {
     seenKeys.add(k)
     if (RECORD_BASELINE) recorded[k] = previousBaseline[k] ?? '' // keep the reason an entry was accepted for
@@ -237,4 +243,24 @@ if (RECORD_BASELINE) {
     console.log('  Re-record with `npm run sync -- --baseline` once you have read why.')
   }
 }
-console.log('Done. Every section above is report-only; read the flagged lines and fix by hand.')
+// The verdict. Every gate above, every stale sidecar, every report section with something unread,
+// and a baseline entry that matched nothing — any of them fails the audit (exit 1), so `npm run
+// sync` is a gate in its own right and a finding cannot sit in the output for weeks.
+const stale = RECORD_BASELINE ? [] : Object.keys(baseline).filter((k) => !seenKeys.has(findingKey(k)))
+const failed = [
+  [idsStale, 'sourceIds'], [condKwStale, 'conditionalKeywords'], [faqStale, 'factionFaq'], [faqIndexStale, 'factionFaq index'],
+  [legendsStale, 'factionLegends'], [cpMissionsStale, 'combat patrol missions'], [textsRuStale, 'roster RU texts'],
+  [modsDirty, 'roster modifiers'], [rosterStale, 'roster data'], [glossStale, 'gloss'],
+  [omissionsFailed, 'omissions'], [detMetaFailed, 'detmeta'], [wTagsFailed, 'wtags'], [dsRulesFailed, 'dsrules'],
+  [imgRulesFailed, 'imgrules'], [coreGrantsFailed, 'coregrants'], [dsIdsFailed, 'dsids'], [exceptionsFailed, 'exceptions'],
+  [errataTablesFailed, 'errata-tables'], [coreFaqFailed, 'corefaq'], [emphasisFailed, 'emphasis'],
+  [layoutArtFailed, 'layouts'], [companionsFailed, 'companions'],
+].filter(([v]) => v).map(([, name]) => name)
+if (RECORD_BASELINE) {
+  console.log('Done (baseline recorded).')
+} else if (failed.length || unread.length || stale.length) {
+  console.log(`✗ sync: ${failed.length ? `failing: ${failed.join(', ')}. ` : ''}${unread.length ? `unread: ${unread.join('; ')}. ` : ''}${stale.length ? `${stale.length} stale baseline entr(ies).` : ''}`)
+  process.exitCode = 1
+} else {
+  console.log('✓ sync: every gate green, every finding read (baseline), nothing stale.')
+}

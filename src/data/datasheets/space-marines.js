@@ -10365,6 +10365,10 @@ export default [
       "1 Repulsor model"
     ],
     "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Defensive Array; 1 Heavy Onslaught Gatling Cannon; 1 Hunter-slayer Missile; 1 Twin Heavy Bolter.",
+    "options": [
+      "This model’s Heavy Onslaught Gatling Cannon can be replaced with 1 Las-talon.",
+      "This model’s Twin Heavy Bolter can be replaced with 1 Twin Lascannon."
+    ],
     "transport": "This model has a **[gloss:transport-capacity:transport capacity]** of 14 ADEPTUS ASTARTES INFANTRY models. It cannot transport JUMP PACK models. Each GRAVIS/TERMINATOR model takes up the space of 2 models.",
     "keywords": [
       "Frame",
@@ -10508,6 +10512,9 @@ export default [
       "1 Repulsor Executioner model"
     ],
     "loadout": "**This model is equipped with:** 1 Armoured Hull; 1 Defensive Array; 1 Heavy Laser Destroyer; 1 Heavy Onslaught Gatling Cannon; 1 Twin Heavy Bolter.",
+    "options": [
+      "This model’s Heavy Laser Destroyer can be replaced with 1 Macro Plasma Incinerator."
+    ],
     "transport": "This model has a **[gloss:transport-capacity:transport capacity]** of 7 ADEPTUS ASTARTES INFANTRY models. It cannot transport JUMP PACK models. Each GRAVIS/TERMINATOR model takes up the space of 2 models.",
     "keywords": [
       "Frame",

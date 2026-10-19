@@ -123,6 +123,10 @@ for (const f of files) {
   const mod = await loadModule(path.join(ROOT, 'src/data/factions', f))
   const en = Object.values(mod || {})[0]?.en
   if (!en?.detachments) continue
+  // What the app applies as data is shown under the rule from src/data/factions/extras/<slug>.js
+  // ("Applies also", RuleExtras.vue) rather than in the rule's text — so it counts as said. All ten
+  // findings of 2026-10-19 were there; this report read only the rule body and flagged them.
+  const extras = (await loadModule(path.join(ROOT, 'src/data/factions/extras', f)))?.default || {}
   for (const d of en.detachments) {
     scanned++
     const uuid = wh11edToUuid.get(`${slug}:${d.id}`)
@@ -141,7 +145,8 @@ for (const f of files) {
       continue
     }
 
-    const bodyWordSet = new Set(words(d.rule?.body))
+    const extraText = (extras[`det:${d.id}`] || []).map((x) => x.en || '').join('\n')
+    const bodyWordSet = new Set(words(`${d.rule?.body || ''}\n${extraText}`))
     const missing = []
     for (const det of details) {
       const isKeywordsGrant = /keyword/i.test(det.title)

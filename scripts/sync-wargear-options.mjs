@@ -247,9 +247,12 @@ function blobOf(d) {
     [
       ...(d.options || []),
       d.loadout || '',
+      ...(d.composition || []),
       ...(d.ranged || []).map((w) => w.name),
       ...(d.melee || []).map((w) => w.name),
       ...(d.abilities || []).map((a) => a.name),
+      // A wargear ability is the item it comes with (Deathwing Terminators' Watcher in the Dark).
+      ...(d.wargearAbilities || []).map((a) => a.name),
       d.damaged?.text || '',
     ].join('\n'),
   )
@@ -287,7 +290,10 @@ for (const [slug, entries] of Object.entries(sourceIds)) {
   for (const d of datasheets) {
     if (cp.datasheets.has(norm(d.name))) continue
     scanned++
-    const uuid = wh11edToUuid.get(d.id) || smDsMap.get(d.id)
+    // The Space Marines map stands in for a Chapter's shared sheets — never for a Faction Pack
+    // sheet that shares an id with one (AdMech's Terrax-pattern Termite matched the Legends: Space
+    // Marines Termite and was flagged for its combi-weapon, 2026-10-19).
+    const uuid = wh11edToUuid.get(d.id) || (d.source !== 'faction-pack' ? smDsMap.get(d.id) : null)
     if (!uuid) {
       unbridged++
       continue
@@ -308,6 +314,9 @@ for (const [slug, entries] of Object.entries(sourceIds)) {
         const re = nameRegex(item.name)
         if (re && !re.test(blob)) {
           if (nearName(item.name, blob)) structureOnly.push(`${slug} · ${d.name}: item "${item.name}" — appdata's own sentence spells it differently, and that spelling is what we carry`)
+          // An item the choice tables offer that appdata's own prose never names (Deathwing
+          // Terminators' Watcher in the Dark) is the tables' word against the prose's, like a number.
+          else if (!proseHas(uuid, item.name)) structureOnly.push(`${slug} · ${d.name}: item "${item.name}" — appdata's own prose never names it either`)
           else missing.push(`item "${item.name}" not found`)
         }
       }

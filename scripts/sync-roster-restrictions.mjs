@@ -43,7 +43,7 @@
 
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, SLUG_MAP, norm, loadModule, loadWh11edDatasheets, allFactionBundles, sourceIds as sourceIdsMap, table as read, nameOfEn as nameOf, groupBy, escapeRegex, NUMBER_WORDS, invertSourceIds } from './lib/sync-common.mjs'
+import { ROOT, SLUG_MAP, norm, loadModule, loadWh11edDatasheets, allFactionBundles, sourceIds as sourceIdsMap, table as read, nameOfEn as nameOf, groupBy, escapeRegex, NUMBER_WORDS, invertSourceIds, extrasText } from './lib/sync-common.mjs'
 
 const factionKeywordName = new Map(read('faction_keyword.json').map((r) => [r.id, nameOf(r)]))
 const keywordName = new Map(read('keyword.json').map((r) => [r.id, nameOf(r)]))
@@ -226,7 +226,7 @@ for (const g of krg) {
       needsReview.push({ kind: 'keyword-limit-override', detachment: detName, note: `sourceIds points at ${found.slug}/det:${found.id} but no such detachment found` })
       continue
     }
-    const body = det.rule?.body || ''
+    const body = `${det.rule?.body || ''}\n${await extrasText(found.slug, `det:${det.id}`)}`
     const missing = []
     for (const subject of subjects) {
       if (!nameRe(subject).test(norm(body))) missing.push(`"${subject}" not named in rule body`)
@@ -282,7 +282,7 @@ for (const [detachmentId, rows] of detExclByDet) {
     continue
   }
   checked++
-  const body = norm(det.rule?.body || '')
+  const body = norm(`${det.rule?.body || ''}\n${await extrasText(bridge.slug, `det:${det.id}`)}`)
   let missing = []
   for (const row of rows) {
     const dsName = datasheetName.get(row.datasheetId)

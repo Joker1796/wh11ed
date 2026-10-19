@@ -38,7 +38,7 @@
 
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, SLUG_MAP, norm, loadModule, allFactionBundles, table as read, nameOfEn as nameOf, groupBy, invertSourceIds } from './lib/sync-common.mjs'
+import { ROOT, SLUG_MAP, norm, loadModule, allFactionBundles, table as read, nameOfEn as nameOf, groupBy, invertSourceIds, extrasText } from './lib/sync-common.mjs'
 
 const factionKeywordName = new Map(read('faction_keyword.json').map((r) => [r.id, nameOf(r)]))
 const keywordName = new Map(read('keyword.json').map((r) => [r.id, nameOf(r)]))
@@ -121,7 +121,7 @@ async function findDetachment(slug, id) {
 async function factionWideBody(slug) {
   const en = await loadFaction(slug)
   if (!en) return null
-  const parts = [en.armyRule?.body || '']
+  const parts = [en.armyRule?.body || '', await extrasText(slug)]
   for (const d of en.detachments || []) parts.push(d.rule?.body || '')
   return parts.join('\n')
 }
@@ -254,7 +254,7 @@ for (const af of read('allied_faction.json')) {
     checked++
 
     const faction = await loadFaction(bridge.slug)
-    const body = `${det.rule?.body || ''}\n${faction?.armyRule?.body || ''}`
+    const body = `${det.rule?.body || ''}\n${faction?.armyRule?.body || ''}\n${await extrasText(bridge.slug, `det:${det.id}`)}`
     const missing = []
     for (const name of allyNames) {
       const synonyms = ALLY_NAME_IN_PROSE[name] || []

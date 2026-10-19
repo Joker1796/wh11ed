@@ -174,7 +174,9 @@ for (const [enhId, enhGroups] of groupsByEnh) {
   }
 
   const appdataClause = onlyClause(appdataToMarkup(enhancementById.get(enhId)?.localisations?.en?.rules || ''))
-  const wh11edClauseNorm = norm(onlyClause(enh.body || '') || enh.body || '')
+  // The clause may stand in the plate under the rule (extras) rather than in its text — said all the same.
+  const extraClause = (await extrasOf(slug))[`enh:${det.id}:${enh.name}`]?.map((x) => x.en).join('\n') || ''
+  const wh11edClauseNorm = norm(`${onlyClause(enh.body || '') || enh.body || ''}\n${extraClause}`)
   checked++
   const missing = []
 

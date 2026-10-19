@@ -377,3 +377,22 @@ export function currentWargearRules(rules) {
   if (!plain.length || plain.length === rules.length) return rules
   return rules.filter((r) => !marked(r) || !plain.some((p) => wgOverlap(wgWords(r.rules), wgWords(p.rules)) >= 0.5))
 }
+
+// What a faction's rules carry as data rather than prose: src/data/factions/extras/<slug>.js,
+// shown under the rule in its own plate ("Applies also", RuleExtras.vue). Text there IS said on the
+// page — every report that asks "does our rule say X?" must read it too. Four reports did not, and
+// all of their 2026-10-19 findings (Travelling Players, the allied points brackets…) were there.
+const _extras = new Map()
+export async function loadExtras(slug) {
+  if (!_extras.has(slug)) {
+    const file = path.join(ROOT, 'src/data/factions/extras', `${slug}.js`)
+    _extras.set(slug, fs.existsSync(file) ? (await import(pathToFileURL(file).href)).default : {})
+  }
+  return _extras.get(slug)
+}
+// The English text of one key ('det:<id>', 'enh:<det>:<name>'), or of every key when none is given.
+export async function extrasText(slug, key = null) {
+  const all = await loadExtras(slug)
+  const lists = key ? [all[key] || []] : Object.values(all)
+  return lists.flat().map((x) => x.en || '').join('\n')
+}
