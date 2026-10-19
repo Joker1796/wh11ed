@@ -1474,3 +1474,10 @@ describe('gateStratagems — appliesWhile on any rule', () => {
     expect(gateStratagems([rule], [], [], new Set(), false)).toEqual([rule])
   })
 })
+
+describe('mul', () => {
+  it('doubles a plain characteristic, leaves dice to the note', () => {
+    expect(applyValue('4', 'mul', 2, 'a')).toBe('8')
+    expect(applyValue('D6', 'mul', 2, 'a')).toBe(null)
+  })
+})

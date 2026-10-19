@@ -492,8 +492,8 @@ export default {
         {
           "on": "melee",
           "stat": "a",
-          "op": "add",
-          "value": 4,
+          "op": "mul",
+          "value": 2,
           "only": {
             "name": "Warp grasp"
           },

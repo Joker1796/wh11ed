@@ -10,7 +10,7 @@ import { foldName } from '../../utils/foldName.js'
 const files = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./appliesWhile.js', '!./*.test.js'], { eager: true, import: 'default' })
 
 const ON = new Set(['profile', 'ranged', 'melee', 'weapon', 'unit'])
-const OP = new Set(['add', 'set', 'improve', 'grant'])
+const OP = new Set(['add', 'set', 'improve', 'grant', 'mul'])
 const STAT = new Set(['m', 't', 'sv', 'w', 'ld', 'oc', 'inv', 'a', 'bs', 'ws', 's', 'ap', 'd', 'range', 'keyword', 'core', 'ability', 'hit', 'wound'])
 
 const allEntries = Object.entries(files).flatMap(([file, data]) =>

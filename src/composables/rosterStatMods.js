@@ -206,6 +206,10 @@ export function applyValue(current, op, value, stat = null, best = null) {
   // reviewer writes `add` with the sign the rule implies, since "improve" means +2 for Objective
   // Control and -1 for AP and no single op can be both.
   const plain = raw.match(/^-?\d+$/)
+  // `mul` — "double the Attacks characteristic" (Eisenhorn's Malus Codicium on Warp grasp). It was
+  // `add: 4` on a 4-attack profile until 2026-10-19, right only while the profile kept its 4. A dice
+  // amount ("D6") is not doubled here: annotated, like any other dice arithmetic.
+  if (plain && op === 'mul') return String(Number(raw) * Number(value))
   if (plain) {
     if (op !== 'add') return null
     const next = Number(raw) + Number(value)
