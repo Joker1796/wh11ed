@@ -87,6 +87,12 @@
               @click="onPick(s)"
             >
               <span class="pj-seat-name">{{ s.label }}</span>
+              <!-- The army the seat plays: "Player 2's seat" alone did not say which side it is
+                   (owner, 2026-10-19). -->
+              <span
+                v-if="s.faction"
+                class="pj-seat-faction"
+              >{{ s.faction }}</span>
               <span
                 v-if="s.takenBy"
                 class="pj-seat-taken"
@@ -136,6 +142,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
 import { SITE_GENS, siteOfGen } from '../../composables/trackerGen.js'
 import { useTracker } from '../../composables/useTracker.js'
+import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -211,6 +218,7 @@ const seats = computed(() => {
           label: m.name || seatOf(mi),
           name: m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2),
           team: pl.teamName || '',
+          faction: factionIndexBySlug(m.factionSlug)?.name || '',
           takenBy: h ? h.name || labels.value.partyHostBadge : null,
         })
       })
@@ -221,6 +229,7 @@ const seats = computed(() => {
         label: pl.name || seatOf(side),
         name: pl.name || (side === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2),
         team: '',
+        faction: factionIndexBySlug(pl.factionSlug)?.name || '',
         takenBy: h ? h.name || labels.value.partyHostBadge : null,
       })
     }
@@ -352,6 +361,7 @@ onMounted(() => {
 /* A seat nobody holds yet is an open slot, drawn as one: dashed until someone sits there. */
 .pj-seat.free { border-style: dashed; border-color: var(--text-muted); }
 .pj-seat-name { font-size: 1.05rem; font-weight: 600; }
+.pj-seat-faction { font-size: 0.85rem; color: var(--text-muted); }
 .pj-seat-taken { font-size: 0.78rem; color: var(--accent-ink); }
 .pj-err {
   margin: 0.6rem 0 0;

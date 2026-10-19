@@ -41,9 +41,11 @@
            the site's settings gear sits in the navbar right above. No dot on it any more (owner,
            2026-10-08): a shared game shows on the round line's own dot, and the rows inside say
            "on now". -->
+      <!-- 17rem: "Shared game" with its "on" mark wrapped to two lines in the default 15. -->
       <ActionMenu
         v-model:open="gameMenuOpen"
         :title="labels.trackerGameMenu"
+        width="17rem"
       >
         <template #trigger="{ toggle }">
           <button
@@ -1196,7 +1198,7 @@ function onEndBattle(reason) {
   font-size: 1.05rem;
   line-height: 1;
 }
-.gm-row { display: flex; align-items: center; gap: 0.5rem; }
+.gm-row { display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
 .gm-live {
   margin-left: auto;
   font-size: 0.75rem;
