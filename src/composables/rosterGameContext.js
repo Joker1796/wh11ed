@@ -735,9 +735,10 @@ export function stratagemsFor(resolvedEntries, player, clock, entry) {
  * @param {ClockLike} clock
  * @param {EntryLike | null | undefined} entry
  * @param {GroupLimits} [limits] this unit's own group sizes (groupLimitsFor)
- * @param {{ proves?: Set<string>, forbids?: Set<string> }} [unitRules] what the unit's own rules
+ * @param {{ proves?: Set<string>, forbids?: Set<string>, units?: RosterEntry[] | null }} [unitRules] what the unit's own rules
  *   settle (doctrineRules.js): a proven state is shown on and not the player's to flip, a forbidden
- *   one shown off and blocked, each saying why
+ *   one shown off and blocked, each saying why; `units`, the roster's entries, for a once-per-battle
+ *   use ticked on another card of the same attached unit
  * @returns {CondSwitch[]}
  */
 export function switchesFor(resolvedEntries, scope, player, clock, entry, limits, unitRules = {}) {
@@ -755,12 +756,14 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry, limits
     if (c.scope !== 'clock') return true
     return c.rounds ? true : normaliseClock(clock).tracked
   }
-  // A stratagem's own options are asked only once it is spent here — before, there is nothing to pick.
+  // A spent rule's own options are asked only once it is spent here — a stratagem in force on the
+  // unit, a once-per-battle ability used inside its window. Before, there is nothing to pick.
   const spentHere = activeStratagems(player, clock, entry, resolvedEntries)
+  const usedHere = activeUses(player, clock, entry, resolvedEntries, unitRules.units || null)
   for (const rec of resolvedEntries || []) {
     for (const eff of rec.effects || []) {
       if (!eff.cond?.length) continue
-      if (eff.cond.some((cid) => conditions[cid]?.stratagem) && !(rec.kind === 'stratagem' && spentHere.has(rec.sid))) continue
+      if (eff.cond.some((cid) => conditions[cid]?.onUse) && !spentHere.has(rec.sid) && !usedHere.has(rec.sid)) continue
       // A clock half is answered by the clock, not by a switch — so it no longer disqualifies the
       // effect. A battle-round window always answers; a phase only in a game keeping phases,
       // without which an effect whose other half can be flipped would offer a switch that changes

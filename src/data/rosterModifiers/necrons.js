@@ -8,6 +8,17 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "d0cc4c05-a640-456f-a04e-d2a15fd9b08f:amonhotekh-s-guard-canoptek-scarab-swarms",
+      "kind": "ability",
+      "name": "Amonhotekh's Guard Canoptek Scarab Swarms: Scarab Interference",
+      "det": null,
+      "ref": null,
+      "hash": "f2b25c39",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "076d361c-d1bb-4e8e-8eb4-251434f9d888:amonhotekh-s-guard-skorpekh-destroyers",
       "kind": "ability",
       "name": "Amonhotekh's Guard Skorpekh Destroyers: Plasmacyte (Once per battle per unit)",
@@ -1827,6 +1838,29 @@ export default {
       ]
     },
     {
+      "sid": "d2ab2c1b-9744-4545-995c-e41df16e488c",
+      "kind": "stratagem",
+      "name": "Gauss Storm",
+      "det": "Amonhotekh’s Guard",
+      "ref": null,
+      "hash": "fe8dfc7e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "a374ab23-5cc9-4eca-97e4-54dfc8cd461f",
       "kind": "stratagem",
       "name": "Reinforced Resilience",
@@ -2286,6 +2320,21 @@ export default {
         }
       ],
       "dur": "round"
+    },
+    {
+      "sid": "2d178a91-fe95-4fcf-a613-af03204721ea",
+      "kind": "stratagem",
+      "name": "Evasive Protocols",
+      "det": "Skyshroud Spearhead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "skyshroud-spearhead",
+        "name": "Evasive Protocols"
+      },
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "1b7e64e2-00bb-48a9-a88e-6c35d4aa0961",

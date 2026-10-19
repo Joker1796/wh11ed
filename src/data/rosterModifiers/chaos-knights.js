@@ -618,6 +618,34 @@ export default {
       }
     },
     {
+      "sid": "ee08748e-78e1-428c-8e57-132887580ab5",
+      "kind": "detachmentRule",
+      "name": "Annihilate the Unworthy",
+      "det": "Bastions of Tyranny",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "bastions-of-tyranny"
+      },
+      "hash": "b3c39498",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a Battle-shocked unit",
+            "ru": "против отряда в Battle-shock"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "788a4578-aaf9-4801-a35e-8e4d224c0a90",
       "kind": "detachmentRule",
       "name": "Masters of the Pack",
@@ -1128,6 +1156,21 @@ export default {
         "kind": "enhancement",
         "det": "traitoris-lance"
       }
+    },
+    {
+      "sid": "43660e8e-4733-4538-9696-435fc15b0630",
+      "kind": "stratagem",
+      "name": "Intimidating Reminder",
+      "det": "Bastions of Tyranny",
+      "ref": {
+        "kind": "stratagem",
+        "det": "bastions-of-tyranny",
+        "name": "Intimidating Reminder"
+      },
+      "hash": "d14dc66e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "5b7ebc65-f243-4eb0-9af1-17c2f28e7937",

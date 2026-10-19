@@ -56,7 +56,6 @@ describe('once per battle', () => {
 // Effects worded "once per battle" that keep `never` on top of the use, with why: the card cannot
 // answer the rest even once the use is marked.
 const NOT_ONCE = new Map([
-  ['Trajann Valoris: Moment Shackle', 'one of two effects, chosen when used'],
   ['Biophagus: Alchemicus Familiar', 'only against an INFANTRY unit'],
   ['Vindicare Assassin: Shieldbreaker', 'one shot of one weapon'],
   ['Tankbustas: Pulsa Rokkit', 'only against the MONSTER/VEHICLE unit selected'],

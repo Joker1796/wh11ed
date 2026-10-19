@@ -1920,6 +1920,31 @@ export default {
       ]
     },
     {
+      "sid": "03586339-4af2-4cd9-bb94-9bddc81d9144",
+      "kind": "enhancement",
+      "name": "Gnarlskin Experimentor",
+      "det": "Tools of Torment",
+      "ref": {
+        "kind": "enhancement",
+        "det": "tools-of-torment"
+      },
+      "hash": "a9a76acc",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8109853a-f449-4a5c-825f-aec1a917eeb5",
+      "kind": "stratagem",
+      "name": "Hardened Physiology",
+      "det": "Coven of Agonies",
+      "ref": null,
+      "hash": "c3a9bf63",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "bd66d7c1-a2c3-4a8d-962a-7ffb17d0998e",
       "kind": "stratagem",
       "name": "Powerful Creations",

@@ -36,6 +36,47 @@ export default {
       "effects": []
     },
     {
+      "sid": "a1a36cfc-2330-4ad1-b738-384bd8f9033f:fortis-kill-team",
+      "kind": "ability",
+      "name": "Fortis Kill Team: Fortis Doctrines",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fortis-kill-team"
+      },
+      "hash": "3e004e02",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit below starting strength",
+            "ru": "против отряда ниже стартовой численности"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "also, against a unit at or below half-strength",
+            "ru": "также против отряда на половине численности или ниже"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "1a965117-329d-4465-b439-e41eeb5f533c:indomitor-kill-team",
       "kind": "ability",
       "name": "Indomitor Kill Team: Indomitor Doctrines",

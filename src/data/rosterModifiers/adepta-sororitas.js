@@ -1207,6 +1207,36 @@ export default {
           "cond": [
             "blocked-subset"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "atonement-path-of-the-penitent"
+          ],
+          "when": {
+            "en": "the Vow of Atonement picked in your Command phase",
+            "ru": "обет, выбранный в вашей фазе командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "atonement-absolution-in-battle"
+          ],
+          "when": {
+            "en": "the Vow of Atonement picked in your Command phase",
+            "ru": "обет, выбранный в вашей фазе командования"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "atonement-death-before-disgrace"
+          ],
+          "when": {
+            "en": "the Vow of Atonement picked in your Command phase",
+            "ru": "обет, выбранный в вашей фазе командования"
+          }
         }
       ],
       "ref": {
@@ -1264,6 +1294,17 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "92b25844-f770-40c6-920a-a4a24de42a0a",
+      "kind": "detachmentRule",
+      "name": "Blessed Believers",
+      "det": "Sanctuary Guardians",
+      "ref": null,
+      "hash": "c654eff7",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "1183f5f4-7242-46ba-80c1-2be89be8c9db",
@@ -2049,6 +2090,36 @@ export default {
           "when": {
             "en": "against the enemy unit this stratagem named",
             "ru": "против юнита, названного стратагемой"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "696ce713-6868-49bd-ace7-43653c4e6fe6",
+      "kind": "stratagem",
+      "name": "Harmonised Exorcism",
+      "det": "Chorus of Condemnation",
+      "ref": {
+        "kind": "stratagem",
+        "det": "chorus-of-condemnation",
+        "name": "Harmonised Exorcism"
+      },
+      "hash": "355dac70",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the one unit selected",
+            "ru": "против одного выбранного отряда"
           },
           "cond": [
             "never"

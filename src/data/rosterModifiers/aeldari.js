@@ -701,6 +701,44 @@ export default {
       ]
     },
     {
+      "sid": "a83e927d-1bee-4192-b84e-7616365f6e55:kygharil-s-protectors-wraithblades",
+      "kind": "ability",
+      "name": "Kygharil's Protectors Wraithblades: Psychic Guidance:",
+      "det": null,
+      "ref": null,
+      "hash": "1461228a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "set",
+          "value": "6+",
+          "when": {
+            "en": "while within 12\" of a friendly AELDARI PSYKER model",
+            "ru": "пока в пределах 12\" от дружественной модели AELDARI PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while within 12\" of a friendly AELDARI PSYKER model",
+            "ru": "пока в пределах 12\" от дружественной модели AELDARI PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "pack:lynx:speed-of-vaul",
       "kind": "ability",
       "name": "Lynx: Speed of Vaul",
@@ -1904,7 +1942,28 @@ export default {
       "hash": "e9a4c1e1",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "op": "state",
+          "cond": [
+            "path-hit-1"
+          ],
+          "when": {
+            "en": "the one picked when the unit is selected to shoot or fight",
+            "ru": "выбранная, когда отряд выбран для стрельбы или боя"
+          }
+        },
+        {
+          "op": "state",
+          "cond": [
+            "path-wound-1"
+          ],
+          "when": {
+            "en": "the one picked when the unit is selected to shoot or fight",
+            "ru": "выбранная, когда отряд выбран для стрельбы или боя"
+          }
+        }
+      ]
     },
     {
       "sid": "8ec01895-99aa-488d-9ee9-e49c6deb3585",
@@ -2084,6 +2143,43 @@ export default {
         "kind": "detachmentRule",
         "det": "warhost"
       }
+    },
+    {
+      "sid": "ee7b206e-5fe4-4050-8d7b-9e5f569adc9f",
+      "kind": "enhancement",
+      "name": "Guiding Presence",
+      "det": "Armoured Warhost",
+      "ref": {
+        "kind": "enhancement",
+        "det": "armoured-warhost",
+        "scopes": [
+          {
+            "targets": [
+              "AELDARI VEHICLE"
+            ],
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
+          }
+        ]
+      },
+      "hash": "472d75a4",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the VEHICLE unit selected at the start of your Shooting phase",
+            "ru": "отряд VEHICLE, выбранный в начале вашей фазы стрельбы"
+          },
+          "target": "aura",
+          "selected": true
+        }
+      ]
     },
     {
       "sid": "c6afafd7-2084-43da-af98-5ea9d98ed9f3",
@@ -3334,6 +3430,17 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "92b58a90-823a-4880-810b-6c491cde687d",
+      "kind": "stratagem",
+      "name": "Suppressing Storm",
+      "det": "Kygharil's Protectors",
+      "ref": null,
+      "hash": "e80d2b39",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "26af9c53-96f1-4cee-8720-b19621384d41",

@@ -2154,6 +2154,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "aed28125-92c9-4922-99a2-fee31e24a7fa",
+      "kind": "stratagem",
+      "name": "Rapturous Agony",
+      "det": "Legion of Excess",
+      "ref": {
+        "kind": "stratagem",
+        "det": "legion-of-excess",
+        "name": "Rapturous Agony"
+      },
+      "hash": "7de35e49",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f2338ba8-00d6-45fc-8d14-fb29b2c437fe",
       "kind": "stratagem",
       "name": "Call to Murder",
@@ -2417,6 +2432,21 @@ export default {
       },
       "hash": "48189719",
       "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "b3854eac-89e9-415b-8b2f-e9076d220d3a",
+      "kind": "stratagem",
+      "name": "Incorporeal Entities",
+      "det": "Warptide",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warptide",
+        "name": "Incorporeal Entities"
+      },
+      "hash": "edf16e51",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },

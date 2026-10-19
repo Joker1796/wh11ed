@@ -386,6 +386,34 @@ export default {
       ]
     },
     {
+      "sid": "60b859e0-8b00-4652-9284-3de1abc90a19",
+      "kind": "detachmentRule",
+      "name": "Eye of the Hunt",
+      "det": "Farseekers",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "farseekers"
+      },
+      "hash": "3d060319",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit within 12\"",
+            "ru": "против отряда в пределах 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "fdfc7863-9632-43df-88dd-2e2fda4a6dfa",
       "kind": "detachmentRule",
       "name": "Methodical Annihilation",
@@ -763,6 +791,21 @@ export default {
         "kind": "enhancement",
         "det": "persecution-prospect"
       }
+    },
+    {
+      "sid": "c1aa0ee8-56dc-412b-a482-a706a17be048",
+      "kind": "stratagem",
+      "name": "Built To Last",
+      "det": "Armoured Trailblazers",
+      "ref": {
+        "kind": "stratagem",
+        "det": "armoured-trailblazers",
+        "name": "Built To Last"
+      },
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "d2eda679-eccb-4db2-baac-72ed0d4cf5fb",

@@ -273,6 +273,45 @@ export default {
       ]
     },
     {
+      "sid": "fc14d232-6717-4065-a816-0921cd150477:kaa-skrek",
+      "kind": "ability",
+      "name": "Kaa'skrek: Bestial Prophet",
+      "det": null,
+      "ref": null,
+      "hash": "7c7eed8c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is an Attached unit",
+            "ru": "пока отряд присоединённый"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this unit is an Attached unit",
+            "ru": "пока отряд присоединённый"
+          },
+          "cond": [
+            "unit-led"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "e9b6c7e7-ecfc-409b-8ddd-ef58d17500f4:lord-of-change",
       "kind": "ability",
       "name": "Lord of Change: Daemon Lord of Tzeentch",
@@ -1688,6 +1727,17 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "218de5d5-fd4d-469d-8f1b-ac5d87e02262",
+      "kind": "stratagem",
+      "name": "Spell-warded Armour",
+      "det": "Prism of Zadophon",
+      "ref": null,
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "14f6a805-b45f-49c9-b218-98f4e07c9e1b",
       "kind": "stratagem",
       "name": "Twist of Fate",
@@ -1805,6 +1855,36 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "d02fa625-dc45-4df7-89ec-44592cb25b81",
+      "kind": "stratagem",
+      "name": "Unwavering Phalanx",
+      "det": "Rubricae Phalanx",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rubricae-phalanx",
+        "name": "Unwavering Phalanx"
+      },
+      "hash": "7c76e2c8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8299add8-e44d-432a-8551-17de6207f066",
+      "kind": "stratagem",
+      "name": "Warp Fields",
+      "det": "Sekhetar Cohort",
+      "ref": {
+        "kind": "stratagem",
+        "det": "sekhetar-cohort",
+        "name": "Warp Fields"
+      },
+      "hash": "edf16e51",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "65974fb7-162a-4917-9850-2a36ba6a793e",

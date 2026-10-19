@@ -82,6 +82,48 @@ export default {
       ]
     },
     {
+      "sid": "1d9fdc0e-2ce8-4c07-9ab9-aa909584d69e:belial",
+      "kind": "ability",
+      "name": "Belial: Grand Master of the Deathwing",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "belial"
+      },
+      "hash": "088c6e74",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "против отряда CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "против отряда CHARACTER"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "pack:deathwing-command-squad:astartes-banner",
       "kind": "ability",
       "name": "Deathwing Command Squad: Astartes Banner",
@@ -316,6 +358,34 @@ export default {
       ]
     },
     {
+      "sid": "e3ecf2d7-0ef7-4238-8639-3963bec7c6ad:inner-circle-companions",
+      "kind": "ability",
+      "name": "Inner Circle Companions: Emnity for the Unworthy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inner-circle-companions"
+      },
+      "hash": "d9d7f41c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a CHARACTER unit",
+            "ru": "против отряда CHARACTER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "a7a5c8e2-f0d6-4a7d-86d7-ff9050a28f7f:lazarus",
       "kind": "ability",
       "name": "Lazarus: The Spiritshield Helm",
@@ -454,6 +524,20 @@ export default {
       ]
     },
     {
+      "sid": "19726b2e-a787-4c4e-9ffb-d9a2812dba48:lion-eljonson",
+      "kind": "ability",
+      "name": "Lion El'Jonson: The Emperor's Shield",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lion-eljonson"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7a5578e7-bd91-45d4-b94e-8cb69b09ebef:lion-eljonson",
       "kind": "ability",
       "name": "Lion El'Jonson: The Watchers",
@@ -483,6 +567,20 @@ export default {
       "ref": null,
       "hash": "9bdc06bf",
       "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "ce554c13-23b1-4a53-ac12-61d40e4e50fb:nephilim-jetfighter",
+      "kind": "ability",
+      "name": "Nephilim Jetfighter: Lightning-fast Manoeuvres",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nephilim-jetfighter"
+      },
+      "hash": "916cf6ab",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },
@@ -682,6 +780,41 @@ export default {
       ]
     },
     {
+      "sid": "b8f5141f-daa9-4900-944e-2fe16af75b47:vengeful-brethren-bladeguard-veteran-squad",
+      "kind": "ability",
+      "name": "Vengeful Brethren Bladeguard Veteran Squad: Bladeguard (Once per turn per unit)",
+      "det": null,
+      "ref": null,
+      "hash": "c278d1ae",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the option picked when this unit is selected to fight",
+            "ru": "вариант, выбранный, когда отряд выбран для боя"
+          },
+          "cond": [
+            "bladeguard-hit"
+          ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "bladeguard-defend"
+          ],
+          "when": {
+            "en": "the option picked when an enemy unit targets this unit",
+            "ru": "вариант, выбранный, когда враг выбирает отряд целью"
+          }
+        }
+      ]
+    },
+    {
       "sid": "95dbd786-5940-4348-85b1-074ba54c817f",
       "kind": "armyRule",
       "name": "Combat Doctrines",
@@ -757,6 +890,59 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "9ca9235c-9f25-471c-973a-1a87ec84bcf8",
+      "kind": "detachmentRule",
+      "name": "Vowed Target",
+      "det": "Inner Circle Task Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "inner-circle-task-force"
+      },
+      "hash": "3411f39a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit within range of the vowed objective",
+            "ru": "против отряда в зоне обетного объекта"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "8be3b67e-d634-44c6-98d0-d31cfee5d32c",
+      "kind": "detachmentRule",
+      "name": "Honoured Knights",
+      "det": "The Vengeful Brethren",
+      "ref": null,
+      "hash": "14514667",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "da94f3da-d6d2-4fea-a0e9-9411155f8659",
+      "kind": "detachmentRule",
+      "name": "Dutiful Tenacity",
+      "det": "Wrath of the Rock",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "wrath-of-the-rock"
+      },
+      "hash": "81078a6a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "5799077c-00bf-4a5d-aa88-b17cdf4c4b78",
@@ -905,6 +1091,29 @@ export default {
         }
       ],
       "dur": "turn"
+    },
+    {
+      "sid": "5f1eba48-56b4-451d-aed3-9e8fb763f4f4",
+      "kind": "stratagem",
+      "name": "Mission Focus",
+      "det": "The Vengeful Brethren",
+      "ref": null,
+      "hash": "fe8dfc7e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this stratagem is in force",
+            "ru": "пока действует стратагема"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "31721131-d7b4-4266-9f41-879d32f1ea75",

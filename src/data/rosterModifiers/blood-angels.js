@@ -652,6 +652,34 @@ export default {
       ]
     },
     {
+      "sid": "70bde792-bb64-4ae8-9dc5-e34ed4d67475:sanguinary-guard",
+      "kind": "ability",
+      "name": "Sanguinary Guard: Angelic Visage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanguinary-guard"
+      },
+      "hash": "07125726",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "3424cb21-6416-4162-adfc-e6a48ba370ca:sanguinary-guard",
+      "kind": "ability",
+      "name": "Sanguinary Guard: Heirs of Azkaellon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanguinary-guard"
+      },
+      "hash": "3e6fde4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:sanguinary-priest-with-jump-pack:blood-chalice",
       "kind": "ability",
       "name": "Sanguinary Priest with Jump Pack: Blood Chalice",
@@ -875,11 +903,37 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS",
           "when": {
-            "en": "one of the two, selected when the bearer's unit is selected to fight",
-            "ru": "одна из двух — выбирается, когда отряд носителя выбран для боя"
+            "en": "the one picked when the bearer’s unit is selected to fight",
+            "ru": "выбранная, когда отряд носителя выбран для боя"
           },
           "cond": [
-            "never"
+            "executioner-lethal"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "the one picked when the bearer’s unit is selected to fight",
+            "ru": "выбранная, когда отряд носителя выбран для боя"
+          },
+          "cond": [
+            "executioner-sustained"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "the one picked when the bearer’s unit is selected to fight",
+            "ru": "выбранная, когда отряд носителя выбран для боя"
+          },
+          "cond": [
+            "executioner-lethal"
           ],
           "target": "led"
         },
@@ -889,11 +943,11 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "when": {
-            "en": "one of the two, selected when the bearer's unit is selected to fight",
-            "ru": "одна из двух — выбирается, когда отряд носителя выбран для боя"
+            "en": "the one picked when the bearer’s unit is selected to fight",
+            "ru": "выбранная, когда отряд носителя выбран для боя"
           },
           "cond": [
-            "never"
+            "executioner-sustained"
           ],
           "target": "led"
         }
@@ -1114,6 +1168,47 @@ export default {
           "op": "grant",
           "value": "Stealth",
           "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "90cbb284-cd76-4dc6-a001-1ce0bed18370",
+      "kind": "stratagem",
+      "name": "Dauntless Bravery",
+      "det": "Sanguinary Spearhead",
+      "ref": null,
+      "hash": "ed2665e0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "2bf5458d-94f8-405f-9490-2c449ddecc98",
+      "kind": "stratagem",
+      "name": "Death Begets Vengeance",
+      "det": "Wrath of the Doomed",
+      "ref": {
+        "kind": "stratagem",
+        "det": "wrath-of-the-doomed",
+        "name": "Death Begets Vengeance"
+      },
+      "hash": "e59da364",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "DEATH COMPANY attacks against the hated unit",
+            "ru": "атаки DEATH COMPANY против отряда hated"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "dur": "phase"

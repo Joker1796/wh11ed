@@ -760,6 +760,34 @@ export default {
       "note": "army-composition rule — which allied models may be included"
     },
     {
+      "sid": "f3611575-52c0-4398-827c-d5e70478e490",
+      "kind": "detachmentRule",
+      "name": "Rain of Devastation",
+      "det": "Dominus Foebreakers",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "dominus-foebreakers"
+      },
+      "hash": "a276ca53",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit in a terrain area",
+            "ru": "против отряда в зоне местности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "c9b67ad0-1baf-45c0-9687-11626725f299",
       "kind": "detachmentRule",
       "name": "Knights of Legend",

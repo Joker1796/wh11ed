@@ -42,6 +42,8 @@ describe('isCandidate', () => {
     ['a stat glued to its number', '▪ This model has +2**W**. ▪ This model’s melee attacks have +1**S**.'],
     ['a save in the shorthand', 'Your unit has +1 **Sv**.'],
     ['a keyword granted in capitals', 'Until the start of your next Command phase, your unit has CHARACTER.'],
+    // …and 134 more behind the hit/wound shorthand (Bladeguard, Ghazghkull's aura, Mission Focus).
+    ['a hit roll in the shorthand', 'This unit’s melee attacks have +1 to hit rolls.'],
     ['a sign typed as a non-breaking hyphen', 'Attacks that target your unit have \u20111 **D** until that enemy unit has attacked.'],
   ])('proposes %s', (_label, prose) => {
     expect(isCandidate(prose)).toBe(true)

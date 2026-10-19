@@ -545,6 +545,17 @@ export default {
       ]
     },
     {
+      "sid": "e61d3f70-e8b4-4f55-9641-2ab44322eb0d",
+      "kind": "enhancement",
+      "name": "Martial Perfection",
+      "det": "Callous Blades",
+      "ref": null,
+      "hash": "21c8743e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "4dd6dec8-03dc-4b0a-919a-b00c3c34f726",
       "kind": "enhancement",
       "name": "Dark Blessings",
@@ -1243,6 +1254,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "41273a31-ffea-438c-8b0a-3b1dc379b8eb",
+      "kind": "stratagem",
+      "name": "Delight in Agony",
+      "det": "Elegant Brutes",
+      "ref": {
+        "kind": "stratagem",
+        "det": "elegant-brutes",
+        "name": "Delight in Agony"
+      },
+      "hash": "ed2665e0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "a66b93f1-8245-4923-9b41-2f77873604e0",

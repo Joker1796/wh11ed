@@ -734,6 +734,44 @@ export default {
       ]
     },
     {
+      "sid": "53aea933-cb25-4dd8-a387-0afe1a127555:vardenghast-swarm-psychophage",
+      "kind": "ability",
+      "name": "Vardenghast Swarm Psychophage: Feeding Frenzy",
+      "det": null,
+      "ref": null,
+      "hash": "3575d79c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit below starting strength",
+            "ru": "против отряда ниже стартовой численности"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit below half-strength",
+            "ru": "против отряда ниже половины численности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "f940edde-72b8-4ff5-91db-d44d85368c1e:venomthropes",
       "kind": "ability",
       "name": "Venomthropes: Foul Spores",
@@ -1114,6 +1152,17 @@ export default {
         "kind": "detachmentRule",
         "det": "synaptic-nexus"
       }
+    },
+    {
+      "sid": "4093eaee-fd76-4dcf-b685-917ddf140c4c",
+      "kind": "detachmentRule",
+      "name": "Skittering Hordes",
+      "det": "The Vardenghast Swarm",
+      "ref": null,
+      "hash": "3266efce",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "905300ef-5645-49bc-9314-afcb99c473ea",
@@ -1629,6 +1678,36 @@ export default {
       ]
     },
     {
+      "sid": "d2467e3a-c1bb-4d03-84db-047c045ddffa",
+      "kind": "enhancement",
+      "name": "Ocular Adaptation",
+      "det": "Warrior Bioform Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warrior-bioform-onslaught"
+      },
+      "hash": "ff9e6dbf",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "0c67be9d-bb57-48fd-8552-913f37a136fc",
       "kind": "stratagem",
       "name": "Counterpredation",
@@ -2078,6 +2157,21 @@ export default {
       },
       "hash": "f05dcd4e",
       "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "61097980-8f90-4f13-b2bd-33fd3c629761",
+      "kind": "stratagem",
+      "name": "Alien Physiology",
+      "det": "Warrior Bioform Onslaught",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warrior-bioform-onslaught",
+        "name": "Alien Physiology"
+      },
+      "hash": "ed2665e0",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },

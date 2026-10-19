@@ -119,6 +119,9 @@ const CANDIDATE = new RegExp([
   // of the hyphens appdata types (U+2010/U+2011/U+2212) as well as the ASCII one.
   '[+\\-\u2010\u2011\u2212]\\d+ ?(?:to )?(?:the )?(?:[SATWMD]|OC|AP|BS|WS|LD|Sv)\\b',
   '[+\\-\u2010\u2011\u2212]\\d+"? ?(?:M|Move)\\b',
+  // A hit or wound roll in the 11th-edition shorthand — "+1 to hit rolls", "-1 to wound rolls"
+  // (Bladeguard Veteran Squad's Bladeguard had no record for it).
+  '[+\\-\u2010\u2011\u2212]\\d+ to (?:the )?(?:hit|wound) rolls?',
   // Range in the 11th-edition shorthand: "Your unit's ranged attacks have +6\" R" (Codex: Adeptus
   // Custodes, data 981 — Aquilan Shield's Favoured Ka'tah had no record for this one letter).
   '[+-]\\d+" (?:R|Range)\\b',

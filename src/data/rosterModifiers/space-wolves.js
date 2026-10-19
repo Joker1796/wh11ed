@@ -8,6 +8,31 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "c0a29562-a375-413a-a4c8-1ea25d347923:askar-s-wolfpack-wolf-guard-terminators",
+      "kind": "ability",
+      "name": "Askar's Wolfpack Wolf Guard Terminators: Rugged Resilience",
+      "det": null,
+      "ref": null,
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8d526639-0c20-449c-a3ae-50cb3ecaeeb4:bjorn-the-fell-handed",
+      "kind": "ability",
+      "name": "Bjorn the Fell-handed: Legendary Tenacity",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bjorn-the-fell-handed"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:canis-wolfborn:born-of-wolves",
       "kind": "ability",
       "name": "Canis Wolfborn: Born of Wolves",
@@ -541,6 +566,63 @@ export default {
       ]
     },
     {
+      "sid": "eca05775-4888-49ad-a430-7e22e9c2e04f:ulrik-the-slayer",
+      "kind": "ability",
+      "name": "Ulrik the Slayer: Oathbound",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ulrik-the-slayer"
+      },
+      "hash": "4497acf5",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "also, against this unit’s slayer’s oath",
+            "ru": "также против цели клятвы отряда"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "also, against this unit’s slayer’s oath",
+            "ru": "также против цели клятвы отряда"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "pack:wolf-guard-battle-leader-in-terminator-armour:huskarl-to-the-jarl",
       "kind": "ability",
       "name": "Wolf Guard Battle Leader in Terminator Armour: Huskarl to the Jarl",
@@ -715,6 +797,20 @@ export default {
       ]
     },
     {
+      "sid": "ab352a1b-2f6a-4d03-8306-24c6e3173013:wolf-guard-terminators",
+      "kind": "ability",
+      "name": "Wolf Guard Terminators: Rugged Resilience",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-guard-terminators"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:wolf-guard:chosen-companions",
       "kind": "ability",
       "name": "Wolf Guard: Chosen Companions",
@@ -787,6 +883,34 @@ export default {
       ]
     },
     {
+      "sid": "73e5998c-5956-48c4-9672-6682d24bf9dc:wolf-scouts",
+      "kind": "ability",
+      "name": "Wolf Scouts: Deadly Stalkers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wolf-scouts"
+      },
+      "hash": "16f6758b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit more than 6\" from any other enemy unit",
+            "ru": "против отряда дальше 6\" от других врагов"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "da0e3ebc-2c88-4af7-854c-bb5fc80369ef:wolf-scouts",
       "kind": "ability",
       "name": "Wolf Scouts: Hunting Hounds",
@@ -842,6 +966,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "d96146db-3174-4606-bbcd-7f7fc5ac6f20:wulfen-with-storm-shields",
+      "kind": "ability",
+      "name": "Wulfen with Storm Shields: Hammer Blow",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wulfen-with-storm-shields"
+      },
+      "hash": "33493e9e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "de2e0296-b1c3-40f0-8dc4-81afd0e9a5c9",

@@ -956,6 +956,20 @@ export default {
       ]
     },
     {
+      "sid": "98b3b2a1-6ebe-4087-a039-9ecc48fec9b0",
+      "kind": "enhancement",
+      "name": "Rejuvenating Swarm",
+      "det": "Paragons of Putrescence",
+      "ref": {
+        "kind": "enhancement",
+        "det": "paragons-of-putrescence"
+      },
+      "hash": "eea98fae",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "0b8d22c7-a46c-4865-9a51-dc622a894fec",
       "kind": "enhancement",
       "name": "Lord of the Walking Pox",

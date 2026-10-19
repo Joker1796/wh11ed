@@ -1349,6 +1349,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "e164a302-d3ce-4b92-bc6b-fa64578c0661",
+      "kind": "stratagem",
+      "name": "A Trophy for the Throne",
+      "det": "Butchers of Khorne",
+      "ref": {
+        "kind": "stratagem",
+        "det": "butchers-of-khorne",
+        "name": "A Trophy for the Throne"
+      },
+      "hash": "13351643",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "против отряда MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "ddce833e-6a6b-4621-8abd-4c2e764d798d",
       "kind": "stratagem",
       "name": "Focused Ferocity",
@@ -1416,6 +1446,17 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "28f48ed7-7973-407d-a001-a1628c5bbc20",
+      "kind": "stratagem",
+      "name": "Berserk Resilience",
+      "det": "Frenzied Reavers",
+      "ref": null,
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "4713f814-b1e9-4d19-bad3-f6cac53d2c6e",

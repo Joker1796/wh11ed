@@ -50,6 +50,20 @@ export default {
       ]
     },
     {
+      "sid": "cacc46bb-28e9-4730-8764-b507b551a175:ancient-in-terminator-armour",
+      "kind": "ability",
+      "name": "Ancient in Terminator Armour: Never Shall the Standard Fall",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ancient-in-terminator-armour"
+      },
+      "hash": "1c83144e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "25fbd7b8-052e-4816-9158-c5e721cda6d6:ancient",
       "kind": "ability",
       "name": "Ancient: Honour of the Company",
@@ -173,6 +187,20 @@ export default {
       ]
     },
     {
+      "sid": "aff1e5d8-2fb7-45bd-9c88-21b53740e80b:astraeus",
+      "kind": "ability",
+      "name": "Astraeus: Suppression Fire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "astraeus"
+      },
+      "hash": "019f0f9c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "8cd188a5-ad6b-438e-9fce-6c000ee32f2b:ballistus-dreadnought",
       "kind": "ability",
       "name": "Ballistus Dreadnought: Ballistus Strike",
@@ -243,6 +271,44 @@ export default {
       ]
     },
     {
+      "sid": "bf5726d3-6d1a-4f12-98cb-95ef1f0cd7ee:bladeguard-veteran-squad",
+      "kind": "ability",
+      "name": "Bladeguard Veteran Squad: Bladeguard (Once per turn, per unit)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bladeguard-veteran-squad"
+      },
+      "hash": "25373447",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the option picked when this unit is selected to fight",
+            "ru": "вариант, выбранный, когда отряд выбран для боя"
+          },
+          "cond": [
+            "bladeguard-hit"
+          ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "bladeguard-defend"
+          ],
+          "when": {
+            "en": "the option picked when an enemy unit targets this unit",
+            "ru": "вариант, выбранный, когда враг выбирает отряд целью"
+          }
+        }
+      ]
+    },
+    {
       "sid": "3cd7bae1-b669-4e96-ba2e-2a19ea78cfc3:caanok-var",
       "kind": "ability",
       "name": "Caanok Var: Cerebrex Logic Engine",
@@ -275,24 +341,11 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS: MONSTER/VEHICLE",
           "when": {
-            "en": "one of the two, selected when the unit is selected to attack — both while the Tactical Doctrine is active for it",
-            "ru": "одна из двух — выбирается, когда отряд выбран для атаки; обе — пока для него активна Tactical Doctrine"
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
           },
           "cond": [
-            "never"
-          ]
-        },
-        {
-          "on": "weapon",
-          "stat": "ability",
-          "op": "grant",
-          "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
-          "when": {
-            "en": "one of the two, selected when the unit is selected to attack — both while the Tactical Doctrine is active for it",
-            "ru": "одна из двух — выбирается, когда отряд выбран для атаки; обе — пока для него активна Tactical Doctrine"
-          },
-          "cond": [
-            "never"
+            "cold-lethal"
           ]
         },
         {
@@ -301,13 +354,12 @@ export default {
           "op": "grant",
           "value": "LETHAL HITS: MONSTER/VEHICLE",
           "when": {
-            "en": "one of the two, selected when the unit is selected to attack — both while the Tactical Doctrine is active for it",
-            "ru": "одна из двух — выбирается, когда отряд выбран для атаки; обе — пока для него активна Tactical Doctrine"
+            "en": "both, while the Tactical Doctrine is active for this unit",
+            "ru": "обе, пока для отряда активна Tactical Doctrine"
           },
           "cond": [
-            "never"
-          ],
-          "target": "led"
+            "doctrine-tactical"
+          ]
         },
         {
           "on": "weapon",
@@ -315,13 +367,81 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
           "when": {
-            "en": "one of the two, selected when the unit is selected to attack — both while the Tactical Doctrine is active for it",
-            "ru": "одна из двух — выбирается, когда отряд выбран для атаки; обе — пока для него активна Tactical Doctrine"
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
           },
           "cond": [
-            "never"
-          ],
-          "target": "led"
+            "cold-sustained"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
+          "when": {
+            "en": "both, while the Tactical Doctrine is active for this unit",
+            "ru": "обе, пока для отряда активна Tactical Doctrine"
+          },
+          "cond": [
+            "doctrine-tactical"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS: MONSTER/VEHICLE",
+          "target": "led",
+          "when": {
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
+          },
+          "cond": [
+            "cold-lethal"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS: MONSTER/VEHICLE",
+          "target": "led",
+          "when": {
+            "en": "both, while the Tactical Doctrine is active for this unit",
+            "ru": "обе, пока для отряда активна Tactical Doctrine"
+          },
+          "cond": [
+            "doctrine-tactical"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
+          "target": "led",
+          "when": {
+            "en": "the one picked when the unit is selected to attack",
+            "ru": "выбранная, когда отряд выбран для атаки"
+          },
+          "cond": [
+            "cold-sustained"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
+          "target": "led",
+          "when": {
+            "en": "both, while the Tactical Doctrine is active for this unit",
+            "ru": "обе, пока для отряда активна Tactical Doctrine"
+          },
+          "cond": [
+            "doctrine-tactical"
+          ]
         }
       ]
     },
@@ -848,6 +968,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "828dac6b-d412-46cb-9bdc-e7948a103b86:company-heroes",
+      "kind": "ability",
+      "name": "Company Heroes: Command Squad",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "company-heroes"
+      },
+      "hash": "b1777501",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "8dea9fd4-30ee-4944-943a-62de6801b195:darnath-lysander",
+      "kind": "ability",
+      "name": "Darnath Lysander: Icon of Obstinacy",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "darnath-lysander"
+      },
+      "hash": "859fd5ea",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "79864d68-7b4f-4f10-a184-df6706cfff16:darnath-lysander",
       "kind": "ability",
       "name": "Darnath Lysander: Rampart (Once per battle, per army)",
@@ -1055,6 +1203,48 @@ export default {
       ]
     },
     {
+      "sid": "233e6df4-f7b6-4fe6-9001-696611536b3b:hammerfall-bunker",
+      "kind": "ability",
+      "name": "Hammerfall Bunker: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hammerfall-bunker"
+      },
+      "hash": "7b8b287c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "a4b689e7-5755-4be0-998e-146630b8a258:inceptor-squad",
+      "kind": "ability",
+      "name": "Inceptor Squad: Meteoric Descent",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inceptor-squad"
+      },
+      "hash": "7e9f051d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made an ingress move this turn",
+            "ru": "если отряд совершил ingress move в этом ходу"
+          },
+          "cond": [
+            "unit-arrived-from-reserves"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "30143527-9c7a-4b8e-982f-b0ad9bdc20e8:infernus-squad",
       "kind": "ability",
       "name": "Infernus Squad: Driven from Cover",
@@ -1067,6 +1257,62 @@ export default {
       "ver": 963,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "69b331e4-7c75-4a5f-85fb-ad8caf676787:intercessor-squad",
+      "kind": "ability",
+      "name": "Intercessor Squad: Bolter Discipline",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "intercessor-squad"
+      },
+      "hash": "efc1c38c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in your Shooting phase, if this unit or its target is within range of an objective",
+            "ru": "в вашей фазе стрельбы, если отряд или его цель в зоне объекта"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "fa53a9f8-5d71-42c5-8154-3c7f8b38f0b5:invader-atvs",
+      "kind": "ability",
+      "name": "Invader ATVs: Aggressive Reconnaissance",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "invader-atvs"
+      },
+      "hash": "01e5c1c2",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit not within 6\" of any other enemy unit",
+            "ru": "против отряда, у которого нет других врагов в пределах 6\""
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "7d1a99e3-7442-4fbf-a5a3-bdcf0bd24275:iron-father-feirros",
@@ -1095,6 +1341,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "66b86cc0-422a-46ab-85ac-3242afe13984:iron-father-feirros",
+      "kind": "ability",
+      "name": "Iron Father Feirros: Rites of Tempering",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "iron-father-feirros"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "6ad35390-b52e-42a4-8b2f-6c728c1bd690:judiciar",
@@ -1759,6 +2019,20 @@ export default {
       ]
     },
     {
+      "sid": "d4a86441-d4e7-4269-a798-d1b13a92d6c2:redemptor-dreadnought",
+      "kind": "ability",
+      "name": "Redemptor Dreadnought: Duty Eternal",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "redemptor-dreadnought"
+      },
+      "hash": "ebec7e58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "63467e90-2ee5-424e-bed6-7a3f9ef74d51:reiver-squad",
       "kind": "ability",
       "name": "Reiver Squad: Terror Troops (Aura)",
@@ -1771,6 +2045,34 @@ export default {
       "ver": 963,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "3a8cc794-9fad-49be-b541-458009fb2282:repulsor-executioner",
+      "kind": "ability",
+      "name": "Repulsor Executioner: Executioner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "repulsor-executioner"
+      },
+      "hash": "16abc8ed",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit not below half-strength",
+            "ru": "против отряда не ниже половины численности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f5b1d610-abf9-4974-9420-bf649e771763:roboute-guilliman",
@@ -1857,6 +2159,62 @@ export default {
       "effects": []
     },
     {
+      "sid": "fec826f3-9abb-4cbf-a67a-3b4e1d2fed58:storm-speeder-thunderstrike",
+      "kind": "ability",
+      "name": "Storm Speeder Thunderstrike: Thunderstrike",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "storm-speeder-thunderstrike"
+      },
+      "hash": "b7df721b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "против отряда MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "a3ff82ca-fa0a-4b33-a986-db8a541f0c97:stormhawk-interceptor",
+      "kind": "ability",
+      "name": "Stormhawk Interceptor: Interceptor",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stormhawk-interceptor"
+      },
+      "hash": "6515fbac",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a FLY unit",
+            "ru": "против отряда FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "447c2db5-2b78-4be4-85f5-ebcd62afdf78:stormraven-gunship",
       "kind": "ability",
       "name": "Stormraven Gunship: Armoured Resilience",
@@ -1869,6 +2227,34 @@ export default {
       "ver": 963,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "3d2aea22-3657-47fa-9cbc-ce8f3248dcd0:stormtalon-gunship",
+      "kind": "ability",
+      "name": "Stormtalon Gunship: Strafing Run",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "stormtalon-gunship"
+      },
+      "hash": "7a36c62e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit without FLY",
+            "ru": "против отряда без FLY"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "be48d6e1-8f06-49ca-b33b-d93c059be723:suboden-khan",
@@ -2197,6 +2583,20 @@ export default {
       ]
     },
     {
+      "sid": "fae632e6-46ec-4e72-8084-9dfe421083f9:victrix-honour-guard",
+      "kind": "ability",
+      "name": "Victrix Honour Guard: Honour Guard of Macragge",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "victrix-honour-guard"
+      },
+      "hash": "b1777501",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "ced63a07-5997-42ef-90f3-9b83600f5984:vindicator",
       "kind": "ability",
       "name": "Vindicator: Siege Shield",
@@ -2454,6 +2854,20 @@ export default {
       ]
     },
     {
+      "sid": "b46795f5-cf42-46f7-b6b3-5ed03b18622b",
+      "kind": "detachmentRule",
+      "name": "Indomitable Defence",
+      "det": "Gravis Siege Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "gravis-siege-force"
+      },
+      "hash": "11dd7b9b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "63efc4eb-d315-4974-850a-0c3bfbddcb68",
       "kind": "detachmentRule",
       "name": "Shadow Tactics",
@@ -2542,6 +2956,17 @@ export default {
         }
       ],
       "note": "names one weapon by name, a subset of the table this format cannot single out"
+    },
+    {
+      "sid": "5735eeb9-abd5-499c-8921-d569e62184f0",
+      "kind": "enhancement",
+      "name": "Blade Masters",
+      "det": "Assault Force",
+      "ref": null,
+      "hash": "1d648955",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "8d7f8864-e28e-45c7-8155-9b2c5c5b6b0f",
@@ -2982,6 +3407,20 @@ export default {
           }
         }
       ]
+    },
+    {
+      "sid": "2f3cacf5-263d-4822-bdd3-23a4808620f4",
+      "kind": "enhancement",
+      "name": "Indefatigable Fortitude",
+      "det": "Gravis Linebreaker Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "gravis-linebreaker-force"
+      },
+      "hash": "92d1dae4",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "e02569a9-63d8-41a7-8527-7cbf177994dc",
@@ -3551,6 +3990,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "e4de1cb3-6785-41f6-935f-650558ccb19a",
+      "kind": "stratagem",
+      "name": "Tactical Foresight",
+      "det": "Blade of Ultramar",
+      "ref": {
+        "kind": "stratagem",
+        "det": "blade-of-ultramar",
+        "name": "Tactical Foresight"
+      },
+      "hash": "e8e0dd03",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "39db2117-82ed-4fa3-8c71-4ee54f89d58a",
       "kind": "stratagem",
       "name": "Augmented Targeting",
@@ -3618,6 +4072,51 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "65196f2f-1398-4ef4-8baa-d0d9f1dd0606",
+      "kind": "stratagem",
+      "name": "Priority Strike",
+      "det": "Ceramite Sentinels",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ceramite-sentinels",
+        "name": "Priority Strike"
+      },
+      "hash": "b30182fd",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "против отряда MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "32fc0895-94b8-45f9-be9d-51b5b229b7af",
+      "kind": "stratagem",
+      "name": "Stand to the End",
+      "det": "Ceramite Sentinels",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ceramite-sentinels",
+        "name": "Stand to the End"
+      },
+      "hash": "2005487f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "0933c7f4-df52-4412-a9b5-40564daca344",
@@ -4220,6 +4719,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "62544bb7-258b-4a42-8caa-36312f28f68f",
+      "kind": "stratagem",
+      "name": "Umbral Evasion",
+      "det": "Phobos Shock Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "phobos-shock-force",
+        "name": "Umbral Evasion"
+      },
+      "hash": "fcfa9b58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "e6c5d317-d9d0-4089-8288-6832d8b6d9be",
       "kind": "stratagem",
       "name": "Lay Low the Tyrants",
@@ -4282,6 +4796,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "0bcf50de-4702-4c4c-b3d4-3f45a1e476bd",
+      "kind": "stratagem",
+      "name": "Evasive Manoeuvers",
+      "det": "Spearpoint Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "spearpoint-task-force",
+        "name": "Evasive Manoeuvers"
+      },
+      "hash": "83a67d7a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "aaff4833-591d-4c0d-b08c-3df48c061c2a",
@@ -4407,6 +4936,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "0e4bdfa4-ab53-47a2-9376-7abbdb472c97",
+      "kind": "stratagem",
+      "name": "Hurtling Targets",
+      "det": "Stormlance Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "stormlance-task-force",
+        "name": "Hurtling Targets"
+      },
+      "hash": "fcfa9b58",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "033c22a0-7a34-425e-9748-fd8f90170bc0",
       "kind": "stratagem",
       "name": "Armour of Contempt",
@@ -4418,6 +4962,21 @@ export default {
       },
       "hash": "9e50d86d",
       "ver": 963,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "5763bb5f-fa76-4c84-908b-b7a02e376a46",
+      "kind": "stratagem",
+      "name": "Domination Fire",
+      "det": "Tactical Brethren",
+      "ref": {
+        "kind": "stratagem",
+        "det": "tactical-brethren",
+        "name": "Domination Fire"
+      },
+      "hash": "ffb3db07",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },

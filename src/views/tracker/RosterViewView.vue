@@ -1472,7 +1472,9 @@ function groupLimitsOf(entry) {
 // …and the doctrines its rules settle, for the switches and for what is true.
 const unitRulesOf = (entry) => {
   const { proves, forbids } = doctrinesOf(entry)
-  return { proves, forbids }
+  // The roster's entries too: a once-per-battle use ticked on the Leader's card opens its options on
+  // the Bodyguard's (switchesFor's `onUse`).
+  return { proves, forbids, units: roster.value?.units || null }
 }
 
 // Switching a per-unit condition on or off. A condition that forbids stratagems takes the ongoing

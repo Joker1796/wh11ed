@@ -651,6 +651,67 @@ export default {
       ]
     },
     {
+      "sid": "b7876872-429d-42de-a361-23d1e6dca045:inquisitor-s-hand-inquisitorial-agents",
+      "kind": "ability",
+      "name": "Inquisitor's Hand Inquisitorial Agents: Loyal To The Cause",
+      "det": null,
+      "ref": null,
+      "hash": "2cb36b7e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "95a72e50-3b4b-4d55-b16b-d2a29e92d773:inquisitor-s-hand-vigilant-squad",
+      "kind": "ability",
+      "name": "Inquisitor's Hand Vigilant Squad: Merciless Judgement",
+      "det": null,
+      "ref": null,
+      "hash": "ca60952f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit below half-strength",
+            "ru": "против отряда ниже половины численности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "776b5a9d-b02d-4ea2-96f3-430531adbd1e:inquisitor-s-hand-vigilant-squad",
+      "kind": "ability",
+      "name": "Inquisitor's Hand Vigilant Squad: Merciless Judgement",
+      "det": null,
+      "ref": null,
+      "hash": "ca60952f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit below half-strength",
+            "ru": "против отряда ниже половины численности"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "pack:janus-draik:backroom-deals",
       "kind": "ability",
       "name": "Janus Draik: Backroom Deals",
@@ -1505,6 +1566,31 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "f4e50e8e-c2b2-4202-8dbc-f97bede9e1ec",
+      "kind": "enhancement",
+      "name": "Sanctic Slayers",
+      "det": "Inquisitor’s Hand",
+      "ref": null,
+      "hash": "8394dc76",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per turn, against a unit whose T is at least the attack’s S",
+            "ru": "раз за ход, против отряда, у которого T не меньше S атаки"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "c03746fa-d420-4d0a-b792-5fe5b1e1be66",

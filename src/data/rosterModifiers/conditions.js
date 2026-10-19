@@ -450,38 +450,60 @@ export const conditions = {
   'troupe-tricksters-grace': { scope: 'unit', duration: 'phase', group: 'dance-of-death', label: { en: 'Trickster’s Grace', ru: 'Trickster’s Grace' } },
   'wrath-cleave': { scope: 'unit', duration: 'phase', group: 'wrath-of-khorne', label: { en: '[CLEAVE 1]', ru: '[CLEAVE 1]' } },
   'wrath-ap': { scope: 'unit', duration: 'phase', group: 'wrath-of-khorne', label: { en: '+1 AP', ru: '+1 AP' } },
-  // A stratagem's own options ("Your unit's attacks have: [LETHAL HITS]. Or: [SUSTAINED HITS 1].")
-  // — the player says which one when spending it. `stratagem: true` keeps the chips out of sight
-  // until a stratagem naming them is in force on the unit (rosterGameContext's switchesFor): offered
-  // before, they would sit on every card of a detachment that has the stratagem at all. The window
-  // is the stratagem's own, so the pick ends with it.
-  'blademastery-sustained': { scope: 'unit', duration: 'phase', group: 'anathema-blademastery', stratagem: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
-  'blademastery-lethal': { scope: 'unit', duration: 'phase', group: 'anathema-blademastery', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
-  'avowed-lethal': { scope: 'unit', duration: 'phase', group: 'avowed-destruction', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
-  'avowed-sustained': { scope: 'unit', duration: 'phase', group: 'avowed-destruction', stratagem: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
-  'mercy-lethal': { scope: 'unit', duration: 'phase', group: 'mercy-is-weakness', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
-  'mercy-sustained': { scope: 'unit', duration: 'phase', group: 'mercy-is-weakness', stratagem: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
-  'relentless-sustained': { scope: 'unit', duration: 'phase', group: 'relentless-assault', stratagem: true, label: { en: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]', ru: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]' } },
-  'relentless-lethal': { scope: 'unit', duration: 'phase', group: 'relentless-assault', stratagem: true, label: { en: '[LETHAL HITS: MONSTER/VEHICLE]', ru: '[LETHAL HITS: MONSTER/VEHICLE]' } },
-  'artillerists-lethal': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
-  'artillerists-sustained': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', stratagem: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
-  'artillerists-both': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', stratagem: true, label: { en: 'Both, with [HAZARDOUS]', ru: 'Обе, с [HAZARDOUS]' } },
+  // Picked each time the unit is selected to fight (or to attack), for that phase.
+  'mastery-sustained': { scope: 'unit', duration: 'phase', group: 'martial-mastery', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'mastery-lethal': { scope: 'unit', duration: 'phase', group: 'martial-mastery', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'executioner-lethal': { scope: 'unit', duration: 'phase', group: 'angelic-executioner', label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'executioner-sustained': { scope: 'unit', duration: 'phase', group: 'angelic-executioner', label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'cold-lethal': { scope: 'unit', duration: 'phase', group: 'cold-and-calculating', label: { en: '[LETHAL HITS: MONSTER/VEHICLE]', ru: '[LETHAL HITS: MONSTER/VEHICLE]' } },
+  'cold-sustained': { scope: 'unit', duration: 'phase', group: 'cold-and-calculating', label: { en: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]', ru: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]' } },
+  'path-hit-1': { scope: 'unit', duration: 'phase', group: 'path-of-the-warrior', label: { en: 'Re-roll a Hit roll of 1', ru: 'Переброс единиц на попадание' } },
+  'path-wound-1': { scope: 'unit', duration: 'phase', group: 'path-of-the-warrior', label: { en: 'Re-roll a Wound roll of 1', ru: 'Переброс единиц на ранение' } },
+  // Bladeguard (once per turn): +1 to hit with its own melee attacks, or -1 to hit against it.
+  'bladeguard-hit': { scope: 'unit', duration: 'phase', group: 'bladeguard', label: { en: '+1 to hit (melee)', ru: '+1 к попаданию (ближний бой)' } },
+  'bladeguard-defend': { scope: 'unit', duration: 'phase', group: 'bladeguard', label: { en: '-1 to be hit', ru: '−1 к попаданию по отряду' } },
+  // An army's pick of the Command phase, "until the start of your next Command phase" — the round is
+  // the nearest window the clock has, and it errs early.
+  'atonement-path-of-the-penitent': { scope: 'army', duration: 'round', group: 'vow-of-atonement', label: { en: 'The Path of the Penitent', ru: 'The Path of the Penitent' } },
+  'atonement-absolution-in-battle': { scope: 'army', duration: 'round', group: 'vow-of-atonement', label: { en: 'Absolution in Battle', ru: 'Absolution in Battle' } },
+  'atonement-death-before-disgrace': { scope: 'army', duration: 'round', group: 'vow-of-atonement', label: { en: 'Death Before Disgrace', ru: 'Death Before Disgrace' } },
+  'motivation-hurons-elite': { scope: 'army', duration: 'round', group: 'tyrannical-motivation', label: { en: 'Huron’s Elite', ru: 'Huron’s Elite' } },
+  'motivation-mobile-marauders': { scope: 'army', duration: 'round', group: 'tyrannical-motivation', label: { en: 'Mobile Marauders', ru: 'Mobile Marauders' } },
+  // A spent rule's own options ("Your unit's attacks have: [LETHAL HITS]. Or: [SUSTAINED HITS 1].")
+  // — the player says which one when spending a stratagem or using a once-per-battle ability.
+  // `onUse: true` keeps the chips out of sight until a rule naming them is in force on the unit
+  // (rosterGameContext's switchesFor): offered before, they would sit on every card of a detachment
+  // that has the stratagem at all. The window is the rule's own, so the pick ends with it.
+  'blademastery-sustained': { scope: 'unit', duration: 'phase', group: 'anathema-blademastery', onUse: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'blademastery-lethal': { scope: 'unit', duration: 'phase', group: 'anathema-blademastery', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'avowed-lethal': { scope: 'unit', duration: 'phase', group: 'avowed-destruction', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'avowed-sustained': { scope: 'unit', duration: 'phase', group: 'avowed-destruction', onUse: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'mercy-lethal': { scope: 'unit', duration: 'phase', group: 'mercy-is-weakness', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'mercy-sustained': { scope: 'unit', duration: 'phase', group: 'mercy-is-weakness', onUse: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'relentless-sustained': { scope: 'unit', duration: 'phase', group: 'relentless-assault', onUse: true, label: { en: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]', ru: '[SUSTAINED HITS 1: non-MONSTER/VEHICLE]' } },
+  'relentless-lethal': { scope: 'unit', duration: 'phase', group: 'relentless-assault', onUse: true, label: { en: '[LETHAL HITS: MONSTER/VEHICLE]', ru: '[LETHAL HITS: MONSTER/VEHICLE]' } },
+  'artillerists-lethal': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'artillerists-sustained': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', onUse: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'artillerists-both': { scope: 'unit', duration: 'phase', group: 'vindictive-artillerists', onUse: true, label: { en: 'Both, with [HAZARDOUS]', ru: 'Обе, с [HAZARDOUS]' } },
   // Hardened Killers is spent in your Command phase and lasts "until the start of your next turn":
   // the round is the nearest window the clock has, and it errs early, never late.
-  'hardened-bs': { scope: 'unit', duration: 'round', group: 'hardened-killers', stratagem: true, label: { en: '+1 BS', ru: '+1 BS' } },
-  'hardened-rapid-fire': { scope: 'unit', duration: 'round', group: 'hardened-killers', stratagem: true, label: { en: '+1 A, [RAPID FIRE] weapons', ru: '+1 A, оружие [RAPID FIRE]' } },
-  'hardened-save': { scope: 'unit', duration: 'round', group: 'hardened-killers', stratagem: true, label: { en: '+1 Sv', ru: '+1 Sv' } },
+  'hardened-bs': { scope: 'unit', duration: 'round', group: 'hardened-killers', onUse: true, label: { en: '+1 BS', ru: '+1 BS' } },
+  'hardened-rapid-fire': { scope: 'unit', duration: 'round', group: 'hardened-killers', onUse: true, label: { en: '+1 A, [RAPID FIRE] weapons', ru: '+1 A, оружие [RAPID FIRE]' } },
+  'hardened-save': { scope: 'unit', duration: 'round', group: 'hardened-killers', onUse: true, label: { en: '+1 Sv', ru: '+1 Sv' } },
   // Experimental Ammunition's first option is +1 S, which the second has too: one chip for the
   // second is the whole choice.
-  'ammo-overcharge': { scope: 'unit', duration: 'phase', stratagem: true, label: { en: '+1 AP, [HAZARDOUS]', ru: '+1 AP, [HAZARDOUS]' } },
-  'augmented-lethal': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
-  'augmented-sustained': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', stratagem: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
-  'augmented-both': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', stratagem: true, label: { en: 'Both (entrenched)', ru: 'Обе (entrenched)' } },
-  'spear-lethal': { scope: 'unit', duration: 'phase', group: 'spear-thrust', stratagem: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
-  'spear-lance': { scope: 'unit', duration: 'phase', group: 'spear-thrust', stratagem: true, label: { en: '[LANCE]', ru: '[LANCE]' } },
-  'spear-both': { scope: 'unit', duration: 'phase', group: 'spear-thrust', stratagem: true, label: { en: 'Both (MOUNTED)', ru: 'Обе (MOUNTED)' } },
+  'ammo-overcharge': { scope: 'unit', duration: 'phase', onUse: true, label: { en: '+1 AP, [HAZARDOUS]', ru: '+1 AP, [HAZARDOUS]' } },
+  'augmented-lethal': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'augmented-sustained': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', onUse: true, label: { en: '[SUSTAINED HITS 1]', ru: '[SUSTAINED HITS 1]' } },
+  'augmented-both': { scope: 'unit', duration: 'phase', group: 'augmented-targeting', onUse: true, label: { en: 'Both (entrenched)', ru: 'Обе (entrenched)' } },
+  'spear-lethal': { scope: 'unit', duration: 'phase', group: 'spear-thrust', onUse: true, label: { en: '[LETHAL HITS]', ru: '[LETHAL HITS]' } },
+  'spear-lance': { scope: 'unit', duration: 'phase', group: 'spear-thrust', onUse: true, label: { en: '[LANCE]', ru: '[LANCE]' } },
+  'spear-both': { scope: 'unit', duration: 'phase', group: 'spear-thrust', onUse: true, label: { en: 'Both (MOUNTED)', ru: 'Обе (MOUNTED)' } },
+  // Moment Shackle (once per battle): "+3 A on the Watcher's Axe" or "3+ InSv", picked when used.
+  'shackle-axe': { scope: 'unit', duration: 'phase', group: 'moment-shackle', onUse: true, label: { en: 'Watcher’s Axe +3 A', ru: 'Watcher’s Axe +3 A' } },
+  'shackle-save': { scope: 'unit', duration: 'phase', group: 'moment-shackle', onUse: true, label: { en: '3+ InSv', ru: '3+ InSv' } },
   // Desperate Pledge: "if your unit invokes its contract" — the player knows, the card cannot.
-  'contract-invoked': { scope: 'unit', duration: 'phase', stratagem: true, label: { en: 'Contract invoked', ru: 'Контракт заключён' } },
+  'contract-invoked': { scope: 'unit', duration: 'phase', onUse: true, label: { en: 'Contract invoked', ru: 'Контракт заключён' } },
 
   // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
   // Answered by the tracker's clock (rosterGameContext's clockHolds), never by a switch. A phase

@@ -105,6 +105,50 @@ export default {
       "effects": []
     },
     {
+      "sid": "2de6d3bc-a47d-480a-8683-50565426ab93:aranis-zarkan",
+      "kind": "ability",
+      "name": "Aranis Zarkan: Sacrificial Dagger",
+      "det": null,
+      "ref": null,
+      "hash": "6258748a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the phase this ability is used (this unit suffers 1 mortal wound)",
+            "ru": "фаза, в которую применена способность (отряд получает 1 смертельную рану)"
+          },
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the phase this ability is used (this unit suffers 1 mortal wound)",
+            "ru": "фаза, в которую применена способность (отряд получает 1 смертельную рану)"
+          },
+          "only": {
+            "tag": "PSYCHIC"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "pack:blood-slaughterer:scuttling-gait",
       "kind": "ability",
       "name": "Blood Slaughterer: Scuttling Gait",
@@ -2082,12 +2126,22 @@ export default {
           "op": "add",
           "value": 1,
           "when": {
-            "en": "while Huron’s Elite is selected, or the unit is visible to Huron Blackheart",
-            "ru": "пока выбрана Huron’s Elite или отряд видит Huron Blackheart"
+            "en": "while Huron’s Elite is the ability picked in your Command phase",
+            "ru": "пока в вашей фазе командования выбрана Huron’s Elite"
           },
           "cond": [
-            "never"
+            "motivation-hurons-elite"
           ]
+        },
+        {
+          "op": "state",
+          "cond": [
+            "motivation-mobile-marauders"
+          ],
+          "when": {
+            "en": "the ability picked in your Command phase — both while the unit is visible to Huron Blackheart",
+            "ru": "способность, выбранная в вашей фазе командования; обе — пока отряд видит Huron Blackheart"
+          }
         }
       ],
       "ref": {
@@ -3371,6 +3425,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "9c3df035-418b-40af-9cff-e2a96fefeddc",
+      "kind": "stratagem",
+      "name": "Undying Hatred",
+      "det": "Devotees of Destruction",
+      "ref": {
+        "kind": "stratagem",
+        "det": "devotees-of-destruction",
+        "name": "Undying Hatred"
+      },
+      "hash": "ed2665e0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "dfd93880-0f0c-451d-a583-ae840e5c5aec",

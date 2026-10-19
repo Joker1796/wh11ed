@@ -2238,6 +2238,17 @@ export default {
       "effects": []
     },
     {
+      "sid": "189fe04e-bb44-4051-85d7-e52e0274f49a",
+      "kind": "stratagem",
+      "name": "Lockdown Protocols",
+      "det": "Purge Corps Deltic-9",
+      "ref": null,
+      "hash": "c3a9bf63",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "5988385b-4997-4228-9e6d-4f4b85d270a8",
       "kind": "stratagem",
       "name": "Aggressor Imperative",

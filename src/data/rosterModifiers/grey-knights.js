@@ -231,6 +231,31 @@ export default {
       ]
     },
     {
+      "sid": "41323e9d-757a-424c-8048-fd10a69f31ff:crowe-s-sanctifiers-venerable-dreadnought",
+      "kind": "ability",
+      "name": "Crowe's Sanctifiers Venerable Dreadnought: Guidance of the Ancients (Psychic)",
+      "det": null,
+      "ref": null,
+      "hash": "f5064a57",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the enemy unit selected",
+            "ru": "против выбранного вражеского отряда"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "7911d9a1-f1a1-4cbb-9904-d357e491ba53:grand-master-voldus",
       "kind": "ability",
       "name": "Grand Master Voldus: Sanctuary",
@@ -581,6 +606,34 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "1c8db7d2-8995-4be6-a4ba-a8f9c1c56af3",
+      "kind": "detachmentRule",
+      "name": "Dauntless Champions",
+      "det": "Argent Assault",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "argent-assault"
+      },
+      "hash": "1494fb50",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "when the attack’s S is lower than the target’s T",
+            "ru": "когда S атаки ниже T цели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "ed4a222f-7ed6-4e9d-b310-0cb08a3c4906",
@@ -1236,6 +1289,17 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "48228ed3-39eb-46b6-ba1c-34ad3e8a0613",
+      "kind": "stratagem",
+      "name": "Refusal to Yield",
+      "det": "Crowe’s Sanctifiers",
+      "ref": null,
+      "hash": "f5133a4b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "f574a3d4-d1ed-4a60-a2de-f3d989784f63",

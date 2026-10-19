@@ -255,6 +255,36 @@ export default {
       ]
     },
     {
+      "sid": "3339357d-f03a-44e3-b86a-7cb15fda0cbc:marshal",
+      "kind": "ability",
+      "name": "Marshal: Inspirational Exemplar",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "marshal"
+      },
+      "hash": "0b6926a9",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "80540ddc-3e20-40cd-9acb-2bddfe628e63:marshal",
       "kind": "ability",
       "name": "Marshal: Pious Fervour",
@@ -275,6 +305,34 @@ export default {
           "when": {
             "en": "when this unit is selected to fight, per enemy unit within 6\" of this model, up to +3",
             "ru": "когда отряд выбран для боя, за каждый вражеский отряд в пределах 6\" от модели, максимум +3"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "9ef24f95-18b7-46ba-81bd-8d1db46463a4:repulsor-executioner",
+      "kind": "ability",
+      "name": "Repulsor Executioner: Executioner",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "repulsor-executioner"
+      },
+      "hash": "16abc8ed",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a unit not below half-strength",
+            "ru": "против отряда не ниже половины численности"
           },
           "cond": [
             "never"
@@ -567,6 +625,21 @@ export default {
       ]
     },
     {
+      "sid": "b0325e80-b3d5-4c14-9e6a-143793ff2a4d",
+      "kind": "stratagem",
+      "name": "Angels Defiant",
+      "det": "Fist of the God-Emperor",
+      "ref": {
+        "kind": "stratagem",
+        "det": "fist-of-the-god-emperor",
+        "name": "Angels Defiant"
+      },
+      "hash": "ed2665e0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "bc719a21-f0f4-4a42-81cf-74be4ac9d9ed",
       "kind": "stratagem",
       "name": "Avowed Destruction",
@@ -665,6 +738,17 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "db170bd4-3146-4bee-be48-9046ebededd3",
+      "kind": "stratagem",
+      "name": "Blessed Aura",
+      "det": "Vow-Sworn of Vedrenn",
+      "ref": null,
+      "hash": "53c6be56",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "41258f7f-dee3-4065-93f5-83774b5da820",

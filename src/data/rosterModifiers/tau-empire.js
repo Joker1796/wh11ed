@@ -1812,6 +1812,17 @@ export default {
       ]
     },
     {
+      "sid": "ceebb987-c76b-4834-8d70-6f1cc0c5e3ee",
+      "kind": "enhancement",
+      "name": "Earth Caste Modifications",
+      "det": "Sudden Dawn Cadre",
+      "ref": null,
+      "hash": "f467cc09",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "3513ccb4-3398-47a4-9518-5cc2ab78b9cb",
       "kind": "enhancement",
       "name": "Proximity Scanners",

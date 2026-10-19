@@ -386,6 +386,17 @@ export default {
       }
     },
     {
+      "sid": "f4031e00-d3d0-43c0-9dfb-f4c579906260",
+      "kind": "detachmentRule",
+      "name": "Xenos Resilience",
+      "det": "Claw of Ascension",
+      "ref": null,
+      "hash": "6a71d0f1",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7767306f-ad29-4d17-8510-f5dcb2a06f78",
       "kind": "detachmentRule",
       "name": "Psionic Parasitism",
@@ -707,6 +718,31 @@ export default {
             "name": "Achilles missile launcher"
           },
           "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3ddc79d6-e82b-4898-ad3c-c3c174f9e145",
+      "kind": "enhancement",
+      "name": "Practiced Eye",
+      "det": "Claw of Ascension",
+      "ref": null,
+      "hash": "22b570c6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against the one enemy unit selected",
+            "ru": "против одного выбранного вражеского отряда"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },

@@ -28,6 +28,8 @@ describe('a rule offers its choices as switches', () => {
     ['astra-militarum', 'Siege Regiment', ['artillery-creeping-barrage', 'artillery-incendiary-bombardment', 'artillery-smoke-shells']],
     ['imperial-agents', 'Imperialis Fleet', ['costs-eliminate', 'costs-acquire']],
     ['imperial-agents', 'Ordo Xenos, Alien Hunters', ['tactic-furor', 'tactic-malleus', 'tactic-purgatus']],
+    ['adepta-sororitas', 'Penitent Host', ['atonement-path-of-the-penitent', 'atonement-absolution-in-battle', 'atonement-death-before-disgrace']],
+    ['chaos-space-marines', 'Huron’s Marauders', ['motivation-hurons-elite', 'motivation-mobile-marauders']],
   ])('%s · %s', async (slug, det, ids) => {
     expect(await switches(slug, det, 'army')).toEqual(expect.arrayContaining(ids))
   }, 30000)
@@ -44,6 +46,12 @@ describe('an army rule offers its choices as switches', () => {
 })
 
 describe('a unit-level choice is a unit switch', () => {
+  it.each([
+    ['adeptus-custodes', 'Guardians of the Throne', ['mastery-sustained', 'mastery-lethal']],
+    ['aeldari', 'Aspect Host', ['path-hit-1', 'path-wound-1']],
+  ])('%s · %s', async (slug, det, ids) => {
+    expect(await switches(slug, det, 'unit')).toEqual(expect.arrayContaining(ids))
+  }, 30000)
   it('Cryptek Conclave — Technosorcerous Augmentations', async () => {
     expect(await switches('necrons', 'Cryptek Conclave', 'unit')).toEqual(expect.arrayContaining(['techno-anti-infantry', 'techno-anti-mounted', 'techno-assault', 'techno-heavy', 'techno-ignores-cover']))
   }, 30000)
@@ -68,6 +76,8 @@ describe('a datasheet ability offers its choices on the unit', () => {
     ['tau-empire', 'aunshi', {}, ['aunshi-direct-grace', 'aunshi-forceful-strike', 'aunshi-whirling-stance']],
     ['space-marines', 'eliminator-squad', {}, ['optics-ignores-cover', 'optics-detection']],
     ['aeldari', 'troupe', {}, ['troupe-heros-prowess', 'troupe-villains-doom', 'troupe-tricksters-grace']],
+    ['space-marines', 'caanok-var', {}, ['cold-lethal', 'cold-sustained']],
+    ['space-marines', 'bladeguard-veteran-squad', {}, ['bladeguard-hit', 'bladeguard-defend']],
   ])('%s · %s', async (slug, unitId, opts, ids) => {
     expect(await unitSwitches(slug, unitId, opts)).toEqual(expect.arrayContaining(ids))
   }, 30000)
@@ -98,5 +108,17 @@ describe('a stratagem offers its options once spent', () => {
     const ask = (strats) => switchesFor(resolved, 'unit', { factionSlug: slug, ctx: { strats } }, { round: 1 }, entry).map((s) => s.id)
     expect(ask({})).not.toEqual(expect.arrayContaining([ids[0]]))
     expect(ask({ u1: { [strat.sid]: 100 } })).toEqual(expect.arrayContaining(ids))
+  }, 30000)
+})
+
+// A once-per-battle ability's own options are asked once it is used — Moment Shackle's axe or save.
+describe('a once-per-battle ability offers its options once used', () => {
+  it('Trajann Valoris — Moment Shackle', async () => {
+    const recs = usableEntries(await loadRosterModifiersFor('adeptus-custodes'))
+    const entries = datasheetEntriesFor(recs, { unitId: 'trajann-valoris' })
+    const shackle = entries.find((r) => r.name.startsWith('Moment Shackle'))
+    const ask = (uses) => switchesFor(entries, 'unit', { factionSlug: 'adeptus-custodes', ctx: { uses } }, { round: 1 }, { uid: 'u1', id: 'trajann-valoris' }).map((s) => s.id)
+    expect(ask({})).not.toContain('shackle-axe')
+    expect(ask({ u1: { [shackle.sid]: 100 } })).toEqual(expect.arrayContaining(['shackle-axe', 'shackle-save']))
   }, 30000)
 })
