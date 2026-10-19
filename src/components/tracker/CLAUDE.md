@@ -591,9 +591,10 @@ fires there: the side's rules by their moment (`start`/`end` at the phase's firs
 at its main step — `stepOfMoment`), army rules before units, and the side's **mission cards where
 they score** (`missionTiming.cardMoments`: the end of its Command phase, or the end of the turn —
 "while active" has no moment). **One fold per phase** (and the turn's start and end) on the shared
-`StratPhaseGroups` (card mode, as in the CP tab; a group may bring its own `count`), **all shut by
-default**, each counting what fires inside it; the open ones are remembered
-(`wh11ed-turn-steps-open`). Opened, a step with something heads its rows, and a run of steps with
+`StratPhaseGroups` (card mode, as in the CP tab; a group may bring its own `count`), each counting
+what fires inside it. **Which are open** (owner, 2026-10-19, after Mikhail's review): in a game keeping
+phases the tab is the current phase, open, and it reopens as the clock moves; without phases every
+phase of the turn is open (it was all shut, remembered in `wh11ed-turn-steps-open`, from 2026-10-10). Opened, a step with something heads its rows, and a run of steps with
 nothing is ONE quiet line ("Start of phase · Gain Core CP · Battle-shock") — the order stays readable
 without a line apiece (owner, 2026-10-10: a line per empty step gave the screen to emptiness; the
 "only steps with rules" switch that came first is gone). A side with nothing at all gets the empty
