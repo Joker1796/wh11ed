@@ -203,7 +203,10 @@
 
           <div class="gc-body">
             <div class="gc-side gc-side--left">
-              <span class="gc-name">{{ pname(g, 0) }}</span>
+              <span class="gc-name"><span
+                v-if="youTag(g, 0)"
+                class="gc-you"
+              >{{ labels.trackerYou }}</span>{{ pname(g, 0) }}</span>
               <span
                 v-for="(line, n) in armyLines(g, 0)"
                 :key="n"
@@ -219,7 +222,10 @@
               </div>
             </div>
             <div class="gc-side gc-side--right">
-              <span class="gc-name">{{ pname(g, 1) }}</span>
+              <span class="gc-name"><span
+                v-if="youTag(g, 1)"
+                class="gc-you"
+              >{{ labels.trackerYou }}</span>{{ pname(g, 1) }}</span>
               <span
                 v-for="(line, n) in armyLines(g, 1)"
                 :key="n"
@@ -490,6 +496,11 @@ function idxOf(g, side) { return side }
 function pname(g, side) {
   const pl = g.players[idxOf(g, side)]
   return pl?.name || (isYouSide(pl, side) ? labels.value.trackerYou : labels.value.trackerOpponent)
+}
+// "You" beside your own name: the card is in turn order, so your side is not always the left one.
+function youTag(g, side) {
+  const pl = g.players[idxOf(g, side)]
+  return isYouSide(pl, side) && !!pl?.name
 }
 // A side's armies: the side itself in singles, its two members in doubles.
 const armiesOfSide = (g, side) => membersOf(g.players[idxOf(g, side)] || {})
@@ -800,6 +811,20 @@ function footLine(g) {
   overflow-wrap: anywhere;
 }
 .gc-faction { font-size: 0.8rem; color: var(--text-muted); line-height: 1.25; overflow-wrap: anywhere; }
+/* The same label as on the game's board (ScoreBoard's .you-tag), in the text's own colour here. */
+.gc-you {
+  display: inline-block;
+  margin-right: 0.3rem;
+  padding: 0 0.3rem;
+  border: 1px solid var(--text-muted);
+  color: var(--text-muted);
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  vertical-align: 0.15em;
+}
 
 .gc-center { display: flex; flex-direction: column; align-items: center; gap: 0.05rem; padding: 0 0.15rem; }
 .gc-score {

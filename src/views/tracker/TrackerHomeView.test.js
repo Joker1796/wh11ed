@@ -27,8 +27,11 @@ describe('TrackerHomeView — a history card', () => {
     const { default: TrackerHomeView } = await import('./TrackerHomeView.vue')
     const w = mount(TrackerHomeView, { global: { stubs: { RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } } } })
     await new Promise((r) => setTimeout(r))
-    const names = w.findAll('.gc-name').map((n) => n.text())
-    expect(names).toEqual(['Them', 'Me'])
+    const names = w.findAll('.gc-name')
+    expect(names.map((n) => n.text())).toEqual(['Them', 'YouMe'])
+    // …your side says so, wherever it stands
+    expect(names[0].find('.gc-you').exists()).toBe(false)
+    expect(names[1].find('.gc-you').text()).toBe('You')
     expect(w.find('.gc-score').text().replace(/\s/g, '')).toBe('40–70')
     expect(w.find('.gc-result').text()).toMatch(/victory|победа/i)
   })

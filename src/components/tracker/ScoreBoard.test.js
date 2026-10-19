@@ -102,3 +102,16 @@ describe('ScoreBoard — doubles emblems', () => {
     expect(cols[1].findAll('.stamp')).toHaveLength(1)
   })
 })
+
+// The board is in turn order, so your card moves between games: it says "You" (owner, 2026-10-19).
+describe('ScoreBoard — your side says so', () => {
+  it('tags your named side, and only yours', () => {
+    const game = finishedGame(10, 30)
+    game.players[0] = { ...game.players[0], name: 'Opp', isYou: false }
+    game.players[1] = { ...game.players[1], name: 'Me', isYou: true }
+    const w = mount(ScoreBoard, { props: { game, finished: true } })
+    const heads = w.findAll('.col-head')
+    expect(heads[0].find('.you-tag').exists()).toBe(false)
+    expect(heads[1].find('.you-tag').text()).toBe('You')
+  })
+})

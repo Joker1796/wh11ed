@@ -35,6 +35,13 @@
       <!-- Flex with a gap, so the template's line breaks between the spans add nothing; the
            faction's "·" is drawn by CSS. -->
       <div class="col-head">
+        <!-- Your side says so (owner, 2026-10-19): the board is in TURN order, so your card stands
+             left in one game and right in the next, and its colour follows the army. A side whose
+             name already reads "You" needs no second one. -->
+        <span
+          v-if="isYouSide(pl, i) && pl?.name"
+          class="you-tag"
+        >{{ labels.trackerYou }}</span>
         <span class="pname">{{ sideName(pl, i, labels) }}</span>
         <span
           v-if="factionLine(pl)"
@@ -288,6 +295,18 @@ for (const [name, of] of Object.entries(scores)) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+/* A label, not a pill: the side's colour on a hairline, as small as the army line beside it. */
+.you-tag {
+  align-self: center;
+  padding: 0 0.3rem;
+  border: 1px solid var(--side);
+  color: var(--side);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 .pfaction { font-size: 0.95rem; color: var(--text-muted); }
 .pfaction::before { content: '· '; }
