@@ -4,6 +4,9 @@
 //
 //   {btn:gear}      an icon button, as the screen draws it — the names below, nothing else
 //   {key:Put back}  a text button, the label as written (localized by the note itself)
+//   {do:feedback}   a text button that works: pressing it does what the app's own button does
+//                   (owner, 2026-10-19 — "make Report a bug clickable"); the actions below, the
+//                   label as the screen writes it, ChangelogView runs it
 //   {who:Creego}    an outside contributor's name, in amber (owner, 2026-10-07): the thanks
 //                   should stand out from the change it is attached to
 //   {link:beta.wh-rules.ru}  a site the note sends the reader to, clickable (owner, 2026-10-09);
@@ -26,7 +29,12 @@ export const BTN_ICONS = {
   info: { icon: 'wi wi-info', en: 'View details', ru: 'Подробнее' }, // a wargear row's profiles in the unit editor
 }
 
-export const MARK_RE = /\{btn:([a-z-]+)\}|\{key:([^}]+)\}/g
+// The label is the menu item's own (ui.js `feedbackMenu`).
+export const ACTIONS = {
+  feedback: { en: 'Report a bug', ru: 'Сообщить об ошибке' },
+}
+
+export const MARK_RE = /\{btn:([a-z-]+)\}|\{key:([^}]+)\}|\{do:([a-z-]+)\}/g
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
@@ -35,7 +43,7 @@ const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, 
 // Marks that stand together ("{btn:gear} {btn:panes}") and the punctuation right after them are
 // one unbreakable run: a line break between the two halves of one switch, or before the full stop
 // after an icon, read as two separate things.
-const RUN_RE = /(?:\{(?:btn|key):[^}]+\}(?:\s+(?=\{(?:btn|key):))?)+[.,;:!?»”)]?/g
+const RUN_RE = /(?:\{(?:btn|key|do):[^}]+\}(?:\s+(?=\{(?:btn|key|do):))?)+[.,;:!?»”)]?/g
 
 const WHO_RE = /\{who:([^}]+)\}/g
 // A host (and an optional path) — nothing that could close the attribute or start a scheme.
@@ -49,9 +57,11 @@ export function renderMarks(html, locale = 'en') {
 }
 
 function drawMarks(html, locale) {
-  return html.replace(MARK_RE, (m, btn, key) => {
+  return html.replace(MARK_RE, (m, btn, key, act) => {
     const b = btn && BTN_ICONS[btn]
     if (btn) return b ? `<span class="cl-btn" role="img" aria-label="${esc(b[locale] || b.en)}" title="${esc(b[locale] || b.en)}"><i class="${b.icon}"></i></span>` : m
+    // A link and not a <button>: the sanitizer keeps no buttons, and a link is in the tab order.
+    if (act) return ACTIONS[act] ? `<a class="cl-key cl-do" href="#" role="button" data-do="${act}">${esc(ACTIONS[act][locale] || ACTIONS[act].en)}</a>` : m
     return `<span class="cl-key">${esc(key)}</span>`
   })
 }

@@ -22,6 +22,22 @@
 
 export const changelog = [
   {
+    version: '2.9.8',
+    date: '2026-10-19',
+    en: [
+      { h: 'Answers to your questions' },
+      'Can I take two units of Victrix Honour Guard? No. [Victrix Honour Guard](/factions/space-marines/datasheets/victrix-honour-guard) is an EPIC HERO, and an army can include only one such unit.',
+      'Will the other Black Templars detachments be added? [Black Templars](/factions/black-templars) have three detachments in 11th edition: Vow-sworn Crusaders, Marshal’s Household and Fist of the God-Emperor. All three are on the site and in the roster builder. Every chapter detachment from the GW app is already here.',
+      'The ability label font was better before. I changed it so the labels look the same on every phone. If you have a specific font in mind, send it through {do:feedback}. I will consider it.',
+    ],
+    ru: [
+      { h: 'Ответы на вопросы' },
+      'Можно ли взять два отряда Victrix Honour Guard? Нет. [Victrix Honour Guard](/factions/space-marines/datasheets/victrix-honour-guard) — EPIC HERO, а такой отряд можно взять в армию только один раз.',
+      'Будут ли другие детачменты Black Templars? У [Black Templars](/factions/black-templars) в 11-й редакции три детачмента: Vow-sworn Crusaders, Marshal’s Household и Fist of the God-Emperor. Все три есть на сайте и в конструкторе ростеров. Все детачменты орденов из приложения GW уже здесь.',
+      'Шрифт меток способностей раньше был лучше. Я сменил его, чтобы метки выглядели одинаково на всех телефонах. Если у вас есть конкретное предложение, пришлите его через {do:feedback}. Я его рассмотрю.',
+    ],
+  },
+  {
     version: '2.9.7',
     date: '2026-10-19',
     en: [

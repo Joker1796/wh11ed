@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { changelog } from './changelog.js'
-import { BTN_ICONS, MARK_RE, renderMarks, SECTION_KINDS, sectionKind, noteSections, boldQuestion, INT_LINK_RE } from './changelogMarks.js'
+import { ACTIONS, BTN_ICONS, MARK_RE, renderMarks, SECTION_KINDS, sectionKind, noteSections, boldQuestion, INT_LINK_RE } from './changelogMarks.js'
 import datasheetIds from './datasheetIds.json'
+import { ui } from '../i18n/ui.js'
 import { basicRules } from './basicRules.js'
 import { battleRound } from './battleRound.js'
 import { battlefields } from './battlefields.js'
@@ -50,6 +51,23 @@ describe('changelog marks', () => {
     expect(renderMarks('{btn:nope}')).toContain('{btn:nope}')
     // A pair of marks and the stop after them never break apart.
     expect(renderMarks('switch {btn:gear} {btn:panes}. Next')).toMatch(/<span class="cl-nw"><span class="cl-btn"[^]*wi-panes[^]*<\/span>\.<\/span> Next$/)
+  })
+
+  it('draws {do:…} as a working button, labelled as the screen labels it', () => {
+    expect(renderMarks('Send it with {do:feedback}.', 'ru')).toBe('Send it with <span class="cl-nw"><a class="cl-key cl-do" href="#" role="button" data-do="feedback">Сообщить об ошибке</a>.</span>')
+    expect(renderMarks('{do:nope}')).toContain('{do:nope}')
+    // The button reads as the menu item it stands for.
+    for (const loc of ['en', 'ru']) expect(ACTIONS.feedback[loc]).toBe(ui[loc].feedbackMenu)
+  })
+
+  it('knows the action of every {do:…} a note uses', () => {
+    const acts = (s) => [...s.matchAll(MARK_RE)].filter((m) => m[3]).map((m) => m[3])
+    for (const e of changelog) {
+      e.en.forEach((n, i) => {
+        for (const a of acts(text(n))) expect(ACTIONS, `${e.version} en[${i}] {do:${a}}`).toHaveProperty(a)
+        expect(acts(text(e.ru[i])), `${e.version} ru[${i}]`).toEqual(acts(text(n)))
+      })
+    }
   })
 
   // A contributor's credit: the name in amber, escaped like any text.
