@@ -273,7 +273,7 @@ import ConfirmModal from '../../components/ConfirmModal.vue'
 import { battlePointsFromVp, concededSide, grandTotal, youIndex as youIdx } from '../../composables/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf, BATTLE_SIZES } from '../../composables/useTracker.js'
+import { useTracker, membersOf, isYouSide, BATTLE_SIZES } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
 import { useAuth } from '../../composables/useAuth.js'
@@ -481,14 +481,15 @@ function onConfirmAction() {
   confirmState.value = null
   if (action) action()
 }
-// The card is laid out "You"-first (left), regardless of stored order: opponent-first games are
-// saved with You at players[1] (newGame reorders so index 0 is the first-turn player). `side` is
-// 0 = You / left, 1 = opponent / right; map it to the real array index via the isYou flag.
-function idxOf(g, side) { const y = youIdx(g); return side === 0 ? y : (y === 0 ? 1 : 0) }
+// The card is laid out in TURN order, as the game screen, its result and the review are: the side
+// that moved first stands on the left (owner, 2026-10-19). `players` is stored that way — newGame
+// puts the first-turn player at index 0 — so a card side IS an array index. A game not started yet
+// keeps the setup's order, you first.
+function idxOf(g, side) { return side }
 
 function pname(g, side) {
   const pl = g.players[idxOf(g, side)]
-  return pl?.name || (side === 0 ? labels.value.trackerYou : labels.value.trackerOpponent)
+  return pl?.name || (isYouSide(pl, side) ? labels.value.trackerYou : labels.value.trackerOpponent)
 }
 // A side's armies: the side itself in singles, its two members in doubles.
 const armiesOfSide = (g, side) => membersOf(g.players[idxOf(g, side)] || {})
@@ -534,10 +535,10 @@ function bp(g) {
   const [a, b] = g.result?.totals || [0, 0]
   return battlePointsFromVp(a, b)
 }
-// Big centre score, ordered [You, opponent]: Battle Points in BP mode, else raw VP totals.
+// Big centre score, ordered as the card's sides (left, right): Battle Points in BP mode, else raw VP.
 function score(g) {
   const src = g.settings?.scoreMode === 'bp' ? bp(g) : (g.result?.totals || [0, 0])
-  return [src[youIdx(g)], src[idxOf(g, 1)]]
+  return [src[idxOf(g, 0)], src[idxOf(g, 1)]]
 }
 // Result from "You"'s perspective. Winner is decided by BP in BP mode (≤5 VP gap → 10–10 draw),
 // by VP otherwise; concede overrides. The label follows the locale (owner, 2026-10-18: «ПОБЕДА»,
@@ -545,7 +546,9 @@ function score(g) {
 function winnerSide(g) {
   const c = concededSide(g)
   if (c >= 0) return c === youIdx(g) ? 'loss' : 'win'
-  const [you, opp] = score(g)
+  const y = youIdx(g)
+  const sides = score(g)
+  const [you, opp] = [sides[y], sides[1 - y]]
   if (you === opp) return 'draw'
   return you > opp ? 'win' : 'loss'
 }
@@ -564,7 +567,7 @@ function footLine(g) {
     basis = labels.value.trackerVictoryPoints
   } else {
     const t = g.result?.totals || [0, 0]
-    basis = `${labels.value.trackerBattlePoints} · ${labels.value.trackerScoreVp} ${t[youIdx(g)]}–${t[idxOf(g, 1)]}`
+    basis = `${labels.value.trackerBattlePoints} · ${labels.value.trackerScoreVp} ${t[idxOf(g, 0)]}–${t[idxOf(g, 1)]}`
   }
   return [battleSizeName(g), basis].filter(Boolean).join(' · ')
 }
