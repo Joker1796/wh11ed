@@ -358,7 +358,7 @@ export function useRosterUnitCard(props) {
     const units = props.ctx?.units || []
     const hostUid = entry.leaderOf || entry.uid
     const parts = units.filter((u) => u.uid === hostUid || u.leaderOf === hostUid)
-    /** @param {string} id */
+    /** @param {string | undefined} id */
     const sheetOf = (id) => datasheets.value.find((d) => d.id === id)
     const texts = (parts.length ? parts : [entry]).flatMap((p) => {
       const sheet = sheetOf(p.id)

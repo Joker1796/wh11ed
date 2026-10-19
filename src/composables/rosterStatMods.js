@@ -102,7 +102,7 @@ export function idleOnRow(ability, tags, table) {
 // matching is enough. An enhancement has no scope at all — the caller only passes it for the
 // unit carrying it.
 /**
- * @param {{ scope?: number }} effect
+ * @param {{ scope?: number, reach?: string[] }} effect
  * @param {RuleScope[] | null | undefined} scopes
  * @param {UnitKeywords} keywords the card's own and its attached unit's (ruleTargets' scopeHits), or one list for a unit standing alone
  * @param {string} kind
