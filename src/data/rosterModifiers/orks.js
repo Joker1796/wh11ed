@@ -12,7 +12,10 @@ export default {
       "kind": "ability",
       "name": "’Ardmob Boyz: Grab Dat Scrap",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ardmob-boyz"
+      },
       "hash": "173901da",
       "ver": 925,
       "reviewed": true,
@@ -33,13 +36,16 @@ export default {
       ]
     },
     {
-      "sid": "5b318ee0-9466-407f-ac49-d7f25fc20839:ardmob-boyz",
+      "sid": "5b318ee0-9466-407f-ac49-d7f25fc20839:ardmob-boyz-kustom-shoota",
       "kind": "ability",
       "name": "’Ardmob Boyz: Grab Dat Scrap",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ardmob-boyz-kustom-shoota"
+      },
       "hash": "173901da",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": [
         {
@@ -62,7 +68,10 @@ export default {
       "kind": "ability",
       "name": "’Ardmob Gretchin: Grot Infestation (Once per battle per unit)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ardmob-gretchin"
+      },
       "hash": "8e3cb8a3",
       "ver": 925,
       "reviewed": true,
@@ -88,7 +97,10 @@ export default {
       "kind": "ability",
       "name": "’Ardmob Warboss: Smash 'Em Up",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ardmob-warboss"
+      },
       "hash": "73deea5a",
       "ver": 995,
       "reviewed": true,
@@ -154,7 +166,10 @@ export default {
       "kind": "ability",
       "name": "’Ardmob Wartrakk: Indiscriminate Detonations",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ardmob-wartrakk"
+      },
       "hash": "e56e644f",
       "ver": 995,
       "reviewed": true,
@@ -1870,7 +1885,10 @@ export default {
       "kind": "detachmentRule",
       "name": "’Ard As Nails",
       "det": "’Ardmob",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:orks"
+      },
       "hash": "a0d2aa28",
       "ver": 995,
       "reviewed": true,
@@ -2268,7 +2286,10 @@ export default {
       "kind": "enhancement",
       "name": "Extra Platin’",
       "det": "’Ardmob",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:orks"
+      },
       "hash": "8ed427ee",
       "ver": 995,
       "reviewed": true,
@@ -2880,7 +2901,11 @@ export default {
       "kind": "stratagem",
       "name": "Krump ’Em",
       "det": "’Ardmob",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:orks",
+        "name": "Krump ’Em"
+      },
       "hash": "d7306b4c",
       "ver": 925,
       "reviewed": true,
@@ -2903,7 +2928,11 @@ export default {
       "kind": "stratagem",
       "name": "Medi-Squigs",
       "det": "’Ardmob",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:orks",
+        "name": "Medi-Squigs"
+      },
       "hash": "f506ad10",
       "ver": 995,
       "reviewed": true,

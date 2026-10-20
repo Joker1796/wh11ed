@@ -299,7 +299,10 @@ export default {
       "kind": "ability",
       "name": "Lord Kaphrael of the Callous Blades: Peerless Killer",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lord-kaphrael-of-the-callous-blades"
+      },
       "hash": "342f0f9a",
       "ver": 925,
       "reviewed": true,
@@ -549,7 +552,10 @@ export default {
       "kind": "enhancement",
       "name": "Martial Perfection",
       "det": "Callous Blades",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:emperors-children"
+      },
       "hash": "21c8743e",
       "ver": 995,
       "reviewed": true,
@@ -1137,7 +1143,11 @@ export default {
       "kind": "stratagem",
       "name": "Duellist’s Death",
       "det": "Callous Blades",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:emperors-children",
+        "name": "Duellist’s Death"
+      },
       "hash": "eee8ffc6",
       "ver": 995,
       "reviewed": true,
@@ -1148,7 +1158,11 @@ export default {
       "kind": "stratagem",
       "name": "Shatter Strike",
       "det": "Callous Blades",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:emperors-children",
+        "name": "Shatter Strike"
+      },
       "hash": "3463f06e",
       "ver": 925,
       "reviewed": true,

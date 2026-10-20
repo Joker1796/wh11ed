@@ -593,13 +593,16 @@ export default {
       ]
     },
     {
-      "sid": "6779b58c-1f5a-4e04-916d-154c0e7a73e5:kygharil-s-protectors-dire-avengers",
+      "sid": "6779b58c-1f5a-4e04-916d-154c0e7a73e5:kygharils-protectors-dire-avengers",
       "kind": "ability",
       "name": "Kygharil's Protectors Dire Avengers: Bladestorm",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kygharils-protectors-dire-avengers"
+      },
       "hash": "19c269e2",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": [
         {
@@ -614,25 +617,6 @@ export default {
           "cond": [
             "never"
           ]
-        }
-      ]
-    },
-    {
-      "sid": "e92ba2b2-1d9e-496e-8e7c-b670cd478805:kygharil-s-protectors-dire-avengers",
-      "kind": "ability",
-      "name": "Kygharil's Protectors Dire Avengers: Shimmershield",
-      "det": null,
-      "ref": null,
-      "hash": "534fb70a",
-      "ver": 995,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "profile",
-          "stat": "inv",
-          "op": "set",
-          "value": "4+",
-          "when": null
         }
       ]
     },
@@ -656,13 +640,38 @@ export default {
       ]
     },
     {
-      "sid": "9f3ea182-ed96-41cc-a92e-7f2f2fc107ae:kygharil-s-protectors-warp-spiders",
+      "sid": "e92ba2b2-1d9e-496e-8e7c-b670cd478805:kygharils-protectors-dire-avengers",
+      "kind": "ability",
+      "name": "Kygharil's Protectors Dire Avengers: Shimmershield",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kygharils-protectors-dire-avengers"
+      },
+      "hash": "534fb70a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "9f3ea182-ed96-41cc-a92e-7f2f2fc107ae:kygharils-protectors-warp-spiders",
       "kind": "ability",
       "name": "Kygharil's Protectors Warp Spiders: Engulfing Flames (Once per battle per unit)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kygharils-protectors-warp-spiders"
+      },
       "hash": "2495534c",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": [
         {
@@ -682,11 +691,14 @@ export default {
       ]
     },
     {
-      "sid": "d2258257-bd87-43a4-b199-13d170ef541d:kygharil-s-protectors-wraithblades",
+      "sid": "d2258257-bd87-43a4-b199-13d170ef541d:kygharils-protectors-wraithblades",
       "kind": "ability",
       "name": "Kygharil's Protectors Wraithblades: Forceshield",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kygharils-protectors-wraithblades"
+      },
       "hash": "534fb70a",
       "ver": 995,
       "reviewed": true,
@@ -701,11 +713,14 @@ export default {
       ]
     },
     {
-      "sid": "a83e927d-1bee-4192-b84e-7616365f6e55:kygharil-s-protectors-wraithblades",
+      "sid": "a83e927d-1bee-4192-b84e-7616365f6e55:kygharils-protectors-wraithblades",
       "kind": "ability",
       "name": "Kygharil's Protectors Wraithblades: Psychic Guidance:",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kygharils-protectors-wraithblades"
+      },
       "hash": "1461228a",
       "ver": 995,
       "reviewed": true,
@@ -1024,7 +1039,22 @@ export default {
       "kind": "ability",
       "name": "Spiritseer Kygharil: Spirit Mark (Psychic) (Once per turn per unit)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spiritseer-kygharil",
+        "scopes": [
+          {
+            "targets": [
+              "WRAITH CONSTRUCT"
+            ],
+            "excludes": [
+              "TITANIC"
+            ],
+            "models": [],
+            "modelExcludes": []
+          }
+        ]
+      },
       "hash": "21149fa1",
       "ver": 925,
       "reviewed": true,
@@ -1035,7 +1065,10 @@ export default {
       "kind": "ability",
       "name": "Spiritseer Kygharil: Spiritseer",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "spiritseer-kygharil"
+      },
       "hash": "0075b36b",
       "ver": 925,
       "reviewed": true,
@@ -2040,7 +2073,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Graceful Warriors",
       "det": "Kygharil's Protectors",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:aeldari"
+      },
       "hash": "67359c8d",
       "ver": 995,
       "reviewed": true,
@@ -2628,7 +2664,10 @@ export default {
       "kind": "enhancement",
       "name": "Guided Jump",
       "det": "Kygharil's Protectors",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:aeldari"
+      },
       "hash": "47487144",
       "ver": 925,
       "reviewed": true,
@@ -2647,7 +2686,20 @@ export default {
       "kind": "enhancement",
       "name": "Seer’s Hand",
       "det": "Kygharil's Protectors",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:aeldari",
+        "scopes": [
+          {
+            "targets": [
+              "KYGHARIL'S PROTECTORS WRAITHBLADES"
+            ],
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
+          }
+        ]
+      },
       "hash": "6d851a6c",
       "ver": 925,
       "reviewed": true,
@@ -3450,7 +3502,11 @@ export default {
       "kind": "stratagem",
       "name": "Suppressing Storm",
       "det": "Kygharil's Protectors",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:aeldari",
+        "name": "Suppressing Storm"
+      },
       "hash": "e80d2b39",
       "ver": 995,
       "reviewed": true,

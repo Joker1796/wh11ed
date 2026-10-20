@@ -253,7 +253,10 @@ export default {
       "kind": "ability",
       "name": "Commander Cloudspear: Shield Drone",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "commander-cloudspear"
+      },
       "hash": "24c8e47f",
       "ver": 925,
       "reviewed": true,
@@ -849,7 +852,10 @@ export default {
       "kind": "ability",
       "name": "Sudden Dawn Cadre Pathfinder Team: Target Uploaded",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sudden-dawn-cadre-pathfinder-team"
+      },
       "hash": "24202041",
       "ver": 925,
       "reviewed": true,
@@ -1267,7 +1273,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Co-ordinated Eradication",
       "det": "Sudden Dawn Cadre",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:tau-empire"
+      },
       "hash": "e0bc5f03",
       "ver": 925,
       "reviewed": true,
@@ -1817,7 +1826,10 @@ export default {
       "kind": "enhancement",
       "name": "Earth Caste Modifications",
       "det": "Sudden Dawn Cadre",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:tau-empire"
+      },
       "hash": "f467cc09",
       "ver": 995,
       "reviewed": true,
@@ -1828,7 +1840,10 @@ export default {
       "kind": "enhancement",
       "name": "Proximity Scanners",
       "det": "Sudden Dawn Cadre",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:tau-empire"
+      },
       "hash": "bbffd440",
       "ver": 925,
       "reviewed": true,
@@ -2285,7 +2300,11 @@ export default {
       "kind": "stratagem",
       "name": "Suppressing Fire",
       "det": "Sudden Dawn Cadre",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:tau-empire",
+        "name": "Suppressing Fire"
+      },
       "hash": "8d80c4dd",
       "ver": 925,
       "reviewed": true,

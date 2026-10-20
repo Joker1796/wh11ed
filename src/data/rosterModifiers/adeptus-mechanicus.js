@@ -345,7 +345,10 @@ export default {
       "kind": "ability",
       "name": "Manipulus Skand: Defend the Divine Work (Once per battle, per unit)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "manipulus-skand"
+      },
       "hash": "78e01e08",
       "ver": 995,
       "reviewed": true,
@@ -427,7 +430,10 @@ export default {
       "kind": "ability",
       "name": "Purge Corps Serberys Sulphurhounds: Pinning Fire",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "purge-corps-serberys-sulphurhounds"
+      },
       "hash": "8cd8ce87",
       "ver": 925,
       "reviewed": true,
@@ -438,7 +444,10 @@ export default {
       "kind": "ability",
       "name": "Purge Corps Skitarii Vanguard: Omnispex",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "purge-corps-skitarii-vanguard"
+      },
       "hash": "7edac6d1",
       "ver": 925,
       "reviewed": true,
@@ -457,7 +466,10 @@ export default {
       "kind": "ability",
       "name": "Purge Corps Skitarii Vanguard: Rad-saturation (Aura)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "purge-corps-skitarii-vanguard"
+      },
       "hash": "618490ed",
       "ver": 925,
       "reviewed": true,
@@ -1788,7 +1800,10 @@ export default {
       "kind": "enhancement",
       "name": "Empowered Mechanisms",
       "det": "Purge Corps Deltic-9",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:adeptus-mechanicus"
+      },
       "hash": "a44941f8",
       "ver": 925,
       "reviewed": true,
@@ -2242,7 +2257,11 @@ export default {
       "kind": "stratagem",
       "name": "Lockdown Protocols",
       "det": "Purge Corps Deltic-9",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:adeptus-mechanicus",
+        "name": "Lockdown Protocols"
+      },
       "hash": "c3a9bf63",
       "ver": 995,
       "reviewed": true,

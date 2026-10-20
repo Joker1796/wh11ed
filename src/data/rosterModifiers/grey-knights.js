@@ -206,13 +206,16 @@ export default {
       ]
     },
     {
-      "sid": "02a7dc81-4dee-4440-95ad-4ee97161347a:crowe-s-sanctifiers-brotherhood-terminator-squad",
+      "sid": "02a7dc81-4dee-4440-95ad-4ee97161347a:crowes-sanctifiers-brotherhood-terminator-squad",
       "kind": "ability",
       "name": "Crowe's Sanctifiers Brotherhood Terminator Squad: Force Edge (Psychic)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "crowes-sanctifiers-brotherhood-terminator-squad"
+      },
       "hash": "eaa073e4",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": [
         {
@@ -231,11 +234,14 @@ export default {
       ]
     },
     {
-      "sid": "41323e9d-757a-424c-8048-fd10a69f31ff:crowe-s-sanctifiers-venerable-dreadnought",
+      "sid": "41323e9d-757a-424c-8048-fd10a69f31ff:crowes-sanctifiers-venerable-dreadnought",
       "kind": "ability",
       "name": "Crowe's Sanctifiers Venerable Dreadnought: Guidance of the Ancients (Psychic)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "crowes-sanctifiers-venerable-dreadnought"
+      },
       "hash": "f5064a57",
       "ver": 995,
       "reviewed": true,
@@ -829,7 +835,10 @@ export default {
       "kind": "enhancement",
       "name": "Purifying Force",
       "det": "Crowe’s Sanctifiers",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:grey-knights"
+      },
       "hash": "e9618825",
       "ver": 925,
       "reviewed": true,
@@ -1269,7 +1278,11 @@ export default {
       "kind": "stratagem",
       "name": "Psi-reactive Ammunition",
       "det": "Crowe’s Sanctifiers",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:grey-knights",
+        "name": "Psi-reactive Ammunition"
+      },
       "hash": "f7bbc5ac",
       "ver": 925,
       "reviewed": true,
@@ -1295,7 +1308,11 @@ export default {
       "kind": "stratagem",
       "name": "Refusal to Yield",
       "det": "Crowe’s Sanctifiers",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:grey-knights",
+        "name": "Refusal to Yield"
+      },
       "hash": "f5133a4b",
       "ver": 995,
       "reviewed": true,

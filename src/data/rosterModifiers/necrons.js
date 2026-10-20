@@ -8,24 +8,30 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
-      "sid": "d0cc4c05-a640-456f-a04e-d2a15fd9b08f:amonhotekh-s-guard-canoptek-scarab-swarms",
+      "sid": "d0cc4c05-a640-456f-a04e-d2a15fd9b08f:amonhotekhs-guard-canoptek-scarab-swarms",
       "kind": "ability",
       "name": "Amonhotekh's Guard Canoptek Scarab Swarms: Scarab Interference",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "amonhotekhs-guard-canoptek-scarab-swarms"
+      },
       "hash": "f2b25c39",
       "ver": 995,
       "reviewed": true,
       "effects": []
     },
     {
-      "sid": "076d361c-d1bb-4e8e-8eb4-251434f9d888:amonhotekh-s-guard-skorpekh-destroyers",
+      "sid": "076d361c-d1bb-4e8e-8eb4-251434f9d888:amonhotekhs-guard-skorpekh-destroyers",
       "kind": "ability",
       "name": "Amonhotekh's Guard Skorpekh Destroyers: Plasmacyte (Once per battle per unit)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "amonhotekhs-guard-skorpekh-destroyers"
+      },
       "hash": "1fb7609a",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": [
         {
@@ -900,7 +906,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Territorial Imperatives",
       "det": "Amonhotekh’s Guard",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:necrons"
+      },
       "hash": "02b31bb5",
       "ver": 925,
       "reviewed": true,
@@ -1242,7 +1251,10 @@ export default {
       "kind": "enhancement",
       "name": "Metalline Might",
       "det": "Amonhotekh’s Guard",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:necrons"
+      },
       "hash": "69c38e3b",
       "ver": 925,
       "reviewed": true,
@@ -1261,7 +1273,10 @@ export default {
       "kind": "enhancement",
       "name": "Unblemished Legions",
       "det": "Amonhotekh’s Guard",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:necrons"
+      },
       "hash": "8ee2fd82",
       "ver": 925,
       "reviewed": true,
@@ -1872,7 +1887,11 @@ export default {
       "kind": "stratagem",
       "name": "Gauss Storm",
       "det": "Amonhotekh’s Guard",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:necrons",
+        "name": "Gauss Storm"
+      },
       "hash": "fe8dfc7e",
       "ver": 995,
       "reviewed": true,
@@ -1895,7 +1914,11 @@ export default {
       "kind": "stratagem",
       "name": "Reinforced Resilience",
       "det": "Amonhotekh’s Guard",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:necrons",
+        "name": "Reinforced Resilience"
+      },
       "hash": "97d04864",
       "ver": 995,
       "reviewed": true,

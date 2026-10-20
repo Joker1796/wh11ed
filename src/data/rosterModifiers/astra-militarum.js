@@ -414,13 +414,16 @@ export default {
       ]
     },
     {
-      "sid": "0223b4f3-5ba1-4534-ba8b-c6c7eca3c016:drayden-s-lance-command-squad",
+      "sid": "0223b4f3-5ba1-4534-ba8b-c6c7eca3c016:draydens-lance-command-squad",
       "kind": "ability",
       "name": "Drayden's Lance Command Squad: Medi-pack",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "draydens-lance-command-squad"
+      },
       "hash": "54180cc7",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": [
         {
@@ -433,13 +436,16 @@ export default {
       ]
     },
     {
-      "sid": "d627eacc-bd80-4426-b40f-f10912926b6d:drayden-s-lance-command-squad",
+      "sid": "d627eacc-bd80-4426-b40f-f10912926b6d:draydens-lance-command-squad",
       "kind": "ability",
       "name": "Drayden's Lance Command Squad: Regimental Standard",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "draydens-lance-command-squad"
+      },
       "hash": "1ff3a604",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": [
         {
@@ -452,11 +458,14 @@ export default {
       ]
     },
     {
-      "sid": "26b1cc07-1885-46c7-9479-21454d54bb53:drayden-s-lance-kasrkin",
+      "sid": "26b1cc07-1885-46c7-9479-21454d54bb53:draydens-lance-kasrkin",
       "kind": "ability",
       "name": "Drayden's Lance Kasrkin: Melta Mine (Once per battle, per unit)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "draydens-lance-kasrkin"
+      },
       "hash": "95df2d8d",
       "ver": 995,
       "reviewed": true,

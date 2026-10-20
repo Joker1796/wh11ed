@@ -761,7 +761,10 @@ export default {
       "kind": "ability",
       "name": "Sanguinary Spearhead Sanguinary Guard: Born To Fight",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanguinary-spearhead-sanguinary-guard"
+      },
       "hash": "f8299992",
       "ver": 925,
       "reviewed": true,
@@ -987,7 +990,10 @@ export default {
       "kind": "enhancement",
       "name": "Masterful Fighter",
       "det": "Sanguinary Spearhead",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:blood-angels"
+      },
       "hash": "6edde99c",
       "ver": 925,
       "reviewed": true,
@@ -1177,7 +1183,11 @@ export default {
       "kind": "stratagem",
       "name": "Dauntless Bravery",
       "det": "Sanguinary Spearhead",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:blood-angels",
+        "name": "Dauntless Bravery"
+      },
       "hash": "ed2665e0",
       "ver": 995,
       "reviewed": true,

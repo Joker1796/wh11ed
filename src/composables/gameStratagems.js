@@ -126,7 +126,12 @@ export async function loadArmyStrats(m, loc, combatPatrol = false) {
     if (!f) return []
     // Derived fields always key off the English entry, even when rendering the RU faction.
     const enF = loc === 'en' ? f : await loadCombatPatrolFaction(m, 'en')
-    return (f.stratagems || []).map((s, i) => derive(s, enF?.stratagems?.[i], `cp:${m.factionSlug}|${enF?.stratagems?.[i]?.name || s.name}`))
+    // `_detId` is the box detachment's id on the cards (rosterFactionRules' combatPatrolDetachment),
+    // which pairs a stratagem played here with the record a unit's card switches (stratagemPlay.js).
+    return (f.stratagems || []).map((s, i) => ({
+      ...derive(s, enF?.stratagems?.[i], `cp:${m.factionSlug}|${enF?.stratagems?.[i]?.name || s.name}`),
+      _detId: f.id ? `cp:${f.id}` : null,
+    }))
   }
   const sources = detachmentSources(m.factionSlug)
   // normName(detachment) → { det, stratNamesRu }; the chapter's own data wins over the shared one.

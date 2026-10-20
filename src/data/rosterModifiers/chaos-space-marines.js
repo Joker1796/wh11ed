@@ -109,7 +109,10 @@ export default {
       "kind": "ability",
       "name": "Aranis Zarkan: Sacrificial Dagger",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aranis-zarkan"
+      },
       "hash": "6258748a",
       "ver": 995,
       "reviewed": true,
@@ -1552,13 +1555,16 @@ export default {
       ]
     },
     {
-      "sid": "760cb5a0-d9f6-468c-851e-1e2930ab667b:zarkan-s-daemonkin-possessed",
+      "sid": "760cb5a0-d9f6-468c-851e-1e2930ab667b:zarkans-daemonkin-possessed",
       "kind": "ability",
       "name": "Zarkan's Daemonkin Possessed: Unholy Bloodshed",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "zarkans-daemonkin-possessed"
+      },
       "hash": "df7ce16a",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": [
         {
@@ -2329,7 +2335,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Abject Fear",
       "det": "Zarkan’s Daemonkin",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:chaos-space-marines"
+      },
       "hash": "f4d79faa",
       "ver": 925,
       "reviewed": true,
@@ -3164,7 +3173,10 @@ export default {
       "kind": "enhancement",
       "name": "Infernal Infusion",
       "det": "Zarkan’s Daemonkin",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:chaos-space-marines"
+      },
       "hash": "6b4f2235",
       "ver": 925,
       "reviewed": true,
@@ -3183,7 +3195,10 @@ export default {
       "kind": "enhancement",
       "name": "Prey on the Weak",
       "det": "Zarkan’s Daemonkin",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:chaos-space-marines"
+      },
       "hash": "0e243106",
       "ver": 925,
       "reviewed": true,

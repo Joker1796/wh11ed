@@ -466,7 +466,10 @@ export default {
       "kind": "ability",
       "name": "Maggot Lords Deathshroud Terminators: Obstinate Resistance",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "maggot-lords-deathshroud-terminators"
+      },
       "hash": "173901da",
       "ver": 925,
       "reviewed": true,
@@ -740,7 +743,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Creeping Rot",
       "det": "Maggot Lords",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:death-guard"
+      },
       "hash": "4d236ed4",
       "ver": 925,
       "reviewed": true,
@@ -846,7 +852,10 @@ export default {
       "kind": "enhancement",
       "name": "Noisome Veil",
       "det": "Maggot Lords",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:death-guard"
+      },
       "hash": "3c31d88d",
       "ver": 925,
       "reviewed": true,
@@ -1319,7 +1328,11 @@ export default {
       "kind": "stratagem",
       "name": "Vomitous Salvoes",
       "det": "Maggot Lords",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:death-guard",
+        "name": "Vomitous Salvoes"
+      },
       "hash": "cd84fbc1",
       "ver": 925,
       "reviewed": true,

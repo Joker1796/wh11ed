@@ -564,7 +564,10 @@ export default {
       "kind": "ability",
       "name": "Master Zacharial: Gravis Protection",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "master-zacharial"
+      },
       "hash": "9bdc06bf",
       "ver": 925,
       "reviewed": true,
@@ -784,7 +787,10 @@ export default {
       "kind": "ability",
       "name": "Vengeful Brethren Bladeguard Veteran Squad: Bladeguard (Once per turn per unit)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vengeful-brethren-bladeguard-veteran-squad"
+      },
       "hash": "c278d1ae",
       "ver": 995,
       "reviewed": true,
@@ -924,7 +930,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Honoured Knights",
       "det": "The Vengeful Brethren",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:dark-angels"
+      },
       "hash": "14514667",
       "ver": 995,
       "reviewed": true,
@@ -978,7 +987,10 @@ export default {
       "kind": "enhancement",
       "name": "Supreme Combatant",
       "det": "The Vengeful Brethren",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:dark-angels"
+      },
       "hash": "96e050f8",
       "ver": 995,
       "reviewed": true,
@@ -1100,7 +1112,11 @@ export default {
       "kind": "stratagem",
       "name": "For the Lion",
       "det": "The Vengeful Brethren",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:dark-angels",
+        "name": "For the Lion"
+      },
       "hash": "076afe4b",
       "ver": 925,
       "reviewed": true,
@@ -1123,7 +1139,11 @@ export default {
       "kind": "stratagem",
       "name": "Mission Focus",
       "det": "The Vengeful Brethren",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:dark-angels",
+        "name": "Mission Focus"
+      },
       "hash": "fe8dfc7e",
       "ver": 995,
       "reviewed": true,

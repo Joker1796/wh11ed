@@ -173,7 +173,10 @@ export default {
       "kind": "ability",
       "name": "Claw of Ascension Achilles Ridgerunner: Crossfire",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "claw-of-ascension-achilles-ridgerunner"
+      },
       "hash": "d30ad47d",
       "ver": 925,
       "reviewed": true,
@@ -184,7 +187,10 @@ export default {
       "kind": "ability",
       "name": "Claw of Ascension Atalan Jackals: Adaptable Fighters",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "claw-of-ascension-atalan-jackals"
+      },
       "hash": "9503861f",
       "ver": 995,
       "reviewed": true,
@@ -390,7 +396,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Xenos Resilience",
       "det": "Claw of Ascension",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:genestealer-cults"
+      },
       "hash": "6a71d0f1",
       "ver": 995,
       "reviewed": true,
@@ -684,7 +693,10 @@ export default {
       "kind": "enhancement",
       "name": "Heavy Munitions",
       "det": "Claw of Ascension",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:genestealer-cults"
+      },
       "hash": "79c5cf6b",
       "ver": 925,
       "reviewed": true,
@@ -726,7 +738,10 @@ export default {
       "kind": "enhancement",
       "name": "Practiced Eye",
       "det": "Claw of Ascension",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:genestealer-cults"
+      },
       "hash": "22b570c6",
       "ver": 995,
       "reviewed": true,

@@ -273,11 +273,14 @@ export default {
       ]
     },
     {
-      "sid": "fc14d232-6717-4065-a816-0921cd150477:kaa-skrek",
+      "sid": "fc14d232-6717-4065-a816-0921cd150477:kaaskrek",
       "kind": "ability",
       "name": "Kaa'skrek: Bestial Prophet",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kaaskrek"
+      },
       "hash": "7c7eed8c",
       "ver": 995,
       "reviewed": true,
@@ -522,7 +525,10 @@ export default {
       "kind": "ability",
       "name": "Prism of Zadophon Rubric Marines: Icon of Flame",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "prism-of-zadophon-rubric-marines"
+      },
       "hash": "39c3d6cd",
       "ver": 925,
       "reviewed": true,
@@ -707,7 +713,20 @@ export default {
       "kind": "ability",
       "name": "Zadophon the Soul Eater: Glamour of Tzeentch (Aura, Psychic)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "zadophon-the-soul-eater",
+        "scopes": [
+          {
+            "targets": [
+              "THOUSAND SONS INFANTRY"
+            ],
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
+          }
+        ]
+      },
       "hash": "cde7ab6f",
       "ver": 925,
       "reviewed": true,
@@ -862,7 +881,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Committed to the Ritual",
       "det": "Prism of Zadophon",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:thousand-sons"
+      },
       "hash": "9e6dcb21",
       "ver": 925,
       "reviewed": true,
@@ -1202,7 +1224,10 @@ export default {
       "kind": "enhancement",
       "name": "Warp-tainted Shells",
       "det": "Prism of Zadophon",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:thousand-sons"
+      },
       "hash": "5a782652",
       "ver": 925,
       "reviewed": true,
@@ -1698,7 +1723,11 @@ export default {
       "kind": "stratagem",
       "name": "Embroiling Energies",
       "det": "Prism of Zadophon",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:thousand-sons",
+        "name": "Embroiling Energies"
+      },
       "hash": "4ef9f99a",
       "ver": 995,
       "reviewed": true,
@@ -1731,7 +1760,11 @@ export default {
       "kind": "stratagem",
       "name": "Spell-warded Armour",
       "det": "Prism of Zadophon",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:thousand-sons",
+        "name": "Spell-warded Armour"
+      },
       "hash": "f5133a4b",
       "ver": 995,
       "reviewed": true,
@@ -1742,7 +1775,11 @@ export default {
       "kind": "stratagem",
       "name": "Twist of Fate",
       "det": "Prism of Zadophon",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:thousand-sons",
+        "name": "Twist of Fate"
+      },
       "hash": "6e82d07d",
       "ver": 995,
       "reviewed": true,

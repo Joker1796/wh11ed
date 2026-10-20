@@ -500,7 +500,10 @@ export default {
       "kind": "ability",
       "name": "Vorrakh, Lord of the Frenzied Reavers: Devastating Assault",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vorrakh-lord-of-the-frenzied-reavers"
+      },
       "hash": "22be2b24",
       "ver": 925,
       "reviewed": true,
@@ -525,7 +528,10 @@ export default {
       "kind": "ability",
       "name": "Vorrakh, Lord of the Frenzied Reavers: Lord of Murder",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vorrakh-lord-of-the-frenzied-reavers"
+      },
       "hash": "8000d291",
       "ver": 925,
       "reviewed": true,
@@ -695,7 +701,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Berzerker Charge",
       "det": "Frenzied Reavers",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:world-eaters"
+      },
       "hash": "708f62a1",
       "ver": 925,
       "reviewed": true,
@@ -1452,7 +1461,11 @@ export default {
       "kind": "stratagem",
       "name": "Berserk Resilience",
       "det": "Frenzied Reavers",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:world-eaters",
+        "name": "Berserk Resilience"
+      },
       "hash": "f5133a4b",
       "ver": 995,
       "reviewed": true,

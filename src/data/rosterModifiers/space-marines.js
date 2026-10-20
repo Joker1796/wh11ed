@@ -128,7 +128,10 @@ export default {
       "kind": "ability",
       "name": "Assault Force Captain: Relic Shield",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "assault-force-captain"
+      },
       "hash": "49d66913",
       "ver": 925,
       "reviewed": true,
@@ -139,7 +142,10 @@ export default {
       "kind": "ability",
       "name": "Assault Force Intercessor Squad: Stalwart Defenders",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "assault-force-intercessor-squad"
+      },
       "hash": "09d39f7a",
       "ver": 925,
       "reviewed": true,
@@ -2755,7 +2761,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Indomitable Resolve",
       "det": "Assault Force",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:space-marines"
+      },
       "hash": "e1c85f08",
       "ver": 925,
       "reviewed": true,
@@ -2939,7 +2948,10 @@ export default {
       "kind": "enhancement",
       "name": "Battle-line Veterans",
       "det": "Assault Force",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:space-marines"
+      },
       "hash": "1b0678c4",
       "ver": 925,
       "reviewed": true,
@@ -2962,7 +2974,10 @@ export default {
       "kind": "enhancement",
       "name": "Blade Masters",
       "det": "Assault Force",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:space-marines"
+      },
       "hash": "1d648955",
       "ver": 995,
       "reviewed": true,
@@ -3902,7 +3917,11 @@ export default {
       "kind": "stratagem",
       "name": "Decapitating Strike",
       "det": "Assault Force",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:space-marines",
+        "name": "Decapitating Strike"
+      },
       "hash": "bf79a709",
       "ver": 925,
       "reviewed": true,

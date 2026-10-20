@@ -159,7 +159,10 @@ export default {
       "kind": "ability",
       "name": "Aquilan Talon Contemptor-Achillus Dreadnought: Intimidating Presence",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aquilan-talon-contemptor-achillus-dreadnought"
+      },
       "hash": "00c9497c",
       "ver": 981,
       "reviewed": true,
@@ -170,7 +173,10 @@ export default {
       "kind": "ability",
       "name": "Aquilan Wing Shield-Captain: Unstoppable Will",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aquilan-wing-shield-captain"
+      },
       "hash": "91ce265d",
       "ver": 981,
       "reviewed": true,
@@ -401,7 +407,10 @@ export default {
       "kind": "ability",
       "name": "Gilded Blades Custodian Guard: Praesidium Shield",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gilded-blades-custodian-guard"
+      },
       "hash": "24c8e47f",
       "ver": 925,
       "reviewed": true,
@@ -426,7 +435,10 @@ export default {
       "kind": "ability",
       "name": "Gilded Blades Custodian Wardens: Divine Protection",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gilded-blades-custodian-wardens"
+      },
       "hash": "163ad0c5",
       "ver": 925,
       "reviewed": true,
@@ -787,7 +799,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Indomitable Avatars",
       "det": "Aquilan Wing",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:adeptus-custodes-aquilan-wing"
+      },
       "hash": "9e470f45",
       "ver": 981,
       "reviewed": true,
@@ -1047,7 +1062,10 @@ export default {
       "kind": "enhancement",
       "name": "Coronal Plate",
       "det": "Aquilan Talon",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:adeptus-custodes-aquilan-talon"
+      },
       "hash": "ed21e90d",
       "ver": 981,
       "reviewed": true,
@@ -1066,7 +1084,10 @@ export default {
       "kind": "enhancement",
       "name": "Goldenwrath (Upgrade)",
       "det": "Aquilan Talon",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:adeptus-custodes-aquilan-talon"
+      },
       "hash": "886c66e5",
       "ver": 981,
       "reviewed": true,
@@ -1089,7 +1110,10 @@ export default {
       "kind": "enhancement",
       "name": "Eagle’s Pinions (Upgrade)",
       "det": "Aquilan Wing",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:adeptus-custodes-aquilan-wing"
+      },
       "hash": "8af48891",
       "ver": 981,
       "reviewed": true,
@@ -1449,7 +1473,11 @@ export default {
       "kind": "stratagem",
       "name": "Unstoppable Champion",
       "det": "Aquilan Talon",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:adeptus-custodes-aquilan-talon",
+        "name": "Unstoppable Champion"
+      },
       "hash": "6ab50acf",
       "ver": 995,
       "reviewed": true,
@@ -1875,7 +1903,11 @@ export default {
       "kind": "stratagem",
       "name": "Never Outmatched",
       "det": "Tristraen’s Gilded Blades",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:adeptus-custodes",
+        "name": "Never Outmatched"
+      },
       "hash": "83e4f304",
       "ver": 925,
       "reviewed": true,
@@ -1921,7 +1953,11 @@ export default {
       "kind": "wargear",
       "name": "Aquilan Wing Sentinel Guard Sodality: Vexilla",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "aquilan-wing-sentinel-guard-sodality",
+        "item": "vexilla"
+      },
       "hash": "93741a91",
       "ver": 981,
       "reviewed": true,
@@ -1986,7 +2022,11 @@ export default {
       "kind": "wargear",
       "name": "Gilded Blades Custodian Guard: Praesidium Shield",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "gilded-blades-custodian-guard",
+        "item": "praesidium shield"
+      },
       "hash": "219c8b44",
       "ver": 925,
       "reviewed": true,

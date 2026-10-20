@@ -89,7 +89,10 @@ export default {
       "kind": "ability",
       "name": "Coven of Agonies Cronos: Empowered Engines (Pain)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "coven-of-agonies-cronos"
+      },
       "hash": "5667e483",
       "ver": 925,
       "reviewed": true,
@@ -114,7 +117,10 @@ export default {
       "kind": "ability",
       "name": "Coven of Agonies Wracks: Experimental Enhancements (Pain)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "coven-of-agonies-wracks"
+      },
       "hash": "49a22d57",
       "ver": 995,
       "reviewed": true,
@@ -1139,7 +1145,10 @@ export default {
       "kind": "ability",
       "name": "Xatrophos Nuul: Fear Incarnate (Aura)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "xatrophos-nuul"
+      },
       "hash": "fd4e2b25",
       "ver": 925,
       "reviewed": true,
@@ -1429,7 +1438,10 @@ export default {
       "kind": "enhancement",
       "name": "Toxin-laced Blades",
       "det": "Coven of Agonies",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:drukhari"
+      },
       "hash": "4db99bb8",
       "ver": 925,
       "reviewed": true,
@@ -1952,7 +1964,11 @@ export default {
       "kind": "stratagem",
       "name": "Hardened Physiology",
       "det": "Coven of Agonies",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:drukhari",
+        "name": "Hardened Physiology"
+      },
       "hash": "c3a9bf63",
       "ver": 995,
       "reviewed": true,
@@ -1963,7 +1979,11 @@ export default {
       "kind": "stratagem",
       "name": "Powerful Creations",
       "det": "Coven of Agonies",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:drukhari",
+        "name": "Powerful Creations"
+      },
       "hash": "ef45f036",
       "ver": 925,
       "reviewed": true,

@@ -721,7 +721,10 @@ export default {
       "kind": "ability",
       "name": "Sanctuary Canoness Adalya: Null Rod",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanctuary-canoness-adalya"
+      },
       "hash": "0bc281c9",
       "ver": 925,
       "reviewed": true,
@@ -740,7 +743,10 @@ export default {
       "kind": "ability",
       "name": "Sanctuary Guardians Arco-Flagellants: Extremis Trigger Word",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanctuary-guardians-arco-flagellants"
+      },
       "hash": "371373d4",
       "ver": 925,
       "reviewed": true,
@@ -781,7 +787,10 @@ export default {
       "kind": "ability",
       "name": "Sanctuary Guardians Celestian Sacresants: Sworn Protectors",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sanctuary-guardians-celestian-sacresants"
+      },
       "hash": "cdadac05",
       "ver": 995,
       "reviewed": true,
@@ -1300,7 +1309,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Blessed Believers",
       "det": "Sanctuary Guardians",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:adepta-sororitas"
+      },
       "hash": "c654eff7",
       "ver": 995,
       "reviewed": true,
@@ -1795,7 +1807,10 @@ export default {
       "kind": "enhancement",
       "name": "Righteous Fervour",
       "det": "Sanctuary Guardians",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:adepta-sororitas"
+      },
       "hash": "cee6d601",
       "ver": 925,
       "reviewed": true,
@@ -2296,7 +2311,11 @@ export default {
       "kind": "stratagem",
       "name": "Fires of Damnation",
       "det": "Sanctuary Guardians",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:adepta-sororitas",
+        "name": "Fires of Damnation"
+      },
       "hash": "1b3fca96",
       "ver": 925,
       "reviewed": true,
@@ -2332,7 +2351,11 @@ export default {
       "kind": "stratagem",
       "name": "Take Cover",
       "det": "Sanctuary Guardians",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:adepta-sororitas",
+        "name": "Take Cover"
+      },
       "hash": "97d04864",
       "ver": 995,
       "reviewed": true,

@@ -64,22 +64,28 @@ export default {
       ]
     },
     {
-      "sid": "91160a46-f367-4dcd-9bfd-87f437903d94:bane-slayer-s-bulwark-brokhyr-thunderkyn",
+      "sid": "91160a46-f367-4dcd-9bfd-87f437903d94:bane-slayers-bulwark-brokhyr-thunderkyn",
       "kind": "ability",
       "name": "Bane Slayer's Bulwark Brokhyr Thunderkyn: Breaching Fire",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bane-slayers-bulwark-brokhyr-thunderkyn"
+      },
       "hash": "3df82845",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },
     {
-      "sid": "e503bc01-d743-40c0-8515-359dc716fc79:bane-slayer-s-bulwark-einhyr-hearthguard",
+      "sid": "e503bc01-d743-40c0-8515-359dc716fc79:bane-slayers-bulwark-einhyr-hearthguard",
       "kind": "ability",
       "name": "Bane-Slayer's Bulwark Einhyr Hearthguard: Weavefield Crest",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bane-slayers-bulwark-einhyr-hearthguard"
+      },
       "hash": "56160de1",
       "ver": 995,
       "reviewed": true,
@@ -94,11 +100,14 @@ export default {
       ]
     },
     {
-      "sid": "c6af0efc-fcde-4ce3-addf-cfba431d168c:bane-slayer-s-bulwark-hearthkyn-warriors",
+      "sid": "c6af0efc-fcde-4ce3-addf-cfba431d168c:bane-slayers-bulwark-hearthkyn-warriors",
       "kind": "ability",
       "name": "Bane-Slayer's Bulwark Hearthkyn Warriors: Weavefield Crest",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "bane-slayers-bulwark-hearthkyn-warriors"
+      },
       "hash": "56160de1",
       "ver": 995,
       "reviewed": true,
@@ -235,7 +244,10 @@ export default {
       "kind": "ability",
       "name": "Vynn Bane-Slayer: Fast-firing Targeters",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vynn-bane-slayer"
+      },
       "hash": "4b9d39f6",
       "ver": 925,
       "reviewed": true,
@@ -254,7 +266,10 @@ export default {
       "kind": "ability",
       "name": "Vynn Bane-Slayer: Weavefield Crest",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vynn-bane-slayer"
+      },
       "hash": "534fb70a",
       "ver": 995,
       "reviewed": true,
@@ -506,7 +521,10 @@ export default {
       "kind": "enhancement",
       "name": "Brôkhyr Barrage",
       "det": "Bane-slayer’s Bulwark",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:leagues-of-votann"
+      },
       "hash": "55ba556e",
       "ver": 925,
       "reviewed": true,
@@ -812,7 +830,11 @@ export default {
       "kind": "stratagem",
       "name": "Claimed for the Kindred",
       "det": "Bane-slayer’s Bulwark",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:leagues-of-votann",
+        "name": "Claimed for the Kindred"
+      },
       "hash": "076afe4b",
       "ver": 925,
       "reviewed": true,
@@ -835,7 +857,11 @@ export default {
       "kind": "stratagem",
       "name": "Point-blank Fusillade",
       "det": "Bane-slayer’s Bulwark",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:leagues-of-votann",
+        "name": "Point-blank Fusillade"
+      },
       "hash": "d2d4bd7d",
       "ver": 925,
       "reviewed": true,

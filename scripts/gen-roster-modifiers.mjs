@@ -419,14 +419,36 @@ function sourcesOf(bundle, detById) {
   return out.filter((s) => s.sid && s.prose)
 }
 
+// COMBAT PATROL — a box's detachment and datasheets sit in the faction's appdata bundle like any
+// other, so their rules have had records all along (76 rules, ~70 abilities); but no faction file
+// holds them, so those records carried no `ref` and applied nowhere — a box played in the tracker
+// printed its cards as written (2026-10-20). The box rosters (src/data/roster/combat-patrol/<box>.js,
+// generated with appdata's uuids as `sid`) name them: the detachment is `cp:<box id>` — the id
+// rosterFactionRules gives a box's detachment when a list fields it — and a box datasheet is its
+// unit id there. sourceIds wins where both know an id.
+function combatPatrolIds() {
+  const det = new Map()
+  const ds = new Map()
+  const dir = path.join(ROOT, 'src/data/roster/combat-patrol')
+  if (!fs.existsSync(dir)) return { det, ds }
+  for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.js'))) {
+    const text = fs.readFileSync(path.join(dir, f), 'utf8')
+    const data = JSON.parse(text.slice(text.indexOf('export default ') + 'export default '.length).trim())
+    if (data.detachment?.sid) det.set(data.detachment.sid, { slug: data.slug, id: `cp:${data.box}` })
+    for (const u of data.units || []) if (u.sid) ds.set(u.sid, { slug: data.slug, id: u.id })
+  }
+  return { det, ds }
+}
+
 // The seven kinds of source a record can hang off, for one faction, assembled exactly as the audit
 // below assembles them. Exported so a gate auditing these records reads the SAME corpus: a second
 // walk over appdata written beside this one would be free to drift, and then the gate would be
 // checking records against prose the generator never saw.
 export function sourceContext() {
+  const cp = combatPatrolIds()
   return {
-    detBySid: invertSourceIds('det'),
-    dsBySid: invertSourceIds('ds'),
+    detBySid: new Map([...cp.det, ...invertSourceIds('det')]),
+    dsBySid: new Map([...cp.ds, ...invertSourceIds('ds')]),
     allegTables: {
       groups: new Map(table('allegiance_ability_group.json').map((g) => [g.id, g])),
       abilities: table('allegiance_ability.json').reduce((m, a) => {
