@@ -614,7 +614,7 @@ export default {
             "ru": "если у модели есть ключевое слово KHORNE"
           },
           "cond": [
-            "never"
+            "alleg-khorne"
           ]
         }
       ]
@@ -642,7 +642,7 @@ export default {
             "ru": "если у модели есть ключевое слово NURGLE"
           },
           "cond": [
-            "never"
+            "alleg-nurgle"
           ]
         }
       ]
@@ -670,7 +670,7 @@ export default {
             "ru": "если у модели есть ключевое слово SLAANESH"
           },
           "cond": [
-            "never"
+            "alleg-slaanesh"
           ]
         }
       ]
@@ -698,7 +698,7 @@ export default {
             "ru": "если у модели есть ключевое слово TZEENTCH"
           },
           "cond": [
-            "never"
+            "alleg-tzeentch"
           ]
         }
       ]
@@ -1179,7 +1179,7 @@ export default {
             "ru": "если у модели есть ключевое слово KHORNE"
           },
           "cond": [
-            "never"
+            "alleg-khorne"
           ]
         }
       ]
@@ -1207,7 +1207,7 @@ export default {
             "ru": "если у модели есть ключевое слово NURGLE"
           },
           "cond": [
-            "never"
+            "alleg-nurgle"
           ]
         }
       ]
@@ -1235,7 +1235,7 @@ export default {
             "ru": "если у модели есть ключевое слово SLAANESH"
           },
           "cond": [
-            "never"
+            "alleg-slaanesh"
           ]
         }
       ]
@@ -1263,7 +1263,7 @@ export default {
             "ru": "если у модели есть ключевое слово TZEENTCH"
           },
           "cond": [
-            "never"
+            "alleg-tzeentch"
           ]
         }
       ]

@@ -1171,6 +1171,63 @@ describe('the CP ledger', () => {
     expect(tracker.canGainBonus(0)).toBe(true)
   })
 
+  // A card that scored this turn is achieved: it leaves for its VP, and discarding it for CP as
+  // well would pay it twice (Misha, 2026-10-20).
+  it('refuses the end-of-turn discard of a card that scored this turn', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.takeRandomSecondaries(0)
+    const [a] = pl(0).secondary.hand
+    const entry = { slug: a, round: tracker.current.value.currentRound, picks: {}, vp: 3 }
+    pl(0).secondary.scored.push(entry)
+    expect(tracker.secondaryCardVp(0, a)).toBe(3)
+    tracker.endTurnDiscard(0, a)
+    expect(pl(0).secondary.hand).toContain(a)
+    expect(tracker.current.value.currentTurn).toBe(0)
+    expect(pl(0).cpLog.filter(e => e.kind === 'bonus')).toHaveLength(0)
+  })
+
+  // Marked, not done (owner, 2026-10-20): the card stays in hand with its mark, and goes — with the
+  // round's bonus CP — when the turn is ended; Undo turn brings both back.
+  it('discards a card marked for the end of the turn when the turn ends', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.takeRandomSecondaries(0)
+    const [a, b] = pl(0).secondary.hand
+    tracker.markForTurnEnd(0, a)
+    expect(tracker.isMarkedForTurnEnd(0, a)).toBe(true)
+    expect(pl(0).secondary.hand).toContain(a) // still in hand, the turn still on
+    expect(tracker.current.value.currentTurn).toBe(0)
+    tracker.markForTurnEnd(0, b)
+    tracker.markForTurnEnd(0, b) // the same item takes the mark off
+    expect(tracker.isMarkedForTurnEnd(0, b)).toBe(false)
+    tracker.endTurn()
+    expect(pl(0).secondary.hand).not.toContain(a)
+    expect(pl(0).secondary.hand).toContain(b)
+    expect(pl(0).secondary.discarded.find(d => d.slug === a)).toMatchObject({ cp: true })
+    expect(pl(0).secondary.eotMarked).toBeUndefined()
+    expect(pl(0).cp).toBe(3) // Core ×2 + the discard's bonus
+    tracker.undoTurn()
+    expect(pl(0).secondary.hand).toContain(a)
+    expect(pl(0).cp).toBe(1)
+  })
+
+  it('does not mark, or discard at the end, a card that scored this turn', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.takeRandomSecondaries(0)
+    const [a, b] = pl(0).secondary.hand
+    pl(0).secondary.scored.push({ slug: a, round: tracker.current.value.currentRound, picks: {}, vp: 2 })
+    tracker.markForTurnEnd(0, a)
+    expect(tracker.isMarkedForTurnEnd(0, a)).toBe(false)
+    // Marked first, scored after: it leaves for its VP, not for CP.
+    tracker.markForTurnEnd(0, b)
+    pl(0).secondary.scored.push({ slug: b, round: tracker.current.value.currentRound, picks: {}, vp: 3 })
+    tracker.endTurn()
+    expect(pl(0).secondary.discarded.filter(d => d.cp)).toHaveLength(0)
+    expect(pl(0).cpLog.filter(e => e.kind === 'bonus')).toHaveLength(0)
+  })
+
   it('an end-of-turn discard with the bonus already used gains nothing', () => {
     tracker.newGame(setupGame())
     tracker.beginGame()

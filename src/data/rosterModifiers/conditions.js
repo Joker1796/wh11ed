@@ -360,6 +360,13 @@ export const conditions = {
   // Brutality), "if your unit has the Markerlight keyword", "if your unit has KILL TEAM". Parked
   // as `never` until then, although the sheet answers each as surely as the Bodyguard's:
   //   self: [kws] — this entry's datasheet carries ANY of them
+  // The keyword the entry chose for itself when it joined the army (2026-10-20): "if this model has
+  // the KHORNE keyword" on a Legends Giant Chaos Spawn, whose Daemonic Allegiance is a pick of the
+  // list. `alleg` is the option's name as the entry stores it (rosterEngine's allegKeyword).
+  'alleg-khorne': { scope: 'roster', duration: 'battle', alleg: 'Khorne', label: { en: 'Chose KHORNE', ru: 'Выбран KHORNE' } },
+  'alleg-tzeentch': { scope: 'roster', duration: 'battle', alleg: 'Tzeentch', label: { en: 'Chose TZEENTCH', ru: 'Выбран TZEENTCH' } },
+  'alleg-nurgle': { scope: 'roster', duration: 'battle', alleg: 'Nurgle', label: { en: 'Chose NURGLE', ru: 'Выбран NURGLE' } },
+  'alleg-slaanesh': { scope: 'roster', duration: 'battle', alleg: 'Slaanesh', label: { en: 'Chose SLAANESH', ru: 'Выбран SLAANESH' } },
   'unit-vehicle': { scope: 'roster', duration: 'battle', self: ['VEHICLE'], label: { en: 'A VEHICLE unit', ru: 'Отряд VEHICLE' } },
   'unit-markerlight': { scope: 'roster', duration: 'battle', self: ['MARKERLIGHT'], label: { en: 'Has the MARKERLIGHT keyword', ru: 'Есть ключевое слово MARKERLIGHT' } },
   'unit-kill-team': { scope: 'roster', duration: 'battle', self: ['KILL TEAM'], label: { en: 'A KILL TEAM unit', ru: 'Отряд KILL TEAM' } },

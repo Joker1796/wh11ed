@@ -374,7 +374,11 @@ export default {
           ],
           "cond": [
             2,
-            0
+            0,
+            null,
+            [
+              3
+            ]
           ]
         }
       ]
@@ -873,7 +877,13 @@ export default {
           ],
           "cond": [
             1,
-            0
+            0,
+            null,
+            [
+              2,
+              3,
+              4
+            ]
           ]
         }
       ]

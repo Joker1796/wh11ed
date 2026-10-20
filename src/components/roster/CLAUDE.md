@@ -603,7 +603,10 @@ which ones each Chapter is denied and why).
 - **Leaders** by name against the faction's units (and the SM pool for a Chapter); a keyword target
   ("Imperium Battleline Infantry") becomes `leadKw` plus the resolved ids. **The Mark of Chaos** is
   granted by the Pactbound Zealots rule's own wording — a HERETIC ASTARTES unit, not an EPIC HERO,
-  carrying no mark already — copied from an appdata unit that has it; 17 CSM sheets.
+  carrying no mark already — copied from an appdata unit that has it; 17 CSM sheets. **A sheet's own
+  DAEMONIC ALLEGIANCE rule** (Furies, Giant Chaos Spawn, Spined Chaos Beast, 2026-10-20) becomes a
+  required pick of its own group (`gid: 'pack'` — appdata's group of that name carries the Daemon
+  Prince's own effects); the sheets' Creature of … records answer from it (`alleg-*` conditions).
 - **Fail-closed, reported by name.** The generator prints every sheet dropped, bracket rejected,
   loadout paragraph unplaced, option sentence unread, replaced item unresolved, item the sheet does
   not print, Leader target not found — under "Faction Pack Legends" in the run report. Read it after
@@ -2505,6 +2508,15 @@ condition on options closes with "Requires: <that option>". The reader (`equippe
 returns every item the sentence names; an item that holds whatever the model does (a starting item
 no sibling of its profile takes away; negated, one only this group gives) is dropped, and one that
 resolves to nothing fails the generator by name — until then such a group stayed open in silence.
+
+**An item several groups take away is counted across all of them** (2026-10-20): "1 Plague Marine
+equipped with a boltgun can…" where five groups replace the boltgun read only the first, so the
+condition held after the others had taken every one. `cond[3]` lists the other groups
+(`[sibling, flag, options | null, also]`), `condLive` sums the models they took, and two items one
+sibling gives merge their lists ("a shuriken pistol and power sword": the sword has a second swap).
+Where the group also KEEPS the item (`keep`), the stock rule already closed it; the gap was the groups
+without `keep` (Neophyte Hybrids' cult icon, Corsair Voidscarred's Faolchú, a Grey Knights
+Terminator's banner — 16 conditions in 9 factions).
 
 **The condition is about ONE MODEL. The gate is about the unit.** That gap was a real bug until
 2026-08-27: any pick in the sibling group closed the dependent one outright. So Chosen lost their

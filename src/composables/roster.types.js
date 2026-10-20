@@ -23,9 +23,11 @@
  */
 
 /**
- * A wargear group's condition: `[siblingGroupIndex, wantActive, options?]` — `options` (indexes
- * into the sibling's `o`) narrows "the sibling has a pick" to a pick of those.
- * @typedef {[number, number, number[]?]} GearCond
+ * A wargear group's condition: `[siblingGroupIndex, wantActive, options?, alsoGroups?]` — `options`
+ * (indexes into the sibling's `o`) narrows "the sibling has a pick" to a pick of those; `alsoGroups`
+ * are the other groups that take the same item away, counted with the sibling (`options` is null
+ * when only they are given).
+ * @typedef {[number, number, (number[] | null)?, number[]?]} GearCond
  */
 
 /**
@@ -495,6 +497,7 @@
  * @property {{ copies?: number, name?: string, melee?: number, besides?: string[], all?: string[], mini?: string }} [gear]
  * @property {string[]} [bodyguard]  in an attached unit whose Bodyguard carries any of these keywords
  * @property {string[]} [self]  this entry's own datasheet carries any of these keywords
+ * @property {string} [alleg]  the entry chose this allegiance option (its stored `alleg`)
  * @property {string} [bodyguardCore]  in an attached unit whose Bodyguard prints this core ability
  * @property {boolean} [attachedCharacter]  in an attached unit that holds another CHARACTER
  * @property {string[]} [warlord]  the army's Warlord carries all of these keywords

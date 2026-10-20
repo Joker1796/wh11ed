@@ -500,7 +500,7 @@ const chains = computed(() => {
     const sources = []
     gear.forEach((h, hi) => {
       if (hi === gi || h.all || h.m !== g.m) return
-      if (g.cond && g.cond[0] === hi && !g.cond[1]) return
+      if (g.cond && (g.cond[0] === hi || g.cond[3]?.includes(hi)) && !g.cond[1]) return
       if (h.o.some((o) => optionItems(o).some(([id]) => ids.includes(id)))) sources.push(hi)
     })
     if (sources.length) out.set(gi, { ids, sources })

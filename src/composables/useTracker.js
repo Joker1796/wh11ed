@@ -1495,15 +1495,51 @@ export function useTracker() {
     return !!pl && g.phase === 'playing' && pl.secondaryMode === 'tactical'
       && (g.currentTurn === 1 ? 1 : 0) === pi
   }
-  function endTurnDiscard(pi, slug) {
+  // The card leaves for the round's bonus CP (while it is free). A card that scored this turn is
+  // achieved, not active: it leaves for its VP, not for CP. Returns whether it went.
+  function discardAtTurnEnd(pi, slug) {
     const g = current.value
     const s = g.players[pi].secondary
-    if (!canEndTurnDiscard(pi) || !s.hand.includes(slug)) return
+    if (!canEndTurnDiscard(pi) || !s.hand.includes(slug) || secondaryCardVp(pi, slug) > 0) return false
     const gained = gainBonusCp(pi, 'discard', slug)
     s.hand = s.hand.filter(x => x !== slug)
     s.discarded.push({ slug, round: g.currentRound, auto: g.currentTurn === 1 ? 1 : 0, ...(gained ? { cp: true } : {}), t: Date.now() })
+    return true
+  }
+  function endTurnDiscard(pi, slug) {
+    if (!discardAtTurnEnd(pi, slug)) return
     // The last turn of the battle has no next turn: the game screen goes on to finishing it.
     if (canEndTurn()) endTurn()
+  }
+  // Marked to go at the end of the turn, without ending it now (owner, 2026-10-20): the card stays
+  // in hand, says so, and leaves when the turn is ended (`endTurn`). Kept on the side's own slice,
+  // so a shared game shows the mark on every phone. Tapping again takes the mark off.
+  function isMarkedForTurnEnd(pi, slug) {
+    return !!current.value?.players?.[pi]?.secondary?.eotMarked?.includes(slug)
+  }
+  function canMarkForTurnEnd(pi, slug) {
+    return canEndTurnDiscard(pi) && !!current.value.players[pi].secondary.hand.includes(slug) && secondaryCardVp(pi, slug) === 0
+  }
+  function markForTurnEnd(pi, slug) {
+    const s = current.value?.players?.[pi]?.secondary
+    if (!s) return
+    if (isMarkedForTurnEnd(pi, slug)) {
+      const left = s.eotMarked.filter(x => x !== slug)
+      if (left.length) s.eotMarked = left
+      else delete s.eotMarked
+    } else if (canMarkForTurnEnd(pi, slug)) {
+      s.eotMarked = [...(s.eotMarked || []), slug]
+    }
+  }
+  // The side on turn's marked cards leave as its turn ends; a card that scored since stays (and is
+  // set aside as achieved), and the marks go either way.
+  function discardMarked() {
+    const g = current.value
+    const pi = g.currentTurn === 1 ? 1 : 0
+    const s = g.players[pi]?.secondary
+    if (!s?.eotMarked) return
+    for (const slug of s.eotMarked) discardAtTurnEnd(pi, slug)
+    delete s.eotMarked
   }
 
   function goToRound(n) {
@@ -1617,6 +1653,7 @@ export function useTracker() {
   function endTurn() {
     const g = current.value
     if (!g || !canEndTurn()) return
+    discardMarked()
     moveClock(() => {
       if (g.currentTurn === 1) {
         goToRound(g.currentRound + 1)
@@ -1823,7 +1860,7 @@ export function useTracker() {
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     tookSecondaries, canTakeSecondaries, takeRandomSecondaries, takeChosenSecondaries, canUntakeSecondaries, untakeSecondaries,
-    restoreSecondaryToHand, redrawSecondary, canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard,
+    restoreSecondaryToHand, redrawSecondary, canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard, isMarkedForTurnEnd, canMarkForTurnEnd, markForTurnEnd,
     canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, spendCp, strictWhy, strictUndoWhy,
     stratUses, stratBlock, useStratagem, lastStratUse, undoStratagem, playStratagem, unplayOnUnit,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,

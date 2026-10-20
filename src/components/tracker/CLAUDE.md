@@ -237,7 +237,12 @@ automatically any more: when the two sides come out alike, the wizard's Start an
 dialog's Save ask once and offer to customise (`useColorClashGate.js`). The screen applies the
 pair through the global `.side-colored` class + `gameSideColorStyle(game)`, which set
 `--side-you` / `--side-opponent` per theme; the score board's emblems take the same colours, and
-a result's columns (ScoreBoard `finished`) wear each army's own colour.
+a result's columns (ScoreBoard `finished`) wear each army's own colour. **The setup's mission step
+wears them too** (Misha, 2026-10-20): its two side cards are `.turn-colored` (`.turn-opp` for the
+opponent) under a `.side-colored` wrapper fed by the same `resolveSideColors`, with the army's
+emblem before "You" / "Opponent" — the colours follow from step 1's factions. A setup player always
+carries the two doubles member slots, so the side's faction is read with GameSetup's `sideFaction`
+(through `armiesOf`), not sideColors' `sideFactionOf`, which would read the empty slots.
 
 ## The missions panel
 
@@ -282,8 +287,7 @@ own rule — WHEN DRAWN, set aside, return to deck, in the card's "⋯" sheet. T
 
 ## Ending a turn — the check first (`TurnEndCheckModal`, `missionTiming.turnEndChecks`)
 
-End turn (and the last turn's Finish, and the end-of-turn discard from a card's sheet, which
-`SecondaryDeck` sends up through `inject('requestEndTurn')`) first asks
+End turn (and the last turn's Finish) first asks
 `turnEndChecks`: every condition that scores at this very moment, on both sides' cards in hand and
 both primaries — the side on turn's "end of your turn", the other side's "end of your opponent's
 turn", either side's "end of a turn" (the side on turn's own were left out until 2026-10-02; the
@@ -336,8 +340,12 @@ idempotent, so Undo turn is the same call and a phone that missed a tick catches
 
 **The card sheet ("⋯") offers each rule by name**, greyed with the reason when not available:
 WHEN DRAWN, **Replace for 1CP** (`cpRedraw` — side on turn, once per battle, `cpRedrawUsed`),
-**Discard at the end of the turn, +1CP** (`endTurnDiscard` — takes the round's bonus if free,
-confirms, then ends the turn; the card carries `auto` + `cp` so Undo turn returns both), set aside,
+**Discard at the end of the turn, +1CP** — a MARK, not an act (owner, 2026-10-20: it used to end
+the turn on the spot): `markForTurnEnd` writes `secondary.eotMarked` (the side's slice, so every
+phone sees the "discarded at turn end" badge), the same item takes it off, and `endTurn` sends the
+marked cards off (`discardMarked` → `discardAtTurnEnd`: the round's bonus if free, the card carrying
+`auto` + `cp` so Undo turn returns both). A marked card is not in the end-of-turn check, and a card
+that scored this turn cannot be marked or discarded (it is achieved: it leaves for its VP), set aside,
 return to deck. A card that came in by hand may be replaced by hand (`ReplaceCardModal`).
 
 ## Stratagems in the CP tab (`CpStratagems.vue`, `gameStratagems.js`)

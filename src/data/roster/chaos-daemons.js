@@ -1586,7 +1586,27 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "alleg": {
+        "g": "daemonic-allegiance",
+        "gid": "pack",
+        "t": "Daemonic Allegiance",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          }
+        ],
+        "req": 1
+      }
     },
     {
       "id": "giant-chaos-spawn",
@@ -1620,7 +1640,27 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "alleg": {
+        "g": "daemonic-allegiance",
+        "gid": "pack",
+        "t": "Daemonic Allegiance",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          }
+        ],
+        "req": 1
+      }
     },
     {
       "id": "great-unclean-one",
@@ -3537,7 +3577,27 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "alleg": {
+        "g": "daemonic-allegiance",
+        "gid": "pack",
+        "t": "Daemonic Allegiance",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          }
+        ],
+        "req": 1
+      }
     },
     {
       "id": "spoilpox-scrivener",

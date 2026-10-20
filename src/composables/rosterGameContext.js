@@ -196,9 +196,11 @@ function rosterAnswers(id, entry, units, sheetOf = null) {
   if (id === 'unit-leading') return !!entry?.leaderOf
   if (id === 'unit-led') return !!entry?.leaderOf || (!!entry?.uid && (units || []).some((u) => u.leaderOf === entry.uid))
   if (id === 'unit-warlord') return !!entry?.warlord
+  const c = conditions[id]
+  // The allegiance the entry picked is stored on it — nothing to look up.
+  if (c?.alleg) return !!entry?.alleg && foldName(entry.alleg) === foldName(c.alleg)
   // The rest read the printed sheets of the OTHER entries — the Bodyguard's keywords, the
   // Warlord's — so without a lookup they stay unanswered rather than guessed.
-  const c = conditions[id]
   if (!sheetOf || !entry) return false
   const list = units || []
   /** @param {string | undefined} unitId */

@@ -57,6 +57,23 @@ describe('rosterShare', () => {
     expect(await decodeRoster('9.zzzz')).toBeNull()
   })
 
+  // A link cut short in a messenger (2026-10-14, the error collector's first catch): the reader got
+  // null, but the stream's own write rejected unhandled — "Compressed input was truncated".
+  it('reads a cut-off compressed link as malformed, with nothing left unhandled', async () => {
+    const unhandled = []
+    const note = (e) => unhandled.push(e)
+    process.on('unhandledRejection', note)
+    try {
+      const payload = await encodeRoster(roster)
+      expect(payload.startsWith('1.')).toBe(true)
+      expect(await decodeRoster(payload.slice(0, Math.floor(payload.length / 2)))).toBe(null)
+      await new Promise((r) => setTimeout(r, 20))
+      expect(unhandled.map(String)).toEqual([])
+    } finally {
+      process.off('unhandledRejection', note)
+    }
+  })
+
   it('builds a hash URL from an origin without hard-coding the domain', () => {
     expect(shareUrl('https://wh-rules.ru', '1.abc')).toBe('https://wh-rules.ru/roster/shared#r=1.abc')
   })

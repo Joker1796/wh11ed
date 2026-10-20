@@ -1481,3 +1481,28 @@ describe('mul', () => {
     expect(applyValue('D6', 'mul', 2, 'a')).toBe(null)
   })
 })
+
+// A Legends Giant Chaos Spawn picks its god when it joins the army (its own DAEMONIC ALLEGIANCE
+// rule), and its Creature of … abilities hang on that keyword. The builder offered no pick and the
+// records were `never`, so none of the four ever changed the card (2026-10-20).
+describe('a Legends sheet\'s own Daemonic Allegiance', () => {
+  it('is a pick of the list, and its Creature of … answers from that pick', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { rosterConditions } = await import('./rosterGameContext.js')
+    const sheets = (await import('../data/datasheets/chaos-daemons.js')).default
+    const records = (await import('../data/rosterModifiers/chaos-daemons.js')).default.entries
+    const fac = await loadRosterFaction('chaos-daemons')
+    for (const id of ['furies', 'giant-chaos-spawn', 'spined-chaos-beast']) {
+      const def = fac.units.find((u) => u.id === id)
+      expect(def.alleg, id).toMatchObject({ gid: 'pack', req: 1 })
+      expect(def.alleg.o.map((o) => o.n)).toEqual(['Khorne', 'Tzeentch', 'Nurgle', 'Slaanesh'])
+    }
+    const spawn = sheets.find((d) => d.id === 'giant-chaos-spawn')
+    const mine = records.filter((r) => r.name?.startsWith('Giant Chaos Spawn: Creature of'))
+    const apply = (alleg) => applyStatMods(spawn, mine, [], [], rosterConditions({ id: spawn.id, alleg })).sheet
+    expect(apply('Khorne').melee.map((w) => Number(w.s))).toEqual(spawn.melee.map((w) => Number(w.s) + 2))
+    expect(apply('Tzeentch').profiles[0].inv).toBe('4+')
+    expect(apply('Nurgle').profiles[0].t).toBe(String(Number(spawn.profiles[0].t) + 1))
+    expect(apply(undefined).profiles[0]).toEqual(spawn.profiles[0])
+  })
+})

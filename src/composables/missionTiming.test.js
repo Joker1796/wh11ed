@@ -74,6 +74,16 @@ describe('turnEndChecks / cardMoments', () => {
     expect(brief(turnEndChecks(game(2, 1), scorable, missionEn))).toEqual(['0:beacon:0', '1:primary:0'])
   })
 
+  // Misha, 2026-10-20: "Discard, gain CP and end the turn" opened the check with that very card in
+  // it — it could be marked achieved AND pay its CP.
+  it('leaves out the card the turn ends by discarding', () => {
+    expect(brief(turnEndChecks(game(2, 0), scorable, missionEn, { pi: 0, slug: 'mine' }))).toEqual(['0:primary:0', '1:beacon:0'])
+    // Only that side's copy: the other side's card of the same name stays.
+    expect(brief(turnEndChecks(game(2, 0), scorable, missionEn, { pi: 0, slug: 'beacon' }))).toEqual(['0:mine:0', '0:primary:0', '1:beacon:0'])
+    // A list: every card marked to go at the end of the turn.
+    expect(brief(turnEndChecks(game(2, 0), scorable, missionEn, [{ pi: 0, slug: 'mine' }, { pi: 1, slug: 'beacon' }]))).toEqual(['0:primary:0'])
+  })
+
   it('adds the End of Battle and the fifth-round fallback on the turn that closes the battle', () => {
     expect(brief(turnEndChecks(game(5, 1), scorable, missionEn))).toEqual(['0:beacon:0', '0:primary:1', '1:beacon:0', '1:primary:0,1'])
   })
