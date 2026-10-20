@@ -36,7 +36,7 @@
         <span
           v-else-if="item.kind === 'document' && item.date"
           class="pe-note"
-        >{{ item.date }}</span>
+        >{{ docDate }}</span>
       </span>
       <!-- What opening it shows: the abilities, the stratagem's parts, or just "text". -->
       <span
@@ -199,6 +199,8 @@ function toggle() {
 }
 
 const fields = computed(() => props.item.fields || [])
+// A document's date is GW's day (ISO in the data), written out as the publications beside it are.
+const docDate = computed(() => new Date(props.item.date).toLocaleDateString(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }))
 
 const kindLabel = computed(() => {
   const l = labels.value

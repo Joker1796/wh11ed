@@ -362,48 +362,6 @@ export default {
       "effects": []
     },
     {
-      "sid": "pack:death-company-marines-with-boltguns-and-jump-packs:an-honourable-death-in-combat",
-      "kind": "ability",
-      "name": "Death Company Marines with Boltguns and Jump Packs: An Honourable Death in Combat",
-      "det": null,
-      "ref": {
-        "kind": "ability",
-        "unit": "death-company-marines-with-boltguns-and-jump-packs"
-      },
-      "hash": "a9e0e315",
-      "ver": 972,
-      "reviewed": true,
-      "effects": [
-        {
-          "on": "weapon",
-          "stat": "ability",
-          "op": "grant",
-          "value": "SUSTAINED HITS 1",
-          "when": {
-            "en": "while this unit is below its Starting Strength",
-            "ru": "пока отряд ниже Starting Strength"
-          },
-          "cond": [
-            "unit-below-starting-strength"
-          ]
-        },
-        {
-          "on": "weapon",
-          "stat": "ability",
-          "op": "grant",
-          "value": "SUSTAINED HITS 2",
-          "when": {
-            "en": "instead, while this unit is Below Half-strength",
-            "ru": "вместо этого, пока отряд Below Half-strength"
-          },
-          "cond": [
-            "unit-below-half-strength"
-          ],
-          "alt": 0
-        }
-      ]
-    },
-    {
       "sid": "pack:death-company-marines-with-boltguns-and-jump-packs:black-rage",
       "kind": "ability",
       "name": "Death Company Marines with Boltguns and Jump Packs: Black Rage",

@@ -44,6 +44,7 @@
     "bases": "node scripts/check-bases.mjs",
     "missions": "node scripts/check-missions.mjs",
     "packs": "node scripts/check-packs.mjs",
+    "pack-text": "node scripts/check-pack-text.mjs",
     "columns": "node scripts/check-appdata-columns.mjs",
     "exceptions": "node scripts/check-appdata-exceptions.mjs",
     "errata-tables": "node scripts/check-errata-tables.mjs",

@@ -210,6 +210,16 @@ September even though `sync-core` printed it on every run — one finding among 
 - **`npm run packs`** (`scripts/check-packs.mjs`) — the Faction Pack PDFs in `../sources` against the
   `sourceVersion` of the Legends sheets read from them: a newer pack fails until its changes are
   read and the sheets re-stamped. A faction with no PDF on this machine is reported as not checked.
+- **`npm run pack-text`** (`scripts/check-pack-text.mjs`, accepted findings with reasons in
+  `scripts/lib/pack-text-baseline.json`) — each Legends sheet against its pack's TEXT, which nothing
+  read until 2026-10-20: the characteristics line, every weapon profile's numbers in a row (on the
+  sheet's page, or on an Armoury card beside the weapon's name), each keyword on the KEYWORDS line,
+  each ability's name. A sheet starts a PDF page (`\f`); a second header lower on the page is a
+  second model line. First run: Death Company Marines with Boltguns and Jump Packs carried the
+  neighbouring sheet's ability instead of Berserk Fury; one GW typo (a krak AP printed "2").
+- **`npm run documents`** (`scripts/check-documents.mjs`) — every pack and Event Companion edition in
+  `../sources` is in `scripts/patch-notes/documents.json`, the list `/patches` reads
+  (`src/components/patches/CLAUDE.md`); `--write` records new ones with GW's date.
 - **`npm run bases`** (`scripts/check-bases.mjs`, lists in `scripts/lib/model-bases.mjs`) — a
   datasheet's `baseSize` is appdata's, word for word: one size for the unit, or a "<model>: <size>"
   line per model where GW gives them (the formatter names each, `src/utils/baseSize.js`). A

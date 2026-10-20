@@ -46,6 +46,8 @@
 //     Reference page (reference.js faqs / errata), EN and RU. Non-zero exit
 //   - check-documents — GATE: every Faction Pack / Event Companion edition in ../sources is in the
 //     list /patches reads (scripts/patch-notes/documents.json). Non-zero exit
+//   - check-pack-text — GATE: each Legends sheet read from a Faction Pack against the pack's text —
+//     characteristics, weapon numbers, keywords, ability names. Non-zero exit
 //   - sync-core        — core rulebook prose (sections 01-25)
 //   - sync-event-companion — Event Companion + Teams supplement prose (Doubles/Dominatus are out
 //     of scope by product decision, inventoried only) and the 6 Twists (mission_twist.json)
@@ -183,6 +185,7 @@ const missionsFailed = await run('check-missions (GATE)', './check-missions.mjs'
 const basesFailed = await run('check-bases (GATE)', './check-bases.mjs')
 const packsFailed = await run('check-packs (GATE)', './check-packs.mjs')
 const documentsFailed = await run('check-documents (GATE)', './check-documents.mjs')
+const packTextFailed = await run('check-pack-text (GATE)', './check-pack-text.mjs')
 const columnsFailed = await run('check-appdata-columns (GATE)', './check-appdata-columns.mjs')
 await run('sync-appdata (all factions)', './sync-appdata.mjs', ['--all'], { filtered: true })
 await run('sync-faction-text (all factions)', './sync-faction-text.mjs', ['--all'], { filtered: true })
@@ -225,6 +228,7 @@ if (emphasisFailed) console.log('✗ prose dropped emphasis the canon carries (`
 if (layoutArtFailed) console.log('✗ the Event Companion layout diagrams do not match the app\'s artwork (`npm run layouts`).')
 if (companionsFailed) console.log('✗ an Event Companion PDF moved on without us (`npm run companions`).')
 if (documentsFailed) console.log('✗ a GW document edition the patch notes do not know (`npm run documents`).')
+if (packTextFailed) console.log('✗ a Legends sheet says what its Faction Pack does not (`npm run pack-text`).')
 if (RECORD_BASELINE) {
   const n = writeBaseline(recorded)
   console.log(`✓ baseline written: ${n} finding(s) recorded as accepted in ${BASELINE_PATH}.`)
@@ -262,7 +266,7 @@ const failed = [
   [omissionsFailed, 'omissions'], [detMetaFailed, 'detmeta'], [wTagsFailed, 'wtags'], [dsRulesFailed, 'dsrules'],
   [imgRulesFailed, 'imgrules'], [coreGrantsFailed, 'coregrants'], [dsIdsFailed, 'dsids'], [exceptionsFailed, 'exceptions'],
   [errataTablesFailed, 'errata-tables'], [coreFaqFailed, 'corefaq'], [emphasisFailed, 'emphasis'],
-  [layoutArtFailed, 'layouts'], [companionsFailed, 'companions'], [missionsFailed, 'missions'], [basesFailed, 'bases'], [packsFailed, 'packs'], [documentsFailed, 'documents'], [columnsFailed, 'columns'],
+  [layoutArtFailed, 'layouts'], [companionsFailed, 'companions'], [missionsFailed, 'missions'], [basesFailed, 'bases'], [packsFailed, 'packs'], [documentsFailed, 'documents'], [packTextFailed, 'pack-text'], [columnsFailed, 'columns'],
 ].filter(([v]) => v).map(([, name]) => name)
 if (RECORD_BASELINE) {
   console.log('Done (baseline recorded).')

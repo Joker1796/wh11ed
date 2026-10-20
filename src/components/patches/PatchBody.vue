@@ -205,7 +205,8 @@ const blocks = computed(() => {
         }
         groups.push({ key: gk, title: l[title], count: gi.length, dets: [...dets].map(([name, its]) => ({ name, items: withHeader(name, its) })) })
       } else {
-        groups.push({ key: gk, title: l[title], count: gi.length, items: gi })
+        // Inside the core block its rules' own group would repeat the block's name.
+        groups.push({ key: gk, title: key === 'core' && gk === 'core' ? l.patchesCoreText : l[title], count: gi.length, items: gi })
       }
     }
     out.push({
