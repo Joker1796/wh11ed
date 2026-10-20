@@ -7,20 +7,26 @@
     class="tp"
     data-tour="setup-presets"
   >
+    <div class="tp-text">
+      <span class="tp-chosen">{{ chosenLine }}</span>
+      <span
+        v-if="current"
+        class="tp-sub"
+      >{{ labels[presetById(current).blurb] }}</span>
+    </div>
     <button
       type="button"
-      class="tp-btn"
+      class="tp-btn btn-ghost"
       aria-haspopup="dialog"
       @click="openDialog"
     >
-      {{ labels.trackerPresetsLabel }}
+      {{ labels.trackerPresetChange }}
       <ChevronIcon
         class="tp-chev"
         from="right"
         to="down"
       />
     </button>
-    <span class="tp-name">{{ current ? labels[presetById(current).label] : labels.trackerPresetCustom }}</span>
 
     <BaseModal
       v-if="open"
@@ -94,6 +100,9 @@ const { locale } = useLocale()
 const open = ref(false)
 const current = computed(() => presetOf(props.settings, props.ctx))
 const presetById = (id) => TRACK_PRESETS.find((p) => p.id === id)
+// The plate's line (owner, 2026-10-20: "Выбран пресет: …"), built here rather than from template
+// fragments, which the compiler would join with a stray space.
+const chosenLine = computed(() => props.labels.trackerPresetChosen.replace('{name}', current.value ? props.labels[presetById(current.value).label] : props.labels.trackerPresetCustom))
 // The picture a phone shows: the preset in force, or the default one for "your own".
 const viewed = ref(DEFAULT_PRESET)
 
@@ -108,16 +117,18 @@ function choose(id) {
 </script>
 
 <style scoped>
-.tp { display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.9rem; }
-.tp-btn {
-  display: flex; align-items: center; gap: 0.5rem;
-  min-height: 44px; padding: 0.4rem 0.75rem;
-  border: 1px solid var(--border); background: var(--bg-secondary);
-  color: var(--text-primary); font: inherit; font-weight: 600; cursor: pointer;
+/* A plate of its own above the option groups (owner, 2026-10-20: the preset was hard to see as a
+   bare row): what is chosen on the left, the way to change it inside, on the right. */
+.tp {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 0 0 0.9rem; padding: 0.75rem 1rem;
+  background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
 }
-@media (hover: hover) { .tp-btn:hover { border-color: var(--accent); } }
-.tp-chev { font-size: 0.75rem; color: var(--text-muted); }
-.tp-name { color: var(--text-muted); }
+.tp-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 0.15rem; }
+.tp-chosen { font-weight: 600; color: var(--text-primary); }
+.tp-sub { font-size: 0.84rem; line-height: 1.35; color: var(--text-muted); }
+.tp-btn { flex: none; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; }
+.tp-chev { font-size: 0.75rem; }
 
 .tp-body { padding: 0.75rem; }
 .tp-seg { display: flex; width: 100%; margin-bottom: 0.6rem; }
