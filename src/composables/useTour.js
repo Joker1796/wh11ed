@@ -180,6 +180,18 @@ export function useTour() {
     if (on && a) start(a.id, a.ctx)
   }
 
+  // Turned off from the tour's own card (owner, 2026-10-20: once on, there was no way back): the
+  // same 'off' as the first question's "no" — the chapter on screen closes unread, the ones in line
+  // are dropped, and the ⚙ menu still opens any screen's chapters.
+  function turnOff() {
+    auto.value = 'off'
+    setItem(AUTO_KEY, 'off')
+    pending.clear()
+    if (waiting) { clearInterval(waiting); waiting = null }
+    asking.value = null
+    active.value = null
+  }
+
   // Every chapter shown again, each on its own screen.
   function resetAll() {
     seen.value = new Set()
@@ -195,5 +207,5 @@ export function useTour() {
     else next()
   }
 
-  return { active, chapter, step, maybeStart, start, next, back, pass, finish, resetAll, replayable, replay, asking, answerAuto }
+  return { active, chapter, step, maybeStart, start, next, back, pass, finish, resetAll, replayable, replay, asking, answerAuto, turnOff }
 }

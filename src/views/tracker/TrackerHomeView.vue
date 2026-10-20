@@ -493,9 +493,12 @@ function onConfirmAction() {
 // keeps the setup's order, you first.
 function idxOf(g, side) { return side }
 
+// A short last word (a game number, an initial) is glued to the one before it: at 320px "Партия 4"
+// broke after the word and left the number alone on a line of its own.
 function pname(g, side) {
   const pl = g.players[idxOf(g, side)]
-  return pl?.name || (isYouSide(pl, side) ? labels.value.trackerYou : labels.value.trackerOpponent)
+  const name = pl?.name || (isYouSide(pl, side) ? labels.value.trackerYou : labels.value.trackerOpponent)
+  return name.replace(/ (\S{1,3})$/, '\u00a0$1')
 }
 // "You" beside your own name: the card is in turn order, so your side is not always the left one.
 function youTag(g, side) {
