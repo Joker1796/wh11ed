@@ -23,12 +23,13 @@
 export const changelog = [
   {
     version: '2.10.0',
-    date: '2026-10-19',
+    date: '2026-10-20',
     en: [
       { h: 'Tracker' },
       '**The new game tracker is on this site now.** It was on {link:beta.wh-rules.ru}. The games in your history stay, and an unfinished one can be continued.',
       '**Command Points come by themselves.** Each Command phase adds one point to each side. With “Stratagems” ticked, you spend them on stratagems right in the game.',
       '**What the tracker keeps is set on the last step of the setup.** There are three sets: “Minimal”, “Base” and “Maximal”. Any box can still be changed by hand.',
+      '**Your first game after this update starts with the “Base” set.** After that the tracker remembers your choice.',
       '**The Army tab holds the army’s rules and your list.** Each unit can be marked as on the battlefield, in reserves or destroyed.',
       '**Choices from the rules are switched on in the game.** Vows, contracts, a stratagem’s options and “once per battle” abilities change the units’ cards.',
       '**In a shared game each player keeps their own side on their own phone.** Only the one who creates the game needs an account.',
@@ -51,6 +52,7 @@ export const changelog = [
       '**Новый трекер партии теперь на этом сайте.** Он был на {link:beta.wh-rules.ru}. Партии в вашей истории остаются, незаконченную можно продолжить.',
       '**Командные очки начисляются сами.** Каждая фаза командования добавляет обеим сторонам по одному очку. С галочкой «Стратагемы» их можно тратить на стратагемы прямо в партии.',
       '**Что вести в партии, задаёт набор на последнем шаге настройки.** Наборов три: «Минимальный», «Базовый» и «Максимальный». Любую галочку можно поменять вручную.',
+      '**Первая партия после обновления начнётся с набора «Базовый».** Дальше трекер запоминает ваш выбор.',
       '**На вкладке «Армия» — правила армии и ваш список.** Каждый отряд можно отметить: на поле, в резерве или уничтожен.',
       '**Выборы из правил включаются в партии.** Обеты, контракты, варианты стратагем и способности «раз за битву» меняют карточки отрядов.',
       '**В совместной игре каждый ведёт свою сторону на своём телефоне.** Аккаунт нужен только тому, кто создаёт партию.',
