@@ -411,6 +411,7 @@
       role="tabpanel"
     >
       <div
+        ref="phaseSideEl"
         class="phase-side side-frame"
         :class="{ opp: !isYouSide(current.players[viewSide], viewSide) }"
       >
@@ -929,7 +930,9 @@ initBroadcast()
 const missionSide = viewSide
 // Another side's missions fade in under the standing tabs (useSwapFade).
 const msideEl = ref(null)
-useSwapFade(missionSide, () => msideEl.value?.querySelector(':scope > .player'))
+// One switch for every tab: the side's missions, or on the Phase tab that side's rules, fade in.
+useSwapFade(missionSide, () => (tab.value === 'phase' ? phaseSideEl.value : msideEl.value?.querySelector(':scope > .player')))
+const phaseSideEl = ref(null)
 
 // Which side a player is — by who they are, never by position, since first turn reorders them.
 // The clock prints this and nothing else: it is read at a glance in the middle of a turn, and a

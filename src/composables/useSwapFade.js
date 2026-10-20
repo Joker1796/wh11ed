@@ -9,7 +9,7 @@
 // now (owner, 2026-10-08: the screen leapt up): the page keeps its height through the swap and
 // travels to the tabs or to the new foot, whichever is higher (settleScroll.js).
 import { nextTick, watch } from 'vue'
-import { tabsOffset } from './bringTabsIntoView.js'
+import { stripOffset, tabsOffset } from './bringTabsIntoView.js'
 import { hold, settle } from './settleScroll.js'
 
 function duration() {
@@ -18,15 +18,18 @@ function duration() {
 }
 
 // `source` — what switches (a getter or ref); `targets` — a function returning the element(s) now
-// showing, called after the DOM has updated.
-export function useSwapFade(source, targets) {
+// showing, called after the DOM has updated; `strip` — the row of controls that switched it, when it
+// is not a block of page tabs (a filter): the glide brings that row back under the header instead
+// (owner, 2026-10-20: the Stratagems tab's filter leapt the screen up).
+export function useSwapFade(source, targets, { strip = null } = {}) {
   // The default `pre` flush runs this before the DOM changes: the height is held from there.
   watch(source, async () => {
     hold()
     await nextTick()
     const ms = duration()
     const els = [targets()].flat().filter((el) => el instanceof Element)
-    settle(ms, els.length ? tabsOffset(els[0]) : 0)
+    const bar = strip?.()
+    settle(ms, bar ? stripOffset(bar.$el || bar) : els.length ? tabsOffset(els[0]) : 0)
     if (!els.length || !ms || typeof els[0].animate !== 'function') return
     for (const el of els) el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: ms, easing: 'ease-in-out' })
   })

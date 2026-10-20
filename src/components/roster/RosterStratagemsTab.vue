@@ -3,7 +3,10 @@
      deck row, since there is nothing to filter between. In a live game that keeps a clock the
      toolbar also offers "usable now". -->
 <template>
-  <div class="rv-strats">
+  <div
+    ref="rootEl"
+    class="rv-strats"
+  >
     <p
       v-if="detachments && !detachments.length"
       class="empty-note"
@@ -12,6 +15,7 @@
     </p>
     <template v-else-if="detachments">
       <StratFilterBar
+        ref="barEl"
         v-model:by-phase="byPhase"
         v-model:now-only="nowOnly"
         :now-available="!!gameSlot"
@@ -69,6 +73,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { groupByPhase, usableInSlot } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
+import { useSwapFade } from '../../composables/useSwapFade.js'
 
 // `detachments` — the list's own, each carrying its stratagems (every card's sublabel already says
 // which detachment it is from, so no grouping by detachment on top), null while the faction's rules
@@ -99,6 +104,11 @@ const visible = computed(() => {
 const VIEW_KEY = 'wh11ed-stratagems-by-phase'
 const byPhase = ref(getItem(VIEW_KEY) === '1')
 watch(byPhase, (on) => setItem(VIEW_KEY, on ? '1' : '0'))
+// Switching the view or "usable now" changes the list's length under a reader scrolled down it: the
+// page holds its height and glides the toolbar back under the header (useSwapFade, owner 2026-10-20).
+const barEl = ref(null)
+const rootEl = ref(null)
+useSwapFade(() => `${byPhase.value}|${nowOnly.value}`, () => [...(rootEl.value?.children || [])].slice(1), { strip: () => barEl.value })
 const openPhases = ref(new Set())
 const phaseGroups = computed(() => groupByPhase(visible.value))
 

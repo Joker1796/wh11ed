@@ -24,6 +24,8 @@ function release() {
   if (!held) return
   cancelAnimationFrame(held.frame)
   document.body.style.minHeight = ''
+  document.documentElement.style.overflowAnchor = ''
+  document.body.style.overflowAnchor = ''
   held = null
 }
 
@@ -35,6 +37,11 @@ export function hold() {
   const doc = document.documentElement.scrollHeight
   held = { tail: doc - markerTop(), frame: 0, to: Infinity }
   document.body.style.minHeight = getComputedStyle(document.body).height
+  // Chrome's scroll anchoring moves the page itself when content above the screen shrinks — in one
+  // frame, before the glide begins: the filter of the Stratagems tab still leapt with the height
+  // held (2026-10-20). Off while the hold is on; the glide decides where the page goes.
+  document.documentElement.style.overflowAnchor = 'none'
+  document.body.style.overflowAnchor = 'none'
 }
 
 // Several panels kept built may switch on one tap (each fades its own side in): every settle of
@@ -64,10 +71,14 @@ function glide() {
     return
   }
   const t0 = performance.now()
+  let last = from
   const step = (now) => {
     const t = Math.min(1, (now - t0) / ms)
     const eased = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2 // ease-in-out, as the fade
-    window.scrollTo({ top: from + (target() - from) * eased, behavior: 'instant' })
+    // Only ever up: a target that moves down while the page travels (the rest of a list arriving)
+    // is waited for, not gone back to — the page bounced 9px on the Stratagems filter (2026-10-20).
+    last = Math.min(last, from + (target() - from) * eased)
+    window.scrollTo({ top: last, behavior: 'instant' })
     if (t < 1) held.frame = requestAnimationFrame(step)
     else release()
   }

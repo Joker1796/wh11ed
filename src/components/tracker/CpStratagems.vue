@@ -54,7 +54,10 @@
       <!-- The same toolbar as the Stratagems page, without its list/phases toggle: here the list is
          always grouped by phase (owner, 2026-10-06) — a stratagem is looked for by WHEN. With
          the clock, the phase it stands on comes first, open and marked "now". -->
-      <div class="cps-head">
+      <div
+        ref="headEl"
+        class="cps-head"
+      >
         <h4 class="panel-label">
           {{ labels.stratagemsHeading }}
         </h4>
@@ -232,6 +235,10 @@ const phasesOn = computed(() => tracks(current.value?.settings, 'trackPhases'))
 const stratsPlayed = computed(() => tracks(current.value?.settings, 'trackStratPlay'))
 const livePhase = computed(() => current.value?.currentPhase || 'command')
 const deck = ref('all')
+// The deck filter (all / core / army) shortens the list the same way: the page holds its height and
+// glides the filter row back under the header, the new list fading in (owner, 2026-10-20).
+const headEl = ref(null)
+useSwapFade(() => deck.value, () => [...(cpsEl.value?.children || [])].filter((el) => !el.matches('.page-tabs, .cps-head')), { strip: () => headEl.value })
 const deckFilters = computed(() => [
   { key: 'all', label: labels.value.stratFilterAll },
   { key: 'core', label: labels.value.stratFilterCore },
