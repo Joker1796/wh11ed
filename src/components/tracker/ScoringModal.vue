@@ -78,8 +78,9 @@ import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
+import { provideSideScope } from '../../composables/modalScope.js'
 
-defineProps({
+const props = defineProps({
   title: { type: String, required: true },
   subtitle: { type: String, default: '' },
   vp: { type: Number, default: 0 },
@@ -94,6 +95,8 @@ defineProps({
   lockedNote: { type: String, default: '' },
   opp: { type: Boolean, default: null },       // whose card: the opponent's (true), yours (false), unknown (null)
 })
+// Its dialog in the colour of the side whose card it is, not of the side on turn (provideSideScope).
+provideSideScope(() => props.opp)
 defineEmits(['set', 'close', 'redraw'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])

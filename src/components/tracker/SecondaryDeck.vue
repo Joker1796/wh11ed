@@ -239,6 +239,7 @@ import { useTracker, missionBySlug, scorableBlocks, isYouSide } from '../../comp
 import { blockLocked } from '../../composables/missionTiming.js'
 import { whenDrawnAction } from '../../composables/whenDrawn.js'
 import { tracks } from '../../data/trackerOptions.js'
+import { provideSideScope } from '../../composables/modalScope.js'
 
 // `round` — the round on screen: the live one, or a past one being corrected (the game
 // screen's round steps). `editable` — this phone may score this side (a shared game locks the
@@ -259,6 +260,8 @@ const {
   canTakeSecondaries, tookSecondaries,
   canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard, canGainBonus, strictWhy, strictUndoWhy,
 } = useTracker()
+// Every dialog of this side's deck — a card, the take, a replacement — in this side's colour.
+provideSideScope(() => !isYouSide(current.value?.players?.[props.pi], props.pi))
 
 const player = computed(() => current.value.players[props.pi])
 const mode = computed(() => player.value.secondaryMode)

@@ -141,7 +141,8 @@ import { computed, nextTick, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker } from '../../composables/useTracker.js'
+import { useTracker, isYouSide } from '../../composables/useTracker.js'
+import { provideSideScope } from '../../composables/modalScope.js'
 
 const props = defineProps({
   strat: { type: Object, required: true }, // a deck stratagem (gameStratagems.js)
@@ -157,7 +158,9 @@ const props = defineProps({
 const emit = defineEmits(['close', 'played'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { stratBlock, playStratagem } = useTracker()
+const { current, stratBlock, playStratagem } = useTracker()
+// The side that plays it, whichever screen opened it.
+provideSideScope(() => (current.value?.players?.[props.pi] ? !isYouSide(current.value.players[props.pi], props.pi) : null))
 
 const target = ref(props.fixedTarget || null)
 const picking = ref(false)

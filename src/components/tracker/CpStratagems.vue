@@ -168,6 +168,7 @@ import { groupByPhase, usableInSlot, phaseLabel } from '../../composables/strata
 import { tracks } from '../../data/trackerOptions.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
 import { loadStratTargets } from '../../composables/stratagemPlay.js'
+import { provideSideScope } from '../../composables/modalScope.js'
 
 // The stratagems in the CP tab: spend a side's CP on one, and take it back. Mounted only while
 // the CP tab is open, so the faction data (dynamically imported by gameStratagems.js) is fetched
@@ -188,6 +189,8 @@ const { canEdit } = useParty()
 const controlled = computed(() => props.side === 0 || props.side === 1)
 const side = ref(controlled.value ? props.side : props.defaultSide)
 watch(() => props.side, (v) => { if (v === 0 || v === 1) side.value = v })
+// The bank's and the stratagems' dialogs in the colour of the side shown, not of the side on turn.
+provideSideScope(() => (current.value?.players?.[side.value] ? !isYouSide(current.value.players[side.value], side.value) : null))
 // Another side's stratagems fade in under the standing tabs (useSwapFade).
 const cpsEl = ref(null)
 useSwapFade(side, () => [...(cpsEl.value?.children || [])].filter((el) => !el.matches('.page-tabs')))

@@ -389,14 +389,16 @@
             @update:cp="v => setCp(side, v)"
             @help="cpHelpOpen = true"
           />
+          <!-- Inside the bank's slot, so it is under CpStratagems and wears the colour of the side
+               shown there (provideSideScope), like every other dialog of that side. -->
+          <OptionHelpModal
+            v-if="cpHelpOpen"
+            :title="labels.trackerCpHelpTitle"
+            :text="current.cpAuto ? labels.trackerCpHelp : labels.trackerCpHelpManual"
+            @close="cpHelpOpen = false"
+          />
         </template>
       </CpStratagems>
-      <OptionHelpModal
-        v-if="cpHelpOpen"
-        :title="labels.trackerCpHelpTitle"
-        :text="current.cpAuto ? labels.trackerCpHelp : labels.trackerCpHelpManual"
-        @close="cpHelpOpen = false"
-      />
     </section>
 
     <!-- What speaks in the phase the clock stands on for the side picked on the score cards

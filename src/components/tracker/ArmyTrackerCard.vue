@@ -553,12 +553,13 @@ import ArmySpendModal from './ArmySpendModal.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import RuleBody from '../RuleBody.vue'
-import { useTracker, memberAt, membersOf } from '../../composables/useTracker.js'
+import { useTracker, memberAt, membersOf, isYouSide } from '../../composables/useTracker.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { selectionBudget } from '../../data/armyTrackers/selectionBudget.js'
 import { combatPatrolBoxIn } from '../../composables/combatPatrolBox.js'
 import { ui } from '../../i18n/ui.js'
+import { provideSideScope } from '../../composables/modalScope.js'
 
 const props = defineProps({
   pi: { type: Number, required: true },
@@ -584,6 +585,8 @@ const {
   undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
   resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus, strictUndoWhy,
 } = useTracker()
+// This army's counters and pickers in its side's colour, not the turn's.
+provideSideScope(() => (current.value?.players?.[props.pi] ? !isYouSide(current.value.players[props.pi], props.pi) : null))
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 

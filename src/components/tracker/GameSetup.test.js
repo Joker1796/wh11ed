@@ -337,9 +337,12 @@ describe('GameSetup — a list and the battle size', () => {
       { name: 'B', factionSlug: 'tyranids', detachments: ['Skittering Hordes'], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, rosterId: null, roster: null },
     ],
   }))
+  // The faction data loads lazily; under a loaded machine one flush is not always enough.
+  const settle = async () => { await vi.dynamicImportSettled(); await flushPromises() }
   const toIncursion = async (w) => {
+    await settle()
     await w.findAll('.battle-size .seg button').find((b) => b.text().includes('Incursion')).trigger('click')
-    await flushPromises()
+    await settle()
   }
 
   it('keeps the list’s detachments when the battle size shrinks', async () => {
