@@ -602,7 +602,7 @@ import { provideModalScope } from '../../composables/modalScope.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
 import { hold, settle } from '../../composables/settleScroll.js'
 import { motionMs } from '../../composables/motionToken.js'
-import { useTracker, gameBegun, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { useTracker, gameBegun, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks, cardBlocks } from '../../composables/useTracker.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
 
@@ -1089,9 +1089,9 @@ function primaryName(i) {
   const m = primaryMission(i)
   return m ? m.name : ''
 }
-// Scorable primary blocks for the round on screen (round-gated by block heading).
+// The primary's whole card for the round on screen; the blocks of other rounds come greyed.
 function primaryBlocks(i) {
-  return scorableBlocks(current.value.players[i].primarySlug, null, shownRound.value, locale.value)
+  return cardBlocks(current.value.players[i].primarySlug, null, shownRound.value, locale.value)
 }
 // A primary condition whose moment cannot have come yet (missionTiming.js), by the EN block.
 function primaryLocked(i, b) {

@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest'
+import { missions } from '../data/missions.js'
 import {
   BATTLE_SIZES, DISPOSITIONS, MIRROR_MISSIONS,
   dispositionName,
-  primaryFor, derivePrimary, missionBySlug, scorableBlocks,
+  primaryFor, derivePrimary, missionBySlug, scorableBlocks, cardBlocks, blockRounds,
   secondaryPool, fixedPool, numericVp, sideName,
 } from './useTracker.js'
 import { FACTIONS, FACTION_GROUPS, detachmentsFor, detachmentInfo } from './trackerFactions.js'
@@ -129,5 +130,28 @@ describe('sideName', () => {
   it('reads an old game without the flag by position', () => {
     expect(sideName({}, 0, labels)).toBe('You')
     expect(sideName({}, 1, labels)).toBe('Opponent')
+  })
+})
+
+// The scoring dialogs show a mission's whole card (cardBlocks): every block, in every round, those
+// that cannot score in it marked — and the moment-bound callers (scorableBlocks) get exactly the
+// unmarked ones. Every primary and secondary, both roles, all five rounds.
+describe('cardBlocks — the whole card, in every round', () => {
+  it('carries every block, marks the off-round ones, and scorableBlocks is the rest', () => {
+    const wrong = []
+    for (const m of [...missions.en.primary, ...missions.en.secondary]) {
+      const role = m.type === 'secondary' ? m.role : null
+      for (let round = 1; round <= 5; round++) {
+        const all = cardBlocks(m.slug, role, round, 'ru')
+        if (all.length !== m.blocks.length) wrong.push(`${m.slug} r${round}: ${all.length}/${m.blocks.length}`)
+        all.forEach((b, i) => {
+          const off = !(m.blocks[i].rounds || blockRounds(m.blocks[i].heading)).includes(round)
+          if (b.offRound !== off) wrong.push(`${m.slug} r${round} block ${i}`)
+        })
+        const scorable = scorableBlocks(m.slug, role, round, 'ru').map((b) => b.bi)
+        if (JSON.stringify(scorable) !== JSON.stringify(all.filter((b) => !b.offRound).map((b) => b.bi))) wrong.push(`${m.slug} r${round} scorable`)
+      }
+    }
+    expect(wrong).toEqual([])
   })
 })

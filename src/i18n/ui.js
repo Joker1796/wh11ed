@@ -1369,6 +1369,8 @@ export const ui = {
     trackerRoundCorrect: 'correct',
     trackerBackToLive: 'Back to the game',
     trackerOppTurnOnly: 'Scored at the end of the opponent\u2019s turn',
+    // A block of the card that cannot score in the round on screen (ScoreRows, cardBlocks).
+    trackerOffRound: 'Not this round',
     trackerTakeTwo: 'Take 2 secondaries',
     trackerTakenTwo: 'This turn’s secondaries',
     trackerTakeUndo: 'Put them back',
@@ -3008,6 +3010,7 @@ export const ui = {
     trackerRoundCorrect: 'править',
     trackerBackToLive: 'Вернуться к партии',
     trackerOppTurnOnly: 'Засчитывается в конце хода соперника',
+    trackerOffRound: 'Не в этом раунде',
     trackerTakeTwo: 'Взять 2 вторички',
     trackerTakenTwo: 'Вторички хода',
     trackerTakeUndo: 'Вернуть в колоду',

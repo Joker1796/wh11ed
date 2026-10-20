@@ -22,6 +22,10 @@
           v-if="b.when"
           class="m-when"
         >{{ b.when }}</span>
+        <span
+          v-if="b.offRound"
+          class="m-off"
+        >{{ labels.trackerOffRound }}</span>
       </div>
       <!-- A row whose moment cannot have come yet (an "end of your opponent's turn" condition
            during the owner's own turn, see missionTiming.js) is greyed and not tickable, with the
@@ -36,7 +40,7 @@
         :key="r.ri"
         class="m-cond"
         :class="{ on: count(b.bi, r.ri) > 0, readonly: readonly || isLocked(b), locked: isLocked(b), 'm-cond--count': r.perEach }"
-        :title="isLocked(b) ? lockedNote : undefined"
+        :title="isLocked(b) ? (b.offRound ? labels.trackerOffRound : lockedNote) : undefined"
       >
         <template v-if="r.perEach">
           <span class="m-act">
@@ -107,7 +111,9 @@ const props = defineProps({
 defineEmits(['set'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const isLocked = (b) => !props.readonly && !!props.locked?.(b)
+// A block of another round (cardBlocks' `offRound`) is greyed even in a read-only dialog: it is the
+// card's text, not a score that could be there.
+const isLocked = (b) => !!b.offRound || (!props.readonly && !!props.locked?.(b))
 </script>
 
 <style scoped>
@@ -122,6 +128,7 @@ const isLocked = (b) => !props.readonly && !!props.locked?.(b)
 .kind.tactical { background: #1f3a5f; color: #fff; }
 .m-heading { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); }
 .m-when { font-size: 0.74rem; font-weight: 600; color: var(--text-dim); }
+.m-off { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); border: 1px solid var(--border); padding: 0 5px; }
 .m-cond {
   display: flex;
   align-items: flex-start;

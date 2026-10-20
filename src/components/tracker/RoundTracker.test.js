@@ -166,6 +166,22 @@ describe('RoundTracker — the missions panel', () => {
     expect(w.findAll('.player')).toHaveLength(1)
   })
 
+  // A player's report (2026-10-20): in round 1 the primary's dialog left out the card's "Second
+  // Battle Round Onwards" half. The whole card is shown; the other round's half is greyed, named so.
+  it('shows the primary\'s whole card in round 1, the later half greyed', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    tracker.current.value.players[0].primarySlug = 'determined-acquisition'
+    const w = mountTracker()
+    await w.find('.mission-card').trigger('click')
+    await flushPromises()
+    const blocks = [...document.body.querySelectorAll('.m-block')]
+    expect(blocks.map((b) => b.querySelector('.m-heading')?.textContent.trim())).toEqual(['Any Battle Round', 'Second Battle Round Onwards'])
+    expect(blocks[0].querySelector('.m-off')).toBeNull()
+    expect(blocks[1].querySelector('.m-off')?.textContent).toBe('Not this round')
+    expect(blocks[1].querySelectorAll('input, number-stepper-stub, .stepper')).toHaveLength(0)
+    expect([...blocks[1].querySelectorAll('.m-cond')].every((c) => c.classList.contains('locked'))).toBe(true)
+  })
+
   it('in a shared game puts this phone\'s own side first, whoever is on turn', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     tracker.current.value.party = { id: 'p', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }

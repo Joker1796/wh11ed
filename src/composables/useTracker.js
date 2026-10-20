@@ -137,10 +137,13 @@ export function blockRounds(headingEn) {
   return BLOCK_ROUNDS[headingEn] || [1, 2, 3, 4, 5]
 }
 
-// Blocks of a mission that can be scored in `round`, annotated for the scoring UI.
-// Round-gating and the per-each flag are derived from the ENGLISH mission (heading/text);
-// display heading/when/text come from the localized mission. Keeps picks keyed by bi:ri.
-export function scorableBlocks(slug, role, round, locale = 'en') {
+// Every block of a mission, annotated for the scoring UI; a block that cannot score in `round` is
+// marked `offRound`. The scoring dialogs show the whole card and grey those (a player's report,
+// 2026-10-20: in round 1 the "Second Battle Round Onwards" half of a primary was simply missing —
+// shown, never hidden, like a locked row). Round-gating and the per-each flag are derived from the
+// ENGLISH mission (heading/text); display heading/when/text come from the localized mission.
+// Keeps picks keyed by bi:ri.
+export function cardBlocks(slug, role, round, locale = 'en') {
   const enM = missionBySlug(slug, role)
   if (!enM) return []
   const locM = missionBySlug(slug, role, locale)
@@ -148,10 +151,10 @@ export function scorableBlocks(slug, role, round, locale = 'en') {
   enM.blocks.forEach((b, bi) => {
     // A Combat Patrol mission names its rounds (appdata's periods); a Chapter Approved card's
     // are read off its heading.
-    if (!(b.rounds || blockRounds(b.heading)).includes(round)) return
+    const offRound = !(b.rounds || blockRounds(b.heading)).includes(round)
     const lb = (locM && locM.blocks[bi]) || b
     out.push({
-      bi, kind: b.kind, heading: lb.heading, when: lb.when,
+      bi, kind: b.kind, heading: lb.heading, when: lb.when, offRound,
       rows: b.rows.map((er, ri) => ({
         ri, vp: er.vp, modifier: er.modifier,
         text: lb.rows && lb.rows[ri] ? lb.rows[ri].text : er.text,
@@ -160,6 +163,12 @@ export function scorableBlocks(slug, role, round, locale = 'en') {
     })
   })
   return out
+}
+
+// The blocks of a mission that can be scored in `round` — what the end-of-turn check, the phase
+// reminder and the draw preview ask: the moment, not the card.
+export function scorableBlocks(slug, role, round, locale = 'en') {
+  return cardBlocks(slug, role, round, locale).filter((b) => !b.offRound)
 }
 
 export function secondaryPool(role) {
