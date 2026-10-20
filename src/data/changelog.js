@@ -39,6 +39,7 @@ export const changelog = [
       '**Furies, Giant Chaos Spawn and Spined Chaos Beast choose their god.** The builder asks for KHORNE, TZEENTCH, NURGLE or SLAANESH, and their Creature of … abilities change the card.',
       { h: 'Whole site' },
       '**The project has a Telegram channel.** The link is in the footer, next to the VK group.',
+      '**A unit’s card opened from the roster builder’s catalogue no longer jumps.** Its “Led by” list reloaded with every letter of the example the search box types. The catalogue, the faction’s unit list and search also do less work while the example is typed, so animations run smoother on a weak phone.',
       '**The tutorial can be turned off from its own card.** Tap ⊘ next to the step count. Any screen’s tutorial still opens from ⚙ → “Tutorial of this screen”.',
     ],
     ru: [
@@ -56,6 +57,7 @@ export const changelog = [
       '**Furies, Giant Chaos Spawn и Spined Chaos Beast выбирают бога.** Конструктор просит выбрать KHORNE, TZEENTCH, NURGLE или SLAANESH, и их способности Creature of … меняют карточку.',
       { h: 'Весь сайт' },
       '**У проекта есть канал в Telegram.** Ссылка — в подвале сайта, рядом с группой ВКонтакте.',
+      '**Карточка юнита, открытая из каталога конструктора, больше не дёргается.** Её список «Кто возглавляет» перезагружался с каждой буквой примера, который печатается в поиске. Каталог, список юнитов фракции и поиск тоже меньше работают, пока печатается пример, поэтому анимации на слабом телефоне идут плавнее.',
       '**Туториал можно отключить прямо с его карточки.** Нажмите ⊘ рядом с номером шага. Туториал любого экрана по-прежнему открывается из ⚙ → «Туториал этого экрана».',
     ],
   },
