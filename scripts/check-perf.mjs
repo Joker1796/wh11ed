@@ -17,7 +17,7 @@
 // plus a slack fails, and `mut` may never grow at all. `--baseline` writes the file — read the diff.
 //
 // Usage: npm run perf [-- --runs=3] [--cpu=4] [--only=<key>] [--baseline]
-/* global document, window, performance, requestAnimationFrame, MutationObserver, PerformanceObserver -- run in the browser */
+/* global document, window, requestAnimationFrame, MutationObserver -- run in the browser */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright-core'
