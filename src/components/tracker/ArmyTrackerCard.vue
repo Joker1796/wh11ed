@@ -141,7 +141,7 @@
           class="army-dice-pool"
         >
           <button
-            v-for="(d, di) in dice"
+            v-for="{ d, di } in shownDice"
             :key="di"
             class="army-die"
             data-press
@@ -653,6 +653,10 @@ function undoBonus() {
 // Dice-pool primitive: the bank of D6 values. Spending one is confirmed (scarce, easy to mis-tap):
 // tapping a die stages its index here; confirming removes it.
 const dice = computed(() => player.value?.army?.dice ?? [])
+// Shown by value, low to high, equal ones side by side (owner, 2026-10-20) — a player looks for "a
+// 6" or "two 3s". Only the display is sorted: each die keeps its stored index, which is what a
+// spend removes.
+const shownDice = computed(() => dice.value.map((d, di) => ({ d, di })).sort((a, b) => a.d - b.d || a.di - b.di))
 const pendingDie = ref(null)
 // World Eaters Blessings picker (the capped multi-select list, kept out of the card to save room).
 const showBlessingPicker = ref(false)

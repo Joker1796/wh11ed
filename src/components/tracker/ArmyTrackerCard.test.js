@@ -169,4 +169,19 @@ describe('ArmyTrackerCard', () => {
       expect(wrapper.text()).not.toContain('heals D3')
     })
   })
+
+  // Miracle dice show by value, low to high (owner, 2026-10-20); a spend still removes the die tapped.
+  it('shows the Miracle dice sorted, and spends the one tapped', async () => {
+    const tracker = newGame('adepta-sororitas')
+    for (const v of [5, 2, 5, 1]) tracker.addArmyDie(0, v)
+    const wrapper = mount(ArmyTrackerCard, { props: { pi: 0 } })
+    await settle()
+    const shown = () => wrapper.findAll('.army-die i').map((i) => Number(i.classes().find((c) => c.startsWith('wi-dice-')).slice(8)))
+    expect(shown()).toEqual([1, 2, 5, 5])
+    await wrapper.findAll('.army-die')[0].trigger('click')
+    await flushPromises()
+    await body().findAll('button').find((b) => b.classes().includes('btn-primary') || /spend|confirm/i.test(b.text()))?.trigger('click')
+    await flushPromises()
+    expect([...tracker.current.value.players[0].army.dice].sort()).toEqual([2, 5, 5])
+  })
 })
