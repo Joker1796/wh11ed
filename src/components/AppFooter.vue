@@ -10,9 +10,9 @@
         </p>
         <!-- The other ways in, as one wrapped row rather than a column of underlined links: on a
              phone five red lines under "contact the author" read as a link dump, and only the
-             first of them is a contact. Order: the two channels that can answer (the form, the
-             VK group — the one place a bug report gets a reply), then support, then the legal
-             page, quietest. -->
+             first of them is a contact. Order: the channels that can answer (the form, the VK
+             group — the one place a bug report gets a reply — and the Telegram channel), then
+             support, then the legal page, quietest. -->
         <p class="footer-links">
           <button
             type="button"
@@ -22,11 +22,17 @@
             {{ fbLabel }}
           </button>
           <a
-            class="footer-vk"
+            class="footer-social"
             :href="vkUrl"
             target="_blank"
             rel="noopener"
-          ><VkIcon /> {{ t.footer.vkLink }}</a>
+          ><SocialIcon name="vk" /> {{ t.footer.vkLink }}</a>
+          <a
+            class="footer-social"
+            :href="tgUrl"
+            target="_blank"
+            rel="noopener"
+          ><SocialIcon name="tg" /> {{ t.footer.tgLink }}</a>
           <RouterLink to="/support">
             {{ t.footer.supportLink }}
           </RouterLink>
@@ -98,13 +104,13 @@
 // notice — the READMEs have it too, but crawlers and visitors see the site, not the repo).
 // Content is the bilingual landing.js `footer` object.
 import { ref, computed } from 'vue'
-import { landing, VK_URL } from '../data/landing.js'
+import { landing, VK_URL, TG_URL } from '../data/landing.js'
 import { ui } from '../i18n/ui.js'
 import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import { APP_DATA_VERSION } from '../data/appDataVersion.js'
 import { useLocale } from '../composables/useLocale.js'
 import CollapseTransition from './CollapseTransition.vue'
-import VkIcon from './VkIcon.vue'
+import SocialIcon from './SocialIcon.vue'
 import { APP_VERSION } from '../buildInfo.js'
 
 const { locale } = useLocale()
@@ -118,6 +124,7 @@ const contactEmail = 'gorlovevgeni9617@gmail.com'
 const repoUrl = 'https://github.com/Joker1796/wh-rules.ru'
 // The project's VK group — news, and the place to talk about a bug report.
 const vkUrl = VK_URL
+const tgUrl = TG_URL
 const version = APP_VERSION
 // The GW app data_version the rules were reconciled against (shown under the app version).
 const dataVersion = APP_DATA_VERSION
@@ -198,7 +205,7 @@ const showDetails = ref(false)
   .footer-links .footer-feedback:hover { color: var(--link-accent-hover); text-decoration-color: currentColor; }
 }
 /* The mark rides at text size beside its label. */
-.footer-vk {
+.footer-social {
   display: inline-flex;
   align-items: center;
   gap: 0.35em;

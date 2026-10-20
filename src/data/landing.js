@@ -2,6 +2,8 @@
 // Minimalist: title + one-line description + three section cards.
 // The project's VK group — the footer and the support page both link to it.
 export const VK_URL = 'https://vk.ru/whrules'
+// Its Telegram channel (owner, 2026-10-20) — beside the VK group in the footer.
+export const TG_URL = 'https://t.me/whrules'
 
 export const landing = {
   en: {
@@ -58,6 +60,7 @@ export const landing = {
       disclaimerLink: 'Legal & disclaimer',
       supportLink: 'Support the project',
       vkLink: 'VK group',
+      tgLink: 'Telegram channel',
       support: {
         title: 'Support the project',
         intro: 'The app is free and has no ads. I make it on my own, in my spare time, and pay for the hosting myself.',
@@ -134,6 +137,7 @@ export const landing = {
       disclaimerLink: 'Правовая информация',
       supportLink: 'Поддержать проект',
       vkLink: 'Группа ВКонтакте',
+      tgLink: 'Канал в Telegram',
       support: {
         title: 'Поддержать проект',
         intro: 'Приложение бесплатное и без рекламы. Я делаю его один, в свободное время, и сам плачу за хостинг.',
