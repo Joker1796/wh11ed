@@ -49,7 +49,8 @@ defineEmits(['confirm', 'close'])
 <style scoped>
 .cm-danger { background: var(--danger); border-color: var(--danger); color: var(--bg-card); }
 @media (hover: hover) { .cm-danger:hover { background: color-mix(in srgb, var(--danger) 85%, black); border-color: var(--danger); } }
-.cm-message { margin: 0; font-size: 0.95rem; line-height: 1.5; color: var(--text-primary); }
+/* pre-line: a message may be a list, one line per item (GameSetup's list-does-not-fit warning). */
+.cm-message { margin: 0; font-size: 0.95rem; line-height: 1.5; color: var(--text-primary); white-space: pre-line; }
 
 .modal-foot { display: flex; gap: 0.6rem; padding: 0.7rem 0.9rem; border-top: 1px solid var(--border); }
 /* Both halves of a confirm dialog's footer share the row evenly and are sized for a thumb —

@@ -1279,6 +1279,15 @@
       @close="takeOverConfirmOpen = null"
     />
     <ConfirmModal
+      v-if="formatConfirmOpen"
+      :title="labels.trackerRosterFormatTitle"
+      :message="[...formatIssues, labels.trackerRosterFormatHint].join('\n')"
+      :confirm-label="labels.trackerRosterFormatGo"
+      :cancel-label="labels.trackerBack"
+      @confirm="askLeaveArmiesStepChecked"
+      @close="formatConfirmOpen = false"
+    />
+    <ConfirmModal
       v-if="leaveConfirmOpen"
       :title="labels.lobbyLeaveArmiesTitle"
       :message="leaveMessage"
@@ -1547,9 +1556,35 @@ const leaveMessage = computed(() => (guestSides.value.some((g) => !g.ready)
   ? labels.value.lobbyLeaveArmiesBusy
   : labels.value.lobbyLeaveArmiesDone))
 function askLeaveArmiesStep() {
+  if (formatIssues.value.length) formatConfirmOpen.value = true
+  else askLeaveArmiesStepChecked()
+}
+function askLeaveArmiesStepChecked() {
+  formatConfirmOpen.value = false
   if (sharedSetup.value && guestSides.value.length) leaveConfirmOpen.value = true
   else leaveArmiesStep()
 }
+// An attached list that does not fit the game this phone set up — more points than the battle
+// size, detachments over its DP budget — is said before the mission step, not left to a line the
+// player may have scrolled past (owner, 2026-10-20). Only the sides this phone fills in: the other
+// side's list is its owner's to answer for.
+const formatConfirmOpen = ref(false)
+const formatIssues = computed(() => {
+  const out = []
+  players.forEach((p, i) => {
+    if (!editable(i)) return
+    for (const m of armiesOf(p)) {
+      if (!attached(m)) continue
+      const who = m.roster.name || labels.value.trackerRosterUnnamed
+      const over = rosterOverSize(m)
+      if (over) out.push(`${who}: ${over}`)
+      if (dpSpent(m) > dpLimit(m)) {
+        out.push(`${who}: ${labels.value.trackerRosterOverDp.replace('{dp}', dpSpent(m)).replace('{limit}', dpLimit(m))}`)
+      }
+    }
+  })
+  return out
+})
 function leaveArmiesStep() {
   leaveConfirmOpen.value = false
   if (sharedSetup.value) {
@@ -2044,14 +2079,22 @@ players.forEach((p, i) => {
 })
 
 // Shrinking the DP budget (battle size, or doubles' per-player override) can invalidate the
-// chosen detachments' DP, so clear every army's detachments (and the side dispositions) for a
-// fresh pick.
+// chosen detachments' DP, so an army whose pick no longer fits is cleared (and its side's
+// disposition with it) for a fresh pick. A pick that still fits stays, and an attached list's
+// detachments always do: the list dictates them (resolveArmyChoice), and a list over the new
+// budget is warned about on Next instead (formatIssues) — until 2026-10-20 any smaller size
+// emptied every army, the list's included (owner's report).
 watch(memberMaxDp, (next, prev) => {
   if (next >= prev || guest.value) return
   players.forEach((p, i) => {
     if (!editable(i)) return // a side another phone described is not this one's to empty
-    armiesOf(p).forEach(m => { m.detachments = [] })
-    p.disposition = null
+    let cleared = false
+    armiesOf(p).forEach(m => {
+      if (attached(m) || dpSpent(m) <= dpLimit(m)) return
+      m.detachments = []
+      cleared = true
+    })
+    if (cleared) p.disposition = null
   })
 })
 
@@ -2414,11 +2457,12 @@ function cancel() {
 .two-col > .settings { margin-top: 0; }
 .look-opts { margin-top: var(--stack-gap); }
 /* On a phone the two deployment questions share one row — each is a label over a two-word
-   switch, and a column of them spent two rows on what fits in one. They still wrap on a screen
-   too narrow for the pair (~330px). Desktop keeps them stacked in the side column. */
+   switch, and a column of them spent two rows on what fits in one. A field never shrinks below
+   its own words (`max-content`): where a pair does not fit it wraps instead — at 360px "Строго"
+   was cut off under the pair's half of the row (owner, 2026-10-20). Desktop keeps them stacked. */
 @media (max-width: 700px) {
   .deploy-card { flex-direction: row; flex-wrap: wrap; gap: 0.9rem 1.25rem; }
-  .deploy-card .field { flex: 1 1 9rem; min-width: 0; }
+  .deploy-card .field { flex: 1 1 9rem; min-width: max-content; }
   .deploy-card .seg { display: flex; width: 100%; }
   .deploy-card .seg button { flex: 1 1 auto; text-align: center; }
 }

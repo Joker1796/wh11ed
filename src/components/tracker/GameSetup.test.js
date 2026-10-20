@@ -324,3 +324,49 @@ describe('GameSetup — Combat Patrol', () => {
     expect(row.find('input').element.disabled).toBe(false)
   })
 })
+
+// An attached list and a smaller battle size (owner's report, 2026-10-20): the list's detachments
+// used to be emptied with everyone else's, and a list that no longer fits went on in silence.
+describe('GameSetup — a list and the battle size', () => {
+  const list = { id: 'r1', name: 'Da List', faction: 'orks', detachments: ['Bully Boyz', 'Blitz Brigade', 'Flyboyz'], battleSize: 'strike-force', units: [{ uid: 'a', id: 'boyz', size: 0 }] }
+  const seed = () => localStorage.setItem('wh11ed-tracker-setup-draft', JSON.stringify({
+    step: 1,
+    settings: { firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, gameType: 'singles', scoreMode: 'vp', twist: null, twistMission: null },
+    players: [
+      { name: 'A', factionSlug: 'orks', detachments: [...list.detachments], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, rosterId: 'r1', roster: list },
+      { name: 'B', factionSlug: 'tyranids', detachments: ['Skittering Hordes'], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, rosterId: null, roster: null },
+    ],
+  }))
+  const toIncursion = async (w) => {
+    await w.findAll('.battle-size .seg button').find((b) => b.text().includes('Incursion')).trigger('click')
+    await flushPromises()
+  }
+
+  it('keeps the list’s detachments when the battle size shrinks', async () => {
+    seed()
+    const { default: Setup } = await import('./GameSetup.vue')
+    const w = mount(Setup)
+    await flushPromises()
+    await toIncursion(w)
+    const card = w.findAll('.player-card')[0].text()
+    for (const d of list.detachments) expect(card).toContain(d)
+  })
+
+  it('warns on Next that the list does not fit, and goes on only when asked', async () => {
+    seed()
+    const { default: Setup } = await import('./GameSetup.vue')
+    const w = mount(Setup, { attachTo: document.body })
+    await flushPromises()
+    await toIncursion(w)
+    const next = w.findAll('.actions .btn-primary').find((b) => b.text().includes('Next'))
+    await next.trigger('click')
+    await flushPromises()
+    const body = new DOMWrapper(document.body)
+    expect(body.text()).toContain('The list does not fit the game')
+    expect(body.text()).toContain('Da List: detachments cost 3 DP, the game allows 2')
+    await body.findAll('button').find((b) => b.text().includes('Go on anyway')).trigger('click')
+    await flushPromises()
+    expect(body.text()).not.toContain('The list does not fit the game')
+    w.unmount()
+  })
+})
