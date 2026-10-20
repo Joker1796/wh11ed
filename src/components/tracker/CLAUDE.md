@@ -237,7 +237,12 @@ automatically any more: when the two sides come out alike, the wizard's Start an
 dialog's Save ask once and offer to customise (`useColorClashGate.js`). The screen applies the
 pair through the global `.side-colored` class + `gameSideColorStyle(game)`, which set
 `--side-you` / `--side-opponent` per theme; the score board's emblems take the same colours, and
-a result's columns (ScoreBoard `finished`) wear each army's own colour.
+a result's columns (ScoreBoard `finished`) wear each army's own colour. **The setup's mission step
+wears them too** (Misha, 2026-10-20): its two side cards are `.turn-colored` (`.turn-opp` for the
+opponent) under a `.side-colored` wrapper fed by the same `resolveSideColors`, with the army's
+emblem before "You" / "Opponent" — the colours follow from step 1's factions. A setup player always
+carries the two doubles member slots, so the side's faction is read with GameSetup's `sideFaction`
+(through `armiesOf`), not sideColors' `sideFactionOf`, which would read the empty slots.
 
 ## The missions panel
 

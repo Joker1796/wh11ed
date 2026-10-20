@@ -685,12 +685,18 @@
         </ExpandTransition>
       </div>
 
-      <div class="players">
+      <!-- Each side in its own colour from here on, as on the game screen (Misha, 2026-10-20): the
+           colours follow from the factions step 1 chose, and the accent inside a card — its
+           selected buttons included — is that side's (`.turn-colored`, `.turn-opp`). -->
+      <div
+        class="players side-colored"
+        :style="sideStyle"
+      >
         <div
           v-for="{ p, i } in shownPlayers"
           :key="i"
-          class="player-card"
-          :class="{ 'pc-joined': guest }"
+          class="player-card pc-side turn-colored"
+          :class="{ 'pc-joined': guest, 'turn-opp': i !== youIdx }"
         >
           <!-- The team name rides in the heading, muted, so "You"/"Opponent" stays the anchor
                and the name reads as an annotation. Written adjacent (no line break before the
@@ -702,7 +708,11 @@
             v-if="!guest"
             class="player-head"
           >
-            {{ playerLabel(i) }}<span
+            <FactionEmblem
+              v-if="factionIndexBySlug(sideFaction(p))"
+              :faction="factionIndexBySlug(sideFaction(p))"
+              in-title
+            />{{ playerLabel(i) }}<span
               v-if="isDoubles && p.teamName"
               class="ph-team"
             >&nbsp;· {{ p.teamName }}</span>
@@ -1369,6 +1379,9 @@ import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import { useColorClashGate } from '../../composables/useColorClashGate.js'
+import { resolveSideColors, sideColorStyle, sidePicksOf } from '../../composables/sideColors.js'
+import FactionEmblem from '../FactionEmblem.vue'
+import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import PartyModal from './PartyModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
 import OptionHelpModal from './OptionHelpModal.vue'
@@ -1496,6 +1509,12 @@ const { canShare, share, setHold, lastError, invite, refreshInvite } = useParty(
 
 // Which side this phone plays: the host (and a solo setup) sits on 0, a guest on its seat.
 const youIdx = computed(() => (sharedSetup.value ? mySide.value : 0))
+// The two sides' colours as the game will wear them: the factions' own, or this phone's picks.
+// Through `sideFaction` below — a setup player always carries the two member slots doubles uses,
+// so sideColors' sideFactionOf would read the empty ones in singles.
+const sideStyle = computed(() => sideColorStyle(resolveSideColors(
+  sideFaction(players[youIdx.value]), sideFaction(players[1 - youIdx.value]), sidePicksOf(settings),
+)))
 const sides = computed(() => (guest.value ? [youIdx.value] : [0, 1]))
 // `i` is the SIDE, not the position in the loop — a guest draws one card and it is side 1.
 const shownPlayers = computed(() => sides.value.map((i) => ({ p: players[i], i })))
@@ -2505,6 +2524,13 @@ function cancel() {
   font-size: 0.82rem;
   color: var(--text-muted);
 }
+/* A side's card on the mission step wears its colour (`.turn-colored` re-points the accent): an
+   edge down its left, as the game's missions cards carry, and the heading in that colour. Drawn as
+   a shadow, not a border, so the padding the mission preview bleeds against stays the same. */
+.pc-side { box-shadow: inset 3px 0 0 var(--accent); }
+.pc-side .player-head { color: var(--accent-ink); }
+/* The army's emblem before "You" / "Opponent", a space's width from the word. */
+.player-head .faction-emblem { margin-right: 0.35em; }
 .player-head {
   font-family: var(--font-display);
   font-size: 1.21rem;
