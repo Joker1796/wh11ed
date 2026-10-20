@@ -241,7 +241,7 @@ import BaseModal from '../BaseModal.vue'
 import ReplaceCardModal from './ReplaceCardModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, missionBySlug, scorableBlocks, isYouSide } from '../../composables/useTracker.js'
+import { useTracker, missionBySlug, cardBlocks, isYouSide } from '../../composables/useTracker.js'
 import { blockLocked } from '../../composables/missionTiming.js'
 import { whenDrawnAction } from '../../composables/whenDrawn.js'
 import { tracks } from '../../data/trackerOptions.js'
@@ -308,9 +308,9 @@ const openMission = computed(() => openSlug.value ? missionBySlug(openSlug.value
 const actionSlug = ref(null)
 const actionMission = computed(() => actionSlug.value ? missionBySlug(actionSlug.value, player.value.role, locale.value) : null)
 
-// Blocks scorable in the round on screen (round-gated) and matching the player's mode.
+// The card's blocks for the player's mode; those of other rounds come greyed (cardBlocks).
 function relevantBlocks(m) {
-  return scorableBlocks(m.slug, player.value.role, props.round, locale.value)
+  return cardBlocks(m.slug, player.value.role, props.round, locale.value)
     .filter(b => b.kind === mode.value)
 }
 
