@@ -1122,6 +1122,13 @@ useFlashOnChange(counter, counterEl)
 /* position: relative holds a leaving row where it stood (stableKeys.js pinLeaving). */
 .army-resurrect-list,
 .army-active-list { position: relative; }
+/* A beat slower than the site's lists (owner, 2026-10-20): a die is read as it comes and goes,
+   and the row has to be seen settling into order. Tokens, so reduced motion still zeroes them. */
+.army-dice-pool > .list-enter-active, .army-dice-pool > .list-leave-active,
+.army-resurrect-list > .list-enter-active, .army-resurrect-list > .list-leave-active,
+.army-active-list > .list-enter-active, .army-active-list > .list-leave-active { transition-duration: var(--motion-slow); }
+.army-dice-pool > .list-move,
+.army-resurrect-list > .list-move { transition-duration: var(--motion-move); }
 .army-resurrect-list {
   list-style: none;
   margin: 0;
