@@ -81,11 +81,14 @@ const side = (isYou, factionSlug, primaries, secondaries, battleReady) => ({
   secondary: { deck: [], hand: [], drawn: {}, discarded: [], scored: secondaries.map((vp, i) => ({ slug: `demo-${i}`, round: i + 1, picks: {}, vp })) },
 })
 
-/** A game half-way through, for ScoreBoard: `scoreMode` VP or BP, `sideColors` the custom picks. */
-export function demoGame({ scoreMode = 'vp', sideColors = null } = {}) {
+/**
+ * A game half-way through, for ScoreBoard: `scoreMode` VP or BP, `sideColors` the custom picks,
+ * `track` the option rows (a preset's values — TrackPresets' demo).
+ */
+export function demoGame({ scoreMode = 'vp', sideColors = null, track = null } = {}) {
   return {
     id: 'demo', phase: 'playing', currentRound: 3, currentTurn: 0,
-    settings: { scoreMode, trackCP: true, ...(sideColors && { customColors: true, sideColors }) },
+    settings: { scoreMode, trackCP: true, ...track, ...(sideColors && { customColors: true, sideColors }) },
     players: [side(true, 'orks', [10, 15, 15], [3, 5], true), side(false, 'necrons', [10, 10, 12], [5, 5, 2], false)],
   }
 }

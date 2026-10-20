@@ -2,7 +2,7 @@
   <!-- Three presets over the option rows (trackerOptions.js TRACK_PRESETS, owner 2026-10-17) —
        starting points, not modes. The field is a "Preset" button with the preset in force named
        beside it (owner); the choice is made in a dialog that shows what the game screen looks like
-       with each. Touch any box below and the name reads "your own"; nothing is undone. -->
+       with each (PresetDemo, drawn live). Touch any box below and the name reads "your own"; nothing is undone. -->
   <div
     class="tp"
     data-tour="setup-presets"
@@ -55,10 +55,10 @@
             class="tp-card"
             :class="{ on: current === p.id, viewed: viewed === p.id }"
           >
-            <AppImage
-              class="tp-shot"
-              :src="`/images/tracker/preset-${p.id}-${locale}.jpg`"
-              :alt="`${labels[p.label]} — ${labels.trackerPresetShot}`"
+            <PresetDemo
+              class="tp-demo"
+              :values="p.values"
+              aria-hidden="true"
             />
             <span class="tp-card-name">{{ labels[p.label] }}</span>
             <span class="tp-blurb">{{ labels[p.blurb] }}</span>
@@ -86,17 +86,15 @@
 <script setup>
 import { computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
-import AppImage from '../AppImage.vue'
+import PresetDemo from './help/PresetDemo.vue'
 import ChevronIcon from '../ChevronIcon.vue'
 import { TRACK_PRESETS, DEFAULT_PRESET, applyTrackPreset, presetOf } from '../../data/trackerOptions.js'
-import { useLocale } from '../../composables/useLocale.js'
 
 const props = defineProps({
   settings: { type: Object, required: true },
   ctx: { type: Object, required: true },
   labels: { type: Object, required: true },
 })
-const { locale } = useLocale()
 const open = ref(false)
 const current = computed(() => presetOf(props.settings, props.ctx))
 const presetById = (id) => TRACK_PRESETS.find((p) => p.id === id)
@@ -137,11 +135,11 @@ function choose(id) {
 @media (max-width: 359px) { .tp-seg button { padding-inline: 0.15rem; font-size: 0.76rem; } }
 .tp-cards { display: grid; gap: 0.6rem; }
 .tp-card {
-  display: flex; flex-direction: column; gap: 0.4rem;
+  display: flex; flex-direction: column; gap: 0.4rem; min-width: 0;
   padding: 0.6rem; border: 1px solid var(--border); background: var(--bg-secondary);
 }
 .tp-card.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--bg-secondary)); }
-.tp-card :deep(.tp-shot) { display: block; width: 100%; height: auto; border: 1px solid var(--border); }
+.tp-demo { min-width: 0; padding: 0.5rem; border: 1px solid var(--border); background: var(--bg-primary); }
 .tp-card-name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; }
 .tp-blurb { flex: 1 1 auto; font-size: 0.84rem; color: var(--text-muted); line-height: 1.4; }
 .tp-pick { align-self: stretch; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; }
@@ -153,11 +151,10 @@ function choose(id) {
   .tp-card { padding: 0; border: none; background: none; }
   /* One card on screen: its button says it is the one in force; a frame here pressed on the text. */
   .tp-card.on { box-shadow: none; background: none; }
-  .tp-card :deep(.tp-shot) { width: auto; max-width: 100%; max-height: 52dvh; margin: 0 auto; }
   .tp-card-name { display: none; }
 }
 @media (min-width: 720px) {
   .tp-seg { display: none; }
-  .tp-cards { grid-template-columns: repeat(3, 1fr); }
+  .tp-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 </style>

@@ -62,10 +62,12 @@ in `src/components/roster/CLAUDE.md`.
 counters, the modifiers without a family) and Maximal (everything) — are starting points over the
 rows. `TrackPresets.vue` is a "Preset" button with the preset in force named beside it (or "Your
 own"); the button opens a dialog showing the game screen with each — three columns on a wide screen,
-one picture under a three-way switch on a phone — from pictures in
-`public/images/tracker/preset-<id>-<locale>` shot off the seed's three `preset-*` games
-(scripts/lib/test-games.mjs) — **reshoot them when the game screen changes**, under a new name
-(images are never edited in place). A first game starts as Base (`defaultTrackSettings` with no
+one under a three-way switch on a phone — drawn live by `help/PresetDemo.vue`: the score board,
+the tab strip and the turn bar the game draws for that preset, laid out at a phone's width and
+zoomed to the card (until 2026-10-20 they were screenshots, light in the dark theme and stale after
+every change to the screen). The field itself is a plate: "Preset: Base", its blurb, Change. A first
+game after updating from 2.9.7 (a last game carrying none of 2.10.0's rows, `fromBeforePresets`)
+starts as Base too. A first game starts as Base (`defaultTrackSettings` with no
 game behind it); a later one from the last game's choices. `presetOf` names the draft's set or null
 comparing only rows the game can offer. The colours and the broadcast are in no preset. The one row
 is drawn by `TrackOptionRow.vue` in the list and in the fold alike.
