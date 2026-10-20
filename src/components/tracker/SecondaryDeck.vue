@@ -466,7 +466,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 .card.set-aside .card-name, .card.set-aside .cm-src { opacity: 0.6; }
 /* A card marked to go at the end of the turn: in the side's colour, so it reads as the player's own
    choice, not the game's. */
-.badge-eot { color: var(--accent-ink); border-color: var(--accent); }
+.badge.badge-eot { color: var(--accent-ink); border-color: var(--accent); }
 .badge {
   font-size: 0.6rem;
   font-weight: 700;
