@@ -15,6 +15,8 @@ npm run sync          # аудит против wh40k-appdata — с 2026-10-19 
 npm run columns       # GATE: новая таблица или столбец appdata с данными — пока не решено, где (и читать ли) его
 npm run missions      # GATE: лимиты пакета миссий, Fixed / WHEN DRAWN / первый ход и все Actions карт = приложение
 npm run packs         # GATE: PDF Faction Pack в ../sources не новее, чем sourceVersion листов Legends
+npm run pack-text     # GATE: листы Legends против текста своего пака — характеристики, числа оружия, ключевые слова, имена способностей
+npm run documents     # GATE: каждое издание Faction Pack / Event Companion из ../sources есть в списке /patches (scripts/patch-notes/documents.json)
 npm run omissions     # GATE: appdata говорит то, чего нет у нас
 npm run parity        # GATE: EN↔RU паритет — фракции И файлы рулбука
 npm run detmeta       # GATE: dp/Force Disposition детачмента против MFM

@@ -2076,8 +2076,8 @@ export default [
         "text": "Each time a model in this unit makes an attack, you can re-roll the Hit roll. While this unit is not within 12\" of one or more friendly CHAPLAIN models, it cannot be selected to Fall Back and the Objective Control characteristic of models in this unit is 0."
       },
       {
-        "name": "An Honourable Death in Combat",
-        "text": "Each time a model in this unit makes an attack, that attack has the [SUSTAINED HITS 1] ability if this unit is below its Starting Strength, or the [SUSTAINED HITS 2] ability if this unit is Below Half-strength."
+        "name": "Berserk Fury",
+        "text": "You can re-roll Charge rolls made for this unit."
       }
     ],
     "wargearAbilities": [],

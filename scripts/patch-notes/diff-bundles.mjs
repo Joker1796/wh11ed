@@ -52,7 +52,7 @@ const bodyReadable = (body) => (body || [])
   .join('\n')
 
 // Two texts are the same rule when they read the same, case and a closing full stop aside.
-const sameText = (a, b) => plain(a).toLowerCase().replace(/\.$/, '') === plain(b).toLowerCase().replace(/\.$/, '')
+export const sameText = (a, b) => plain(a).toLowerCase().replace(/\.$/, '') === plain(b).toLowerCase().replace(/\.$/, '')
 const key = (s) => plain(s).toLowerCase()
 // An entity's identity: its name without a trailing "(…)" note — "Psychic Hood (Psychic)" and
 // "Teleport Homer (Once per battle, per unit)" are the abilities they were before the note.
@@ -67,7 +67,7 @@ function byName(list) {
 // Added / removed / kept. By app id first, where both sides carry the same one — two entities of
 // one name (a codex rule and its Combat Patrol copy) are told apart that way, whatever order the app
 // lists them in — then by name for the rest, since GW reissues ids wholesale (946 → 963).
-function pair(a, b) {
+export function pair(a, b) {
   const out = { added: [], removed: [], both: [] }
   const bIds = new Map((b || []).filter((x) => x?.id).map((x) => [x.id, x]))
   const takenA = new Set()
@@ -209,10 +209,16 @@ function diffDatasheet(a, b) {
 
 const STRAT_TEXT = ['when', 'target', 'effect', 'restriction']
 
-function diffStratagem(a, b) {
+// A stratagem's second effect ("…instead, for 1 more CP") has had fields of its own since appdata's
+// build of 2026-10-19; before that the app's text was not read for it at all. A field one side does
+// not carry is our build learning to read it, not GW changing it — compared only where both have it.
+export function diffStratagem(a, b) {
   const f = []
   if (val(a.cp) !== val(b.cp)) f.push({ field: 'cp', from: val(a.cp), to: val(b.cp) })
   for (const t of STRAT_TEXT) if (!sameText(a[t], b[t])) f.push({ field: t, from: readable(a[t]), to: readable(b[t]) })
+  const both = (k) => Object.hasOwn(a, k) && Object.hasOwn(b, k)
+  if (both('secondaryCp') && val(a.secondaryCp) !== val(b.secondaryCp)) f.push({ field: 'secondaryCp', from: val(a.secondaryCp), to: val(b.secondaryCp) })
+  if (both('secondaryEffect') && !sameText(a.secondaryEffect, b.secondaryEffect)) f.push({ field: 'secondaryEffect', from: readable(a.secondaryEffect), to: readable(b.secondaryEffect) })
   return f
 }
 
@@ -246,14 +252,14 @@ const bodyPlain = (body) => plain(bodyText(body))
 
 // A kept entity that changed — its fields moved, or it was renamed (paired by id, so a rename is
 // seen: "Wartrakk" → "Wartrakks"). The old name rides as `was`. Null when neither.
-function changed(o, n, base, fields) {
+export function changed(o, n, base, fields) {
   const renamed = nameKey(o.name) !== nameKey(n.name)
   if (!fields.length && !renamed) return null
   return { ...base, name: n.name, ...(renamed ? { was: o.name } : {}), change: 'changed', fields }
 }
 const textField = (from, to) => (sameText(from, to) ? [] : [{ field: 'text', from: readable(from), to: readable(to) }])
 const bodyField = (o, n) => (sameText(bodyPlain(o), bodyPlain(n)) ? [] : [{ field: 'text', from: bodyReadable(o), to: bodyReadable(n) }])
-const pushIf = (out, x) => { if (x) out.push(x) }
+export const pushIf = (out, x) => { if (x) out.push(x) }
 const notCP = (x) => !x?.isCombatPatrol
 
 // Every difference between two bundles of one faction. Either side may be null (a faction that

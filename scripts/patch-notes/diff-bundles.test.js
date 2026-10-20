@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest'
 import { diffBundles, diffCore, plain } from './diff-bundles.mjs'
 import { diffMfm } from './diff-mfm.mjs'
 import { diffFaq } from './diff-faq.mjs'
+import { diffCoreFaq } from './diff-core-faq.mjs'
+import { diffCoreContent } from './diff-core-content.mjs'
+import { diffDocuments } from './diff-documents.mjs'
 
 // Each case below is noise a real app update produced and a player would have read as a change.
 const sheet = (over = {}) => ({
@@ -174,5 +177,76 @@ describe('patch notes: what is a change', () => {
     const a = { units: [{ name: 'Headtakers', options: [o('1st-2nd', 85), o('3rd+', 105)] }] }
     const b = { units: [{ name: 'Headtakers', options: [o('1st-2nd', 90), o('3rd+', 105)] }] }
     expect(diffMfm(a, b, 'space-wolves')[0].fields).toEqual([{ models: 3, label: '3 Wolf Guard Headtakers', tier: '1st-2nd', from: 85, to: 90 }])
+  })
+})
+
+// What the page read nothing of until 2026-10-20: the Core Rules FAQ, the game's own content, GW's
+// documents. 32 Core Rules answers of 931, 963 and 981 were never on it.
+describe('patch notes: the core of the game', () => {
+  const pubs = [{ id: 'core', localisations: { en: { name: 'Core Rules' } } }, { id: 'orks', localisations: { en: { name: 'Codex: Orks' } } }]
+  const qa = (id, question, answer, publicationId = 'core') => ({ id, publicationId, localisations: { en: { question, answer } } })
+  const tables = (...faq) => ({ faq, publications: pubs })
+
+  it('reports a Core Rules answer that arrived or changed, and nothing of a codex', () => {
+    const a = tables(qa('1', 'Can I fall back?', 'Yes.'))
+    const b = tables(qa('1', 'Can I fall back?', 'No.'), qa('2', 'Can I <b>charge</b>?', 'Yes.'), qa('3', 'Can a Boy fly?', 'No.', 'orks'))
+    expect(diffCoreFaq(a, b).map((x) => [x.change, x.name])).toEqual([['changed', 'Can I fall back?'], ['added', 'Can I charge?']])
+  })
+
+  // 963 took the "Q:"/"A:" off a few rows; 981 printed the Firing Deck question three times, its
+  // example growing.
+  it('reads a dropped "Q:" and a question printed again with a longer answer as one entry', () => {
+    const a = tables(qa('1', 'Q: Does Firing Deck work?', 'A: Yes.'))
+    expect(diffCoreFaq(a, tables(qa('9', 'Does Firing Deck work?', 'Yes.')))).toEqual([])
+    const b = tables(qa('1', 'Does Firing Deck work?', 'Yes.'), qa('2', 'Does Firing Deck work?', 'Yes. For example, Flash Gitz.'))
+    expect(diffCoreFaq(a, b)[0].fields[0].to).toBe('Yes. For example, Flash Gitz.')
+  })
+
+  const content = (over = {}) => ({
+    battleSizes: [{ id: 'i', name: 'Incursion', points: 1000, dp: 2, enhancementLimit: 2, duplicateUnitLimit: 2 }],
+    coreStratagems: [{ id: 's', name: 'Insane Bravery', cp: '1', when: 'Command phase.', target: 'One unit.', effect: 'Passes.', restriction: null }],
+    primaryMissions: [{ id: 'm', name: 'Take and Hold', objectives: [{ name: 'ANY ROUND', when: 'End of your turn.', scoring: [{ text: 'Per objective.', vp: 5 }] }], actions: [] }],
+    twists: [],
+    dispositionPrimaryMap: [{ friendly: 'Purge', opposition: 'Purge', primaryMissionId: 'm' }],
+    ...over,
+  })
+
+  it('reads the same content in another order as unchanged', () => {
+    const b = content()
+    expect(diffCoreContent(content(), { ...b, coreStratagems: [...b.coreStratagems].reverse() })).toEqual([])
+  })
+
+  it('reports a battle size, a core stratagem and a mission that moved', () => {
+    const b = content({
+      battleSizes: [{ ...content().battleSizes[0], points: 1250 }],
+      coreStratagems: [{ ...content().coreStratagems[0], cp: '2' }],
+      primaryMissions: [{ ...content().primaryMissions[0], objectives: [{ name: 'ANY ROUND', when: 'End of your turn.', scoring: [{ text: 'Per objective.', vp: 4 }] }] }],
+    })
+    expect(diffCoreContent(content(), b).map((x) => [x.kind, x.name, x.fields[0].field])).toEqual([
+      ['battleSize', 'Incursion', 'points'], ['stratagem', 'Insane Bravery', 'cp'], ['mission', 'Take and Hold', 'text'],
+    ])
+  })
+
+  // appdata's build of 2026-10-19 gave stratagems their second effect as fields of their own.
+  it('compares a stratagem’s second effect only once both sides carry it', () => {
+    const s = content().coreStratagems[0]
+    const two = (x) => content({ coreStratagems: [x] })
+    expect(diffCoreContent(two(s), two({ ...s, secondaryEffect: 'Also heals.', secondaryCp: 1 }))).toEqual([])
+    const moved = diffCoreContent(two({ ...s, secondaryEffect: 'Also heals.', secondaryCp: 1 }), two({ ...s, secondaryEffect: 'Also heals D3.', secondaryCp: 1 }))
+    expect(moved[0].fields.map((f) => f.field)).toEqual(['secondaryEffect'])
+  })
+
+  it('reports a document in the update of its date, and not the first edition we saw', () => {
+    const editions = [
+      { doc: 'pack:aeldari', version: '1.3', published: '2026-08-26', file: 'eng_wh40k_faction_pack_aeldari-x.pdf' },
+      { doc: 'pack:aeldari', version: '1.4', published: '2026-10-14', file: 'eng_14-10_wh40k_-faction_pack_aeldari-y.pdf' },
+    ]
+    expect(diffDocuments(editions, null, '2026-08-26')).toEqual([])
+    expect(diffDocuments(editions, '2026-10-14', '2026-10-16')).toEqual([])
+    expect(diffDocuments(editions, '2026-10-02', '2026-10-14')).toEqual([{
+      faction: 'aeldari', kind: 'document', name: 'Faction Pack', change: 'changed', date: '2026-10-14',
+      fields: [{ field: 'version', from: '1.3', to: '1.4' }],
+      url: 'https://assets.warhammer-community.com/eng_14-10_wh40k_-faction_pack_aeldari-y.pdf',
+    }])
   })
 })

@@ -20,6 +20,10 @@ import { foldName } from '../src/utils/foldName.js'
 import { diffBundles, diffCore } from './patch-notes/diff-bundles.mjs'
 import { diffMfm } from './patch-notes/diff-mfm.mjs'
 import { diffFaq } from './patch-notes/diff-faq.mjs'
+import { diffCoreFaq } from './patch-notes/diff-core-faq.mjs'
+import { diffCoreContent } from './patch-notes/diff-core-content.mjs'
+import { diffDocuments } from './patch-notes/diff-documents.mjs'
+import { loadDocuments } from './check-documents.mjs'
 
 const OUT = path.join(ROOT, 'src', 'data', 'patches')
 const toWh11ed = Object.fromEntries(Object.entries(SLUG_MAP).map(([wh, app]) => [app, wh]))
@@ -49,12 +53,19 @@ function cpArmyRulesAt(ref) {
   return new Set((json(APPDATA, ref, 'tables/army_rule.json') || []).filter((r) => pubs.has(r.publicationId)).map((r) => r.id))
 }
 
-async function build(p) {
+const editions = loadDocuments()
+
+async function build(p, after) {
   const items = []
+  items.push(...diffDocuments(editions, after, p.date))
   if (p.app) {
     const [from, to] = p.app
     const cpArmyRules = [cpArmyRulesAt(from), cpArmyRulesAt(to)]
     items.push(...diffCore(json(APPDATA, from, 'factions/_core-rules.json'), json(APPDATA, to, 'factions/_core-rules.json')))
+    // The Core Rules FAQ is the app's (tables/faq.json); the factions' FAQ below is ours, generated.
+    const faqTables = (ref) => ({ faq: json(APPDATA, ref, 'tables/faq.json'), publications: json(APPDATA, ref, 'tables/publication.json') })
+    items.push(...diffCoreFaq(faqTables(from), faqTables(to)))
+    items.push(...diffCoreContent(json(APPDATA, from, 'factions/_core-content.json'), json(APPDATA, to, 'factions/_core-content.json')))
     const files = new Set([...lsTree(APPDATA, from, 'factions'), ...lsTree(APPDATA, to, 'factions')])
     for (const f of [...files].filter((x) => /\/[a-z][^/]*\.json$/.test(x))) {
       const app = path.basename(f, '.json')
@@ -98,11 +109,11 @@ function docItems(p) {
 const only = process.argv.slice(2)
 fs.mkdirSync(OUT, { recursive: true })
 const index = []
-for (const p of PATCHES) {
+for (const [i, p] of PATCHES.entries()) {
   const file = path.join(OUT, `${p.id}.json`)
   let items
   if (!only.length || only.includes(p.id)) {
-    items = await build(p)
+    items = await build(p, PATCHES[i - 1]?.date ?? null)
     attachDoubts(p, items)
     items.push(...docItems(p))
     fs.writeFileSync(file, `${JSON.stringify({ id: p.id, date: p.date, labels: p.labels, items })}\n`)

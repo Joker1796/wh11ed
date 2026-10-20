@@ -1434,3 +1434,10 @@ and appdata state fresh; a data model can change between now and when this is ne
     (Aura)") unnoticed. The builder's info window matched the item name exactly and came up empty for
     27 options (a Gun Drone is the twin pulse carbine). Both now go through `wargearInfo.js`;
     sync-appdata reports a missing wargear rule, and wargearInfo.test.js opens every option's window.
+109. **What has no appdata copy was compared with nothing.** The Legends sheets read from Faction
+    Packs had a version stamp and no text check: Death Company Marines with Boltguns and Jump Packs
+    carried the ability of the sheet beside it for a month (`npm run pack-text` now reads each sheet
+    against its pack page). The same blind spot on /patches: it read FAQ only from our generated
+    factionFaq.json, so 47 Core Rules FAQ and errata entries of four updates never showed, and it
+    knew GW's documents only as lines written by hand (`diff-core-faq`, `documents.json`). For any
+    source, ask which of its parts some check reads — and for a part none does, write the check.

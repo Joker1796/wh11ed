@@ -22,6 +22,20 @@
 
 export const changelog = [
   {
+    version: '2.10.1',
+    date: '2026-10-21',
+    en: [
+      { h: 'GW app changes', kind: 'rules' },
+      '**[GW app changes](/patches) now show the Core Rules FAQ and errata.** 47 entries from earlier updates were missing there. Each is in its update now.',
+      '**New versions of the Faction Packs and the Event Companion are listed there too.** They are under “Publications”, with a link to the PDF.',
+    ],
+    ru: [
+      { h: 'Изменения приложения GW', kind: 'rules' },
+      '**На странице [Изменения приложения GW](/patches) теперь есть FAQ и эррата основных правил.** Там не хватало 47 записей из прошлых обновлений. Теперь каждая стоит в своём обновлении.',
+      '**Там же видны новые версии Faction Pack и Event Companion.** Они в разделе «Публикации», со ссылкой на PDF.',
+    ],
+  },
+  {
     version: '2.10.0',
     date: '2026-10-20',
     en: [

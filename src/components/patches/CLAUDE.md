@@ -1,7 +1,8 @@
 # Patch notes (`/patches`)
 
 GW's updates in one place, "was → now" (owner, 2026-10-01): the app's rules data, the Munitorum
-Field Manual's points, the FAQ & errata. Nothing on the page is written by hand.
+Field Manual's points, the FAQ & errata, the game's own content and GW's documents. Nothing on the
+page is written by hand.
 
 - **Data** — `scripts/gen-patch-notes.mjs` (`npm run patches`) writes `src/data/patches/<id>.json`
   per update and the light `index.js` the page opens on (per-faction counts, so a filtered list
@@ -22,6 +23,25 @@ Field Manual's points, the FAQ & errata. Nothing on the page is written by hand.
   Points come from the MFM only, compared **copy by copy** (1st–4th; the note's "1st-2nd"/"3rd+"
   tiers parsed, a unit's make-up in the note kept apart) — GW re-tiered Exorcist in v1.5 and only
   the second copy's price moved; a Chapter's FAQ copies of Codex: Space Marines entries are dropped.
+- **The core block** (since 2026-10-20) holds more than the rule prose, each kind its own fold once
+  there are two: the **Core Rules FAQ & errata** (`diff-core-faq.mjs`, appdata's `tables/faq.json`,
+  by question — 32 answers of 931/963/981 had never shown, because the page read only our generated
+  `factionFaq.json`), **battle sizes, dispositions, core stratagems, missions, twists and the
+  disposition matrix** (`diff-core-content.mjs`, `factions/_core-content.json` — the `factions/*`
+  pattern skips `_` files; nothing in it has moved in any update yet) and the Event Companions.
+  A stratagem's second effect (`secondaryEffect`/`secondaryCp`, appdata's build of 2026-10-19) is
+  compared only once both sides carry the field — its arrival is our build learning to read it.
+- **GW's documents** — Faction Packs and Event Companions, which the app does not carry — come from
+  `scripts/patch-notes/documents.json`: every edition seen, with GW's date from its file name
+  (`eng_14-10_…`; the undated `eng_wh40k_…` files are the 26 August set). `npm run documents` (a
+  gate in `npm run sync`) fails on a PDF in `../sources` the list lacks; `-- --write` records it.
+  `diff-documents.mjs` puts an edition in the update whose window holds its date (after the previous
+  line's date, up to its own) — not by our commit, which lands days later — and never the first
+  edition we saw. It shows under "Publications" with a link to the PDF.
+- **`scripts/patch-notes/patches.test.js`** (vitest, so CI runs it) holds the list to the site: the
+  last line's `labels.app` is `APP_DATA_VERSION`, its `labels.mfm` is `mfmVersion`, no document
+  edition is dated after the last line, and the written files carry exactly the document items the
+  list gives (`npm run patches` after `documents -- --write`).
 - **Removed** entries carry no text (`from` is dropped) — the name is the news, and the 963 file
   was 650 KB with it.
 - **Page** — `PatchesView.vue`: two pickers, the faction (`?f=` = slug / `mine` = pinned / `all`; the
