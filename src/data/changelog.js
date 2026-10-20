@@ -22,6 +22,18 @@
 
 export const changelog = [
   {
+    version: '2.10.2',
+    date: '2026-10-22',
+    en: [
+      { h: 'Whole site' },
+      '**Error reports now also say how fast the site runs on your device.** If you turned them on, the site sends how quickly each screen answered a tap, how long it was busy, your browser and how many cores and how much memory the device has. Nothing personal goes with it. You can turn it off in ⚙ → “Stop sending error reports”.',
+    ],
+    ru: [
+      { h: 'Весь сайт' },
+      '**Отчёты об ошибках теперь говорят и о том, как быстро сайт работает на вашем устройстве.** Если вы их включили, сайт отправляет, как быстро экраны отвечали на нажатие, сколько они были заняты, ваш браузер, число ядер и объём памяти устройства. Ничего личного туда не попадает. Выключить можно в ⚙ → «Не отправлять отчёты об ошибках».',
+    ],
+  },
+  {
     version: '2.10.1',
     date: '2026-10-21',
     en: [

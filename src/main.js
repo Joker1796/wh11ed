@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { installErrorLog, logError } from './composables/useErrorLog.js'
+import { installPerfReport } from './composables/perfReport.js'
 import { installStaleChunkRecovery } from './composables/staleChunks.js'
 import { noteBoot, loopReport } from './composables/reloadLoop.js'
 import { launchGate } from './composables/launchGate.js'
@@ -42,6 +43,9 @@ function boot() {
 
   // A tab from before a deploy asking for a chunk that is gone: find the new build and reload.
   installStaleChunkRecovery(router)
+
+  // How each screen performs, sent beside the errors by the visitors who send them (perfReport.js).
+  installPerfReport(router)
 
   // How every button answers the finger — one document listener, see pressFeedback.js.
   installPressFeedback()

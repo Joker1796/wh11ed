@@ -87,6 +87,25 @@ function flush() {
   post(payload({ errors: queue.splice(0, 10), ...(hello ? { hello: true } : {}) }))
 }
 
+// A phone's class, coarse: logical cores (capped) and device memory in GB, 0 where the browser does
+// not say (Safari, Firefox). What tells a weak phone from a strong one in the performance numbers.
+export function deviceClass() {
+  const cores = Math.min(navigator.hardwareConcurrency || 0, 16)
+  return `c${cores}m${navigator.deviceMemory || 0}`
+}
+
+/**
+ * How the screens of this page session performed (perfReport.js), sent beside the errors to the
+ * same POST /errors (wh11ed-api `perf`, migrations/004_client_perf.sql) — and like them only
+ * while sending is on. Returns whether it went.
+ * @param {{ route: string, inp?: number, longN: number, longMs: number, secs: number }[]} perf
+ */
+export function sendPerf(perf) {
+  if (!reportsOn() || !perf.length || navigator.onLine === false) return false
+  post(payload({ perf: perf.slice(0, 8), device: deviceClass() }))
+  return true
+}
+
 /** Switch sending on or off. On sends what was seen this page load and says hello for the day. */
 export function setErrorReports(on) {
   setItem(ERROR_REPORTS_KEY, on ? '1' : '')
