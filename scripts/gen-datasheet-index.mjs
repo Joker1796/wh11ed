@@ -47,7 +47,7 @@ import { factionKeywordPatterns, factionKeywordsAt, nameAround } from '../src/ut
 import { unitKeywordsOf } from '../src/composables/ruleTargets.js'
 import { foldChars, foldName } from '../src/utils/foldName.js'
 import { spawnPhrases } from './lib/spawnPhrases.mjs'
-import { capsKeywordsIn, isScannedSource, modelNamesOf } from '../src/utils/capsKeywords.js'
+import { capsKeywordsIn, capsNamesOf, isScannedSource } from '../src/utils/capsKeywords.js'
 
 // Merge a unit's personal aliases (may be undefined) with any name-pattern rule aliases that
 // match its EN name, de-duped, `null` if the result is empty (JSON.stringify can't omit an
@@ -257,7 +257,7 @@ for (const group of factionGroups) {
       allNames.add(u.name)
       unitNames.add(foldName(u.name)) // "Shield‑Captain" (U+2011) is the keyword Shield-Captain's unit
       for (const pr of u.profiles || []) if (pr.name) allNames.add(pr.name)
-      for (const n of modelNamesOf(u)) capsVocabulary.add(n)
+      for (const n of capsNamesOf(u)) capsVocabulary.add(n)
       // "1 Serberys Raider Alpha", "2-5 Serberys Raiders" — and the singular a rule writes a
       // model of it as ("Every Serberys Raider model").
       for (const line of u.composition || []) {
@@ -379,6 +379,15 @@ console.log(`gen-datasheet-index: ${vocabulary.size} keywords → src/data/unitK
 
 // A sixth, src/data/capsKeywords.js: the keywords our rule text writes in capitals, for the renderer
 // to bold (src/utils/capsKeywords.js says how they are found; capsKeywords.test.js keeps it current).
+// A Combat Patrol box's sheets carry keywords no faction sheet does (AQUILAN WING, AQUILAN TALON),
+// and the box's own rules name its units by them.
+const { combatPatrol } = await import(pathToFileURL(join(ROOT, 'src/data/combatPatrol.js')).href)
+for (const box of combatPatrol.en.factions) {
+  for (const u of box.datasheets || []) {
+    for (const k of unitKeywordsOf(u)) capsVocabulary.add(foldName(k))
+    for (const n of capsNamesOf(u)) capsVocabulary.add(n)
+  }
+}
 const capsFound = new Set()
 const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(dir, e.name)) : [join(dir, e.name)]))
 for (const file of walk(join(ROOT, 'src/data'))) {
