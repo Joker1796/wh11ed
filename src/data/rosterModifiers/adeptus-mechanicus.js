@@ -1331,7 +1331,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Infiltrators",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1791,7 +1792,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1813,7 +1815,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "ANTI-INFANTRY 4+",
-          "when": null
+          "when": null,
+          "target": "unit"
         }
       ]
     },

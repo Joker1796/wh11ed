@@ -626,7 +626,8 @@ export default {
           "once": {
             "per": "unit",
             "dur": "phase"
-          }
+          },
+          "target": "unit"
         }
       ]
     },

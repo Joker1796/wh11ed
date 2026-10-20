@@ -535,7 +535,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
-          "when": null
+          "when": null,
+          "target": "unit"
         }
       ]
     },

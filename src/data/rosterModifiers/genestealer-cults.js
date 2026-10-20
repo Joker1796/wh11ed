@@ -709,7 +709,8 @@ export default {
           "only": {
             "name": "Achilles missile launcher"
           },
-          "when": null
+          "when": null,
+          "target": "unit"
         },
         {
           "on": "ranged",
@@ -719,7 +720,8 @@ export default {
           "only": {
             "name": "Achilles missile launcher"
           },
-          "when": null
+          "when": null,
+          "target": "unit"
         },
         {
           "on": "ranged",
@@ -729,7 +731,8 @@ export default {
           "only": {
             "name": "Achilles missile launcher"
           },
-          "when": null
+          "when": null,
+          "target": "unit"
         }
       ]
     },
@@ -837,7 +840,8 @@ export default {
           "stat": "s",
           "op": "add",
           "value": 2,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

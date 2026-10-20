@@ -2553,7 +2553,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Infiltrators",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -2677,7 +2678,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 6\"",
-          "when": null
+          "when": null,
+          "target": "unit"
         }
       ]
     },
@@ -2973,7 +2975,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 6\"",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

@@ -2299,14 +2299,16 @@ export default {
           "stat": "sv",
           "op": "set",
           "value": "3+",
-          "when": null
+          "when": null,
+          "target": "unit"
         },
         {
           "on": "profile",
           "stat": "inv",
           "op": "set",
           "value": "4+",
-          "when": null
+          "when": null,
+          "target": "unit"
         }
       ]
     },
@@ -2408,7 +2410,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Deep Strike",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -2816,7 +2819,8 @@ export default {
           "stat": "m",
           "op": "add",
           "value": 2,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

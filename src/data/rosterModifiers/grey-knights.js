@@ -855,7 +855,11 @@ export default {
           "once": {
             "per": "army",
             "dur": "phase"
-          }
+          },
+          "cond": [
+            "unit-charged"
+          ],
+          "target": "unit"
         }
       ]
     },

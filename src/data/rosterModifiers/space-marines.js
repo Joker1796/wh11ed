@@ -2964,7 +2964,8 @@ export default {
           "when": null,
           "only": {
             "name": "Bolt rifle"
-          }
+          },
+          "target": "unit"
         }
       ],
       "note": "names one weapon by name, a subset of the table this format cannot single out"

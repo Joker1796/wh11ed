@@ -1193,6 +1193,20 @@ export default {
           "op": "grant",
           "value": "Deep Strike",
           "when": null
+        },
+        {
+          "scope": 1,
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit made an ingress move this turn",
+            "ru": "если отряд в этом ходу выполнил ingress move"
+          },
+          "cond": [
+            "unit-arrived-from-reserves"
+          ]
         }
       ]
     },
@@ -1286,14 +1300,16 @@ export default {
           "stat": "m",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "unit"
         },
         {
           "on": "ranged",
           "stat": "ability",
           "op": "grant",
           "value": "ASSAULT",
-          "when": null
+          "when": null,
+          "target": "unit"
         }
       ]
     },

@@ -3186,7 +3186,8 @@ export default {
           "stat": "s",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -3208,7 +3209,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Scouts 6\"",
-          "when": null
+          "when": null,
+          "target": "unit"
         }
       ]
     },

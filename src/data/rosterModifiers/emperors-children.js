@@ -802,7 +802,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "IGNORES COVER",
-          "when": null
+          "when": null,
+          "target": "led"
         },
         {
           "on": "unit",
@@ -877,7 +878,8 @@ export default {
           "stat": "ap",
           "op": "add",
           "value": -1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

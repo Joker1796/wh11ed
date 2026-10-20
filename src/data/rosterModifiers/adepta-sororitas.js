@@ -1704,7 +1704,8 @@ export default {
           "stat": "m",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1755,7 +1756,8 @@ export default {
           },
           "cond": [
             "hagio-catechism"
-          ]
+          ],
+          "target": "led"
         },
         {
           "on": "weapon",
@@ -1768,7 +1770,8 @@ export default {
           },
           "cond": [
             "hagio-psalm"
-          ]
+          ],
+          "target": "led"
         },
         {
           "op": "state",
@@ -1821,6 +1824,14 @@ export default {
           "op": "add",
           "value": 1,
           "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
         }
       ]
     },

@@ -1631,6 +1631,21 @@ export default {
           "cond": [
             "warlord-tempestus-officer"
           ]
+        },
+        {
+          "scope": 1,
+          "on": "ranged",
+          "stat": "hit",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if this unit was set up this turn",
+            "ru": "если отряд выставлен на поле в этом ходу"
+          },
+          "cond": [
+            "warlord-tempestus-officer",
+            "unit-arrived-from-reserves"
+          ]
         }
       ]
     },

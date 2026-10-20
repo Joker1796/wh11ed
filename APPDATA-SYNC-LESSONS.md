@@ -1434,3 +1434,12 @@ and appdata state fresh; a data model can change between now and when this is ne
     (Aura)") unnoticed. The builder's info window matched the item name exactly and came up empty for
     27 options (a Gun Drone is the twin pulse carbine). Both now go through `wargearInfo.js`;
     sync-appdata reports a missing wargear rule, and wargearInfo.test.js opens every option's window.
+110. **A record nobody could see applied was never checked against its card.** The 80 Combat Patrol
+    box records had been reviewed while they resolved to nothing; the day they reached the cards,
+    reading them against the box text found a lost "+1 to wound rolls" and two "This unit's"
+    enhancements on the bearer alone — and behind them three checks that read only old wordings: the
+    roll check knew "add 1 to the Hit roll" but not the 11th edition's "+1 to **hit rolls**", the
+    Upgrade check knew "(Upgrade)" in a name but not "Upgrade: … unit only" in a box's text, and
+    nothing read a model's enhancement that speaks for "This unit" (13 codex relics: an Archon's
+    [PRECISION], a Succubus's +1 T). The generator now reads all three, plus a "once per battle"
+    rule whose effect stands bare. When a new edition's wording arrives, grep the checks' patterns.

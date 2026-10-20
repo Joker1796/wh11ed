@@ -1635,7 +1635,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

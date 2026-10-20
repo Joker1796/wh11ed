@@ -208,7 +208,9 @@ describe('rosterModifiers data', () => {
           // report on Furious Assault). An ordinary enhancement is worn by one model and stays off it.
           const canTarget = eff.target === 'aura' ? ['ability', 'wargear', 'enhancement', 'detachmentRule']
             : eff.target === 'led' ? ['ability', 'wargear', 'enhancement']
-              : eff.target === 'unit' && /\(Upgrade\)/i.test(e.name) ? ['enhancement']
+              // A Combat Patrol box SAYS an Upgrade in its text ("Upgrade: … unit only"), the name
+              // does not carry it; the generator's upgrade check reads that text (2026-10-20).
+              : eff.target === 'unit' && (/\(Upgrade\)/i.test(e.name) || String(e.ref?.det || '').startsWith('cp:')) ? ['enhancement']
                 : ['ability', 'wargear']
           expect(canTarget, `${where}: target on a rule record`).toContain(e.kind)
           // A wargear rule addresses its bearer (no target), an aura's range, or the unit its

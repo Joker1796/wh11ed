@@ -1451,7 +1451,8 @@ export default {
           "stat": "ap",
           "op": "add",
           "value": -1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1557,7 +1558,8 @@ export default {
           "stat": "t",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1579,7 +1581,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "PRECISION",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1601,14 +1604,16 @@ export default {
           "stat": "ld",
           "op": "improve",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         },
         {
           "on": "profile",
           "stat": "oc",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1668,7 +1673,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         },
         {
           "on": "profile",
@@ -1681,7 +1687,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -1996,6 +2003,19 @@ export default {
           "when": {
             "en": "against MONSTER or VEHICLE targets",
             "ru": "против целей MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "против отряда MONSTER или VEHICLE"
           },
           "cond": [
             "never"
