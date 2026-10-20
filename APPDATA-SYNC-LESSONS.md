@@ -1428,3 +1428,9 @@ and appdata state fresh; a data model can change between now and when this is ne
 107. **A tag in a name is data.** "(Aura)" / "(Psychic)" on an ability name is what rules about
     auras read; five had lost it, five kept one an errata had removed. dsrules compares each
     faction's sheet with its own appdata copy (flag or name).
+108. **A wargear item's own rule was compared nowhere.** appdata's `wargear[].ruleText` becomes our
+    `wargearAbilities`, but sync-appdata compared only datasheet abilities, so Stealth Battlesuits
+    lost their Marker Drone and two sheets misspelt a name ("Simulacrum Imperials", "Nuncio Aquila
+    (Aura)") unnoticed. The builder's info window matched the item name exactly and came up empty for
+    27 options (a Gun Drone is the twin pulse carbine). Both now go through `wargearInfo.js`;
+    sync-appdata reports a missing wargear rule, and wargearInfo.test.js opens every option's window.

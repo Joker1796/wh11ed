@@ -5873,6 +5873,10 @@ export default [
       {
         "name": "Homing Beacon",
         "text": "Once per battle, you can use the Rapid Ingress Stratagem for 0CP. The target must be set up within 3\" of the bearer’s unit and more than 8\" away from all enemy units.\n\n**Designer’s Note:** Place a Homing Beacon token next to this unit, removing it once this ability is used."
+      },
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
       }
     ],
     "composition": [

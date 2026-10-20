@@ -157,9 +157,9 @@ import { loadDatasheets } from '../../data/datasheets/index.js'
 import { useCombatPatrolBox } from '../../composables/useCombatPatrolBox.js'
 import { localizeSheet } from '../../data/datasheets/ru/index.js'
 import { useDatasheetsRu } from '../../composables/useDatasheetsRu.js'
-import { weaponBase, withGroupPos } from '../../utils/weaponGroups.js'
+import { withGroupPos } from '../../utils/weaponGroups.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
-import { foldChars } from '../../utils/foldName.js'
+import { ABILITY_LISTS, abilityKey, infoKeys, sheetHas, weaponKey } from '../../composables/wargearInfo.js'
 
 const props = defineProps({
   unitId: { type: String, required: true },
@@ -179,6 +179,7 @@ const labels = computed(() => ui[locale.value])
 const title = computed(() => props.heading || props.names.join(' / '))
 
 const sheet = ref(null)
+const factionSheets = ref([])
 const loaded = ref(false)
 // A Combat Patrol box's units have their sheets in combatPatrol.js (useCombatPatrolBox).
 const cpBox = useCombatPatrolBox()
@@ -186,36 +187,40 @@ watch(
   [() => props.factionSlug, cpBox],
   async ([slug, cp]) => {
     sheet.value = null
+    factionSheets.value = []
     loaded.value = false
     if (!slug) return
     const list = await loadDatasheets(slug, { cp })
     if (props.factionSlug !== slug || cpBox.value !== cp) return
     sheet.value = (list || []).find((d) => d.id === props.unitId) || null
+    factionSheets.value = list || []
     loaded.value = true
   },
   { immediate: true },
 )
 
-// items.js (generated from wh40k-appdata's wargear_item names) and the datasheet files
-// (transcribed separately) sometimes disagree on the exact glyph for an apostrophe or hyphen —
-// "Sergeant's autogun" vs "Sergeant’s autogun", "Tome-skull" vs "Tome‐skull" (U+2010) — visually
-// identical, byte-different, so a plain case-insensitive match silently misses them. Normalize
-// both sides to a plain ' and - before comparing.
-function norm(s) {
-  return foldChars(s).toLowerCase()
-}
-const wanted = computed(() => new Set(props.names.map(norm)))
+// Matched by the keys wargearInfo.js derives from the item names: the item may stand for a weapon
+// of another name (a Gun Drone is the twin pulse carbine), and the app and the sheets write names
+// apart in glyphs, hyphens and use limits.
+const wanted = computed(() => infoKeys(props.names))
 function matching(list) {
-  return withGroupPos((list || []).filter((w) => wanted.value.has(norm(weaponBase(w.name)))), sheet.value?.separateProfiles)
+  return withGroupPos((list || []).filter((w) => wanted.value.has(weaponKey(w))), sheet.value?.separateProfiles)
 }
 const rangedRows = computed(() => matching(sheet.value?.ranged))
 const meleeRows = computed(() => matching(sheet.value?.melee))
 
+// An item whose rule is printed on another of the faction's sheets — "The rules for a Watcher in
+// the Dark can be found on the Deathwing Knights datasheet" — is looked up there when the unit's
+// own sheet has nothing under that name.
+const ruleSheet = computed(() => {
+  if (!sheet.value || sheetHas(sheet.value, wanted.value)) return sheet.value
+  return factionSheets.value.find((d) => (d.wargearAbilities || []).some((a) => wanted.value.has(abilityKey(a)))) || sheet.value
+})
 // The same sheet with its prose in RU (null outside the RU locale, and while the overlay chunk
 // is still loading — the EN original shows until it arrives, never an empty modal).
 const ruModule = useDatasheetsRu(() => props.factionSlug, () => cpBox.value)
 const ruSheet = computed(() => {
-  const en = sheet.value
+  const en = ruleSheet.value
   if (!en || !ruModule.value) return null
   return localizeSheet(en, ruModule.value.default?.[en.id], ruModule.value.abilityNamesRu)
 })
@@ -225,20 +230,13 @@ const ruSheet = computed(() => {
 // one: it is the wargear item, the same string as this modal's own title, and translating only
 // one of the two would read as two different things.
 function abilityMatching(key) {
-  const en = sheet.value?.[key] || []
+  const en = ruleSheet.value?.[key] || []
   const ru = ruSheet.value?.[key]
   return en.flatMap((a, i) =>
-    wanted.value.has(norm(a.name)) ? [{ name: a.name, text: ru?.[i]?.text ?? a.text }] : [],
+    wanted.value.has(abilityKey(a)) ? [{ name: a.name, text: ru?.[i]?.text ?? a.text }] : [],
   )
 }
-// Checked in this order since a wargear-granted ability (Resurrection Orb) is the common
-// non-weapon case; the other two lists are checked too so nothing that happens to share a name
-// with a core/special ability silently comes up empty.
-const abilityRows = computed(() => [
-  ...abilityMatching('wargearAbilities'),
-  ...abilityMatching('abilities'),
-  ...abilityMatching('specialAbilities'),
-])
+const abilityRows = computed(() => ABILITY_LISTS.flatMap(abilityMatching))
 </script>
 
 <style scoped>

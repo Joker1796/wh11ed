@@ -52,6 +52,7 @@ import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, SLUG_MAP, norm, looseName, isWeaponType, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, diffSet, matchWeapon, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
 import { foldChars } from '../src/utils/foldName.js'
+import { infoKey, ruleKey } from '../src/composables/wargearInfo.js'
 
 // Scalar field maps for statline/weapon-profile comparisons: [wh11ed key, appdata key].
 const STAT_FIELDS = [['m', 'M'], ['t', 'T'], ['sv', 'Sv'], ['w', 'W'], ['ld', 'Ld'], ['oc', 'OC']]
@@ -152,6 +153,19 @@ async function syncFaction(slug) {
       if (!whAbilities.has(n)) lines.push(`  + datasheet "${d.name}" missing ability: "${a.name}" — ${appdataToMarkup(a.rules)}`)
     }
     for (const n of whAbilities) if (!appAbilityByName.has(n)) lines.push(`  - datasheet "${d.name}" extra ability (not in appdata): "${n}"`)
+
+    // A wargear item's own rule (appdata `wargear[].ruleText`) is our `wargearAbilities` — what the
+    // builder's info button shows for that option. Nothing compared the two until 2026-10-20, when a
+    // player found a Gun Drone with no description: Stealth Battlesuits had lost their Marker Drone
+    // and Imperial Agents' Sisters printed "Simulacrum Imperials". Names compared the way the info
+    // window compares them (wargearInfo.js); an item that only hands its bearer a weapon ("The
+    // bearer is equipped with the following ranged weapon:") is that weapon's row, not a rule.
+    const ourRules = new Set([...(d.wargearAbilities || []), ...(d.abilities || [])].map((a) => infoKey(a.name)))
+    for (const w of appDs.wargear || []) {
+      const text = (w.ruleText || '').trim()
+      if (!text || text === '-' || /^The bearer is equipped with the following (?:ranged |melee )?weapons?:?$/i.test(text)) continue
+      if (!ourRules.has(ruleKey(w.name))) lines.push(`  + datasheet "${d.name}" missing wargear rule: "${w.name}" — ${appdataToMarkup(text)}`)
+    }
 
     // Core and faction abilities, each against its own bucket in appdata. Until 2026-10-03 they
     // were compared as one merged set, because appdata files the same name as 'core' on one sheet

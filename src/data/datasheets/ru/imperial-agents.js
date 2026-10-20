@@ -427,7 +427,7 @@ export default {
         'Один раз за битву вы можете нацелить на этот юнит стратагему Command Re-roll за 0 CP — даже если в этой фазе вы уже нацеливали эту стратагему на другой юнит.\n\n**Примечание разработчика:** положите жетон Incensor Cherub рядом с юнитом, убрав его, когда способность будет задействована.',
     },
     wargearAbilities: {
-      'Simulacrum Imperials': 'Улучшите характеристику Лидерства (Leadership) моделей юнита носителя на 1.',
+      'Simulacrum Imperialis': 'Улучшите характеристику Лидерства (Leadership) моделей юнита носителя на 1.',
     },
     loadout: `${EQUIP_EVERY} bolt pistol; boltgun; close combat weapon.`,
     options: [
@@ -459,7 +459,7 @@ export default {
       'Merciless Judgement':
         'Каждый раз, когда модель этого юнита совершает дальнобойную атаку по юниту, что ниже половинной численности, прибавьте 1 к броску ранения.',
     },
-    wargearAbilities: { 'Nuncio Aquila (Aura)': NUNCIO },
+    wargearAbilities: { 'Nuncio Aquila': NUNCIO },
     loadout:
       '**Каждый Proctor-Vigilant и Vigilant вооружён:** Arbites combat shotgun; Arbites shotpistol; close combat weapon.\n\n**Cyber-mastiff вооружён:** mechanical bite.',
     options: [
@@ -799,7 +799,6 @@ export const abilityNamesRu = {
   'Imperial Law': 'Имперский закон',
   'Arbites Medi-kit': 'Аптечка арбитрес',
   'Nuncio Aquila': 'Нунцио-аквила',
-  'Nuncio Aquila (Aura)': 'Нунцио-аквила (Аура)',
   'Soulguilt Scanner': 'Сканер вины души',
   'Hammerhand (Psychic)': 'Молоторукость (Психика)',
   'Ancient’s Banner': 'Штандарт Ancient',
@@ -836,7 +835,6 @@ export const abilityNamesRu = {
   Cherub: 'Херувим',
   'Salvationist Medikit': 'Аптечка Salvationist',
   'Simulacrum Imperialis': 'Симулякрум Империалис',
-  'Simulacrum Imperials': 'Симулякрум Империалис',
   'Defenders of the Faith': 'Защитники веры',
   'Incensor Cherub': 'Херувим-кадильщик',
   'Purge and Cleanse': 'Очисти и выжги',

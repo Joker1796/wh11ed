@@ -44,4 +44,19 @@ describe('WeaponProfileModal', () => {
       locale.value = prev
     }
   })
+
+  // A player's report (2026-10-19): "Gun drone has no description". The item stands for a weapon
+  // of another name — the sheet carries only the twin pulse carbine.
+  it('shows the weapon a drone stands for', async () => {
+    mount(WeaponProfileModal, { props: { unitId: 'strike-team', factionSlug: 'tau-empire', names: ['Gun Drone'] } })
+    await waitFor('Twin pulse carbine')
+    expect(body().text()).toContain('Twin pulse carbine')
+  })
+
+  // "The rules for a Watcher in the Dark can be found on the Deathwing Knights datasheet."
+  it('finds a rule printed on another sheet of the faction', async () => {
+    mount(WeaponProfileModal, { props: { unitId: 'deathwing-command-squad', factionSlug: 'dark-angels', names: ['Watcher in the Dark'] } })
+    await waitFor('Feel No Pain')
+    expect(body().text()).toContain('mortal wound')
+  })
 })

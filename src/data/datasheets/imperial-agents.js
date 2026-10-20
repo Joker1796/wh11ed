@@ -6027,7 +6027,7 @@ export default [
     ],
     "wargearAbilities": [
       {
-        "name": "Simulacrum Imperials",
+        "name": "Simulacrum Imperialis",
         "text": "Improve the Leadership characteristic of models in the bearer’s unit by 1."
       }
     ],
@@ -6727,7 +6727,7 @@ export default [
     ],
     "wargearAbilities": [
       {
-        "name": "Nuncio Aquila (Aura)",
+        "name": "Nuncio Aquila",
         "text": "Once per battle, at the start of any Command phase, you can select one objective marker within 6\" of the bearer. All enemy units (excluding MONSTERS and VEHICLES) within range of that objective marker must take a Battle-shock test. Each objective marker can only be targeted by this ability once per turn.\n\n**Designer’s Note:** Place one Nuncio-aquila token next to the bearer, removing it once it uses this ability."
       }
     ],
