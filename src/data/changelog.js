@@ -39,6 +39,7 @@ export const changelog = [
       '**Furies, Giant Chaos Spawn and Spined Chaos Beast choose their god.** The builder asks for KHORNE, TZEENTCH, NURGLE or SLAANESH, and their Creature of … abilities change the card.',
       { h: 'Whole site' },
       '**The project has a Telegram channel.** The link is in the footer, next to the VK group.',
+      '**The tutorial can be turned off from its own card.** Tap ⊘ next to the step count. Any screen’s tutorial still opens from ⚙ → “Tutorial of this screen”.',
     ],
     ru: [
       { h: 'Изменения приложения GW', kind: 'rules' },
@@ -55,6 +56,7 @@ export const changelog = [
       '**Furies, Giant Chaos Spawn и Spined Chaos Beast выбирают бога.** Конструктор просит выбрать KHORNE, TZEENTCH, NURGLE или SLAANESH, и их способности Creature of … меняют карточку.',
       { h: 'Весь сайт' },
       '**У проекта есть канал в Telegram.** Ссылка — в подвале сайта, рядом с группой ВКонтакте.',
+      '**Туториал можно отключить прямо с его карточки.** Нажмите ⊘ рядом с номером шага. Туториал любого экрана по-прежнему открывается из ⚙ → «Туториал этого экрана».',
     ],
   },
   {

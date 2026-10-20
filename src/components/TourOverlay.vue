@@ -4,7 +4,7 @@
   <Teleport to="body">
     <Transition name="tour-fade">
       <div
-        v-if="step"
+        v-if="step && !offAsk"
         class="tour"
         role="dialog"
         aria-modal="true"
@@ -35,6 +35,17 @@
               {{ text.title }}
             </h2>
             <span class="tour-count">{{ active.i + 1 }} / {{ chapter.steps.length }}</span>
+            <!-- Turning the tutorial off (owner, 2026-10-20). Up here, as an icon: beside "Skip /
+                 Back / Next" a fourth button ran 29px past the card at 320px. -->
+            <button
+              type="button"
+              class="btn-ghost tour-off"
+              :title="labels.tourOff"
+              :aria-label="labels.tourOff"
+              @click="offAsk = true"
+            >
+              <i class="wi wi-none" />
+            </button>
           </div>
           <p class="tour-text">
             {{ text.text }}
@@ -80,6 +91,16 @@
     @confirm="answerAuto(true)"
     @close="answerAuto(false)"
   />
+  <!-- The tour steps aside while this is open: it stands over every dialog (z-index). -->
+  <ConfirmModal
+    v-if="offAsk"
+    :title="labels.tourOffTitle"
+    :message="labels.tourOffText"
+    :confirm-label="labels.tourOffYes"
+    :cancel-label="labels.trackerCancel"
+    @confirm="offAsk = false; turnOff()"
+    @close="offAsk = false"
+  />
 </template>
 
 <script setup>
@@ -95,7 +116,8 @@ const props = defineProps({ page: { type: String, default: '' } })
 watch(() => props.page, () => { forgetScreen(); leavePage() })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { active, chapter, step, next, back, pass, finish, asking, answerAuto } = useTour()
+const { active, chapter, step, next, back, pass, finish, asking, answerAuto, turnOff } = useTour()
+const offAsk = ref(false)
 
 const last = computed(() => !!chapter.value && active.value.i === chapter.value.steps.length - 1)
 const text = computed(() => step.value?.[locale.value] || step.value?.en || {})
@@ -299,12 +321,13 @@ const cardStyle = computed(() => {
 }
 .tour-card.waiting { visibility: hidden; }
 .tour-card.phone { left: calc(var(--safe-left, 0px) + 12px); right: calc(var(--safe-right, 0px) + 12px); }
-.tour-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin: 0 0 0.25rem; }
-.tour-count { flex: none; font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); }
+.tour-head { display: flex; align-items: baseline; gap: 0.75rem; margin: 0 0 0.25rem; }
+.tour-count { flex: none; margin-left: auto; font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); }
 .tour-title { margin: 0; font-family: var(--font-display); font-size: 1.3rem; font-weight: var(--fw-heading); line-height: 1.15; }
 .tour-text { margin: 0 0 0.6rem; font-size: 0.92rem; line-height: 1.4; }
 .tour-actions { display: flex; gap: 0.5rem; align-items: center; }
 .tour-skip { margin-right: auto; }
+.tour-off { flex: none; align-self: center; margin: -0.3rem -0.4rem -0.3rem -0.35rem; padding: 0.3rem 0.4rem; }
 /* The three buttons share the card's width: at their own 1.3rem sides "Пропустить / Назад /
    Далее" stood out past a 360px phone's card (owner, 2026-10-09; 42px at 320) and ate the desk
    card's inner margin. Measured: with 0.7rem sides they fit in RU from 320px and on the desk. */
