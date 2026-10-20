@@ -129,13 +129,16 @@ export default {
       ]
     },
     {
-      "sid": "779876f3-6817-4bb8-92c1-291b6af94dd5:emperor-s-champion-vedrenn",
+      "sid": "779876f3-6817-4bb8-92c1-291b6af94dd5:emperors-champion-vedrenn",
       "kind": "ability",
       "name": "Emperor's Champion Vedrenn: Deft Riposte",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "emperors-champion-vedrenn"
+      },
       "hash": "962a1086",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },
@@ -603,7 +606,10 @@ export default {
       "kind": "enhancement",
       "name": "Divine Protection",
       "det": "Vow-Sworn of Vedrenn",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:black-templars"
+      },
       "hash": "90f238b8",
       "ver": 995,
       "reviewed": true,
@@ -620,7 +626,8 @@ export default {
           "once": {
             "per": "unit",
             "dur": "phase"
-          }
+          },
+          "target": "unit"
         }
       ]
     },
@@ -744,7 +751,11 @@ export default {
       "kind": "stratagem",
       "name": "Blessed Aura",
       "det": "Vow-Sworn of Vedrenn",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:black-templars",
+        "name": "Blessed Aura"
+      },
       "hash": "53c6be56",
       "ver": 995,
       "reviewed": true,
@@ -755,7 +766,11 @@ export default {
       "kind": "stratagem",
       "name": "Come To Their Aid",
       "det": "Vow-Sworn of Vedrenn",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:black-templars",
+        "name": "Come To Their Aid"
+      },
       "hash": "cc14164b",
       "ver": 925,
       "reviewed": true,
@@ -766,7 +781,11 @@ export default {
       "kind": "stratagem",
       "name": "Heavy Strikes",
       "det": "Vow-Sworn of Vedrenn",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:black-templars",
+        "name": "Heavy Strikes"
+      },
       "hash": "b5bedc21",
       "ver": 925,
       "reviewed": true,

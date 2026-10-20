@@ -707,7 +707,10 @@ export default {
       "kind": "ability",
       "name": "Vardenghast Swarm Barbgaunts: Disruption Bombardment",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vardenghast-swarm-barbgaunts"
+      },
       "hash": "3b43c984",
       "ver": 925,
       "reviewed": true,
@@ -718,7 +721,20 @@ export default {
       "kind": "ability",
       "name": "Vardenghast Swarm Psychophage: Bio-stimulus (Aura)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vardenghast-swarm-psychophage",
+        "scopes": [
+          {
+            "targets": [
+              "TYRANIDS"
+            ],
+            "excludes": [],
+            "models": [],
+            "modelExcludes": []
+          }
+        ]
+      },
       "hash": "3f2d7792",
       "ver": 925,
       "reviewed": true,
@@ -738,7 +754,10 @@ export default {
       "kind": "ability",
       "name": "Vardenghast Swarm Psychophage: Feeding Frenzy",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vardenghast-swarm-psychophage"
+      },
       "hash": "3575d79c",
       "ver": 995,
       "reviewed": true,
@@ -1158,7 +1177,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Skittering Hordes",
       "det": "The Vardenghast Swarm",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:tyranids"
+      },
       "hash": "3266efce",
       "ver": 995,
       "reviewed": true,
@@ -1520,7 +1542,10 @@ export default {
       "kind": "enhancement",
       "name": "Adapted Organism",
       "det": "The Vardenghast Swarm",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:tyranids"
+      },
       "hash": "5d878816",
       "ver": 925,
       "reviewed": true,
@@ -1610,7 +1635,8 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },

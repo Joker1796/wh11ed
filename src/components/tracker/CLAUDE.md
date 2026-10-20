@@ -764,8 +764,15 @@ cards, states, reserves. The list carries `cp: <box id>`; the roster screen prov
 units and detachment (`src/data/roster/combat-patrol/<box>.js`, generated, a folder the faction
 glob never reaches so no catalogue offers them), `loadDatasheets/loadDatasheetsRu(slug, { cp })`
 its sheets from combatPatrol.js (`combatPatrolSheets.js`). No points are shown for such a list.
-Not yet: modifiers from the box's own rules (detachment rule, army rule as printed in the box,
-stratagems, enhancements) — the cards print their characteristics as written.
+**The box's own rules reach its cards** (2026-10-20): the detachment rule, stratagems and
+enhancements as printed in the box, and its datasheets' abilities. Their modifier records came with
+appdata's faction bundles all along but carried no `ref` (no faction file holds a box); the
+generator now points them at `cp:<box id>` / the box unit's id (gen-roster-modifiers'
+`combatPatrolIds`), `loadFactionWithCodex(slug, loc, cp)` adds the box's detachment under that id
+(`combatPatrolDetachment`), and the CP tab's deck gives box stratagems the same `_detId`, so a
+stratagem played there switches the card. The army rule is the faction's own record (the box prints
+the same rule, sometimes pre-errata). Gates: `rosterModifiers/index.test.js` → "Combat Patrol box
+records", `stratagemPlay.test.js`'s pairing sweep.
 
 ## Scoring
 

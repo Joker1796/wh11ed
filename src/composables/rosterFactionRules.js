@@ -87,7 +87,10 @@ export async function loadRosterFactionRules(slug, loc) {
 // Deathwatch Support the same (2026-10-09). Its own come first, so a name it reprints is read
 // from there.
 // `stratNamesRu` is the RU name map of every file read (stratagem names stay English on the card).
-export async function loadFactionWithCodex(slug, loc) {
+// `cp` — a Combat Patrol box fielded as the list (`roster.cp`): its own detachment joins the rest
+// (combatPatrolDetachment), which no faction file holds.
+/** @param {string} slug @param {string} loc @param {string | null} [cp] */
+export async function loadFactionWithCodex(slug, loc, cp = null) {
   const [{ loadFaction }, { loadFactionRu, deepOverlay }] = await Promise.all([
     import('../data/factions/index.js'),
     import('../data/factions/ru/index.js'),
@@ -108,5 +111,23 @@ export async function loadFactionWithCodex(slug, loc) {
     en = { ...en, detachments: [...(en.detachments || []), ...(data.en.detachments || [])] }
     local = { ...local, detachments: [...(local.detachments || []), ...(l.detachments || [])] }
   }
+  if (cp && en) {
+    const { combatPatrol } = await import('../data/combatPatrol.js')
+    const boxEn = combatPatrolDetachment(combatPatrol.en, cp)
+    const boxLocal = combatPatrolDetachment(combatPatrol[loc === 'ru' ? 'ru' : 'en'], cp)
+    if (boxEn) en = { ...en, detachments: [...(en.detachments || []), boxEn] }
+    if (boxLocal) local = { ...local, detachments: [...(local.detachments || []), boxLocal] }
+  }
   return { en, local, stratNamesRu }
+}
+
+// A Combat Patrol box's detachment in a faction file's shape — its rule, stratagems and
+// enhancements as printed in the box. Its id is `cp:<box id>`, the one the modifier records of the
+// box's rules point at (gen-roster-modifiers.mjs, combatPatrolIds); until 2026-10-20 a box played in
+// the tracker had none of them on its cards. Named by the box, which is the detachment's name.
+/** @param {{ factions: any[] }} data combatPatrol.js, one locale @param {string} box */
+export function combatPatrolDetachment(data, box) {
+  const b = (data?.factions || []).find((f) => f.id === box)
+  if (!b) return null
+  return { id: `cp:${box}`, name: b.boxName, rule: b.rule, stratagems: b.stratagems || [], enhancements: b.enhancements || [] }
 }

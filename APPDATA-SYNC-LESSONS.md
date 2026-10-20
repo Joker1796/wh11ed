@@ -1441,3 +1441,12 @@ and appdata state fresh; a data model can change between now and when this is ne
     factionFaq.json, so 47 Core Rules FAQ and errata entries of four updates never showed, and it
     knew GW's documents only as lines written by hand (`diff-core-faq`, `documents.json`). For any
     source, ask which of its parts some check reads — and for a part none does, write the check.
+110. **A record nobody could see applied was never checked against its card.** The 80 Combat Patrol
+    box records had been reviewed while they resolved to nothing; the day they reached the cards,
+    reading them against the box text found a lost "+1 to wound rolls" and two "This unit's"
+    enhancements on the bearer alone — and behind them three checks that read only old wordings: the
+    roll check knew "add 1 to the Hit roll" but not the 11th edition's "+1 to **hit rolls**", the
+    Upgrade check knew "(Upgrade)" in a name but not "Upgrade: … unit only" in a box's text, and
+    nothing read a model's enhancement that speaks for "This unit" (13 codex relics: an Archon's
+    [PRECISION], a Succubus's +1 T). The generator now reads all three, plus a "once per battle"
+    rule whose effect stands bare. When a new edition's wording arrives, grep the checks' patterns.

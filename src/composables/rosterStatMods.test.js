@@ -1504,5 +1504,30 @@ describe('a Legends sheet\'s own Daemonic Allegiance', () => {
     expect(apply('Tzeentch').profiles[0].inv).toBe('4+')
     expect(apply('Nurgle').profiles[0].t).toBe(String(Number(spawn.profiles[0].t) + 1))
     expect(apply(undefined).profiles[0]).toEqual(spawn.profiles[0])
+// A Combat Patrol box played in the tracker: its detachment, stratagems and enhancements had
+// records all along (they are in appdata's faction bundles), but no faction file holds the box, so
+// the records carried no ref and the cards printed as written (2026-10-20). The box's detachment
+// joins the faction's rules as `cp:<box id>` (rosterFactionRules), the id the records point at.
+describe('a Combat Patrol box\'s own rules', () => {
+  it('reach the box\'s cards, and its stratagems pair with the CP tab\'s deck', async () => {
+    const { loadFactionWithCodex } = await import('./rosterFactionRules.js')
+    const { loadArmyStrats } = await import('./gameStratagems.js')
+    const { recordFor } = await import('./stratagemPlay.js')
+    const records = (await import('../data/rosterModifiers/necrons.js')).default.entries.filter((r) => r.reviewed)
+    const { en } = await loadFactionWithCodex('necrons', 'en', 'necrons')
+    const box = en.detachments.find((d) => d.id === 'cp:necrons')
+    expect(box?.rule?.body).toBeTruthy()
+    // The roster names the detachment as appdata spells it (a curly apostrophe).
+    const got = resolveModifierEntries(records, en, ['Amonhotekh’s Guard'], 'Metalline Might', null)
+    const enh = got.find((r) => r.name === 'Metalline Might')
+    expect(enh?.effects?.some((e) => e.stat === 's' && e.value === 2)).toBe(true)
+    expect(got.some((r) => r.name === 'Territorial Imperatives')).toBe(true)
+    // Without the box nothing of it resolves — what every box game got until now.
+    const { en: plain } = await loadFactionWithCodex('necrons', 'en')
+    expect(resolveModifierEntries(records, plain, ['Amonhotekh’s Guard'], 'Metalline Might', null).some((r) => r.name === 'Metalline Might')).toBe(false)
+    const deck = await loadArmyStrats({ factionSlug: 'necrons', detachments: ['Amonhotekh’s Guard'] }, 'en', true)
+    const gauss = deck.find((s) => s.name === 'Gauss Storm')
+    expect(gauss?._detId).toBe('cp:necrons')
+    expect(recordFor(gauss, records)?.name).toBe('Gauss Storm')
   })
 })

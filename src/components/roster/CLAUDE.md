@@ -4257,6 +4257,13 @@ radiating entry through `ref.unit` — the datasheet the rule is printed on. An 
 - `aurasReaching` finds the source by `enhKey(u.enh) === enhKey(rec.name)` over the roster list, so
   `rosterUnits` now carries `enh` (chosen or mandatory, as everywhere else in this feature).
 
+**A model's enhancement that says "This unit"** ("ARCHON model only. This unit's attacks have
+[PRECISION]") is the bearer's unit too — `target: 'led'`, the bearer keeping it (2026-10-20, 13
+relics; `modelUnitGaps` in the generator). A Combat Patrol box writes an Upgrade in its text
+("Upgrade: … unit only") rather than its name; the Upgrade check reads both. And a "once per battle"
+rule whose effect stands bare (no `once`, no condition) fails `--check` (`onceGaps`, ONCE_EXEMPT for
+a standing part beside a once-per-battle one).
+
 **An Upgrade addresses the whole Attached unit** (2026-10-03, a player's report on Furious Assault).
 "X unit only. This unit's melee attacks have…" is bought for a unit, and 19.04 makes it every model
 of the Attached unit that unit is part of — so its effects carry `target: 'unit'`, and

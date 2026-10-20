@@ -138,16 +138,17 @@ export function useRosterUnitCard(props) {
   /** @type {import('vue').Ref<Record<string, string> | null>} */
   const stratNamesRu = ref(null)
   watch(
-    [() => props.factionSlug, () => !!props.ctx, locale],
-    async ([slug, hasCtx, loc]) => {
+    [() => props.factionSlug, () => !!props.ctx, locale, cpBox],
+    async ([slug, hasCtx, loc, cp]) => {
       rulesFaction.value = null
       rulesFactionEn.value = null
       stratNamesRu.value = null
       if (!slug || !hasCtx) return
-      // A Chapter's cards read the Codex: Space Marines detachments too (loadFactionWithCodex).
+      // A Chapter's cards read the Codex: Space Marines detachments too (loadFactionWithCodex), and
+      // a Combat Patrol box's its own box's.
       const { loadFactionWithCodex } = await import('./rosterFactionRules.js')
-      const { en, local, stratNamesRu: namesRu } = await loadFactionWithCodex(slug, loc)
-      if (props.factionSlug !== slug || locale.value !== loc) return
+      const { en, local, stratNamesRu: namesRu } = await loadFactionWithCodex(slug, loc, cp)
+      if (props.factionSlug !== slug || locale.value !== loc || cpBox.value !== cp) return
       rulesFactionEn.value = en
       stratNamesRu.value = namesRu
       rulesFaction.value = local

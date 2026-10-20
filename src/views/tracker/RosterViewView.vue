@@ -1124,18 +1124,19 @@ const modifierRecords = ref([])
 // be picked (rosterGameContext's pickSwitchesFor).
 const pickRecords = ref([])
 const factionEn = ref(null)
-watch(() => roster.value?.faction, async (slug) => {
+watch(() => [roster.value?.faction, roster.value?.cp], async ([slug, cp]) => {
   modifierRecords.value = []
   pickRecords.value = []
   factionEn.value = null
   if (!slug) return
-  // A Chapter's list reads the Codex: Space Marines records and detachments too (2026-10-01).
+  // A Chapter's list reads the Codex: Space Marines records and detachments too (2026-10-01), and a
+  // Combat Patrol box its own box's (2026-10-20).
   const [{ loadRosterModifiersFor, usableEntries, pickEntries }, { loadFactionWithCodex }] = await Promise.all([
     import('../../data/rosterModifiers/index.js'),
     import('../../composables/rosterFactionRules.js'),
   ])
-  const [mods, fac] = await Promise.all([loadRosterModifiersFor(slug), loadFactionWithCodex(slug, 'en')])
-  if (roster.value?.faction !== slug) return
+  const [mods, fac] = await Promise.all([loadRosterModifiersFor(slug), loadFactionWithCodex(slug, 'en', cp || null)])
+  if (roster.value?.faction !== slug || (roster.value?.cp || null) !== (cp || null)) return
   modifierRecords.value = usableEntries(mods)
   pickRecords.value = pickEntries(mods)
   factionEn.value = fac.en

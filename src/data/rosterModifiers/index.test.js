@@ -208,7 +208,9 @@ describe('rosterModifiers data', () => {
           // report on Furious Assault). An ordinary enhancement is worn by one model and stays off it.
           const canTarget = eff.target === 'aura' ? ['ability', 'wargear', 'enhancement', 'detachmentRule']
             : eff.target === 'led' ? ['ability', 'wargear', 'enhancement']
-              : eff.target === 'unit' && /\(Upgrade\)/i.test(e.name) ? ['enhancement']
+              // A Combat Patrol box SAYS an Upgrade in its text ("Upgrade: … unit only"), the name
+              // does not carry it; the generator's upgrade check reads that text (2026-10-20).
+              : eff.target === 'unit' && (/\(Upgrade\)/i.test(e.name) || String(e.ref?.det || '').startsWith('cp:')) ? ['enhancement']
                 : ['ability', 'wargear']
           expect(canTarget, `${where}: target on a rule record`).toContain(e.kind)
           // A wargear rule addresses its bearer (no target), an aura's range, or the unit its
@@ -606,4 +608,33 @@ describe('every detachment is in the modifier layer', () => {
     }
     expect(missing).toEqual([])
   }, 60000)
+})
+
+// The rules of a Combat Patrol box resolve against the box's own detachment, `cp:<box id>`
+// (rosterFactionRules' combatPatrolDetachment, 2026-10-20). A record pointing at a box that is not
+// there, or at a stratagem or enhancement the box does not print, would silently apply nowhere —
+// the state all 80 of them were in before.
+describe('Combat Patrol box records', () => {
+  it('point at a box that prints what they name', async () => {
+    const { combatPatrol } = await import('../combatPatrol.js')
+    const { combatPatrolDetachment } = await import('../../composables/rosterFactionRules.js')
+    const files = import.meta.glob(['./*.js', '!./*.test.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./appliesWhile.js'], { import: 'default', eager: true })
+    const key = (s) => foldName(String(s || '').replace(/\s*\([^)]*\)\s*$/, ''))
+    const bad = []
+    let seen = 0
+    for (const [file, data] of Object.entries(files)) {
+      for (const r of data?.entries || []) {
+        const det = r.ref?.det
+        if (!det?.startsWith?.('cp:')) continue
+        seen++
+        const box = combatPatrolDetachment(combatPatrol.en, det.slice(3))
+        if (!box) { bad.push(`${file} ${r.name}: no box ${det}`); continue }
+        if (r.ref.kind === 'detachmentRule' && !box.rule?.body) bad.push(`${file} ${r.name}: the box has no rule`)
+        if (r.ref.kind === 'stratagem' && !box.stratagems.some((s) => key(s.name) === key(r.ref.name || r.name))) bad.push(`${file} ${r.name}: not a stratagem of ${det}`)
+        if (r.ref.kind === 'enhancement' && !box.enhancements.some((e) => key(e.name) === key(r.name))) bad.push(`${file} ${r.name}: not an enhancement of ${det}`)
+      }
+    }
+    expect(bad).toEqual([])
+    expect(seen).toBeGreaterThanOrEqual(80)
+  })
 })

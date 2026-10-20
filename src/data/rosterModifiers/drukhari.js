@@ -89,7 +89,10 @@ export default {
       "kind": "ability",
       "name": "Coven of Agonies Cronos: Empowered Engines (Pain)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "coven-of-agonies-cronos"
+      },
       "hash": "5667e483",
       "ver": 925,
       "reviewed": true,
@@ -114,7 +117,10 @@ export default {
       "kind": "ability",
       "name": "Coven of Agonies Wracks: Experimental Enhancements (Pain)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "coven-of-agonies-wracks"
+      },
       "hash": "49a22d57",
       "ver": 995,
       "reviewed": true,
@@ -1139,7 +1145,10 @@ export default {
       "kind": "ability",
       "name": "Xatrophos Nuul: Fear Incarnate (Aura)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "xatrophos-nuul"
+      },
       "hash": "fd4e2b25",
       "ver": 925,
       "reviewed": true,
@@ -1429,7 +1438,10 @@ export default {
       "kind": "enhancement",
       "name": "Toxin-laced Blades",
       "det": "Coven of Agonies",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:drukhari"
+      },
       "hash": "4db99bb8",
       "ver": 925,
       "reviewed": true,
@@ -1439,7 +1451,8 @@ export default {
           "stat": "ap",
           "op": "add",
           "value": -1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1545,7 +1558,8 @@ export default {
           "stat": "t",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1567,7 +1581,8 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "PRECISION",
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1589,14 +1604,16 @@ export default {
           "stat": "ld",
           "op": "improve",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         },
         {
           "on": "profile",
           "stat": "oc",
           "op": "add",
           "value": 1,
-          "when": null
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1656,7 +1673,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         },
         {
           "on": "profile",
@@ -1669,7 +1687,8 @@ export default {
           },
           "cond": [
             "unit-leading"
-          ]
+          ],
+          "target": "led"
         }
       ],
       "ref": {
@@ -1952,7 +1971,11 @@ export default {
       "kind": "stratagem",
       "name": "Hardened Physiology",
       "det": "Coven of Agonies",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:drukhari",
+        "name": "Hardened Physiology"
+      },
       "hash": "c3a9bf63",
       "ver": 995,
       "reviewed": true,
@@ -1963,7 +1986,11 @@ export default {
       "kind": "stratagem",
       "name": "Powerful Creations",
       "det": "Coven of Agonies",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:drukhari",
+        "name": "Powerful Creations"
+      },
       "hash": "ef45f036",
       "ver": 925,
       "reviewed": true,
@@ -1976,6 +2003,19 @@ export default {
           "when": {
             "en": "against MONSTER or VEHICLE targets",
             "ru": "против целей MONSTER или VEHICLE"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "weapon",
+          "stat": "wound",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "against a MONSTER or VEHICLE unit",
+            "ru": "против отряда MONSTER или VEHICLE"
           },
           "cond": [
             "never"

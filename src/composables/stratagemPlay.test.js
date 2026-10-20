@@ -29,6 +29,11 @@ describe('recordFor / deckStratFor', () => {
   it('finds a deck stratagem for every card record, in every faction', async () => {
     const mods = import.meta.glob('../data/rosterModifiers/*.js', { eager: true })
     const facs = import.meta.glob('../data/factions/*.js')
+    // A Combat Patrol box's stratagems are in its own deck (`cp:<box id>`, gameStratagems).
+    const { combatPatrol } = await import('../data/combatPatrol.js')
+    const { combatPatrolDetachment } = await import('./rosterFactionRules.js')
+    const boxDecks = (slug) => combatPatrol.en.factions.filter((b) => b.slug === slug)
+      .flatMap((b) => combatPatrolDetachment(combatPatrol.en, b.id).stratagems.map((s) => ({ _detId: `cp:${b.id}`, _enName: s.name })))
     const missing = []
     for (const [path, loader] of Object.entries(facs)) {
       const slug = path.split('/').pop().replace('.js', '')
@@ -36,7 +41,7 @@ describe('recordFor / deckStratFor', () => {
       if (!recs.length) continue
       const m = await loader()
       const en = (m.default ?? Object.values(m)[0])?.en
-      const deck = (en?.detachments || []).flatMap((d) => (d.stratagems || []).map((s) => ({ _detId: d.id, _enName: s.name, _det: normName(d.name) })))
+      const deck = [...(en?.detachments || []).flatMap((d) => (d.stratagems || []).map((s) => ({ _detId: d.id, _enName: s.name, _det: normName(d.name) }))), ...boxDecks(slug)]
       for (const r of recs) if (!deckStratFor(r, deck)) missing.push(`${slug}: ${r.name}`)
     }
     expect(missing).toEqual([])

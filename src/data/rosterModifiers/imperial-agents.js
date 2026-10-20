@@ -639,13 +639,16 @@ export default {
       ]
     },
     {
-      "sid": "0368fd0e-375b-43eb-9e6e-1d317e3409e0:inquisitor-s-hand-eversor-assassin",
+      "sid": "0368fd0e-375b-43eb-9e6e-1d317e3409e0:inquisitors-hand-eversor-assassin",
       "kind": "ability",
       "name": "Inquisitor's Hand Eversor Assassin: Overkill (Once per battle per unit)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitors-hand-eversor-assassin"
+      },
       "hash": "4b4fabb9",
-      "ver": 925,
+      "ver": 995,
       "reviewed": true,
       "effects": [
         {
@@ -665,18 +668,21 @@ export default {
       ]
     },
     {
-      "sid": "b7876872-429d-42de-a361-23d1e6dca045:inquisitor-s-hand-inquisitorial-agents",
+      "sid": "b7876872-429d-42de-a361-23d1e6dca045:inquisitors-hand-inquisitorial-agents",
       "kind": "ability",
       "name": "Inquisitor's Hand Inquisitorial Agents: Loyal To The Cause",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitors-hand-inquisitorial-agents"
+      },
       "hash": "2cb36b7e",
       "ver": 995,
       "reviewed": true,
       "effects": []
     },
     {
-      "sid": "95a72e50-3b4b-4d55-b16b-d2a29e92d773:inquisitor-s-hand-vigilant-squad",
+      "sid": "776b5a9d-b02d-4ea2-96f3-430531adbd1e:inquisitor-s-hand-vigilant-squad",
       "kind": "ability",
       "name": "Inquisitor's Hand Vigilant Squad: Merciless Judgement",
       "det": null,
@@ -701,11 +707,14 @@ export default {
       ]
     },
     {
-      "sid": "776b5a9d-b02d-4ea2-96f3-430531adbd1e:inquisitor-s-hand-vigilant-squad",
+      "sid": "95a72e50-3b4b-4d55-b16b-d2a29e92d773:inquisitors-hand-vigilant-squad",
       "kind": "ability",
       "name": "Inquisitor's Hand Vigilant Squad: Merciless Judgement",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitors-hand-vigilant-squad"
+      },
       "hash": "ca60952f",
       "ver": 995,
       "reviewed": true,
@@ -951,7 +960,10 @@ export default {
       "kind": "ability",
       "name": "Preacher Teguen: Holy Hatred",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "preacher-teguen"
+      },
       "hash": "23578dc1",
       "ver": 925,
       "reviewed": true,
@@ -971,7 +983,10 @@ export default {
       "kind": "ability",
       "name": "Preacher Teguen: Zealot (Once per battle per unit)",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "preacher-teguen"
+      },
       "hash": "b7d24256",
       "ver": 925,
       "reviewed": true,
@@ -1390,7 +1405,10 @@ export default {
       "kind": "detachmentRule",
       "name": "Marked for Death",
       "det": "Inquisitor’s Hand",
-      "ref": null,
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cp:imperial-agents"
+      },
       "hash": "2a6b4c24",
       "ver": 995,
       "reviewed": true,
@@ -1589,7 +1607,10 @@ export default {
       "kind": "enhancement",
       "name": "Sanctic Slayers",
       "det": "Inquisitor’s Hand",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:imperial-agents"
+      },
       "hash": "8394dc76",
       "ver": 995,
       "reviewed": true,
@@ -1992,7 +2013,11 @@ export default {
       "kind": "stratagem",
       "name": "Superior Weaponry",
       "det": "Inquisitor’s Hand",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:imperial-agents",
+        "name": "Superior Weaponry"
+      },
       "hash": "93165ff9",
       "ver": 925,
       "reviewed": true,
@@ -2015,7 +2040,11 @@ export default {
       "kind": "stratagem",
       "name": "Urban Enforcers",
       "det": "Inquisitor’s Hand",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:imperial-agents",
+        "name": "Urban Enforcers"
+      },
       "hash": "975b05f7",
       "ver": 925,
       "reviewed": true,

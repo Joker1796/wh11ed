@@ -8,11 +8,14 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
-      "sid": "c0a29562-a375-413a-a4c8-1ea25d347923:askar-s-wolfpack-wolf-guard-terminators",
+      "sid": "c0a29562-a375-413a-a4c8-1ea25d347923:askars-wolfpack-wolf-guard-terminators",
       "kind": "ability",
       "name": "Askar's Wolfpack Wolf Guard Terminators: Rugged Resilience",
       "det": null,
-      "ref": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "askars-wolfpack-wolf-guard-terminators"
+      },
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
@@ -1118,7 +1121,10 @@ export default {
       "kind": "enhancement",
       "name": "Lone Hunter",
       "det": "Askar’s Wolfpack",
-      "ref": null,
+      "ref": {
+        "kind": "enhancement",
+        "det": "cp:space-wolves"
+      },
       "hash": "b8605c04",
       "ver": 925,
       "reviewed": true,
@@ -1248,7 +1254,11 @@ export default {
       "kind": "stratagem",
       "name": "Bestial Dominance",
       "det": "Askar’s Wolfpack",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:space-wolves",
+        "name": "Bestial Dominance"
+      },
       "hash": "a0d889e1",
       "ver": 925,
       "reviewed": true,
@@ -1271,7 +1281,11 @@ export default {
       "kind": "stratagem",
       "name": "Bring It Down",
       "det": "Askar’s Wolfpack",
-      "ref": null,
+      "ref": {
+        "kind": "stratagem",
+        "det": "cp:space-wolves",
+        "name": "Bring It Down"
+      },
       "hash": "8213bb72",
       "ver": 925,
       "reviewed": true,

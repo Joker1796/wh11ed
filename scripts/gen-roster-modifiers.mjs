@@ -419,14 +419,36 @@ function sourcesOf(bundle, detById) {
   return out.filter((s) => s.sid && s.prose)
 }
 
+// COMBAT PATROL — a box's detachment and datasheets sit in the faction's appdata bundle like any
+// other, so their rules have had records all along (76 rules, ~70 abilities); but no faction file
+// holds them, so those records carried no `ref` and applied nowhere — a box played in the tracker
+// printed its cards as written (2026-10-20). The box rosters (src/data/roster/combat-patrol/<box>.js,
+// generated with appdata's uuids as `sid`) name them: the detachment is `cp:<box id>` — the id
+// rosterFactionRules gives a box's detachment when a list fields it — and a box datasheet is its
+// unit id there. sourceIds wins where both know an id.
+function combatPatrolIds() {
+  const det = new Map()
+  const ds = new Map()
+  const dir = path.join(ROOT, 'src/data/roster/combat-patrol')
+  if (!fs.existsSync(dir)) return { det, ds }
+  for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.js'))) {
+    const text = fs.readFileSync(path.join(dir, f), 'utf8')
+    const data = JSON.parse(text.slice(text.indexOf('export default ') + 'export default '.length).trim())
+    if (data.detachment?.sid) det.set(data.detachment.sid, { slug: data.slug, id: `cp:${data.box}` })
+    for (const u of data.units || []) if (u.sid) ds.set(u.sid, { slug: data.slug, id: u.id })
+  }
+  return { det, ds }
+}
+
 // The seven kinds of source a record can hang off, for one faction, assembled exactly as the audit
 // below assembles them. Exported so a gate auditing these records reads the SAME corpus: a second
 // walk over appdata written beside this one would be free to drift, and then the gate would be
 // checking records against prose the generator never saw.
 export function sourceContext() {
+  const cp = combatPatrolIds()
   return {
-    detBySid: invertSourceIds('det'),
-    dsBySid: invertSourceIds('ds'),
+    detBySid: new Map([...cp.det, ...invertSourceIds('det')]),
+    dsBySid: new Map([...cp.ds, ...invertSourceIds('ds')]),
     allegTables: {
       groups: new Map(table('allegiance_ability_group.json').map((g) => [g.id, g])),
       abilities: table('allegiance_ability.json').reduce((m, a) => {
@@ -616,10 +638,16 @@ function serialise(slug, existing, sources, result) {
 // that buffs the army, a model whose ability helps everyone attacking a selected target), or the
 // rule's keyword gate is one merged statement that would hand the line to units it does not reach.
 // "Subtract 1 from the Hit roll" is not checked: it is a modifier on an attack AGAINST the unit.
-const ROLL_BONUS = /add 1 to the (?:Hit|Wound) roll/i
+// Both wordings: the 10th edition's "add 1 to the Hit roll" and the 11th's "+1 to **hit rolls**" (the
+// Combat Patrol boxes and every newer rule) — the second was unread until 2026-10-20, and a box's
+// Righteous Fervour had lost its "+1 to wound rolls" without a word.
+const ROLL_BONUS = /add 1 to the (?:Hit|Wound) roll|\+1 to (?:\*\*)?(?:hit|wound) rolls/i
 const ROLL_EXEMPT = new Set([
+  // a die decides it: one result of a D6 table ("4 Seekerz: Those attacks have +1 to hit rolls")
+  'orks · Unpredictable Genius',
   // the bonus reaches other units than the record's own
   'adeptus-custodes · Slayer of Champions', 'aeldari · Eldrad Ulthran: Doom', 'aeldari · Farseer: Guide',
+  'orks · Kill Rig: Beastscent (psychic level 1)', // the unit disembarking from it
   'astra-militarum · Regimental Attachés: Aeronautica Commander', // friendly AIRCRAFT, not the Attachés (Legends)
   'black-templars · Reclaim Our Honour!', 'blood-angels · Vengeful Onslaught',
   'chaos-daemons · The Masque of Slaanesh: The Eternal Dance', 'dark-angels · Illuminating Fire',
@@ -641,6 +669,34 @@ function rollGaps(slug, sources, existing) {
     const rec = bySid.get(s.sid)
     if (!rec?.reviewed || (rec.effects || []).some((e) => e.stat === 'hit' || e.stat === 'wound')) continue
     if (!ROLL_EXEMPT.has(`${slug} · ${s.name}`)) out.push(s)
+  }
+  return out
+}
+
+// ONCE PER BATTLE IS A USE, NOT A STATE. A rule that reads "(Once per battle…) …you can use this
+// ability. If you do, this unit has 4+ InSv" gives the bonus for the moment it is used; written as a
+// plain effect it stood on the card for the whole game. The once gate (onceRules.test.js) read the
+// effect's own `when` wording, so a record with no `when` slipped past it: three Combat Patrol
+// enhancements on 2026-10-20. Read here from the rule's prose: every effect of such a record carries
+// `once`, or sits behind a condition (a state, or a sentinel the use does not answer).
+const ONCE_PER_BATTLE = /once per battle/i
+const ONCE_EXEMPT = new Set([
+  // a standing part (the bare effect) beside a once-per-battle part — marked `once`, or not a number
+  'adeptus-custodes · Eagle’s Eye', 'adeptus-mechanicus · Mechanicus Locum', 'aeldari · Webway Pathstone',
+  'chaos-knights · Tyrannical Court', 'chaos-knights · Blade of Celerity', 'chaos-knights · Warp-borne Stalker',
+  'chaos-knights · Putrid Carapace', 'chaos-knights · Blessing of the Dark Master', 'imperial-agents · Formidable Resolve',
+  'space-marines · Standard of the Emperor Ascendant', 'space-marines · Shadow Tactics',
+])
+function onceGaps(slug, sources, existing) {
+  const bySid = new Map((existing?.entries || []).map((e) => [e.sid, e]))
+  const out = []
+  for (const s of sources) {
+    if (!ONCE_PER_BATTLE.test(s.prose || '')) continue
+    const rec = bySid.get(s.sid)
+    // An effect behind a condition is the rule's state, not its use: Combat Doctrines picks one
+    // doctrine "once per battle" and the doctrine is the condition. A bare one stands all game.
+    const bare = (rec?.effects || []).filter((e) => !e.once && !(e.cond || []).length)
+    if (rec?.reviewed && bare.length && !ONCE_EXEMPT.has(`${slug} · ${s.name}`)) out.push(s)
   }
   return out
 }
@@ -692,8 +748,11 @@ function upgradeUnitGaps(slug, sources, existing) {
   const bySid = new Map((existing?.entries || []).map((e) => [e.sid, e]))
   const out = []
   for (const s of sources) {
-    if (s.kind !== 'enhancement' || !/\(Upgrade\)/i.test(s.name)) continue
+    if (s.kind !== 'enhancement') continue
     const text = (s.prose || '').replace(/\*\*|<[^>]+>/g, '')
+    // An Upgrade is named so in appdata's codex bundles and SAID so in a Combat Patrol box's text
+    // ("Upgrade: Amonhotekh's Guard Necron Warriors unit only") — the second unread until 2026-10-20.
+    if (!/\(Upgrade\)/i.test(s.name) && !/^\s*Upgrade:/i.test(text)) continue
     if (!/\bunit only\b/i.test(text) || !THIS_UNIT.test(text)) continue
     const rec = bySid.get(s.sid)
     const effects = (rec?.reviewed ? rec.effects || [] : []).filter((e) => e.target !== 'aura')
@@ -702,6 +761,29 @@ function upgradeUnitGaps(slug, sources, existing) {
   }
   return out
 }
+
+// A MODEL'S ENHANCEMENT CAN SPEAK FOR ITS UNIT. "Zarkan's Daemonkin Master of Possession model only.
+// This unit's attacks have +1 S" — the bearer's unit, the bearer in it: `target: 'led'` (the bearer
+// keeps it, the unit it joined gets it too). Read only as the bearer's own until 2026-10-20 (two
+// Combat Patrol enhancements). A "This model's …" or "the bearer's …" wording stays the bearer's.
+function modelUnitGaps(slug, sources, existing) {
+  const bySid = new Map((existing?.entries || []).map((e) => [e.sid, e]))
+  const out = []
+  for (const s of sources) {
+    if (s.kind !== 'enhancement') continue
+    const text = (s.prose || '').replace(/\*\*|<[^>]+>/g, '')
+    if (!/\bmodel only\b/i.test(text) || !/\bThis unit(?:['’]s)?\b/.test(text)) continue
+    const rec = bySid.get(s.sid)
+    const effects = (rec?.reviewed ? rec.effects || [] : []).filter((e) => e.target !== 'aura')
+    if (!effects.length || effects.some((e) => e.target === 'led' || e.target === 'unit')) continue
+    if (!MODEL_UNIT_EXEMPT.has(`${slug} · ${s.name}`)) out.push(s)
+  }
+  return out
+}
+const MODEL_UNIT_EXEMPT = new Set([
+  // Deep Strike only for the once-per-battle redeployment the ability makes, not a standing grant
+  'imperial-knights · Mysterious Guardian', 'thousand-sons · Umbralefic Crystal',
+])
 
 export async function run(argv = process.argv.slice(2)) {
   const check = argv.includes('--check')
@@ -714,7 +796,7 @@ export async function run(argv = process.argv.slice(2)) {
 
   const ctx = { ...sourceContext(), pack: await packSheets() }
   const appdataUnits = new Set([...ctx.dsBySid.values()].map((d) => d.id))
-  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0, roll: 0, leader: 0, upgrade: 0 }
+  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0, roll: 0, once: 0, leader: 0, upgrade: 0 }
   const queueItems = []
   if (!check && !queue && !fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
 
@@ -739,9 +821,17 @@ export async function run(argv = process.argv.slice(2)) {
       totals.roll++
       console.log(`  ✗ roll    ${slug} · ${g.kind} · ${g.name} — says "add 1 to the Hit/Wound roll" but carries no hit/wound effect`)
     }
+    for (const g of onceGaps(slug, sources, existing)) {
+      totals.once++
+      console.log(`  ✗ once    ${slug} · ${g.kind} · ${g.name} — "once per battle" with an effect that carries no \`once\``)
+    }
     for (const g of leaderUnitGaps(slug, sources, existing)) {
       totals.leader++
       console.log(`  ✗ leader  ${slug} · ${g.name} — a Leader's "this unit" rule with effects on the leader alone`)
+    }
+    for (const g of modelUnitGaps(slug, sources, existing)) {
+      totals.upgrade++
+      console.log(`  ✗ model   ${slug} · ${g.name} — a model's enhancement whose "This unit's" effects sit on the bearer alone`)
     }
     for (const g of upgradeUnitGaps(slug, sources, existing)) {
       totals.upgrade++
@@ -795,6 +885,10 @@ export async function run(argv = process.argv.slice(2)) {
     }
     if (totals.roll) {
       console.log('  --check: a rule adds to the Hit or Wound roll with no `stat: \'hit\'`/`\'wound\'` effect — add one, or name it in ROLL_EXEMPT with the reason.')
+      return 1
+    }
+    if (totals.once) {
+      console.log('  --check: a "once per battle" rule has an effect without `once` — mark it (`once: { per, dur }`), or name the rule in ONCE_EXEMPT with the reason.')
       return 1
     }
     if (totals.leader) {
