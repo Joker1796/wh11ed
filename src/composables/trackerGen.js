@@ -3,7 +3,7 @@
 // `trackerGen` (none = 1); a phone says its own on joining a party, and the server turns away the
 // other tracker's phones (wh11ed-api, `tracker_version`) with the generation the host plays.
 // The new tracker (2) began on beta.wh-rules.ru beside the site's (1, 2026-10-08) and moved to the
-// site in 2.9.8: both generations now live on wh-rules.ru, and a host on 1 is a phone that has
+// site in 2.10.0: both generations now live on wh-rules.ru, and a host on 1 is a phone that has
 // not updated yet — PartyJoinView asks it to, rather than sending anyone anywhere. `siteOfGen`
 // still names a site for a generation that lives elsewhere (a later one tried out on the beta).
 

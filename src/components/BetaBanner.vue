@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-// The test site (beta.wh-rules.ru, IS_BETA): since 2.9.8 every release goes here first and the
+// The test site (beta.wh-rules.ru, IS_BETA): since 2.10.0 every release goes here first and the
 // owner checks it before the main site gets it (owner, 2026-10-19); it was the new tracker's beta
 // before that. Says where the reader is, that the lists and games here are this site's own, and
 // leads back to the main site on the same page. Closed once, it stays closed on this phone — under

@@ -609,8 +609,8 @@ function closeRulesMenu() {
   flex: 1;
   height: 6px;
   background:
-    linear-gradient(var(--scale), var(--scale)) bottom / 100% 2px no-repeat,
-    repeating-linear-gradient(90deg, var(--scale) 0 1.5px, transparent 1.5px 7px) bottom / 100% 100% no-repeat;
+    linear-gradient(var(--scale), var(--scale)) bottom / 100% 1.5px no-repeat,
+    repeating-linear-gradient(90deg, var(--scale) 0 1px, transparent 1px 7px) bottom / 100% 100% no-repeat;
 }
 .navbar-logo.beta .logo-scale { --scale: #e2b340; }
 /* The beta's right end of the ruler is its tag (owner, 2026-10-09): amber, slanted like the
