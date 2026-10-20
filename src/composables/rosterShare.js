@@ -43,18 +43,21 @@ function b64urlToBytes(s) {
 const strToB64url = (s) => bytesToB64url(new TextEncoder().encode(s))
 const b64urlToStr = (s) => new TextDecoder().decode(b64urlToBytes(s))
 
+// Bytes through a (de)compression stream. The writing side is awaited with the reading one: a
+// link cut short makes BOTH reject, and a write nobody awaited surfaced as an unhandled rejection
+// ("Compressed input was truncated") even though the reader caught its own.
+async function pipe(stream, bytes) {
+  const w = stream.writable.getWriter()
+  const writing = w.write(bytes).then(() => w.close())
+  const [out] = await Promise.all([new Response(stream.readable).arrayBuffer(), writing])
+  return new Uint8Array(out)
+}
 async function deflate(str) {
   if (typeof CompressionStream === 'undefined') return null
-  const cs = new CompressionStream('deflate-raw')
-  const w = cs.writable.getWriter()
-  w.write(new TextEncoder().encode(str)); w.close()
-  return new Uint8Array(await new Response(cs.readable).arrayBuffer())
+  return pipe(new CompressionStream('deflate-raw'), new TextEncoder().encode(str))
 }
 async function inflate(bytes) {
-  const ds = new DecompressionStream('deflate-raw')
-  const w = ds.writable.getWriter()
-  w.write(bytes); w.close()
-  return new TextDecoder().decode(await new Response(ds.readable).arrayBuffer())
+  return new TextDecoder().decode(await pipe(new DecompressionStream('deflate-raw'), bytes))
 }
 
 // Encode a roster to a share payload string (async — compression is stream-based).
