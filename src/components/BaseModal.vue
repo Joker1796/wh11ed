@@ -58,7 +58,7 @@
                 {{ title }}<span
                   v-if="titleNote"
                   class="mh-note"
-                > {{ titleNote }}</span>
+                >{{ titleNote }}</span>
               </h3>
               <!-- `#subtitle` for a subtitle that needs markup (coloured names); plain text otherwise. -->
               <p class="mh-sub">
@@ -75,7 +75,7 @@
               {{ title }}<span
                 v-if="titleNote"
                 class="mh-note"
-              > {{ titleNote }}</span>
+              >{{ titleNote }}</span>
             </h3>
             <div
               v-if="$slots.aside"

@@ -1871,8 +1871,11 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 /* The two things a header carries besides the title: a subtitle under it, and a group of
    controls sharing the right-hand side with the close button. Identical in every dialog that
    has them (three and seven copies respectively before this moved here). */
-/* A note on the title's line (BaseModal's titleNote): the body face, small and muted. */
+/* A note on the title's line (BaseModal's titleNote): the body face, small and muted. Its gap is
+   a margin: a space typed in the template before it did not survive the compiler, and the base
+   size read "Intercessor Squad(⌀32mm)" (2026-10-20). */
 .mh-note {
+  margin-left: 0.35em;
   font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 400;
