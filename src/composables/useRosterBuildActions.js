@@ -15,9 +15,10 @@
 //                     through to the draft
 //   setFaction(s)   — the one field that is not an array: a property of the stored roster, a ref
 //                     of the wizard's
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { uid } from './useRosters.js'
-import { addUnitEntry, dispositionCandidates, dpLimitFor, duplicateUnitEntry, mustBeWarlord, settleSupremeWarlord } from './rosterEngine.js'
+import { addUnitEntry, bucketOf, dispositionCandidates, dpLimitFor, duplicateUnitEntry, mustBeWarlord, settleSupremeWarlord, takeUnitEntry } from './rosterEngine.js'
+import { useTourWhile } from './useTour.js'
 import { useRosterUndo } from './useRosterUndo.js'
 
 export function useRosterBuildActions({ roster, factionData, curDetachments, effBattle, defOf, commit, setFaction }) {
@@ -154,6 +155,39 @@ export function useRosterBuildActions({ roster, factionData, curDetachments, eff
     }
     return back
   }
+
+  // The tour's steps after the catalogue talk about a unit in the list (owner, 2026-10-20: an
+  // empty list showed nothing they described). So an empty list gets one for those steps — a
+  // Battleline unit where the army has one, it has models and wargear to set — marked `tourDemo`,
+  // and it goes when the reader leaves those steps however they leave. The tour's dim takes every
+  // tap, so nothing can be done to it meanwhile; a list left mid-tour (a closed tab) drops it on the
+  // next visit. Never through useRosterUndo: there is nothing for the player to undo.
+  function addTourDemo() {
+    const r = list()
+    if (!r || r.units.length) return
+    const units = (factionData.value?.units || []).filter((u) => !u.flags?.legends && !String(u.id).includes(':'))
+    const pick = units.find((u) => bucketOf(u) === 'battleline') || units[0]
+    const entry = pick && addUnitEntry(r.units, defOf(pick.id), pick.id, uid())
+    if (!entry) return
+    entry.tourDemo = true
+    commit()
+  }
+  function dropTourDemo() {
+    const r = list()
+    const demo = r?.units.find((u) => u.tourDemo)
+    if (!demo) return
+    if (openUid.value === demo.uid) openUid.value = null
+    takeUnitEntry(r.units, demo.id, demo.uid)
+    commit()
+  }
+  useTourWhile('demoUnit', addTourDemo, dropTourDemo)
+  onBeforeUnmount(dropTourDemo)
+  // Once, when the list is first in hand: no tour is on this screen yet, so a demo is a leftover.
+  const stopStale = watch(list, (r) => {
+    if (!r) return
+    if (r.units.some((u) => u.tourDemo)) dropTourDemo()
+    queueMicrotask(() => stopStale())
+  }, { immediate: true })
 
   function toggleWarlord(entryUid) {
     const units = list()?.units || []
