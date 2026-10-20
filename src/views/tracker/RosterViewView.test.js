@@ -921,14 +921,14 @@ describe('RosterViewView', () => {
       const w1 = mount(RosterViewView, { global: { stubs } })
       await waitFor(w1, 'Fielded List')
       await w1.findAll('.page-tab').at(-1).trigger('click')
-      await flushPromises()
+      await waitForSelector(w1, '.strat-grid') // the tab's list loads lazily: wait for it, not one tick
       expect(w1.find('.now-toggle').exists()).toBe(false)   // the game doesn't track phases
 
       t.updateSetup({ settings: { ...t.current.value.settings, trackPhases: true } })
       const w2 = mount(RosterViewView, { global: { stubs } })
       await waitFor(w2, 'Fielded List')
       await w2.findAll('.page-tab').at(-1).trigger('click')
-      await flushPromises()
+      await waitForSelector(w2, '.now-toggle')
       expect(w2.find('.now-toggle').exists()).toBe(true)
     })
 
@@ -939,7 +939,8 @@ describe('RosterViewView', () => {
       const w = mount(RosterViewView, { global: { stubs } })
       await waitFor(w, 'Fielded List')
       await w.findAll('.page-tab').at(-1).trigger('click')
-      await flushPromises()
+      await waitForSelector(w, '.now-toggle')
+      await waitForSelector(w, '.strat-grid > *')
 
       const all = w.findAll('.strat-grid > *').length
       await w.find('.now-toggle').trigger('click')
