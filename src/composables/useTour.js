@@ -84,6 +84,21 @@ export function useTourShow(key, apply) {
   )
 }
 
+// A state a screen holds for as long as the steps on screen name it (`show: { <key>: true }`) —
+// set when the first of them comes up, undone when the reader walks off them, skips, finishes or
+// turns the tour off. useTourShow sets a state and leaves it; this one takes it back.
+// Such a key opens nothing on the step's own element, so it does not keep a step whose element is
+// absent (start()): the phone has no unit column, and its step stayed in the count.
+const whileKeys = new Set()
+export function useTourWhile(key, on, off) {
+  whileKeys.add(key)
+  watch(
+    () => active.value?.steps[active.value.i]?.show?.[key] === true,
+    (yes, was) => { if (yes) on(); else if (was) off() },
+    { immediate: true },
+  )
+}
+
 export function useTour() {
   const chapter = computed(() => (active.value ? { steps: active.value.steps } : null))
   const step = computed(() => active.value?.steps[active.value.i] || null)
@@ -135,7 +150,8 @@ export function useTour() {
     // A step about an element this screen does not have now (a field a choice not made yet would
     // bring, a column of another width) is left out, so the count says what is coming. One that
     // first opens something (`show`) is kept: its element comes with what it opens.
-    const steps = stepsOf(id, ctx).filter((st) => st.show || !st.target || present(st))
+    const opens = (st) => st.show && Object.keys(st.show).some((k) => !whileKeys.has(k))
+    const steps = stepsOf(id, ctx).filter((st) => opens(st) || !st.target || present(st))
     if (steps.length) active.value = { id, i: 0, steps, dir: 1 }
   }
 

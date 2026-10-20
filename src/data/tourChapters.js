@@ -633,21 +633,25 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'rw-list',
+        show: { demoUnit: true },
         ru: { title: 'Ваш ростер', text: 'Нажмите на юнит, чтобы настроить его: число моделей, вооружение, улучшения, лидера. Здесь юниты ростера по разделам.' },
         en: { title: 'Your roster', text: 'Tap a unit to set it up: models, wargear, enhancements, a leader. The roster’s units are here, by section.' },
       },
       {
         target: 'rw-editor',
+        show: { demoUnit: true },
         ru: { title: 'Настройка юнита', text: 'Нажмите на юнит в ростере, и здесь откроются его настройки: модели, вооружение, улучшения.' },
         en: { title: 'The unit’s setup', text: 'Tap a unit in the roster, and its setup opens here: models, wargear, enhancements.' },
       },
       {
         target: 'rw-tally',
+        show: { demoUnit: true },
         ru: { title: 'Очки и ошибки', text: 'Нажмите на значок рядом с очками, чтобы увидеть, что в ростере не по правилам. Здесь очки ростера из лимита.' },
         en: { title: 'Points and problems', text: 'Tap the mark beside the points to see what in the roster breaks the rules. The roster’s points out of the limit are here.' },
       },
       {
         target: 'rw-save',
+        show: { demoUnit: true },
         ru: { title: 'Сохранить', text: 'Нажмите «Сохранить», когда закончите. Если вы вошли в аккаунт, ростер сохранится и в облаке.' },
         en: { title: 'Save', text: 'Press “Save” when you are done. When you are signed in, the roster is saved to the cloud too.' },
       },
