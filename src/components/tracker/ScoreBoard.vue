@@ -195,7 +195,7 @@ onMounted(() => {
 })
 onBeforeUnmount(() => ro?.disconnect())
 // A name, an army or the turn mark (it reserves room in the head) changes what fits.
-watch(() => [game.value?.players?.map((pl, i) => `${sideName(pl, i, labels.value)}|${factionLine(pl)}`).join('/'), turnIdx.value],
+watch([() => game.value?.players?.map((pl, i) => `${sideName(pl, i, labels.value)}|${factionLine(pl)}`).join('/'), () => turnIdx.value],
   () => nextTick(measure))
 
 // Every number on the board runs to its new value and pulses, as the roster total does

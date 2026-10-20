@@ -54,7 +54,7 @@
           >
           <TypingGhost
             v-if="typing && !query"
-            :text="ghostText"
+            :ghost="ghost"
           />
         </div>
         <button
@@ -213,7 +213,7 @@ const hasQuery = computed(() => query.value.trim().length >= 2)
 watch(query, () => { selectedIndex.value = 0 })
 
 // Example queries typed into the empty box; paused while the user has something in it.
-const { text: ghostText, animated: typing } = useTypingPlaceholder(
+const { ghost, animated: typing } = useTypingPlaceholder(
   computed(() => labels.value.searchExamples),
   computed(() => query.value === ''),
 )

@@ -87,7 +87,7 @@ function toggle() {
 
 const now = ref(Date.now())
 let timer = null
-onMounted(() => { timer = setInterval(() => { now.value = Date.now() }, 1000) })
+onMounted(() => { timer = setInterval(() => { if (party.value) now.value = Date.now() }, 1000) })
 onUnmounted(() => clearInterval(timer))
 
 // Paused is not a problem: it is what the state is between mount and the first answer, and

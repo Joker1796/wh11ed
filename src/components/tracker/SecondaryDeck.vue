@@ -333,7 +333,7 @@ const canTake = computed(() => live.value && canTakeSecondaries(props.pi))
 const takenNow = computed(() => live.value && mode.value === 'tactical'
   && (current.value.currentTurn === 1 ? 1 : 0) === props.pi && !!tookSecondaries(props.pi))
 watch(
-  () => [canTake.value, props.editable, current.value.currentRound, current.value.currentTurn],
+  [() => canTake.value, () => props.editable, () => current.value.currentRound, () => current.value.currentTurn],
   () => {
     if (!canTake.value || !props.editable || !tracks(current.value?.settings, 'trackMissionAids')) return
     const key = `${current.value.id}:${current.value.currentRound}:${props.pi}`
@@ -346,7 +346,7 @@ watch(
 // The turn moved away under an open dialog — another phone undid or ended it: the cards are no
 // longer this side's to take, so the dialog goes (acceptance, 2026-10-18 — it hung over the screen).
 watch(
-  () => [current.value.currentRound, current.value.currentTurn],
+  [() => current.value.currentRound, () => current.value.currentTurn],
   () => { if (takeOpen.value && !canTake.value && !takenNow.value) takeOpen.value = false },
 )
 

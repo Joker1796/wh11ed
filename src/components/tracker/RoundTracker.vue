@@ -188,7 +188,7 @@
 
     <PhasePickerModal
       v-if="phasePickerOpen"
-      :names="current.players.map((_, i) => playerName(i))"
+      :names="playerNames"
       :turn="turnIndex"
       :phase="current.currentPhase || 'command'"
       :round="current.currentRound"
@@ -370,7 +370,7 @@
       role="tabpanel"
     >
       <CpStratagems
-        :names="current.players.map((_, i) => playerName(i))"
+        :names="playerNames"
         :default-side="focusSide"
         :side="viewSide"
       >
@@ -439,7 +439,7 @@
       class="panel"
       role="tabpanel"
     >
-      <GameLog :names="current.players.map((_, i) => playerName(i))" />
+      <GameLog :names="playerNames" />
     </section>
 
     <section
@@ -465,7 +465,7 @@
     >
       <ArmiesPanel
         ref="armiesEl"
-        :names="current.players.map((_, i) => playerName(i))"
+        :names="playerNames"
         :default-side="focusSide"
         :side="viewSide"
         @army="(k) => (armyKey = k)"
@@ -478,7 +478,7 @@
           ref="rosterEl"
           embedded
           :army-key="armyKey"
-          :names="current.players.map((_, i) => playerName(i))"
+          :names="playerNames"
           :default-side="focusSide"
           :side="viewSide"
           :active="tab === 'armies'"
@@ -530,7 +530,7 @@
     <TurnEndCheckModal
       v-if="pendingEnd"
       :checks="turnChecks"
-      :names="current.players.map((_, i) => playerName(i))"
+      :names="playerNames"
       :final="pendingEnd.final"
       :confirm-label="pendingEnd.final ? labels.trackerCheckGoFinal : labels.trackerCheckGo"
       @confirm="confirmEnd"
@@ -846,7 +846,7 @@ const focusSide = computed(() => {
 // thing a turn does is draw and score. "Start game" begins the first turn without changing it, so
 // it counts too: pressed with the other side's tab picked, the side on turn's deck — which offers
 // the draw — stayed off screen (Misha, 2026-10-10).
-watch(() => [current.value.currentRound, current.value.currentTurn, gameBegun(current.value)], () => {
+watch([() => current.value.currentRound, () => current.value.currentTurn, () => gameBegun(current.value)], () => {
   tab.value = 'missions'
   viewRound.value = null
   pickedSide.value = null
@@ -943,6 +943,9 @@ function playerSide(i) {
 
 // Their own name if they gave one, otherwise the side. For the places with room for a name and a
 // reason to print one: the player cards, and the phase picker's two turn headings.
+// One array for the six panels that print the players' names: a `.map()` in the template is a new
+// array on every render, and each panel took it for a change and re-rendered with the screen.
+const playerNames = computed(() => current.value.players.map((_, i) => playerName(i)))
 function playerName(i) {
   return current.value.players[i].name || playerSide(i)
 }

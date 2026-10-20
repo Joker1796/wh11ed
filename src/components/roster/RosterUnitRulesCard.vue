@@ -169,7 +169,7 @@
     >
       <!-- No "This unit" heading (owner, 2026-09-30): in a unit's own dialog it says nothing. -->
       <ConditionChips
-        :switches="[...useChips, ...(gameCtx?.switches || [])]"
+        :switches="cardChips"
         @toggle="(sw) => $emit(sw.once ? 'toggle-use' : 'toggle-cond', sw)"
         @info="openChipInfo"
       />
@@ -527,6 +527,8 @@ const stratChips = computed(() => (props.gameCtx?.strats || []).map((st) => {
 
 // The once-per-battle chips, each saying where its use stands on its second line: running, used,
 // or spent by another unit for the whole army (that one is blocked — ConditionChips says why).
+// The chips as one array: a spread in the template was a new list on every render of the card.
+const cardChips = computed(() => [...useChips.value, ...(props.gameCtx?.switches || [])])
 const useChips = computed(() => (props.gameCtx?.uses || []).map((u) => ({
   ...u,
   // One boxed group, "Once per battle" in line before its chips (ConditionChips' groupCaption).

@@ -1124,7 +1124,7 @@ const modifierRecords = ref([])
 // be picked (rosterGameContext's pickSwitchesFor).
 const pickRecords = ref([])
 const factionEn = ref(null)
-watch(() => [roster.value?.faction, roster.value?.cp], async ([slug, cp]) => {
+watch([() => roster.value?.faction, () => roster.value?.cp], async ([slug, cp]) => {
   modifierRecords.value = []
   pickRecords.value = []
   factionEn.value = null

@@ -36,7 +36,7 @@
         <RosterUnitRulesModal
           :unit-id="sheetId"
           :faction-slug="factionSlug"
-          :ctx="{ def, entry, items, detachments, leaderTargets, units }"
+          :ctx="sheetCtx"
           building
           @close="rulesOpen = false"
         />
@@ -72,7 +72,7 @@
         <RosterUnitRulesModal
           :unit-id="sheetPreview.sheetId"
           :faction-slug="sheetPreview.slug"
-          :ctx="{ detachments }"
+          :ctx="previewCtx"
           building
           @close="sheetPreview = null"
         />
@@ -586,6 +586,10 @@ const props = defineProps({
   // rosterEngine's leaderHostsFor, narrowed the same way: the units this Character could lead.
   leaderHosts: { type: Array, default: () => [] },
 })
+// The cards' contexts as objects of their own, not template literals (a new object per render —
+// see RosterUnitBrowser's previewCtx).
+const sheetCtx = computed(() => ({ def: props.def, entry: props.entry, items: props.items, detachments: props.detachments, leaderTargets: props.leaderTargets, units: props.units }))
+const previewCtx = computed(() => ({ detachments: props.detachments }))
 const emit = defineEmits(['toggle-warlord', 'add-leader', 'add-host'])
 
 const { locale } = useLocale()

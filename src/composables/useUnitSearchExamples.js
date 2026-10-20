@@ -33,9 +33,9 @@ export function useUnitSearchGhost({ slug, locale, query, el }) {
     observer?.disconnect()
     if (typeof document !== 'undefined') document.removeEventListener('visibilitychange', onVisibility)
   })
-  const { text, animated } = useTypingPlaceholder(
+  const { text, animated, ghost } = useTypingPlaceholder(
     computed(() => unitSearchExamples(slug.value, locale.value)),
     computed(() => query.value === '' && onScreen.value && pageShown.value),
   )
-  return { ghostText: text, typing: animated }
+  return { ghostText: text, ghost, typing: animated }
 }

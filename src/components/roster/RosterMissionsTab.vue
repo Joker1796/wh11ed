@@ -217,7 +217,7 @@ const iconOf = (name) => byName(name)?.icon || ''
 
 const shown = ref(props.declared || props.candidates[0] || null)
 // A saved change, or a detachment change elsewhere, moves the view to the list's own answer.
-watch(() => [props.declared, props.candidates.join('|')], () => {
+watch([() => props.declared, () => props.candidates.join('|')], () => {
   if (!props.candidates.includes(shown.value) || props.declared) shown.value = props.declared || props.candidates[0] || null
 })
 

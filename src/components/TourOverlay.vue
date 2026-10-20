@@ -156,7 +156,12 @@ function measure() {
   const y = Math.max(r.top - PAD, 2)
   const right = Math.min(r.right + PAD, window.innerWidth - 2)
   const bottom = Math.min(r.bottom + PAD, window.innerHeight - 2)
-  rect.value = { x, y, w: Math.max(0, right - x), h: Math.max(0, bottom - y) }
+  const next = { x, y, w: Math.max(0, right - x), h: Math.max(0, bottom - y) }
+  // Written only when it moved: a new object every frame re-rendered the overlay sixty times a
+  // second over a page standing still, and on a weak phone that is the frame the page's own
+  // animations lose (2026-10-20).
+  const cur = rect.value
+  if (!cur || cur.x !== next.x || cur.y !== next.y || cur.w !== next.w || cur.h !== next.h) rect.value = next
   if (cardEl.value) cardH.value = cardEl.value.offsetHeight
 }
 // Kept on the element for as long as the step is up: the page moves under it without a scroll

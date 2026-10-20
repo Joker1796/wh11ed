@@ -1124,7 +1124,11 @@ const leaderGroupLabel = computed(() =>
 // the way a faction keyword in rule prose is). A keyword attachment (an Inquisitor's "Imperium Battleline
 // Infantry") stays text on the leader's own sheet and is not listed here.
 const ledByRows = ref([])
-watch(() => [props.factionSlug, props.sheet?.id], async ([slug, id]) => {
+// Two sources, not a getter returning [slug, id]: that array is new on every run, so the card
+// re-fetched (and emptied the list, and the fold jumped) whenever its `sheet` prop was a new object
+// with the same id — every letter the catalogue's search placeholder typed (a player's report,
+// 2026-10-20). `watchSources.test.js` keeps the shape out.
+watch([() => props.factionSlug, () => props.sheet?.id], async ([slug, id]) => {
   ledByRows.value = []
   if (!slug || !id) return
   const { loadLedBy } = await import('../data/ledBy/index.js')
