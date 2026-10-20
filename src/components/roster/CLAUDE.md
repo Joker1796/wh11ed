@@ -3177,6 +3177,22 @@ The card, the print card and the tracker's list plates all place the same way. B
 such effects were `blocked-subset` notes, and the Mortifiers' Anchorite Sarcophagus carried no
 condition at all — one of two Mortifiers taking it printed M 7" and Sv 3+ for both.
 
+**An enhancement is one model's too** (2026-10-20, a player's report). A dozen Characters are units
+of several models — Company Heroes, the Command Squads, a Dark Apostle with his Disciples, a
+Grimnyr with his CORV — and an enhancement's own effects (no `target`) used to rewrite the whole
+card: Master-forged Firearms gave +1 A, S, AP and D to all four Company Heroes' pistols and rifles.
+`splitBearers` places them like a bearer item: the bearer is the model the "X model only" names
+(ANCIENT → the Ancient), else the sheet's first model the unit holds exactly one of (the Tempestor
+Prime, not the first-printed Scion), else the first — owner's call, no picker. Its profile effects
+land on its row; a weapon effect lands on the weapons that model carries (the loadout's copies per
+mini, `weaponRowClaimer`), splitting a shared row (`Master-crafted Bolt Pistol · Master-forged
+Firearms` beside `×3`) and leaving a weapon it does not carry alone. An ability (Feel No Pain,
+Stealth), a keyword, or a weapon the list cannot pin to a model stays a note under `wargear-bearer`
+("The bearer only") — unlike wargear, the enhancement's other conditions are kept. 38 enhancements
+on 14 units were loose before; `splitBearers.test.js` → "places every enhancement on one model of
+every unit of several that can take it" walks every detachment's enhancements over every eligible
+multi-model Character.
+
 **Two copies on one model count twice** (2026-10-11). A T'au bearer may take two Shield Drones,
 and each adds 1 to its Wounds: the placement reads a profile's copies as LAYERS (models with a
 first copy, models with a second…, the shape `loadoutItemCopies` gives), puts each layer's models
