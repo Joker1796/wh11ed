@@ -1393,7 +1393,7 @@ import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
 import TrackOptions from './TrackOptions.vue'
 import TrackPresets from './TrackPresets.vue'
 import { useTour } from '../../composables/useTour.js'
-import { defaultTrackSettings, normalizeTrackSettings } from '../../data/trackerOptions.js'
+import { defaultTrackSettings, fromBeforePresets, normalizeTrackSettings } from '../../data/trackerOptions.js'
 
 // Where the Doubles terminology in the force-type help actually comes from — the Event
 // Companion's Doubles chapter. A route object, not a string, so the locale guard can add
@@ -1429,7 +1429,8 @@ const lastStrict = !!history.value[0]?.settings?.strictRules
 // What the game keeps track of: each option's own default, overridden by the last finished game's
 // choice where the option remembers one. The table (trackerOptions.js) owns both, so a new option
 // is added there and nothing here changes.
-const lastS = history.value[0]?.settings ?? {}
+// A last game from before the presets counts as none: the first game after the update is Base.
+const lastS = fromBeforePresets(history.value[0]?.settings) ? {} : (history.value[0]?.settings ?? {})
 // "You" is the side THIS phone plays — 0 in a setup of one and for the host, the seat for a
 // guest. Keyed by side, never by index (the same rule the option table follows).
 // In a shared game the other side has a player of its own, and once they have typed their name the

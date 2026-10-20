@@ -352,6 +352,13 @@ function defaultOf(o, settings) {
   return o.defaultWhen ? o.defaultWhen(settings || {}) : o.default
 }
 
+// A game played before the presets (2.9.7 and older) carries none of the rows 2.10.0 added. Its
+// choices were made in a different table, so the first game after the update starts from the
+// default preset rather than inheriting them half-filled with row defaults (owner, 2026-10-20).
+export function fromBeforePresets(last) {
+  return !!last && Object.keys(last).length > 0 && !('trackStratPlay' in last)
+}
+
 // The setup wizard's starting values: the last finished game's choice where the row remembers one,
 // else the row's default. `last` is that game's settings (or `{}` when there is no history).
 // Read through `tracks` per row, so a parent switched off in the last game doesn't drag its

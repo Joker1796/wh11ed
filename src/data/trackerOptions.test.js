@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { TRACK_OPTIONS, TRACK_PRESETS, applyTrackPreset, presetOf, tracks, depthOf, defaultTrackSettings, trackSettingsOf, normalizeTrackSettings, optionsIn, optionEnabled } from './trackerOptions.js'
+import { TRACK_OPTIONS, TRACK_PRESETS, applyTrackPreset, presetOf, tracks, depthOf, defaultTrackSettings, fromBeforePresets, trackSettingsOf, normalizeTrackSettings, optionsIn, optionEnabled } from './trackerOptions.js'
 import { ui } from '../i18n/ui.js'
 
 const CTX_FULL = {
@@ -221,5 +221,20 @@ describe('the rows of 2026-10-17', () => {
   })
   it('where each unit is, is one row with its states', () => {
     expect(TRACK_OPTIONS.some((o) => o.id === 'unit-status')).toBe(false)
+  })
+})
+
+// The first game after updating from 2.9.7 starts as Base (owner, 2026-10-20): a game from before
+// the presets carries none of the rows they brought.
+describe('a last game from before the presets', () => {
+  const old297 = { trackCP: true, trackArmyYou: true, trackArmyOpp: true, trackPhases: false, trackPhaseRules: true, trackBroadcast: false, trackModifiers: true, trackUnitStates: true, trackArmyStates: true, trackStratagems: true, trackAuras: true, trackAbilitySets: true }
+  it('is told apart from one played with them', () => {
+    expect(fromBeforePresets(old297)).toBe(true)
+    expect(fromBeforePresets({ ...old297, trackStratPlay: false })).toBe(false)
+    expect(fromBeforePresets({})).toBe(false)
+    expect(fromBeforePresets(null)).toBe(false)
+  })
+  it('gives the default preset', () => {
+    expect(presetOf(defaultTrackSettings(fromBeforePresets(old297) ? {} : old297), CTX_FULL)).toBe('base')
   })
 })
