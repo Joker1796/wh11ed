@@ -8,8 +8,8 @@ import { foldName } from './foldName.js'
 //
 // A run of capitals is split into the longest phrases the keyword vocabulary knows (every keyword
 // a unit carries, its datasheet name included — gen-datasheet-index.mjs); a word that is no
-// keyword ("WHEN", "AND") is left alone and splits the run. A plural is the singular's keyword
-// (DEFFKOPTAS is a name, TERMINATORS a keyword's plural). Only the phrases the data actually writes
+// keyword ("WHEN", "AND") is left alone and splits the run. A plural is the singular's keyword and
+// the other way round (TERMINATORS a keyword's plural; PINK HORROR one model of the sheet Pink Horrors). Only the phrases the data actually writes
 // are kept, so the list the shell carries is what the text needs and no more.
 //
 // Shared by the generator (which writes src/data/capsKeywords.js) and capsKeywords.test.js (which
@@ -33,7 +33,7 @@ export function capsKeywordsIn(text, vocabulary, into = new Set()) {
         const phrase = words.slice(i, i + n).join(' ')
         if (phrase.length < 3) continue
         const k = foldName(phrase)
-        if (vocabulary.has(k) || (k.endsWith('s') && vocabulary.has(k.slice(0, -1)))) {
+        if (vocabulary.has(k) || (k.endsWith('s') && vocabulary.has(k.slice(0, -1))) || vocabulary.has(`${k}s`)) {
           into.add(phrase)
           took = n
         }
@@ -46,3 +46,11 @@ export function capsKeywordsIn(text, vocabulary, into = new Set()) {
 
 /** A source the scan reads: hand-written data, not a generated file (those say so on line 1). */
 export const isScannedSource = (text) => !String(text).startsWith('// Generated')
+
+/**
+ * The names of a sheet's models, folded — "Blue Horror, Brimstone Horror" is two. Rules write them
+ * in capitals like keywords ("add one BRIMSTONE HORROR model"), and the scan reads them as such.
+ * @param {{ profiles?: { name?: string }[] }} sheet
+ */
+export const modelNamesOf = (sheet) =>
+  (sheet?.profiles || []).flatMap((p) => String(p.name || '').split(/,\s*/)).filter(Boolean).map(foldName)
