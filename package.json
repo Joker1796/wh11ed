@@ -62,6 +62,7 @@
     "weapon-table": "node scripts/check-weapon-table.mjs",
     "detachment-row": "node scripts/check-detachment-row.mjs",
     "smoke": "npx vite-node scripts/smoke.mjs",
+    "perf": "npx vite-node scripts/check-perf.mjs",
     "test-rosters": "npx vite-node scripts/test-roster-links.mjs",
     "stand:seed": "npx vite-node scripts/stand-seed.mjs",
     "imghash": "node scripts/check-image-renames.mjs",

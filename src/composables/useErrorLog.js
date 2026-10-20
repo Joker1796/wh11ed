@@ -19,6 +19,7 @@ const errors = []
 export const ERROR_REPORTS_KEY = 'wh11ed-error-reports' // '1' = send
 export const ERROR_OFFER_KEY = 'wh11ed-error-reports-offered' // asked in this browser, whatever the answer
 const HELLO_KEY = 'wh11ed-error-reports-hello' // the day this browser last said "I report"
+const PERF_KEY = 'wh11ed-perf-sent' // the day this browser last sent performance: once a day at most
 const PER_PAGE = 5 // distinct errors sent per page load
 const FLUSH_MS = 3000
 
@@ -85,6 +86,28 @@ function flush() {
   if (!queue.length && !hello) return
   if (hello) setItem(HELLO_KEY, today)
   post(payload({ errors: queue.splice(0, 10), ...(hello ? { hello: true } : {}) }))
+}
+
+// A phone's class, coarse: logical cores (capped) and device memory in GB, 0 where the browser does
+// not say (Safari, Firefox). What tells a weak phone from a strong one in the performance numbers.
+export function deviceClass() {
+  const cores = Math.min(navigator.hardwareConcurrency || 0, 16)
+  return `c${cores}m${navigator.deviceMemory || 0}`
+}
+
+/**
+ * How the screens of this page session performed (perfReport.js), sent beside the errors to the
+ * same POST /errors (wh11ed-api `perf`, migrations/004_client_perf.sql) — like them only while
+ * sending is on, never offline, and at most once a day. Returns whether it went.
+ * @param {{ route: string, inp?: number, longN: number, longMs: number, secs: number }[]} perf
+ */
+export function sendPerf(perf) {
+  if (!reportsOn() || !perf.length || navigator.onLine === false) return false
+  const today = new Date().toISOString().slice(0, 10)
+  if (getItem(PERF_KEY, '') === today) return false
+  setItem(PERF_KEY, today)
+  post(payload({ perf: perf.slice(0, 8), device: deviceClass() }))
+  return true
 }
 
 /** Switch sending on or off. On sends what was seen this page load and says hello for the day. */
