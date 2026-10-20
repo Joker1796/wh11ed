@@ -5,12 +5,13 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { modelsPerMini, wargearGroupCap } from './rosterEngine.js'
+import { modelsPerMini, wargearGroupCap, enhEligible } from './rosterEngine.js'
 import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
 import { loadRosterModifiersFor } from '../data/rosterModifiers/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
 import { overlaySheet, loadoutItemNames, itemKey } from './rosterModifiers.js'
-import { applyStatMods, datasheetEntriesFor, splitBearers } from './rosterStatMods.js'
+import { applyStatMods, datasheetEntriesFor, splitBearers, resolveModifierEntries } from './rosterStatMods.js'
+import { loadFactionWithCodex } from './rosterFactionRules.js'
 
 const items = rosterItems.items
 const HERE = path.dirname(fileURLToPath(import.meta.url))
@@ -185,4 +186,84 @@ describe('splitBearers — copies from a unit-wide group', () => {
     }
     expect(lost).toEqual([])
   }, 300000)
+})
+
+// An enhancement is its bearer's, one MODEL's (19.04) — and a few Characters are units of several
+// models: Company Heroes, a Command Squad, a Dark Apostle with his Disciples. Until 2026-10-20 its
+// "This model's ranged attacks have +1 A, S, AP and D" rewrote every pistol and rifle in the
+// Company Heroes (a player's report). The bearer is the model the enhancement names ("ANCIENT
+// model only"), else the sheet's first model the unit holds one of — the owner's call.
+async function enhCard(slug, unitId, enhancement, detachment, size = 0) {
+  const def = (await loadRosterFaction(slug)).units.find((u) => u.id === unitId)
+  const printed = (await loadDatasheets(slug)).find((d) => d.id === unitId)
+  const records = (await loadRosterModifiersFor(slug)).entries.filter((e) => e.reviewed && e.effects?.length)
+  const fac = (await loadFactionWithCodex(slug, 'en')).en
+  const entry = { uid: 'u', id: unitId, size, wg: [] }
+  const sheet = overlaySheet(printed, { def, entry, items }).sheet
+  const entries = resolveModifierEntries(records, fac, [detachment], enhancement, null)
+  const placed = splitBearers(sheet, entries, def, entry, items)
+  const kws = [...printed.keywords, ...printed.factionKeywords]
+  return { placed, res: applyStatMods(placed.sheet, placed.entries, kws, [], new Set(), new Set()) }
+}
+
+describe('splitBearers — an enhancement on a unit of several models', () => {
+  it('gives Master-forged Firearms to the Company Champion\'s pistol alone', async () => {
+    const { res } = await enhCard('space-marines', 'company-heroes', 'Master-forged Firearms', 'Devastator Brethren')
+    expect(res.sheet.ranged.map((w) => [row(w), w.a])).toEqual([
+      ['Master-crafted Bolt Pistol ×3', '1'],
+      ['Master-crafted Bolt Pistol · Master-forged Firearms ×1', '2'],
+      ['Master-crafted Bolt Rifle ×2', '2'],
+      ['Master-crafted Heavy Bolter', '4'],
+    ])
+  })
+
+  it('puts an ANCIENT model only enhancement on the Ancient', async () => {
+    const { res } = await enhCard('space-marines', 'company-heroes', 'Standard of the Emperor Ascendant', 'Gladius Task Force')
+    const ancient = res.sheet.profiles.find((p) => p.name === 'Ancient')
+    const champion = res.sheet.profiles.find((p) => p.name === 'Company Champion')
+    expect(res.marks).toContain(`profile:oc:${res.sheet.profiles.indexOf(ancient)}`)
+    expect(res.marks).not.toContain(`profile:oc:${res.sheet.profiles.indexOf(champion)}`)
+  })
+
+  // The whole class: every enhancement of every detachment, on every Character unit of several
+  // models that may take it. Not one of its own effects may reach the whole card — each is placed
+  // on rows, or left the bearer's note. 25 enhancements on 12 units when this was written.
+  it('places every enhancement on one model of every unit of several that can take it', async () => {
+    const loose = []
+    let seen = 0
+    const slugs = fs.readdirSync(path.join(HERE, '../data/roster')).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js'].includes(f) && !f.endsWith('.test.js')).map((f) => f.replace(/\.js$/, ''))
+    for (const slug of slugs) {
+      const fac = await loadRosterFaction(slug)
+      const multi = fac.units.filter((u) => u.flags?.char && Math.max(...(u.sizes || []).map((sz) => sz.per?.[1] ?? 1)) > 1)
+      if (!multi.length) continue
+      const sheets = await loadDatasheets(slug)
+      const records = (await loadRosterModifiersFor(slug))?.entries?.filter((e) => e.reviewed && e.effects?.length) || []
+      const facEn = (await loadFactionWithCodex(slug, 'en')).en
+      for (const det of fac.detachments || []) for (const enh of det.enhancements || []) {
+        for (const def of multi) {
+          if (!enhEligible(enh, def)) continue
+          const printed = sheets.find((d) => d.id === def.id)
+          if (!printed) continue
+          for (const size of (def.sizes || []).keys()) {
+            const entry = { uid: 'u', id: def.id, size, wg: [] }
+            const sheet = overlaySheet(printed, { def, entry, items }).sheet
+            const own = resolveModifierEntries(records, facEn, [det.name], enh.name, null).filter((e) => e.kind === 'enhancement' && !e.from)
+            if (!own.some((e) => e.effects.some((x) => !x.target))) continue
+            seen++
+            const placed = splitBearers(sheet, own, def, entry, items)
+            for (const e of placed.entries) for (const x of e.effects) {
+              if (!x.target && !x.rows && !x.cond?.includes('wargear-bearer')) loose.push(`${slug} ${def.id} ${enh.name} ${x.on}:${x.stat}`)
+            }
+          }
+        }
+      }
+    }
+    expect(seen).toBeGreaterThan(20)
+    expect(loose).toEqual([])
+  }, 300000)
+
+  it('leaves a lone Character as it was', async () => {
+    const { placed } = await enhCard('space-marines', 'captain', 'Master-forged Firearms', 'Devastator Brethren')
+    expect(placed.entries.flatMap((e) => e.effects).some((x) => x.rows || x.cond?.includes('wargear-bearer'))).toBe(false)
+  })
 })

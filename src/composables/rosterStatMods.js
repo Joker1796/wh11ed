@@ -19,7 +19,7 @@
 // Scope comes from ruleTargets.js, never from the record — see the generator's header for why.
 
 import { ruleScopes, scopesMisread, scopeHits } from './ruleTargets.js'
-import { enhKey, detKey, itemKey, loadoutItemCopies } from './rosterModifiers.js'
+import { enhKey, detKey, itemKey, loadoutItemCopies, weaponRowClaimer } from './rosterModifiers.js'
 import { modelsPerMini } from './rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
@@ -1137,8 +1137,20 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
 // record. Whatever cannot be placed — an unknown count, a profile the minis do not name, a second
 // item landing on models already given one — stays the conditional note it was, never a guess.
 //
-// Returns the sheet to apply to and the entries to apply: a placed effect loses its condition and
-// carries `rows` instead, the indices it may touch, per table (rosterStatMods' applyStatMods).
+// An ENHANCEMENT is placed the same way (2026-10-20, a player's report). It is one model's (19.04),
+// and a handful of Characters are units of several — Company Heroes, a Command Squad, a Dark
+// Apostle with his Disciples — where "This model's ranged attacks have +1 A, S, AP and D" had
+// rewritten every pistol and rifle in the unit. The bearer is the model its "X model only" names
+// (ANCIENT → the Ancient), else the sheet's first model the unit holds exactly one of (the
+// Tempestor Prime, not the first-printed Scion), else the first — the owner's call. It gets the
+// profile effects on its own row and the weapon effects on the weapons IT carries, read from the
+// loadout's copies per model; a weapon it does not carry is left alone. What cannot be placed —
+// an ability like Feel No Pain, a loadout the list cannot pin to a model — stays the note "The
+// bearer only" rather than reaching the whole unit. A Character standing alone is untouched.
+//
+// Returns the sheet to apply to and the entries to apply: a placed effect carries `rows`, the
+// indices it may touch, per table (rosterStatMods' applyStatMods); a wargear one also loses its
+// condition, an enhancement one keeps whatever else it had.
 const BEARER = 'wargear-bearer'
 /** @typedef {'profiles' | 'ranged' | 'melee'} BearerTable */
 /** Models of one row that carry the same items; no items is the row as printed. @typedef {{ items: string[], n: number, times?: number, effects?: ModifierEffect[] }} BearerGroup */
@@ -1152,10 +1164,15 @@ const BEARER = 'wargear-bearer'
 export function splitBearers(sheet, entries, def, entry, items) {
   /** @param {ModEntry} e */
   const isBearer = (e) => e.kind === 'wargear' && e.ref?.kind === 'wargear' && !!e.ref.item && (e.effects || []).some((x) => x.cond?.includes(BEARER))
-  if (!sheet || !entries?.some(isBearer)) return { sheet, entries }
+  // The bearer's own enhancement entry (resolveModifierEntries) — not one reaching this card from
+  // an attached Character (`from`), and only its untargeted effects: `led`, `unit` and `aura` are
+  // the unit's by their own wording.
+  /** @param {ModEntry} e */
+  const isEnh = (e) => e.kind === 'enhancement' && !e.from && (e.effects || []).some((x) => !x.target)
+  if (!sheet || !entries?.some((e) => isBearer(e) || isEnh(e))) return { sheet, entries }
   const copies = loadoutItemCopies(def, entry)
   const perMini = modelsPerMini(def, entry)
-  if (!copies || !perMini || !items) return { sheet, entries }
+  if (!perMini) return { sheet, entries }
 
   // Which printed profile a mini is: by name, or the only one there is. The plural is folded — the
   // roster data names a profile "Kill Team Bikers" where the sheet prints "KILL TEAM BIKER".
@@ -1189,6 +1206,7 @@ export function splitBearers(sheet, entries, def, entry, items) {
   // drones, and "add 1 to the bearer's Wounds" twice over (2026-10-11).
   /** @param {string} itemName @returns {Map<number, number[]> | null} */
   const bearersOf = (itemName) => {
+    if (!copies || !items) return null
     const ids = [...copies.keys()].filter((id) => itemKey(items[id]) === itemName)
     // Every count known, or nothing is placed: a bearer is never put on a guess.
     const slots = []
@@ -1280,7 +1298,7 @@ export function splitBearers(sheet, entries, def, entry, items) {
   const placed = new Map() // effect object → the groups it lands on
   const partial = new Set() // weapon effects some of whose rows could not be placed
   for (const e of entries.filter(isBearer)) {
-    if (e.ref?.kind !== 'wargear') continue // isBearer: only a wargear rule names an item
+    if (e.ref?.kind !== 'wargear' || !copies || !items) continue // isBearer: only a wargear rule names an item
     const item = e.ref.item
     const by = bearersOf(item)
     if (!by) continue
@@ -1318,7 +1336,61 @@ export function splitBearers(sheet, entries, def, entry, items) {
       if (spots.length) placed.set(effect, spots)
     }
   }
-  if (!placed.size) return { sheet, entries }
+
+  // Enhancements: one bearer model, `b` a mini index.
+  const unplaced = new Set() // enhancement effects left as the bearer's note
+  const enhEntries = unitModels > 1 ? entries.filter(isEnh) : []
+  const claimer = enhEntries.length && copies && items ? weaponRowClaimer(def, items) : null
+  // How many copies of a weapon row the bearer holds — null when the list cannot say (an item from
+  // a unit-wide group, a count unknown, a row no item claims, a profile-level copy among several).
+  /** @param {number} b @param {string} rowName @returns {number | null} */
+  const heldBy = (b, rowName) => {
+    const ids = claimer?.(rowName)
+    if (!ids || !copies) return null
+    const slots = ids.flatMap((id) => copies.get(id) || [])
+    if (slots.some((s) => s.m == null || s.n == null)) return null
+    const mine = slots.filter((s) => s.m === b && (s.n ?? 0) > 0)
+    if (mine.some((s) => (s.n ?? 0) < (perMini.get(b) ?? 0))) return null
+    return mine.length
+  }
+  for (const e of enhEntries) {
+    const b = enhBearer(e.body, minis, def, perMini)
+    const p = b == null ? null : profileOf(b)
+    const mine = new Map()
+    /** @param {BearerTable} table @param {number} i @param {number} models @param {number} n */
+    const groupAt = (table, i, models, n) => {
+      const k = `${table}:${i}`
+      if (!mine.has(k)) mine.set(k, give(groupsOf(table, i, models), e.name, n))
+      return mine.get(k)
+    }
+    for (const effect of e.effects || []) {
+      if (effect.target) continue
+      if (p == null || b == null) { unplaced.add(effect); continue }
+      if (effect.on === 'profile') {
+        const g = groupAt('profiles', p, modelsOf.get(p) ?? 0, 1)
+        if (g) placed.set(effect, [g])
+        else unplaced.add(effect)
+        continue
+      }
+      const tables = WEAPON_TABLES[effect.on || '']
+      if (!tables) { unplaced.add(effect); continue }
+      const spots = []
+      for (const table of tables) {
+        for (const [i, w] of (sheet[table] || []).entries()) {
+          if (!rowMatchesOnly(w, effect.only)) continue
+          const held = heldBy(b, w.name)
+          if (held === 0) continue
+          const g = held == null ? null : groupAt(table, i, w.qty || 1, held)
+          if (g) spots.push(g)
+          else partial.add(effect)
+        }
+      }
+      // No spot and nothing unknown: the bearer carries none of these weapons — placed on no row.
+      if (spots.length || !partial.has(effect)) placed.set(effect, spots)
+      else unplaced.add(effect)
+    }
+  }
+  if (!placed.size && !unplaced.size) return { sheet, entries }
 
   // Pass 2: rebuild the touched tables, a row per group, and remember where each group went.
   const out = { ...sheet }
@@ -1343,7 +1415,27 @@ export function splitBearers(sheet, entries, def, entry, items) {
     out[table] = rows
   }
 
+  /** @param {ModifierEffect} x */
+  const bearerNote = (x) => ({ ...x, cond: [...(x.cond || []), BEARER] })
   const placedEntries = entries.map((e) => {
+    if (enhEntries.includes(e)) {
+      return {
+        ...e,
+        effects: e.effects.flatMap((x) => {
+          if (unplaced.has(x)) return [bearerNote(x)]
+          const spots = placed.get(x)
+          if (!spots) return [x]
+          /** @type {Record<string, number[]>} */
+          const rows = {}
+          for (const g of spots) {
+            const at = where.get(g)
+            if (at) (rows[at.table] ||= []).push(at.index)
+          }
+          const done = { ...x, rows }
+          return partial.has(x) ? [done, bearerNote(x)] : [done]
+        }),
+      }
+    }
     if (!isBearer(e) || !e.effects.some((x) => placed.has(x))) return e
     return {
       ...e,
@@ -1369,4 +1461,28 @@ export function splitBearers(sheet, entries, def, entry, items) {
     }
   })
   return { sheet: out, entries: placedEntries }
+}
+
+// Which model of a unit carries its enhancement — a mini index among `minis` (the ones fielded), or
+// null. "ANCIENT model only", "DARK APOSTLE or DAMNED model only": a model whose name holds one of
+// the named words is the bearer; otherwise the first model the unit holds exactly one of, and
+// otherwise the first. Keywords name the unit as a whole (every Company Hero is INFANTRY), so a
+// phrase that names no single model leaves the choice to the order.
+/**
+ * @param {string | undefined} body
+ * @param {number[]} minis
+ * @param {RosterUnit | null | undefined} def
+ * @param {Map<number, number>} perMini
+ * @returns {number | null}
+ */
+function enhBearer(body, minis, def, perMini) {
+  if (!minis.length) return null
+  /** @param {string | null | undefined} s */
+  const words = (s) => ` ${itemKey(s).replace(/s\b/g, '').replace(/[^a-z0-9]+/g, ' ').trim()} `
+  const text = String(body || '').replace(/\*\*|__|<[^>]+>/g, '').replace(/^\s*Upgrade:\s*/i, '')
+  const head = /^(.+?)\s+models?\b/i.exec(text.split('\n')[0] || '')?.[1] || ''
+  const named = head.replace(/\([^)]*\)/g, ' ').split(/\/|,|\bor\b/i).map((p) => words(p)).filter((p) => p.trim())
+  const hit = minis.find((m) => named.some((p) => words(def?.minis?.[m]?.n).includes(p)))
+  if (hit != null) return hit
+  return minis.find((m) => perMini.get(m) === 1) ?? minis[0]
 }
