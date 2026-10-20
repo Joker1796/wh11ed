@@ -184,4 +184,19 @@ describe('ArmyTrackerCard', () => {
     await flushPromises()
     expect([...tracker.current.value.players[0].army.dice].sort()).toEqual([2, 5, 5])
   })
+
+  // The dice slide to their places rather than redraw (owner, 2026-10-20): a spend keeps the other
+  // dice the same elements, though the store shifted their indices.
+  it('keeps the other dice as they were when one is spent', async () => {
+    const tracker = newGame('adepta-sororitas')
+    for (const v of [5, 2, 6]) tracker.addArmyDie(0, v)
+    const wrapper = mount(ArmyTrackerCard, { props: { pi: 0 } })
+    await settle()
+    const before = wrapper.findAll('.army-die').map((b) => b.element)
+    tracker.removeArmyDie(0, 1) // the 2
+    await flushPromises()
+    const after = wrapper.findAll('.army-die').filter((b) => !b.classes().some((c) => c.startsWith('list-leave'))).map((b) => b.element)
+    expect(after).toContain(before[1]) // the 5
+    expect(after).toContain(before[2]) // the 6
+  })
 })

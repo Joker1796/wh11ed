@@ -136,13 +136,16 @@
       :inert="lock"
     >
       <ExpandTransition>
-        <div
+        <TransitionGroup
           v-if="dice.length"
+          tag="div"
+          name="list"
           class="army-dice-pool"
+          @before-leave="pinLeaving"
         >
           <button
-            v-for="{ d, di } in shownDice"
-            :key="di"
+            v-for="{ d, di, key } in shownDice"
+            :key="key"
             class="army-die"
             data-press
             :aria-label="`${labels.trackerDiceSpend} (${d})`"
@@ -154,7 +157,7 @@
               :class="`wi-dice-${d}`"
             />
           </button>
-        </div>
+        </TransitionGroup>
         <p
           v-else
           class="army-dice-empty"
@@ -656,7 +659,31 @@ const dice = computed(() => player.value?.army?.dice ?? [])
 // Shown by value, low to high, equal ones side by side (owner, 2026-10-20) — a player looks for "a
 // 6" or "two 3s". Only the display is sorted: each die keeps its stored index, which is what a
 // spend removes.
-const shownDice = computed(() => dice.value.map((d, di) => ({ d, di })).sort((a, b) => a.d - b.d || a.di - b.di))
+const shownDice = computed(() => dice.value.map((d, di) => ({ d, di, key: dieKeys.value[di] ?? `i${di}` })).sort((a, b) => a.d - b.d || a.di - b.di))
+// A key per die that outlives a spend (owner, 2026-10-20: the dice move, appear and go): the store
+// keeps bare values and a spend shifts every index after it, so the keys are matched to the new
+// list in order — a value missing from the old run was spent, a value past its end was added.
+// Two dice of one value look the same, so which of them keeps a key does not show.
+const dieKeys = ref([])
+let prevDice = []
+let nextDieKey = 0
+watch(dice, (now) => {
+  const keys = []
+  let i = 0
+  for (const v of now) {
+    while (i < prevDice.length && prevDice[i] !== v) i++
+    keys.push(i < prevDice.length ? dieKeys.value[i] : `d${nextDieKey++}`)
+    i++
+  }
+  dieKeys.value = keys
+  prevDice = [...now]
+}, { immediate: true, deep: true })
+// A leaving die drops out of the flow (the list transition's position: absolute); held where it
+// stood, or it would fade at the start of the row.
+function pinLeaving(el) {
+  el.style.left = `${el.offsetLeft}px`
+  el.style.top = `${el.offsetTop}px`
+}
 const pendingDie = ref(null)
 // World Eaters Blessings picker (the capped multi-select list, kept out of the card to save room).
 const showBlessingPicker = ref(false)
@@ -1184,6 +1211,7 @@ useFlashOnChange(counter, counterEl)
 }
 
 .army-dice-pool {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
