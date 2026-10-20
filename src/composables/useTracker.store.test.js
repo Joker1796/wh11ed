@@ -1171,6 +1171,22 @@ describe('the CP ledger', () => {
     expect(tracker.canGainBonus(0)).toBe(true)
   })
 
+  // A card that scored this turn is achieved: it leaves for its VP, and discarding it for CP as
+  // well would pay it twice (Misha, 2026-10-20).
+  it('refuses the end-of-turn discard of a card that scored this turn', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    tracker.takeRandomSecondaries(0)
+    const [a] = pl(0).secondary.hand
+    const entry = { slug: a, round: tracker.current.value.currentRound, picks: {}, vp: 3 }
+    pl(0).secondary.scored.push(entry)
+    expect(tracker.secondaryCardVp(0, a)).toBe(3)
+    tracker.endTurnDiscard(0, a)
+    expect(pl(0).secondary.hand).toContain(a)
+    expect(tracker.current.value.currentTurn).toBe(0)
+    expect(pl(0).cpLog.filter(e => e.kind === 'bonus')).toHaveLength(0)
+  })
+
   it('an end-of-turn discard with the bonus already used gains nothing', () => {
     tracker.newGame(setupGame())
     tracker.beginGame()

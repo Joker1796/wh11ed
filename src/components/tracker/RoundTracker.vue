@@ -529,7 +529,7 @@
     />
     <TurnEndCheckModal
       v-if="pendingEnd"
-      :checks="turnChecks"
+      :checks="pendingChecks"
       :names="current.players.map((_, i) => playerName(i))"
       :final="pendingEnd.final"
       :confirm-label="pendingEnd.final ? labels.trackerCheckGoFinal : labels.trackerCheckGo"
@@ -1014,16 +1014,19 @@ function bonusSource(i) {
 // of Battle condition — missionTiming.turnEndChecks). Nothing to check, nothing shown. The end-of-
 // turn discard from a card's sheet comes through here too (provided to SecondaryDeck), so its
 // turn ends the same way. The last turn goes on to how the game ended (GameEndModal).
-const turnChecks = computed(() => turnEndChecks(
+// The card being discarded at the end of the turn is not in the check (turnEndChecks' `discarding`).
+const checksFor = (end) => turnEndChecks(
   current.value,
   (slug, role, round) => scorableBlocks(slug, role, round, locale.value),
   (slug, role) => missionBySlug(slug, role),
-))
+  end?.discard || null,
+)
 const pendingEnd = ref(null) // { final, discard?: { pi, slug } }
+const pendingChecks = computed(() => checksFor(pendingEnd.value))
 function requestEndTurn(opts = {}) {
   const end = { final: !canEndTurn(), ...opts }
   // The check before the turn passes, unless the game switched the mission help off (`trackMissionAids`).
-  if (turnChecks.value.length && tracks(current.value.settings, 'trackMissionAids')) pendingEnd.value = end
+  if (checksFor(end).length && tracks(current.value.settings, 'trackMissionAids')) pendingEnd.value = end
   else finishTurn(end)
 }
 function confirmEnd() {

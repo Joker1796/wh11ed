@@ -1498,7 +1498,8 @@ export function useTracker() {
   function endTurnDiscard(pi, slug) {
     const g = current.value
     const s = g.players[pi].secondary
-    if (!canEndTurnDiscard(pi) || !s.hand.includes(slug)) return
+    // A card that scored this turn is achieved, not active: it leaves for its VP, not for CP.
+    if (!canEndTurnDiscard(pi) || !s.hand.includes(slug) || secondaryCardVp(pi, slug) > 0) return
     const gained = gainBonusCp(pi, 'discard', slug)
     s.hand = s.hand.filter(x => x !== slug)
     s.discarded.push({ slug, round: g.currentRound, auto: g.currentTurn === 1 ? 1 : 0, ...(gained ? { cp: true } : {}), t: Date.now() })

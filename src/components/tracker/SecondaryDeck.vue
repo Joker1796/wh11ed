@@ -166,10 +166,11 @@
           v-if="canEndTurnDiscard(pi)"
           class="act-btn"
           data-press
+          :disabled="secondaryCardVp(pi, actionMission.slug) > 0"
           @click="confirmSlug = actionMission.slug; actionSlug = null"
         >
           <strong>{{ labels.trackerEotDiscard }}</strong>
-          <span>{{ canGainBonus(pi) ? labels.trackerEotDiscardNote : labels.trackerEotDiscardNoCp }}</span>
+          <span>{{ secondaryCardVp(pi, actionMission.slug) > 0 ? labels.trackerEotDiscardScored : canGainBonus(pi) ? labels.trackerEotDiscardNote : labels.trackerEotDiscardNoCp }}</span>
         </button>
         <button
           class="act-btn"
