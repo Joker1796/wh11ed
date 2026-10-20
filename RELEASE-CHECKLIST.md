@@ -43,6 +43,7 @@ npm run dupes && npm run radii
 npm run sync            # после правки данных — см. скил data-gates
 npm run smoke           # по dist/: тестовые ростеры в Chrome, 390 и 1280px — каждый релиз
 npm run smoke -- --wide # + все фракции (правила, FAQ, 4 датащита) — уровень C
+npm run perf            # по dist/: простой, анимации, нажатия, загрузка на «среднем Android» (CPU ×4) против baseline — каждый релиз, 3–5 минут
 npm run a11y            # по dist/, когда релиз трогает вёрстку или цвета
 npm run legends-tag     # по dist/, когда релиз трогает карточку датащита или данные Legends
 npm run weapon-table    # по dist/, когда релиз трогает карточку датащита или оружие в данных (~4 мин)

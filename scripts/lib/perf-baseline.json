@@ -1,0 +1,54 @@
+{
+ "idle-catalogue-card": {
+  "mut": 0,
+  "longMs": 0,
+  "worst": 17
+ },
+ "idle-faction-grid": {
+  "mut": 0,
+  "longMs": 0,
+  "worst": 17
+ },
+ "idle-search": {
+  "mut": 0,
+  "longMs": 0,
+  "worst": 17
+ },
+ "idle-game": {
+  "mut": 0,
+  "longMs": 0,
+  "worst": 17
+ },
+ "idle-roster-view": {
+  "mut": 0,
+  "longMs": 0,
+  "worst": 17
+ },
+ "anim-card-open": {
+  "drops": 1,
+  "worst": 50
+ },
+ "anim-page-swap": {
+  "drops": 1,
+  "worst": 50
+ },
+ "tap-add-unit": {
+  "inp": 56
+ },
+ "tap-game-tab": {
+  "inp": 48
+ },
+ "load-home": {
+  "lcp": 212,
+  "mounted": 266
+ },
+ "load-faction": {
+  "lcp": 376,
+  "mounted": 389
+ },
+ "load-roster": {
+  "lcp": 316,
+  "mounted": 369
+ },
+ "_cpu": 4
+}

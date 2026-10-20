@@ -1,0 +1,185 @@
+{
+ "id": "g1792515628315",
+ "createdAt": "2026-10-20T17:00:28.315Z",
+ "phase": "playing",
+ "currentRound": 1,
+ "currentTurn": 0,
+ "currentPhase": "command",
+ "cpAuto": true,
+ "trackerGen": 2,
+ "settings": {
+  "trackCP": true,
+  "trackPhases": true,
+  "trackMissionAids": false,
+  "firstTurn": 1,
+  "layout": "A",
+  "scoreMode": "vp",
+  "battleSize": "strikeForce",
+  "twist": null,
+  "twistMission": null
+ },
+ "players": [
+  {
+   "isYou": true,
+   "name": "Perf A",
+   "factionSlug": "necrons",
+   "detachments": [
+    "Awakened Dynasty"
+   ],
+   "disposition": "take-and-hold",
+   "role": "attacker",
+   "secondaryMode": "tactical",
+   "battleReady": false,
+   "rosterId": null,
+   "roster": null,
+   "unitStatus": {},
+   "primarySlug": "immovable-object",
+   "cp": 1,
+   "cpBase": 0,
+   "cpLog": [
+    {
+     "kind": "core",
+     "amount": 1,
+     "round": 1,
+     "turn": 0,
+     "t": 1792515628316
+    }
+   ],
+   "army": {},
+   "rounds": [
+    {
+     "primary": 0,
+     "picks": {}
+    },
+    {
+     "primary": 0,
+     "picks": {}
+    },
+    {
+     "primary": 0,
+     "picks": {}
+    },
+    {
+     "primary": 0,
+     "picks": {}
+    },
+    {
+     "primary": 0,
+     "picks": {}
+    }
+   ],
+   "secondary": {
+    "deck": [
+     "behind-enemy-lines",
+     "burden-of-trust",
+     "assassination",
+     "overwhelming-force",
+     "engage-on-all-fronts",
+     "outflank",
+     "plunder",
+     "secure-no-man-s-land",
+     "a-tempting-target",
+     "display-of-might",
+     "defend-stronghold",
+     "cleanse",
+     "no-prisoners",
+     "forward-position",
+     "a-grievous-blow",
+     "bring-it-down",
+     "beacon",
+     "centre-ground"
+    ],
+    "hand": [],
+    "drawn": {},
+    "discarded": [],
+    "scored": []
+   }
+  },
+  {
+   "isYou": false,
+   "name": "Perf B",
+   "factionSlug": "orks",
+   "detachments": [
+    "War Horde"
+   ],
+   "disposition": "purge-the-foe",
+   "role": "defender",
+   "secondaryMode": "tactical",
+   "battleReady": false,
+   "rosterId": null,
+   "roster": null,
+   "unitStatus": {},
+   "primarySlug": "unstoppable-force",
+   "cp": 1,
+   "cpBase": 0,
+   "cpLog": [
+    {
+     "kind": "core",
+     "amount": 1,
+     "round": 1,
+     "turn": 0,
+     "t": 1792515628316
+    }
+   ],
+   "army": {},
+   "rounds": [
+    {
+     "primary": 0,
+     "picks": {}
+    },
+    {
+     "primary": 0,
+     "picks": {}
+    },
+    {
+     "primary": 0,
+     "picks": {}
+    },
+    {
+     "primary": 0,
+     "picks": {}
+    },
+    {
+     "primary": 0,
+     "picks": {}
+    }
+   ],
+   "secondary": {
+    "deck": [
+     "outflank",
+     "engage-on-all-fronts",
+     "forward-position",
+     "assassination",
+     "centre-ground",
+     "defend-stronghold",
+     "overwhelming-force",
+     "behind-enemy-lines",
+     "secure-no-man-s-land",
+     "no-prisoners",
+     "burden-of-trust",
+     "cleanse",
+     "display-of-might",
+     "bring-it-down",
+     "a-tempting-target",
+     "a-grievous-blow",
+     "beacon",
+     "plunder"
+    ],
+    "hand": [],
+    "drawn": {},
+    "discarded": [],
+    "scored": []
+   }
+  }
+ ],
+ "acts": [
+  {
+   "t": 1792515628316,
+   "type": "turn",
+   "round": 1,
+   "turn": 0,
+   "pi": 0
+  }
+ ],
+ "clockAt": 1792515628316
+}
