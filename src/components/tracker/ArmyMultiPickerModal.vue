@@ -80,7 +80,7 @@ defineEmits(['toggle', 'close'])
   text-align: left;
   font-family: inherit;
   color: var(--text-primary);
-  transition: background 0.15s, border-color 0.15s;
+  transition: background var(--motion-fast), border-color var(--motion-fast);
 }
 .opt:hover { border-color: var(--accent); }
 .opt.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); }

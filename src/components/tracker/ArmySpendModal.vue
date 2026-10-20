@@ -70,7 +70,7 @@ const labels = computed(() => ui[locale.value])
   text-align: left;
   font-family: inherit;
   color: var(--text-primary);
-  transition: background 0.15s, border-color 0.15s;
+  transition: background var(--motion-fast), border-color var(--motion-fast);
 }
 .opt:hover:not(:disabled) { border-color: var(--accent); }
 .opt:disabled { opacity: 0.45; cursor: default; }

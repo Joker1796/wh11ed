@@ -249,7 +249,7 @@ defineExpose({ reveal })
   height: 40px; padding: 0 0.75rem;
   border: 1px solid var(--border); background: var(--bg-card);
   color: var(--text-primary); text-decoration: none; font-size: 0.85rem;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background var(--motion-fast), border-color var(--motion-fast);
 }
 /* In doubles the label is a name the PLAYER typed, so the button has no width it can promise.
    A flex item never shrinks below its min-content — the longest word of that name — so without

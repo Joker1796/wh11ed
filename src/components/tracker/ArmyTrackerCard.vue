@@ -426,10 +426,15 @@
           <span class="army-acc-title">{{ labels.trackerArmyResurrected }} · {{ resurrected.length }}</span>
         </button>
         <CollapseTransition :show="showResurrected">
-          <ul class="army-acc-body army-resurrect-list">
+          <TransitionGroup
+            tag="ul"
+            name="list"
+            class="army-acc-body army-resurrect-list"
+            @before-leave="pinLeaving"
+          >
             <li
               v-for="(r, i) in resurrected"
-              :key="i"
+              :key="resurrectKeys[i] ?? i"
               class="army-resurrect-row"
             >
               <span class="army-resurrect-label">{{ r.label }}</span>
@@ -446,7 +451,7 @@
                 <i class="wi wi-undo" />
               </button>
             </li>
-          </ul>
+          </TransitionGroup>
         </CollapseTransition>
       </div>
     </ExpandTransition>
@@ -486,7 +491,12 @@
           v-if="hasActiveBody"
           :show="showActive"
         >
-          <div class="army-acc-body">
+          <TransitionGroup
+            tag="div"
+            name="list"
+            class="army-acc-body army-active-list"
+            @before-leave="pinLeaving"
+          >
             <div
               v-for="r in activeRules"
               :key="r.id || r.name"
@@ -501,7 +511,7 @@
                 :body="r.body"
               />
             </div>
-          </div>
+          </TransitionGroup>
         </CollapseTransition>
       </div>
     </ExpandTransition>
@@ -563,6 +573,7 @@ import { selectionBudget } from '../../data/armyTrackers/selectionBudget.js'
 import { combatPatrolBoxIn } from '../../composables/combatPatrolBox.js'
 import { ui } from '../../i18n/ui.js'
 import { provideSideScope } from '../../composables/modalScope.js'
+import { useStableKeys, pinLeaving } from '../../composables/stableKeys.js'
 
 const props = defineProps({
   pi: { type: Number, required: true },
@@ -660,30 +671,10 @@ const dice = computed(() => player.value?.army?.dice ?? [])
 // 6" or "two 3s". Only the display is sorted: each die keeps its stored index, which is what a
 // spend removes.
 const shownDice = computed(() => dice.value.map((d, di) => ({ d, di, key: dieKeys.value[di] ?? `i${di}` })).sort((a, b) => a.d - b.d || a.di - b.di))
-// A key per die that outlives a spend (owner, 2026-10-20: the dice move, appear and go): the store
-// keeps bare values and a spend shifts every index after it, so the keys are matched to the new
-// list in order — a value missing from the old run was spent, a value past its end was added.
-// Two dice of one value look the same, so which of them keeps a key does not show.
-const dieKeys = ref([])
-let prevDice = []
-let nextDieKey = 0
-watch(dice, (now) => {
-  const keys = []
-  let i = 0
-  for (const v of now) {
-    while (i < prevDice.length && prevDice[i] !== v) i++
-    keys.push(i < prevDice.length ? dieKeys.value[i] : `d${nextDieKey++}`)
-    i++
-  }
-  dieKeys.value = keys
-  prevDice = [...now]
-}, { immediate: true, deep: true })
-// A leaving die drops out of the flow (the list transition's position: absolute); held where it
-// stood, or it would fade at the start of the row.
-function pinLeaving(el) {
-  el.style.left = `${el.offsetLeft}px`
-  el.style.top = `${el.offsetTop}px`
-}
+// A key per die that outlives a spend, so the dice slide rather than redraw (stableKeys.js).
+const dieKeys = useStableKeys(() => dice.value)
+// The spend history (GSC) the same way: an undone entry in the middle must not shift the others.
+const resurrectKeys = useStableKeys(() => resurrected.value, (a, b) => a.label === b.label && a.cost === b.cost)
 const pendingDie = ref(null)
 // World Eaters Blessings picker (the capped multi-select list, kept out of the card to save room).
 const showBlessingPicker = ref(false)
@@ -982,7 +973,7 @@ useFlashOnChange(counter, counterEl)
   font-weight: 600;
   color: var(--text-primary);
   white-space: nowrap;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
 }
 
 .army-opt:hover {
@@ -1128,6 +1119,9 @@ useFlashOnChange(counter, counterEl)
 }
 
 /* ── Resurrected units (GSC): the spend log, undoable per entry ── */
+/* position: relative holds a leaving row where it stood (stableKeys.js pinLeaving). */
+.army-resurrect-list,
+.army-active-list { position: relative; }
 .army-resurrect-list {
   list-style: none;
   margin: 0;
