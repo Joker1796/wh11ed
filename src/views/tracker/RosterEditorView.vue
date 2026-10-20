@@ -141,7 +141,7 @@
                 :units="factionData.units"
                 :allies="factionData.allies || []"
                 :faction-slug="roster.faction"
-                :added-ids="roster.units.map((u) => u.id)"
+                :added-ids="addedIds"
                 :detachments="curDetachments"
                 :battle="effBattle"
                 :remaining="limit - points"
@@ -402,6 +402,8 @@ const desk = useMediaQuery('(min-width: 1200px)')
 // The tour: on a phone, first the two modes (walking both: useTourShow), then the units, and the
 // setup's chapter the first time the settings mode is open; on a desk the settings line and the
 // columns are on one screen.
+// The catalogue's "in the list" marks as one array (see RosterCreateView's addedIds).
+const addedIds = computed(() => roster.value?.units.map((u) => u.id) || [])
 const { maybeStart: maybeStartTour } = useTour()
 useTourShow('editorMode', (m) => { if (!desk.value) tab.value = m })
 // The Force Disposition's chapter comes after the setup's, which tells the detachments it follows

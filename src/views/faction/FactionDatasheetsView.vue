@@ -26,7 +26,7 @@
           >
           <TypingGhost
             v-if="typing && !dsQuery"
-            :text="ghostText"
+            :ghost="ghost"
           />
         </div>
         <!-- Global army choice (chapter + detachment), shared with the rule page.
@@ -347,7 +347,7 @@ const hasLegends = computed(() => datasheets.value.some((s) => s.legends))
 // long enough to use them.
 watch(dsQuery, (q) => { if (q.trim().length >= TAG_MIN) preloadDatasheetTags() })
 const dsSearchEl = ref(null)
-const { ghostText, typing } = useUnitSearchGhost({ slug, locale, query: dsQuery, el: dsSearchEl })
+const { ghost, typing } = useUnitSearchGhost({ slug, locale, query: dsQuery, el: dsSearchEl })
 const filteredDatasheets = computed(() => {
   const q = dsQuery.value.trim().toLowerCase()
   const qf = foldName(q)

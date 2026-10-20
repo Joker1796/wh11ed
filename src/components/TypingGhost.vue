@@ -15,11 +15,18 @@
   ><span class="tg-line"><span
     dir="ltr"
     class="tg-text"
-  >{{ text }}</span></span></span>
+  >{{ shown }}</span></span></span>
 </template>
 
 <script setup>
-defineProps({ text: { type: String, required: true } })
+import { computed } from 'vue'
+
+// `ghost` is useTypingPlaceholder's `ghost`: the text as a ref, read HERE. Passed as a string, the
+// host read it in its own render and re-rendered whole on every letter — the roster catalogue with
+// a unit's card open over it, the faction's datasheet grid — every 35-70 ms (2026-10-20, a player
+// on Android: an open card's "Led by" fold jumped in time with the letters).
+const props = defineProps({ ghost: { type: Object, required: true } })
+const shown = computed(() => props.ghost.text.value)
 </script>
 
 <style scoped>

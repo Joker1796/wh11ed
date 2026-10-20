@@ -692,7 +692,7 @@ function showStock(gi) {
 const holds = computed(() => (props.def.gear || []).map((g, gi) => (holdGroup(props.def, gi) ? holdCounts(props.def, props.entry, gi) : null)))
 const takenOff = ref({})
 let ownWrite = false
-watch(() => [props.entry, props.entry.wg, props.entry.size, props.entry.count], () => {
+watch([() => props.entry, () => props.entry.wg, () => props.entry.size, () => props.entry.count], () => {
   if (ownWrite) ownWrite = false
   else takenOff.value = {}
 })

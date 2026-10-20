@@ -141,7 +141,7 @@
             :units="factionData.units"
             :allies="factionData.allies || []"
             :faction-slug="factionSlug"
-            :added-ids="units.map((u) => u.id)"
+            :added-ids="addedIds"
             :detachments="curDetachments"
             :battle="effBattle"
             :remaining="limit - points"
@@ -389,6 +389,9 @@ const rosterLimit = ref(limitOf(null))
 const checkLegality = ref(true)
 const notes = ref('')
 const units = ref([])
+// The catalogue's "in the list" marks: one array, not a `.map()` in the template that handed the
+// whole catalogue a new one on every render of this screen.
+const addedIds = computed(() => units.value.map((u) => u.id))
 // A faction keyword tapped in a rule on this screen lists the units picked so far first.
 useKeywordContext(() => ({ faction: factionSlug.value, unitIds: units.value.map((u) => u.id) }))
 

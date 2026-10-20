@@ -21,7 +21,7 @@
         >
         <TypingGhost
           v-if="typing && !query"
-          :text="ghostText"
+          :ghost="ghost"
         />
       </div>
       <button
@@ -216,7 +216,7 @@
       v-if="previewId && previewSlug"
       :unit-id="previewUnitId"
       :faction-slug="previewSlug"
-      :ctx="{ detachments }"
+      :ctx="previewCtx"
       building
       @close="previewId = null"
     />
@@ -269,6 +269,10 @@ const props = defineProps({
   // Show the shield that opens the list's rules (the caller owns the dialog: `open-rules`).
   rulesButton: { type: Boolean, default: false },
 })
+// One object for the preview's context, not a literal in the template: a literal is a new object on
+// every render of this list, and the search box's typing placeholder re-renders it per letter — the
+// open card under it recomputed its whole sheet each time (2026-10-20).
+const previewCtx = computed(() => ({ detachments: props.detachments }))
 defineEmits(['add', 'open-rules'])
 
 // Groups start collapsed (same pattern as StratagemsView's per-phase accordions) — the list
@@ -308,7 +312,7 @@ watch(query, () => { if (closedInSearch.value.size) closedInSearch.value = new S
 // them. An allied unit's tags are its own faction's (srcOf).
 watch(query, (q) => { if (q.trim().length >= TAG_MIN) preloadDatasheetTags() })
 const searchEl = ref(null)
-const { ghostText, typing } = useUnitSearchGhost({ slug: computed(() => props.factionSlug), locale, query, el: searchEl })
+const { ghost, typing } = useUnitSearchGhost({ slug: computed(() => props.factionSlug), locale, query, el: searchEl })
 const searched = computed(() => {
   const q = query.value.trim().toLowerCase()
   if (!q) return props.units

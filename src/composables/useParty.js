@@ -597,7 +597,11 @@ export function useParty() {
     if (!active.value) return
     try {
       const res = await memberFetch('/members')
-      if (res.ok) members.value = (await res.json()).members || []
+      if (!res.ok) return
+      // Replaced only when it changed: the lobby asks every 5 s, and a new array each time
+      // re-rendered its list of phones for nothing (2026-10-20).
+      const next = (await res.json()).members || []
+      if (JSON.stringify(next) !== JSON.stringify(members.value)) members.value = next
     } catch { /* the list is decoration; the next open retries */ }
   }
 

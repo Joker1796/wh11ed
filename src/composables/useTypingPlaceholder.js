@@ -1,4 +1,4 @@
-import { ref, watch, onScopeDispose } from 'vue'
+import { markRaw, ref, watch, onScopeDispose } from 'vue'
 
 // Cycles a list of example queries through an empty input the way a person would type them:
 // letter by letter, a pause to read, backspaced, on to the next. Returns `text` (what to show
@@ -70,5 +70,7 @@ export function useTypingPlaceholder(examples, active, { start } = {}) {
   watch(active, run, { immediate: true, flush: 'sync' })
   onScopeDispose(stop)
 
-  return { text, animated }
+  // `ghost` is what a host hands TypingGhost: the ref inside a plain object, so the template does
+  // not unwrap it and only the ghost re-renders per letter, never the host (TypingGhost.vue).
+  return { text, animated, ghost: markRaw({ text }) }
 }
