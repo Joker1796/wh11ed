@@ -7,13 +7,7 @@
     class="tp"
     data-tour="setup-presets"
   >
-    <div class="tp-text">
-      <span class="tp-chosen">{{ chosenLine }}</span>
-      <span
-        v-if="current"
-        class="tp-sub"
-      >{{ labels[presetById(current).blurb] }}</span>
-    </div>
+    <span class="tp-chosen">{{ chosenLine }}</span>
     <button
       type="button"
       class="tp-btn btn-ghost"
@@ -27,6 +21,10 @@
         to="down"
       />
     </button>
+    <span
+      v-if="current"
+      class="tp-sub"
+    >{{ labels[presetById(current).blurb] }}</span>
 
     <BaseModal
       v-if="open"
@@ -118,13 +116,14 @@ function choose(id) {
 /* A plate of its own above the option groups (owner, 2026-10-20: the preset was hard to see as a
    bare row): what is chosen on the left, the way to change it inside, on the right. */
 .tp {
-  display: flex; align-items: center; gap: 0.75rem;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.35rem 0.75rem;
   margin: 0 0 0.9rem; padding: 0.75rem 1rem;
   background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
 }
-.tp-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 0.15rem; }
+/* The choice and Change share the first row; the blurb runs the plate's full width under them
+   (owner, 2026-10-20: squeezed beside the button it took four lines on a phone). */
 .tp-chosen { font-weight: 600; color: var(--text-primary); }
-.tp-sub { font-size: 0.84rem; line-height: 1.35; color: var(--text-muted); }
+.tp-sub { grid-column: 1 / -1; font-size: 0.84rem; line-height: 1.35; color: var(--text-muted); }
 .tp-btn { flex: none; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; }
 .tp-chev { font-size: 0.75rem; }
 
