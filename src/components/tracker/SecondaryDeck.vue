@@ -66,6 +66,12 @@
                 class="badge"
               >{{ labels.trackerDiscardedBadge }}</span>
             </ExpandTransition>
+            <ExpandTransition>
+              <span
+                v-if="isMarkedForTurnEnd(pi, m.slug)"
+                class="badge badge-eot"
+              >{{ labels.trackerEotMarked }}</span>
+            </ExpandTransition>
             <span class="card-vp">{{ secondaryCardVp(pi, m.slug, round) }} VP</span>
           </button>
           <button
@@ -162,12 +168,23 @@
           <strong>{{ labels.trackerCpRedraw }}</strong>
           <span>{{ cpRedrawNote }}</span>
         </button>
+        <!-- Marks the card for the end of the turn rather than ending it now (owner, 2026-10-20):
+             it goes, with the round's bonus CP, when the player ends the turn. -->
         <button
-          v-if="canEndTurnDiscard(pi)"
+          v-if="canEndTurnDiscard(pi) && isMarkedForTurnEnd(pi, actionMission.slug)"
           class="act-btn"
           data-press
-          :disabled="secondaryCardVp(pi, actionMission.slug) > 0"
-          @click="confirmSlug = actionMission.slug; actionSlug = null"
+          @click="markForTurnEnd(pi, actionMission.slug); actionSlug = null"
+        >
+          <strong>{{ labels.trackerEotKeep }}</strong>
+          <span>{{ labels.trackerEotKeepNote }}</span>
+        </button>
+        <button
+          v-else-if="canEndTurnDiscard(pi)"
+          class="act-btn"
+          data-press
+          :disabled="!canMarkForTurnEnd(pi, actionMission.slug)"
+          @click="markForTurnEnd(pi, actionMission.slug); actionSlug = null"
         >
           <strong>{{ labels.trackerEotDiscard }}</strong>
           <span>{{ secondaryCardVp(pi, actionMission.slug) > 0 ? labels.trackerEotDiscardScored : canGainBonus(pi) ? labels.trackerEotDiscardNote : labels.trackerEotDiscardNoCp }}</span>
@@ -204,17 +221,6 @@
       @pick="onReplacePick"
       @close="replace = null"
     />
-
-    <!-- The end-of-turn discard ends the turn: say so before doing it. -->
-    <ConfirmModal
-      v-if="confirmSlug"
-      :title="labels.trackerEotConfirmTitle"
-      :message="labels.trackerEotConfirm.replace('{card}', missionName(confirmSlug))"
-      :confirm-label="labels.trackerEotConfirmGo"
-      :cancel-label="labels.trackerCancel"
-      @confirm="onEndTurnDiscard"
-      @close="confirmSlug = null"
-    />
   </div>
 </template>
 
@@ -227,12 +233,11 @@ const prompted = new Set()
 
 <script setup>
 import ExpandTransition from '../ExpandTransition.vue'
-import { ref, computed, watch, inject } from 'vue'
+import { ref, computed, watch } from 'vue'
 import DieIcon from '../DieIcon.vue'
 import ScoringModal from './ScoringModal.vue'
 import TakeSecondariesModal from './TakeSecondariesModal.vue'
 import BaseModal from '../BaseModal.vue'
-import ConfirmModal from '../ConfirmModal.vue'
 import ReplaceCardModal from './ReplaceCardModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -259,7 +264,7 @@ const {
   current, returnSecondaryToDeck, discardFromHand, restoreSecondaryToHand, redrawSecondary,
   scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
   canTakeSecondaries, tookSecondaries,
-  canCpRedraw, cpRedraw, canEndTurnDiscard, endTurnDiscard, canGainBonus, strictWhy, strictUndoWhy,
+  canCpRedraw, cpRedraw, canEndTurnDiscard, isMarkedForTurnEnd, canMarkForTurnEnd, markForTurnEnd, canGainBonus, strictWhy, strictUndoWhy,
 } = useTracker()
 // Every dialog of this side's deck — a card, the take, a replacement — in this side's colour.
 provideSideScope(() => !isYouSide(current.value?.players?.[props.pi], props.pi))
@@ -376,16 +381,6 @@ function onReplacePick(pick) {
   else redrawSecondary(props.pi, slug, kind, pick)
 }
 
-// The discard ends the turn, so it goes the way End turn goes (RoundTracker's check first);
-// mounted on its own (a test) the deck does it directly.
-const requestEndTurn = inject('requestEndTurn', null)
-const confirmSlug = ref(null)
-function onEndTurnDiscard() {
-  const slug = confirmSlug.value
-  confirmSlug.value = null
-  if (requestEndTurn) requestEndTurn({ discard: { pi: props.pi, slug } })
-  else endTurnDiscard(props.pi, slug)
-}
 
 function onSetAside(slug) { discardFromHand(props.pi, slug); actionSlug.value = null }
 function onReturn(slug) { returnSecondaryToDeck(props.pi, slug); actionSlug.value = null }
@@ -469,6 +464,9 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
    is easy. */
 .card.set-aside { border-style: dashed; }
 .card.set-aside .card-name, .card.set-aside .cm-src { opacity: 0.6; }
+/* A card marked to go at the end of the turn: in the side's colour, so it reads as the player's own
+   choice, not the game's. */
+.badge-eot { color: var(--accent-ink); border-color: var(--accent); }
 .badge {
   font-size: 0.6rem;
   font-weight: 700;

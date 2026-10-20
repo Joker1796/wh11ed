@@ -287,8 +287,7 @@ own rule — WHEN DRAWN, set aside, return to deck, in the card's "⋯" sheet. T
 
 ## Ending a turn — the check first (`TurnEndCheckModal`, `missionTiming.turnEndChecks`)
 
-End turn (and the last turn's Finish, and the end-of-turn discard from a card's sheet, which
-`SecondaryDeck` sends up through `inject('requestEndTurn')`) first asks
+End turn (and the last turn's Finish) first asks
 `turnEndChecks`: every condition that scores at this very moment, on both sides' cards in hand and
 both primaries — the side on turn's "end of your turn", the other side's "end of your opponent's
 turn", either side's "end of a turn" (the side on turn's own were left out until 2026-10-02; the
@@ -341,8 +340,12 @@ idempotent, so Undo turn is the same call and a phone that missed a tick catches
 
 **The card sheet ("⋯") offers each rule by name**, greyed with the reason when not available:
 WHEN DRAWN, **Replace for 1CP** (`cpRedraw` — side on turn, once per battle, `cpRedrawUsed`),
-**Discard at the end of the turn, +1CP** (`endTurnDiscard` — takes the round's bonus if free,
-confirms, then ends the turn; the card carries `auto` + `cp` so Undo turn returns both), set aside,
+**Discard at the end of the turn, +1CP** — a MARK, not an act (owner, 2026-10-20: it used to end
+the turn on the spot): `markForTurnEnd` writes `secondary.eotMarked` (the side's slice, so every
+phone sees the "discarded at turn end" badge), the same item takes it off, and `endTurn` sends the
+marked cards off (`discardMarked` → `discardAtTurnEnd`: the round's bonus if free, the card carrying
+`auto` + `cp` so Undo turn returns both). A marked card is not in the end-of-turn check, and a card
+that scored this turn cannot be marked or discarded (it is achieved: it leaves for its VP), set aside,
 return to deck. A card that came in by hand may be replaced by hand (`ReplaceCardModal`).
 
 ## Stratagems in the CP tab (`CpStratagems.vue`, `gameStratagems.js`)

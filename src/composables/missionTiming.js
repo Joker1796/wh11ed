@@ -73,10 +73,12 @@ export function blockLocked(game, pi, round, enBlock) {
 // fallbacks.
 //   game — the live game; `scorable(slug, role, round)` — useTracker's scorableBlocks, bound to
 //   the locale by the caller (this module stays free of the heavy mission data).
-//   discarding — `{ pi, slug }` of the card the turn ends by discarding for CP: it is not in the
-//   check, or one card would pay twice — its VP and the CP (a player's report, 2026-10-20).
+//   discarding — `{ pi, slug }` of each card the turn ends by discarding for CP (one, or a list —
+//   the cards marked for the end of the turn): not in the check, or one card would pay twice — its
+//   VP and the CP (a player's report, 2026-10-20).
 // Returns [{ pi, slug | null (the primary), blocks }], each with only the blocks that score now.
 export function turnEndChecks(game, scorable, missionEn, discarding = null) {
+  const leaving = [].concat(discarding || [])
   if (!game || game.phase !== 'playing') return []
   const R = game.currentRound
   const T = game.currentTurn === 1 ? 1 : 0
@@ -103,7 +105,7 @@ export function turnEndChecks(game, scorable, missionEn, discarding = null) {
       if (m.at === 'your-command') return !opp && R === 5 && m.fallback === 'r5'
       return false
     }
-    for (const slug of pl.secondary?.hand || []) if (!(discarding?.pi === pi && discarding.slug === slug)) pick(pi, slug, pl.role, due)
+    for (const slug of pl.secondary?.hand || []) if (!leaving.some((d) => d?.pi === pi && d.slug === slug)) pick(pi, slug, pl.role, due)
     if (pl.primarySlug) pick(pi, pl.primarySlug, null, due)
   })
   return out

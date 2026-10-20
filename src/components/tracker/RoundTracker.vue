@@ -529,7 +529,7 @@
     />
     <TurnEndCheckModal
       v-if="pendingEnd"
-      :checks="pendingChecks"
+      :checks="turnChecks"
       :names="current.players.map((_, i) => playerName(i))"
       :final="pendingEnd.final"
       :confirm-label="pendingEnd.final ? labels.trackerCheckGoFinal : labels.trackerCheckGo"
@@ -558,7 +558,7 @@
 
 <script setup>
 import ExpandTransition from '../ExpandTransition.vue'
-import { ref, computed, watch, provide, nextTick, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import NumberStepper from './NumberStepper.vue'
 import CpBank from './CpBank.vue'
@@ -608,7 +608,7 @@ import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, endTurnDiscard, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame, strictWhy, strictUndoWhy } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame, strictWhy, strictUndoWhy } = useTracker()
 // Strict rules' reason (strictRules.js), as the screen says it — '' when nothing is refused.
 const strictText = (why) => (why ? labels.value[`trackerStrict_${why}`] : '')
 const begun = computed(() => gameBegun(current.value))
@@ -1011,22 +1011,25 @@ function bonusSource(i) {
 
 // Ending a turn goes through a check: what scores at this moment on cards nobody is looking at
 // (the other side's "end of your opponent's turn" secondaries; on the battle's last turn every End
-// of Battle condition — missionTiming.turnEndChecks). Nothing to check, nothing shown. The end-of-
-// turn discard from a card's sheet comes through here too (provided to SecondaryDeck), so its
-// turn ends the same way. The last turn goes on to how the game ended (GameEndModal).
-// The card being discarded at the end of the turn is not in the check (turnEndChecks' `discarding`).
-const checksFor = (end) => turnEndChecks(
-  current.value,
-  (slug, role, round) => scorableBlocks(slug, role, round, locale.value),
-  (slug, role) => missionBySlug(slug, role),
-  end?.discard || null,
-)
-const pendingEnd = ref(null) // { final, discard?: { pi, slug } }
-const pendingChecks = computed(() => checksFor(pendingEnd.value))
-function requestEndTurn(opts = {}) {
-  const end = { final: !canEndTurn(), ...opts }
+// of Battle condition — missionTiming.turnEndChecks). Nothing to check, nothing shown. The last
+// turn goes on to how the game ended (GameEndModal).
+// The cards the side on turn marked to discard leave as the turn ends (useTracker's endTurn), so
+// they are not in the check (turnEndChecks' `discarding`): one card would pay twice — VP and CP.
+const turnChecks = computed(() => {
+  const g = current.value
+  const pi = g?.currentTurn === 1 ? 1 : 0
+  return turnEndChecks(
+    g,
+    (slug, role, round) => scorableBlocks(slug, role, round, locale.value),
+    (slug, role) => missionBySlug(slug, role),
+    (g?.players?.[pi]?.secondary?.eotMarked || []).map((slug) => ({ pi, slug })),
+  )
+})
+const pendingEnd = ref(null) // { final }
+function requestEndTurn() {
+  const end = { final: !canEndTurn() }
   // The check before the turn passes, unless the game switched the mission help off (`trackMissionAids`).
-  if (checksFor(end).length && tracks(current.value.settings, 'trackMissionAids')) pendingEnd.value = end
+  if (turnChecks.value.length && tracks(current.value.settings, 'trackMissionAids')) pendingEnd.value = end
   else finishTurn(end)
 }
 function confirmEnd() {
@@ -1034,12 +1037,10 @@ function confirmEnd() {
   pendingEnd.value = null
   finishTurn(end)
 }
-function finishTurn({ final, discard }) {
-  if (discard) endTurnDiscard(discard.pi, discard.slug)
-  else if (!final) endTurn()
+function finishTurn({ final }) {
+  if (!final) endTurn()
   if (final) endModalOpen.value = true
 }
-provide('requestEndTurn', requestEndTurn)
 
 // The phase arrows stay inside the turn (see the template): a turn is changed by End / Undo turn.
 function canStepInTurn(delta) {
