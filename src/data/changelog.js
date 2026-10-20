@@ -26,11 +26,11 @@ export const changelog = [
     date: '2026-10-22',
     en: [
       { h: 'Whole site' },
-      '**Error reports now also say how fast the site runs on your device.** If you turned them on, the site sends how quickly each screen answered a tap, how long it was busy, your browser and how many cores and how much memory the device has. Nothing personal goes with it. You can turn it off in ⚙ → “Stop sending error reports”.',
+      '**Error reports now also say when a screen runs slowly on your device.** If you turned them on and a screen answers a tap in 0.2 s or more, or stays busy for long, the site sends which screen, its timings, your browser and how many cores and how much memory the device has. At most once a day, and nothing personal. You can turn it off in ⚙ → “Stop sending error reports”.',
     ],
     ru: [
       { h: 'Весь сайт' },
-      '**Отчёты об ошибках теперь говорят и о том, как быстро сайт работает на вашем устройстве.** Если вы их включили, сайт отправляет, как быстро экраны отвечали на нажатие, сколько они были заняты, ваш браузер, число ядер и объём памяти устройства. Ничего личного туда не попадает. Выключить можно в ⚙ → «Не отправлять отчёты об ошибках».',
+      '**Отчёты об ошибках теперь сообщают и о медленных экранах на вашем устройстве.** Если вы их включили, а экран отвечает на нажатие 0,2 с и дольше или надолго занят, сайт отправляет, какой это экран, его времена, ваш браузер, число ядер и объём памяти устройства. Не чаще раза в день и ничего личного. Выключить можно в ⚙ → «Не отправлять отчёты об ошибках».',
     ],
   },
   {

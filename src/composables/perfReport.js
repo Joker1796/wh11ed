@@ -7,8 +7,13 @@
 //            Google calls INP for the whole page, here per screen;
 //   - longN / longMs  the long tasks (>50 ms of main thread at once) while it was up;
 //   - secs   how long it was up and visible.
-// Sent when the page is hidden or closed, then forgotten. A browser without Event Timing and Long
-// Tasks (Safari, Firefox) sends nothing: seconds alone say nothing about speed.
+// Only what looks wrong is sent (owner, 2026-10-20: "send only when something suspicious is found,
+// with a limit — it must not keep sending"): a screen whose slowest tap took SLOW_TAP_MS or more, or
+// whose long tasks took more than BUSY_SHARE of its visible time. At most MAX_SCREENS of them, at
+// most once a day per browser (useErrorLog's sendPerf), and nothing offline. The healthy rest is
+// counted by the error reports' daily hello, which is the denominator. Sent when the page is hidden
+// or closed, then forgotten. A browser without Event Timing and Long Tasks (Safari, Firefox) sends
+// nothing: seconds alone say nothing about speed.
 //
 // Why at all: on 2026-10-20 the owner's Android showed an open card jumping with every letter the
 // search box typed, and animations stuttering — found by eye, not by anything we measure.
@@ -16,6 +21,12 @@ import { LOCALE_SEGMENT } from '../router/locale.js'
 import { sendPerf } from './useErrorLog.js'
 
 const MIN_SECS = 1 // a screen passed through on the way somewhere says nothing
+export const SLOW_TAP_MS = 200 // Google's line between a good tap-to-paint and one that needs work
+export const BUSY_SHARE = 0.02 // long tasks over 2% of the visible time: 1.2 s a minute
+const MAX_SCREENS = 3
+
+/** A screen worth sending: a slow tap, or a main thread busy for long. */
+export const suspicious = (p) => (p.inp ?? 0) >= SLOW_TAP_MS || p.longMs > p.secs * 1000 * BUSY_SHARE
 
 /** The route pattern of a resolved route, without the locale segment, safe for the server. */
 export function screenOf(route) {
@@ -79,7 +90,9 @@ export function installPerfReport(router, deps = {}) {
     closeTime()
     const perf = [...screens].filter(([, s]) => s.ms >= MIN_SECS * 1000)
       .map(([route, s]) => ({ route, ...(s.tapped ? { inp: s.inp } : {}), longN: s.longN, longMs: s.longMs, secs: Math.round(s.ms / 1000) }))
-      .sort((a, b) => b.secs - a.secs)
+      .filter(suspicious)
+      .sort((a, b) => (b.inp ?? 0) - (a.inp ?? 0) || b.longMs - a.longMs)
+      .slice(0, MAX_SCREENS)
     screens.clear()
     if (perf.length) send(perf)
   }
