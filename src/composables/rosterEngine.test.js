@@ -270,6 +270,22 @@ describe('wargearGroupLive + defaultLoadoutLines with cond/rep', () => {
       gear: [{ ...chosen.gear[0], all: 0 }, { ...chosen.gear[1], all: 0 }] }
     expect(wargearGroupLive(split, { size: 0, wg: [[0, 0, 5]] }, 1)).toBe(true)
   })
+
+  // "1 model equipped with a boltgun can …" where two groups take a boltgun away (a Plague
+  // Marine's, a Neophyte's Hybrid firearm): `cond[3]` names the second, and a model gone to
+  // either no longer qualifies. Read before 2026-10-20 as the first group alone.
+  it('counts every group that takes the item away', () => {
+    const two = { ...chosen, gear: [
+      chosen.gear[0],
+      { all: 1, m: 0, t: 3, in: 'stepper', o: [[5]], rep: [1] }, // a second boltgun swap
+      { all: 1, m: 0, t: 2, in: 'stepper', o: [[4]], cond: [0, 0, null, [1]] },
+    ] }
+    expect(wargearGroupLive(two, { size: 0, wg: [[0, 0, 3], [1, 0, 1]] }, 2)).toBe(true) // one left
+    expect(wargearGroupLive(two, { size: 0, wg: [[0, 0, 3], [1, 0, 2]] }, 2)).toBe(false) // none left
+    expect(wargearGroupLive(two, { size: 0, wg: [[1, 0, 5]] }, 2)).toBe(false) // all through the second
+    // What has to change names the item, whichever group took it.
+    expect(wargearGroupBlocker(two, { size: 0, wg: [[1, 0, 5]] }, 2)).toEqual({ need: 'present', ids: [1] })
+  })
 })
 
 describe('canBeWarlord', () => {
@@ -2132,3 +2148,26 @@ describe('one option\'s own duplicate cap', () => {
     expect(wargearGroupCap(def, {}, 0, 1)).toEqual({ limit: 2, dup: 0 })
   })
 })
+
+// "One Plague Marine equipped with a boltgun can be equipped with 1 icon of despair": five groups
+// take a boltgun away, and the condition read only the first of them (`find` in gen-roster-data's
+// condFor). With every boltgun gone through the other four, the icon must have no one to go to.
+describe('a condition on an item several groups replace', () => {
+  it('closes once every model gave that item up, whichever groups took it', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const dg = await loadRosterFaction('death-guard')
+    const def = dg.units.find((u) => u.id === 'plague-marines')
+    const icon = def.gear.findIndex((g) => g.o.length === 1 && g.keep?.length && !g.rep?.length)
+    // 5 models: the champion and 4 Plague Marines; four swaps through groups 3, 4 and 5.
+    const allGone = { id: def.id, size: 0, wg: [[3, 0, 1], [4, 0, 1], [5, 0, 2]] }
+    expect(wargearGroupLive(def, allGone, icon) && !wargearGroupBlocker(def, allGone, icon)).toBe(false)
+    const oneLeft = { id: def.id, size: 0, wg: [[3, 0, 1], [5, 0, 2]] }
+    expect(wargearGroupLive(def, oneLeft, icon)).toBe(true)
+    expect(wargearGroupBlocker(def, oneLeft, icon)).toBe(null)
+    // Taken first, then the last boltgun swapped away: the icon's group closes like any gated
+    // group — its pick is no longer counted, and the editor shows it struck through to undo.
+    const late = { id: def.id, size: 0, wg: [[icon, 0, 1], [3, 0, 1], [4, 0, 1], [5, 0, 2]] }
+    expect(wargearGroupLive(def, late, icon)).toBe(false)
+  })
+})
+

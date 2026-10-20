@@ -23,9 +23,11 @@
  */
 
 /**
- * A wargear group's condition: `[siblingGroupIndex, wantActive, options?]` — `options` (indexes
- * into the sibling's `o`) narrows "the sibling has a pick" to a pick of those.
- * @typedef {[number, number, number[]?]} GearCond
+ * A wargear group's condition: `[siblingGroupIndex, wantActive, options?, alsoGroups?]` — `options`
+ * (indexes into the sibling's `o`) narrows "the sibling has a pick" to a pick of those; `alsoGroups`
+ * are the other groups that take the same item away, counted with the sibling (`options` is null
+ * when only they are given).
+ * @typedef {[number, number, (number[] | null)?, number[]?]} GearCond
  */
 
 /**

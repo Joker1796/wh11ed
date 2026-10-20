@@ -252,6 +252,17 @@ export function condsOf(g) {
 function condPicks(entry, [sibGi, , opts]) {
   return (entry?.wg || []).filter(([g, o]) => g === sibGi && (!opts || opts.includes(o)))
 }
+/** The picks of every group a condition counts — the sibling's (narrowed to its options), then
+ * those of the other groups taking the same item away (`cond[3]`), each with its group index.
+ * @param {EntryLike | null | undefined} entry @param {GearCond} cond
+ * @returns {[number, WargearPick][]} */
+function condGroupPicks(entry, cond) {
+  const also = cond[3] || []
+  return [
+    ...condPicks(entry, cond).map((p) => /** @type {[number, WargearPick]} */ ([cond[0], p])),
+    ...(entry?.wg || []).filter(([g]) => also.includes(g)).map((p) => /** @type {[number, WargearPick]} */ ([p[0], p])),
+  ]
+}
 
 /**
  * @param {RosterUnit | null | undefined} def
@@ -268,21 +279,30 @@ export function wargearGroupLive(def, entry, gi) {
 function condLive(def, entry, cond) {
   const gear = def?.gear || []
   const [sibGi, wantActive] = cond
-  const pick = condPicks(entry, cond)[0]
+  const picks = condGroupPicks(entry, cond)
   // `wantActive` asks the opposite question — this group needs the sibling's item GONE from a
   // model ("if this model is not equipped with a tachyon arrow…"), and one pick is one model that
   // gave it up, which is all the condition asks for.
-  if (wantActive) return !!pick
-  if (!pick) return true
+  if (wantActive) return picks.length > 0
+  if (!picks.length) return true
 
   const g = gear[sibGi]
   // A unit-wide group is scoped to the whole squad, a per-profile one to its own models.
   const scope = g?.all ? modelCount(def, entry) : modelsPerMini(def, entry)?.get(g?.m ?? 0)
   if (scope == null) return true // scope unknown → assume a model still qualifies, never hide on a guess
   // The same reading of a pick as swapsByMini's `consumed`: a stepper carries the model count, a
-  // checkbox is one model unless its instruction hands the swap to the whole profile.
-  const consumed = g.in === 'stepper' ? Math.min(pick[2] || 1, scope * (g.cp || 1)) : Math.min(g.repall ? scope : 1, scope)
-  return consumed < scope * (g.cp || 1)
+  // checkbox is one model unless its instruction hands the swap to the whole profile. A group whose
+  // swap is per copy (`cp`) gives up a model's item only with every copy, so it counts in models.
+  // Summed over every group that takes the item away: a model may give it up to any of them.
+  let models = 0
+  for (const [gi, pick] of picks) {
+    const h = gear[gi]
+    if (!h) continue
+    const cp = h.cp || 1
+    const consumed = h.in === 'stepper' ? Math.min(pick[2] || 1, scope * cp) : Math.min(h.repall ? scope : 1, scope)
+    models += consumed / cp
+  }
+  return models < scope
 }
 
 // WHY a gated group is closed right now, or null while it is open — so the editor can grey it out
@@ -325,8 +345,9 @@ function condBlocker(gear, entry, cond) {
   // Name what the sibling actually took, when it took something — listing every option it offers
   // would tell the reader to remove three things when they picked one; a condition on particular
   // options names those.
-  const pick = condPicks(entry, cond)[0]
-  const opt = pick ? sib?.o?.[pick[1]] : null
+  // What a group of the condition actually took, where one did — the sibling first.
+  const [pickGi, pick] = condGroupPicks(entry, cond)[0] || []
+  const opt = pick ? gear[pickGi]?.o?.[pick[1]] : null
   const named = cond[2] ? cond[2].map((i) => sib?.o?.[i]).filter((o) => o != null) : sib?.o || []
   /** @param {GearOption[]} opts */
   const itemsOf = (opts) => [...new Set(opts.flatMap((o) => optionItems(o).map(([id]) => id)))]

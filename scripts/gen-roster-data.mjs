@@ -994,9 +994,14 @@ function linkWargearConditions(datasheetId, drafts) {
       // an item that holds whatever the model does says nothing: drop it, keep the others
       if (c === ALWAYS) continue
       if (!c) { conds.length = 0; (report.cond.unread ||= []).push(`${enOf(dsById.get(datasheetId)).name}: «${item}» ← ${d.text.split('\n')[0].slice(0, 90)}`); break }
-      // two items one sibling gives ("either a HYLas rotary cannon or an ion beamer") are one condition on it
+      // two items one sibling gives ("either a HYLas rotary cannon or an ion beamer") are one condition on it;
+      // the other groups taking either item away count for both ("a shuriken pistol and power sword":
+      // the sword alone has a second swap) — a model without either no longer qualifies
       const same = conds.find((x) => x.sibling === c.sibling && x.active === c.active)
-      if (same) { if (same.items && c.items) same.items.push(...c.items); else same.items = null } else conds.push(c)
+      if (same) {
+        if (same.items && c.items) same.items.push(...c.items); else same.items = null
+        if (c.also) same.also = [...new Set([...(same.also || []), ...c.also])]
+      } else conds.push(c)
     }
     if (!conds.length) continue
     d.cond = conds
@@ -1017,9 +1022,12 @@ function linkWargearConditions(datasheetId, drafts) {
     if (toggleSibling) return { sibling: toggleSibling, active: !negated }
 
     // Case (b): a sibling group's own `rep` shows it replaces this exact item — this group is
-    // only live once that sibling has actually been picked away from its default.
-    const repSibling = drafts.find((s) => s !== d && s.m === d.m && s.rep?.includes(uuid))
-    if (repSibling) return { sibling: repSibling, active: negated }
+    // only live once that sibling has actually been picked away from its default. Several groups
+    // can take the same item away (a Plague Marine's boltgun, five of them): the condition counts
+    // them all (`also`), or the item read as still carried after the others had taken every one
+    // (Corsair Voidscarred's power sword, a Neophyte's Hybrid firearm — 2026-10-20).
+    const repSiblings = drafts.filter((s) => s !== d && s.m === d.m && s.rep?.includes(uuid))
+    if (repSiblings.length) return { sibling: repSiblings[0], ...(repSiblings.length > 1 ? { also: repSiblings.slice(1) } : {}), active: negated }
 
     // Case (c): the item is not the model's to start with, and exactly one sibling group hands it
     // out — "If the Helliarch is equipped with 1 splinter pistol, it can be equipped with 1
@@ -1343,7 +1351,10 @@ function mergeMiniatureDuplicates(drafts, stats) {
   if (!dropped.size) return drafts
   // A sibling condition points at a draft object; if that object is one of the dropped copies,
   // it has to follow the survivor or the dependent group would never go live.
-  for (const d of drafts) for (const c of d.cond || []) if (dropped.has(c.sibling)) c.sibling = dropped.get(c.sibling)
+  for (const d of drafts) for (const c of d.cond || []) {
+    if (dropped.has(c.sibling)) c.sibling = dropped.get(c.sibling)
+    if (c.also) c.also = [...new Set(c.also.map((x) => dropped.get(x) || x))].filter((x) => x !== c.sibling)
+  }
   return drafts.filter((d) => !dropped.has(d))
 }
 
@@ -2854,11 +2865,16 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     // profile — its own copy where it has one, the sergeant's otherwise.
     if (d.cond) {
       const conds = d.cond.map((c) => {
-        const at = copyIndex.get(c.sibling)?.get(m) ?? gearIndex.get(c.sibling)
+        const indexOf = (sib) => copyIndex.get(sib)?.get(m) ?? gearIndex.get(sib)
+        const at = indexOf(c.sibling)
         // the sibling's options carrying the named items, unless that is all of them
         const opts = c.items && c.sibling.opts.map((o, i) => [o, i])
           .filter(([o]) => c.items.some((u) => o.uuid === u || o.items?.some(([x]) => x === u))).map(([, i]) => i)
-        return opts?.length && opts.length < c.sibling.opts.length ? [at, c.active ? 1 : 0, opts] : [at, c.active ? 1 : 0]
+        const out = opts?.length && opts.length < c.sibling.opts.length ? [at, c.active ? 1 : 0, opts] : [at, c.active ? 1 : 0]
+        // the other groups that take the same item away — fourth slot, after an empty `opts`
+        const also = (c.also || []).map(indexOf).filter((x) => x != null && x !== at)
+        if (also.length) { while (out.length < 3) out.push(null); out.push([...new Set(also)]) }
+        return out
       })
       grp.cond = conds.length === 1 ? conds[0] : conds
     }
