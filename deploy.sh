@@ -195,11 +195,15 @@ if [ -f dist/.seo-routes.txt ]; then
   done < <(cut -d/ -f2 dist/.seo-routes.txt | sort -u)
 fi
 echo "▶ images/favicon/icons  →  30 days"
+# The stand's seed (npm run stand:seed writes public/_seed.json + _seed.html, git-ignored) is copied
+# into dist by every build on a machine that has one; it is the stand's, never the site's — it
+# reached beta.wh-rules.ru on 2026-10-20. "*.html" already keeps the page out; the .json needs its own.
 aws s3 sync dist "$BUCKET" \
   --exclude "*.html" --exclude "assets/*" --exclude "*.DS_Store" \
   --exclude "sw.js" --exclude "registerSW.js" --exclude "manifest.webmanifest" \
   --exclude "robots.txt" --exclude "sitemap.xml" --exclude ".seo-routes.txt" \
   --exclude "offline-manifest.json" --exclude "version.json" \
+  --exclude "_seed.json" \
   ${ROUTE_EXCLUDES[@]+"${ROUTE_EXCLUDES[@]}"} \
   --cache-control "public, max-age=2592000" \
   --delete
