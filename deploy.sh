@@ -55,7 +55,11 @@ if [ "$BUMP" = "none" ]; then
       echo "✗ BUMP=none: could not read the live version from $VITE_SITE_ORIGIN — refusing rather than risk a silent deploy." >&2
       exit 1
     fi
-    if [ "$LIVE_VERSION" = "$SHIP_VERSION" ]; then
+    # The beta is where a release is reworked before it reaches the site, under the number the
+    # site will get (owner, 2026-10-20): there the same number ships again. Never on the site.
+    if [ "$LIVE_VERSION" = "$SHIP_VERSION" ] && [ -n "${VITE_BETA:-}" ]; then
+      echo "▶ Beta: v$SHIP_VERSION again — the release is still being reworked here"
+    elif [ "$LIVE_VERSION" = "$SHIP_VERSION" ]; then
       echo "✗ BUMP=none: v$SHIP_VERSION is already live on $VITE_SITE_ORIGIN — a silent deploy. Ship it as the next patch." >&2
       exit 1
     fi
