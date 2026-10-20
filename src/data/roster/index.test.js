@@ -1108,7 +1108,9 @@ describe('allegiance choices', () => {
     // choice (CHARACTER_GRANTS, 2026-10-07).
     // Codex: Adeptus Custodes (data 981) retired Solar Spearhead, whose CHARACTER upgrade four
     // Custodes vehicles carried: 63 from appdata.
-    expect(withAlleg()).toHaveLength(63 + 17 + 11)
+    // Plus the 3 Chaos Daemons Legends whose own DAEMONIC ALLEGIANCE rule asks for a god (Furies,
+    // Giant Chaos Spawn, Spined Chaos Beast — 2026-10-20).
+    expect(withAlleg()).toHaveLength(63 + 17 + 11 + 3)
   })
 
   it('always offers something to choose, and says whether it must be chosen', () => {

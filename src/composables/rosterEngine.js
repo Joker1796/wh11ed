@@ -258,10 +258,11 @@ function condPicks(entry, [sibGi, , opts]) {
  * @returns {[number, WargearPick][]} */
 function condGroupPicks(entry, cond) {
   const also = cond[3] || []
-  return [
-    ...condPicks(entry, cond).map((p) => /** @type {[number, WargearPick]} */ ([cond[0], p])),
-    ...(entry?.wg || []).filter(([g]) => also.includes(g)).map((p) => /** @type {[number, WargearPick]} */ ([p[0], p])),
-  ]
+  /** @type {[number, WargearPick][]} */
+  const out = []
+  for (const p of condPicks(entry, cond)) out.push([cond[0], p])
+  for (const p of entry?.wg || []) if (also.includes(p[0])) out.push([p[0], p])
+  return out
 }
 
 /**

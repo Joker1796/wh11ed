@@ -603,7 +603,10 @@ which ones each Chapter is denied and why).
 - **Leaders** by name against the faction's units (and the SM pool for a Chapter); a keyword target
   ("Imperium Battleline Infantry") becomes `leadKw` plus the resolved ids. **The Mark of Chaos** is
   granted by the Pactbound Zealots rule's own wording — a HERETIC ASTARTES unit, not an EPIC HERO,
-  carrying no mark already — copied from an appdata unit that has it; 17 CSM sheets.
+  carrying no mark already — copied from an appdata unit that has it; 17 CSM sheets. **A sheet's own
+  DAEMONIC ALLEGIANCE rule** (Furies, Giant Chaos Spawn, Spined Chaos Beast, 2026-10-20) becomes a
+  required pick of its own group (`gid: 'pack'` — appdata's group of that name carries the Daemon
+  Prince's own effects); the sheets' Creature of … records answer from it (`alleg-*` conditions).
 - **Fail-closed, reported by name.** The generator prints every sheet dropped, bracket rejected,
   loadout paragraph unplaced, option sentence unread, replaced item unresolved, item the sheet does
   not print, Leader target not found — under "Faction Pack Legends" in the run report. Read it after

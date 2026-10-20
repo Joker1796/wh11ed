@@ -3331,6 +3331,13 @@ async function packUnitsFor(slug, units) {
   // Steel Hammer's "one or more ASTRA MILITARUM TITANIC units" takes a Legends Macharius too.
   const grants = units.map((u) => u.alleg).filter((a) => a && CHARACTER_GRANTS[a.g])
   const allegFor = (d) => {
+    // A sheet's own "DAEMONIC ALLEGIANCE" rule (Furies, Giant Chaos Spawn, Spined Chaos Beast): the
+    // keyword is chosen when the unit joins the army, as a Daemon Prince's is. Its own group (`gid:
+    // 'pack'`), not the Daemon Prince's: appdata's allegiance records for that group carry the
+    // Prince's own +2 S and the like, and the pack sheet's Creature of … abilities are its own.
+    const own = (d.rules || []).find((r) => /^daemonic allegiance$/i.test(String(r.name || '').trim()))
+    const marks = own && [...String(own.text || '').matchAll(/^▪\s*([A-Z][A-Z ]+)$/gm)].map((m) => m[1].trim())
+    if (marks?.length) return { g: 'daemonic-allegiance', gid: 'pack', t: 'Daemonic Allegiance', o: marks.map((k) => ({ n: k[0] + k.slice(1).toLowerCase() })), req: 1 }
     const kws = [...(d.keywords || []), ...(d.factionKeywords || [])].map(norm)
     if (mark && kws.includes('heretic astartes') && !kws.includes('epic hero') && !kws.some((k) => MARKS.includes(k))) return JSON.parse(JSON.stringify(mark))
     const grant = grants.find((a) => CHARACTER_GRANTS[a.g].every((k) => kws.includes(k)))
