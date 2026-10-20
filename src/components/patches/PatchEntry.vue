@@ -33,6 +33,10 @@
           v-if="item.kind === 'publication' && item.date"
           class="pe-note"
         >{{ item.change === 'changed' ? `${labels.patchesErrata} ` : '' }}{{ item.date }}</span>
+        <span
+          v-else-if="item.kind === 'document' && item.date"
+          class="pe-note"
+        >{{ item.date }}</span>
       </span>
       <!-- What opening it shows: the abilities, the stratagem's parts, or just "text". -->
       <span
@@ -68,6 +72,18 @@
         :class="priceTone(c)"
       >{{ c.text ?? c }}</span>
     </div>
+
+    <!-- A GW document that moved on: its PDF, where the app has nothing to show. -->
+    <a
+      v-if="item.url"
+      :href="item.url"
+      class="pe-doc"
+      target="_blank"
+      rel="noopener"
+    >
+      <i class="wi wi-pdf" />
+      {{ labels.patchesDocOpen }}
+    </a>
 
     <!-- Lists that gained or lost entries: keywords, the units a Leader can join, core abilities. -->
     <p
@@ -192,6 +208,9 @@ const kindLabel = computed(() => {
   if (k === 'detachmentRule') return l.patchesRule
   if (k === 'faq') return props.item.type === 'qa' ? l.patchesQuestion : l.patchesErrataEntry
   if (k === 'coreRule' && props.item.num) return props.item.num
+  if (k === 'mission') return { primary: l.patchesPrimary, secondary: l.patchesSecondary, twist: l.patchesTwist }[props.item.type] || ''
+  if (k === 'missionMatrix') return l.patchesMatrix
+  if (k === 'forceDisposition') return l.patchesDisposition
   return ''
 })
 
@@ -226,7 +245,13 @@ const chips = computed(() => {
       out.push(`${models.size > 1 ? `${f.model}: ` : ''}${f.stat} ${arrow(f.from, f.to)}`)
     }
   }
-  const named = { invul: l.patchesInvul, damaged: l.patchesDamaged, sizes: l.patchesSizes, dp: 'DP', forceDisposition: 'Force Disposition', cp: 'CP' }
+  const named = {
+    invul: l.patchesInvul, damaged: l.patchesDamaged, sizes: l.patchesSizes, dp: 'DP', forceDisposition: 'Force Disposition', cp: 'CP',
+    secondaryCp: l.patchesSecondCp, points: l.patchesBattlePoints, enhancementLimit: l.patchesEnhancementLimit,
+    duplicateUnitLimit: l.patchesDuplicateLimit, version: l.patchesDocVersion,
+  }
+  // A dispositions pair's primary mission: the chip is the missions, the pair is the entry's name.
+  for (const f of fields.value) if (f.field === 'primary') out.push(arrow(f.from, f.to))
   for (const f of fields.value) if (named[f.field]) out.push(`${named[f.field]} ${arrow(f.from, f.to)}`)
   return out
 })
@@ -249,7 +274,7 @@ const texts = computed(() => {
   const l = labels.value
   const x = props.item
   const out = []
-  const part = { when: l.patchesWhen, target: l.patchesTarget, effect: l.patchesEffect, restriction: l.patchesRestriction }
+  const part = { when: l.patchesWhen, target: l.patchesTarget, effect: l.patchesEffect, restriction: l.patchesRestriction, secondaryEffect: l.patchesSecondEffect }
   for (const f of fields.value) {
     if (f.field === 'ability') {
       if (f.change !== 'removed') out.push({ label: f.name, named: true, prefix: f.change === 'added' ? '+' : '', from: f.from || '', to: f.to || '' })
@@ -263,6 +288,7 @@ const texts = computed(() => {
 </script>
 
 <style scoped>
+.pe-doc { display: inline-flex; align-items: center; gap: 0.35rem; margin: 0 0.6rem 0.45rem; font-size: 0.85rem; }
 .pe-doubt {
   display: flex;
   gap: 0.4rem;

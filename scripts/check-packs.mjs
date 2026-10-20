@@ -17,24 +17,24 @@ import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
 
-const PACKS = path.join(ROOT, '..', 'sources', 'Faction pack 11 ed')
+export const PACKS = path.join(ROOT, '..', 'sources', 'Faction pack 11 ed')
 // The file names say the faction in GW's own spelling, typos included.
 const ALIAS = { 'imperia-agents': 'imperial-agents', 'adeptus-titanicus': 'titan-legions' }
 
-function packFiles(dir) {
+export function packFiles(dir) {
   if (!fs.existsSync(dir)) return []
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
     const p = path.join(dir, e.name)
     return e.isDirectory() ? packFiles(p) : e.name.endsWith('.pdf') ? [p] : []
   })
 }
-const slugOf = (file) => {
+export const slugOf = (file) => {
   const m = path.basename(file).toLowerCase().match(/faction_pack_(.+?)-[a-z0-9]{8,}-[a-z0-9]+\.pdf$/)
   if (!m) return null
   const s = m[1].replace(/[_]+/g, '-')
   return ALIAS[s] || s
 }
-const versionOf = (file) => {
+export const versionOf = (file) => {
   try {
     const text = execFileSync('pdftotext', ['-l', '3', file, '-'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
     return text.match(/FACTION PACK:\s*VERSION\s+(\d+(?:\.\d+)*)/i)?.[1] || null

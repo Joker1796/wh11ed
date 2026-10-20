@@ -72,14 +72,14 @@
           class="pb-fac-body"
         >
           <!-- Each kind of change folds on its own (owner, 2026-10-14: Custodes' 182 changes in one
-               list). A faction with one kind shows it open; the core rules have no kinds. -->
+               list). A block with one kind shows it open, the core rules with no heading over it. -->
           <div
             v-for="g in b.groups"
             :key="g.key"
             class="pb-group"
           >
             <button
-              v-if="b.key !== 'core'"
+              v-if="b.key !== 'core' || b.groups.length > 1"
               type="button"
               class="pb-group-head"
               :aria-expanded="groupOpen(b, g)"
@@ -89,7 +89,7 @@
               <span class="pb-group-title">{{ g.title }}</span>
               <span class="pb-group-count">{{ g.count }}</span>
             </button>
-            <CollapseTransition :show="b.key === 'core' || groupOpen(b, g)">
+            <CollapseTransition :show="groupOpen(b, g)">
               <a
                 v-if="g.url"
                 :href="g.url"
@@ -157,9 +157,13 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const GROUPS = [
-  ['pub', 'patchesPublications', (x) => x.kind === 'publication' || x.kind === 'faction'],
+  ['pub', 'patchesPublications', (x) => x.kind === 'publication' || x.kind === 'faction' || x.kind === 'document'],
   ['army', 'patchesArmyRules', (x) => x.kind === 'armyRule'],
   ['core', 'patchesCore', (x) => x.kind === 'coreRule'],
+  // The game's own content (factions/_core-content.json), under the core rules.
+  ['sizes', 'patchesBattleSizes', (x) => x.kind === 'battleSize' || x.kind === 'forceDisposition'],
+  ['strat', 'patchesStratagems', (x) => x.kind === 'stratagem' && !x.parent],
+  ['missions', 'patchesMissions', (x) => x.kind === 'mission' || x.kind === 'missionMatrix'],
   ['det', 'patchesDetachments', (x) => x.kind === 'detachment' || !!x.parent],
   ['unit', 'patchesUnits', (x) => x.kind === 'datasheet'],
   ['pts', 'patchesPoints', (x) => x.kind === 'points'],

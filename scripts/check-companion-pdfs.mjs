@@ -37,7 +37,7 @@ const write = process.argv.includes('--write')
 // Which PDF is which. GW renames the files on every republish (the June set is `eng_12-06_…`, the
 // August one `eng_wh40k_…`), so match on what the name still says rather than on the whole name,
 // and prefer the newest file when several editions are lying around.
-const KINDS = [
+export const KINDS = [
   { id: 'doubles', label: 'Warhammer Doubles', test: (f) => /doubles/i.test(f) },
   { id: 'teams', label: 'Warhammer Teams', test: (f) => /teams/i.test(f) },
   { id: 'dominatus', label: 'Warhammer Dominatus', test: (f) => /dominatus/i.test(f) },

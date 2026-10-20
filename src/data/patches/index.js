@@ -26,15 +26,17 @@ export const patches = [
       "app": 981,
       "mfm": "1.6"
     },
-    "total": 266,
+    "total": 284,
     "byFaction": {
-      "core": 3,
-      "adepta-sororitas": 8,
+      "core": 15,
+      "imperial-agents": 4,
+      "leagues-of-votann": 3,
+      "adepta-sororitas": 9,
+      "adeptus-mechanicus": 5,
+      "aeldari": 7,
+      "tyranids": 3,
       "space-marines": 3,
       "adeptus-custodes": 182,
-      "adeptus-mechanicus": 4,
-      "imperial-agents": 3,
-      "aeldari": 6,
       "black-templars": 5,
       "blood-angels": 1,
       "dark-angels": 1,
@@ -43,10 +45,8 @@ export const patches = [
       "emperors-children": 5,
       "grey-knights": 9,
       "chaos-space-marines": 8,
-      "leagues-of-votann": 2,
       "orks": 3,
       "space-wolves": 3,
-      "tyranids": 2,
       "world-eaters": 10
     }
   },
@@ -79,9 +79,9 @@ export const patches = [
       "app": 963,
       "mfm": "1.5"
     },
-    "total": 1218,
+    "total": 1223,
     "byFaction": {
-      "core": 3,
+      "core": 8,
       "adepta-sororitas": 8,
       "space-marines": 415,
       "adeptus-custodes": 22,
@@ -133,9 +133,9 @@ export const patches = [
       "app": 931,
       "mfm": "1.3"
     },
-    "total": 213,
+    "total": 229,
     "byFaction": {
-      "core": 6,
+      "core": 22,
       "adepta-sororitas": 11,
       "space-marines": 8,
       "adeptus-custodes": 5,
@@ -252,9 +252,9 @@ export const patches = [
     "labels": {
       "app": 909
     },
-    "total": 296,
+    "total": 314,
     "byFaction": {
-      "core": 14,
+      "core": 32,
       "adepta-sororitas": 11,
       "space-marines": 43,
       "adeptus-custodes": 7,
