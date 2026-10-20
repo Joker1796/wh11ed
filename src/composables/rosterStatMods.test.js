@@ -1504,6 +1504,9 @@ describe('a Legends sheet\'s own Daemonic Allegiance', () => {
     expect(apply('Tzeentch').profiles[0].inv).toBe('4+')
     expect(apply('Nurgle').profiles[0].t).toBe(String(Number(spawn.profiles[0].t) + 1))
     expect(apply(undefined).profiles[0]).toEqual(spawn.profiles[0])
+  })
+})
+
 // A Combat Patrol box played in the tracker: its detachment, stratagems and enhancements had
 // records all along (they are in appdata's faction bundles), but no faction file holds the box, so
 // the records carried no ref and the cards printed as written (2026-10-20). The box's detachment
