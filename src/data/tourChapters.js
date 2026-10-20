@@ -610,7 +610,7 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'rw-catalog',
-        show: { filters: false },
+        show: { filters: false, firstGroup: true },
         ru: { title: 'Каталог', text: 'Нажмите «+», чтобы добавить юнит в ростер. Нажмите на название, чтобы прочитать карточку юнита. Здесь все юниты фракции по разделам.' },
         en: { title: 'Catalogue', text: 'Press “+” to add a unit to the roster. Tap a name to read the unit’s card. All the faction’s units are here, by section.' },
       },

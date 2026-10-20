@@ -391,6 +391,12 @@ const sectionsFor = (list) =>
 // offer whatever the toggles say, and counting it as "hidden by the filter" would be a lie.
 const allSections = computed(() => sectionsFor(searched.value))
 const groups = computed(() => (anyFilter.value ? sectionsFor(searched.value.filter(passesFilters)) : allSections.value))
+// The tour's "Press “+”" pointed at a catalogue of closed groups on a phone, with no "+" in sight
+// (owner, 2026-10-20): it opens the first one. Left open after — it is what the reader was told to use.
+useTourShow('firstGroup', () => {
+  const first = groups.value.find((g) => g.units.length)
+  if (first && !isOpen(first.id)) toggleGroup(first.id)
+})
 const totalOf = (secs) => secs.reduce((n, sec) => n + sec.units.length, 0)
 const shownCount = computed(() => totalOf(groups.value))
 const hiddenCount = computed(() => (anyFilter.value ? totalOf(allSections.value) - shownCount.value : 0))
