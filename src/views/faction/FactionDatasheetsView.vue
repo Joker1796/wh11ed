@@ -953,10 +953,10 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   .ds-list .ds-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
   /* A row: the name and what is said about it on one line, the two marks side by side at the
      right. The rows touch, sharing one edge (components/CLAUDE.md, Borders that touch). */
-  /* A row: the name, a Legends badge, the price and the "…" on one line; a Space Marines unit's
-     Chapter on a line of its own under them, in the bottom right corner (owner, 2026-10-21). Only
-     the rows that carry a Chapter grow a second line. The rows touch, sharing one edge
-     (components/CLAUDE.md, Borders that touch). */
+  /* A row of two lines (owner, 2026-10-21): the name and its "…" on the first; the price in the
+     bottom left corner (a Legends badge beside it) and a Space Marines unit's Chapter in the bottom
+     right. The name's basis leaves the "…" exactly its room on line one, so what follows wraps.
+     The rows touch, sharing one edge (components/CLAUDE.md, Borders that touch). */
   .ds-list .ds-chip {
     flex-direction: row;
     flex-wrap: wrap;
@@ -969,8 +969,11 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   .ds-list .ds-chip + .ds-chip { margin-top: -1px; }
   .ds-list .ds-chip:hover,
   .ds-list .ds-chip.picked { position: relative; z-index: 1; }
-  .ds-list .ds-chip-name { flex: 1 1 auto; min-width: 0; font-size: 1rem; }
-  .ds-list .ds-chip-chapter { order: 1; flex-basis: 100%; text-align: right; padding-right: 0.25rem; }
+  .ds-list .ds-chip-name { flex: 1 1 calc(100% - 2.2rem); min-width: 0; font-size: 1rem; }
+  .ds-list .ds-more { order: 1; }
+  .ds-list .ds-chip-pts { order: 2; }
+  .ds-list .legends-badge { order: 3; }
+  .ds-list .ds-chip-chapter { order: 4; margin-left: auto; padding-right: 0.25rem; }
   .ds-more {
     display: grid;
     place-items: center;

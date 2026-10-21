@@ -86,8 +86,8 @@ place (2026-10-04/05, journal *Юнит в модалке и сравнение*
   ordinary `ActionMenu`, opened at a point (`anchor`, through AdaptivePicker → PickerDropdown).
 - **A desktop row carries "…" instead of the pin and collection marks** (owner, 2026-10-21): the
   same menu hung from the button, whose rows say both marks' state; the marks' key above the list
-  goes with them. A row is one line — name, Legends, price, "…" — and a Space Marines unit's
-  Chapter takes a second line in its bottom right corner. The phone's chips keep both marks.
+  goes with them. A row is two lines: the name and "…", then the price in the bottom left corner
+  (Legends beside it) and a Space Marines unit's Chapter in the bottom right. The phone's chips keep both marks.
 
 ## See also
 
