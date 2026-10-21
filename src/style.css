@@ -1365,6 +1365,34 @@ strong {
   white-space: nowrap;
 }
 
+/* ── Corner grid ──
+   The navbar logo's grid (AppNavbar's .navbar-inner::before) in a surface's top left and bottom
+   right corners, fading out from each (owner, 2026-10-21): a unit card's statline band, a game's
+   card in the tracker's history. Each fades along the box's own diagonal and is gone just short of
+   the other diagonal — its middle — so the two reach as far as they can without meeting, on a
+   phone's narrow box as on a desktop's. Drawn in the text colour, so it holds in either theme;
+   under everything the box holds (an emblem stamp included — it comes later at the same layer). */
+.corner-grid { position: relative; isolation: isolate; }
+.corner-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  --corner-grid-line: color-mix(in srgb, var(--text-primary) 4%, transparent);
+  background-image:
+    linear-gradient(var(--corner-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--corner-grid-line) 1px, transparent 1px);
+  background-size: 14px 14px;
+  background-position: -1px -1px;
+  -webkit-mask-image:
+    linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%),
+    linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
+  mask-image:
+    linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%),
+    linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
+}
+
 /* "In my collection" on a roster catalogue row — the Legends mark's shape in the faction's accent
    (the editor's root folds it into `--accent`), a star for a word. Only a mark: the collection is edited on the datasheet pages, the row's own tap
    already opens the preview and its right edge adds the unit (2026-09-26, owner's ask). */

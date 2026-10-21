@@ -17,7 +17,7 @@
          top-aligned to its right and the asterisk note under the band. -->
       <div
         v-if="sheet.profiles?.length"
-        class="ds-cardhead"
+        class="ds-cardhead corner-grid"
       >
         <div
           v-for="({ p, index: i }, row) in profileRows"
@@ -1315,35 +1315,10 @@ function abilityStateLabel(st) {
    edge-to-edge under the solid name plate above; a border separates it from the body.
    Stat boxes get a plain card-colored fill so they pop on the tinted background. */
 .ds-cardhead {
-  position: relative;
-  isolation: isolate;
   margin: calc(-1 * var(--ds-pad-top)) calc(-1 * var(--ds-pad-x)) var(--ds-space);
   padding: var(--ds-band-top) var(--ds-pad-x) var(--ds-band-bottom);
   background: color-mix(in srgb, var(--ds-th-bg, var(--accent)) 10%, var(--bg-card));
   border-bottom: 1px solid var(--border);
-}
-/* The navbar logo's grid (AppNavbar's .navbar-inner::before), in the band's top left and bottom
-   right corners and fading out from each (owner, 2026-10-21). Each fades along the band's own
-   diagonal and is gone just short of the other diagonal — the band's middle — so the two reach
-   as far as they can without meeting, on a phone's narrow band as on a desktop's. Drawn in the text colour, so it holds in either theme. */
-.ds-cardhead::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  --ds-grid-line: color-mix(in srgb, var(--text-primary) 4%, transparent);
-  background-image:
-    linear-gradient(var(--ds-grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--ds-grid-line) 1px, transparent 1px);
-  background-size: 14px 14px;
-  background-position: -1px -1px;
-  -webkit-mask-image:
-    linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%),
-    linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
-  mask-image:
-    linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%),
-    linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
 }
 .ds-cardhead .ds-stat-box::before { background: var(--bg-card); }
 .ds-cardhead .ds-statline:last-child { margin-bottom: 0; }
