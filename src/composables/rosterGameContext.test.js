@@ -11,6 +11,25 @@ import { conditions } from '../data/rosterModifiers/conditions.js'
 const player = (ctx, army, factionSlug = null) => ({ ctx, army, factionSlug })
 
 describe('activeConditions', () => {
+  // Owner, 2026-10-21: a unit moved out of Reserves on the game screen arrived — and was set up —
+  // this turn; the card must not ask again. The next turn it is over; back in Reserves, it never was.
+  it('reads an arrival from Reserves this turn off the unit\'s status', () => {
+    const p = { ctx: {}, unitStatus: { u1: { s: 'table', round: 2, turn: 1 }, u2: { s: 'reserve', round: 0, turn: 0 } } }
+    const at = (round, turn, uid = 'u1', opts) => activeConditions(p, { round, turn, phase: 'shooting', mine: true, tracked: false }, { uid }, opts)
+    expect(at(2, 1).has('unit-arrived-from-reserves')).toBe(true)
+    expect(at(2, 1).has('unit-set-up-this-turn')).toBe(true)
+    expect(at(2, 1).has('unit-disembarked')).toBe(false)
+    expect(at(3, 0).has('unit-set-up-this-turn')).toBe(false)
+    expect(at(2, 0).has('unit-arrived-from-reserves')).toBe(false)
+    expect(at(2, 1, 'u2').has('unit-arrived-from-reserves')).toBe(false)
+    expect(at(2, 1, 'u1', { unit: false }).has('unit-set-up-this-turn')).toBe(false) // unit states not kept
+    const recs = [{ sid: 'fzp', effects: [{ on: 'ranged', stat: 'hit', op: 'add', value: 1, cond: ['unit-set-up-this-turn'] }] }]
+    const [sw] = switchesFor(recs, 'unit', p, { round: 2, turn: 1, phase: 'shooting', mine: true, tracked: false }, { uid: 'u1', id: 'tempestus-scions' })
+    expect(sw).toMatchObject({ id: 'unit-set-up-this-turn', on: true, auto: true })
+    const [manual] = switchesFor(recs, 'unit', p, { round: 2, turn: 1, phase: 'shooting', mine: true, tracked: false }, { uid: 'u3', id: 'tempestus-scions' })
+    expect(manual).toMatchObject({ on: false, auto: false }) // out of a transport: still the player's switch
+  })
+
   it('holds an army switch only in the round it was flipped', () => {
     const p = player({ army: { 'tactic-furor': 2 } })
     expect(activeConditions(p, 2, null).has('tactic-furor')).toBe(true)
