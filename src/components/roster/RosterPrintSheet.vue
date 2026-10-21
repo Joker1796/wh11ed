@@ -41,7 +41,7 @@
     <!-- The pages. A spill page holds a single unit taller than a sheet: its box grows and the
          printer runs it over two sheets — text is never clipped to keep the boxes honest. -->
     <section
-      v-for="(pg, pi) in pages"
+      v-for="(pg, pi) in shownPages"
       :key="pi"
       class="rps-page"
       :class="{ 'rps-page-spill': pg.spill }"
@@ -369,6 +369,15 @@ function measure() {
   pages.value = paginatePrint(units, pageH.value, { overheads })
   emit('pages', Math.max(1, pages.value.length))
 }
+
+// The pages as drawn. They are dealt a tick after the document changes (measure() reads the laid-out
+// flow), so for one render they are the old deal: a section just turned off still has fragments on
+// them, and its block is gone (2026-10-21, `block.kind` of undefined in the error log). Those are left
+// out until the new deal lands.
+const shownPages = computed(() => pages.value.map((pg) => {
+  const fragments = pg.fragments.filter((f) => blockById.value[f.block])
+  return fragments.length === pg.fragments.length ? pg : { ...pg, fragments }
+}))
 
 // Everything that changes the document re-measures it: the options and locale through
 // `flatUnits`, the density through the font size (caught by the ResizeObserver), and the async
