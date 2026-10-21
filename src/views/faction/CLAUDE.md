@@ -87,7 +87,8 @@ place (2026-10-04/05, journal *Юнит в модалке и сравнение*
 - Everything else — search, a keyword popover elsewhere, links from other pages — still opens the
   unit's own page (owner).
 - **A chip has a context menu** (owner, 2026-10-21): right click, or a long press on a phone —
-  open, open in a new tab, add to compare (desktop), pin, owned, copy name, share.
+  open, open in a new tab (in a browser tab only — the installed app has none), add to compare
+  (desktop), pin, owned, copy name, share.
   `useLongPress` times the touch itself (iOS sends no `contextmenu`; chips take
   `-webkit-touch-callout: none`) and stops the click of the lift at the document: on a phone the
   menu's sheet rises under the finger and that click pressed its first row. The menu is the
