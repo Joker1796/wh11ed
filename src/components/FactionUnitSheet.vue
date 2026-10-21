@@ -21,13 +21,16 @@
         :id="titleId || undefined"
         class="ds-title"
       >
-        <span class="ds-title-name">{{ sheet.name }}</span> <span
+        <span class="ds-title-name">{{ shownName }}</span> <span
           v-if="sheet.baseSize"
           class="ds-title-base"
         >({{ fmtBase(sheet.baseSize) }})</span>
       </h2>
       <div class="ds-actions">
+        <!-- A retired unit's page (`proxy`) has no pin or collection mark: both belong to real
+             units and travel with the account. -->
         <button
+          v-if="!proxy"
           data-press="pop"
           type="button"
           class="ds-btn"
@@ -43,6 +46,7 @@
         <!-- "I own this one" — the mark the roster catalogue shows on its rows and can filter
              by. Same treatment as the pin: state is the outline→filled swap, no highlight. -->
         <button
+          v-if="!proxy"
           data-press="pop"
           type="button"
           class="ds-btn"
@@ -81,7 +85,7 @@
           <i :class="linkCopied ? 'wi wi-check' : canShare ? 'wi wi-share' : 'wi wi-link'" />
         </button>
         <button
-          v-if="sheet.flavor"
+          v-if="sheet.flavor && !proxy"
           ref="loreBtn"
           type="button"
           class="ds-btn"
@@ -111,7 +115,7 @@
         <ActionMenu
           v-model:open="moreOpen"
           class="ds-more"
-          :title="sheet.name"
+          :title="shownName"
           width="17rem"
         >
           <template #trigger="{ toggle }">
@@ -129,12 +133,13 @@
           </template>
           <UnitMarkActions
             :slug="slug"
-            :unit-id="sheet.id"
-            :name="sheet.name"
+            :unit-id="unitId"
+            :name="shownName"
+            :marks="!proxy"
             @done="moreOpen = false"
           />
           <button
-            v-if="sheet.flavor"
+            v-if="sheet.flavor && !proxy"
             class="act-btn act-ico"
             @click="moreDo(openLoreFromSheet)"
           >
@@ -181,14 +186,23 @@
       class="ds-body"
       :class="{ 'modal-body': contained }"
     >
+      <!-- A retired unit's page says what it is fielded as, and links there. -->
+      <p
+        v-if="proxy"
+        class="ds-proxy-note"
+      >
+        <span>{{ proxyNote[0] }}<RouterLink :to="`/factions/${slug}/datasheets/${proxy.target}`">{{ sheet.name }}</RouterLink>{{ proxyNote[1] }}</span>
+      </p>
       <DatasheetCard
         :sheet="sheet"
         :unit-index="unitIndex"
         :faction-slug="slug"
         :granted-keywords="grantedKeywords"
         :other-faction-units="otherFactionUnits"
+        :proxy-for="proxyFor"
         keyword-links-enabled
         @keyword-click="activeKeyword = $event"
+        @proxy-click="proxiesOpen = true"
       />
     </div>
 
@@ -200,6 +214,17 @@
       :in-place="inPlace"
       @pick="$emit('open-unit', $event)"
       @close="activeKeyword = null"
+    />
+
+    <!-- The Legendary Proxies this unit stands for, from its "Proxy" badge. -->
+    <FactionLegendsModal
+      v-if="proxiesOpen && legends"
+      :slug="slug"
+      :legends="legends"
+      :only="sheetId"
+      :in-place="inPlace"
+      @pick="proxiesOpen = false"
+      @close="proxiesOpen = false"
     />
 
     <Teleport to="body">
@@ -236,6 +261,7 @@ import { useRoute } from 'vue-router'
 import DatasheetCard from './DatasheetCard.vue'
 import ActionMenu from './ActionMenu.vue'
 import KeywordUnitsModal from './KeywordUnitsModal.vue'
+import FactionLegendsModal from './FactionLegendsModal.vue'
 import UnitMarkActions from './UnitMarkActions.vue'
 import { unitsWithKeyword } from '../utils/keywordUnits.js'
 import { unitLinkOf } from '../utils/unitLink.js'
@@ -252,6 +278,8 @@ import { useCollection } from '../composables/useCollection.js'
 import { formatBaseSize, profileBases } from '../utils/baseSize.js'
 import { canShare, copyText, shareUnit as shareUnitLink } from '../composables/useUnitShare.js'
 import { useFactionAccent } from '../composables/useFactionAccent.js'
+import { useFactionLegends } from '../composables/useFactionLegends.js'
+import { proxyPage } from '../utils/legendaryProxies.js'
 
 const props = defineProps({
   slug: { type: String, required: true },
@@ -285,13 +313,23 @@ const { accentStyle } = useFactionAccent(toRef(props, 'slug'))
 // RU falls back to the EN datasheet text.
 const ruModule = useDatasheetsRu(() => props.slug)
 
+// A retired unit of the faction's Legendary Proxies (utils/legendaryProxies.js): its page shows the
+// sheet it is fielded as under its own name. `unitId` is then the retired unit's address and
+// `sheetId` the sheet's.
+const { legends } = useFactionLegends(toRef(props, 'slug'))
+const proxy = computed(() => (props.datasheets.some((d) => d.id === props.unitId) ? null : proxyPage(legends.value, props.unitId)))
+const sheetId = computed(() => proxy.value?.target || props.unitId)
+const proxyNote = computed(() => labels.value.dsProxyNote.split('{unit}'))
+
 const localized = computed(() => {
-  const en = props.datasheets.find((d) => d.id === props.unitId) || null
+  const en = props.datasheets.find((d) => d.id === sheetId.value) || null
   if (!en || locale.value !== 'ru') return en
   const mod = ruModule.value
   if (!mod) return en
   return localizeSheet(en, mod.default?.[en.id], mod.abilityNamesRu)
 })
+// The name on the plate: the retired unit's on its page, the sheet's everywhere else.
+const shownName = computed(() => proxy.value?.name || sheet.value?.name || '')
 // Each profile's own base after its name, where the unit's base lines name its profiles; the
 // plate then carries none (utils/baseSize.js → profileBases).
 const sheet = computed(() => {
@@ -305,6 +343,11 @@ const sheet = computed(() => {
 // the unit on screen changes — by a route change or in place — so it can't be left open showing
 // a keyword/roster that no longer matches the unit now on screen.
 const activeKeyword = ref(null)
+
+// The retired units fielded as this one (the faction's Legendary Proxies) — the card's "Proxy" badge.
+const proxyFor = computed(() => (legends.value?.proxies || []).filter((p) => p.id === sheetId.value).flatMap((p) => p.legacy))
+const proxiesOpen = ref(false)
+watch(() => props.unitId, () => { proxiesOpen.value = false })
 watch([() => route.fullPath, () => props.unitId], () => { activeKeyword.value = null })
 const keywordUnits = computed(() => unitsWithKeyword(props.datasheets, activeKeyword.value))
 
@@ -378,7 +421,7 @@ const grantedKeywords = computed(() => {
 
 // Same query Wahapedia uses for its "Search for model's image on the Internet" icon.
 const imageUrl = computed(() => {
-  const q = encodeURIComponent(`Warhammer 40000 ${faction.value?.name ?? ''} ${sheet.value?.name ?? ''}`.trim())
+  const q = encodeURIComponent(`Warhammer 40000 ${faction.value?.name ?? ''} ${shownName.value}`.trim())
   return `https://www.google.com/search?tbm=isch&q=${q}%20miniature`
 })
 
@@ -459,17 +502,25 @@ const [copied, flashCopied] = flasher()
 const [linkCopied, flashLinkCopied] = flasher()
 
 async function copyName() {
-  if (sheet.value && await copyText(sheet.value.name)) flashCopied()
+  if (sheet.value && await copyText(shownName.value)) flashCopied()
 }
 
 // The system share sheet or the link copied (useUnitShare.js).
 const shareLabel = computed(() => (linkCopied.value ? labels.value.dsLinkCopied : canShare ? labels.value.dsShare : labels.value.dsCopyLink))
 async function shareUnit() {
-  if (sheet.value && await shareUnitLink(props.slug, sheet.value.id, sheet.value.name, locale.value)) flashLinkCopied()
+  if (sheet.value && await shareUnitLink(props.slug, props.unitId, shownName.value, locale.value)) flashLinkCopied()
 }
 </script>
 
 <style scoped>
+/* What a retired unit's page shows: one line over the card, in the card's own gutter. */
+.ds-proxy-note {
+  margin: 0.5rem 0;
+  padding: 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.ds-proxy-note a { font-weight: 600; }
 
 /* Datasheet header band: the name row is a solid faction-color plate (same visual
    language as the weapon-table headers in DatasheetCard — --ds-th-bg is the accent in

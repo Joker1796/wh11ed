@@ -16,6 +16,7 @@ import { h4AnchorId } from './anchors.js'
 import { splitBodyEntries } from './columnChunks.js'
 import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from './datasheetTags.js'
 import { foldChars } from '../utils/foldName.js'
+import { proxySlug } from '../utils/legendaryProxies.js'
 
 // Every core-rules chapter lives on one page now, so a hit's `route` is the same for all of
 // them; the anchor (`id`) is what actually distinguishes them.
@@ -483,6 +484,24 @@ function searchDatasheets(q, locale) {
       // title alone would not say why the unit is here. Ranked under every name hit — a query
       // like "infantry" matches hundreds of sheets, and a unit CALLED what was typed comes first.
       const tagHit = !nameHit && !aliasHit && !legacyHit && unitTagHit(slug, id, qn)
+      // …and the retired unit's own page, a row of its own just above the sheet's (owner,
+      // 2026-10-21): "Ufthak" finds Ufthak Blackhawk, and Warboss under it says why.
+      for (const n of (legacy || []).filter((a) => wordsIn(a, words))) {
+        results.push({
+          id: '',
+          key: `ds-${slug}-${proxySlug(n)}`,
+          sectionNum: '',
+          title: n,
+          titleRu: '',
+          matchedBy: L.dsProxyOf.replace('{unit}', name),
+          body: '',
+          snippet: '',
+          route: `/factions/${slug}/datasheets/${proxySlug(n)}`,
+          sectionTitle: `${faction} · ${L.factionDatasheets}`,
+          legends: false,
+          score: foldName(n).includes(phrase) ? 2.01 : 1.96,
+        })
+      }
       if (!nameHit && !aliasHit && !legacyHit && !tagHit) continue
       results.push({
         id: '',

@@ -102,6 +102,25 @@ place (2026-10-04/05, journal *Юнит в модалке и сравнение*
   open by default; what is folded is kept per faction for the session, and a search opens every
   group so nothing it found is hidden.
 
+## Legendary Proxies (2026-10-21)
+
+A faction's Legends publication names retired units with no datasheet of their own and the Codex
+sheet each is fielded as (`src/data/factionLegends.json`; Space Marines and each Chapter, Orks).
+
+- **The table is behind a button over the list** (`FactionLegendsModal`, beside "Hide Legends"):
+  under the list's last group, inside a column that scrolls by itself, nobody found it. A search
+  still lists the rows it finds after the units (`FactionLegends`); `#legendary-proxies` (old
+  changelog links) opens the dialog. Loading: `useFactionLegends`; rows: `LegendaryProxyList`.
+- **Each retired unit has a page beside the units** — `/factions/orks/datasheets/ufthak-blackhawk`,
+  the address made from the name (`utils/legendaryProxies.js`; `legendaryProxies.test.js` keeps every
+  one apart from the faction's unit ids and from each other). `FactionUnitSheet` shows the sheet it
+  is fielded as under the retired name, with one line saying so; no pin or collection mark (both
+  belong to real units and sync with the account), no lore. Not in the list; reached from the
+  table's names, the "Proxy" badge's dialog, Ctrl+K (a row of its own above the sheet's) and its
+  own SEO page. A Chapter has its own pages, as its folded units do.
+- **The "Proxy" badge** on a sheet that retired units are fielded as stands under "Legends" in
+  the statline's spare space (`DatasheetCard`, `proxyFor`); `npm run legends-tag` measures both.
+
 ## See also
 
 **Mobile faction hero tabs** (in-page Rules/Units switch that promotes to `MobileUtilityBar` once scrolled out of view, via `useContributeMobileActions('faction-tabs', …)` in `FactionLayout.vue`) — documented in root `CLAUDE.md`'s Navigation model section since it's part of the shared mobile-chrome mechanism, not specific to this directory.

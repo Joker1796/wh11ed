@@ -80,12 +80,28 @@
                  title — lives in the statline's own spare space, right of OC, and costs no row:
                  it was a sentence under the name plate first, then a badge in the title, and both
                  pushed the statline down on a phone (2026-09-18). Where the space runs out (a
-                 narrow container, a multi-profile name) it steps down a row — see .ds-legends-tag. -->
+                 narrow container, a multi-profile name) it steps down a row — see .ds-legends-tag.
+                 "Proxy" stands under it (owner, 2026-10-21): the retired units fielded as this one
+                 (`proxyFor`), in its title and, on a tap, in the Legendary Proxies dialog. Five
+                 sheets carry both — a Whirlwind is Legends and Hunter's proxy. -->
             <span
-              v-if="i === 0 && sheet.legends"
-              class="legends-badge ds-legends-tag"
-              :title="labels.dsLegendsNote"
-            >{{ labels.dsLegends }}</span>
+              v-if="i === 0 && (sheet.legends || proxyFor.length)"
+              class="ds-legends-tag"
+            >
+              <span
+                v-if="sheet.legends"
+                class="legends-badge"
+                :title="labels.dsLegendsNote"
+              >{{ labels.dsLegends }}</span>
+              <button
+                v-if="proxyFor.length"
+                type="button"
+                class="legends-badge ds-proxy-badge"
+                aria-haspopup="dialog"
+                :title="labels.dsProxyFor.replace('{names}', proxyFor.join(', '))"
+                @click="$emit('proxy-click')"
+              >{{ labels.dsProxyBadge }}</button>
+            </span>
           </div>
         </div>
       </div>
@@ -1041,6 +1057,8 @@ const props = defineProps({
   // anywhere (a stale/Legends reference in the source rule text) is left as plain text, not
   // hidden — there's nothing to disambiguate there, it's just not a link target.
   otherFactionUnits: { type: Array, default: () => [] },
+  // The retired units this sheet stands in for (the faction's Legendary Proxies) — the "Proxy" badge.
+  proxyFor: { type: Array, default: () => [] },
   // Cells the roster's modifier layer rewrote, as `profile:<stat>:<i>` / `ranged:<stat>:<row>` /
   // `melee:<stat>:<row>` keys (src/composables/rosterStatMods.js), and the notes explaining them.
   // A note with `applied: false` is a CONDITIONAL modifier: its number was deliberately left
@@ -1085,7 +1103,7 @@ const props = defineProps({
 // faction's roster. Faction keywords (ORKS, ADEPTUS ASTARTES…) deliberately stay plain text:
 // virtually every unit on the page shares those, so a "units with this keyword" list would
 // just be the whole roster.
-defineEmits(['keyword-click', 'faction-rule-click', 'mod-source-click', 'toggle-cond'])
+defineEmits(['keyword-click', 'faction-rule-click', 'mod-source-click', 'toggle-cond', 'proxy-click'])
 
 const { locale } = useLocale()
 const { renderInline, renderRichText } = useRenderInline()
@@ -1335,14 +1353,25 @@ function abilityStateLabel(st) {
   align-items: start;
 }
 /* The band's top-right corner: right of OC, level with the stat labels rather than the boxes;
-   the badge's inline margin is for mid-sentence use and is dropped here. */
+   the badge's inline margin is for mid-sentence use and is dropped here. Legends over Proxy: one
+   column, as wide as the wider of the two, so a sheet with both needs no more of the row. */
 .ds-legends-tag {
   grid-column: 8;
   grid-row: 1;
   justify-self: end;
   align-self: start;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
 }
+.ds-legends-tag > .legends-badge { margin: 0; }
+.ds-proxy-badge {
+  font-family: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+@media (hover: hover) { .ds-proxy-badge:hover { border-color: var(--ability-weapon); } }
 .ds-stat {
   display: flex;
   flex-direction: column;
@@ -1458,11 +1487,14 @@ function abilityStateLabel(st) {
   .ds-legends-tag {
     writing-mode: vertical-rl;
     align-self: end;
-    padding: 0.3em 0;
+    /* On its side the inline axis runs down: Legends over Proxy still, not side by side. */
+    flex-direction: row;
   }
+  .ds-legends-tag > .legends-badge { padding: 0.3em 0; }
 }
 @container dscard (max-width: 330px) {
-  .ds-legends-tag { grid-row: 2; grid-column: 7 / -1; align-self: start; writing-mode: horizontal-tb; padding: 0 0.3em; }
+  .ds-legends-tag { grid-row: 2; grid-column: 7 / -1; align-self: start; writing-mode: horizontal-tb; flex-direction: column; }
+  .ds-legends-tag > .legends-badge { padding: 0 0.3em; }
   /* `contain: inline-size` — three max-content columns cannot absorb a long asterisk note the way
      the flexible one did, and without it the note stretched W/LD/OC past the card's edge instead
      of wrapping (Illic Nightspear, Hounds of Morkai). Contained, the block takes the columns'

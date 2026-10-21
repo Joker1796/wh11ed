@@ -22,6 +22,7 @@ import { localePath } from '../src/router/locale.js'
 // reader can't be shown different things (see src/composables/seoMetaData.js).
 import { metaFor, isIndexablePath } from '../src/composables/seoMetaData.js'
 import { renderPage, datasheetBody, datasheetsIndexBody, genericBody } from './lib/seo-html.mjs'
+import { proxyPages } from '../src/utils/legendaryProxies.js'
 
 // path → what the page actually is, filled in while routes are enumerated. Without it the HTML
 // pass would have to re-derive a unit from its slug, and a slug is not a datasheet.
@@ -67,6 +68,7 @@ const STATIC_ROUTES = [
 // they list those ids in `sharedUnitIds` instead (see src/data/datasheets/index.js). Fold
 // them back in so their per-unit SEO route keys still get generated.
 let smUnits = null
+const factionLegends = JSON.parse(readFileSync(join(ROOT, 'src/data/factionLegends.json'), 'utf8'))
 async function loadSpaceMarines() {
   if (!smUnits) smUnits = (await import(pathToFileURL(join(ROOT, 'src/data/datasheets/space-marines.js')))).default
   return smUnits
@@ -105,6 +107,16 @@ async function factionRoutes() {
         routes.push(`/factions/${f.slug}/datasheets/${u.id}`)
         pageData.set(`/factions/${f.slug}/datasheets/${u.id}`, {
           kind: 'datasheet', faction: f.name, unit: u, ru: ru[u.id],
+        })
+      }
+      // A retired unit of the faction's Legendary Proxies has a page of its own beside the units,
+      // showing the sheet it is fielded as under its own name (src/utils/legendaryProxies.js).
+      for (const p of proxyPages(factionLegends[f.slug])) {
+        const unit = units.find((u) => u.id === p.target)
+        if (!unit) continue
+        routes.push(`/factions/${f.slug}/datasheets/${p.pid}`)
+        pageData.set(`/factions/${f.slug}/datasheets/${p.pid}`, {
+          kind: 'datasheet', faction: f.name, unit: { ...unit, name: p.name }, ru: ru[unit.id],
         })
       }
     }
