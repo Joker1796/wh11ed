@@ -1331,18 +1331,18 @@ function abilityStateLabel(st) {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  --ds-grid-line: color-mix(in srgb, var(--text-primary) 5%, transparent);
+  --ds-grid-line: color-mix(in srgb, var(--text-primary) 4%, transparent);
   background-image:
     linear-gradient(var(--ds-grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--ds-grid-line) 1px, transparent 1px);
   background-size: 14px 14px;
   background-position: -1px -1px;
   -webkit-mask-image:
-    radial-gradient(22rem 12rem at 0 0, #000, transparent),
-    radial-gradient(22rem 12rem at 100% 100%, #000, transparent);
+    radial-gradient(32rem 16rem at 0 0, #000, transparent),
+    radial-gradient(32rem 16rem at 100% 100%, #000, transparent);
   mask-image:
-    radial-gradient(22rem 12rem at 0 0, #000, transparent),
-    radial-gradient(22rem 12rem at 100% 100%, #000, transparent);
+    radial-gradient(32rem 16rem at 0 0, #000, transparent),
+    radial-gradient(32rem 16rem at 100% 100%, #000, transparent);
 }
 .ds-cardhead .ds-stat-box::before { background: var(--bg-card); }
 .ds-cardhead .ds-statline:last-child { margin-bottom: 0; }
