@@ -163,6 +163,21 @@ const ENTRY_PROVES = { 'riled-up': new Set(['stompa', 'zodgrod-wortsnagga']) }
 /** @param {string} id @param {EntryLike | null | undefined} entry */
 const entryProves = (id, entry) => !!(entry?.id && ENTRY_PROVES[id]?.has(entry.id))
 
+// …and the unit's place on the table answers two more (owner, 2026-10-21): a unit the tracker saw
+// come out of Strategic Reserves THIS turn (unitStatus.js keeps the round and turn of the move)
+// arrived from Reserves, and so was set up on the battlefield this turn. Before, the player marked
+// the arrival on the unit's status and then again on its card, or Fire Zone Purge's +1 to hit never
+// came. A disembark is not tracked (there is no transport state), so "set up" after one stays the
+// player's switch.
+const ARRIVAL_IDS = new Set(['unit-arrived-from-reserves', 'unit-set-up-this-turn'])
+/** @param {string} id @param {any} player @param {EntryLike | null | undefined} entry @param {ClockLike} clock */
+export function statusProves(id, player, entry, clock) {
+  if (!ARRIVAL_IDS.has(id) || !entry?.uid) return false
+  const rec = player?.unitStatus?.[entry.uid]
+  const c = normaliseClock(clock)
+  return rec?.s === 'table' && rec.round === c.round && rec.turn === (c.turn ?? 0)
+}
+
 // Is a switch still in force? Compared at the granularity its own rule states — except against a
 // legacy round-only value (or in a game not keeping phases), where the round is all either side
 // knows and a shorter duration can only be answered as coarsely as that.
@@ -279,6 +294,7 @@ export function activeConditions(player, clock, entry, opts = {}) {
     // …and a soft-auto condition is also on while the tracker — or the entry's own datasheet —
     // can prove it, switch or no switch.
     if (!on && SOFT_AUTO[id]) on = SOFT_AUTO[id](player, round) || entryProves(id, entry)
+    if (!on && unit && statusProves(id, player, entry, clock)) on = true
     // …and a state the unit's own rules make permanent is on, switch or no switch (Calgar's
     // Codex Adept: all three doctrines) — and one they forbid is off whatever turned it on
     // (Death Company: "regardless of any other rules", the army's pick included).
@@ -807,6 +823,9 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry, limits
   const round = normaliseClock(clock).round
   return shown.map((id) => {
     const proven = !!unitRules.proves?.has(id)
+    // The unit's status recorded it (an arrival this turn): on, and not the player's to flip here —
+    // moving the unit back to Reserves is what takes it off.
+    const byStatus = statusProves(id, player, entry, clock)
     const forbidden = !!unitRules.forbids?.has(id)
     // On because the ARMY picked it (the doctrine of the round) and nothing on this unit did: the
     // unit cannot take back what the army chose, so the chip says where it came from instead of
@@ -823,7 +842,7 @@ export function switchesFor(resolvedEntries, scope, player, clock, entry, limits
       on: active.has(id),
       // Shown, but not the player's to flip here: the tracker already recorded it, the entry's own
       // datasheet states it outright, or the unit's rules settle it either way.
-      auto: isAuto(id) || entryProves(id, entry) || proven || fromArmy,
+      auto: isAuto(id) || entryProves(id, entry) || proven || fromArmy || byStatus,
       blocked: forbidden,
       blockedBy,
       duration: conditions[id].duration,
