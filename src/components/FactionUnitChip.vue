@@ -123,6 +123,8 @@ const owned = computed(() => isOwned(props.slug, props.sheet.id))
   color: var(--text-muted);
   white-space: nowrap;
 }
+/* Muted on the picked tint falls under 4.5:1 in the dark theme (a11y gate, 2026-10-21). */
+.ds-chip.picked .ds-chip-pts { color: var(--text-primary); }
 .ds-chip > .legends-badge { order: 3; }
 .ds-chip-chapter {
   order: 4;
