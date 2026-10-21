@@ -257,17 +257,30 @@ the briefing and the conditions (`ScoreRows.vue`), each under the moment it is s
 tick in the card's side colour (`opp` prop — the dialog teleports out of the card). **The moment comes from the
 data, never from a guess:** `missionTiming.js` maps every English `when` of a scoring block (and
 the End of Battle heading) to one of six moments, and its test fails on a phrasing it does not
-know. One thing is locked: an "end of your opponent's turn" condition during its owner's own turn
-(except the turn that closes round 5, for the "… or the end of the fifth battle round" cards).
-Everything else stays tickable — a condition of "the end of your turn" is often ticked a moment
-after the turn passed — and a past round is never locked.
+know. **A condition is ticked only in the turn it scores in** (`lockedTurn`, owner 2026-10-21):
+"end of your turn / Command phase" in the owner's turn, "end of your opponent's turn" in the
+other's (and, with the "… or the end of the fifth battle round" fallback, also in the turn closing
+round 5), End of Battle in the battle's last turn; "end of a turn" and "while active" in any. A
+locked row says whose turn it scores in. Until then a late tick was allowed ("ticked a moment after
+the turn passed") — and for the second player it landed in the wrong turn: his "end of your turn",
+ticked in the opponent's turn, went into the round's turn of his not yet played (a player's report).
+**A passed turn is put right by opening it**: the dialog offers "Correct X's turn" (`fixTurnOf` —
+a turn that has begun, and strict rules allowing), which opens that turn behind the dialog and the
+rows unlock in place.
 
-**The round steps are a view, not a move.** A past round opens for correction (a banner says so,
-"Back to the game" ends it); the live round is marked; a round not yet started is disabled. Only
-End/Undo turn move the game. The view is this phone's own (`viewRound` in `RoundTracker`), and a
-new turn drops it. Scoring a past round writes into THAT round (`scoreSecondaryRow(…, round)`,
-`setPrimaryRow(pi, roundIdx, …)`), and a tactical card still in hand that turns out to have been
-achieved then leaves the hand.
+**The round steps are a view, not a move — of a TURN.** A played turn opens for correction (a
+banner names the round and whose turn, "Back to the game" ends it): a past round from the steps
+(the shown side's own turn), any played turn — the live round's first one too — from a scoring
+dialog's "Correct X's turn". The live round is marked; a round not yet started is disabled. Only
+End/Undo turn move the game. The view is this phone's own (`view` = `{ round, turn }` in
+`RoundTracker`, `SecondaryDeck` takes `turn` and asks for another with `open-turn`), and a new turn
+drops it. In the view the lock reads the opened turn as "now". Scoring writes into THAT round
+(`scoreSecondaryRow(…, round, turn)`, `setPrimaryRow(pi, roundIdx, …, turn)`), a tactical card
+still in hand that turns out to have been achieved then leaves the hand, and **the correction is
+logged** (`logFix`: an act `{ type: 'fix', what, slug, at, atTurn, from, to }` — when it was made,
+which turn, the VP before and after; one per minute of taps) instead of the struck-old-score undo
+a live correction gets. The format did not change: the primary is kept per round, and a side has
+one turn a round.
 
 **The turn's two secondaries (tactical).** "At the start of your Command phase, draw two" — so the
 deck offers **Take 2 secondaries** to the side on turn, once per own turn: both at random or both
@@ -304,7 +317,8 @@ A game the players agree to play by the book (owner, 2026-10-19). Chosen beside 
 setup's deployment step — off for a first game, the last game's choice after — and fixed once the
 game starts (`EditSetupModal` shows it greyed). It refuses what the rules forbid: choosing
 secondaries by hand, a drawn card back into the deck (or the turn's two taken back), the CP pencil,
-scoring into a round already over or for a card not in hand. A mistake is put right **only while it
+scoring into a round already over (or a turn of the live round already played — `pastTurn`) or for
+a card not in hand. A mistake is put right **only while it
 is the side's last action** — the owner's "variant A": the undo buttons stay where they always
 were, and the older ones grey with the reason (`trackerStrict_<why>`), never hide. The clock goes
 back one step, and only before anyone has done anything since it moved.

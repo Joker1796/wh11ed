@@ -132,14 +132,15 @@
       data-tour="game-rounds"
     >
       <!-- A step is a VIEW, not a move: a past round opens for correction (the game stays where it
-           is — only End/Undo turn move it), the live one comes back (RoundStrip.vue). -->
+           is — only End/Undo turn move it), the live one comes back (RoundStrip.vue). The turn
+           opened is the shown side's own; a scoring dialog's button opens the other. -->
       <RoundStrip
         :count="ROUND_COUNT"
         :live="current.currentRound"
         :shown="shownRound"
         :phase="stripPhase"
         :turn-color="turnOpp ? 'var(--side-opponent)' : 'var(--side-you)'"
-        @pick="(n) => (viewRound = n === current.currentRound ? null : n)"
+        @pick="(n) => (n === current.currentRound ? (view = null) : openTurn(missionSide, n))"
       />
     </div>
 
@@ -259,16 +260,16 @@
         </div>
       </details>
 
-      <!-- Correcting a past round: a banner says so, and the way back is on it. -->
+      <!-- Correcting a turn already played: a banner says so, and the way back is on it. -->
       <div
-        v-if="viewRound"
+        v-if="view"
         class="round-edit"
       >
-        <!-- Strict rules: a past round is read, not corrected — the banner says so instead. -->
-        <span>{{ pastWhy || labels.trackerEditingRound.replace('{n}', viewRound).replace('{live}', current.currentRound) }}</span>
+        <!-- Strict rules: a played turn is read, not corrected — the banner says so instead. -->
+        <span>{{ pastWhy || labels.trackerEditingTurn.replace('{n}', view.round).replace('{name}', playerName(view.turn)) }}</span>
         <button
           class="re-back"
-          @click="viewRound = null"
+          @click="view = null"
         >
           {{ labels.trackerBackToLive }}
         </button>
@@ -338,7 +339,7 @@
                 :min="0"
                 :max="PRIMARY_ROUND_CAP"
                 :disabled="!!pastWhy"
-                @update:model-value="v => setRoundPrimary(i, shownRound - 1, v)"
+                @update:model-value="v => setRoundPrimary(i, shownRound - 1, v, shownTurn)"
               />
               <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
             </div>
@@ -348,9 +349,12 @@
               v-if="!current.settings?.combatPatrol"
               :pi="i"
               :round="shownRound"
+              :turn="shownTurn"
+              :turn-names="playerNames"
               :editable="canEdit(i)"
               :name="playerName(i)"
               :inert="lock(i)"
+              @open-turn="t => openTurn(t)"
             />
           </div>
         </template>
@@ -497,10 +501,11 @@
       :readonly="!!pastWhy"
       :view-only-note="pastWhy"
       :locked="b => primaryLocked(openPrimary, b)"
-      :locked-note="labels.trackerOppTurnOnly"
+      :fix="primaryFix(openPrimary)"
       :opp="!isYouSide(current.players[openPrimary], openPrimary)"
       :note="labels.trackerPrimaryCaps.replace('{round}', PRIMARY_ROUND_CAP).replace('{game}', PRIMARY_GAME_CAP)"
-      @set="(bi, ri, c) => setPrimaryRow(openPrimary, shownRound - 1, bi, ri, c)"
+      @set="(bi, ri, c) => setPrimaryRow(openPrimary, shownRound - 1, bi, ri, c, shownTurn)"
+      @fix="openTurn(primaryFixTurn(openPrimary))"
       @close="openPrimary = -1"
     />
 
@@ -595,7 +600,7 @@ import { phaseLabel, BATTLE_PHASES } from '../../composables/stratagemPhases.js'
 import { usePhaseRules } from '../../composables/usePhaseRules.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { tracks } from '../../data/trackerOptions.js'
-import { blockLocked, turnEndChecks } from '../../composables/missionTiming.js'
+import { blockLocked, fixTurnOf, turnEndChecks } from '../../composables/missionTiming.js'
 import { bonusIn } from '../../composables/cpLedger.js'
 import { gameSideColorStyle } from '../../composables/sideColors.js'
 import { provideModalScope } from '../../composables/modalScope.js'
@@ -824,12 +829,18 @@ function tabsOffset(el) {
   const want = stuckAt + el.offsetHeight + (parseFloat(cs.marginBottom) || 0)
   return panel.getBoundingClientRect().top - want
 }
-// The round on screen: the live one, or a past one opened for correction from the round steps
-// (`viewRound`). Local to this phone — what one player is correcting is not where the game is.
-const viewRound = ref(null)
-const shownRound = computed(() => viewRound.value || current.value.currentRound)
-// Strict rules: the round on screen is over and cannot be corrected (strictRules.js).
-const pastWhy = computed(() => strictText(strictWhy('round', missionSide.value, shownRound.value)))
+// The turn on screen: the live one, or one already played opened for correction (`view`,
+// { round, turn }) — from the round steps, or from a scoring dialog whose condition is scored in
+// another turn (missionTiming.lockedTurn). Local to this phone — what one player is correcting is
+// not where the game is.
+const view = ref(null)
+const shownRound = computed(() => view.value?.round ?? current.value.currentRound)
+const shownTurn = computed(() => view.value?.turn ?? turnIndex.value)
+function openTurn(turn, round = shownRound.value) {
+  view.value = round === current.value.currentRound && turn === turnIndex.value ? null : { round, turn }
+}
+// Strict rules: the turn on screen is over and cannot be corrected (strictRules.js).
+const pastWhy = computed(() => strictText(strictWhy('round', missionSide.value, shownRound.value, view.value ? shownTurn.value : null)))
 
 // Whose missions come first: this phone's own side in a shared game, otherwise the side on
 // turn. The other is folded until asked for.
@@ -848,7 +859,7 @@ const focusSide = computed(() => {
 // the draw — stayed off screen (Misha, 2026-10-10).
 watch([() => current.value.currentRound, () => current.value.currentTurn, () => gameBegun(current.value)], () => {
   tab.value = 'missions'
-  viewRound.value = null
+  view.value = null
   pickedSide.value = null
 })
 // The side the side-aware panels show: picked on the score cards (ScoreBoard `selected`), else
@@ -1093,9 +1104,22 @@ function primaryName(i) {
 function primaryBlocks(i) {
   return cardBlocks(current.value.players[i].primarySlug, null, shownRound.value, locale.value)
 }
-// A primary condition whose moment cannot have come yet (missionTiming.js), by the EN block.
+// A primary condition scored in another turn than the one on screen (missionTiming.js), by the EN
+// block: the turn it is scored in, said.
 function primaryLocked(i, b) {
-  return blockLocked(current.value, i, shownRound.value, missionBySlug(current.value.players[i].primarySlug)?.blocks[b.bi])
+  const t = blockLocked(current.value, i, shownRound.value, shownTurn.value, missionBySlug(current.value.players[i].primarySlug)?.blocks[b.bi])
+  return t == null ? null : labels.value.trackerScoredInTurn.replace('{name}', playerName(t))
+}
+// The turn its locked conditions are put right in — one that has begun, and that strict rules
+// let be corrected — and the dialog's button for it.
+function primaryFixTurn(i) {
+  const en = missionBySlug(current.value.players[i].primarySlug)
+  const t = fixTurnOf(current.value, i, shownRound.value, shownTurn.value, primaryBlocks(i), (bi) => en?.blocks[bi])
+  return t == null || strictWhy('round', i, shownRound.value, t) ? null : t
+}
+function primaryFix(i) {
+  const t = primaryFixTurn(i)
+  return t == null ? '' : labels.value.trackerOpenTurn.replace('{name}', playerName(t))
 }
 function onEndBattle(reason) {
   endModalOpen.value = false

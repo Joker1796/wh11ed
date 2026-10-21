@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { missions } from '../data/missions.js'
-import { scoringMoment, lockedNow, turnEndChecks, cardMoments } from './missionTiming.js'
+import { scoringMoment, lockedTurn, turnReached, turnEndChecks, cardMoments } from './missionTiming.js'
 
 // The gate: every scoring block of every card has a known moment. A new phrasing in the data
 // (an erratum, a new mission pack) fails here instead of scoring in the wrong turn.
@@ -27,25 +27,54 @@ describe('missionTiming — the data', () => {
   })
 })
 
-describe('missionTiming — lockedNow', () => {
+describe('missionTiming — lockedTurn', () => {
+  const own = { at: 'your-turn' }
+  const cmd = { at: 'your-command' }
   const opp = { at: 'opp-turn' }
   const oppR5 = { at: 'opp-turn', fallback: 'r5' }
-  const live = { round: 2, liveRound: 2, lastTurn: false }
+  const any = { at: 'any-turn' }
+  const active = { at: 'active' }
+  const end = { at: 'end-battle' }
+  // lockedTurn → null (open) or the turn the condition is scored in.
+  const at = (moment, pi, turn, round = 2) => lockedTurn(moment, { pi, round, turn })
 
-  it('refuses an "end of your opponent\'s turn" condition during your own turn only', () => {
-    expect(lockedNow(opp, { ...live, pi: 0, turn: 0 })).toBe(true)
-    expect(lockedNow(opp, { ...live, pi: 0, turn: 1 })).toBe(false)
-    expect(lockedNow({ at: 'your-turn' }, { ...live, pi: 0, turn: 1 })).toBe(false)
+  // Every moment × who goes first × whose turn it is. The second row of each pair is the report
+  // of 2026-10-21: the second player's "end of your turn", ticked in the opponent's turn, went
+  // into a turn of his not yet played — it was open.
+  it.each([
+    // moment, owner, turn on screen, expected
+    [own, 0, 0, null], [own, 0, 1, 0], [own, 1, 0, 1], [own, 1, 1, null],
+    [cmd, 0, 0, null], [cmd, 0, 1, 0], [cmd, 1, 0, 1], [cmd, 1, 1, null],
+    [opp, 0, 0, 1], [opp, 0, 1, null], [opp, 1, 0, null], [opp, 1, 1, 0],
+    [any, 0, 0, null], [any, 1, 0, null], [active, 0, 1, null], [active, 1, 0, null],
+  ])('%o, owner %i, turn %i → %o', (moment, pi, turn, want) => {
+    expect(at(moment, pi, turn)).toBe(want)
   })
 
-  it('lets the owner score it on the turn that closes round five', () => {
-    const r5 = { round: 5, liveRound: 5, lastTurn: true, pi: 1, turn: 1 }
-    expect(lockedNow(oppR5, r5)).toBe(false)
-    expect(lockedNow(opp, r5)).toBe(true)
+  it('opens the "… or the end of the fifth battle round" card on the turn that closes round five', () => {
+    expect(at(oppR5, 1, 1, 5)).toBe(null)
+    expect(at(oppR5, 1, 0, 5)).toBe(null)
+    expect(at(opp, 1, 1, 5)).toBe(0)
+    expect(at(oppR5, 1, 1, 4)).toBe(0)
+    expect(at(oppR5, 0, 0, 5)).toBe(1)
   })
 
-  it('never refuses a correction to a past round', () => {
-    expect(lockedNow(opp, { round: 1, liveRound: 2, lastTurn: false, pi: 0, turn: 0 })).toBe(false)
+  it('scores End of Battle on the battle\'s last turn only', () => {
+    expect(at(end, 0, 1, 5)).toBe(null)
+    expect(at(end, 1, 0, 5)).toBe(1)
+  })
+
+  it('locks a past turn by the same rule — the turn opened is the one being scored', () => {
+    expect(at(own, 1, 1, 1)).toBe(null)
+    expect(at(own, 1, 0, 1)).toBe(1)
+  })
+
+  it('reaches only turns that have begun', () => {
+    const g = { currentRound: 2, currentTurn: 0 }
+    expect(turnReached(g, 1, 1)).toBe(true)
+    expect(turnReached(g, 2, 0)).toBe(true)
+    expect(turnReached(g, 2, 1)).toBe(false)
+    expect(turnReached(g, 3, 0)).toBe(false)
   })
 })
 

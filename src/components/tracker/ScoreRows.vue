@@ -27,9 +27,9 @@
           class="m-off"
         >{{ labels.trackerOffRound }}</span>
       </div>
-      <!-- A row whose moment cannot have come yet (an "end of your opponent's turn" condition
-           during the owner's own turn, see missionTiming.js) is greyed and not tickable, with the
-           reason on hover — shown, never hidden: it is still the card's condition. -->
+      <!-- A row scored in another turn than the one on screen (missionTiming.lockedTurn) is greyed
+           and not tickable, with the turn it is scored in on hover — shown, never hidden: it is
+           still the card's condition. -->
       <!-- A "per each" row keeps its stepper and VP together as one group, first — the control
            leads, as the tick does on the rows below it: beside the text while the row has room for
            both, on a line of their own above it when it does not. Before, the stepper, the text
@@ -40,7 +40,7 @@
         :key="r.ri"
         class="m-cond"
         :class="{ on: count(b.bi, r.ri) > 0, readonly: readonly || isLocked(b), locked: isLocked(b), 'm-cond--count': r.perEach }"
-        :title="isLocked(b) ? (b.offRound ? labels.trackerOffRound : lockedNote) : undefined"
+        :title="isLocked(b) ? (b.offRound ? labels.trackerOffRound : locked(b)) : undefined"
       >
         <template v-if="r.perEach">
           <span class="m-act">
@@ -105,8 +105,7 @@ const props = defineProps({
   count: { type: Function, required: true },  // (bi, ri) => number
   readonly: { type: Boolean, default: false },
   showHeadings: { type: Boolean, default: true },
-  locked: { type: Function, default: null },  // (block) => true when its moment cannot have come
-  lockedNote: { type: String, default: '' },
+  locked: { type: Function, default: null },  // (block) => why it cannot be ticked in this turn, or null
 })
 defineEmits(['set'])
 const { locale } = useLocale()

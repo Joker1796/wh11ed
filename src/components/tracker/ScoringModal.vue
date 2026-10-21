@@ -49,13 +49,23 @@
         {{ whenDrawn.mode === 'discard' ? labels.trackerDiscardDraw : labels.trackerShuffleDraw }}
       </button>
 
+      <!-- A condition whose turn has passed is put right in that turn: the button opens it on the
+           game screen behind the dialog, and the rows unlock in place. -->
+      <button
+        v-if="fix && !readonly"
+        type="button"
+        class="btn-ghost sm-fix"
+        @click="$emit('fix')"
+      >
+        <i class="wi wi-edit" /> {{ fix }}
+      </button>
+
       <ScoreRows
         class="sm-rows"
         :blocks="blocks"
         :count="count"
         :readonly="readonly"
         :locked="locked"
-        :locked-note="lockedNote"
         @set="(bi, ri, c) => $emit('set', bi, ri, c)"
       />
     </div>
@@ -91,13 +101,13 @@ const props = defineProps({
   whenDrawn: { type: Object, default: null }, // { mode:'discard'|'shuffle' } — WHEN DRAWN redraw button, or null
   readonly: { type: Boolean, default: false }, // view-only (e.g. a set-aside secondary): no scoring inputs
   viewOnlyNote: { type: String, default: null }, // the view-only line; null → "Discarded — view only", '' → none
-  locked: { type: Function, default: null },  // (block) => true when its moment cannot have come (ScoreRows)
-  lockedNote: { type: String, default: '' },
+  locked: { type: Function, default: null },  // (block) => why it cannot be ticked in this turn, or null (ScoreRows)
+  fix: { type: String, default: '' },          // the button opening the turn a locked condition is scored in
   opp: { type: Boolean, default: null },       // whose card: the opponent's (true), yours (false), unknown (null)
 })
 // Its dialog in the colour of the side whose card it is, not of the side on turn (provideSideScope).
 provideSideScope(() => props.opp)
-defineEmits(['set', 'close', 'redraw'])
+defineEmits(['set', 'close', 'redraw', 'fix'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
@@ -136,6 +146,7 @@ function toggleBriefing() {
 }
 .redraw-btn:hover { background: #d8a52a; }
 .sm-rows { margin-top: 0.7rem; }
+.sm-fix { display: flex; align-items: center; gap: 0.4rem; width: 100%; margin-top: 0.55rem; }
 .view-only {
   display: flex;
   align-items: center;

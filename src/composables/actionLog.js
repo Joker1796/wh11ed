@@ -105,7 +105,7 @@ export function discardEvent(d, redrawn) {
 
 // What a kind of act is filed under in the log.
 export const ACT_KIND = {
-  primary: 'points', scored: 'points', core: 'cp', bonus: 'cp', adjust: 'cp', strat: 'strat',
+  primary: 'points', scored: 'points', fix: 'points', core: 'cp', bonus: 'cp', adjust: 'cp', strat: 'strat',
   drawn: 'cards', returned: 'cards', whenDrawn: 'cards', setAside: 'cards', achieved: 'cards', discard: 'cards', redraw: 'cards',
   unit: 'units', unitSwitch: 'units',
   armyCond: 'army', armyValue: 'army', armyPick: 'army', armyFire: 'army', armyDie: 'army', armyDieUse: 'army', armySpend: 'army', armyBonus: 'army',

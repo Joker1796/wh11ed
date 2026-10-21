@@ -91,4 +91,21 @@ describe('GameLog — acts taken back', () => {
     w.unmount()
     vi.useRealTimers()
   })
+
+  // Owner, 2026-10-21: a played turn put right says so — which turn, the VP before and after —
+  // where it was done, instead of a silent change to that round's score.
+  it('tells a correction of a played turn as one line', async () => {
+    startGame()
+    tracker.endTurn() // Opp's turn of round 1
+    tracker.setRoundPrimary(0, 0, 3, 0)
+    tracker.setRoundPrimary(0, 0, 6, 0) // a second tap within a minute: still one correction
+    const acts = tracker.current.value.players[0].acts.filter((a) => a.type === 'fix')
+    expect(acts).toHaveLength(1)
+    expect(acts[0]).toMatchObject({ what: 'primary', at: 1, atTurn: 0, from: 0, to: 6 })
+    expect(acts.some((a) => a.type === 'undo')).toBe(false)
+    const w = mount(GameLog, { props: { names: ['Me', 'Opp'] } })
+    const line = w.findAll('.gl-item').map((li) => li.text()).find((t) => t.includes('corrected'))
+    expect(line).toMatch(/^Me\s*corrected round 1, Me’s turn: «.+» 0 → 6 VP$/)
+    w.unmount()
+  })
 })

@@ -38,29 +38,59 @@ export function scoringMoment(block) {
   return WHEN[block.when] || null
 }
 
-// Can a condition with this moment be ticked right now? Only one thing is refused, and it is
-// the one mistake the timing makes likely: scoring an "end of your opponent's turn" condition
-// during your OWN turn, when that moment cannot have come. Everything else stays open — a
-// condition scored at the end of your turn may well be ticked a moment after the turn passed —
-// and so does any round other than the live one: a past round is being corrected after the
-// fact, and correction is never refused.
-//   ctx = { pi, turn, round, liveRound, lastTurn } — the owner, whose turn it is, the round
-//   being scored and the live one, and whether this turn is the last of the battle.
-export function lockedNow(moment, ctx) {
-  if (!moment || ctx.round !== ctx.liveRound) return false
-  if (moment.at !== 'opp-turn' || ctx.turn !== ctx.pi) return false
-  // "… or the end of the fifth battle round": the owner's own turn that closes round 5 is it.
-  return !(moment.fallback === 'r5' && ctx.lastTurn)
+// In which turns of a round a condition with this moment is scored — the turn indices (0 is the
+// first-turn player, so a turn IS a player index), or null for "any turn" (the end of either
+// player's turn, while the card is active, a phrasing not in the table).
+//   'your-command' / 'your-turn' — the owner's own turn;
+//   'opp-turn' — the opponent's, and with the "… or the end of the fifth battle round" fallback
+//                also the turn that closes round 5;
+//   'end-battle' — the battle's last turn.
+export function momentTurns(moment, pi, round) {
+  if (!moment) return null
+  switch (moment.at) {
+    case 'your-command':
+    case 'your-turn': return [pi]
+    case 'opp-turn': return moment.fallback === 'r5' && round === 5 ? [1 - pi, 1] : [1 - pi]
+    case 'end-battle': return [1]
+  }
+  return null
 }
 
-// lockedNow for one block of a card in a game — what the scoring rows ask. `enBlock` is the
-// ENGLISH block (the localized one's `when` is Russian); `round` is the round on screen.
-export function blockLocked(game, pi, round, enBlock) {
-  const turn = game.currentTurn === 1 ? 1 : 0
-  return lockedNow(scoringMoment(enBlock), {
-    pi, turn, round, liveRound: game.currentRound,
-    lastTurn: game.currentRound === 5 && turn === 1,
-  })
+// May a condition with this moment be ticked in this turn? Only in the turn it is scored in
+// (owner, 2026-10-21): a score ticked a turn late landed in the wrong turn — the second player's
+// "end of your turn", ticked in the opponent's turn, went into a turn of his not yet played — and
+// one ticked early is a score not yet earned. A moment that has passed is put right by opening
+// that turn on the game screen (the round steps), which logs the correction.
+//   ctx = { pi, round, turn } — the owner, and the round and turn being scored (the live ones, or
+//   a past turn opened for correction).
+// Returns null when the condition is open, else the turn it is scored in — the one to open.
+export function lockedTurn(moment, ctx) {
+  const turns = momentTurns(moment, ctx.pi, ctx.round)
+  return !turns || turns.includes(ctx.turn) ? null : turns[0]
+}
+
+// lockedTurn for one block of a card in a game — what the scoring rows ask. `enBlock` is the
+// ENGLISH block (the localized one's `when` is Russian); `round` and `turn` are the ones on screen.
+export function blockLocked(game, pi, round, turn, enBlock) {
+  return lockedTurn(scoringMoment(enBlock), { pi, round, turn })
+}
+
+// Has this turn begun — may it be opened for correction? A turn of a past round, or of the live
+// round up to the one being played.
+export function turnReached(game, round, turn) {
+  return round < game.currentRound || (round === game.currentRound && turn <= (game.currentTurn === 1 ? 1 : 0))
+}
+
+// The turn to open for a card's locked conditions — the first one, of the card's blocks for the
+// round on screen, scored in another turn that has begun — or null. `enBlockOf(bi)` reads the
+// ENGLISH block; `blocks` are the ones the dialog draws (cardBlocks, `offRound` ones skipped).
+export function fixTurnOf(game, pi, round, turn, blocks, enBlockOf) {
+  for (const b of blocks) {
+    if (b.offRound) continue
+    const t = blockLocked(game, pi, round, turn, enBlockOf(b.bi))
+    if (t != null && turnReached(game, round, t)) return t
+  }
+  return null
 }
 
 // What is scored at the moment a turn ends — the check the game screen shows before End turn

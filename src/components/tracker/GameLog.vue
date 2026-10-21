@@ -203,6 +203,9 @@ function line(e) {
     case 'adjust': return l.trackerLogAdjust.replace('{n}', signed(e.amount))
     case 'strat': return (e.target ? l.trackerLogStratOn.replace('{unit}', e.target.name || '') : l.trackerLogStrat).replace('{name}', e.name || '').replace('{cp}', -e.amount)
     case 'undo': return e.of ? l.trackerLogUndo.replace('{what}', line({ ...e.of, pi: e.pi })) : ''
+    case 'fix': return (e.atTurn == null ? l.trackerLogFixRound : l.trackerLogFix.replace('{who}', props.names[e.atTurn] || ''))
+      .replace('{n}', e.at).replace('{what}', `«${e.what === 'primary' ? missionBySlug(e.slug, null, locale.value)?.name || '' : cardName(e.pi, e.slug)}»`)
+      .replace('{from}', e.from).replace('{to}', e.to)
     case 'turn': return l.trackerLogTurn
     case 'finish': return e.reason === 'early' ? l.trackerLogPaused : l.trackerLogFinished
     case 'resume': return l.trackerLogResumed

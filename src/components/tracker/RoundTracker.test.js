@@ -182,6 +182,34 @@ describe('RoundTracker — the missions panel', () => {
     expect([...blocks[1].querySelectorAll('.m-cond')].every((c) => c.classList.contains('locked'))).toBe(true)
   })
 
+  // The report of 2026-10-21: the second player ticked his "end of your turn" in the opponent's
+  // turn. A condition is ticked only in its own turn; one whose turn has passed is put right by
+  // opening that turn from the dialog — the banner says which, and the score lands there.
+  it('locks the primary outside its turn and opens the passed turn from the dialog', async () => {
+    startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
+    tracker.current.value.players[0].primarySlug = 'purge-and-secure'
+    tracker.endTurn() // Opp's turn of round 1
+    const w = mountTracker()
+    board(w).vm.$emit('select', 0)
+    await w.vm.$nextTick()
+    await w.find('.mission-card').trigger('click')
+    await flushPromises()
+    const conds = () => [...document.body.querySelectorAll('.m-block')][0].querySelectorAll('.m-cond')
+    expect([...conds()].every((c) => c.classList.contains('locked'))).toBe(true)
+    expect(conds()[0].getAttribute('title')).toBe('Scored in Me’s turn')
+    document.body.querySelector('.sm-fix').click()
+    await flushPromises()
+    expect(w.find('.round-edit').text()).toContain('Correcting round 1, Me’s turn')
+    expect(conds()[0].classList.contains('locked')).toBe(false)
+    expect(document.body.querySelector('.sm-fix')).toBeNull()
+    const box = conds()[0].querySelector('input')
+    box.checked = true
+    box.dispatchEvent(new Event('change'))
+    expect(tracker.current.value.players[0].rounds[0].primary).toBeGreaterThan(0)
+    expect(tracker.current.value.currentTurn).toBe(1) // the game did not move
+    expect(tracker.current.value.players[0].acts.some((x) => x.type === 'fix' && x.atTurn === 0)).toBe(true)
+  })
+
   it('in a shared game puts this phone\'s own side first, whoever is on turn', () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     tracker.current.value.party = { id: 'p', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }

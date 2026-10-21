@@ -88,16 +88,34 @@ describe('SecondaryDeck — scoring a card', () => {
     expect(w.findAll('.card .m-cond')).toHaveLength(0)
   })
 
-  it('locks the "end of your opponent\'s turn" condition during the owner\'s own turn only', async () => {
+  // Owner, 2026-10-21: a condition is ticked only in the turn it is scored in; one whose turn has
+  // passed is put right by opening that turn, which the dialog offers.
+  it('opens each condition in its own turn only, and offers the passed turn for correction', async () => {
     const slug = holdDisplayOfMight()
-    const w = deck(0)
+    const w = deck(0, { turnNames: ['Me', 'Opp'] })
     await openCard(w, 'Display of Might')
     expect(rows('.m-cond.locked')).toHaveLength(1)
     expect(rows('.m-cond input')).toHaveLength(1)
+    expect(rows('.m-cond.locked')[0].getAttribute('title')).toBe('Scored in Opp’s turn')
+    expect(rows('.sm-fix')).toHaveLength(0) // Opp's turn has not begun
     tracker.endTurn()
     await w.vm.$nextTick()
-    expect(rows('.m-cond.locked')).toHaveLength(0)
-    expect(slug).toBeTruthy()
+    // Now the opponent's-turn condition is open and the own-turn one has passed.
+    expect(rows('.m-cond.locked')).toHaveLength(1)
+    expect(rows('.m-cond.locked')[0].getAttribute('title')).toBe('Scored in Me’s turn')
+    const fix = rows('.sm-fix')[0]
+    expect(fix.textContent).toContain('Correct Me’s turn')
+    fix.click()
+    expect(w.emitted('open-turn')).toEqual([[0]])
+    // Opened (the game screen passes the turn back): the own-turn row ticks into this round,
+    // logged as a correction.
+    await w.setProps({ turn: 0 })
+    const input = rows('.m-cond input')[0]
+    input.checked = true
+    input.dispatchEvent(new Event('change'))
+    expect(tracker.secondaryCardVp(0, slug, 1)).toBeGreaterThan(0)
+    const fixAct = tracker.current.value.players[0].acts.find((a) => a.type === 'fix')
+    expect(fixAct).toMatchObject({ what: 'scored', slug, at: 1, atTurn: 0, from: 0, round: 1, turn: 1 })
   })
 
   it('scores a past round into that round, not the live one', async () => {

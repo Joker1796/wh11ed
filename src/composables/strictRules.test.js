@@ -119,6 +119,15 @@ describe('strict rules', () => {
     expect(pl(0).rounds[0].primary).toBe(0)
   })
 
+  it('does not correct a turn of the live round already played', () => {
+    start()
+    tracker.endTurn() // the opponent's turn of round 1
+    expect(tracker.strictWhy('round', 0, 1, 0)).toBe('pastTurn')
+    tracker.setPrimaryRow(0, 0, 0, 0, 1, 0)
+    expect(pl(0).rounds[0].primary).toBe(0)
+    expect(tracker.strictWhy('round', 1, 1, 1)).toBe(null) // the live turn
+  })
+
   it('a destroyed unit comes back only as the last action', () => {
     start()
     later()
