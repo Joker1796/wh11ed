@@ -153,7 +153,7 @@
         <li
           v-for="g in rows"
           :key="g.live ? 'live' : g.id"
-          class="game corner-grid"
+          class="game centre-grid"
           :data-tour="g === visibleGames[0] ? 'home-history' : undefined"
           :class="g.live ? 'live' : resultClass(g)"
           role="button"
