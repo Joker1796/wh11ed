@@ -15,62 +15,66 @@
       @click.capture="onUnitClick"
       v-on="unitPress.listeners"
     >
-      <h2 class="fsection-title">
+      <h2 class="fsection-title ds-title">
         {{ labels.factionDatasheets }}
       </h2>
       <template v-if="datasheets.length">
-        <!-- Types the faction's own example queries while empty (useUnitSearchGhost). -->
-        <div
-          ref="dsSearchEl"
-          class="typing-field ds-search-field"
-        >
-          <input
-            v-model="dsQuery"
-            type="search"
-            class="ds-search"
-            :placeholder="typing ? '' : labels.dsSearch"
-            :aria-label="labels.dsSearch"
+        <!-- One box for the list's tools, the list and the unit beside it: a plain stack on a phone,
+             on a wide screen a grid — the tools over the list in the left column, the unit in the
+             right one from the top, the chapter bar across both (owner, 2026-10-21: the tools
+             spanning the page left a band of nothing over the unit). -->
+        <div class="ds-split">
+          <!-- Types the faction's own example queries while empty (useUnitSearchGhost). -->
+          <div
+            ref="dsSearchEl"
+            class="typing-field ds-search-field"
           >
-          <TypingGhost
-            v-if="typing && !dsQuery"
-            :ghost="ghost"
-          />
-        </div>
-        <!-- Global army choice (chapter + detachment), shared with the rule page.
+            <input
+              v-model="dsQuery"
+              type="search"
+              class="ds-search"
+              :placeholder="typing ? '' : labels.dsSearch"
+              :aria-label="labels.dsSearch"
+            >
+            <TypingGhost
+              v-if="typing && !dsQuery"
+              :ghost="ghost"
+            />
+          </div>
+          <!-- Global army choice (chapter + detachment), shared with the rule page.
              Chapter-less factions keep their datasheet list bar-free — a detachment
              picker filters nothing here. -->
-        <FactionPickerBar
-          v-if="chapters.length"
-          class="ds-picker-bar"
-          :slug="slug"
-          :detachments="detachments"
-          :chapters="chapters"
-        />
-        <!-- What the two corner marks on every chip mean. Both are toggles with nothing but an
+          <FactionPickerBar
+            v-if="chapters.length"
+            class="ds-picker-bar"
+            :slug="slug"
+            :detachments="detachments"
+            :chapters="chapters"
+          />
+          <!-- What the two corner marks on every chip mean. Both are toggles with nothing but an
              icon on them, and a tooltip is no answer on a phone — so the key is said once, here,
              instead of on 90 chips. -->
-        <div class="ds-tools">
-          <p class="ds-legend">
-            <span><i class="wi wi-pin-on" /> {{ labels.favPinnedGroup }}</span>
-            <span><i class="wi wi-own" /> {{ labels.rosterFilterOwned }}</span>
-          </p>
-          <!-- Legends sheets are listed with everything else and marked, not hidden — a rule GW
+          <div class="ds-tools">
+            <p class="ds-legend">
+              <span><i class="wi wi-pin-on" /> {{ labels.favPinnedGroup }}</span>
+              <span><i class="wi wi-own" /> {{ labels.rosterFilterOwned }}</span>
+            </p>
+            <!-- Legends sheets are listed with everything else and marked, not hidden — a rule GW
                still publishes is a rule somebody is reading. The switch is for the player building
                a matched-play list, and only appears for the factions that have any. It shares the
                key's row — width before height — and wraps under it on a phone. -->
-          <label
-            v-if="hasLegends"
-            class="check ds-legends-filter"
-            :class="{ on: hideLegends }"
-          >
-            <input
-              v-model="hideLegends"
-              type="checkbox"
+            <label
+              v-if="hasLegends"
+              class="check ds-legends-filter"
+              :class="{ on: hideLegends }"
             >
-            <span>{{ labels.dsLegendsHide }}</span>
-          </label>
-        </div>
-        <div class="ds-split">
+              <input
+                v-model="hideLegends"
+                type="checkbox"
+              >
+              <span>{{ labels.dsLegendsHide }}</span>
+            </label>
+          </div>
           <div class="ds-list">
             <template
               v-for="g in groupedDatasheets"
@@ -340,6 +344,12 @@
   </div>
 </template>
 
+<script>
+// Per faction, the unit last shown beside the list — for the session, not the device: the tab
+// coming back (from the rules, from another faction) finds the unit it left.
+const lastShown = new Map()
+</script>
+
 <script setup>
 import ChevronIcon from '../../components/ChevronIcon.vue'
 import TypingGhost from '../../components/TypingGhost.vue'
@@ -607,6 +617,18 @@ const groupedDatasheets = computed(() => {
 const gridRoot = ref(null)
 useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
 
+// A wide screen never shows an empty column beside the list (owner, 2026-10-21): the unit this
+// faction last showed in this session, else the list's first. Only the "pick one to compare" note
+// is ever an empty box.
+function showSomething() {
+  if (!wide.value || !loaded.value || shown.value.length) return
+  const last = lastShown.get(slug.value)
+  const id = last && datasheets.value.some((d) => d.id === last) ? last : groupedDatasheets.value[0]?.sheets[0]?.id
+  if (id) shown.value = [id]
+}
+watch([wide, loaded], showSomething, { immediate: true })
+watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
+
 </script>
 
 <style scoped>
@@ -857,13 +879,36 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
 /* ── Wide screen: the list as rows on the left, the unit(s) on the right ──
    Below 901px nothing here applies: the grid of chips, and a unit opens in a modal. */
 @media (min-width: 901px) {
+  /* The tools stack over the list in the left column; the unit takes the right one from the top.
+     The list's row is the flexible one, so a unit taller than a short (searched) list stretches
+     that row and never pulls the tools apart. */
   .ds-split {
     display: grid;
     grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
-    gap: 1rem;
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      "bar    bar"
+      "search side"
+      "tools  side"
+      "list   side";
+    column-gap: 1rem;
     align-items: start;
   }
-  .ds-list { min-width: 0; }
+  .ds-picker-bar { grid-area: bar; }
+  .ds-search-field { grid-area: search; max-width: none; }
+  .ds-tools { grid-area: tools; margin-top: 0; }
+  .ds-list { grid-area: list; min-width: 0; }
+  .ds-side { grid-area: side; }
+  /* The list's heading only repeats the tab it hangs from (components/CLAUDE.md, vertical
+     density): out of sight here, still the section's name for a screen reader. */
+  .ds-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
   .ds-list .ds-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
   /* A row: the name and what is said about it on one line, the two marks side by side at the
      right. The rows touch, sharing one edge (components/CLAUDE.md, Borders that touch). */
