@@ -88,7 +88,7 @@ export default {
       },
       "hash": "e258d19a",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -281,8 +281,22 @@ export default {
       },
       "hash": "396e80bb",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while an ADEPTA SORORITAS CHARACTER is leading this unit",
+            "ru": "пока отряд возглавляет ADEPTA SORORITAS CHARACTER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:crusaders:spiritual-fortitude",
@@ -465,6 +479,23 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
           "when": null,
           "target": "led"
         }
@@ -822,7 +853,21 @@ export default {
       "hash": "cdadac05",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while an ADEPTA SORORITAS CHARACTER is leading this unit",
+            "ru": "пока отряд возглавляет ADEPTA SORORITAS CHARACTER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "03cea895-25dc-4be7-b50a-82959b8d514f:triumph-of-saint-katherine",
@@ -1344,7 +1389,16 @@ export default {
       "hash": "c654eff7",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "1183f5f4-7242-46ba-80c1-2be89be8c9db",
@@ -1580,7 +1634,15 @@ export default {
       "hash": "54e4911e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "set",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ae5538f8-1681-4fdd-9cdc-2605f8847aa6",
@@ -1830,6 +1892,21 @@ export default {
             "en": "once per turn, the ability selected at the start of this phase",
             "ru": "раз за ход, способность, выбранная в начале фазы"
           }
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "once per turn, while the Chorus of Repudiation is the ability used",
+            "ru": "раз в ход, пока выбрана способность Chorus of Repudiation"
+          },
+          "cond": [
+            "hagio-chorus"
+          ],
+          "target": "led"
         }
       ]
     },
@@ -1875,8 +1952,17 @@ export default {
       },
       "hash": "21ac06be",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ee842df1-f44d-45b9-9f16-e1ec47871c8f",
@@ -2071,7 +2157,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "08d9a628-8178-473c-8d08-906813c20f7d",
@@ -2085,8 +2180,17 @@ export default {
       },
       "hash": "052836c8",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "27162b9e-7b88-4242-802f-ab58c931ea8f",
