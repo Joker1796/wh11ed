@@ -18,8 +18,23 @@ export default {
       },
       "hash": "b178de89",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "while a CHARACTER is leading this unit",
+            "ru": "пока отряд возглавляет CHARACTER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "03af0fc0-6c26-48af-83e0-fa6060aeaa40:achilles-ridgerunners",
@@ -297,7 +312,7 @@ export default {
       },
       "hash": "f35bd49c",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -385,7 +400,7 @@ export default {
       },
       "hash": "e258d19a",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -457,7 +472,16 @@ export default {
       "hash": "6a71d0f1",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "7767306f-ad29-4d17-8510-f5dcb2a06f78",
@@ -1017,7 +1041,7 @@ export default {
       },
       "hash": "855ce9db",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1114,8 +1138,23 @@ export default {
       },
       "hash": "0cda3d9c",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against that enemy unit, if it failed its Battle-shock test",
+            "ru": "против этого вражеского отряда, если он провалил тест Battle-shock"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "89f9667a-2fe9-43f7-acae-2da2c36fdd58",
@@ -1292,7 +1331,16 @@ export default {
       "hash": "df9c6903",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ed33177c-e79a-4f2e-b2af-f1c616eefef5",
@@ -1390,7 +1438,17 @@ export default {
       "hash": "8562af04",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "61c63ee8-1c41-4e6c-b0e8-5451c154c896:achilles-ridgerunners",

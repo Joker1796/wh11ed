@@ -115,7 +115,7 @@ export default {
       },
       "hash": "70223a62",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -262,7 +262,7 @@ export default {
       },
       "hash": "1d59273b",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1361,8 +1361,18 @@ export default {
       },
       "hash": "e353048d",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f6bda048-9f16-4ac4-9ff5-460a63c8dbb6",
@@ -1376,8 +1386,18 @@ export default {
       },
       "hash": "e353048d",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "49bf6432-d81b-4a7d-bab4-4c93e6be389f",
@@ -1555,7 +1575,16 @@ export default {
       "hash": "1f76c246",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a3b426d3-9acd-46b2-b2b6-67d5494d5a3a",
