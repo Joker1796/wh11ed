@@ -19,7 +19,15 @@ export default {
       "hash": "e577ede9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "58688df3-babc-4cd6-be1d-7218763ca629:daemon-prince-of-slaanesh",
@@ -130,7 +138,15 @@ export default {
       "hash": "0ffe6c64",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "20022824-dde8-47a5-8860-7fcbe3c9af76:fulgrim",
@@ -216,8 +232,16 @@ export default {
       },
       "hash": "663cf92e",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ebc372fc-2320-4b92-b420-4ca74193af7f:lord-exultant",
@@ -573,7 +597,23 @@ export default {
       "hash": "21c8743e",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "once per battle, for the Fight phase it is used in",
+            "ru": "раз за битву, на Fight phase, в которой использовано"
+          },
+          "once": {
+            "per": "army",
+            "dur": "phase"
+          },
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "4dd6dec8-03dc-4b0a-919a-b00c3c34f726",
@@ -908,8 +948,26 @@ export default {
       },
       "hash": "d5ac5e2b",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "melee-s-gt-t",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "melee-s-gt-t",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "4d0851fe-8c7b-4423-b688-916ad670d63e",
@@ -1222,8 +1280,17 @@ export default {
       },
       "hash": "214dc667",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "c31be1f6-a71d-44ba-85f7-b4b7021a6b9f",
@@ -1238,7 +1305,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "fadeb9fd-72d1-4595-bb0e-d16f1f67e57d",
@@ -1326,8 +1402,18 @@ export default {
       },
       "hash": "e353048d",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "41273a31-ffea-438c-8b0a-3b1dc379b8eb",
@@ -1342,7 +1428,17 @@ export default {
       "hash": "ed2665e0",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a66b93f1-8245-4923-9b41-2f77873604e0",
@@ -1384,7 +1480,16 @@ export default {
       "hash": "9e50d86d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f0c67e95-5910-4c56-8708-c9bff6bfa4e7",
@@ -1398,8 +1503,17 @@ export default {
       },
       "hash": "214dc667",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "bd287e41-9e6c-40fd-87c2-93b59208d7a0",
@@ -1413,8 +1527,17 @@ export default {
       },
       "hash": "6d559221",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "393f0842-1159-4dd0-920a-c98a41a15339",
@@ -1512,8 +1635,17 @@ export default {
       },
       "hash": "214dc667",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "821d0384-2c3d-441d-9d74-dd36b23301ad",
