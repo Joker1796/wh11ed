@@ -61,7 +61,37 @@ export default {
       "hash": "1c83144e",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "while within range of an objective",
+            "ru": "пока отряд в зоне objective"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "while within range of an objective",
+            "ru": "пока отряд в зоне objective"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "25fbd7b8-052e-4816-9158-c5e721cda6d6:ancient",
@@ -149,7 +179,21 @@ export default {
       "hash": "09d39f7a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while every model of this unit is within range of an objective",
+            "ru": "пока все модели отряда в зоне objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "a3e337f3-e16c-4344-9b9b-866fbe85cf47:assault-intercessor-squad",
@@ -311,6 +355,19 @@ export default {
             "en": "the option picked when an enemy unit targets this unit",
             "ru": "вариант, выбранный, когда враг выбирает отряд целью"
           }
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "the option picked when an enemy unit targets this unit",
+            "ru": "вариант, выбранный, когда враг выбирает отряд целью"
+          },
+          "cond": [
+            "bladeguard-defend"
+          ]
         }
       ]
     },
@@ -985,7 +1042,15 @@ export default {
       "hash": "b1777501",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "8dea9fd4-30ee-4944-943a-62de6801b195:darnath-lysander",
@@ -999,7 +1064,15 @@ export default {
       "hash": "859fd5ea",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "79864d68-7b4f-4f10-a184-df6706cfff16:darnath-lysander",
@@ -1360,7 +1433,16 @@ export default {
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "6ad35390-b52e-42a4-8b2f-6c728c1bd690:judiciar",
@@ -1595,7 +1677,21 @@ export default {
       "hash": "a866e3ed",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "for the phase, after a psychic roll other than a 1",
+            "ru": "до конца фазы после психического броска не на 1"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "3dc4c0ab-b583-4323-ba4a-58aa801565d4:librarian-in-phobos-armour",
@@ -2036,7 +2132,16 @@ export default {
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "63467e90-2ee5-424e-bed6-7a3f9ef74d51:reiver-squad",
@@ -2232,7 +2337,15 @@ export default {
       "hash": "9bdc06bf",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3d2aea22-3657-47fa-9cbc-ce8f3248dcd0:stormtalon-gunship",
@@ -2600,7 +2713,15 @@ export default {
       "hash": "b1777501",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ced63a07-5997-42ef-90f3-9b83600f5984:vindicator",
@@ -2874,7 +2995,22 @@ export default {
       "hash": "11dd7b9b",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "while within range of an objective",
+            "ru": "пока отряд в зоне objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "63efc4eb-d315-4974-850a-0c3bfbddcb68",
@@ -3436,7 +3572,25 @@ export default {
       "hash": "92d1dae4",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "e02569a9-63d8-41a7-8527-7cbf177994dc",
@@ -3496,7 +3650,16 @@ export default {
       "hash": "50b0af89",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null,
+          "target": "unit"
+        }
+      ]
     },
     {
       "sid": "29b7dfd4-e752-44ce-8e04-7bec64d3676a",
@@ -3871,7 +4034,16 @@ export default {
       "hash": "9e50d86d",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "1c905c51-e046-4fdd-9af0-9db2c3264f09",
@@ -3953,7 +4125,16 @@ export default {
       "hash": "9e50d86d",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "b136c0a1-1f85-4792-83a0-388d77c17dc7",
@@ -4022,7 +4203,17 @@ export default {
       "hash": "e8e0dd03",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "39db2117-82ed-4fa3-8c71-4ee54f89d58a",
@@ -4136,7 +4327,33 @@ export default {
       "hash": "2005487f",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "the first option",
+            "ru": "первый вариант"
+          }
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "the second option, if your unit is entrenched",
+            "ru": "второй вариант, если отряд окопался"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "0933c7f4-df52-4412-a9b5-40564daca344",
@@ -4178,7 +4395,16 @@ export default {
       "hash": "9e50d86d",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "3fabbfae-be83-4875-b4a3-4fb4fe636946",
@@ -4306,7 +4532,16 @@ export default {
       "hash": "9e50d86d",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "c241bb1c-fa73-4511-8e23-08bff4078645",
@@ -4764,7 +4999,17 @@ export default {
       "hash": "fcfa9b58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e6c5d317-d9d0-4089-8288-6832d8b6d9be",
@@ -4843,7 +5088,17 @@ export default {
       "hash": "83a67d7a",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "aaff4833-591d-4c0d-b08c-3df48c061c2a",
@@ -4981,7 +5236,17 @@ export default {
       "hash": "fcfa9b58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "033c22a0-7a34-425e-9748-fd8f90170bc0",
@@ -4996,7 +5261,16 @@ export default {
       "hash": "9e50d86d",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "5763bb5f-fa76-4c84-908b-b7a02e376a46",
@@ -5234,7 +5508,16 @@ export default {
       "hash": "9c6e19d7",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "9cb2e570-6af8-4c6f-b89a-4951b094cc3c:captain-with-jump-pack",
