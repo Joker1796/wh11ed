@@ -4019,8 +4019,9 @@ until now only an ability-set pick and an aura had. Two more kinds now do:
 - **A game-state chip opens the core rule that defines it** — `conditions.js`'s new `hint`
   field, written in both locales (`RosterViewView.withRuleInfo` picks one) and free to use the same
   body markup as any rule text, so `(01.07)` navigates and `[gloss:battle-shocked:…]` opens its
-  definition. Nine states have one: charged, advanced, remained stationary, engaged, Battle-shocked
-  and not, arrived from Reserves, disembarked, at starting strength. A state that is some FACTION's
+  definition. Ten states have one: charged, advanced, remained stationary, engaged, Battle-shocked
+  and not, arrived from Reserves, disembarked, set up this turn (either of the two — 18.02's FAQ
+  counts a disembark), at starting strength. A state that is some FACTION's
   rule (an Imperative, an Order, a Kastelan protocol) deliberately has none — its text lives in that
   rule's own body, a pointer this dictionary does not hold, and a hand-written paraphrase of
   somebody else's rule is how the two quietly come to disagree. Reaching those needs the id →

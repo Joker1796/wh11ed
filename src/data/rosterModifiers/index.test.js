@@ -17,6 +17,24 @@ const allEntries = Object.entries(files).flatMap(([file, data]) =>
   (data?.entries || []).map((e) => ({ file, e })))
 
 describe('rosterModifiers data', () => {
+  // 2026-10-21: Fire Zone Purge's "+1 to Hit rolls if this unit was set up this turn" sat behind
+  // "Arrived from Reserves" AND the Officer-Warlord gate of the rule's other bullet — never on
+  // without that Warlord, and never for Scions out of a transport. "Set up on the battlefield this
+  // turn" covers Reserves and a disembark alike (18.02's FAQ), so it has a state of its own, and
+  // an effect read as "set up this turn" asks for it alone among the turn's arrivals.
+  it('reads "set up this turn" as its own state, not as Reserves alone', () => {
+    const setUp = allEntries.flatMap(({ file, e }) => (e.effects || [])
+      .filter((x) => /set up (on the battlefield )?this turn|was set up on the battlefield/i.test(x.when?.en || ''))
+      .map((x) => ({ who: `${file} ${e.name}`, cond: x.cond || [] })))
+    expect(setUp.length).toBeGreaterThanOrEqual(3)
+    for (const { who, cond } of setUp) {
+      expect(cond, who).toContain('unit-set-up-this-turn')
+      expect(cond, who).not.toContain('unit-arrived-from-reserves')
+    }
+    const fzp = allEntries.find(({ e }) => e.name === 'Fire Zone Purge').e
+    expect(fzp.effects.find((x) => x.stat === 'hit').cond).toEqual(['unit-set-up-this-turn'])
+  })
+
   it('ships a file per faction, each with the current format version', () => {
     expect(Object.keys(files).length).toBeGreaterThanOrEqual(30)
     for (const [file, data] of Object.entries(files)) {

@@ -1643,8 +1643,7 @@ export default {
             "ru": "если отряд выставлен на поле в этом ходу"
           },
           "cond": [
-            "warlord-tempestus-officer",
-            "unit-arrived-from-reserves"
+            "unit-set-up-this-turn"
           ]
         }
       ]
