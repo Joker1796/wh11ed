@@ -140,7 +140,7 @@ export default {
             "ru": "в ходу, в котором отряд был выставлен на поле боя"
           },
           "cond": [
-            "unit-arrived-from-reserves"
+            "unit-set-up-this-turn"
           ]
         },
         {
@@ -153,7 +153,7 @@ export default {
             "ru": "в ходу, в котором отряд был выставлен на поле боя"
           },
           "cond": [
-            "unit-arrived-from-reserves"
+            "unit-set-up-this-turn"
           ]
         }
       ]

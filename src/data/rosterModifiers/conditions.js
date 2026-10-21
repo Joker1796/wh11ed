@@ -264,6 +264,18 @@ export const conditions = {
       ru: 'Отряд выставлен на поле боя в этом ходу из **[gloss:strategic-reserves:стратегического резерва]**, а не в расстановке (20.01).',
     },
   },
+  // "Set up on the battlefield this turn" is wider than arriving from Reserves: a unit that
+  // disembarks is set up too (18.02's FAQ — the embark ban on a unit "set up this turn" holds after
+  // a disembark). Fire Zone Purge's Scions come out of Tauroxes and Valkyries as often as from
+  // Reserves; reading the rule as Reserves alone dropped half of it (2026-10-21).
+  'unit-set-up-this-turn': {
+    scope: 'unit', duration: 'turn',
+    label: { en: 'Set up this turn', ru: 'Выставлен в этом ходу' },
+    hint: {
+      en: 'This unit was set up on the battlefield this turn: it arrived from **[gloss:strategic-reserves:strategic reserves]** (20.01) or disembarked from a [gloss:transport:TRANSPORT] (18.03).',
+      ru: 'Отряд выставлен на поле боя в этом ходу: прибыл из **[gloss:strategic-reserves:стратегического резерва]** (20.01) или высадился из [gloss:transport:TRANSPORT] (18.03).',
+    },
+  },
   'unit-righteous': { scope: 'unit', duration: 'round', label: { en: 'Righteous', ru: 'Righteous' } },
   // Martial Ka'tah (Codex: Adeptus Custodes, data 981): a readied unit spends one ka'tah ability
   // per round, each in its own phase, so this is a per-unit choice that lasts the phase. Only the
