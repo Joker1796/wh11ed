@@ -210,8 +210,11 @@
               <span
                 v-for="(line, n) in armyLines(g, 0)"
                 :key="n"
-                class="gc-faction"
-              >{{ line }}</span>
+                class="gc-army"
+              ><span
+                v-if="line.who"
+                class="gc-who"
+              >{{ line.who }}</span><span class="gc-faction">{{ line.what }}</span></span>
             </div>
             <div class="gc-center">
               <div class="gc-score">
@@ -229,8 +232,11 @@
               <span
                 v-for="(line, n) in armyLines(g, 1)"
                 :key="n"
-                class="gc-faction"
-              >{{ line }}</span>
+                class="gc-army"
+              ><span
+                v-if="line.who"
+                class="gc-who"
+              >{{ line.who }}</span><span class="gc-faction">{{ line.what }}</span></span>
             </div>
           </div>
 
@@ -531,14 +537,15 @@ function stampsOf(g) {
 function armyLines(g, side) {
   const armies = armiesOfSide(g, side)
   const doubles = g.settings?.gameType === 'doubles' && armies.length > 1
+  // `who` and `what` apart, not one string: a narrow card puts them on two lines, so a break never
+  // falls inside a faction's name ("Adepta / Sororitas", owner's screenshot 2026-10-21).
   if (!doubles) {
-    return [factionIndexBySlug(armies[0]?.factionSlug)?.name || labels.value.trackerUnknownFaction]
+    return [{ who: '', what: factionIndexBySlug(armies[0]?.factionSlug)?.name || labels.value.trackerUnknownFaction }]
   }
-  return armies.map((m, mi) => {
-    const who = m?.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)
-    const what = factionIndexBySlug(m?.factionSlug)?.name || labels.value.trackerUnknownFaction
-    return `${who} · ${what}`
-  })
+  return armies.map((m, mi) => ({
+    who: m?.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2),
+    what: factionIndexBySlug(m?.factionSlug)?.name || labels.value.trackerUnknownFaction,
+  }))
 }
 
 // Battle Points per stored array index; concede sweeps 20–0 to the non-conceding player. Uses the
@@ -813,7 +820,9 @@ function footLine(g) {
   line-height: 1.15;
   overflow-wrap: anywhere;
 }
-.gc-faction { font-size: 0.8rem; color: var(--text-muted); line-height: 1.25; overflow-wrap: anywhere; }
+.gc-army { font-size: 0.8rem; color: var(--text-muted); line-height: 1.25; overflow-wrap: anywhere; }
+/* A doubles partner and their faction on one line, "Вася · Adepta Sororitas", where the card is wide. */
+.gc-who::after { content: ' · '; }
 /* The same label as on the game's board (ScoreBoard's .you-tag), in the text's own colour here. */
 .gc-you {
   display: inline-block;
@@ -866,11 +875,34 @@ function footLine(g) {
 
 .gc-foot { text-align: center; margin-top: 0.4rem; font-size: 0.74rem; color: var(--text-dim); }
 
-/* Narrowest phones (same threshold as the unit cards): shrink the player names, and the faction a
-   touch, so long names + the centre score still fit the three-column row. */
-@media (max-width: 480px) {
-  .gc-name { font-size: 0.88rem; }
-  .gc-faction { font-size: 0.74rem; }
+/* A phone's card (owner, 2026-10-21): three columns gave each side ~120px, and a doubles line
+   ("Вася · Adepta Sororitas") broke in the middle of a faction's name. The score goes on top and
+   the two sides share the width under it, half each; a partner and their faction take a line
+   each, and a line that still does not fit ends in an ellipsis rather than breaking. Read off the
+   card's own width (it is a size container for its stamps already). */
+@container (max-width: 560px) {
+  .gc-body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "score score"
+      "left  right";
+    align-items: start;
+    row-gap: 0.2rem;
+  }
+  .gc-center { grid-area: score; }
+  .gc-side--left { grid-area: left; }
+  .gc-side--right { grid-area: right; }
+  .gc-side { padding: 0.15rem 0.4rem; max-width: 100%; }
+  .gc-army { display: flex; flex-direction: column; max-width: 100%; }
+  .gc-army + .gc-army { margin-top: 0.15rem; }
+  .gc-side--right .gc-army { align-items: flex-end; }
+  .gc-who::after { content: none; }
+  .gc-who, .gc-faction {
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 </style>
