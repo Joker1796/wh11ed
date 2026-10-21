@@ -306,11 +306,11 @@
           <i class="wi wi-arrow-right" />{{ labels.dsOpenNewTab }}
         </a>
         <button
-          v-if="wide && shown.length && !shown.includes(menu.id)"
+          v-if="wide"
           class="act-btn act-ico"
-          @click="menuDo(() => compareWith(menu.id))"
+          @click="menuDo(() => addToCompare(menu.id))"
         >
-          <i class="wi wi-panes" />{{ labels.dsCompareWith.replace('{name}', menuShownName) }}
+          <i class="wi wi-panes" />{{ labels.dsAddToCompare }}
         </button>
         <button
           class="act-btn act-ico"
@@ -426,9 +426,14 @@ function replaceShown(i, id) {
   if (shown.value.includes(id)) return
   shown.value = shown.value.map((x, j) => (j === i ? id : x))
 }
-function compareWith(id) {
+// "Add to compare" (the chip's menu, owner 2026-10-21): another unit stands beside the one shown —
+// in the second place, taking it over if two already stand there; the unit already shown waits for
+// its partner from the list, as the plate's ◫ does.
+function addToCompare(id) {
   const [first] = shown.value
-  if (first && first !== id) shown.value = [first, id]
+  if (!first) { shown.value = [id]; comparing.value = true; return }
+  if (shown.value.includes(id)) { shown.value = [id]; comparing.value = true; return }
+  shown.value = [first, id]
   comparing.value = false
 }
 function closeShown(i) {
@@ -447,7 +452,6 @@ const unitPress = useLongPress('.ds-chip[data-unit]', (el, anchor) => {
   menuOpen.value = true
 })
 const menuHref = computed(() => (menu.value ? localePath(`/factions/${slug.value}/datasheets/${menu.value.id}`, locale.value) : ''))
-const menuShownName = computed(() => datasheets.value.find((d) => d.id === shown.value[0])?.name || '')
 function menuDo(fn) { menuOpen.value = false; fn() }
 // The row's "…": the same menu, hung from the button.
 function openMenuAt(sheet, btn) {
