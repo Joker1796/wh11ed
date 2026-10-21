@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
 import { isStandaloneDisplay } from './standalone.js'
 import { liveVersion } from './launchGate.js'
+import { noteWaitingVersion } from './reloadLoop.js'
 import { topUpOffline } from './useOfflineWarmup.js'
 
 // A new version found while the app is in use — and nothing reloads until the reader says so.
@@ -32,7 +33,14 @@ export async function updateFound(apply, { version = '', tab = false, inPlace = 
   if (appUpdate.phase !== 'idle') return
   appUpdate.tab = tab
   if (version) appUpdate.version = version
-  else liveVersion().then((v) => { if (v?.app) appUpdate.version = v.app })
+  else {
+    liveVersion().then((v) => {
+      if (!v?.app) return
+      appUpdate.version = v.app
+      // A worker installed and waiting carries, near enough, what the server has now (reloadLoop.js).
+      if (!tab && !inPlace) noteWaitingVersion(v.app)
+    })
+  }
   if (!tab && !inPlace && isStandaloneDisplay()) {
     appUpdate.phase = 'downloading'
     // A download that fails half-way still ends in the button: the new build tops up the rest.

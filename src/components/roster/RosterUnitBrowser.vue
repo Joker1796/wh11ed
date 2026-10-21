@@ -427,13 +427,20 @@ function countOf(id) {
 }
 // The duplicate cap for this unit (Infinity when no battle size is resolvable, i.e. nothing to
 // cap against), and whether checkLegality is on AND that cap is already reached.
-function limitOf(u) {
-  if (!props.battle) return Infinity
+function capOf(u) {
   const src = allySourceOf(u.id)
   const granted = props.factionSlug
     ? grantedKeywordsFor(src?.[1] || u.id, src?.[0] || props.factionSlug, props.detachments).map((g) => g.kw)
     : null
   return duplicateLimit(u, props.battle, granted)
+}
+// Every unit's cap, worked out once when the units, the battle size or the detachments change. Read
+// four times a row per render (the add button twice, the count, the over mark), it used to look up
+// the detachments' granted keywords each time — the catalogue's whole render cost (2026-10-21).
+const limits = computed(() => (props.battle ? new Map(props.units.map((u) => [u.id, capOf(u)])) : null))
+function limitOf(u) {
+  if (!limits.value) return Infinity
+  return limits.value.get(u.id) ?? capOf(u)
 }
 function atCap(u) { return props.checkLegality && countOf(u.id) >= limitOf(u) }
 // Strictly OVER the cap — not just at it. Unreachable through this browser's own "+" button

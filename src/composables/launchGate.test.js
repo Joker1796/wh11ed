@@ -82,14 +82,49 @@ describe('launchGate — a start under a service worker opens the live version',
     expect(hide).toHaveBeenCalled()
   })
 
-  it('a version downloaded before and never applied is opened at once, without asking the server', async () => {
+  it('offline, a version downloaded before and never applied is opened at once, without asking the server', async () => {
     const w = worker('installed')
     const { sw } = setup({ waiting: w })
     const fetch = live('1.0.1'); vi.stubGlobal('fetch', fetch)
+    vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false)
     const reload = vi.fn()
     w.postMessage = vi.fn(() => setTimeout(() => sw.dispatchEvent(new Event('controllerchange')), 5))
     expect(await launchGate({ version: '1.0.0', splash: splashSpy().splash, reload })).toBe(true)
     expect(fetch).not.toHaveBeenCalled()
+    expect(reload).toHaveBeenCalledTimes(1)
+    vi.restoreAllMocks()
+  })
+
+  it('a waiting version that is the live one is opened: the update check finds nothing newer', async () => {
+    const w = worker('installed')
+    const { reg, sw } = setup({ waiting: w })
+    vi.stubGlobal('fetch', live('1.0.1'))
+    const reload = vi.fn()
+    w.postMessage = vi.fn(() => setTimeout(() => sw.dispatchEvent(new Event('controllerchange')), 5))
+    expect(await launchGate({ version: '1.0.0', splash: splashSpy().splash, reload })).toBe(true)
+    expect(reg.update).toHaveBeenCalled()
+    expect(w.postMessage).toHaveBeenCalledWith({ type: 'SKIP_WAITING' })
+    expect(reload).toHaveBeenCalledTimes(1)
+  })
+
+  // 2026-10-21: a worker downloaded days ago was applied at the start, and 3–16 s later the plate
+  // offered the build that had gone live since.
+  it('a newer version live than the one waiting: it installs over the waiting one and that is opened', async () => {
+    const old = worker('installed')
+    const { reg, sw } = setup({ waiting: old })
+    vi.stubGlobal('fetch', live('1.0.2'))
+    const reload = vi.fn()
+    const fresh = worker()
+    reg.update = vi.fn(() => {
+      reg.installing = fresh
+      reg.dispatchEvent(new Event('updatefound'))
+      setTimeout(() => fresh.to('installed'), 5)
+      return Promise.resolve()
+    })
+    fresh.postMessage = vi.fn(() => setTimeout(() => sw.dispatchEvent(new Event('controllerchange')), 5))
+    expect(await launchGate({ version: '1.0.0', splash: splashSpy().splash, reload })).toBe(true)
+    expect(fresh.postMessage).toHaveBeenCalledWith({ type: 'SKIP_WAITING' })
+    expect(old.postMessage).not.toHaveBeenCalled()
     expect(reload).toHaveBeenCalledTimes(1)
   })
 
@@ -119,13 +154,35 @@ describe('launchGate — a start under a service worker opens the live version',
 describe('liveVersion', () => {
   it('a server that does not answer in time is no answer', async () => {
     vi.useFakeTimers()
-    const fetchImpl = vi.fn((_url, { signal }) => new Promise((_resolve, reject) => {
-      signal.addEventListener('abort', () => reject(new Error('aborted')))
-    }))
-    const v = liveVersion({ timeout: 100, fetchImpl })
+    const v = liveVersion({ timeout: 100, fetchImpl: () => new Promise(() => {}) })
     await vi.advanceTimersByTimeAsync(101)
     expect(await v).toBe(null)
     vi.useRealTimers()
+  })
+
+  // 2026-10-21: "AbortError: signal is aborted without reason", unhandled — an extension's fetch
+  // wrapper chained on the aborted request without a catch. A slow answer is outrun, not aborted.
+  it('a slow answer is not aborted: a fetch wrapper with a dangling .then raises nothing', async () => {
+    const unhandled = []
+    const onUnhandled = (e) => unhandled.push(e)
+    process.on('unhandledRejection', onUnhandled)
+    vi.useFakeTimers()
+    const fetchImpl = (_url, { signal } = {}) => {
+      const req = new Promise((resolve, reject) => {
+        setTimeout(() => resolve({ ok: true, json: () => Promise.resolve({ app: '1.0.1' }) }), 500)
+        signal?.addEventListener('abort', () => reject(new DOMException('signal is aborted without reason', 'AbortError')))
+      })
+      req.then(() => {}) // the wrapper: chains on, never catches
+      return req
+    }
+    const v = liveVersion({ timeout: 100, fetchImpl })
+    await vi.advanceTimersByTimeAsync(101)
+    expect(await v).toBe(null)
+    await vi.advanceTimersByTimeAsync(500)
+    vi.useRealTimers()
+    await new Promise((r) => setTimeout(r, 10))
+    process.off('unhandledRejection', onUnhandled)
+    expect(unhandled).toEqual([])
   })
 
   it('a page that is not ours (a 404, an HTML fallback) is no answer', async () => {

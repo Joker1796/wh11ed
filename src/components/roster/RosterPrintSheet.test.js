@@ -144,4 +144,28 @@ describe('the page boxes', () => {
     expect(pages[0].find('.rps-table').exists()).toBe(true)
     expect(w.emitted('pages')?.at(-1)).toEqual([1])
   })
+
+  // 2026-10-21, from the error log: turning off a section re-renders the pages before they are dealt
+  // again, and a page still holding a fragment of the block that went read `kind` of undefined.
+  it('turning any section off draws no page from a block that is gone', async () => {
+    for (const o of PRINT_OPTIONS) {
+      const full = resolve({}, 'full')
+      if (full[o.id] !== true) continue
+      const errors = []
+      const w = mount(RosterPrintSheet, {
+        props: { roster: ROSTER, factionData, rulesFaction, detachments, opts: full },
+        global: {
+          config: { errorHandler: (e) => errors.push(`${o.id}: ${e}`), warnHandler: (m) => errors.push(`${o.id}: ${m}`) },
+          stubs: { RosterPrintUnitCard: { name: 'RosterPrintUnitCard', template: '<div class="card" />' } },
+        },
+      })
+      await flushPromises()
+      await w.vm.$nextTick()
+      await w.setProps({ opts: { ...full, [o.id]: false } })
+      await flushPromises()
+      await w.vm.$nextTick()
+      expect(errors).toEqual([])
+      w.unmount()
+    }
+  })
 })
