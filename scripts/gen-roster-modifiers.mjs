@@ -122,6 +122,9 @@ const CANDIDATE = new RegExp([
   // A hit or wound roll in the 11th-edition shorthand — "+1 to hit rolls", "-1 to wound rolls"
   // (Bladeguard Veteran Squad's Bladeguard had no record for it).
   '[+\\-\u2010\u2011\u2212]\\d+ to (?:the )?(?:hit|wound) rolls?',
+  // …and the long form an attack AGAINST the unit is written in — "subtract 1 from the Wound roll"
+  // (61 rules, Forewarned and every Guardian Drone among them, had no record until 2026-10-21).
+  'subtract \\d+ from (?:the|that) (?:Hit|Wound) roll',
   // Range in the 11th-edition shorthand: "Your unit's ranged attacks have +6\" R" (Codex: Adeptus
   // Custodes, data 981 — Aquilan Shield's Favoured Ka'tah had no record for this one letter).
   '[+-]\\d+" (?:R|Range)\\b',
@@ -637,7 +640,8 @@ function serialise(slug, existing, sources, result) {
 // bonus goes to OTHER units than the one the record is resolved for (a stratagem spent on one unit
 // that buffs the army, a model whose ability helps everyone attacking a selected target), or the
 // rule's keyword gate is one merged statement that would hand the line to units it does not reach.
-// "Subtract 1 from the Hit roll" is not checked: it is a modifier on an attack AGAINST the unit.
+// "Subtract 1 from the Hit roll" is not checked here: it is a modifier on an attack AGAINST the unit,
+// and incomingGaps below reads it.
 // Both wordings: the 10th edition's "add 1 to the Hit roll" and the 11th's "+1 to **hit rolls**" (the
 // Combat Patrol boxes and every newer rule) — the second was unread until 2026-10-20, and a box's
 // Righteous Fervour had lost its "+1 to wound rolls" without a word.
@@ -669,6 +673,50 @@ function rollGaps(slug, sources, existing) {
     const rec = bySid.get(s.sid)
     if (!rec?.reviewed || (rec.effects || []).some((e) => e.stat === 'hit' || e.stat === 'wound')) continue
     if (!ROLL_EXEMPT.has(`${slug} · ${s.name}`)) out.push(s)
+  }
+  return out
+}
+
+// AN ATTACK AGAINST THE UNIT IS A MODIFIER TOO (owner, 2026-10-21). "Each time an attack targets
+// this unit, subtract 1 from the Wound roll" changes the attacker's number, and until this date the
+// layer could not say so: ~200 rules were closed as empty and the card never mentioned them. They
+// are `on: 'incoming'` now, and a record of such a rule with no incoming effect is a gap. Read one
+// sentence at a time: the subject is an attack aimed at us, the effect a malus on it, and the
+// sentence must not be about our own attacks or an enemy unit's state.
+const D = '[-\u2010\u2011\u2212]'
+const INCOMING_SUBJECT = new RegExp([
+  'each time an? (?:ranged |melee |psychic )?attack(?: with [^,]{0,60}?)? (?:targets|is allocated to)',
+  'each time an? (?:enemy )?(?:model|unit)[^,]{0,40}? (?:makes an? (?:ranged |melee )?attack that )?targets? (?:this|the bearer|your)',
+  'each time your opponent would make a (?:Hit|Wound) roll',
+  '(?:psychic |ranged |melee )?attacks (?:that|which) target (?:this|your|that|friendly|the bearer|one of)',
+].join('|'), 'i')
+const NOT_INCOMING = /(?:model|models) in (?:this|your|that|one of those) unit makes|(?:this|that) model makes|bearer makes|friendly [^,]{0,60}? makes|from your army makes|targets? (?:that|an|the) enemy|enemy unit is (?:unravelling|hated|marked|scanned)|made by (?:a |an )?[A-Z]{3,}/
+const INCOMING_EFFECT = new RegExp([
+  `subtract \\d from (?:the|that) (?:Hit|Wound) roll`, `${D}\\d to (?:hit|wound) rolls`,
+  'worsen the Armour Penetration', `${D}\\d AP\\b`,
+  'subtract \\d from the Damage characteristic', 'halve the Damage', 'change the Damage characteristic of that attack to 1',
+  `${D}\\d (?:D|Damage)\\b`,
+].join('|'), 'i')
+export function incomingSentences(prose) {
+  return String(prose || '').replace(/\*\*|__/g, '').replace(/\s+/g, ' ').split(/(?<=[.!?])\s+|▪/)
+    .filter((sen) => INCOMING_SUBJECT.test(sen) && !NOT_INCOMING.test(sen) && INCOMING_EFFECT.test(sen))
+}
+// Rules whose malus the card cannot place on the unit the record is resolved for, each with why.
+const INCOMING_EXEMPT = new Map([
+  ['necrons · Chrono-impedance Fields', 'the bearer selects another VEHICLE or MOUNTED unit within 6"'],
+  ['chaos-daemons · First Prince of Chaos', 'a different ability per god under one record: its Tzeentch and Nurgle halves would reach every unit'],
+  ['imperial-knights · Knight Defender: Defender’s Duty', 'it covers the models the ability affects — other friendly Knights'],
+  ['tau-empire · Drones', 'the army rule only describes the drone; each Guardian Drone is its own wargear record'],
+])
+function incomingGaps(slug, sources, existing) {
+  const bySid = new Map((existing?.entries || []).map((e) => [e.sid, e]))
+  const out = []
+  for (const s of sources) {
+    if (!incomingSentences(s.prose).length) continue
+    const rec = bySid.get(s.sid)
+    if (rec && !rec.reviewed) continue
+    if ((rec?.effects || []).some((e) => e.on === 'incoming')) continue
+    if (!INCOMING_EXEMPT.has(`${slug} · ${s.name}`)) out.push(s)
   }
   return out
 }
@@ -796,7 +844,7 @@ export async function run(argv = process.argv.slice(2)) {
 
   const ctx = { ...sourceContext(), pack: await packSheets() }
   const appdataUnits = new Set([...ctx.dsBySid.values()].map((d) => d.id))
-  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0, roll: 0, once: 0, leader: 0, upgrade: 0 }
+  const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0, mismatch: 0, roll: 0, incoming: 0, once: 0, leader: 0, upgrade: 0 }
   const queueItems = []
   if (!check && !queue && !fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
 
@@ -820,6 +868,10 @@ export async function run(argv = process.argv.slice(2)) {
     for (const g of rollGaps(slug, sources, existing)) {
       totals.roll++
       console.log(`  ✗ roll    ${slug} · ${g.kind} · ${g.name} — says "add 1 to the Hit/Wound roll" but carries no hit/wound effect`)
+    }
+    for (const g of incomingGaps(slug, sources, existing)) {
+      totals.incoming++
+      console.log(`  ✗ incoming ${slug} · ${g.kind} · ${g.name} — modifies attacks against the unit but carries no \`on: 'incoming'\` effect`)
     }
     for (const g of onceGaps(slug, sources, existing)) {
       totals.once++
@@ -885,6 +937,10 @@ export async function run(argv = process.argv.slice(2)) {
     }
     if (totals.roll) {
       console.log('  --check: a rule adds to the Hit or Wound roll with no `stat: \'hit\'`/`\'wound\'` effect — add one, or name it in ROLL_EXEMPT with the reason.')
+      return 1
+    }
+    if (totals.incoming) {
+      console.log(`  --check: ${totals.incoming} rule(s) modify attacks against the unit with no \`on: 'incoming'\` effect — add one, or name the rule in INCOMING_EXEMPT with the reason.`)
       return 1
     }
     if (totals.once) {

@@ -78,6 +78,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:battle-sanctum:fortification",
+      "kind": "ability",
+      "name": "Battle Sanctum: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "battle-sanctum"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "59ee1033-9a10-43cc-b972-674c1dc682dd:canoness-with-jump-pack",
       "kind": "ability",
       "name": "Canoness with Jump Pack: Divine Deliverance",
@@ -253,6 +267,34 @@ export default {
             "per": "unit",
             "dur": "phase"
           }
+        }
+      ]
+    },
+    {
+      "sid": "5f8d3240-9ee1-41a3-ba82-71f68225f681:celestian-sacresants",
+      "kind": "ability",
+      "name": "Celestian Sacresants: Sworn Protectors",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "celestian-sacresants"
+      },
+      "hash": "396e80bb",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while an ADEPTA SORORITAS CHARACTER is leading this unit",
+            "ru": "пока отряд возглавляет ADEPTA SORORITAS CHARACTER"
+          },
+          "cond": [
+            "unit-led"
+          ]
         }
       ]
     },
@@ -437,6 +479,23 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
           "when": null,
           "target": "led"
         }
@@ -794,7 +853,21 @@ export default {
       "hash": "cdadac05",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while an ADEPTA SORORITAS CHARACTER is leading this unit",
+            "ru": "пока отряд возглавляет ADEPTA SORORITAS CHARACTER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "03cea895-25dc-4be7-b50a-82959b8d514f:triumph-of-saint-katherine",
@@ -1316,7 +1389,16 @@ export default {
       "hash": "c654eff7",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "1183f5f4-7242-46ba-80c1-2be89be8c9db",
@@ -1552,7 +1634,15 @@ export default {
       "hash": "54e4911e",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "set",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ae5538f8-1681-4fdd-9cdc-2605f8847aa6",
@@ -1802,6 +1892,21 @@ export default {
             "en": "once per turn, the ability selected at the start of this phase",
             "ru": "раз за ход, способность, выбранная в начале фазы"
           }
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "once per turn, while the Chorus of Repudiation is the ability used",
+            "ru": "раз в ход, пока выбрана способность Chorus of Repudiation"
+          },
+          "cond": [
+            "hagio-chorus"
+          ],
+          "target": "led"
         }
       ]
     },
@@ -1834,6 +1939,30 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "ee04ab6a-a93f-40e8-b415-d48b5c5e88ba",
+      "kind": "stratagem",
+      "name": "Blinding Radiance",
+      "det": "Army of Faith",
+      "ref": {
+        "kind": "stratagem",
+        "det": "army-of-faith",
+        "name": "Blinding Radiance"
+      },
+      "hash": "21ac06be",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ee842df1-f44d-45b9-9f16-e1ec47871c8f",
@@ -2028,7 +2157,40 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "08d9a628-8178-473c-8d08-906813c20f7d",
+      "kind": "stratagem",
+      "name": "Bastion of Faith",
+      "det": "Champions of Faith",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-faith",
+        "name": "Bastion of Faith"
+      },
+      "hash": "052836c8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "27162b9e-7b88-4242-802f-ab58c931ea8f",

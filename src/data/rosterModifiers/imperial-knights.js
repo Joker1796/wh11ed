@@ -105,6 +105,20 @@ export default {
       ]
     },
     {
+      "sid": "28d719a4-f234-45eb-b4c1-c70253a26a34:armiger-helverin",
+      "kind": "ability",
+      "name": "Armiger Helverin: Suppression Protocols",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "armiger-helverin"
+      },
+      "hash": "70223a62",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f424f742-514f-4a36-80df-7c2d85459bde:armiger-warglaive",
       "kind": "ability",
       "name": "Armiger Warglaive: Impetuous Glory",
@@ -236,6 +250,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "9bb7fe53-0c4c-47c2-b9a6-2e5673235f41:cerastus-knight-castigator",
+      "kind": "ability",
+      "name": "Cerastus Knight Castigator: Storm of Bolts",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "cerastus-knight-castigator"
+      },
+      "hash": "1d59273b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "80f8e567-a894-4b05-a8c4-84562e59a234:knight-crusader",
@@ -1322,6 +1350,56 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "ddf32eca-da20-4c14-bd00-3a69217ea04d",
+      "kind": "stratagem",
+      "name": "Survivor of Strife",
+      "det": "Freeblade Company",
+      "ref": {
+        "kind": "stratagem",
+        "det": "freeblade-company",
+        "name": "Survivor of Strife"
+      },
+      "hash": "e353048d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "f6bda048-9f16-4ac4-9ff5-460a63c8dbb6",
+      "kind": "stratagem",
+      "name": "Lancebreaker",
+      "det": "Gate Warden Lance",
+      "ref": {
+        "kind": "stratagem",
+        "det": "gate-warden-lance",
+        "name": "Lancebreaker"
+      },
+      "hash": "e353048d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "49bf6432-d81b-4a7d-bab4-4c93e6be389f",
       "kind": "stratagem",
       "name": "Marshal the Defence",
@@ -1497,7 +1575,16 @@ export default {
       "hash": "1f76c246",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a3b426d3-9acd-46b2-b2b6-67d5494d5a3a",

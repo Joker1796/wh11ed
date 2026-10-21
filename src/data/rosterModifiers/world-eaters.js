@@ -99,6 +99,20 @@ export default {
       ]
     },
     {
+      "sid": "2228df96-5080-40db-a776-9d20423e6b2e:chaos-predator-destructor",
+      "kind": "ability",
+      "name": "Chaos Predator Destructor: Punishing Suppression",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-predator-destructor"
+      },
+      "hash": "954b014f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "33a3fdd4-beec-4f75-8779-cf16bbdadf0f:daemon-prince-of-khorne",
       "kind": "ability",
       "name": "Daemon Prince of Khorne: Devastating Assault",
@@ -938,7 +952,15 @@ export default {
       "hash": "31b6e128",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ee328098-14cc-48ec-aaa0-0bc012746e78",
@@ -1146,6 +1168,20 @@ export default {
       ]
     },
     {
+      "sid": "6ba1aac3-7971-46b5-8b47-46b0f236dd1f",
+      "kind": "enhancement",
+      "name": "Unleash Hell",
+      "det": "Goretrack Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "goretrack-onslaught"
+      },
+      "hash": "e53db515",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "8d57055e-3476-401d-9382-c0c1eae33a4d",
       "kind": "enhancement",
       "name": "Blade of Endless Bloodshed",
@@ -1301,7 +1337,16 @@ export default {
       "hash": "6d37add7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "0e2f8b70-b049-4a99-8e6b-3f08fc3720b4",
@@ -1427,7 +1472,17 @@ export default {
       "hash": "c853ac61",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "b2c1204e-dc4a-4745-bf1e-76cffa675e99",
@@ -1469,7 +1524,17 @@ export default {
       "hash": "f5133a4b",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "4713f814-b1e9-4d19-bad3-f6cac53d2c6e",
@@ -1538,6 +1603,30 @@ export default {
         }
       ],
       "dur": "turn"
+    },
+    {
+      "sid": "c52715e8-0449-4e3d-adb9-feece5be12c6",
+      "kind": "stratagem",
+      "name": "Daemonic Resistance",
+      "det": "Possessed Slaughterband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "possessed-slaughterband",
+        "name": "Daemonic Resistance"
+      },
+      "hash": "6d559221",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "885813ba-ec4e-4279-bd3b-b0ea000890cb",

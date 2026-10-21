@@ -440,7 +440,16 @@ export default {
       "hash": "9e50d86d",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "581dadee-5a9e-48fb-8613-2691b9ba8c0d",

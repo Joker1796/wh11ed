@@ -477,6 +477,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:inquisitor-eisenhorn:dominate-will-psychic",
+      "kind": "ability",
+      "name": "Inquisitor Eisenhorn: Dominate Will (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitor-eisenhorn"
+      },
+      "hash": "9becbd8a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:inquisitor-eisenhorn:malus-codicium",
       "kind": "ability",
       "name": "Inquisitor Eisenhorn: Malus Codicium",
@@ -639,6 +653,79 @@ export default {
       ]
     },
     {
+      "sid": "pack:inquisitor-ostromandeus:ward-against-the-malefic-arts",
+      "kind": "ability",
+      "name": "Inquisitor Ostromandeus: Ward Against the Malefic Arts",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitor-ostromandeus"
+      },
+      "hash": "8116e94b",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "psychic",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "psychic",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "psychic",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "psychic",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "0368fd0e-375b-43eb-9e6e-1d317e3409e0:inquisitors-hand-eversor-assassin",
       "kind": "ability",
       "name": "Inquisitor's Hand Eversor Assassin: Overkill (Once per battle per unit)",
@@ -679,7 +766,21 @@ export default {
       "hash": "2cb36b7e",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while within range of an objective",
+            "ru": "пока отряд в зоне objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "776b5a9d-b02d-4ea2-96f3-430531adbd1e:inquisitor-s-hand-vigilant-squad",
@@ -730,6 +831,34 @@ export default {
           },
           "cond": [
             "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "9058cf2b-6f2c-4605-9161-f4428f83c993:inquisitorial-agents",
+      "kind": "ability",
+      "name": "Inquisitorial Agents: Loyal Henchmen",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitorial-agents"
+      },
+      "hash": "02c92ad9",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while an INQUISITOR model is leading this unit",
+            "ru": "пока отряд возглавляет модель INQUISITOR"
+          },
+          "cond": [
+            "unit-led"
           ]
         }
       ]
@@ -1756,6 +1885,20 @@ export default {
       }
     },
     {
+      "sid": "2fd8c362-7e6c-418f-b6dc-cfe8901adec0",
+      "kind": "enhancement",
+      "name": "Amulet of Auto-chastisement",
+      "det": "Ordo Xenos, Alien Hunters",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ordo-xenos-alien-hunters"
+      },
+      "hash": "f32b2b09",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "ab3c3644-1c9d-4cd8-9c6f-8022be72daee",
       "kind": "enhancement",
       "name": "Beacon Angelis",
@@ -2048,7 +2191,16 @@ export default {
       "hash": "975b05f7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "b3c0a844-4b92-48dc-8ca3-6d169a5fe918",
@@ -2133,6 +2285,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "ae044166-2410-4c16-bff9-84828d009345",
+      "kind": "stratagem",
+      "name": "Stun Grenades",
+      "det": "Ordo Hereticus, Purgation Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-hereticus-purgation-force",
+        "name": "Stun Grenades"
+      },
+      "hash": "89de0db7",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "aa2b5fe6-cfe5-46f6-b3bd-2a525e755ab2",
@@ -2229,7 +2396,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "3c71b9ec-b40c-44e1-9daa-fd22abee459f",
@@ -2244,7 +2420,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "78859713-cdea-4729-815f-91a9d8c94491",

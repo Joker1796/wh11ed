@@ -159,6 +159,22 @@ export const TEST_ROSTERS = [
     expect: { errors: ['overDp', 'overDuplicate', 'allegMissing'] },
     units: [{ k: 'l', id: 'chaos-lord', warlord: true }, ...Array.from({ length: 4 }, (_, i) => ({ k: `h${i}`, id: 'havocs' }))],
   },
+  {
+    // The most stratagem chips one army can field on a card (2026-10-21, after the protective
+    // stratagems became chips): Realspace Raiders + Exhibition of Slaughter, Wyches led by a Succubus.
+    key: 'chips',
+    name: 'Проверка: больше всего чипов на карточке',
+    faction: 'drukhari',
+    detachments: ['Realspace Raiders', 'Exhibition of Slaughter'],
+    battleSize: 'strike-force',
+    expect: { legal: true },
+    units: [
+      { k: 's', id: 'succubus', warlord: true, lead: 'w' },
+      { k: 'w', id: 'wyches' },
+      { k: 'a', id: 'archon', lead: 'kw' },
+      { k: 'kw', id: 'kabalite-warriors' },
+    ],
+  },
 ]
 
 // The spec as a roster the store would hold. `faction` is the loaded roster faction (with allies),

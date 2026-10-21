@@ -322,7 +322,11 @@ function noteOf(entry, effect, applied, via = null, live = true) {
     applied,
     live,
     // A dice modifier: never rewrites the table, and the card says so beside it.
-    roll: ROLL_STATS.has(effect.stat || ''),
+    roll: effect.on !== 'incoming' && ROLL_STATS.has(effect.stat || ''),
+    // A modifier on an attack made AGAINST this unit ("subtract 1 from the Wound roll"): the
+    // attacker's number, not this card's, so nothing on the card moves; `vs` narrows the attacks.
+    incoming: effect.on === 'incoming',
+    vs: effect.vs || null,
   }
 }
 
@@ -468,6 +472,14 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       // `via` is what PROVED a conditional effect, for the card's "applied, but only because…"
       // treatment. A stratagem was proved by being spent, which its own note already says.
       const via = live ? (effect.cond || []) : null
+
+      // An attack AGAINST this unit is worse for the attacker — "-1 to wound", "worsen the AP by 1",
+      // "-1 Damage". The number is the attacker's, so no cell of this card is rewritten: the note
+      // is listed, live or possible like any other, and says whose roll it is.
+      if (effect.on === 'incoming') {
+        notes.push(noteOf(entry, effect, false, via))
+        continue
+      }
 
       if (isGrant(effect)) {
         if (effect.stat === 'keyword') {

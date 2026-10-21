@@ -230,7 +230,35 @@ export default {
       "hash": "b11b4dff",
       "ver": 972,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "for the Fight phase, after a roll of 2+ at its start",
+            "ru": "до конца Fight phase после броска 2+ в её начале"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "for the Fight phase, after a roll of 2+ at its start",
+            "ru": "до конца Fight phase после броска 2+ в её начале"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "cb37619a-5b58-4891-a794-8b2891848d10:deathshroud-terminators",
@@ -518,6 +546,20 @@ export default {
       ]
     },
     {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:miasmic-malignifier",
+      "kind": "ability",
+      "name": "Miasmic Malignifier: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "miasmic-malignifier"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f2ae231c-1b15-4767-8884-015a768c86f0:mortarion",
       "kind": "ability",
       "name": "Mortarion: Boon of Death",
@@ -660,6 +702,20 @@ export default {
       ]
     },
     {
+      "sid": "12f4452d-0d08-48c9-9ac1-64f0e3affbf2:nurglings",
+      "kind": "ability",
+      "name": "Nurglings: Mischief Makers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nurglings"
+      },
+      "hash": "55ce4f47",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "7e8193c1-c4a6-428c-ab02-1505c56ea17f:rotigus",
       "kind": "ability",
       "name": "Rotigus: Deluge of Nurgle",
@@ -686,6 +742,50 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "4df2ee7e-8176-4bc5-95de-7bd50d694002:typhus",
+      "kind": "ability",
+      "name": "Typhus: Destroyer Hive",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "typhus"
+      },
+      "hash": "0e2704e0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "13ae6c92-101f-4e20-bcd7-1ea786034eeb",
@@ -976,7 +1076,25 @@ export default {
       "hash": "eea98fae",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "0b8d22c7-a46c-4865-9a51-dc622a894fec",
@@ -1500,7 +1618,16 @@ export default {
       "hash": "6d37add7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "699e5a6d-243c-4ee3-a738-ce0882694238",

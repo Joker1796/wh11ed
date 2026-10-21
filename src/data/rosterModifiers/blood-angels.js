@@ -574,7 +574,23 @@ export default {
       "hash": "9bdc06bf",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "pack:librarian-dreadnought:shield-of-sanguinius-aura-psychic",
@@ -621,7 +637,16 @@ export default {
       "hash": "07125726",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3424cb21-6416-4162-adfc-e6a48ba370ca:sanguinary-guard",
@@ -635,7 +660,16 @@ export default {
       "hash": "3e6fde4b",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:sanguinary-priest-with-jump-pack:blood-chalice",
@@ -1149,7 +1183,17 @@ export default {
       "hash": "ed2665e0",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "2bf5458d-94f8-405f-9490-2c449ddecc98",

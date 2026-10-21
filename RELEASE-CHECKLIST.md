@@ -282,6 +282,7 @@ npm run detachment-row  # по dist/, когда релиз трогает ка�
 | `legends` | CSM: Chaos Lord on Juggernaut | Legends |
 | `archived` | SM в архиве | архив |
 | `errors` | CSM Incursion: 3 детачмента, 4 копии Havocs, нет Mark of Chaos | плашка ошибок |
+| `chips` | Drukhari 2000, Realspace Raiders + Exhibition of Slaughter: Succubus в Wyches, Archon в Kabalite Warriors | больше всего чипов стратагем на карточке, защитные модификаторы |
 
 Не вошли (нужны отдельно, когда релиз трогает их зону): цепочка прикреплений (Huron → Masters
 of the Maelstrom) — зависит от детачмента, проще собрать руками; облако и вход — нужен стенд API

@@ -75,6 +75,20 @@ export default {
       "note": "Read as Bloodmaster: Bloodmaster (chaos-daemons), the same text."
     },
     {
+      "sid": "pack:anrakyr-the-traveller:mind-in-the-machine",
+      "kind": "ability",
+      "name": "Anrakyr the Traveller: Mind in the Machine",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "anrakyr-the-traveller"
+      },
+      "hash": "b4b8a89a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "40311c84-87f3-4a29-b4b1-2d94c780193b:ctan-shard-of-the-deceiver",
       "kind": "ability",
       "name": "C’tan Shard of the Deceiver: Necrodermis",
@@ -86,7 +100,15 @@ export default {
       "hash": "e577ede9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "40311c84-87f3-4a29-b4b1-2d94c780193b:ctan-shard-of-the-nightbringer",
@@ -100,7 +122,15 @@ export default {
       "hash": "e577ede9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "40311c84-87f3-4a29-b4b1-2d94c780193b:ctan-shard-of-the-void-dragon",
@@ -114,7 +144,15 @@ export default {
       "hash": "e577ede9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:canoptek-acanthrites:damaged-armour",
@@ -127,6 +165,20 @@ export default {
       },
       "hash": "2603f445",
       "ver": 972,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e7c4c440-1600-4062-bdf0-3d0d0f7cc406:canoptek-macrocytes",
+      "kind": "ability",
+      "name": "Canoptek Macrocytes: Harassment Swarm",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "canoptek-macrocytes"
+      },
+      "hash": "728e6cc5",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },
@@ -169,6 +221,42 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while this model is within range of an objective marker",
+            "ru": "пока модель в зоне маркера objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "3bdd7bfe-5920-45cc-9e1a-ce8b5e81d64e:catacomb-command-barge",
+      "kind": "ability",
+      "name": "Catacomb Command Barge: Advanced Quantum Shielding",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "catacomb-command-barge"
+      },
+      "hash": "04d9fb62",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
         }
       ]
     },
@@ -232,8 +320,39 @@ export default {
           "value": "Stealth",
           "when": null,
           "target": "led"
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null,
+          "target": "led"
         }
       ]
+    },
+    {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:convergence-of-dominion",
+      "kind": "ability",
+      "name": "Convergence of Dominion: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "convergence-of-dominion"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "c31c6751-321c-4491-a903-cf7160117d54:convergence-of-dominion",
@@ -283,6 +402,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "06857b82-348e-4ef7-8443-87fede494115:doom-scythe",
+      "kind": "ability",
+      "name": "Doom Scythe: Atavistic Instigation",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "doom-scythe"
+      },
+      "hash": "63f3fa92",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "79bafa09-ec84-4f99-8a58-3c6810810fcb:doomsday-ark",
       "kind": "ability",
       "name": "Doomsday Ark: Overwhelming Obliteration",
@@ -312,6 +445,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:gauss-pylon:fortification",
+      "kind": "ability",
+      "name": "Gauss Pylon: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "gauss-pylon"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "pack:gauss-pylon:phase-shift-generator-aura",
@@ -469,6 +616,35 @@ export default {
           "value": 1,
           "when": null,
           "target": "unit"
+        }
+      ]
+    },
+    {
+      "sid": "5cf76521-fd74-42b3-884e-209dcd730704:lychguard",
+      "kind": "ability",
+      "name": "Lychguard: Guardian Protocols",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lychguard"
+      },
+      "hash": "86100369",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "while a NOBLE model is leading this unit",
+            "ru": "пока отряд возглавляет модель NOBLE"
+          },
+          "cond": [
+            "unit-led"
+          ]
         }
       ]
     },
@@ -631,6 +807,28 @@ export default {
       },
       "hash": "e577ede9",
       "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "pack:sentry-pylon:fortification",
+      "kind": "ability",
+      "name": "Sentry Pylon: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sentry-pylon"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },
@@ -822,6 +1020,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:tomb-citadel-walls:fortification",
+      "kind": "ability",
+      "name": "Tomb Citadel Walls: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tomb-citadel-walls"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:tomb-citadel-walls:ziggurat-dock",
       "kind": "ability",
       "name": "Tomb Citadel Walls: Ziggurat Dock",
@@ -847,7 +1059,15 @@ export default {
       "hash": "e577ede9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:vargard-obyron:ghostwalk-mantle",
@@ -1753,6 +1973,52 @@ export default {
       ]
     },
     {
+      "sid": "58ac4996-1d83-4a02-91d8-debebcf6de1c",
+      "kind": "enhancement",
+      "name": "Warrior Noble",
+      "det": "Obeisance Phalanx",
+      "ref": {
+        "kind": "enhancement",
+        "det": "obeisance-phalanx"
+      },
+      "hash": "6acc3ad1",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
+      "sid": "a0198bd7-14b1-4f97-a4fa-e977a89cea4d",
+      "kind": "enhancement",
+      "name": "Animus Damper",
+      "det": "Pantheon of Woe",
+      "ref": {
+        "kind": "enhancement",
+        "det": "pantheon-of-woe"
+      },
+      "hash": "52d956a8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c173a0bd-085d-42db-ac95-5c7ab17a267f",
       "kind": "enhancement",
       "name": "Deepening Madness (Upgrade)",
@@ -1948,6 +2214,30 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "4d06f60e-e46d-4f28-b1c2-c9c10c7176a2",
+      "kind": "stratagem",
+      "name": "Masks of Death",
+      "det": "Annihilation Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "annihilation-legion",
+        "name": "Masks of Death"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
         }
       ],
       "dur": "phase"
@@ -2197,6 +2487,30 @@ export default {
       "effects": []
     },
     {
+      "sid": "a1713dd1-cc81-4060-834e-f9cd1990ab99",
+      "kind": "stratagem",
+      "name": "Image of Death",
+      "det": "Cursed Legion",
+      "ref": {
+        "kind": "stratagem",
+        "det": "cursed-legion",
+        "name": "Image of Death"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "12fb9bc1-173f-4e4c-8c6b-7e9c03a33b0c",
       "kind": "stratagem",
       "name": "Methodical Murder",
@@ -2320,7 +2634,16 @@ export default {
       "hash": "6d37add7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "4df51b07-bd1d-4510-9088-4734099be4cb",
@@ -2403,7 +2726,17 @@ export default {
       "hash": "f5133a4b",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "1b7e64e2-00bb-48a9-a88e-6c35d4aa0961",
@@ -2466,6 +2799,31 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "5290c04e-be06-416f-a408-6bd7aa84319c",
+      "kind": "stratagem",
+      "name": "Unyielding Forms",
+      "det": "Starshatter Arsenal",
+      "ref": {
+        "kind": "stratagem",
+        "det": "starshatter-arsenal",
+        "name": "Unyielding Forms"
+      },
+      "hash": "4ee1e63c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "699ac868-919e-490d-8e00-c86730312e2f",
       "kind": "stratagem",
       "name": "Cosmic Storm",
@@ -2508,7 +2866,16 @@ export default {
       "hash": "8965a6af",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f8700f44-a5d3-43d0-b34f-c2b09a6b504b:canoptek-macrocytes",

@@ -61,7 +61,34 @@ const STAT_LABEL = { m: 'M', t: 'T', sv: 'SV', w: 'W', ld: 'LD', oc: 'OC', inv: 
 // no translating of its own beyond the condition text the record already carries bilingually.
 // The one exception is a dice modifier ("+1 to Hit"): there is no printed column to name, and a
 // made-up "HIT" abbreviation would read as one, so it is worded through the labels.
+const INCOMING_LABEL = { melee: 'modIncomingMelee', ranged: 'modIncomingRanged', psychic: 'modIncomingPsychic', 's-gt-t': 'modIncomingSgtT', 'ranged-s-gt-t': 'modIncomingRangedSgtT', 'melee-s-gt-t': 'modIncomingMeleeSgtT' }
+
+// An attack AGAINST the unit, worded whole — whose number it is has to be said, or "−1 to Wound"
+// reads as this unit's own: "Attacks against this unit: −1 to Wound", "…: AP worse by 1",
+// "…: −1 D", "…: D = 1", "…: D halved". `value` is the change to the attacker's number, so an AP
+// made worse for the attacker is +1 (AP −2 becomes −1).
+function incomingDelta(n, l) {
+  const v = Number(n.value)
+  const signed = v < 0 ? `−${Math.abs(v)}` : `+${n.value}`
+  let what
+  if (n.stat === 'hit' || n.stat === 'wound') {
+    const word = n.stat === 'wound' ? l?.modToWound : l?.modToHit
+    what = word ? `${signed} ${word}` : `${signed} ${String(n.stat).toUpperCase()}`
+  } else if (n.stat === 'ap') {
+    what = l?.modApWorse ? l.modApWorse.replace('{n}', String(Math.abs(v))) : `AP ${signed}`
+  } else if (n.op === 'set') {
+    what = `${STAT_LABEL[n.stat] || String(n.stat).toUpperCase()} = ${n.value}`
+  } else if (n.op === 'mul' && v === 0.5 && n.stat === 'd') {
+    what = l?.modDHalved || 'D ×0.5'
+  } else {
+    what = `${signed} ${STAT_LABEL[n.stat] || String(n.stat).toUpperCase()}`
+  }
+  const who = l?.[INCOMING_LABEL[n.vs] || 'modIncoming']
+  return who ? `${who}: ${what}` : what
+}
+
 export function modDelta(n, l = null) {
+  if (n.incoming) return incomingDelta(n, l)
   if (n.roll) {
     const word = n.stat === 'wound' ? l?.modToWound : l?.modToHit
     const signed = Number(n.value) < 0 ? `−${Math.abs(Number(n.value))}` : `+${n.value}`

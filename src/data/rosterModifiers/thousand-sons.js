@@ -217,6 +217,20 @@ export default {
       ]
     },
     {
+      "sid": "613e0d62-0346-4aad-98c2-692f9e94c78f:forgefiend",
+      "kind": "ability",
+      "name": "Forgefiend: Blazing Salvoes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "forgefiend"
+      },
+      "hash": "27ea67a2",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "90c6edaf-0f74-4a0e-9631-b01641bebe3f:helbrute",
       "kind": "ability",
       "name": "Helbrute: Devoted to Destruction",
@@ -544,6 +558,34 @@ export default {
           },
           "cond": [
             "blocked-subset"
+          ]
+        }
+      ]
+    },
+    {
+      "sid": "bc3c99c8-bc54-4409-a383-0ce4e9caf716:scarab-occult-terminators",
+      "kind": "ability",
+      "name": "Scarab Occult Terminators: Rites of Coalescence",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "scarab-occult-terminators"
+      },
+      "hash": "485fec5f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this unit contains a PSYKER model",
+            "ru": "пока в отряде есть модель PSYKER"
+          },
+          "cond": [
+            "never"
           ]
         }
       ]
@@ -999,6 +1041,19 @@ export default {
           "when": {
             "en": "the phase the unit made a Warpmeld Sacrifice before selecting its targets",
             "ru": "фаза, в которую отряд совершил Warpmeld Sacrifice перед выбором целей"
+          },
+          "cond": [
+            "used-warpmeld-sacrifice"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "the phase the unit made a Warpmeld Sacrifice when targeted",
+            "ru": "фаза, в которую отряд совершил Warpmeld Sacrifice, став целью"
           },
           "cond": [
             "used-warpmeld-sacrifice"
@@ -1520,7 +1575,35 @@ export default {
       "hash": "9781020c",
       "ver": 995,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ],
       "appliesWhile": [
         "unit-leading"
       ]
@@ -1567,6 +1650,30 @@ export default {
         "kind": "enhancement",
         "det": "warpmeld-pact"
       }
+    },
+    {
+      "sid": "2cbc415a-c69a-4d7c-9c66-59b998616212",
+      "kind": "stratagem",
+      "name": "Sulphurous Veil",
+      "det": "Changehost of Deceit",
+      "ref": {
+        "kind": "stratagem",
+        "det": "changehost-of-deceit",
+        "name": "Sulphurous Veil"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "86e94729-5da6-4199-a7ee-1bbca915f068",
@@ -1768,7 +1875,17 @@ export default {
       "hash": "f5133a4b",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "14f6a805-b45f-49c9-b218-98f4e07c9e1b",
@@ -1831,7 +1948,19 @@ export default {
       "hash": "fd2abbfb",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "not on PSYKER models",
+            "ru": "кроме моделей PSYKER"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "3805f783-e42a-499d-a3f8-9a7934853d7c",
@@ -1906,7 +2035,17 @@ export default {
       "hash": "7c76e2c8",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "turn"
     },
     {
       "sid": "8299add8-e44d-432a-8551-17de6207f066",
@@ -1921,7 +2060,17 @@ export default {
       "hash": "edf16e51",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "65974fb7-162a-4917-9850-2a36ba6a793e",
@@ -2027,7 +2176,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "8976f591-43b5-458a-8ee9-5b0b5b3d3ef3",

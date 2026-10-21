@@ -19,7 +19,16 @@ export default {
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "8d526639-0c20-449c-a3ae-50cb3ecaeeb4:bjorn-the-fell-handed",
@@ -33,7 +42,16 @@ export default {
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:canis-wolfborn:born-of-wolves",
@@ -238,6 +256,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:hounds-of-morkai:morkai-s-howl",
+      "kind": "ability",
+      "name": "Hounds of Morkai: Morkai’s Howl",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hounds-of-morkai"
+      },
+      "hash": "a3d93076",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "6b0f24dc-2a81-497a-bd6f-33b04d7b2284:iron-priest",
       "kind": "ability",
       "name": "Iron Priest: Iron Priest",
@@ -322,6 +354,48 @@ export default {
         }
       ],
       "note": "Read as Aleya: Tenacious Spirit (adeptus-custodes), the same text."
+    },
+    {
+      "sid": "pack:lukas-the-trickster:pelt-of-the-doppegangrel",
+      "kind": "ability",
+      "name": "Lukas the Trickster: Pelt of the Doppegangrel",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lukas-the-trickster"
+      },
+      "hash": "311b9302",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "8950d4a1-67cf-4d2f-a6cd-6620a52ad87c:njal-stormcaller",
@@ -825,7 +899,16 @@ export default {
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:wolf-guard:chosen-companions",
@@ -1353,7 +1436,16 @@ export default {
       "hash": "a56282a8",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "c5dc5810-b281-4544-b445-40bb13249e28",

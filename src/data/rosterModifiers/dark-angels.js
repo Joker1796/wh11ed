@@ -333,7 +333,35 @@ export default {
       "hash": "a866e3ed",
       "ver": 963,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "for the phase, after a psychic roll other than a 1",
+            "ru": "до конца фазы после психического броска не на 1"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "for the phase, after a psychic roll other than a 1",
+            "ru": "до конца фазы после психического броска не на 1"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "e6df992c-abd5-41e0-8351-7ffbd0f86a80:inner-circle-companions",
@@ -353,6 +381,14 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
           "when": null
         }
       ]
@@ -535,7 +571,16 @@ export default {
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "7a5578e7-bd91-45d4-b94e-8cb69b09ebef:lion-eljonson",
@@ -571,7 +616,15 @@ export default {
       "hash": "9bdc06bf",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ce554c13-23b1-4a53-ac12-61d40e4e50fb:nephilim-jetfighter",
@@ -585,7 +638,16 @@ export default {
       "hash": "916cf6ab",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e0d5e9d3-8a2c-4563-afd8-87ad85431a73:ravenwing-black-knights",
@@ -817,6 +879,19 @@ export default {
             "en": "the option picked when an enemy unit targets this unit",
             "ru": "вариант, выбранный, когда враг выбирает отряд целью"
           }
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "the option picked when an enemy unit targets this unit",
+            "ru": "вариант, выбранный, когда враг выбирает отряд целью"
+          },
+          "cond": [
+            "bladeguard-defend"
+          ]
         }
       ]
     },
@@ -937,7 +1012,22 @@ export default {
       "hash": "14514667",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "while the unit is in defence stance",
+            "ru": "пока отряд в defence stance"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "da94f3da-d6d2-4fea-a0e9-9411155f8659",
@@ -951,7 +1041,16 @@ export default {
       "hash": "81078a6a",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "5799077c-00bf-4a5d-aa88-b17cdf4c4b78",

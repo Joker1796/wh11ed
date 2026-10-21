@@ -224,6 +224,20 @@ export default {
       ]
     },
     {
+      "sid": "2d5e75b9-16b6-49e1-9140-7800035c86c7:contorted-epitome",
+      "kind": "ability",
+      "name": "Contorted Epitome: Horrible Fascination",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "contorted-epitome"
+      },
+      "hash": "57174c59",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "af46eb11-f58f-4447-8cb4-ddb0ce9d839e:contorted-epitome",
       "kind": "ability",
       "name": "Contorted Epitome: Swallow Energy",
@@ -501,6 +515,20 @@ export default {
       ]
     },
     {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:feculent-gnarlmaw",
+      "kind": "ability",
+      "name": "Feculent Gnarlmaw: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "feculent-gnarlmaw"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "a438e44e-b000-41b0-94ed-61a085221fee:feculent-gnarlmaw",
       "kind": "ability",
       "name": "Feculent Gnarlmaw: Shroud of Flies",
@@ -558,6 +586,23 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
           "when": null,
           "target": "led"
         }
@@ -862,6 +907,28 @@ export default {
       ]
     },
     {
+      "sid": "94051d05-dee1-4839-9caf-8db7a2ffcc96:keeper-of-secrets",
+      "kind": "ability",
+      "name": "Keeper of Secrets: Mesmerising Form",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "keeper-of-secrets"
+      },
+      "hash": "663cf92e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "f0d51829-0fa5-44ab-b142-b5eea8246496:lord-of-change",
       "kind": "ability",
       "name": "Lord of Change: Daemon Lord of Tzeentch",
@@ -956,6 +1023,20 @@ export default {
           }
         }
       ]
+    },
+    {
+      "sid": "12f4452d-0d08-48c9-9ac1-64f0e3affbf2:nurglings",
+      "kind": "ability",
+      "name": "Nurglings: Mischief Makers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nurglings"
+      },
+      "hash": "55ce4f47",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "pack:pox-riders:bounding-assault",
@@ -1077,6 +1158,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:skull-altar",
+      "kind": "ability",
+      "name": "Skull Altar: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "skull-altar"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "65416b74-1478-4169-856a-ed5522ef4309:skullmaster",
@@ -1315,6 +1410,34 @@ export default {
       ]
     },
     {
+      "sid": "4791289c-159a-40b6-b2ff-9bdabb4e842c:the-blue-scribes",
+      "kind": "ability",
+      "name": "The Blue Scribes: P’tarix’s Sorcerous Syphon",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "the-blue-scribes"
+      },
+      "hash": "f3a69766",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "39a6df80-3f36-45eb-bd24-e4183c79c2cc:the-changeling",
+      "kind": "ability",
+      "name": "The Changeling: Mischief and Confusion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "the-changeling"
+      },
+      "hash": "6107fac6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "efdf042e-67d5-40ec-af94-64f19995a199:the-masque-of-slaanesh",
       "kind": "ability",
       "name": "The Masque of Slaanesh: The Eternal Dance",
@@ -1369,6 +1492,28 @@ export default {
           "op": "grant",
           "value": "SUSTAINED HITS 1",
           "target": "aura",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "pack:zarakynel:mesmerising-form",
+      "kind": "ability",
+      "name": "Zarakynel: Mesmerising Form",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "zarakynel"
+      },
+      "hash": "663cf92e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
           "when": null
         }
       ]
@@ -2154,6 +2299,30 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "3a3f0ec5-970a-4ef8-89a8-d48f3247b34d",
+      "kind": "stratagem",
+      "name": "Overwhelming Excess",
+      "det": "Legion of Excess",
+      "ref": {
+        "kind": "stratagem",
+        "det": "legion-of-excess",
+        "name": "Overwhelming Excess"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "aed28125-92c9-4922-99a2-fee31e24a7fa",
       "kind": "stratagem",
       "name": "Rapturous Agony",
@@ -2166,7 +2335,17 @@ export default {
       "hash": "7de35e49",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f2338ba8-00d6-45fc-8d14-fb29b2c437fe",
@@ -2461,7 +2640,17 @@ export default {
       "hash": "edf16e51",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:bloodcrushers",

@@ -124,6 +124,35 @@ export default {
       ]
     },
     {
+      "sid": "pack:aunva:paradox-of-duality",
+      "kind": "ability",
+      "name": "Aun’Va: Paradox of Duality",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aunva"
+      },
+      "hash": "49ee03c3",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "pack:aunva:supreme-loyalty-aura",
       "kind": "ability",
       "name": "Aun’Va: Supreme Loyalty (Aura)",
@@ -172,6 +201,28 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ]
+    },
+    {
+      "sid": "pack:barracuda:agile-dogfighter",
+      "kind": "ability",
+      "name": "Barracuda: Agile Dogfighter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "barracuda"
+      },
+      "hash": "663cf92e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
         }
       ]
     },
@@ -348,7 +399,37 @@ export default {
       "hash": "445cab64",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "pack:crisis-battlesuits:turbo-jets",
@@ -428,6 +509,20 @@ export default {
           "target": "unit"
         }
       ]
+    },
+    {
+      "sid": "pack:drone-sentry-turret:fortification",
+      "kind": "ability",
+      "name": "Drone Sentry Turret: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "drone-sentry-turret"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "3a57eda6-acfc-40b9-9c84-3187094862aa:ethereal",
@@ -767,6 +862,36 @@ export default {
       ]
     },
     {
+      "sid": "pack:rvarna-battlesuit:nova-shielding",
+      "kind": "ability",
+      "name": "R’varna Battlesuit: Nova Shielding",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "rvarna-battlesuit"
+      },
+      "hash": "a3c57e3c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "once per battle, for the phase it is used in",
+            "ru": "раз за битву, до конца фазы, в которой использовано"
+          },
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
+        }
+      ]
+    },
+    {
       "sid": "b523c318-8321-4e1c-a0d2-9d112b731381:razorshark-strike-fighter",
       "kind": "ability",
       "name": "Razorshark Strike Fighter: Ground Strike Fighter",
@@ -793,6 +918,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:remote-sensor-tower:fortification",
+      "kind": "ability",
+      "name": "Remote Sensor Tower: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "remote-sensor-tower"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "e555e882-7cc5-4580-b9ec-c417e5ba4861:riptide-battlesuit",
@@ -846,6 +985,20 @@ export default {
         }
       ],
       "note": "Read as Kâhl: Rampart Crest (leagues-of-votann), the same text."
+    },
+    {
+      "sid": "b472c2f2-d54e-4444-b60b-d5641fbd7bf4:strike-team",
+      "kind": "ability",
+      "name": "Strike Team: Suppression Volley",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "strike-team"
+      },
+      "hash": "aa159a8f",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "d86960ba-ce82-4f5d-bf4d-70811d1e8a29:sudden-dawn-cadre-pathfinder-team",
@@ -928,6 +1081,48 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:tidewall-droneport",
+      "kind": "ability",
+      "name": "Tidewall Droneport: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tidewall-droneport"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:tidewall-gunrig",
+      "kind": "ability",
+      "name": "Tidewall Gunrig: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tidewall-gunrig"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:tidewall-shieldline",
+      "kind": "ability",
+      "name": "Tidewall Shieldline: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tidewall-shieldline"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "0e4e1053-0b6b-4c1a-95de-3bd05d9884fd:tidewall-shieldline",
@@ -2177,7 +2372,16 @@ export default {
       "hash": "7d3ef23d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "44f34886-982e-453b-8806-1e2e4cd315e1",
@@ -2310,6 +2514,30 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "3b68b1a8-23f1-4e2a-90bf-8b6f082117c2:breacher-team",
+      "kind": "wargear",
+      "name": "Breacher Team: Guardian Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "breacher-team",
+        "item": "guardian drone"
+      },
+      "hash": "da7d19c8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:breacher-team",
@@ -2688,6 +2916,30 @@ export default {
           "stat": "inv",
           "op": "set",
           "value": "4+",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "a5eb2f5e-4663-4dc2-ab36-f290dcb54251:commander-shadowsun",
+      "kind": "wargear",
+      "name": "Commander Shadowsun: Advanced Guardian Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "commander-shadowsun",
+        "item": "advanced guardian drone"
+      },
+      "hash": "6774be42",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
           "when": null
         }
       ]
@@ -3219,6 +3471,30 @@ export default {
           "stat": "keyword",
           "op": "grant",
           "value": "Markerlight",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "3b68b1a8-23f1-4e2a-90bf-8b6f082117c2:strike-team",
+      "kind": "wargear",
+      "name": "Strike Team: Guardian Drone",
+      "det": null,
+      "ref": {
+        "kind": "wargear",
+        "unit": "strike-team",
+        "item": "guardian drone"
+      },
+      "hash": "da7d19c8",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
           "when": null
         }
       ]

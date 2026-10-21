@@ -933,7 +933,7 @@ describe('resolveModifierEntries — a stratagem\'s timing', () => {
     }],
   }
   const rec = {
-    sid: 'aoc', kind: 'stratagem', name: 'Armour of Contempt', det: 'Gladius Task Force',
+    sid: 'ward', kind: 'ability', name: 'Custodian Wardens: Living Fortress', det: 'Gladius Task Force',
     ref: { kind: 'stratagem', det: 'gladius-task-force', name: 'Armour of Contempt' },
     effects: [{ on: 'melee', stat: 'ap', op: 'add', value: -1, when: null }],
   }
@@ -1532,5 +1532,22 @@ describe('a Combat Patrol box\'s own rules', () => {
     const gauss = deck.find((s) => s.name === 'Gauss Storm')
     expect(gauss?._detId).toBe('cp:necrons')
     expect(recordFor(gauss, records)?.name).toBe('Gauss Storm')
+  })
+})
+
+// An attack AGAINST the unit (2026-10-21): the attacker's number, so the card's own does not move —
+// the note is live, not applied, and not a roll of this unit's (no "add it when you roll" hint).
+describe('incoming attack modifiers', () => {
+  const sheet = () => ({ profiles: [{ m: '6"', t: '4', sv: '3+', w: '2', oc: '1' }], melee: [{ name: 'Blade', a: '4', s: '4', ap: '-1', d: '1' }] })
+  const aoc = {
+    sid: 'ward', kind: 'ability', name: 'Custodian Wardens: Living Fortress',
+    effects: [{ on: 'incoming', stat: 'ap', op: 'add', value: 1, when: null }, { on: 'incoming', stat: 'wound', op: 'add', value: -1, vs: 'melee', when: null }],
+  }
+  it('lists the modifier without rewriting the sheet', () => {
+    const before = sheet()
+    const out = applyStatMods(before, [aoc], {})
+    expect(out.sheet).toEqual(before)
+    expect(out.notes.map((n) => [n.stat, n.incoming, n.applied, n.live, n.roll, n.vs]))
+      .toEqual([['ap', true, false, true, false, null], ['wound', true, false, true, false, 'melee']])
   })
 })

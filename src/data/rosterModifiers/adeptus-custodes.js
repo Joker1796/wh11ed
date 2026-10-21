@@ -301,7 +301,16 @@ export default {
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "0f611e5a-4443-4309-a9f6-cecb6c62d22d:contemptor-galatus-dreadnought",
@@ -315,7 +324,16 @@ export default {
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "36f695ef-1638-4dfc-bcf6-fa8674cd5fca:custodian-guard-sodality-with-pyrithite-spears",
@@ -400,7 +418,15 @@ export default {
       "hash": "e441fc1c",
       "ver": 981,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f2aa7bec-a913-4d2e-8383-0fccc1998820:gilded-blades-custodian-guard",
@@ -586,7 +612,16 @@ export default {
       "hash": "3f3f072b",
       "ver": 981,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "d7fdc4ea-b7ef-4a40-8372-ae02277b7106:trajann-valoris",
@@ -652,7 +687,23 @@ export default {
       "hash": "e441fc1c",
       "ver": 981,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "fce8fed1-4e0d-4409-8e23-8903ba150887:vertus-praetors",
@@ -694,7 +745,16 @@ export default {
       "hash": "07125726",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "5bdd85ce-39ff-4db1-bcf1-447dde768cf6",
@@ -790,6 +850,20 @@ export default {
           },
           "cond": [
             "stance-salvus"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": {
+            "en": "while within range of an objective",
+            "ru": "пока отряд в зоне objective"
+          },
+          "cond": [
+            "never"
           ]
         }
       ]
@@ -1004,7 +1078,22 @@ export default {
       "hash": "d2050fdb",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "melee-s-gt-t",
+          "when": {
+            "en": "while within range of an objective",
+            "ru": "пока отряд в зоне objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "7223f817-3bb5-4fc2-810e-f77ac79c5326",
@@ -1235,7 +1324,23 @@ export default {
       "hash": "4f6b2be2",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "00ed9505-8ef9-4746-bb1e-39113d6e8a4a",
@@ -1508,7 +1613,16 @@ export default {
       "hash": "8f2279fc",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "round"
     },
     {
       "sid": "bda17696-cc1a-4687-b0aa-51020af18e64",
@@ -1553,7 +1667,15 @@ export default {
       "hash": "9e50d86d",
       "ver": 981,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "dur": "phase"
     },
     {
@@ -1596,7 +1718,15 @@ export default {
       "hash": "9e50d86d",
       "ver": 981,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "dur": "phase"
     },
     {
@@ -1681,7 +1811,15 @@ export default {
       "hash": "9c6e19d7",
       "ver": 981,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
       "dur": "phase"
     },
     {
@@ -2059,7 +2197,16 @@ export default {
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "cfcf1648-58f3-4e72-b091-8f7f5656f95a:sentinel-guard-sodality",

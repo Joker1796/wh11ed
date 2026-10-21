@@ -3673,6 +3673,25 @@ survive regeneration. The shape, fixed since the layer was built:
 ```
 
 - `on` — `profile` | `ranged` | `melee` | `weapon` (both weapon tables) | `unit` (keyword grants)
+- **`on: 'incoming'` — an attack made AGAINST the unit** (owner, 2026-10-21). "Each time an attack
+  targets this unit, subtract 1 from the Wound roll", "-1 AP", "-1 D", "halve the Damage", "change
+  the Damage to 1". `stat` is `hit` | `wound` | `ap` | `d`; `value` is the change to the ATTACKER's
+  number — a malus on a roll or on D is negative, an AP made worse is `+1` (AP −2 becomes −1);
+  `op: 'set'` only for "D = 1", `op: 'mul', value: 0.5` only for "halve". `vs` narrows the attacks:
+  `melee` | `ranged` | `psychic` | `s-gt-t` | `ranged-s-gt-t` | `melee-s-gt-t` — what the attack is,
+  not a state of the unit, so it is never a `cond`. The number is not this card's, so nothing on the
+  sheet moves: the note is live (or possible) with `applied: false`, `incoming: true`, never `roll`,
+  and reads whole — «Атаки по этому отряду: −1 к ранению», «Атаки ближнего боя по этому отряду: −1 к
+  попаданию», «…: AP хуже на 1», «…: D вдвое меньше» (`modDelta`'s incoming branch). A defensive
+  stratagem with one is a chip on the card like any other, grey in its own turn (`wrongPhase`).
+  "Until that enemy unit has attacked" is `dur: 'phase'` (it ends inside the phase).
+  ~210 rules across 28 factions carry one. **`npm run modifiers:check` enforces it** the way it does
+  the roll bonus: `incomingSentences` reads a rule a sentence at a time — an attack aimed at us, a
+  malus on it, not our own attacks nor an enemy unit's state — and a reviewed record of such a rule
+  with no incoming effect fails, unless `INCOMING_EXEMPT` names it with the reason (the malus covers
+  ANOTHER unit: Chrono-impedance Fields, Knight Defender; one record per god: First Prince of Chaos;
+  the drone rule that only describes the wargear). The generator's CANDIDATE reads the long form
+  "subtract 1 from the Hit/Wound roll" since that day — 61 such rules had no record at all.
 - `stat` — datasheet keys `m/t/sv/w/ld/oc/inv`, weapon `a/bs/ws/s/ap/d/range`, plus `ability` and
   `keyword` for grants (`op: 'grant'`, `value` the name — `SUSTAINED HITS 1`, unbracketed)
 - **`stat: 'hit'` / `'wound'` — a modifier to the ROLL, not to a characteristic** (added
@@ -3690,8 +3709,8 @@ survive regeneration. The shape, fixed since the layer was built:
   generator's `ROLL_EXEMPT` — 21 rules the card cannot place, because the bonus reaches OTHER
   units than the record's own (a stratagem spent on one unit that buffs the army, a Farseer's
   Guide on everyone shooting the selected target) or the rule's keyword gate is one merged
-  statement over units that do and do not get it. "Subtract 1 from the Hit roll" is not checked:
-  it modifies an attack AGAINST the unit, which this layer cannot express.
+  statement over units that do and do not get it. "Subtract 1 from the Hit roll" is the other
+  direction — an attack AGAINST the unit — and is `on: 'incoming'` (above).
   "While a CHARACTER is leading this unit" (Necrons' Command Protocols) is answered by the list:
   `unit-led` in conditions.js, true for both ends of an attachment, which is why
   `rosterConditions(entry, units)` and `activeConditions(…, { units })` now take the roster's
@@ -4297,9 +4316,8 @@ core` (1308 — rulebook abilities the app already carries), `wargearRules` (137
 instructions, not effects), `ability: faction` (1145 — an empty pointer at the army rule, though it
 is the key to modelling several of those), `damageAbility` (243 — almost all "-1 to the Hit roll",
 and the tracker deliberately does not count wounds), mission twists and core stratagems (one
-candidate each). What the layer STILL cannot express, whatever the source: modifiers on an INCOMING
-attack ("-1 to the Damage of that attack" — 15 records, the largest single family of reviewed
-empties), debuffs on an ENEMY unit, and an op for a MULTIPLIED characteristic ("double the Objective
+candidate each). What the layer STILL cannot express, whatever the source: debuffs on an ENEMY unit (a modifier on
+an INCOMING attack was on this list until 2026-10-21 and is `on: 'incoming'` now), and an op for a MULTIPLIED characteristic ("double the Objective
 Control", "triple the Attacks") — those last are proposed and closed as empties on purpose, so the
 rule is on the record rather than invisible.
 

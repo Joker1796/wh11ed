@@ -8,6 +8,35 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "ef2a8a7e-ff69-4080-bdd5-fe96843862bb:aberrants",
+      "kind": "ability",
+      "name": "Aberrants: Hulking Bodyguards",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aberrants"
+      },
+      "hash": "b178de89",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "while a CHARACTER is leading this unit",
+            "ru": "пока отряд возглавляет CHARACTER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
+    },
+    {
       "sid": "03af0fc0-6c26-48af-83e0-fa6060aeaa40:achilles-ridgerunners",
       "kind": "ability",
       "name": "Achilles Ridgerunners: Crossfire",
@@ -261,6 +290,32 @@ export default {
       ]
     },
     {
+      "sid": "693e090d-72eb-4589-b1b2-526042d1a974:magus",
+      "kind": "ability",
+      "name": "Magus: Mind Control",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "magus",
+        "scopes": [
+          {
+            "targets": [
+              "PSYKER"
+            ],
+            "excludes": [],
+            "models": [
+              "PSYKER"
+            ],
+            "modelExcludes": []
+          }
+        ]
+      },
+      "hash": "f35bd49c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "40bcdab4-08ee-48d9-a197-d5be1748f7aa:magus",
       "kind": "ability",
       "name": "Magus: Psychic Familiar",
@@ -335,6 +390,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:tectonic-fragdrill:fortification",
+      "kind": "ability",
+      "name": "Tectonic Fragdrill: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tectonic-fragdrill"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "bb51fe29-292d-4c77-a593-ea15daa0d3e3",
       "kind": "detachmentRule",
       "name": "Hypermorphic Fury",
@@ -403,7 +472,16 @@ export default {
       "hash": "6a71d0f1",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "7767306f-ad29-4d17-8510-f5dcb2a06f78",
@@ -953,6 +1031,20 @@ export default {
       }
     },
     {
+      "sid": "05991a9e-c519-4267-971c-b9d69f36e679",
+      "kind": "enhancement",
+      "name": "Starfall Shells",
+      "det": "Outlander Claw",
+      "ref": {
+        "kind": "enhancement",
+        "det": "outlander-claw"
+      },
+      "hash": "855ce9db",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "4fb6414e-4c63-4843-b06c-ebcb2e5d0469",
       "kind": "enhancement",
       "name": "Mark of the Star Children (Upgrade)",
@@ -1033,6 +1125,36 @@ export default {
         "kind": "enhancement",
         "det": "xenocreed-congregation"
       }
+    },
+    {
+      "sid": "4cb1bc53-b399-4352-8b12-743fa82c9e82",
+      "kind": "stratagem",
+      "name": "Bio-horror Revelation",
+      "det": "Biosanctic Broodsurge",
+      "ref": {
+        "kind": "stratagem",
+        "det": "biosanctic-broodsurge",
+        "name": "Bio-horror Revelation"
+      },
+      "hash": "0cda3d9c",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against that enemy unit, if it failed its Battle-shock test",
+            "ru": "против этого вражеского отряда, если он провалил тест Battle-shock"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "89f9667a-2fe9-43f7-acae-2da2c36fdd58",
@@ -1209,7 +1331,16 @@ export default {
       "hash": "df9c6903",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ed33177c-e79a-4f2e-b2af-f1c616eefef5",
@@ -1307,7 +1438,17 @@ export default {
       "hash": "8562af04",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "61c63ee8-1c41-4e6c-b0e8-5451c154c896:achilles-ridgerunners",

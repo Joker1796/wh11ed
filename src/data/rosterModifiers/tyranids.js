@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "pack:barbed-hierodule:overgrown-barbs",
+      "kind": "ability",
+      "name": "Barbed Hierodule: Overgrown Barbs",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "barbed-hierodule"
+      },
+      "hash": "1b9e55bb",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "8e60e6db-0d1d-4f3a-b1e5-596748c1315a:barbgaunts",
       "kind": "ability",
       "name": "Barbgaunts: Disruption Bombardment",
@@ -18,6 +32,20 @@ export default {
       },
       "hash": "eb73f8bb",
       "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "e5b0864d-8537-455c-bcc2-c1c93c037037:broodlord",
+      "kind": "ability",
+      "name": "Broodlord: Hypnotic Gaze",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "broodlord"
+      },
+      "hash": "51afc583",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },
@@ -308,6 +336,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "12c34c54-511c-4cd4-b033-0b3294eb1ad5:maleceptor",
+      "kind": "ability",
+      "name": "Maleceptor: Encephalic Diffusion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "maleceptor"
+      },
+      "hash": "b6cebd32",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "474971c2-032e-4663-89c0-43d3bc98f7ed:neurogaunts",
@@ -1475,7 +1517,15 @@ export default {
       "hash": "5685ea95",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "09c9c986-a5ad-44bb-98f0-90744ba77f94",
@@ -1846,6 +1896,33 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "73c612be-28f7-4329-acfa-97e55aa8071b",
+      "kind": "stratagem",
+      "name": "Savage Roar",
+      "det": "Crusher Stampede",
+      "ref": {
+        "kind": "stratagem",
+        "det": "crusher-stampede",
+        "name": "Savage Roar"
+      },
+      "hash": "ee6f5d02",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against attacks by that enemy unit",
+            "ru": "против атак этого вражеского отряда"
+          }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "ff939b18-014a-4295-8557-4da856bce0b3",
       "kind": "stratagem",
       "name": "Swarm-guided Salvoes",
@@ -1976,7 +2053,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a00e9bdd-8eb5-4f20-bf21-965bc8aa1ded",
@@ -2102,6 +2188,30 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "53d214eb-47e8-4ace-a623-07a7927197be",
+      "kind": "stratagem",
+      "name": "Teeming Masses",
+      "det": "Unending Swarm",
+      "ref": {
+        "kind": "stratagem",
+        "det": "unending-swarm",
+        "name": "Teeming Masses"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "cd3aa920-f0a8-4468-adf6-66a30c2ed7c0",
       "kind": "stratagem",
       "name": "Assassin Beasts",
@@ -2199,7 +2309,17 @@ export default {
       "hash": "ed2665e0",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ad6bd914-db0f-43be-95c1-aae0515947a1",

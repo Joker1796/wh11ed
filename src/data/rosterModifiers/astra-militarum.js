@@ -45,6 +45,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:aegis-defence-line",
+      "kind": "ability",
+      "name": "Aegis Defence Line: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aegis-defence-line"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "c66da885-1906-4bf5-a086-a226b02b16a9:banesword",
       "kind": "ability",
       "name": "Banesword: Armour Obliteration",
@@ -70,7 +84,15 @@ export default {
       "hash": "6903aaca",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "48a44349-782e-4f73-b49e-92687089533b:cadian-castellan",
@@ -472,6 +494,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:earthshaker-platform:fortification",
+      "kind": "ability",
+      "name": "Earthshaker Platform: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "earthshaker-platform"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:elysian-sniper-squad:mark-the-target",
       "kind": "ability",
       "name": "Elysian Sniper Squad: Mark the Target",
@@ -559,6 +595,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:griffon-mortar-carrier:suppression-bombardment",
+      "kind": "ability",
+      "name": "Griffon Mortar Carrier: Suppression Bombardment",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "griffon-mortar-carrier"
+      },
+      "hash": "99cfdd0a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "pack:heavy-mortar-team:rearm-reload-fire",
       "kind": "ability",
       "name": "Heavy Mortar Team: Rearm, Reload, Fire",
@@ -585,6 +635,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:heavy-quad-launcher-team:suppression-bombardment",
+      "kind": "ability",
+      "name": "Heavy Quad Launcher Team: Suppression Bombardment",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "heavy-quad-launcher-team"
+      },
+      "hash": "a48daefc",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "pack:hells-last:lesk-s-heroes",
@@ -617,6 +681,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:hydra-platform:fortification",
+      "kind": "ability",
+      "name": "Hydra Platform: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hydra-platform"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "f05d9118-3d4f-4356-bffd-dd7693bc5d92:leman-russ-eradicator",
       "kind": "ability",
       "name": "Leman Russ Eradicator: Urban Warfare",
@@ -628,7 +706,22 @@ export default {
       "hash": "8ccaff62",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": {
+            "en": "while this model has the Benefit of Cover against that attack",
+            "ru": "если у модели есть Benefit of Cover против этой атаки"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "351fe1e2-238c-4149-ad34-22cf5b861d35:leman-russ-executioner",
@@ -782,6 +875,29 @@ export default {
       "hash": "2f253aea",
       "ver": 972,
       "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "pack:manticore-platform:fortification",
+      "kind": "ability",
+      "name": "Manticore Platform: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "manticore-platform"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -875,7 +991,15 @@ export default {
       "hash": "e577ede9",
       "ver": 972,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
       "note": "Read as Telemon Heavy Dreadnought: Guardian Eternal (adeptus-custodes), the same text."
     },
     {
@@ -1204,6 +1328,64 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:sabre-weapons-battery:fortification",
+      "kind": "ability",
+      "name": "Sabre Weapons Battery: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sabre-weapons-battery"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:sergeant-harker:harker-s-hellraisers",
+      "kind": "ability",
+      "name": "Sergeant Harker: Harker’s Hellraisers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sergeant-harker"
+      },
+      "hash": "486e0ac9",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": {
+            "en": "while this model is leading a unit, against attackers more than 12\" away",
+            "ru": "пока модель возглавляет отряд, против атакующих дальше 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": {
+            "en": "while this model is leading a unit, against attackers more than 12\" away",
+            "ru": "пока модель возглавляет отряд, против атакующих дальше 12\""
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "pack:sergeant-harker:payback-time",
       "kind": "ability",
       "name": "Sergeant Harker: Payback Time",
@@ -1442,6 +1624,42 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:voss-pattern-lightning:agile-dogfighter",
+      "kind": "ability",
+      "name": "Voss-pattern Lightning: Agile Dogfighter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "voss-pattern-lightning"
+      },
+      "hash": "663cf92e",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "83038c28-eb5f-4279-9a58-aea5ec64cdc2:wyvern",
+      "kind": "ability",
+      "name": "Wyvern: Suppression Bombardment",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wyvern"
+      },
+      "hash": "7a8a87f6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "3b10e68b-0230-4669-a0a3-f0c29feaa3b4",
@@ -2064,6 +2282,20 @@ export default {
       ]
     },
     {
+      "sid": "8bb2377e-6388-45ff-9b3c-05b8117106b1",
+      "kind": "enhancement",
+      "name": "Tripwires",
+      "det": "Recon Element",
+      "ref": {
+        "kind": "enhancement",
+        "det": "recon-element"
+      },
+      "hash": "0806e260",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "e5d2ca6f-bdfc-498e-bef1-9c753c55bc64",
       "kind": "enhancement",
       "name": "Eager Advance",
@@ -2165,7 +2397,16 @@ export default {
       "hash": "9e50d86d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e49aa10b-2b42-4430-aa54-86a349613571",
@@ -2298,7 +2539,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e85f3b10-ba5a-436e-a292-251fc2f299f3",
@@ -2397,7 +2647,16 @@ export default {
       "hash": "3b9d003d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "81eb0dfa-af6b-4da6-892a-44d54185b879",

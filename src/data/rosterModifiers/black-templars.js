@@ -644,7 +644,17 @@ export default {
       "hash": "ed2665e0",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "bc719a21-f0f4-4a42-81cf-74be4ac9d9ed",
@@ -759,7 +769,17 @@ export default {
       "hash": "53c6be56",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        }
+      ],
+      "dur": "round"
     },
     {
       "sid": "41258f7f-dee3-4065-93f5-83774b5da820",

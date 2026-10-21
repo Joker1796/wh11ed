@@ -288,6 +288,23 @@ export default {
           "value": "Stealth",
           "when": null,
           "target": "led"
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -569,7 +586,15 @@ export default {
       "hash": "e577ede9",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "06c4375b-ee7a-4552-a5d0-2a55dcd6acdb:stormtalon-gunship",
@@ -1071,6 +1096,30 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "c11cfbb8-bc11-4d44-bb9e-70ac3cca22cb",
+      "kind": "stratagem",
+      "name": "Forewarned Evasion",
+      "det": "Augurium Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "augurium-task-force",
+        "name": "Forewarned Evasion"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "1d199aa0-6532-4d07-92b0-bb05550242b5",
       "kind": "stratagem",
       "name": "Mirage of Echoes",
@@ -1320,7 +1369,17 @@ export default {
       "hash": "f5133a4b",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f574a3d4-d1ed-4a60-a2de-f3d989784f63",
@@ -1431,6 +1490,31 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "cc57b05a-4f98-4d78-9e26-f9ae67f6dd79",
+      "kind": "stratagem",
+      "name": "Shining Resolve",
+      "det": "Hallowed Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hallowed-conclave",
+        "name": "Shining Resolve"
+      },
+      "hash": "e353048d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
         }
       ],
       "dur": "phase"
