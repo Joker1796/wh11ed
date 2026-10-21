@@ -317,7 +317,7 @@
  * `stat`, `op`, `value`) and when (`cond` — condition ids from conditions.js; `when` its wording).
  * The overlay adds `rows` when it places a bearer's effect on particular rows (splitBearers).
  * @typedef {object} ModifierEffect
- * @property {string} [on] absent on a `state` effect
+ * @property {string} [on] absent on a `state` effect; `incoming` is an attack made AGAINST the unit
  * @property {string} [stat] absent on a `state` effect
  * @property {string} op `add` / `improve` / `set` / `grant`, or `state`: no number, only the
  *   condition(s) in `cond` — a choice the rule offers, made a switch (rosterGameContext's switchesFor)
@@ -327,6 +327,7 @@
  * @property {string} [target]
  * @property {{ name?: string, notName?: string[], tag?: string, notTag?: string }} [only]
  * @property {number} [alt]
+ * @property {'melee' | 'ranged' | 'psychic' | 's-gt-t'} [vs] which incoming attacks (`on: 'incoming'`)
  * @property {number} [scope]
  * @property {Record<string, number[]>} [rows]
  * @property {string} [best] the rule's own limit on a roll ("3+": Take Cover!)

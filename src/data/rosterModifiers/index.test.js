@@ -9,7 +9,7 @@ import { foldName } from '../../utils/foldName.js'
 // loads one faction at a time; see index.js).
 const files = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./appliesWhile.js', '!./*.test.js'], { eager: true, import: 'default' })
 
-const ON = new Set(['profile', 'ranged', 'melee', 'weapon', 'unit'])
+const ON = new Set(['profile', 'ranged', 'melee', 'weapon', 'unit', 'incoming'])
 const OP = new Set(['add', 'set', 'improve', 'grant', 'mul'])
 const STAT = new Set(['m', 't', 'sv', 'w', 'ld', 'oc', 'inv', 'a', 'bs', 'ws', 's', 'ap', 'd', 'range', 'keyword', 'core', 'ability', 'hit', 'wound'])
 
@@ -115,7 +115,17 @@ describe('rosterModifiers data', () => {
         }
         // A dice modifier ("add 1 to the Hit roll") is never applied to the table, only listed, so
         // the one shape it can take is a signed number added to the attacks of a weapon table.
-        if (eff.stat === 'hit' || eff.stat === 'wound') {
+        // An attack AGAINST the unit: the attacker's Hit/Wound roll, AP or Damage, made worse — a
+        // signed delta (AP +1 = worse by 1), "D = 1", or "halve the Damage"; `vs` names the attacks.
+        if (eff.on === 'incoming') {
+          expect(['hit', 'wound', 'ap', 'd'], `${where}: incoming stat`).toContain(eff.stat)
+          expect(typeof eff.value, `${where}: incoming value`).toBe('number')
+          if (eff.op === 'add') expect(eff.stat === 'ap' ? eff.value > 0 : eff.value < 0, `${where}: incoming sign`).toBe(true)
+          else if (eff.op === 'set') expect([eff.stat, eff.value], `${where}: incoming set`).toEqual(['d', 1])
+          else expect([eff.op, eff.stat, eff.value], `${where}: incoming op`).toEqual(['mul', 'd', 0.5])
+          if (eff.vs != null) expect(['melee', 'ranged', 'psychic', 's-gt-t'], `${where}: vs`).toContain(eff.vs)
+        } else if (eff.vs != null) expect.fail(`${where}: vs outside an incoming effect`)
+        if (eff.on !== 'incoming' && (eff.stat === 'hit' || eff.stat === 'wound')) {
           expect(eff.op, `${where}: ${eff.stat} op`).toBe('add')
           expect(typeof eff.value, `${where}: ${eff.stat} value`).toBe('number')
           expect(['weapon', 'ranged', 'melee'], `${where}: ${eff.stat} on`).toContain(eff.on)
