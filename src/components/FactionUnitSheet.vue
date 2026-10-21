@@ -127,30 +127,12 @@
               <i class="wi wi-more" />
             </button>
           </template>
-          <button
-            class="act-btn act-ico"
-            @click="moreDo(() => toggleUnitFavorite(slug, sheet.id))"
-          >
-            <i :class="fav ? 'wi wi-pin-on' : 'wi wi-pin-off'" />{{ fav ? labels.dsUnpinUnit : labels.dsPinUnit }}
-          </button>
-          <button
-            class="act-btn act-ico"
-            @click="moreDo(() => toggleOwned(slug, sheet.id, sheet.name))"
-          >
-            <i :class="owned ? 'wi wi-own-on' : 'wi wi-own'" />{{ owned ? labels.dsOwnRemove : labels.dsOwnAdd }}
-          </button>
-          <button
-            class="act-btn act-ico"
-            @click="moreDo(copyName)"
-          >
-            <i class="wi wi-copy" />{{ labels.dsCopyName }}
-          </button>
-          <button
-            class="act-btn act-ico"
-            @click="moreDo(shareUnit)"
-          >
-            <i :class="canShare ? 'wi wi-share' : 'wi wi-link'" />{{ canShare ? labels.dsShare : labels.dsCopyLink }}
-          </button>
+          <UnitMarkActions
+            :slug="slug"
+            :unit-id="sheet.id"
+            :name="sheet.name"
+            @done="moreOpen = false"
+          />
           <button
             v-if="sheet.flavor"
             class="act-btn act-ico"
@@ -254,6 +236,7 @@ import { useRoute } from 'vue-router'
 import DatasheetCard from './DatasheetCard.vue'
 import ActionMenu from './ActionMenu.vue'
 import KeywordUnitsModal from './KeywordUnitsModal.vue'
+import UnitMarkActions from './UnitMarkActions.vue'
 import { unitsWithKeyword } from '../utils/keywordUnits.js'
 import { unitLinkOf } from '../utils/unitLink.js'
 import { localizeSheet } from '../data/datasheets/ru/index.js'

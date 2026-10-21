@@ -54,6 +54,14 @@ of a ninety-unit list.
 
 ## A unit opens where the list is (2026-10-21)
 
+**Where each part lives.** `FactionDatasheetsView` only puts the page together:
+`FactionUnitChip` (a unit's chip, or a row on a wide screen), `FactionUnitMenu` (its "…" / right
+click / long press menu and the "copied" toast), `FactionLegends` (the Legends prose, loading
+itself; its heading is the list's, through `#head`), `UnitSearchField` (shared with the roster
+catalogue), `useUnitPicks` (the modal, the column, compare, the session's last unit),
+`useGroupFolds` (folded type groups) and `utils/datasheetGroups.js` (`groupByType`, `chapterOf`).
+The rows a unit's "…" shares with its plate — pin, owned, copy name, share — are `UnitMarkActions`.
+
 Tapping a unit in the faction's unit list used to leave for its page, and coming back lost the
 reader's place in a ninety-unit list. The owner chose to change the move, not to remember the
 place (2026-10-04/05, journal *Юнит в модалке и сравнение*):

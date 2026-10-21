@@ -5,25 +5,14 @@
          looked like one more battlefield role while being a control over the list, and the line of
          pane height it cost. The count of what is switched on rides on the icon. -->
     <div class="rub-top">
-      <!-- Types the faction's own example queries while empty (useUnitSearchGhost). -->
-      <div
-        ref="searchEl"
-        class="typing-field rub-search-field"
-      >
-        <input
-          v-model="query"
-          type="search"
-          class="rub-search"
-          data-tour="cat-search"
-          :placeholder="typing ? '' : labels.rosterSearchUnits"
-          :aria-label="labels.rosterSearchUnits"
-          autocomplete="off"
-        >
-        <TypingGhost
-          v-if="typing && !query"
-          :ghost="ghost"
-        />
-      </div>
+      <UnitSearchField
+        v-model="query"
+        class="rub-search-field"
+        input-class="rub-search"
+        tour="cat-search"
+        :slug="factionSlug"
+        :placeholder="labels.rosterSearchUnits"
+      />
       <button
         type="button"
         class="rub-filter-btn"
@@ -226,7 +215,7 @@
 <script setup>
 import ExpandTransition from '../ExpandTransition.vue'
 import ChevronIcon from '../ChevronIcon.vue'
-import TypingGhost from '../TypingGhost.vue'
+import UnitSearchField from '../UnitSearchField.vue'
 import { computed, ref, watch } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
@@ -237,7 +226,6 @@ import { duplicateLimit } from '../../composables/rosterValidation.js'
 import { useCollection } from '../../composables/useCollection.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from '../../composables/datasheetTags.js'
-import { useUnitSearchGhost } from '../../composables/useUnitSearchExamples.js'
 import { useTourShow } from '../../composables/useTour.js'
 
 const props = defineProps({
@@ -311,8 +299,6 @@ watch(query, () => { if (closedInSearch.value.size) closedInSearch.value = new S
 // and the datasheet grid match (datasheetTags.js), loaded with the first query long enough to use
 // them. An allied unit's tags are its own faction's (srcOf).
 watch(query, (q) => { if (q.trim().length >= TAG_MIN) preloadDatasheetTags() })
-const searchEl = ref(null)
-const { ghost, typing } = useUnitSearchGhost({ slug: computed(() => props.factionSlug), locale, query, el: searchEl })
 const searched = computed(() => {
   const q = query.value.trim().toLowerCase()
   if (!q) return props.units
@@ -481,17 +467,9 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 .rub-top { display: flex; align-items: stretch; gap: 0.35rem; margin-bottom: 0.5rem; }
 .rub-search-field {
   flex: 1;
-  --typing-pad: calc(0.55rem + 1px) calc(0.7rem + 1px);
-  --typing-size: 0.9rem;
+  --usf-pad-y: 0.55rem;
+  --usf-bg: var(--bg-secondary);
 }
-.rub-search {
-  padding: 0.55rem 0.7rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  font-size: 0.9rem;
-}
-.rub-search:focus { outline: none; border-color: var(--accent); }
 /* Square, the search box's own height, so the two read as one control strip. It carries its
    count rather than a dot: "two filters are on" is what a reader coming back to a short
    catalogue needs, and the number is no wider than the dot would be. */
@@ -639,7 +617,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
    `@media (max-width: 380px)` and never fired on the phone it was written for). */
 @container (max-width: 300px) {
   .rub-top { gap: 0.3rem; margin-bottom: 0.4rem; }
-  .rub-search { font-size: 0.78rem; padding: 0.35rem 0.45rem; }
+  .rub-search-field { --usf-size: 0.78rem; --usf-pad-y: 0.35rem; --usf-pad-x: 0.45rem; }
   .rub-filter-btn { min-width: 1.9rem; padding: 0 0.3rem; font-size: 0.85rem; }
   .rub-filter-count { font-size: 0.66rem; }
   /* The type here stopped at 10px, which is the pane's fault and not the reader's: a role header
