@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import RosterUnitBrowser from './RosterUnitBrowser.vue'
 import { useCollection } from '../../composables/useCollection.js'
@@ -12,6 +12,14 @@ function resetFilters() {
   p.onlyOwned.value = false
   p.hideLegends.value = false
 }
+
+// Every call of grantedKeywordsFor counted, the real one answering: the caps cost one look per unit
+// per change, not several per row per render.
+const granted = vi.hoisted(() => ({ calls: 0 }))
+vi.mock('../../composables/rosterEngine.js', async (importOriginal) => {
+  const real = await importOriginal()
+  return { ...real, grantedKeywordsFor: (...a) => { granted.calls++; return real.grantedKeywordsFor(...a) } }
+})
 
 const units = [
   { id: 'a', name: 'Alpha Battleline', kws: ['Battleline'], sizes: [{ pts: 80, per: [5, 5] }] },
@@ -367,5 +375,20 @@ describe('RosterUnitBrowser — an allied unit is owned under ITS faction', () =
     const modal = w.findComponent({ name: 'RosterUnitRulesModal' })
     expect(modal.props('factionSlug')).toBe('imperial-agents')
     expect(modal.props('unitId')).toBe('inquisitor')
+  })
+})
+
+describe('RosterUnitBrowser — the duplicate caps', () => {
+  // 2026-10-21: the catalogue worked out every row's cap four times a render (the add button twice,
+  // the count, the over mark), each one looking up the detachments' granted keywords again.
+  it('works out each unit\'s cap once per change, not per row per render', async () => {
+    granted.calls = 0
+    const w = mountBrowser({ battle: { dupLimit: 3 }, checkLegality: true })
+    expect(granted.calls).toBeGreaterThan(0)
+    expect(granted.calls).toBeLessThanOrEqual(units.length)
+    granted.calls = 0
+    await w.setProps({ addedIds: ['a', 'a', 'b'] })
+    await w.find('.rub-search').setValue('a')
+    expect(granted.calls).toBe(0)
   })
 })
