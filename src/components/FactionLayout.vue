@@ -315,22 +315,29 @@ function backToUnits() {
   .faction-fabs { display: flex; }
   /* A wide screen puts the name and the tabs on one row (owner, 2026-10-21): stacked, the hero
      took ~200px over every faction page, and the units tab — whose columns fill the window —
-     paid for it in list rows. The name stands on the tabs' accent line, which runs under both. */
+     paid for it in list rows. The tabs stand in the middle of the row while the name leaves them
+     room; a name wider than its half grows its `1fr` column (the track's minimum is its content)
+     and pushes them right, never over it. The accent line is the row's: it runs under the name and
+     the empty right side too, and the tabs sit 1px into it so their own line lies on top. */
   .hero {
-    display: flex;
-    align-items: flex-end;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
     padding-top: 0.6rem;
-  }
-  .hero-title {
-    flex: none;
-    font-size: 2.2rem;
-    padding: 0 1.25rem 0.4rem 0;
     border-bottom: 1px solid var(--accent);
   }
-  .hero-tabs {
-    flex: 1 1 auto;
-    min-width: 0;
-    margin-top: 0;
+  .hero-title {
+    justify-self: start;
+    white-space: nowrap;
+    font-size: 2.2rem;
+    padding: 0 1.25rem 0.4rem 0;
+  }
+  /* Sized by their own tabs: PageTabs is a size container (it tightens in a narrow column), and a
+     container has no content width for the `auto` track to take — it collapsed to nothing. Here
+     the row always has the room, so the containment goes. */
+  .hero .hero-tabs {
+    container-type: normal;
+    margin: 0 0 -1px;
   }
 }
 
