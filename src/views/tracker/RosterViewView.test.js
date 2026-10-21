@@ -500,6 +500,29 @@ describe('RosterViewView', () => {
       expect(replace).not.toHaveBeenCalled()
     })
 
+    // Core Rules 19.04 / 19.04.01 ("Only In Death Does Duty End"): what a part of an Attached unit
+    // confers on the rest lasts until that part's last model is destroyed — and comes back once it
+    // is revived. The Ancient's Honour of the Company (+1 OC) on the squad it joined goes with him;
+    // the attachment itself stands.
+    it('stops a destroyed part conferring its rules on the rest of the attached unit', async () => {
+      const t = await startGame({
+        id: 'r-anc', name: 'Banner', faction: 'space-marines', detachments: [], battleSize: 'strike-force',
+        units: [{ uid: 'u1', id: 'intercessor-squad', size: 0 }, { uid: 'u2', id: 'ancient', size: 0, leaderOf: 'u1' }],
+      })
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Intercessor Squad')
+      const squadMods = () => w.findAll('.rvunit').find((r) => r.text().includes('Intercessor Squad'))?.findAll('.rvst-mod').length || 0
+      await waitForSelector(w, '.rvst-mod')
+      expect(squadMods()).toBeGreaterThan(0)
+      t.setUnitStatus(0, 'u2', 'destroyed', 'Ancient')
+      await flushPromises()
+      expect(squadMods()).toBe(0)
+      t.setUnitStatus(0, 'u2', 'table', 'Ancient') // revived: it applies again
+      await flushPromises()
+      expect(squadMods()).toBeGreaterThan(0)
+    })
+
     it('still renders after the saved roster it came from is deleted', async () => {
       const t = await startGame(fielded)
       const { useRosters: rostersOf } = await import('../../composables/useRosters.js')

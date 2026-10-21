@@ -1072,7 +1072,8 @@ const viewingCard = computed(() => (viewingCrew.value
         items: rosterItems.items,
         detachments: curDetachments.value,
         leaderTargets: viewingLeaderTargets.value,
-        units: roster.value.units,
+        // What reaches this unit from the rest of its Attached unit — the parts still standing.
+        units: sourceUnits.value,
       },
       gameCtx: viewingGameCtx.value,
     }
@@ -1163,10 +1164,23 @@ function resolvedFor(entry) {
   ]
 }
 
+// The entries whose rules still reach the rest of their Attached unit. Core Rules 19.04 (and
+// 19.04.01, "Only In Death Does Duty End"): an ability, enhancement or keyword a Leader, Support or
+// Bodyguard unit confers on the attached unit applies until that part's last model is destroyed,
+// and again once it is revived. So in a game a part marked destroyed stops being a SOURCE — its
+// abilities, its enhancement, its keywords (19.03: "while that model is part of that unit"). The
+// attachment itself stands (19.01, a single unit): who leads whom is still read from the whole
+// list (activeFor), so a Leader whose Bodyguard fell keeps its own "while leading" abilities
+// (19.04's footnote). Off the table nothing has fallen.
+const sourceUnits = computed(() => {
+  const units = roster.value?.units || []
+  return inGame.value ? units.filter((u) => !fallen(u)) : units
+})
+
 // Who is attached to whom, for datasheetEntriesFor(). The game carries its own snapshot of the list,
 // so these uids are the ones the entries themselves hold.
 function attachmentCtxOf(entry) {
-  const units = roster.value?.units || []
+  const units = sourceUnits.value
   return {
     unitId: entry.id,
     leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
@@ -1237,7 +1251,7 @@ function modContextFor(entry) {
   // Every gate below judges a rule naming UNITS against the whole ATTACHED unit's keywords and one
   // naming MODELS against this card's own (Core Rules 19.03, ruleTargets' scopeHits) — which is
   // why the attachment the roster records is read here rather than the card's keywords alone.
-  const attached = attachedUnitKeywords(entry, roster.value?.units, (id) => {
+  const attached = attachedUnitKeywords(entry, sourceUnits.value, (id) => {
     return unitKeywordsOf(fullSheets.value.get(id))
   })
   const own = [...printed, ...grantedKeywordsFrom(resolved, { own: printed, unit: [...printed, ...attached] }, factionKeywordSets.value, active, chosen).map((g) => g.kw)]
@@ -1367,7 +1381,7 @@ const auraSwitchCache = computed(() => {
       entryUid: e.uid,
       rosterUnits: units,
       // An aura naming units reaches an attached unit by the keywords of any of its halves (19.03).
-      keywords: { own: unitKeywordsOf(sheet), unit: [...unitKeywordsOf(sheet), ...attachedUnitKeywords(e, roster.value?.units, (id) => unitKeywordsOf(fullSheets.value.get(id)))] },
+      keywords: { own: unitKeywordsOf(sheet), unit: [...unitKeywordsOf(sheet), ...attachedUnitKeywords(e, sourceUnits.value, (id) => unitKeywordsOf(fullSheets.value.get(id)))] },
       factionKeywordSets: factionKeywordSets.value,
       // …and only the auras whose own rule is running: an unselected relic changes nothing.
       active: activeFor(e),
