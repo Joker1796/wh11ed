@@ -1322,9 +1322,9 @@ function abilityStateLabel(st) {
   background: color-mix(in srgb, var(--ds-th-bg, var(--accent)) 10%, var(--bg-card));
   border-bottom: 1px solid var(--border);
 }
-/* The navbar logo's grid (AppNavbar's .navbar-inner::before), at both ends of the band and fading
-   towards its middle (owner, 2026-10-21) — texture where the band is empty, nothing under the
-   stats. Drawn in the text colour, so it holds in either theme. */
+/* The navbar logo's grid (AppNavbar's .navbar-inner::before), in the band's top left and bottom
+   right corners and fading out from each (owner, 2026-10-21). Drawn in the text colour, so it
+   holds in either theme. */
 .ds-cardhead::before {
   content: '';
   position: absolute;
@@ -1337,8 +1337,12 @@ function abilityStateLabel(st) {
     linear-gradient(90deg, var(--ds-grid-line) 1px, transparent 1px);
   background-size: 14px 14px;
   background-position: -1px -1px;
-  -webkit-mask-image: linear-gradient(to right, #000 0, transparent 9rem, transparent calc(100% - 9rem), #000 100%);
-  mask-image: linear-gradient(to right, #000 0, transparent 9rem, transparent calc(100% - 9rem), #000 100%);
+  -webkit-mask-image:
+    radial-gradient(14rem 8rem at 0 0, #000, transparent),
+    radial-gradient(14rem 8rem at 100% 100%, #000, transparent);
+  mask-image:
+    radial-gradient(14rem 8rem at 0 0, #000, transparent),
+    radial-gradient(14rem 8rem at 100% 100%, #000, transparent);
 }
 .ds-cardhead .ds-stat-box::before { background: var(--bg-card); }
 .ds-cardhead .ds-statline:last-child { margin-bottom: 0; }
