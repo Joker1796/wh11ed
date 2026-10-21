@@ -272,8 +272,22 @@ export default {
       },
       "hash": "07936a71",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while a CHARACTER model is leading this unit",
+            "ru": "пока отряд возглавляет модель CHARACTER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "ee9ce49a-c67c-4233-a708-dd5510d8d6f8:hastarii-exterminators",
@@ -500,7 +514,7 @@ export default {
       },
       "hash": "0e9970ab",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1017,6 +1031,20 @@ export default {
           "cond": [
             "imperative-protector"
           ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": {
+            "en": "under the Protector Imperative, if the unit is Battleline or within 6\" of a friendly Battleline unit",
+            "ru": "при Protector Imperative, если отряд Battleline или в пределах 6\" от дружественного отряда Battleline"
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -1420,7 +1448,7 @@ export default {
       },
       "hash": "02e7d351",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1463,7 +1491,15 @@ export default {
       "hash": "6c85884b",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "set",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "728a30a4-6408-4ab1-b1f2-54e7da8cacee",
@@ -2198,7 +2234,7 @@ export default {
       },
       "hash": "75307761",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -2310,7 +2346,16 @@ export default {
       "hash": "9e50d86d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "189fe04e-bb44-4051-85d7-e52e0274f49a",
@@ -2325,7 +2370,16 @@ export default {
       "hash": "c3a9bf63",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "5988385b-4997-4228-9e6d-4f4b85d270a8",
@@ -2369,8 +2423,17 @@ export default {
       },
       "hash": "7ffbc77a",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "5ca929e2-f7b2-467f-bde5-0bbc37bbea76",

@@ -109,7 +109,7 @@ export default {
       },
       "hash": "954b014f",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -952,7 +952,15 @@ export default {
       "hash": "31b6e128",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ee328098-14cc-48ec-aaa0-0bc012746e78",
@@ -1170,7 +1178,7 @@ export default {
       },
       "hash": "e53db515",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1329,7 +1337,16 @@ export default {
       "hash": "6d37add7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "0e2f8b70-b049-4a99-8e6b-3f08fc3720b4",
@@ -1455,7 +1472,17 @@ export default {
       "hash": "c853ac61",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "b2c1204e-dc4a-4745-bf1e-76cffa675e99",
@@ -1497,7 +1524,17 @@ export default {
       "hash": "f5133a4b",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "4713f814-b1e9-4d19-bad3-f6cac53d2c6e",
@@ -1579,8 +1616,17 @@ export default {
       },
       "hash": "6d559221",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "885813ba-ec4e-4279-bd3b-b0ea000890cb",

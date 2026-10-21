@@ -191,7 +191,7 @@ export default {
       },
       "hash": "1d59273b",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -850,7 +850,15 @@ export default {
       "hash": "1a35e87a",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "houndpack-lance"
@@ -1224,7 +1232,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "c8c71438-0798-4694-b2a5-965560e8c887",
@@ -1302,7 +1319,17 @@ export default {
       "hash": "a5d921e6",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "39493fcc-0ea8-44a4-92e8-0758641e3074",
@@ -1359,7 +1386,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "0e0a9e37-fc6d-4ac8-8e17-9d44dc5ed741",
@@ -1401,7 +1437,16 @@ export default {
       "hash": "6d37add7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "fdd0d950-98d1-4116-829b-4be30e80c3ac",
@@ -1480,6 +1525,14 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
           "when": null
         }
       ],
