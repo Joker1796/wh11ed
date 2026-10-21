@@ -93,7 +93,6 @@ const ALLOWED = [
   { check: 'target', sig: 'a.chapter-toc-link', why: 'dense TOC — density over 24px' },
   // The pin and the star stack in a datasheet chip's corner; at 24px each the stack outgrows a
   // one-line chip and every short name would cost the grid another ~5px a row. Kept at 22px.
-  { check: 'target', sig: /^button\.ds-fav/, why: 'stacked chip marks — chip height over 24px' },
 ]
 
 const args = Object.fromEntries(

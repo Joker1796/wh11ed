@@ -56,21 +56,10 @@
             :detachments="detachments"
             :chapters="chapters"
           />
-          <!-- What the two corner marks on every chip mean. Both are toggles with nothing but an
-             icon on them, and a tooltip is no answer on a phone — so the key is said once, here,
-             instead of on 90 chips. -->
+          <!-- The Legends switch. Legends sheets are listed with everything else and marked, not
+             hidden — a rule GW still publishes is a rule somebody is reading. The switch is for the
+             player building a matched-play list, and only appears for the factions that have any. -->
           <div class="ds-tools">
-            <p
-              v-if="!wide"
-              class="ds-legend"
-            >
-              <span><i class="wi wi-pin-on" /> {{ labels.favPinnedGroup }}</span>
-              <span><i class="wi wi-own" /> {{ labels.rosterFilterOwned }}</span>
-            </p>
-            <!-- Legends sheets are listed with everything else and marked, not hidden — a rule GW
-               still publishes is a rule somebody is reading. The switch is for the player building
-               a matched-play list, and only appears for the factions that have any. It shares the
-               key's row — width before height — and wraps under it on a phone. -->
             <label
               v-if="hasLegends"
               class="check ds-legends-filter"
@@ -109,43 +98,6 @@
                   :class="{ picked: shown.includes(s.id) }"
                   :aria-current="shown.includes(s.id) ? 'true' : undefined"
                 >
-                  <!-- A phone's chip carries the two marks in its corner; a wide screen's row carries a
-                       "…" instead (owner, 2026-10-21) — the chip's context menu, whose rows say both
-                       marks' state. -->
-                  <span
-                    v-if="!wide"
-                    class="ds-marks"
-                  >
-                    <button
-                      data-press="pop"
-                      type="button"
-                      class="ds-fav"
-                      :class="{ on: isUnitFavorite(slug, s.id) }"
-                      data-press-sound="toggle"
-                      :title="isUnitFavorite(slug, s.id) ? labels.dsUnpinUnit : labels.dsPinUnit"
-                      :aria-label="isUnitFavorite(slug, s.id) ? labels.dsUnpinUnit : labels.dsPinUnit"
-                      :aria-pressed="isUnitFavorite(slug, s.id)"
-                      @click.stop.prevent="toggleUnitFavorite(slug, s.id)"
-                    >
-                      <i :class="isUnitFavorite(slug, s.id) ? 'wi wi-pin-on' : 'wi wi-pin-off'" />
-                    </button>
-                    <!-- "I own this one" — the same mark the roster catalogue shows and filters by.
-                     This grid is where a collection actually gets entered: the datasheet page
-                     carries the same button, but one unit per visit is no way to fill a shelf. -->
-                    <button
-                      data-press="pop"
-                      type="button"
-                      class="ds-fav ds-own"
-                      :class="{ on: isOwned(slug, s.id) }"
-                      data-press-sound="toggle"
-                      :title="isOwned(slug, s.id) ? labels.dsOwnRemove : labels.dsOwnAdd"
-                      :aria-label="isOwned(slug, s.id) ? labels.dsOwnRemove : labels.dsOwnAdd"
-                      :aria-pressed="isOwned(slug, s.id)"
-                      @click.stop.prevent="toggleOwned(slug, s.id, s.name)"
-                    >
-                      <i :class="isOwned(slug, s.id) ? 'wi wi-own-on' : 'wi wi-own'" />
-                    </button>
-                  </span>
                   <span class="ds-chip-name">{{ s.name }}</span>
                   <span
                     v-if="chapters.length && !chapter && chapterOf(s)"
@@ -156,12 +108,20 @@
                     class="legends-badge"
                     :title="labels.dsLegendsNote"
                   >{{ labels.dsLegends }}</span>
+                  <!-- The collection shown, as the roster catalogue shows it; set from the "…". -->
+                  <span
+                    v-if="isOwned(slug, s.id)"
+                    class="legends-badge owned-badge"
+                    :title="labels.rosterFilterOwned"
+                    :aria-label="labels.rosterFilterOwned"
+                  ><i class="wi wi-own-on" /></span>
                   <span
                     v-if="s.points"
                     class="ds-chip-pts"
                   >{{ ptsSummary(s.points) }}</span>
+                  <!-- The chip's own actions (pin, collection, a new tab…): its context menu, hung
+                       from the button (owner, 2026-10-21 — the two marks it replaced). -->
                   <button
-                    v-if="wide"
                     type="button"
                     class="ds-more"
                     :title="labels.rosterMoreActions"
@@ -724,19 +684,16 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  /* The name on its own line; under it the price at the left (the Legends and collection badges
+     beside it) and a Space Marines unit's Chapter at the right — on the price's line where it fits,
+     on a line of its own, still at the right, where it does not (owner, 2026-10-21). */
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.05rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.05rem 0.45rem;
   text-align: left;
-  padding: 0.35rem 1.9rem 0.35rem 0.55rem;
-  /* The two marks stack in the corner, so they cost the name ONE icon of width instead of two —
-     at this grid's 180px a second column of buttons was breaking names onto a third line. The
-     min-height is what the stack needs: the buttons are absolute and would otherwise hang out of
-     a short chip (a one-line name and its points). Two marks at 1.35rem + their 0.3rem off each
-     edge — 3.3rem (owner, 2026-10-13: flush to the edges they stuck to the frame; 0.3rem, not more,
-     because a one-line chip's own 50px grows to this). */
-  min-height: 3.3rem;
+  /* The top right corner is the "…"'s, so a name never runs under it. */
+  padding: 0.35rem 2.1rem 0.35rem 0.55rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   cursor: pointer;
@@ -744,44 +701,29 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   transition: background var(--motion-fast), border-color var(--motion-fast);
 }
 
-/* Both marks sit on the chip's right edge, the pin (favourite) at its top and the star (owned) at its
-   bottom (owner, 2026-10-13): stacked together they read as one control on a tall chip. They are
-   inside the RouterLink, so their handlers stop propagation / prevent navigation. */
-.ds-marks { position: absolute; top: 0.3rem; bottom: 0.3rem; right: 0.2rem; display: flex; flex-direction: column; justify-content: space-between; }
-
-.ds-fav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* 1.5×1.35rem, glyph 1rem: as big as the stack can be without outgrowing a one-line chip.
-     Short of the 24px tap target still — listed in `npm run a11y`'s ALLOWED. */
-  width: 1.5rem;
-  height: 1.35rem;
+/* The chip's "…" in its top right corner, where the two marks stood until 2026-10-21. A row on a
+   wide screen puts it on the name's line instead (below). */
+.ds-more {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.15rem;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
   padding: 0;
+  border: 0;
   background: none;
-  border: none;
   color: var(--text-muted);
-  font-size: 1rem;
-  line-height: 1;
   cursor: pointer;
-  opacity: 0.5;
-  transition: color var(--motion-fast), opacity var(--motion-fast), background var(--motion-fast);
 }
-
-.ds-fav:hover {
-  opacity: 1;
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+@media (hover: hover) {
+  .ds-more:hover { color: var(--text-primary); background: color-mix(in srgb, var(--accent) 12%, transparent); }
 }
-
-.ds-fav.on {
-  opacity: 1;
-}
-
-/* Owned takes the faction's own accent — the colour this page is already themed in (FactionLayout
-   folds `--fa-light`/`--fa-dark` into `--accent`), so a marked shelf reads as part of the army
-   rather than as a foreign gold. The pin keeps its quiet outline→filled swap: two marks in one
-   corner, only one of them coloured. */
-.ds-own.on { color: var(--accent-ink); }
+.ds-chip-name { flex: 1 1 100%; min-width: 0; }
+.ds-chip-pts { order: 2; }
+.ds-chip > .legends-badge { order: 3; }
+.ds-chip-chapter { order: 4; margin-left: auto; margin-right: -1.75rem; } /* into the "…"'s gutter: the "…" holds only the top corner */
 
 .ds-chip:hover { text-decoration: none; }
 
@@ -821,7 +763,7 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   white-space: nowrap;
 }
 
-/* The chips' key and the Legends switch on one row (the switch wraps under on a phone). */
+/* The Legends switch's row. */
 .ds-tools {
   display: flex;
   flex-wrap: wrap;
@@ -830,17 +772,6 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   gap: 0.5rem 1rem;
   margin: 0.5rem 0 0;
 }
-
-/* The chips' key. Dim and small — it is read once and then ignored. */
-.ds-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.2rem 1rem;
-  margin: 0;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-.ds-legend i { margin-right: 0.3rem; }
 
 .ds-empty {
   color: var(--text-muted);
@@ -953,41 +884,20 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   .ds-list .ds-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
   /* A row: the name and what is said about it on one line, the two marks side by side at the
      right. The rows touch, sharing one edge (components/CLAUDE.md, Borders that touch). */
-  /* A row of two lines (owner, 2026-10-21): the name and its "…" on the first; the price in the
-     bottom left corner (a Legends badge beside it) and a Space Marines unit's Chapter in the bottom
-     right. The name's basis leaves the "…" exactly its room on line one, so what follows wraps.
-     The rows touch, sharing one edge (components/CLAUDE.md, Borders that touch). */
+  /* A row: the chip's own two lines, the "…" moved onto the name's line — the name's basis leaves
+     it exactly its room, so what follows wraps. The rows touch, sharing one edge
+     (components/CLAUDE.md, Borders that touch). */
   .ds-list .ds-chip {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    column-gap: 0.45rem;
-    row-gap: 0;
     min-height: 0;
     padding: 0.3rem 0.3rem 0.3rem 0.55rem;
   }
   .ds-list .ds-chip + .ds-chip { margin-top: -1px; }
   .ds-list .ds-chip:hover,
   .ds-list .ds-chip.picked { position: relative; z-index: 1; }
-  .ds-list .ds-chip-name { flex: 1 1 calc(100% - 2.2rem); min-width: 0; font-size: 1rem; }
+  .ds-list .ds-chip-name { flex-basis: calc(100% - 2.2rem); font-size: 1rem; }
   .ds-list .ds-more { order: 1; }
-  .ds-list .ds-chip-pts { order: 2; }
-  .ds-list .legends-badge { order: 3; }
-  .ds-list .ds-chip-chapter { order: 4; margin-left: auto; padding-right: 0.25rem; }
-  .ds-more {
-    display: grid;
-    place-items: center;
-    width: 1.75rem;
-    height: 1.6rem;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: var(--text-muted);
-    cursor: pointer;
-  }
-  @media (hover: hover) {
-    .ds-more:hover { color: var(--text-primary); background: color-mix(in srgb, var(--accent) 12%, transparent); }
-  }
+  .ds-list .ds-chip-chapter { margin-right: 0; padding-right: 0.25rem; }
+  .ds-list .ds-more { position: static; height: 1.6rem; }
   .ds-chip.picked {
     background: color-mix(in srgb, var(--accent) 12%, var(--bg-card));
     border-color: var(--accent);

@@ -84,10 +84,12 @@ place (2026-10-04/05, journal *Юнит в модалке и сравнение*
   `-webkit-touch-callout: none`) and stops the click of the lift at the document: on a phone the
   menu's sheet rises under the finger and that click pressed its first row. The menu is the
   ordinary `ActionMenu`, opened at a point (`anchor`, through AdaptivePicker → PickerDropdown).
-- **A desktop row carries "…" instead of the pin and collection marks** (owner, 2026-10-21): the
-  same menu hung from the button, whose rows say both marks' state; the marks' key above the list
-  goes with them. A row is two lines: the name and "…", then the price in the bottom left corner
-  (Legends beside it) and a Space Marines unit's Chapter in the bottom right. The phone's chips keep both marks.
+- **A chip carries "…" instead of the pin and collection marks** (owner, 2026-10-21), at every
+  width: the same menu hung from the button, whose rows say both marks' state; the marks' key
+  above the list went with them, and an owned unit shows the catalogue's `.owned-badge`. Under the
+  name, the price at the left (Legends and owned beside it) and a Space Marines unit's Chapter at
+  the right — wrapping to a line of its own only when it does not fit. On a phone the "…" holds the
+  chip's top right corner; on a desktop row it stands at the end of the name's line.
 
 ## See also
 
