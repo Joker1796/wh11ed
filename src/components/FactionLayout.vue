@@ -313,6 +313,25 @@ function backToUnits() {
 
 @media (min-width: 901px) {
   .faction-fabs { display: flex; }
+  /* A wide screen puts the name and the tabs on one row (owner, 2026-10-21): stacked, the hero
+     took ~200px over every faction page, and the units tab — whose columns fill the window —
+     paid for it in list rows. The name stands on the tabs' accent line, which runs under both. */
+  .hero {
+    display: flex;
+    align-items: flex-end;
+    padding-top: 0.6rem;
+  }
+  .hero-title {
+    flex: none;
+    font-size: 2.2rem;
+    padding: 0 1.25rem 0.4rem 0;
+    border-bottom: 1px solid var(--accent);
+  }
+  .hero-tabs {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-top: 0;
+  }
 }
 
 @media (max-width: 640px) {

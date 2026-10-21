@@ -51,6 +51,7 @@
           <FactionPickerBar
             v-if="chapters.length"
             class="ds-picker-bar"
+            :inline="wide"
             :slug="slug"
             :detachments="detachments"
             :chapters="chapters"
@@ -899,7 +900,7 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
     grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
     grid-template-rows: auto auto auto minmax(0, 1fr);
     grid-template-areas:
-      "bar    bar"
+      "bar    side"
       "search side"
       "tools  side"
       "list   side";
