@@ -64,6 +64,8 @@ export const TEST_GAMES = [
     track: PRESET('base'), sides: [[null, 'leaders'], [null, 'havocs']], upTo: [2, 0, 'movement'] },
   { key: 'preset-maximal', title: 'Пресет «Максимальный»',
     track: PRESET('maximal'), sides: [[null, 'leaders'], [null, 'havocs']], upTo: [2, 0, 'movement'] },
+  { key: 'chips', title: 'Больше всего чипов: Drukhari в Shooting phase соперника',
+    track: ALL_ON, sides: [[null, 'chips'], ['space-marines']], upTo: [2, 1, 'shooting'] },
 ]
 
 const rosterCache = new Map()
