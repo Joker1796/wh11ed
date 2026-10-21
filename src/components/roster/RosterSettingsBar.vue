@@ -181,6 +181,46 @@
       </div>
     </ExpandTransition>
 
+    <!-- The list's Chapter (Space Marines): stated when a Chapter's detachment or Epic Hero settles
+         it, a dropdown otherwise — the same field as the phone's tile (RosterSetupFields). -->
+    <ExpandTransition>
+      <div
+        v-if="factionSlug && chapters.length"
+        class="rw-field"
+      >
+        <span>{{ labels.dsChapterFilter }}</span>
+        <span
+          v-if="chapterProof"
+          class="rw-static"
+          :title="labels.rosterChapterFrom.replace('{name}', chapterProof.from)"
+        >{{ chapterProof.chapter }}</span>
+        <PickerDropdown
+          v-else
+          v-model:open="chapterPickerOpen"
+          width="14rem"
+          align="right"
+          :label="labels.dsChapterFilter"
+        >
+          <template #trigger="{ toggle, open }">
+            <button
+              class="rw-choose rw-ch"
+              :aria-expanded="open"
+              aria-haspopup="dialog"
+              @click="toggle"
+            >
+              <span :class="{ placeholder: !chapter }">{{ chapter || labels.rosterChapterNone }}</span>
+              <i class="wi wi-chevron-down" />
+            </button>
+          </template>
+          <RosterChapterList
+            :chapters="chapters"
+            :chapter="chapter"
+            @pick="(c) => { chapterPickerOpen = false; $emit('update:chapter', c) }"
+          />
+        </PickerDropdown>
+      </div>
+    </ExpandTransition>
+
     <!-- The notes and the legality switch are decided once and then left alone; giving each a
          permanent slot would spend the line on the two things nobody looks at twice. The points
          and the way out are not on this line: they are the fixed bar's at the bottom, where they
@@ -255,6 +295,7 @@ import PickerDropdown from '../PickerDropdown.vue'
 import ExpandTransition from '../ExpandTransition.vue'
 import FactionPickerList from '../tracker/FactionPickerList.vue'
 import DetachmentPicker from '../tracker/DetachmentPicker.vue'
+import RosterChapterList from './RosterChapterList.vue'
 import { toneVars } from '../../utils/tone.js'
 import { dispositionColor } from '../../data/dispositionColors.js'
 import { ui } from '../../i18n/ui.js'
@@ -280,12 +321,16 @@ defineProps({
   limit: { type: Object, required: true },
   disposition: { type: String, default: '' },
   dispositionCands: { type: Array, default: () => [] },
+  // The faction's Chapters, the list's Chapter and what settles it (RosterSetupFields' same props).
+  chapters: { type: Array, default: () => [] },
+  chapter: { type: String, default: '' },
+  chapterProof: { type: Object, default: null },
   checkLegality: { type: Boolean, default: true },
   archived: { type: Boolean, default: false },
   notes: { type: String, default: '' },
 })
 defineEmits([
-  'update:name', 'update:limit', 'update:disposition',
+  'update:name', 'update:limit', 'update:disposition', 'update:chapter',
   'update:checkLegality', 'update:notes',
   'pick-faction', 'toggle-detachment', 'clear-detachments',
 ])
@@ -297,6 +342,7 @@ const { showPointsLeft } = useRosterPrefs()
 const factionPickerOpen = ref(false)
 const detachmentPickerOpen = ref(false)
 const dispositionPickerOpen = ref(false)
+const chapterPickerOpen = ref(false)
 const moreOpen = ref(false)
 </script>
 
@@ -376,6 +422,7 @@ const moreOpen = ref(false)
 /* The declared Force Disposition: the chip in its colour, on the field and in the list — the colour
    is how a disposition is told apart everywhere else (dispositionColors.js). */
 .rw-fd .rw-choose { min-width: 11rem; }
+.rw-ch { min-width: 9rem; }
 .rw-fd-list { gap: 0.25rem; }
 .rw-fd-opt {
   display: flex;

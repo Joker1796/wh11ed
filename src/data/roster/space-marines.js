@@ -31,6 +31,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Salamanders",
       "leads": [
         {
           "to": "sternguard-veteran-squad",
@@ -108,6 +109,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Raven Guard",
       "has": [
         "Deep Strike"
       ],
@@ -1305,6 +1307,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Iron Hands",
       "has": [
         "Deep Strike"
       ],
@@ -1894,6 +1897,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Ultramarines",
       "leads": [
         {
           "to": "assault-intercessor-squad",
@@ -2105,6 +2109,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Ultramarines",
       "leads": [
         {
           "to": "victrix-honour-guard",
@@ -2888,6 +2893,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Ultramarines",
       "leads": [
         {
           "to": "desolation-squad",
@@ -3093,6 +3099,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Imperial Fists",
       "has": [
         "Deep Strike"
       ],
@@ -5199,6 +5206,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Iron Hands",
       "leads": [
         {
           "to": "heavy-intercessor-squad",
@@ -5357,6 +5365,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Ultramarines",
       "leads": [
         {
           "to": "bladeguard-veteran-squad",
@@ -5422,6 +5431,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Raven Guard",
       "has": [
         "Deep Strike"
       ],
@@ -5479,6 +5489,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "White Scars",
       "leads": [
         {
           "to": "company-heroes",
@@ -6685,6 +6696,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Ultramarines",
       "has": [
         "Deep Strike"
       ],
@@ -7955,6 +7967,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Ultramarines",
       "defaults": [
         [
           0,
@@ -9031,6 +9044,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "White Scars",
       "leads": [
         {
           "to": "outrider-squad",
@@ -9733,6 +9747,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Imperial Fists",
       "leads": [
         {
           "to": "aggressor-squad",
@@ -10522,6 +10537,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Ultramarines",
       "step": {
         "at": 3,
         "pts": 30
@@ -10678,6 +10694,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Salamanders",
       "leads": [
         {
           "to": "eradicator-squad-with-melta-rifles",
@@ -10776,6 +10793,7 @@ export default {
         }
       ],
       "linked": 1,
+      "ch": "Ultramarines",
       "leads": [
         {
           "to": "assault-intercessor-squad",

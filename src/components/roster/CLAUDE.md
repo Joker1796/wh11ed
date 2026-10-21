@@ -804,6 +804,25 @@ moment the modal closed.
   ONE. A list of candidates is not a declaration, and a name none of the matched detachments offers
   is ignored by `dispositionOf` rather than shown.
 
+## The Chapter of a Space Marines list (`roster.chapter`, 2026-10-21)
+
+No rule of the list reads it; the export does. The Russian tournament's (and WTC's) faction line
+names a Codex Chapter after the keyword — "Imperium - Adeptus Astartes - Salamanders", Ordo
+Eventus's sample — and until this the list had no way to know which one it was.
+
+- **The Chapters are the ones the faction's detachments are locked to** (`rosterChapters`): six,
+  for Space Marines only. A Chapter with a book of its own is a faction here and needs none of this.
+- **The list says it where it can** (`chapterProof`): a Chapter's detachment (`chapter`), or one of
+  its Epic Heroes — `ch` on the unit, written by `gen-roster-data.mjs` from the datasheet's faction
+  keyword whose parent is ADEPTUS ASTARTES (18 units). Then the field states it with what settled it
+  and is not a choice.
+- **Otherwise the player declares it** — a picker (`RosterChapterList`, "not stated" first) on the
+  phone's tile and the desk's line, in the editor only. `chapterOf` is the one reader: the named
+  Chapter, else the declaration — kept only while nothing in the list names a different one, the
+  disposition's self-healing.
+- It travels in share links and game snapshots (`rosterShare`'s PICK), prints among the sheet's
+  facts, and the importer reads it back from the faction line (`codexChapterNamed`).
+
 ## Shared derivations (`src/composables/useRosterDerived.js`)
 
 Everything four screens read OFF a roster once its faction data is in: `unitMap`/`defOf`,

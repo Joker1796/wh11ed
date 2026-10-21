@@ -128,6 +128,55 @@
         </div>
       </ExpandTransition>
 
+      <!-- Which of Codex: Space Marines' Chapters the list is — for the faction line of an export
+           (rosterEngine's chapterOf). A Chapter's detachment or Epic Hero in the list settles it and
+           it is stated, with what settled it; otherwise the player declares it, or leaves it. -->
+      <ExpandTransition>
+        <div
+          v-if="chapters.length"
+          class="choice"
+          :class="{ pick: !chapterProof }"
+        >
+          <span class="ch-label">{{ labels.dsChapterFilter }}</span>
+          <span
+            v-if="chapterProof"
+            class="ch-value"
+          >{{ chapterProof.chapter }} <em class="ch-note">{{ labels.rosterChapterFrom.replace('{name}', chapterProof.from) }}</em></span>
+          <template v-else>
+            <AdaptivePicker
+              v-model:open="chapterPickerOpen"
+              class="ch-picker"
+              panel-width="14rem"
+              :title="labels.dsChapterFilter"
+            >
+              <template #trigger="{ toggle, open }">
+                <button
+                  type="button"
+                  class="ch-pick"
+                  :aria-expanded="open"
+                  aria-haspopup="dialog"
+                  @click="toggle"
+                >
+                  <span
+                    class="ch-value"
+                    :class="{ placeholder: !chapter }"
+                  >{{ chapter || labels.rosterChapterNone }}</span>
+                </button>
+              </template>
+              <template #default="{ bodyClass, close }">
+                <RosterChapterList
+                  :class="bodyClass"
+                  :chapters="chapters"
+                  :chapter="chapter"
+                  @pick="(c) => { close(); $emit('update:chapter', c) }"
+                />
+              </template>
+            </AdaptivePicker>
+            <i class="wi wi-chevron-down" />
+          </template>
+        </div>
+      </ExpandTransition>
+
       <!-- The player's plan for this list, in their own words: read at the table (the view screen
            shows it above its tabs, in a game as well as out of one), never read by a rule. Where the
            list is edited, not where it is started. -->
@@ -192,6 +241,8 @@
 import { computed, ref } from 'vue'
 import ExpandTransition from '../ExpandTransition.vue'
 import DetachmentPicker from '../tracker/DetachmentPicker.vue'
+import AdaptivePicker from '../AdaptivePicker.vue'
+import RosterChapterList from './RosterChapterList.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
@@ -218,13 +269,18 @@ defineProps({
   dpLimit: { type: Number, default: 0 },
   dispositionCands: { type: Array, default: () => [] },
   disposition: { type: String, default: '' },
+  // The faction's Chapters (rosterChapters), the list's Chapter (chapterOf) and what in the list
+  // settles it, if anything does (chapterProof).
+  chapters: { type: Array, default: () => [] },
+  chapter: { type: String, default: '' },
+  chapterProof: { type: Object, default: null },
   showNotes: { type: Boolean, default: false },
   notes: { type: String, default: '' },
   checkLegality: { type: Boolean, default: true },
   archived: { type: Boolean, default: false },
 })
 defineEmits([
-  'update:name', 'update:limit', 'update:disposition',
+  'update:name', 'update:limit', 'update:disposition', 'update:chapter',
   'update:notes', 'update:checkLegality', 'pick-faction', 'toggle-detachment', 'clear-detachments',
 ])
 
@@ -233,6 +289,7 @@ const labels = computed(() => ui[locale.value])
 // A reader's own preference, kept on the device rather than in the list.
 const { showPointsLeft } = useRosterPrefs()
 const detachmentPickerOpen = ref(false)
+const chapterPickerOpen = ref(false)
 </script>
 
 <style scoped>
@@ -298,6 +355,7 @@ const detachmentPickerOpen = ref(false)
    of two detachment names wraps, and the wrapped lines sat centred under a left-aligned label. */
 .ch-value { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); padding-right: 0.9rem; text-align: left; }
 .ch-value.placeholder { color: var(--text-muted); font-weight: 500; }
+.ch-note { font-style: normal; font-weight: 400; font-size: 0.78rem; color: var(--text-muted); }
 
 .dp-count {
   font-style: normal;

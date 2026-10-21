@@ -14,6 +14,7 @@ const KEYWORD_GRANTS = conditionalKeywords
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
 /** @typedef {import('./roster.types.js').Detachment} Detachment */
+/** @typedef {import('./roster.types.js').RosterFaction} RosterFaction */
 /** @typedef {import('./roster.types.js').Enhancement} Enhancement */
 /** @typedef {import('./roster.types.js').GearOption} GearOption */
 /** @typedef {import('./roster.types.js').GearCond} GearCond */
@@ -1098,6 +1099,69 @@ export function dispositionOf(roster, detachments) {
   if (cands.length === 1) return cands[0]
   const declared = roster?.disposition
   return declared && cands.includes(declared) ? declared : null
+}
+
+// ── Chapter: which of Codex: Space Marines' Chapters the list is ──────────────────────────────
+// No rule of the list depends on it; the Russian tournament's FACTION KEYWORD line names it
+// ("Imperium - Adeptus Astartes - Salamanders", Ordo Eventus's sample). The Chapters are the ones
+// the faction's detachments are locked to. The list states its Chapter itself where it can — a
+// Chapter's detachment (`chapter`) or Epic Hero (`ch`, gen-roster-data.mjs) — and the player
+// declares it where it cannot (`roster.chapter`). Self-healing like the disposition: a declaration
+// stands only while nothing in the list names another Chapter.
+/** @param {RosterFaction | null | undefined} faction @returns {string[]} */
+export function rosterChapters(faction) {
+  return [...new Set((faction?.detachments || []).flatMap((d) => (d.chapter ? [d.chapter] : [])))].sort()
+}
+
+// The Chapters something in the list names, each with the first detachment or unit naming it.
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {RosterFaction | null | undefined} faction
+ * @returns {Map<string, string>}
+ */
+function namedChapters(roster, faction) {
+  const chapters = rosterChapters(faction)
+  /** @type {Map<string, string>} */
+  const named = new Map()
+  if (!chapters.length) return named
+  for (const d of rosterDetachments(roster, faction)) {
+    if (d.chapter && !named.has(d.chapter)) named.set(d.chapter, d.name)
+  }
+  const defs = new Map((faction?.units || []).map((u) => [u.id, u]))
+  for (const e of roster?.units || []) {
+    const def = defs.get(e.id)
+    if (def?.ch && chapters.includes(def.ch) && !named.has(def.ch)) named.set(def.ch, def.name)
+  }
+  return named
+}
+
+// The list's own answer: `{ chapter, from }` when exactly one Chapter is named in it, else null.
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {RosterFaction | null | undefined} faction
+ * @returns {{ chapter: string, from: string } | null}
+ */
+export function chapterProof(roster, faction) {
+  const named = namedChapters(roster, faction)
+  if (named.size !== 1) return null
+  const [[chapter, from]] = named
+  return { chapter, from }
+}
+
+// What the list's Chapter IS: the one it names, else the declaration — one of the Chapters it
+// names when it names several, any of the faction's when it names none.
+/**
+ * @param {Partial<Roster> | null | undefined} roster
+ * @param {RosterFaction | null | undefined} faction
+ * @returns {string | null}
+ */
+export function chapterOf(roster, faction) {
+  const named = namedChapters(roster, faction)
+  if (named.size === 1) return [...named.keys()][0]
+  const declared = roster?.chapter
+  if (!declared) return null
+  if (named.size) return named.has(declared) ? declared : null
+  return rosterChapters(faction).includes(declared) ? declared : null
 }
 
 // ── Allegiance: the mark/keyword an entry chooses for itself ──────────────────────────────────

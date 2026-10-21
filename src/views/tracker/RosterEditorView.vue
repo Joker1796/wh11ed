@@ -27,12 +27,16 @@
       :limit="limitOf(roster)"
       :disposition="roster.disposition || ''"
       :disposition-cands="dispositionCands"
+      :chapters="chapters"
+      :chapter="chapter"
+      :chapter-proof="chapterSettled"
       :check-legality="roster.checkLegality !== false"
       :archived="!!roster.archived"
       :notes="roster.notes || ''"
       @update:name="rename"
       @update:limit="setLimit"
       @update:disposition="setDisposition"
+      @update:chapter="setChapter"
       @update:check-legality="setCheckLegality"
       @update:notes="setNotes"
       @pick-faction="pickFaction"
@@ -92,6 +96,9 @@
             :dp-limit="dpLimit"
             :disposition-cands="dispositionCands"
             :disposition="roster.disposition || ''"
+            :chapters="chapters"
+            :chapter="chapter"
+            :chapter-proof="chapterSettled"
             show-notes
             :notes="roster.notes || ''"
             :check-legality="roster.checkLegality !== false"
@@ -101,6 +108,7 @@
             :max-dp="effBattle.dp"
             @update:limit="setLimit"
             @update:disposition="setDisposition"
+            @update:chapter="setChapter"
             @update:notes="setNotes"
             @update:check-legality="setCheckLegality"
             @pick-faction="factionPickerOpen = true"
@@ -366,7 +374,7 @@ import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
-import { ROSTER_NOTES_MAX, legalityOn } from '../../composables/rosterEngine.js'
+import { ROSTER_NOTES_MAX, chapterOf, chapterProof, legalityOn, rosterChapters } from '../../composables/rosterEngine.js'
 import { applyLimit, limitOf } from '../../composables/rosterLimit.js'
 import { setupIssueCount } from '../../composables/rosterValidation.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
@@ -540,6 +548,15 @@ function setNotes(v) {
 function setLimit(v) { applyLimit(roster.value, v); touch() }
 function setCheckLegality(v) { roster.value.checkLegality = v; touch() }
 function setDisposition(fd) { roster.value.disposition = fd; touch() }
+// The Chapter: what the list settles itself is shown, not stored; '' takes a declaration back.
+const chapters = computed(() => rosterChapters(factionData.value))
+const chapterSettled = computed(() => chapterProof(roster.value, factionData.value))
+const chapter = computed(() => chapterOf(roster.value, factionData.value) || '')
+function setChapter(c) {
+  if (c) roster.value.chapter = c
+  else delete roster.value.chapter
+  touch()
+}
 
 // An issue that concerns one specific entry sends the reader here
 // (`?unit=<uid>`) — open that unit's accordion and drop the query so a reload doesn't reopen it.
