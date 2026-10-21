@@ -81,6 +81,20 @@ export default {
           "cond": [
             "unit-empowered"
           ]
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": {
+            "en": "while Empowered, with a Sslyth in the unit",
+            "ru": "пока отряд Empowered и в нём есть Sslyth"
+          },
+          "cond": [
+            "unit-empowered"
+          ]
         }
       ]
     },
@@ -790,7 +804,7 @@ export default {
       },
       "hash": "17c69053",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1193,8 +1207,17 @@ export default {
       },
       "hash": "9862711f",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "60c93592-228e-4a81-a0c7-46967aacfc1d",
@@ -1459,7 +1482,16 @@ export default {
       "hash": "998ac032",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "69f4dbe4-bfd4-4638-b606-a1cc08c2ac0c",
@@ -1992,7 +2024,25 @@ export default {
       "hash": "a9a76acc",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "8109853a-f449-4a5c-825f-aec1a917eeb5",
@@ -2007,7 +2057,16 @@ export default {
       "hash": "c3a9bf63",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "bd66d7c1-a2c3-4a8d-962a-7ffb17d0998e",
@@ -2065,7 +2124,16 @@ export default {
       "hash": "a1ddf25f",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ff486372-93ee-477a-8727-f32623594fdc",
@@ -2305,8 +2373,17 @@ export default {
       },
       "hash": "214dc667",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "c9ce7694-250a-49ab-a7be-eca6db661e1c",
@@ -2321,7 +2398,16 @@ export default {
       "hash": "6d37add7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "dd2be183-cb28-48a6-85b4-e6443f2e2bdb",
@@ -2378,8 +2464,17 @@ export default {
       },
       "hash": "214dc667",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "6496bede-f056-48dc-b698-04caeaa6ae7e",

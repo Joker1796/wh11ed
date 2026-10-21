@@ -608,6 +608,7 @@ describe('an effect the list could answer is not parked', () => {
     'Blightlord Terminators: Blistering Fusillade': 'against Afflicted targets — the game',
     'Coordinated Exploitation': 'while the unit is Guided and targeting its Spotted unit — the game',
     'Through Unity, Devastation': 'while the unit is Guided and targeting its Spotted unit — the game',
+    'Sergeant Harker: Harker’s Hellraisers': 'against an attacker more than 12" away — a distance',
   }
   it('names every one that stays parked', () => {
     const parked = new Set()

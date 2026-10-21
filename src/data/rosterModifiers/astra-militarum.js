@@ -55,7 +55,7 @@ export default {
       },
       "hash": "ee7e3001",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -84,7 +84,15 @@ export default {
       "hash": "6903aaca",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "48a44349-782e-4f73-b49e-92687089533b:cadian-castellan",
@@ -496,7 +504,7 @@ export default {
       },
       "hash": "e258d19a",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -597,7 +605,7 @@ export default {
       },
       "hash": "99cfdd0a",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -639,7 +647,7 @@ export default {
       },
       "hash": "a48daefc",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -683,7 +691,7 @@ export default {
       },
       "hash": "e258d19a",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -698,7 +706,22 @@ export default {
       "hash": "8ccaff62",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": {
+            "en": "while this model has the Benefit of Cover against that attack",
+            "ru": "если у модели есть Benefit of Cover против этой атаки"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "351fe1e2-238c-4149-ad34-22cf5b861d35:leman-russ-executioner",
@@ -852,7 +875,16 @@ export default {
       "hash": "2f253aea",
       "ver": 972,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:manticore-platform:fortification",
@@ -865,7 +897,7 @@ export default {
       },
       "hash": "e258d19a",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -959,7 +991,15 @@ export default {
       "hash": "e577ede9",
       "ver": 972,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
       "note": "Read as Telemon Heavy Dreadnought: Guardian Eternal (adeptus-custodes), the same text."
     },
     {
@@ -1298,7 +1338,7 @@ export default {
       },
       "hash": "e258d19a",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1312,8 +1352,38 @@ export default {
       },
       "hash": "486e0ac9",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": {
+            "en": "while this model is leading a unit, against attackers more than 12\" away",
+            "ru": "пока модель возглавляет отряд, против атакующих дальше 12\""
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": {
+            "en": "while this model is leading a unit, against attackers more than 12\" away",
+            "ru": "пока модель возглавляет отряд, против атакующих дальше 12\""
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "pack:sergeant-harker:payback-time",
@@ -1566,8 +1636,16 @@ export default {
       },
       "hash": "663cf92e",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "83038c28-eb5f-4279-9a58-aea5ec64cdc2:wyvern",
@@ -1580,7 +1658,7 @@ export default {
       },
       "hash": "7a8a87f6",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -2214,7 +2292,7 @@ export default {
       },
       "hash": "0806e260",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -2319,7 +2397,16 @@ export default {
       "hash": "9e50d86d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e49aa10b-2b42-4430-aa54-86a349613571",
@@ -2452,7 +2539,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e85f3b10-ba5a-436e-a292-251fc2f299f3",
@@ -2551,7 +2647,16 @@ export default {
       "hash": "3b9d003d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "81eb0dfa-af6b-4da6-892a-44d54185b879",
