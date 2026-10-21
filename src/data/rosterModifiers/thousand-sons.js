@@ -227,7 +227,7 @@ export default {
       },
       "hash": "27ea67a2",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -573,8 +573,22 @@ export default {
       },
       "hash": "485fec5f",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this unit contains a PSYKER model",
+            "ru": "пока в отряде есть модель PSYKER"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "f243edb4-c65b-4510-a30f-ad0b4b2d18b0:sorcerer-in-terminator-armour",
@@ -1027,6 +1041,19 @@ export default {
           "when": {
             "en": "the phase the unit made a Warpmeld Sacrifice before selecting its targets",
             "ru": "фаза, в которую отряд совершил Warpmeld Sacrifice перед выбором целей"
+          },
+          "cond": [
+            "used-warpmeld-sacrifice"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "the phase the unit made a Warpmeld Sacrifice when targeted",
+            "ru": "фаза, в которую отряд совершил Warpmeld Sacrifice, став целью"
           },
           "cond": [
             "used-warpmeld-sacrifice"
@@ -1548,7 +1575,35 @@ export default {
       "hash": "9781020c",
       "ver": 995,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ],
       "appliesWhile": [
         "unit-leading"
       ]
@@ -1608,8 +1663,17 @@ export default {
       },
       "hash": "214dc667",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "86e94729-5da6-4199-a7ee-1bbca915f068",
@@ -1811,7 +1875,17 @@ export default {
       "hash": "f5133a4b",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "14f6a805-b45f-49c9-b218-98f4e07c9e1b",
@@ -1874,7 +1948,19 @@ export default {
       "hash": "fd2abbfb",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "not on PSYKER models",
+            "ru": "кроме моделей PSYKER"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "3805f783-e42a-499d-a3f8-9a7934853d7c",
@@ -1949,7 +2035,17 @@ export default {
       "hash": "7c76e2c8",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "turn"
     },
     {
       "sid": "8299add8-e44d-432a-8551-17de6207f066",
@@ -1964,7 +2060,17 @@ export default {
       "hash": "edf16e51",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "65974fb7-162a-4917-9850-2a36ba6a793e",
@@ -2070,7 +2176,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "8976f591-43b5-458a-8ee9-5b0b5b3d3ef3",

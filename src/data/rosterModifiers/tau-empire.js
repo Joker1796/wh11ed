@@ -134,8 +134,23 @@ export default {
       },
       "hash": "49ee03c3",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:aunva:supreme-loyalty-aura",
@@ -200,8 +215,16 @@ export default {
       },
       "hash": "663cf92e",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "990335c4-d2ed-4eac-8677-3ef24c8cd375:broadside-battlesuits",
@@ -376,7 +399,37 @@ export default {
       "hash": "445cab64",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "pack:crisis-battlesuits:turbo-jets",
@@ -468,7 +521,7 @@ export default {
       },
       "hash": "e258d19a",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -819,8 +872,24 @@ export default {
       },
       "hash": "a3c57e3c",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "once per battle, for the phase it is used in",
+            "ru": "раз за битву, до конца фазы, в которой использовано"
+          },
+          "once": {
+            "per": "unit",
+            "dur": "phase"
+          }
+        }
+      ]
     },
     {
       "sid": "b523c318-8321-4e1c-a0d2-9d112b731381:razorshark-strike-fighter",
@@ -861,7 +930,7 @@ export default {
       },
       "hash": "e258d19a",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -928,7 +997,7 @@ export default {
       },
       "hash": "aa159a8f",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1024,7 +1093,7 @@ export default {
       },
       "hash": "ee7e3001",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1038,7 +1107,7 @@ export default {
       },
       "hash": "ee7e3001",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1052,7 +1121,7 @@ export default {
       },
       "hash": "ee7e3001",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -2303,7 +2372,16 @@ export default {
       "hash": "7d3ef23d",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "44f34886-982e-453b-8806-1e2e4cd315e1",
@@ -2449,8 +2527,17 @@ export default {
       },
       "hash": "da7d19c8",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:breacher-team",
@@ -2845,8 +2932,17 @@ export default {
       },
       "hash": "6774be42",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:crisis-battlesuits:marker-drone",
@@ -3391,8 +3487,17 @@ export default {
       },
       "hash": "da7d19c8",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "3491e144-63d5-48f6-906d-bc5bdfdeb9a9:strike-team",
