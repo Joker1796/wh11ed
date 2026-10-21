@@ -237,6 +237,14 @@ describe('datasheet unit search', () => {
       expect(unit.matchedBy).toBe(`${label}: Ufthak Blackhawk`)
     }
   })
+
+  it('finds the retired unit\'s own page, just above the sheet it is fielded as', async () => {
+    await preloadDatasheetIndex()
+    const res = search('ufthak', 'en')
+    const page = res.find((r) => r.route === '/factions/orks/datasheets/ufthak-blackhawk')
+    expect(page).toMatchObject({ title: 'Ufthak Blackhawk', matchedBy: 'Legendary Proxy → Warboss' })
+    expect(res.indexOf(page)).toBeLessThan(res.findIndex((r) => r.route === '/factions/orks/datasheets/warboss'))
+  })
 })
 
 describe('unit search by words', () => {

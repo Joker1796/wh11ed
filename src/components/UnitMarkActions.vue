@@ -4,12 +4,14 @@
        them, around rows of their own. Each closes the menu first (`done`); what it did that has
        nothing left on screen to show it — a copy — is said (`say`). -->
   <button
+    v-if="marks"
     class="act-btn act-ico"
     @click="act(() => toggleUnitFavorite(slug, unitId))"
   >
     <i :class="fav ? 'wi wi-pin-on' : 'wi wi-pin-off'" />{{ fav ? labels.dsUnpinUnit : labels.dsPinUnit }}
   </button>
   <button
+    v-if="marks"
     class="act-btn act-ico"
     @click="act(() => toggleOwned(slug, unitId, name))"
   >
@@ -41,6 +43,8 @@ const props = defineProps({
   slug: { type: String, required: true },
   unitId: { type: String, required: true },
   name: { type: String, required: true },
+  // The pin and collection rows — not on a retired unit's page (utils/legendaryProxies.js).
+  marks: { type: Boolean, default: true },
 })
 const emit = defineEmits(['done', 'say'])
 

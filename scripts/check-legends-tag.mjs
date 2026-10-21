@@ -53,6 +53,15 @@ for (const file of readdirSync(dir).filter((f) => f.endsWith('.js') && f !== 'in
   const { default: list } = await import(join(dir, file))
   for (const s of list || []) if (s.legends) sheets.push({ slug, id: s.id })
 }
+// …and every sheet a Legendary Proxy is fielded as: its "Proxy" badge takes the same place (under
+// Legends where it has both). A Chapter's table is the Codex's (`of`), checked under its own slug.
+const proxyTables = JSON.parse(readFileSync(join(ROOT, 'src/data/factionLegends.json'), 'utf8'))
+for (const [slug, t] of Object.entries(proxyTables)) {
+  if (t.of) continue
+  for (const id of new Set(t.proxies.map((p) => p.id).filter(Boolean))) {
+    if (!sheets.some((s) => s.slug === slug && s.id === id)) sheets.push({ slug, id })
+  }
+}
 
 // The page's shell is the window less 16px.
 const PAGE_GUTTER = 16

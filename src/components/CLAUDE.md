@@ -100,7 +100,9 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
   version. `contain: layout paint` scopes the reflow to the subtree; collapsed content leaves the
   a11y tree via delayed `visibility`. Duration is `--motion-fold` on a slow-start curve, the
   content fading in a beat behind the height (a tall body shows only its first few hundred px
-  while opening, and a fast start spent those in what read as one frame, 2026-09-28), so reduced-motion (token → 0) collapses instantly. **Its header's
+  while opening, and a fast start spent those in what read as one frame, 2026-09-28) and, closing,
+  fading over the whole fold so it leaves with the edge (it used to vanish first and leave empty
+  space to close — a stutter on a long group, 2026-10-21), so reduced-motion (token → 0) collapses instantly. **Its header's
   arrow is `ChevronIcon.vue`** (`:turned`, `from`, `to`) — one glyph rotated, not two swapped;
   every fold outside the tracker uses it, the tracker's own still swap (its redesign branch). Slot may have any number of root nodes. Used by `SubRuleBlock`, the tracker
   picker modals (`Twist/Mission/SecondaryPickerModal`), `ScoringModal` (briefing), `ScoreBreakdown`,

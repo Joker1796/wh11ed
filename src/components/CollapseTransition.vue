@@ -53,10 +53,13 @@ defineProps({
   contain: layout paint;
   /* Fade with the height so content doesn't pop in at full opacity. Collapsed content also leaves
      the a11y tree + tab order (like the old v-show's display:none): visibility flips to hidden only
-     after the collapse finishes, and back to visible immediately on open. */
+     after the collapse finishes, and back to visible immediately on open.
+     Closing, the content fades over the whole fold, riding the edge as it closes (owner,
+     2026-10-21). It used to go in --motion-fast: gone by ~110ms while the box had shrunk 15%, then
+     300ms of empty space closing — two steps, which read as a stutter on a long group. */
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--motion-fast) ease, visibility 0s linear var(--motion-fold);
+  transition: opacity var(--motion-fold) ease-in, visibility 0s linear var(--motion-fold);
 }
 .collapse.is-open .collapse-clip {
   opacity: 1;

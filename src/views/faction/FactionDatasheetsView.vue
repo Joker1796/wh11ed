@@ -59,6 +59,21 @@
             >
             <span>{{ labels.dsLegendsHide }}</span>
           </label>
+          <!-- The Legendary Proxies table, behind a button (FactionLegendsModal): under the list's
+               last group nobody found it. A search still lists the proxies it finds (FactionLegends).
+               Dressed as the "Hide Legends" box beside it (`.check`), so the pair reads as one row. -->
+          <button
+            v-if="legends?.proxies?.length"
+            type="button"
+            class="check ds-proxies-btn"
+            aria-haspopup="dialog"
+            :title="labels.dsLegendsProxies"
+            @click="proxiesOpen = true"
+          >
+            <!-- "Proxies" where the row has no room for both whole (the desktop's list column, a
+                 320px phone); the full name stays in the title and on the dialog. -->
+            <span class="ds-proxies-long">{{ labels.dsLegendsProxies }}</span><span class="ds-proxies-short">{{ labels.dsProxiesShort }}</span><span class="ds-proxies-n">{{ legends.proxies.length }}</span>
+          </button>
         </div>
         <div class="ds-list">
           <template
@@ -108,6 +123,7 @@
           </template>
           <FactionLegends
             :slug="slug"
+            :legends="legends"
             :query="dsQuery"
           >
             <template #head="{ title }">
@@ -174,6 +190,13 @@
         />
       </template>
     </BaseModal>
+    <FactionLegendsModal
+      v-if="proxiesOpen && legends"
+      :slug="slug"
+      :legends="legends"
+      @close="proxiesOpen = false"
+      @pick="proxiesOpen = false; openUnit($event)"
+    />
     <FactionUnitMenu
       v-model:open="menuOpen"
       :slug="slug"
@@ -193,6 +216,7 @@ import BaseModal from '../../components/BaseModal.vue'
 import ChevronIcon from '../../components/ChevronIcon.vue'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import FactionLegends from '../../components/FactionLegends.vue'
+import FactionLegendsModal from '../../components/FactionLegendsModal.vue'
 import FactionPickerBar from '../../components/FactionPickerBar.vue'
 import FactionUnitChip from '../../components/FactionUnitChip.vue'
 import FactionUnitMenu from '../../components/FactionUnitMenu.vue'
@@ -203,6 +227,7 @@ import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
+import { useFactionLegends } from '../../composables/useFactionLegends.js'
 import { useFavorites } from '../../composables/useFavorites.js'
 import { useFlipMove } from '../../composables/useFlipMove.js'
 import { useGroupFolds } from '../../composables/useGroupFolds.js'
@@ -215,6 +240,7 @@ import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from '../../composables/datasheetTags.js'
 import { chapterOf, groupByType } from '../../utils/datasheetGroups.js'
 import { unitLinkOf } from '../../utils/unitLink.js'
+import { proxyPage } from '../../utils/legendaryProxies.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
@@ -227,6 +253,11 @@ const datasheets = ref([])
 const loaded = ref(false)
 const dsQuery = ref('')
 
+// The Legends prose (useFactionLegends): the proxies' button and dialog, what a search finds, and
+// the retired units' own pages, which open here like any unit (utils/legendaryProxies.js).
+const { legends } = useFactionLegends(slug)
+const proxiesOpen = ref(false)
+
 // Where a unit opened from the list shows (useUnitPicks): a modal on a phone, beside the list on a
 // wide screen — one, or two compared.
 const {
@@ -235,7 +266,7 @@ const {
 } = useUnitPicks({
   slug,
   loaded,
-  exists: (id) => datasheets.value.some((d) => d.id === id),
+  exists: (id) => datasheets.value.some((d) => d.id === id) || !!proxyPage(legends.value, id),
   firstId: () => groupedDatasheets.value[0]?.sheets[0]?.id,
 })
 
@@ -280,17 +311,23 @@ watch(
     // This is the one place that knows which datasheets this faction actually ships right now, so
     // it is where a player's marks catch up with a renamed or retired unit (useUserPrefs).
     if (list?.length) reconcileFactionMarks(s, new Set(list.map((d) => d.id)))
-    // A deep link into the list (the changelog's Legendary Proxies link lands on
-    // #legendary-proxies): the target only exists once the lazy chunk has rendered, so the scroll
-    // runs here, after the load, not on mount — scrollToAnchor itself waits out the paint.
-    if (route.hash) scrollToAnchor(route.hash.slice(1))
+    // A deep link into the list: the target only exists once the lazy chunk has rendered, so the
+    // scroll runs here, after the load, not on mount — scrollToAnchor itself waits out the paint.
+    if (route.hash) goToHash(route.hash)
   },
   { immediate: true },
 )
 // A hash-only change keeps the view alive (the RouterView key is the path) — re-run the scroll.
 watch(() => route.hash, (hash) => {
-  if (hash && loaded.value) scrollToAnchor(hash.slice(1))
+  if (hash && loaded.value) goToHash(hash)
 })
+
+// The changelog's Legendary Proxies links land on #legendary-proxies — the table's own dialog now.
+const PROXIES_HASH = '#legendary-proxies'
+function goToHash(hash) {
+  if (hash === PROXIES_HASH) proxiesOpen.value = true
+  else scrollToAnchor(hash.slice(1))
+}
 
 // The global army choice (chapter + detachment) is shared with the rule page via
 // FactionPickerBar / useFactionChoice. Chapters come from the faction rules data
@@ -423,9 +460,10 @@ watch([wide, loaded], () => nextTick(measureFill))
 
 /* The Legends switch's row. */
 .ds-tools {
+  container: dstools / inline-size;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   gap: 0.5rem 1rem;
   margin: 0.5rem 0 0;
@@ -433,6 +471,17 @@ watch([wide, loaded], () => nextTick(measureFill))
 .ds-legends-filter {
   margin: 0;
   padding-block: 0.35rem;
+}
+/* A button does not inherit the text's line height; the label beside it does, and that line is
+   what sets the box's height — so the two match on one row and apart. */
+.ds-proxies-btn { margin: 0; padding-block: 0.35rem; font-family: inherit; line-height: inherit; }
+.ds-proxies-n { color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.ds-proxies-short { display: none; }
+/* Both whole need 343px (the box 159, the button 168, the gap 16 — measured, RU, 2026-10-21): below
+   that the button says "Proxies" and the pair keeps one row. */
+@container dstools (max-width: 342px) {
+  .ds-proxies-long { display: none; }
+  .ds-proxies-short { display: inline; }
 }
 
 .ds-empty {
@@ -461,7 +510,11 @@ watch([wide, loaded], () => nextTick(measureFill))
   .fsection { margin-bottom: 0; }
   .ds-picker-bar { grid-area: bar; }
   .ds-search-field { grid-area: search; max-width: none; }
-  .ds-tools { grid-area: tools; margin-top: 0; }
+  /* The space between the buttons and the list is outside the scroller (owner, 2026-10-21): kept
+     over the first heading, it sat inside the list's top, and the scrollbar started a heading's
+     margin above the heading. 0.6rem is the canon gap from a control to the list under it. */
+  .ds-tools { grid-area: tools; margin: 0 0 0.6rem; }
+  .ds-list > .ds-group-head:first-child { margin-top: 0; }
   /* The two scrollers. The list's own room for the scrollbar keeps the rows clear of it. */
   .ds-list { grid-area: list; min-width: 0; min-height: 0; height: 100%; overflow-y: auto; overscroll-behavior: contain; padding-right: 0.35rem; }
   /* The list's heading only repeats the tab it hangs from (components/CLAUDE.md, vertical

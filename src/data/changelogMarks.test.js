@@ -2,6 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { changelog } from './changelog.js'
 import { ACTIONS, BTN_ICONS, MARK_RE, renderMarks, SECTION_KINDS, sectionKind, noteSections, boldQuestion, INT_LINK_RE } from './changelogMarks.js'
 import datasheetIds from './datasheetIds.json'
+import factionLegends from './factionLegends.json'
+import { proxyPages } from '../utils/legendaryProxies.js'
 import { ui } from '../i18n/ui.js'
 import { basicRules } from './basicRules.js'
 import { battleRound } from './battleRound.js'
@@ -114,8 +116,9 @@ describe('changelog blocks', () => {
     expect(boldQuestion('No question here.')).toBe('No question here.')
   })
 
-  // An in-app link must land somewhere: a datasheet the build ships, a Core Rules anchor that
-  // exists, or a page the router knows — and both locales link the same pages.
+  // An in-app link must land somewhere: a datasheet the build ships (or a retired unit's page
+  // beside them, utils/legendaryProxies.js), a Core Rules anchor that exists, or a page the router
+  // knows — and both locales link the same pages.
   it('links only to pages that exist, the same ones in both locales', () => {
     const anchors = new Set(['section-faq'])
     const walk = (o) => { if (Array.isArray(o)) o.forEach(walk); else if (o && typeof o === 'object') { if (o.id) anchors.add(o.id); Object.values(o).forEach(walk) } }
@@ -129,7 +132,7 @@ describe('changelog blocks', () => {
         for (const href of links(n)) {
           const [path, hash] = href.split('#')
           const ds = /^\/factions\/([a-z-]+)\/datasheets\/([a-z0-9-]+)$/.exec(path)
-          if (ds) expect(datasheetIds[ds[1]] || [], `${e.version}: ${href}`).toContain(ds[2])
+          if (ds) expect([...(datasheetIds[ds[1]] || []), ...proxyPages(factionLegends[ds[1]]).map((p) => p.pid)], `${e.version}: ${href}`).toContain(ds[2])
           else expect(pages.has(path) || /^\/factions\/[a-z-]+$/.test(path), `${e.version}: ${href}`).toBe(true)
           if (path === '/core-rules' && hash) expect(anchors.has(hash), `${e.version}: ${href}`).toBe(true)
         }
