@@ -266,7 +266,7 @@ import conditionalKeywords from '../data/conditionalKeywords.json'
 import { useLocale } from '../composables/useLocale.js'
 import { useFavorites } from '../composables/useFavorites.js'
 import { useCollection } from '../composables/useCollection.js'
-import { formatBaseSize } from '../utils/baseSize.js'
+import { formatBaseSize, profileBases } from '../utils/baseSize.js'
 import { localePath } from '../router/locale.js'
 import { useFactionAccent } from '../composables/useFactionAccent.js'
 
@@ -302,12 +302,20 @@ const { accentStyle } = useFactionAccent(toRef(props, 'slug'))
 // RU falls back to the EN datasheet text.
 const ruModule = useDatasheetsRu(() => props.slug)
 
-const sheet = computed(() => {
+const localized = computed(() => {
   const en = props.datasheets.find((d) => d.id === props.unitId) || null
   if (!en || locale.value !== 'ru') return en
   const mod = ruModule.value
   if (!mod) return en
   return localizeSheet(en, mod.default?.[en.id], mod.abilityNamesRu)
+})
+// Each profile's own base after its name, where the unit's base lines name its profiles; the
+// plate then carries none (utils/baseSize.js → profileBases).
+const sheet = computed(() => {
+  const s = localized.value
+  const bases = profileBases(s)
+  if (!bases) return s
+  return { ...s, baseSize: '', profiles: s.profiles.map((p, i) => (p.baseSize || !bases.has(i) ? p : { ...p, baseSize: bases.get(i) })) }
 })
 
 // "Units with this keyword" modal (opened from DatasheetCard's Keywords line). Closed whenever
@@ -550,7 +558,10 @@ async function shareUnit() {
   font-weight: 600;
   text-transform: none;
   letter-spacing: 0;
-  white-space: nowrap;
+  /* May wrap: a unit of several models names each one's base ("The Silent King: Szarekh ⌀100mm ·
+     Triarchal Menhir ⌀50mm"), longer than a phone is wide — kept on one line it ran off the plate
+     and gave a sideways scroll (owner's screenshot, 2026-10-21). */
+  overflow-wrap: anywhere;
   /* Full white: at 82% it read 4.07:1 on Orks' green plate (a11y gate, 2026-10-05). */
   color: #fff;
 }
@@ -654,7 +665,11 @@ async function shareUnit() {
   min-height: 0;
 }
 .ds-contained > .ds-head { flex: none; }
-.ds-contained > .ds-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.ds-contained > .ds-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 0; }
+/* The card's own phone bleed (100vw) is for a page with a gutter. The sheet is flush, the card
+   under the plate as on the page, and on a phone already the screen's width — and narrower than 100vw where the window has a scrollbar, which slid the card
+   left by its width and cut its left edge off (owner's screenshot, 2026-10-21). */
+.ds-contained :deep(.ds-card) { width: auto; margin-left: 0; }
 
 /* The "…" exists only where the buttons fold (below); a same-specificity rule inside the container
    block has to come AFTER this one to win. */
