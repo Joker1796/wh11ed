@@ -219,7 +219,15 @@ export default {
       "hash": "f62f7f7a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "mul",
+          "value": 0.5,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "pack:chaos-lord-on-bike:swift-assault",
@@ -925,7 +933,7 @@ export default {
       },
       "hash": "13d0c291",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -980,7 +988,7 @@ export default {
       },
       "hash": "ee7e3001",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1155,7 +1163,15 @@ export default {
       "hash": "6903aaca",
       "ver": 972,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
       "note": "Read as Bullgryn Squad: Wall of Muscle (astra-militarum), the same text."
     },
     {
@@ -1235,8 +1251,36 @@ export default {
       },
       "hash": "311b9302",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "pack:sorcerer-on-bike:unholy-power",
@@ -1373,8 +1417,36 @@ export default {
       },
       "hash": "311b9302",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "3ae2b3c4-81d6-4a30-a9ed-1ad9526ead12:traitor-enforcer",
@@ -1472,7 +1544,21 @@ export default {
       "hash": "534d3d42",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against an enemy unit within 18\" of this model",
+            "ru": "против вражеского отряда в пределах 18\" от модели"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "d84a3253-a1a3-4e20-988c-60f251f86f38:vashtorr-the-arkifane",
@@ -2184,8 +2270,17 @@ export default {
       },
       "hash": "ab9d17ba",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "1dacaf8f-9649-4bca-b267-e84aa6301dfb",
@@ -2269,6 +2364,19 @@ export default {
           "when": {
             "en": "against a Battle-shocked unit",
             "ru": "по Battle-shocked отряду"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against an attacking model that is Battle-shocked",
+            "ru": "против атакующей модели в состоянии Battle-shocked"
           },
           "cond": [
             "never"
@@ -3383,8 +3491,17 @@ export default {
       },
       "hash": "214dc667",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "b851a9d9-4f75-4968-a7c4-8903bcd801c1",
@@ -3541,7 +3658,17 @@ export default {
       "hash": "ed2665e0",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "dfd93880-0f0c-451d-a583-ae840e5c5aec",
@@ -3974,7 +4101,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "e66eed41-c56b-4279-bd17-6730b64d986c",
@@ -4184,7 +4320,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "8cfa3ae5-3836-474c-96de-6a7d8e93a9ad",
@@ -4239,7 +4384,16 @@ export default {
       "hash": "288334fc",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "turn"
     },
     {
       "sid": "6572fbd6-499b-46a8-ac6d-48a290969bb0",
@@ -4254,7 +4408,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "3810e6a7-25be-4932-8b5f-6e30447ba08b",
