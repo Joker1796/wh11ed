@@ -2364,10 +2364,19 @@ option, and appdata's one-set-per-weapon limits (see lesson 87 in `APPDATA-SYNC-
 - **"This unit can be equipped with…"** (Watcher in the Dark, the one case) belongs to the unit and
   stays a single `all` group, drawn in a block "Unit" above the profiles.
 - **The editor is laid out by profile** (`UnitWargearGroups`' `order`): one CARD per profile, the
-  Sergeant first, its own options and its copy of every shared one together — not "the Sergeant's,
-  the shared, the squad's". The frame is drawn on the groups' own sections (`ues-card-first/last`),
-  which stay siblings of the editor's other sections; the heading is a tinted bar across the top.
+  Sergeant first, with the profile's OWN options. The frame is drawn on the groups' own sections
+  (`ues-card-first/last`), which stay siblings of the editor's other sections; the heading is a
+  tinted bar across the top. A profile with no option of its own has no card.
+- **A shared option is one block after the profile cards** (owner, 2026-10-21, a player's report on
+  CSM Terminators). Until then each copy sat in its profile's card, the Sergeant's first: a
+  Champion's tick box under "up to 3 in the unit" read as the whole allowance, and the Terminators'
+  counter was a card further down. Now each pool is a card of its own, no heading bar: the sentence
+  once (the lead copy's; a copy whose sentence differs shows its own), the chip with what the copies
+  have taken ("up to 3 in the unit · 2 taken"), and each copy under its profile's name (`.ues-who`).
+  Pool copies leave `sameStockSets`' merges — a Sacresant Superior's own spear swap and the shared
+  halberd swap are two blocks now, the second greyed by the stock rule once the first is taken.
   Moving an option between profiles is a tap on each; a tap on the row that is on unticks it.
+  Gate: `UnitEditorFields.test.js` → "a shared option, once" (red on the card-per-copy layout).
 - **A chained swap is drawn under what feeds it** (`chains`/`nesting`): a group that gives up an item
   its profile is not printed with, handed out by another group of that profile — under the row that
   is on where the source is a one-of (the Acothyst's power-weapon swap under his special weapon), as

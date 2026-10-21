@@ -5,18 +5,20 @@
        disappears when you touch an unrelated one reads as a bug, and the reader is left
        guessing what to undo. `blockers[gi]` says what to undo, in words. -->
   <!-- By PROFILE (owner, 2026-10-14): a unit of several kinds of model shows one block per profile
-       — its own options and its copy of every option the squad shares — so the player says WHICH
-       model takes a shared one, as in the GW app. The block's heading stands in its first group's
-       section (the sections stay siblings of the editor's own); "This unit can be equipped with…"
-       is the unit's, and heads the list as its own block. -->
+       with its own options. An option the squad SHARES between profiles is one block of its own
+       after them (owner, 2026-10-21): the sentence once, the allowance and what is taken, and a row
+       per profile under it, so the player still says WHICH model takes it. Drawn as a copy in each
+       profile's card, the first copy — a Champion's tick box — read as the whole allowance. The
+       block's heading stands in its first group's section (the sections stay siblings of the
+       editor's own); "This unit can be equipped with…" is the unit's, and heads the list. -->
   <template
-    v-for="{ g, gi, head, card, nested, merged } in order"
+    v-for="{ g, gi, head, card, nested, merged, pool, who } in order"
     :key="gi"
   >
     <section
       class="ues-sec"
       :data-gi="gi"
-      :class="{ 'ues-inert': shut[gi], 'ues-card': card, 'ues-card-first': card === 'first' || card === 'only', 'ues-card-last': card === 'last' || card === 'only', 'ues-nested': nested, 'ues-merged': merged === 'member' }"
+      :class="{ 'ues-inert': shut[gi], 'ues-card': card, 'ues-card-first': card === 'first' || card === 'only', 'ues-card-last': card === 'last' || card === 'only', 'ues-nested': nested, 'ues-merged': merged === 'member' || pool === 'member', 'ues-shared': pool === 'lead' }"
     >
       <h3
         v-if="head"
@@ -31,8 +33,9 @@
          out of the datasheet, not a label. See the style rule for why that needs a different
          face. -->
       <h4
+        v-if="pool !== 'member' || ownText(gi)"
         class="ues-h ues-instr"
-        :class="{ 'ues-subhead': merged === 'member' }"
+        :class="{ 'ues-subhead': merged === 'member' || pool === 'member' }"
       >
         <span
           v-if="!byProfile && miniName(g.m)"
@@ -41,7 +44,7 @@
         {{ groupLines[gi].head }}
         <ExpandTransition>
           <span
-            v-if="capChip(gi)"
+            v-if="pool !== 'member' && capChip(gi)"
             class="ues-cap"
           >{{ capChip(gi) }}</span>
         </ExpandTransition>
@@ -69,10 +72,20 @@
         </li>
       </ul>
       <p
-        v-if="groupLines[gi].note"
+        v-if="groupLines[gi].note && (pool !== 'member' || ownText(gi))"
         class="ues-bnote"
       >
         * {{ groupLines[gi].note }}
+      </p>
+      <!-- Whose row this is, in a block the profiles share. -->
+      <p
+        v-if="who"
+        class="ues-who"
+      >
+        {{ who.name }}<span
+          v-if="who.n > 1"
+          class="ues-profile-n"
+        > ×{{ who.n }}</span>
       </p>
       <!-- A group drawn as what the models hold says how to change it, on a line that is always
            there: it came and went with the first "−" at first, and pushed the rows down under
@@ -447,10 +460,13 @@ function capChip(gi) {
     return owed ? labels.value.rosterPickExactLeft.replace('{n}', owed) : labels.value.rosterPickExact.replace('{n}', ex)
   }
   // A profile's copy of a shared option says the squad's allowance, the same on every copy.
+  // In the shared block it heads, it also says how much of it the copies have taken.
   const pool = !cap && wargearPoolCap(props.def, props.entry, gi)
   if (pool?.limit) {
     const upTo = labels.value.rosterPickPool.replace('{n}', pool.limit)
-    return pool.dup ? `${upTo}, ${labels.value.rosterPickDup.replace('{n}', pool.dup)}` : upTo
+    const chip = pool.dup ? `${upTo}, ${labels.value.rosterPickDup.replace('{n}', pool.dup)}` : upTo
+    const taken = byProfile.value ? poolTaken(gi) : 0
+    return taken ? `${chip} · ${labels.value.rosterPickPoolTaken.replace('{n}', taken)}` : chip
   }
   if (!cap || cap.limit < 2) return ''
   const upTo = labels.value.rosterPickUpTo.replace('{n}', cap.limit)
@@ -479,7 +495,8 @@ const single = (gi) => maxOf(props.def.gear[gi]?.m ?? 0) <= 1
 const merges = computed(() => {
   const out = new Map() // gi -> { set, role }
   for (const set of sameStockSets(props.def)) {
-    const kept = set.filter((gi) => !chains.value.has(gi) && !holds.value[gi])
+    // A shared option is drawn in its own block, never folded into a profile's set.
+    const kept = set.filter((gi) => !chains.value.has(gi) && !holds.value[gi] && !(byProfile.value && wargearPoolOf(props.def, gi)))
     if (kept.length < 2) continue
     kept.forEach((gi, k) => out.set(gi, { set: kept, role: k ? 'member' : 'lead' }))
   }
@@ -563,16 +580,31 @@ const order = computed(() => {
   const perMini = modelsPerMini(props.def, props.entry)
   const profiles = [...new Set(rows.filter((r) => !r.g.all).map((r) => r.g.m ?? 0))]
     .sort((a, b) => maxOf(a) - maxOf(b) || a - b)
+  const pooled = (gi) => !!wargearPoolOf(props.def, gi)
+  const whoOf = (m) => ({ name: miniName(m), n: perMini?.get(m) ?? 0 })
   // Each block is a card: the heading opens it, every group of the profile sits inside its frame.
   const out = []
-  const block = (list, head) => {
-    const shown = expand(list)
-    shown.forEach((r, k) => out.push({ ...r, head: k ? null : head, card: shown.length === 1 ? 'only' : k === 0 ? 'first' : k === shown.length - 1 ? 'last' : 'mid' }))
+  const card = (shown, head) => shown.forEach((r, k) => out.push({ ...r, head: k ? null : head, card: shown.length === 1 ? 'only' : k === 0 ? 'first' : k === shown.length - 1 ? 'last' : 'mid' }))
+  card(expand(rows.filter((r) => r.g.all)), { name: labels.value.rosterUnitOptions, n: 0 })
+  for (const m of profiles) card(expand(rows.filter((r) => !r.g.all && !pooled(r.gi) && (r.g.m ?? 0) === m)), whoOf(m))
+  // Then each option the profiles share: its copies (the Sergeant's first, as the pool lists them)
+  // in one card with no heading bar — the sentence is the heading — and each copy named.
+  for (const p of props.def.pools || []) {
+    const shown = p.g.filter((gi) => !skip.has(gi)).flatMap((gi, k) => withChildren({ g: gear[gi], gi, pool: k ? 'member' : 'lead', who: whoOf(gear[gi].m ?? 0) }))
+    card(shown, null)
   }
-  block(rows.filter((r) => r.g.all), { name: labels.value.rosterUnitOptions, n: 0 })
-  for (const m of profiles) block(rows.filter((r) => !r.g.all && (r.g.m ?? 0) === m), { name: miniName(m), n: perMini?.get(m) ?? 0 })
   return out
 })
+// How many picks the copies of a shared option hold between them.
+function poolTaken(gi) {
+  const pool = wargearPoolOf(props.def, gi)
+  return pool ? wg().filter(([g]) => pool.g.includes(g)).reduce((n, [, , c]) => n + (c || 1), 0) : 0
+}
+// A copy whose sentence differs from the block's (the lead copy's) shows its own.
+function ownText(gi) {
+  const pool = wargearPoolOf(props.def, gi)
+  return !!pool && groupText(props.def.gear[pool.g[0]]) !== groupText(props.def.gear[gi])
+}
 
 // Another profile's copy holds what the squad may take of this option: its row is greyed (`poolFull`)
 // and says who has it, so the player knows where to take it back from.
@@ -871,6 +903,14 @@ function groupStepMax(gi, oi) {
 .opt-nested-h { margin: 0; font-size: 0.8rem; color: var(--text-muted); line-height: 1.35; }
 .opt-nested-group { display: flex; flex-direction: column; gap: 0.3rem; }
 .ues-profile-n { color: var(--text-muted); }
+/* A shared option's card opens on its sentence, not on a bar; each copy names its profile. */
+.ues-sec.ues-card-first.ues-shared { padding-top: 0.5rem; }
+.ues-who {
+  margin: 0.15rem 0 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
 /* Who holds what this row cannot take — after the name, muted, never a line of its own. */
 .opt-taken { color: var(--text-muted); font-size: 0.85em; }
 /* The stock row's number without its buttons: hidden, not removed, so it keeps the stepper's
