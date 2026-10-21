@@ -234,7 +234,7 @@ export default {
       },
       "hash": "57174c59",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -525,7 +525,7 @@ export default {
       },
       "hash": "ee7e3001",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -586,6 +586,23 @@ export default {
           "stat": "core",
           "op": "grant",
           "value": "Stealth",
+          "when": null,
+          "target": "led"
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
           "when": null,
           "target": "led"
         }
@@ -900,8 +917,16 @@ export default {
       },
       "hash": "663cf92e",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f0d51829-0fa5-44ab-b142-b5eea8246496:lord-of-change",
@@ -1010,7 +1035,7 @@ export default {
       },
       "hash": "55ce4f47",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1145,7 +1170,7 @@ export default {
       },
       "hash": "ee7e3001",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1395,7 +1420,7 @@ export default {
       },
       "hash": "f3a69766",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1409,7 +1434,7 @@ export default {
       },
       "hash": "6107fac6",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1482,8 +1507,16 @@ export default {
       },
       "hash": "663cf92e",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "cdb2d463-155c-42e4-a175-a067c162c0eb",
@@ -2277,8 +2310,17 @@ export default {
       },
       "hash": "214dc667",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "aed28125-92c9-4922-99a2-fee31e24a7fa",
@@ -2293,7 +2335,17 @@ export default {
       "hash": "7de35e49",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f2338ba8-00d6-45fc-8d14-fb29b2c437fe",
@@ -2588,7 +2640,17 @@ export default {
       "hash": "edf16e51",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "79b389ec-f1c4-42b1-833d-4e1b86817377:bloodcrushers",

@@ -187,7 +187,16 @@ export default {
       "hash": "3f3f072b",
       "ver": 946,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "9e2d97c6-99c3-48ae-8072-cadf72d494bf:beastboss-on-squigosaur",
@@ -690,7 +699,15 @@ export default {
       "hash": "9bdc06bf",
       "ver": 946,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "55499b96-9a5c-488e-a461-179dd11c8cfe:deffkoptas",
@@ -829,7 +846,15 @@ export default {
       "hash": "e441fc1c",
       "ver": 946,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "48e061c4-7ff9-4b73-ab24-22889f118acb:hunta-rig",
@@ -1003,7 +1028,15 @@ export default {
       "hash": "e441fc1c",
       "ver": 946,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "db0fa7b1-b2bd-45db-99c9-40c9dafcb6af:meganobz",
@@ -1250,7 +1283,25 @@ export default {
       "hash": "ebec7e58",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null,
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "f6ad63a2-294e-4870-b828-22f0bc750ab7:painboss",
@@ -2964,7 +3015,34 @@ export default {
       "hash": "48ca9646",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": {
+            "en": "the first option",
+            "ru": "первый вариант"
+          }
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": {
+            "en": "the second option",
+            "ru": "второй вариант"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "d346f908-20a9-4236-a136-a8d1ef36e762",

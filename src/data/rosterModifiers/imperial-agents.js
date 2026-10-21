@@ -487,7 +487,7 @@ export default {
       },
       "hash": "9becbd8a",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -663,8 +663,67 @@ export default {
       },
       "hash": "8116e94b",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "psychic",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "psychic",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "psychic",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "psychic",
+          "when": {
+            "en": "while this model is leading a unit",
+            "ru": "пока модель возглавляет отряд"
+          },
+          "cond": [
+            "unit-leading"
+          ],
+          "target": "led"
+        }
+      ]
     },
     {
       "sid": "0368fd0e-375b-43eb-9e6e-1d317e3409e0:inquisitors-hand-eversor-assassin",
@@ -707,7 +766,21 @@ export default {
       "hash": "2cb36b7e",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while within range of an objective",
+            "ru": "пока отряд в зоне objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ]
     },
     {
       "sid": "776b5a9d-b02d-4ea2-96f3-430531adbd1e:inquisitor-s-hand-vigilant-squad",
@@ -773,8 +846,22 @@ export default {
       },
       "hash": "02c92ad9",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while an INQUISITOR model is leading this unit",
+            "ru": "пока отряд возглавляет модель INQUISITOR"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "pack:janus-draik:backroom-deals",
@@ -1808,7 +1895,7 @@ export default {
       },
       "hash": "f32b2b09",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -2104,7 +2191,16 @@ export default {
       "hash": "975b05f7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "b3c0a844-4b92-48dc-8ca3-6d169a5fe918",
@@ -2202,7 +2298,7 @@ export default {
       },
       "hash": "89de0db7",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -2300,7 +2396,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "3c71b9ec-b40c-44e1-9daa-fd22abee459f",
@@ -2315,7 +2420,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "78859713-cdea-4729-815f-91a9d8c94491",
