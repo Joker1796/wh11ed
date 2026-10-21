@@ -589,6 +589,13 @@ async function shareUnit() {
   color: #fff;
 }
 
+/* A desktop's pointer needs less than a finger (owner, 2026-10-21): seven 36px squares made a
+   toolbar heavier than the name beside it. Still clear of the 24px tap-target floor. */
+@media (min-width: 901px) {
+  .ds-btn { min-width: 30px; min-height: 30px; font-size: 0.85rem; }
+  .ds-head { padding-block: 0.4rem 0.35rem; }
+}
+
 /* The list's own controls stand apart from the unit's actions by a gap. */
 .ds-more + .ds-own-ctl { margin-left: 0.4rem; }
 
@@ -682,6 +689,11 @@ async function shareUnit() {
       margin-left: calc(50% - 50vw);
     }
   }
+}
+/* …and in a narrow column on a desktop (two units compared) the folded "…" and ✕ stay pointer
+   sized too: the 36px above is a finger's. */
+@media (min-width: 901px) {
+  .ds-more .ds-btn, .ds-own-ctl { min-width: 30px; min-height: 30px; font-size: 0.85rem; }
 }
 @container dspage (max-width: 340px) {
   .ds-title-name { font-size: 1.6rem; }
