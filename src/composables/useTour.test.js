@@ -191,6 +191,20 @@ describe('useTour', () => {
     vi.advanceTimersByTime(900)
     expect(again.active.value?.id).toBe('home')
   })
+  // Owner, 2026-10-21: "Don't turn on" and the tutorial came anyway. The rosters' desk asks for two
+  // chapters at once; the first asked, the second waited for the answer — and the loop read any
+  // answer as yes, so "no" started the one in line.
+  it('no also holds for the chapters waiting in line behind the question', async () => {
+    const t = await fresh('')
+    t.maybeStart('roster-list')
+    t.maybeStart('roster-view')
+    vi.advanceTimersByTime(900)
+    expect(t.asking.value?.id).toBe('roster-list')
+    t.answerAuto(false)
+    vi.advanceTimersByTime(3000)
+    expect(t.active.value).toBe(null)
+    expect(t.asking.value).toBe(null)
+  })
   // Owner, 2026-10-20: once turned on, there was no way to turn the tutorial off again.
   it('turned off from its own card: the chapter closes, nothing starts by itself, the replay still does', async () => {
     const t = await fresh('on')
