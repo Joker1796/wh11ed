@@ -15,7 +15,7 @@ sidecar (`src/data/sourceIds.json`), rule-granted keywords
 
 ## Faction pages
 
-`FactionRuleView.vue` (`/factions/:slug`, army rule + the active detachment's rule / stratagems / enhancements) and `FactionDatasheetView.vue` (`/factions/:slug/datasheets/:unit`, a `DatasheetCard`) both read faction data via `useFactionPage.js`. The **active detachment** and, for Space Marines, the chosen **Chapter** are one shared "army choice" held in `src/composables/useFactionChoice.js` — a **module singleton** persisted per faction slug to `localStorage['wh11ed-faction-choice']` (`{ slug: { det, chapter } }`; migrates the pre-chapter `wh11ed-faction-detachment` map once), so a pick on the rules page is reflected on the datasheets page and vice-versa. The UI is **`FactionPickerBar.vue`** — a bar sticky under the navbar (full-viewport-bleed background) that renders the Chapter and/or Detachment as compact "label + value + chevron" pill buttons, each an `AdaptivePicker` — a dropdown under the button from 901px up, `BaseModal` below — around `FactionDetachmentList.vue` (one option list for both, via its `tag` prop); it only renders when a faction has >1 detachment. Chapter↔detachment consistency (a chapter-locked detachment implies its chapter) lives in the bar, not the store.
+`FactionRuleView.vue` (`/factions/:slug`, army rule + the active detachment's rule / stratagems / enhancements) and `FactionDatasheetView.vue` (`/factions/:slug/datasheets/:unit`, a `FactionUnitSheet`) both read faction data via `useFactionPage.js`. The **active detachment** and, for Space Marines, the chosen **Chapter** are one shared "army choice" held in `src/composables/useFactionChoice.js` — a **module singleton** persisted per faction slug to `localStorage['wh11ed-faction-choice']` (`{ slug: { det, chapter } }`; migrates the pre-chapter `wh11ed-faction-detachment` map once), so a pick on the rules page is reflected on the datasheets page and vice-versa. The UI is **`FactionPickerBar.vue`** — a bar sticky under the navbar (full-viewport-bleed background) that renders the Chapter and/or Detachment as compact "label + value + chevron" pill buttons, each an `AdaptivePicker` — a dropdown under the button from 901px up, `BaseModal` below — around `FactionDetachmentList.vue` (one option list for both, via its `tag` prop); it only renders when a faction has >1 detachment. Chapter↔detachment consistency (a chapter-locked detachment implies its chapter) lives in the bar, not the store.
 
 **Another faction's detachments, after the faction's own** (2026-10-05, a Deathwatch player could
 not find Gladius' rule or stratagems anywhere): a Chapter fields most of Codex: Space Marines'
@@ -26,7 +26,7 @@ reads their text from the other faction's file. Each carries `from`; `FactionDet
 a "<faction> detachments" heading over each such group. `src/data/chapterDetachments.test.js`
 holds the page to the editor.
 
-In `DatasheetCard`, bodyguard-unit names under a Character's **Leader/Support** ability are `RouterLink`s to those units' own datasheets (name→id via `FactionDatasheetView`'s `unitIndex`, always built from **EN** names); the group heading shows "Support" vs "Leader" (`dsSupport`/`dsLeader`) from the sheet's `core` field. **A printed/granted keyword is clickable** (`keywordLinksEnabled` prop, opt-in per caller — off by default) and emits `keyword-click`; `FactionDatasheetView` catches it and opens `KeywordUnitsModal.vue` listing every other unit in the SAME faction's roster carrying that keyword (`src/utils/keywordUnits.js`, checks both `keywords` and per-model `keywordsByModel`), each linking to its own datasheet page. The same modal also opens from a faction unit keyword named in rule prose, on any page (`useFactionKeywordUnits.js`, see `src/data/CLAUDE.md` → *Faction keywords in rule prose*). Faction keywords (ORKS, ADEPTUS ASTARTES…) are deliberately never clickable — virtually the whole roster shares those. `CombatPatrolFactionView` passes no `keyword-links-enabled` (units render inline on one page, not as separate routes, so there's nowhere for the modal's links to go — see `src/views/combat-patrol/CLAUDE.md`) — keywords there stay plain text.
+In `DatasheetCard`, bodyguard-unit names under a Character's **Leader/Support** ability are `RouterLink`s to those units' own datasheets (name→id via `FactionUnitSheet`'s `unitIndex`, always built from **EN** names); the group heading shows "Support" vs "Leader" (`dsSupport`/`dsLeader`) from the sheet's `core` field. **A printed/granted keyword is clickable** (`keywordLinksEnabled` prop, opt-in per caller — off by default) and emits `keyword-click`; `FactionUnitSheet` catches it and opens `KeywordUnitsModal.vue` listing every other unit in the SAME faction's roster carrying that keyword (`src/utils/keywordUnits.js`, checks both `keywords` and per-model `keywordsByModel`), each linking to its own datasheet page. The same modal also opens from a faction unit keyword named in rule prose, on any page (`useFactionKeywordUnits.js`, see `src/data/CLAUDE.md` → *Faction keywords in rule prose*). Faction keywords (ORKS, ADEPTUS ASTARTES…) are deliberately never clickable — virtually the whole roster shares those. `CombatPatrolFactionView` passes no `keyword-links-enabled` (units render inline on one page, not as separate routes, so there's nowhere for the modal's links to go — see `src/views/combat-patrol/CLAUDE.md`) — keywords there stay plain text.
 
 **The weapon tables stay tables on every phone** (`DatasheetCard.vue`, mirrored in
 `WeaponProfileModal.vue`). Six stat columns plus a name is a lot for a phone, and until
@@ -51,6 +51,33 @@ back-to-units button to `MobileUtilityBar` for that page (`useContributeMobileAc
 and it calls `router.back()` when the list is where the page came from — the router restores the
 saved scroll position on a real back, so the reader lands on the row they tapped instead of the top
 of a ninety-unit list.
+
+## A unit opens where the list is (2026-10-21)
+
+Tapping a unit in the faction's unit list used to leave for its page, and coming back lost the
+reader's place in a ninety-unit list. The owner chose to change the move, not to remember the
+place (2026-10-04/05, journal *Юнит в модалке и сравнение*):
+
+- **The whole unit is `components/FactionUnitSheet.vue`** — the name plate with its actions
+  (pin, owned, copy name, share, lore, image, the phone's "…"), the card and the keyword lists.
+  `FactionDatasheetView` (the page) only loads the datasheets and sets the SEO name; the list
+  draws the same component.
+- **Up to 900px** (the app's picker threshold) the unit opens in a `BaseModal` over the list. The
+  plate is the dialog's header (`#header` slot, `titleId` names the dialog) and the card scrolls
+  under it (`contained` → `.modal-body`); the sheet carries its own faction colour, since the
+  dialog is teleported out of `FactionLayout`. The list does not move, and Back closes the modal.
+- **From 901px** the list is rows on the left and the unit sits in a sticky column on the right,
+  scrolling inside itself (under `FactionPickerBar` where a faction has one). The plate's ◫ waits
+  for a second pick; two units stand side by side, each with ✕, and a further tap in the list
+  swaps the second. Differences are not highlighted (owner).
+- **The address does not change** in either (owner). Share is one control on the plate / in "…":
+  the system share sheet where `navigator.share` exists, the link copied otherwise.
+- **Links to another unit of the faction change the unit in place** — a Leader's bodyguard on the
+  card, a row of `KeywordUnitsModal` (`inPlace` → `pick`), a chip, a Legendary Proxy. One capture
+  listener reads the link's href (`utils/unitLink.js`), so no link needs to know about it; a
+  click asking for a new tab, another faction's unit and a button inside a link go their usual way.
+- Everything else — search, a keyword popover elsewhere, links from other pages — still opens the
+  unit's own page (owner).
 
 ## See also
 
