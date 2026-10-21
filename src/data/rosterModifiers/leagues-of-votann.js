@@ -250,7 +250,7 @@ export default {
       },
       "hash": "f5abf12e",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -327,6 +327,20 @@ export default {
           "when": {
             "en": "with Fortify Takeover, while this unit is within range of an objective marker you control",
             "ru": "при Fortify Takeover, пока отряд в радиусе вашего маркера цели"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": {
+            "en": "with Fortify Takeover, unless this unit is a VEHICLE",
+            "ru": "при Fortify Takeover, если отряд не VEHICLE"
           },
           "cond": [
             "never"
@@ -620,7 +634,37 @@ export default {
       "hash": "9984e1ee",
       "ver": 925,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": {
+            "en": "against an attacking model within 12\" of the bearer’s unit",
+            "ru": "против атакующей модели в пределах 12\" от отряда носителя"
+          },
+          "cond": [
+            "never"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "vs": "ranged",
+          "when": {
+            "en": "against an attacking model within 12\" of the bearer’s unit",
+            "ru": "против атакующей модели в пределах 12\" от отряда носителя"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "hearthband"
@@ -659,7 +703,7 @@ export default {
       },
       "hash": "0ab4c3f2",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -728,7 +772,7 @@ export default {
       },
       "hash": "425cd1e2",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -866,7 +910,17 @@ export default {
       "hash": "f5133a4b",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "d2eda679-eccb-4db2-baac-72ed0d4cf5fb",
@@ -949,8 +1003,17 @@ export default {
       },
       "hash": "6d559221",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "147a06bd-d45b-45c3-98cd-a859b4c7dea3",
@@ -1103,7 +1166,7 @@ export default {
       },
       "hash": "c1afc6a4",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1252,7 +1315,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "f54e0e60-d1ef-4cee-b1a2-2c94454e8d57",

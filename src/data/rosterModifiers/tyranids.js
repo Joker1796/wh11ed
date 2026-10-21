@@ -18,7 +18,7 @@ export default {
       },
       "hash": "1b9e55bb",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -46,7 +46,7 @@ export default {
       },
       "hash": "51afc583",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -348,7 +348,7 @@ export default {
       },
       "hash": "b6cebd32",
       "ver": 995,
-      "reviewed": false,
+      "reviewed": true,
       "effects": []
     },
     {
@@ -1517,7 +1517,15 @@ export default {
       "hash": "5685ea95",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "09c9c986-a5ad-44bb-98f0-90744ba77f94",
@@ -1899,8 +1907,20 @@ export default {
       },
       "hash": "ee6f5d02",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against attacks by that enemy unit",
+            "ru": "против атак этого вражеского отряда"
+          }
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ff939b18-014a-4295-8557-4da856bce0b3",
@@ -2033,7 +2053,16 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "ap",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "a00e9bdd-8eb5-4f20-bf21-965bc8aa1ded",
@@ -2170,8 +2199,17 @@ export default {
       },
       "hash": "214dc667",
       "ver": 995,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "cd3aa920-f0a8-4468-adf6-66a30c2ed7c0",
@@ -2271,7 +2309,17 @@ export default {
       "hash": "ed2665e0",
       "ver": 995,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "ad6bd914-db0f-43be-95c1-aae0515947a1",
