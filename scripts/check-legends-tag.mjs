@@ -24,6 +24,7 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { chromium } from 'playwright-core'
 import { preview } from 'vite'
+import { proxyPages } from '../src/utils/legendaryProxies.js'
 
 const ROOT = join(import.meta.dirname, '..')
 const verbose = process.argv.includes('--verbose')
@@ -53,14 +54,15 @@ for (const file of readdirSync(dir).filter((f) => f.endsWith('.js') && f !== 'in
   const { default: list } = await import(join(dir, file))
   for (const s of list || []) if (s.legends) sheets.push({ slug, id: s.id })
 }
-// …and every sheet a Legendary Proxy is fielded as: its "Proxy" badge takes the same place (under
-// Legends where it has both). A Chapter's table is the Codex's (`of`), checked under its own slug.
+// …and a retired unit's page for every sheet one is fielded as: the page wears that sheet's
+// statline with "Proxy" in the same place (under Legends where it has both). One page per sheet —
+// the retired name is in the plate, not the statline. A Chapter's table is the Codex's (`of`).
 const proxyTables = JSON.parse(readFileSync(join(ROOT, 'src/data/factionLegends.json'), 'utf8'))
 for (const [slug, t] of Object.entries(proxyTables)) {
   if (t.of) continue
-  for (const id of new Set(t.proxies.map((p) => p.id).filter(Boolean))) {
-    if (!sheets.some((s) => s.slug === slug && s.id === id)) sheets.push({ slug, id })
-  }
+  const first = new Map()
+  for (const p of proxyPages(t)) if (!first.has(p.target)) first.set(p.target, p.pid)
+  for (const id of first.values()) sheets.push({ slug, id })
 }
 
 // The page's shell is the window less 16px.

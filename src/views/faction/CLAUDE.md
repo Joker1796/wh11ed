@@ -119,8 +119,10 @@ sheet each is fielded as (`src/data/factionLegends.json`; Space Marines and each
   belong to real units and sync with the account), no lore. Not in the list; reached from the
   table's names, the "Proxy" badge's dialog, Ctrl+K (a row of its own above the sheet's) and its
   own SEO page. A Chapter has its own pages, as its folded units do.
-- **The "Proxy" badge** on a sheet that retired units are fielded as stands under "Legends" in
-  the statline's spare space (`DatasheetCard`, `proxyFor`); `npm run legends-tag` measures both.
+- **The "Proxy" badge is on a retired unit's page only** (owner, 2026-10-22 — not on the sheet it
+  is fielded as): under "Legends" in the statline's spare space (`DatasheetCard`, `proxy` — its
+  title, "Legendary Proxy → Warboss"); a tap opens that sheet's row of the table. `npm run
+  legends-tag` measures a retired unit's page for every sheet one is fielded as.
 
 ## See also
 

@@ -199,7 +199,7 @@
         :faction-slug="slug"
         :granted-keywords="grantedKeywords"
         :other-faction-units="otherFactionUnits"
-        :proxy-for="proxyFor"
+        :proxy="proxy ? labels.dsProxyOf.replace('{unit}', sheet.name) : ''"
         keyword-links-enabled
         @keyword-click="activeKeyword = $event"
         @proxy-click="proxiesOpen = true"
@@ -344,8 +344,7 @@ const sheet = computed(() => {
 // a keyword/roster that no longer matches the unit now on screen.
 const activeKeyword = ref(null)
 
-// The retired units fielded as this one (the faction's Legendary Proxies) — the card's "Proxy" badge.
-const proxyFor = computed(() => (legends.value?.proxies || []).filter((p) => p.id === sheetId.value).flatMap((p) => p.legacy))
+// The "Proxy" badge's dialog: the table's row of the sheet this retired unit is fielded as.
 const proxiesOpen = ref(false)
 watch(() => props.unitId, () => { proxiesOpen.value = false })
 watch([() => route.fullPath, () => props.unitId], () => { activeKeyword.value = null })
