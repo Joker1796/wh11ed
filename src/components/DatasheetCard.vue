@@ -81,11 +81,12 @@
                  it was a sentence under the name plate first, then a badge in the title, and both
                  pushed the statline down on a phone (2026-09-18). Where the space runs out (a
                  narrow container, a multi-profile name) it steps down a row — see .ds-legends-tag.
-                 "Proxy" stands under it (owner, 2026-10-21): the retired units fielded as this one
-                 (`proxyFor`), in its title and, on a tap, in the Legendary Proxies dialog. Five
-                 sheets carry both — a Whirlwind is Legends and Hunter's proxy. -->
+                 "Proxy" stands under it on a retired unit's page (owner, 2026-10-22: there only, not
+                 on the sheet it is fielded as) — what it is fielded as in its title (`proxy`), the
+                 Legendary Proxies dialog on a tap. Five carry both: Hunter is fielded as a
+                 Whirlwind, which is Legends itself. -->
             <span
-              v-if="i === 0 && (sheet.legends || proxyFor.length)"
+              v-if="i === 0 && (sheet.legends || proxy)"
               class="ds-legends-tag"
             >
               <span
@@ -94,11 +95,11 @@
                 :title="labels.dsLegendsNote"
               >{{ labels.dsLegends }}</span>
               <button
-                v-if="proxyFor.length"
+                v-if="proxy"
                 type="button"
                 class="legends-badge ds-proxy-badge"
                 aria-haspopup="dialog"
-                :title="labels.dsProxyFor.replace('{names}', proxyFor.join(', '))"
+                :title="proxy"
                 @click="$emit('proxy-click')"
               >{{ labels.dsProxyBadge }}</button>
             </span>
@@ -1057,8 +1058,8 @@ const props = defineProps({
   // anywhere (a stale/Legends reference in the source rule text) is left as plain text, not
   // hidden — there's nothing to disambiguate there, it's just not a link target.
   otherFactionUnits: { type: Array, default: () => [] },
-  // The retired units this sheet stands in for (the faction's Legendary Proxies) — the "Proxy" badge.
-  proxyFor: { type: Array, default: () => [] },
+  // On a retired unit's page (the faction's Legendary Proxies): the "Proxy" badge, this its title.
+  proxy: { type: String, default: '' },
   // Cells the roster's modifier layer rewrote, as `profile:<stat>:<i>` / `ranged:<stat>:<row>` /
   // `melee:<stat>:<row>` keys (src/composables/rosterStatMods.js), and the notes explaining them.
   // A note with `applied: false` is a CONDITIONAL modifier: its number was deliberately left
