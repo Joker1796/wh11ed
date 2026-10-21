@@ -23,7 +23,11 @@
              on a wide screen a grid — the tools over the list in the left column, the unit in the
              right one from the top, the chapter bar across both (owner, 2026-10-21: the tools
              spanning the page left a band of nothing over the unit). -->
-        <div class="ds-split">
+        <div
+          ref="splitEl"
+          class="ds-split"
+          :class="{ 'rw-host': wide }"
+        >
           <!-- Types the faction's own example queries while empty (useUnitSearchGhost). -->
           <div
             ref="dsSearchEl"
@@ -225,7 +229,7 @@
           <aside
             v-if="wide"
             class="ds-side"
-            :class="{ 'ds-side--pair': shown.length === 2 || comparing, 'ds-side--under-bar': chapters.length }"
+            :class="{ 'ds-side--pair': shown.length === 2 || comparing }"
           >
             <FactionUnitSheet
               v-for="(id, i) in shown"
@@ -353,7 +357,7 @@ const lastShown = new Map()
 <script setup>
 import ChevronIcon from '../../components/ChevronIcon.vue'
 import TypingGhost from '../../components/TypingGhost.vue'
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import ExpandTransition from '../../components/ExpandTransition.vue'
 import FactionPickerBar from '../../components/FactionPickerBar.vue'
@@ -375,6 +379,7 @@ import { useUnitSearchGhost } from '../../composables/useUnitSearchExamples.js'
 import BaseModal from '../../components/BaseModal.vue'
 import FactionUnitSheet from '../../components/FactionUnitSheet.vue'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
+import { useViewportFill } from '../../composables/useViewportFill.js'
 import { unitLinkOf } from '../../utils/unitLink.js'
 import ActionMenu from '../../components/ActionMenu.vue'
 import AppToast from '../../components/AppToast.vue'
@@ -627,6 +632,13 @@ function showSomething() {
   if (id) shown.value = [id]
 }
 watch([wide, loaded], showSomething, { immediate: true })
+
+// A wide screen does not scroll the page: the list and the unit scroll, each in its own column, in
+// a box as tall as the window has left under the hero and the tabs (owner, 2026-10-21 — three
+// scrollbars, the page's among them). The roster builder's recipe (useViewportFill, `.rw-host`).
+const splitEl = ref(null)
+const { measure: measureFill } = useViewportFill(splitEl)
+watch([wide, loaded], () => nextTick(measureFill))
 watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
 
 </script>
@@ -885,7 +897,7 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   .ds-split {
     display: grid;
     grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
-    grid-template-rows: auto auto auto 1fr;
+    grid-template-rows: auto auto auto minmax(0, 1fr);
     grid-template-areas:
       "bar    bar"
       "search side"
@@ -894,10 +906,12 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
     column-gap: 1rem;
     align-items: start;
   }
+  .fsection { margin-bottom: 0; }
   .ds-picker-bar { grid-area: bar; }
   .ds-search-field { grid-area: search; max-width: none; }
   .ds-tools { grid-area: tools; margin-top: 0; }
-  .ds-list { grid-area: list; min-width: 0; }
+  /* The two scrollers. The list's own room for the scrollbar keeps the rows clear of it. */
+  .ds-list { grid-area: list; min-width: 0; min-height: 0; height: 100%; overflow-y: auto; overscroll-behavior: contain; padding-right: 0.35rem; }
   .ds-side { grid-area: side; }
   /* The list's heading only repeats the tab it hangs from (components/CLAUDE.md, vertical
      density): out of sight here, still the section's name for a screen reader. */
@@ -936,13 +950,10 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
     border-color: var(--accent);
   }
 
-  /* Under the app's sticky navbar — and under the faction's sticky chapter bar where there is one
-     (FactionPickerBar; its height, measured) — as tall as the window has left, scrolling inside. */
+  /* The unit's column: the full height of the box, scrolling inside itself. */
   .ds-side {
-    --ds-side-top: calc(var(--navbar-height) + var(--safe-top) + 0.5rem);
-    position: sticky;
-    top: var(--ds-side-top);
-    max-height: calc(100dvh - var(--ds-side-top) - 0.5rem);
+    align-self: stretch;
+    min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
     min-width: 0;
@@ -950,7 +961,6 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
     gap: 0.6rem;
     align-content: start;
   }
-  .ds-side--under-bar { --ds-side-top: calc(var(--navbar-height) + var(--safe-top) + var(--fpb-h, 3rem) + 0.5rem); }
   .ds-side--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .ds-side-note {
     margin: 0;
