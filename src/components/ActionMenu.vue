@@ -8,6 +8,7 @@
     align="right"
     :panel-width="width"
     modal-width="340px"
+    :anchor="anchor"
   >
     <template #trigger="t">
       <slot
@@ -48,6 +49,8 @@ defineProps({
   title: { type: String, default: '' },
   subtitle: { type: String, default: '' },
   width: { type: String, default: '15rem' },
+  // A context menu: open at this point (PickerDropdown's `anchor`); the trigger slot may be empty.
+  anchor: { type: Object, default: null },
 })
 const open = defineModel('open', { type: Boolean, default: false })
 </script>

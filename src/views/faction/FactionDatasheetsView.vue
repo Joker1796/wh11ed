@@ -7,11 +7,13 @@
     <!-- A tap on a unit (a chip, a Legendary Proxy, a Leader's bodyguard on a card shown here)
          opens it where the list is instead of leaving for its page: a modal on a phone, beside the
          list on a wide screen. Caught here, before the links' own navigation (utils/unitLink.js);
-         a click that asks for a new tab still gets one. -->
+         a click that asks for a new tab still gets one. A right click or a long press on a chip
+         opens its context menu (useLongPress). -->
     <section
       id="datasheets"
       class="fsection"
       @click.capture="onUnitClick"
+      v-on="unitPress.listeners"
     >
       <h2 class="fsection-title">
         {{ labels.factionDatasheets }}
@@ -89,6 +91,7 @@
                   v-for="s in g.sheets"
                   :key="s.id"
                   :data-flip="s.id"
+                  :data-unit="s.id"
                   :to="`/factions/${slug}/datasheets/${s.id}`"
                   class="ds-chip"
                   :class="{ picked: shown.includes(s.id) }"
@@ -272,6 +275,68 @@
         />
       </template>
     </BaseModal>
+    <!-- The chip's context menu: at the pointer on a wide screen, the actions sheet on a phone. -->
+    <ActionMenu
+      v-model:open="menuOpen"
+      :anchor="menu?.anchor"
+      :title="menu?.name || ''"
+      width="18rem"
+    >
+      <template v-if="menu">
+        <button
+          class="act-btn act-ico"
+          @click="menuDo(() => openUnit(menu.id))"
+        >
+          <i class="wi wi-datasheet" />{{ labels.dsOpenUnit }}
+        </button>
+        <a
+          :href="menuHref"
+          target="_blank"
+          rel="noopener"
+          class="act-btn act-ico"
+          @click="menuOpen = false"
+        >
+          <i class="wi wi-arrow-right" />{{ labels.dsOpenNewTab }}
+        </a>
+        <button
+          v-if="wide && shown.length && !shown.includes(menu.id)"
+          class="act-btn act-ico"
+          @click="menuDo(() => compareWith(menu.id))"
+        >
+          <i class="wi wi-panes" />{{ labels.dsCompareWith.replace('{name}', menuShownName) }}
+        </button>
+        <button
+          class="act-btn act-ico"
+          @click="menuDo(() => toggleUnitFavorite(slug, menu.id))"
+        >
+          <i :class="isUnitFavorite(slug, menu.id) ? 'wi wi-pin-on' : 'wi wi-pin-off'" />{{ isUnitFavorite(slug, menu.id) ? labels.dsUnpinUnit : labels.dsPinUnit }}
+        </button>
+        <button
+          class="act-btn act-ico"
+          @click="menuDo(() => toggleOwned(slug, menu.id, menu.name))"
+        >
+          <i :class="isOwned(slug, menu.id) ? 'wi wi-own-on' : 'wi wi-own'" />{{ isOwned(slug, menu.id) ? labels.dsOwnRemove : labels.dsOwnAdd }}
+        </button>
+        <button
+          class="act-btn act-ico"
+          @click="menuDo(() => copyUnitName(menu.name))"
+        >
+          <i class="wi wi-copy" />{{ labels.dsCopyName }}
+        </button>
+        <button
+          class="act-btn act-ico"
+          @click="menuDo(() => shareFromMenu(menu))"
+        >
+          <i :class="canShare ? 'wi wi-share' : 'wi wi-link'" />{{ canShare ? labels.dsShare : labels.dsCopyLink }}
+        </button>
+      </template>
+    </ActionMenu>
+    <AppToast
+      :show="!!toast"
+      :text="toast"
+      icon="wi wi-check"
+      @close="toast = ''"
+    />
   </div>
 </template>
 
@@ -301,6 +366,11 @@ import BaseModal from '../../components/BaseModal.vue'
 import FactionUnitSheet from '../../components/FactionUnitSheet.vue'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import { unitLinkOf } from '../../utils/unitLink.js'
+import ActionMenu from '../../components/ActionMenu.vue'
+import AppToast from '../../components/AppToast.vue'
+import { useLongPress } from '../../composables/useLongPress.js'
+import { canShare, copyText, shareUnit } from '../../composables/useUnitShare.js'
+import { localePath } from '../../router/locale.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
@@ -340,10 +410,40 @@ function replaceShown(i, id) {
   if (shown.value.includes(id)) return
   shown.value = shown.value.map((x, j) => (j === i ? id : x))
 }
+function compareWith(id) {
+  const [first] = shown.value
+  if (first && first !== id) shown.value = [first, id]
+  comparing.value = false
+}
 function closeShown(i) {
   shown.value = shown.value.filter((_, j) => j !== i)
   comparing.value = false
 }
+
+// The chip's context menu (right click / long press): the unit's own actions without opening it,
+// and the new tab a long press cannot otherwise ask for on a phone (owner, 2026-10-21).
+const menu = ref(null)
+const menuOpen = ref(false)
+const unitPress = useLongPress('.ds-chip[data-unit]', (el, anchor) => {
+  const sheet = datasheets.value.find((d) => d.id === el.dataset.unit)
+  if (!sheet) return
+  menu.value = { id: sheet.id, name: sheet.name, anchor }
+  menuOpen.value = true
+})
+const menuHref = computed(() => (menu.value ? localePath(`/factions/${slug.value}/datasheets/${menu.value.id}`, locale.value) : ''))
+const menuShownName = computed(() => datasheets.value.find((d) => d.id === shown.value[0])?.name || '')
+function menuDo(fn) { menuOpen.value = false; fn() }
+
+// "Copied" has nowhere to show on a menu that has closed: a toast says it.
+const toast = ref('')
+let toastTimer = null
+function say(text) {
+  toast.value = text
+  clearTimeout(toastTimer)
+  toastTimer = setTimeout(() => { toast.value = '' }, 1500)
+}
+async function copyUnitName(name) { if (await copyText(name)) say(labels.value.dsCopied) }
+async function shareFromMenu(m) { if (await shareUnit(slug.value, m.id, m.name, locale.value)) say(labels.value.dsLinkCopied) }
 
 // Datasheets are lazy-loaded per faction (each src/data/datasheets/<slug>.js is its own
 // chunk) so the heavy unit data never rides in the shared view bundle.
@@ -558,6 +658,11 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
 
 .ds-chip {
   position: relative;
+  /* A long press is the chip's context menu (useLongPress): not iOS's link preview, not a text
+     selection. */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

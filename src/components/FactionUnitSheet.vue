@@ -128,32 +128,32 @@
             </button>
           </template>
           <button
-            class="act-btn ds-act"
+            class="act-btn act-ico"
             @click="moreDo(() => toggleUnitFavorite(slug, sheet.id))"
           >
             <i :class="fav ? 'wi wi-pin-on' : 'wi wi-pin-off'" />{{ fav ? labels.dsUnpinUnit : labels.dsPinUnit }}
           </button>
           <button
-            class="act-btn ds-act"
+            class="act-btn act-ico"
             @click="moreDo(() => toggleOwned(slug, sheet.id, sheet.name))"
           >
             <i :class="owned ? 'wi wi-own-on' : 'wi wi-own'" />{{ owned ? labels.dsOwnRemove : labels.dsOwnAdd }}
           </button>
           <button
-            class="act-btn ds-act"
+            class="act-btn act-ico"
             @click="moreDo(copyName)"
           >
             <i class="wi wi-copy" />{{ labels.dsCopyName }}
           </button>
           <button
-            class="act-btn ds-act"
+            class="act-btn act-ico"
             @click="moreDo(shareUnit)"
           >
             <i :class="canShare ? 'wi wi-share' : 'wi wi-link'" />{{ canShare ? labels.dsShare : labels.dsCopyLink }}
           </button>
           <button
             v-if="sheet.flavor"
-            class="act-btn ds-act"
+            class="act-btn act-ico"
             @click="moreDo(openLoreFromSheet)"
           >
             <i class="wi wi-lore" />{{ labels.loreShow }}
@@ -162,7 +162,7 @@
             :href="imageUrl"
             target="_blank"
             rel="noopener noreferrer"
-            class="act-btn ds-act"
+            class="act-btn act-ico"
             @click="moreOpen = false"
           >
             <i class="wi wi-image" />{{ labels.dsSearchImage }}
@@ -267,7 +267,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { useFavorites } from '../composables/useFavorites.js'
 import { useCollection } from '../composables/useCollection.js'
 import { formatBaseSize, profileBases } from '../utils/baseSize.js'
-import { localePath } from '../router/locale.js'
+import { canShare, copyText, shareUnit as shareUnitLink } from '../composables/useUnitShare.js'
 import { useFactionAccent } from '../composables/useFactionAccent.js'
 
 const props = defineProps({
@@ -476,34 +476,13 @@ const [copied, flashCopied] = flasher()
 const [linkCopied, flashLinkCopied] = flasher()
 
 async function copyName() {
-  if (!sheet.value) return
-  try {
-    await navigator.clipboard.writeText(sheet.value.name)
-    flashCopied()
-  } catch {
-    /* clipboard unavailable (permissions / insecure context) — leave the icon as is */
-  }
+  if (sheet.value && await copyText(sheet.value.name)) flashCopied()
 }
 
-// Share: one control that becomes what the device has (owner, 2026-10-05) — the system sheet
-// (Telegram, VK…) where `navigator.share` exists, the link copied where it does not. The link is
-// to the unit's own page in the reader's language: it has an SEO page of its own, so a messenger's
-// preview shows the unit's name.
-const canShare = typeof navigator !== 'undefined' && typeof navigator.share === 'function'
+// The system share sheet or the link copied (useUnitShare.js).
 const shareLabel = computed(() => (linkCopied.value ? labels.value.dsLinkCopied : canShare ? labels.value.dsShare : labels.value.dsCopyLink))
 async function shareUnit() {
-  if (!sheet.value) return
-  const url = new URL(localePath(`/factions/${props.slug}/datasheets/${sheet.value.id}`, locale.value), location.origin).href
-  if (canShare) {
-    try { await navigator.share({ title: sheet.value.name, url }) } catch { /* dismissed */ }
-    return
-  }
-  try {
-    await navigator.clipboard.writeText(url)
-    flashLinkCopied()
-  } catch {
-    /* clipboard unavailable — leave the icon as is */
-  }
+  if (sheet.value && await shareUnitLink(props.slug, sheet.value.id, sheet.value.name, locale.value)) flashLinkCopied()
 }
 </script>
 
@@ -707,8 +686,4 @@ async function shareUnit() {
 @container dspage (max-width: 340px) {
   .ds-title-name { font-size: 1.6rem; }
 }
-/* The sheet's rows carry the same icon the toolbar button did, so the two read as one thing. */
-.ds-act { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
-.ds-act .wi { width: 1.1rem; text-align: center; color: var(--text-muted); }
-.ds-act .wi { height: 1.1rem; margin-inline: 0; }
 </style>

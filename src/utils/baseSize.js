@@ -1,3 +1,5 @@
+import { foldName } from './foldName.js'
+
 // Format a raw Base Size Guide value (as stored on each datasheet's `baseSize`; sourced from
 // wh40k-appdata's datasheet.localisations.en.baseSize and diffed by scripts/sync-appdata.mjs)
 // into a short display label. Round bases get the diameter sign (⌀32mm); oval bases keep
@@ -37,7 +39,7 @@ function formatOne(s, labels) {
 // ("Gun Servitors") names the profile in the singular. Null unless EVERY line lands on a profile:
 // a line about a weapon ("Ratlings, Tankstopper Rifle: 28.5mm") or "Other models" keeps the whole
 // value where it was, rather than half of it moving and half not.
-const fold = (s) => String(s).toLowerCase().replace(/[’']/g, '').replace(/s$/, '').trim()
+const fold = (s) => foldName(String(s).trim()).replace(/s$/, '')
 
 export function profileBases(sheet) {
   const profiles = sheet?.profiles || []

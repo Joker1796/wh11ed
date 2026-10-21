@@ -1985,6 +1985,10 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   font-size: 0.88rem; font-weight: 600; text-align: left;
 }
 .act-danger { color: var(--danger); }
+/* A row that leads with its icon (a datasheet's "…", the unit list's context menu) — the same
+   icon its button carries elsewhere, so the two read as one thing. */
+.act-ico { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+.act-ico > .wi { width: 1.1rem; height: 1.1rem; margin-inline: 0; text-align: center; color: var(--text-muted); }
 /* A choice that cannot be taken now reads as such — dimmed, no pointer (the stratagem dialog's price
    the bank cannot cover, owner 2026-10-02). */
 .act-btn:disabled { opacity: 0.45; cursor: default; }

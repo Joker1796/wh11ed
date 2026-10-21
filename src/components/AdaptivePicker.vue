@@ -6,6 +6,7 @@
       v-model:open="open"
       :width="panelWidth"
       :align="align"
+      :anchor="anchor"
       :label="title"
     >
       <template #trigger="t">
@@ -62,6 +63,8 @@ defineProps({
   align: { type: String, default: 'left' },
   // BaseModal's compact header, for a modal titled by a name that may wrap (the action menus).
   dense: { type: Boolean, default: false },
+  // Open the dropdown at a point rather than under the trigger (PickerDropdown's `anchor`).
+  anchor: { type: Object, default: null },
 })
 const open = defineModel('open', { type: Boolean, default: false })
 const close = () => { open.value = false }
