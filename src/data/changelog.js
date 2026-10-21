@@ -22,6 +22,20 @@
 
 export const changelog = [
   {
+    version: '2.10.2',
+    date: '2026-10-21',
+    en: [
+      { h: 'Tracker' },
+      '**A mission condition can be ticked only in the turn it scores in.** “End of your turn” is open in your own turn. “End of your opponent’s turn” is open in the opponent’s turn. Before, a tick made a turn late could land in a turn not yet played.',
+      '**A turn already played can be corrected.** Open the mission and tap “Correct … turn”, or pick a past round in the rounds row. The log shows the correction with the VP before and after. In a game with strict rules a played turn cannot be corrected.',
+    ],
+    ru: [
+      { h: 'Трекер' },
+      '**Условие миссии можно отметить только в тот ход, в который оно засчитывается.** «Конец вашего хода» открыт в ваш ход. «Конец хода соперника» открыт в ход соперника. Раньше отметка, сделанная на ход позже, могла попасть в ещё не сыгранный ход.',
+      '**Сыгранный ход можно исправить.** Откройте миссию и нажмите «Исправить ход: …» или выберите прошлый раунд в строке раундов. В логе видна правка с VP до и после. В партии по строгим правилам сыгранный ход не исправить.',
+    ],
+  },
+  {
     version: '2.10.1',
     date: '2026-10-21',
     en: [

@@ -630,18 +630,19 @@ export function useTracker() {
   // null = allowed (always, in a game without the switch). The mutators below ask before acting
   // and the screen asks the same to grey its button with the reason (ui.js `trackerStrict_<why>`).
   //   'choose' · 'return' · 'pencil' — refused outright;
-  //   'round' (arg: the round written into) — a round already over;
+  //   'round' (arg: the round written into, arg2: the turn, when known) — a round already over,
+  //     or a turn of the live round already played;
   //   'hand' (arg: the card) — a tactical card not in the hand;
   //   'undo' (arg: when the act taken back was made) — only the side's last act;
   //   'clock' — the clock back, one step and only right after it moved.
-  function strictWhy(action, pi, arg) {
+  function strictWhy(action, pi, arg, arg2 = null) {
     const g = current.value
     if (!isStrict(g)) return null
     switch (action) {
       case 'choose': return 'random'
       case 'return': return 'noReturn'
       case 'pencil': return 'noPencil'
-      case 'round': return arg < g.currentRound ? 'pastRound' : null
+      case 'round': return isCorrection(arg, arg2) ? (arg < g.currentRound ? 'pastRound' : 'pastTurn') : null
       case 'hand': {
         const pl = g.players[pi]
         return pl?.secondaryMode === 'tactical' && !pl.secondary?.hand?.includes(arg) ? 'notInHand' : null
@@ -677,6 +678,19 @@ export function useTracker() {
     return null
   }
 
+  // Scoring a turn already played — a past round, or the live round's first turn from inside its
+  // second — is a correction, opened on purpose from the round steps (missionTiming.lockedTurn: a
+  // moment that has passed is not ticked in a later turn). `turn` null: the live turn of `round`.
+  function isCorrection(round, turn) {
+    const g = current.value
+    return round < g.currentRound || (round === g.currentRound && turn != null && turn !== (g.currentTurn === 1 ? 1 : 0))
+  }
+  // A correction says so in the log (owner, 2026-10-21): when it was made, which turn it put
+  // right and the VP before and after. Steppers and ticks within COALESCE_MS are one act.
+  function logFix(pl, what, slug, round, turn, from, to) {
+    pushValueAct(pl, { ...clk(), type: 'fix', what, slug, at: round, atTurn: turn, from, to }, `${what}:${slug}:${round}:${turn}`)
+  }
+
   // A score changed after it stood for a while is a correction: the old one stays in the log,
   // struck (owner, 2026-10-19). Within COALESCE_MS it is still being entered — a stepper tapped
   // three times is one score, not two corrections.
@@ -685,13 +699,14 @@ export function useTracker() {
     pushUndo(pl, { ...of, vp: before.vp, t: before.t }, clk())
   }
 
-  function setRoundPrimary(pi, roundIdx, value) {
-    if (strictWhy('round', pi, roundIdx + 1)) return
+  function setRoundPrimary(pi, roundIdx, value, turn = null) {
+    if (strictWhy('round', pi, roundIdx + 1, turn)) return
     const pl = current.value.players[pi]
     const round = pl.rounds[roundIdx]
     const before = { vp: round.primary, t: round.t }
     round.primary = Math.max(0, Math.min(value, PRIMARY_ROUND_CAP))
-    scoreCorrected(pl, before, round.primary, { type: 'primary', kind: 'points', round: roundIdx + 1, turn: pi, slug: pl.primarySlug })
+    if (isCorrection(roundIdx + 1, turn)) logFix(pl, 'primary', pl.primarySlug, roundIdx + 1, turn, before.vp, round.primary)
+    else scoreCorrected(pl, before, round.primary, { type: 'primary', kind: 'points', round: roundIdx + 1, turn: pi, slug: pl.primarySlug })
     round.t = Date.now() // when, for the game log
   }
 
@@ -700,8 +715,9 @@ export function useTracker() {
   // An End of Battle row is outside the 15 (Event Companion FAQ: "VP scored at the end of the
   // battle are not subject to the 15VP per battle round scoring limit") — twelve primaries score
   // one, and the fifth round's cap was eating it.
-  function setPrimaryRow(pi, roundIdx, blockIdx, rowIdx, count) {
-    if (strictWhy('round', pi, roundIdx + 1)) return
+  // `turn` — the turn on screen when it is not the live one (a correction, logged as such).
+  function setPrimaryRow(pi, roundIdx, blockIdx, rowIdx, count, turn = null) {
+    if (strictWhy('round', pi, roundIdx + 1, turn)) return
     const pl = current.value.players[pi]
     const round = pl.rounds[roundIdx]
     const before = { vp: round.primary, t: round.t }
@@ -722,7 +738,8 @@ export function useTracker() {
       }
     }
     round.primary = Math.min(raw, PRIMARY_ROUND_CAP) + end
-    scoreCorrected(pl, before, round.primary, { type: 'primary', kind: 'points', round: roundIdx + 1, turn: pi, slug: pl.primarySlug })
+    if (isCorrection(roundIdx + 1, turn)) logFix(pl, 'primary', pl.primarySlug, roundIdx + 1, turn, before.vp, round.primary)
+    else scoreCorrected(pl, before, round.primary, { type: 'primary', kind: 'points', round: roundIdx + 1, turn: pi, slug: pl.primarySlug })
     round.t = Date.now() // when, for the game log
   }
 
@@ -1266,12 +1283,12 @@ export function useTracker() {
   }
 
   // Record how many times a given scoring row was achieved this round.
-  // `round` defaults to the live one; a past round is scored when the player corrects it after
-  // the fact (the round steps on the game screen). A tactical card still in hand that turns out
+  // `round` defaults to the live one; a past round — or a past turn, `turn` — is scored when the
+  // player corrects it after the fact (the round steps on the game screen), and logged as such. A tactical card still in hand that turns out
   // to have been achieved in a past round is achieved — it leaves the hand, as it would have at
   // the end of that turn (setAsideAchieved).
-  function scoreSecondaryRow(pi, slug, blockIdx, rowIdx, count, round = current.value.currentRound) {
-    if (strictWhy('round', pi, round) || strictWhy('hand', pi, slug)) return
+  function scoreSecondaryRow(pi, slug, blockIdx, rowIdx, count, round = current.value.currentRound, turn = null) {
+    if (strictWhy('round', pi, round, turn) || strictWhy('hand', pi, slug)) return
     const s = current.value.players[pi].secondary
     let entry = s.scored.find(e => e.slug === slug && e.round === round)
     if (!entry) { entry = { slug, round, picks: {}, vp: 0 }; s.scored.push(entry) }
@@ -1284,9 +1301,10 @@ export function useTracker() {
       for (const k of orSiblingKeys(m, blockIdx, rowIdx)) delete entry.picks[k]
     }
     entry.vp = entryVp(pi, entry)
-    scoreCorrected(current.value.players[pi], before, entry.vp, { type: 'scored', kind: 'points', round, turn: null, slug })
+    if (isCorrection(round, turn)) logFix(current.value.players[pi], 'scored', slug, round, turn, before.vp || 0, entry.vp)
+    else scoreCorrected(current.value.players[pi], before, entry.vp, { type: 'scored', kind: 'points', round, turn: null, slug })
     entry.t = Date.now() // the latest change, for the game log
-    if (round < current.value.currentRound && entry.vp > 0) settleSide(pi)
+    if (isCorrection(round, turn) && entry.vp > 0) settleSide(pi)
   }
 
   function secondaryRowCount(pi, slug, blockIdx, rowIdx, round = current.value.currentRound) {

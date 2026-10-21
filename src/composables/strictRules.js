@@ -11,6 +11,7 @@
 //                 lets the hand be redrawn until it suits;
 //   'noPencil'  — the CP count set by hand: CP come from Core CP, the bonus and spends only;
 //   'pastRound' — scoring written into a round already over;
+//   'pastTurn'  — scoring written into a turn of the live round already played;
 //   'lastOnly'  — taking back anything but the side's last action (a stratagem, the bonus point,
 //                 a card set aside, a unit destroyed, an army-rule use);
 //   'clockBack' — the clock moved back further than one step, or after anything was done since.

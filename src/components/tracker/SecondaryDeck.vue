@@ -122,9 +122,10 @@
       :view-only-note="pastWhy ? labels[`trackerStrict_${pastWhy}`] : null"
       :count="(bi, ri) => secondaryRowCount(pi, openMission.slug, bi, ri, round)"
       :locked="b => rowLocked(openMission, b)"
-      :locked-note="labels.trackerOppTurnOnly"
+      :fix="fixLabel(openMission)"
       :opp="!isYouSide(player, pi)"
-      @set="(bi, ri, c) => scoreSecondaryRow(pi, openMission.slug, bi, ri, c, round)"
+      @set="(bi, ri, c) => scoreSecondaryRow(pi, openMission.slug, bi, ri, c, round, turn)"
+      @fix="$emit('open-turn', fixTurn(openMission))"
       @redraw="mode => startRedraw(openMission.slug, mode)"
       @close="openSlug = null"
     />
@@ -242,21 +243,25 @@ import ReplaceCardModal from './ReplaceCardModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, missionBySlug, cardBlocks, isYouSide } from '../../composables/useTracker.js'
-import { blockLocked } from '../../composables/missionTiming.js'
+import { blockLocked, fixTurnOf } from '../../composables/missionTiming.js'
 import { whenDrawnAction } from '../../composables/whenDrawn.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { provideSideScope } from '../../composables/modalScope.js'
 
-// `round` — the round on screen: the live one, or a past one being corrected (the game
-// screen's round steps). `editable` — this phone may score this side (a shared game locks the
+// `round`, `turn` — the turn on screen: the live one, or one already played being corrected (the
+// game screen's round steps; `open-turn` asks it to open another). `turnNames` — whose each turn
+// is, for the lock's reason. `editable` — this phone may score this side (a shared game locks the
 // other side; the parent makes the block inert, this only decides whether a dialog may open by
 // itself). `name` — the side's name for the dialogs.
 const props = defineProps({
   pi: { type: Number, required: true },
   round: { type: Number, required: true },
+  turn: { type: Number, default: null },
+  turnNames: { type: Array, default: () => [] },
   editable: { type: Boolean, default: true },
   name: { type: String, default: '' },
 })
+defineEmits(['open-turn'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
@@ -271,7 +276,9 @@ provideSideScope(() => !isYouSide(current.value?.players?.[props.pi], props.pi))
 
 const player = computed(() => current.value.players[props.pi])
 const mode = computed(() => player.value.secondaryMode)
-const live = computed(() => props.round === current.value.currentRound)
+// The live turn — not a played one opened for correction, even in the live round.
+const shownTurn = computed(() => props.turn ?? (current.value.currentTurn === 1 ? 1 : 0))
+const live = computed(() => props.round === current.value.currentRound && shownTurn.value === (current.value.currentTurn === 1 ? 1 : 0))
 function inHand(slug) { return player.value.secondary.hand.includes(slug) }
 // A displayed card that isn't in the hand is a set-aside (discarded) one — handMissions
 // only ever pulls from hand ∪ discarded, so "not in hand" ⇒ set aside.
@@ -281,7 +288,7 @@ function isSetAside(slug) { return !inHand(slug) }
 function readonlyCard(slug) { return live.value && isSetAside(slug) }
 // Strict rules (strictRules.js): a past round is read, not corrected; a card is not put back in
 // the deck; a set-aside comes back only as the side's last action.
-const pastWhy = computed(() => strictWhy('round', props.pi, props.round))
+const pastWhy = computed(() => strictWhy('round', props.pi, props.round, live.value ? null : shownTurn.value))
 const returnWhy = computed(() => strictWhy('return', props.pi))
 const restoreWhy = (slug) => strictUndoWhy('restore', props.pi, slug)
 function source(slug) { return player.value.secondary.source?.[slug] || null }
@@ -314,9 +321,22 @@ function relevantBlocks(m) {
     .filter(b => b.kind === mode.value)
 }
 
-// A row whose moment cannot have come yet — read from the ENGLISH block (missionTiming.js).
+// A row scored in another turn than the one on screen — read from the ENGLISH block
+// (missionTiming.js): the turn it is scored in, said.
 function rowLocked(m, b) {
-  return blockLocked(current.value, props.pi, props.round, missionBySlug(m.slug, player.value.role)?.blocks[b.bi])
+  const t = blockLocked(current.value, props.pi, props.round, shownTurn.value, missionBySlug(m.slug, player.value.role)?.blocks[b.bi])
+  return t == null ? null : labels.value.trackerScoredInTurn.replace('{name}', props.turnNames[t] || '')
+}
+// The turn its locked rows are put right in (one begun, and strict rules allowing), and the
+// dialog's button for it.
+function fixTurn(m) {
+  const en = missionBySlug(m.slug, player.value.role)
+  const t = fixTurnOf(current.value, props.pi, props.round, shownTurn.value, relevantBlocks(m), (bi) => en?.blocks[bi])
+  return t == null || strictWhy('round', props.pi, props.round, t) ? null : t
+}
+function fixLabel(m) {
+  const t = fixTurn(m)
+  return t == null ? '' : labels.value.trackerOpenTurn.replace('{name}', props.turnNames[t] || '')
 }
 
 // The WHEN DRAWN redraw action for a card, or null (whenDrawn.js — shared with the take dialog).
