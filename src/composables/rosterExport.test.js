@@ -418,3 +418,42 @@ describe('the WTC faction line', () => {
     }
   })
 })
+
+// A Codex Chapter's list names its Chapter after the Adeptus Astartes keyword ("… - Salamanders",
+// Ordo Eventus's sample, 2026-10-21) — from a Chapter's detachment or Epic Hero in the list, else from
+// what the player declared — and the import reads it back as the declaration.
+describe('the Chapter on the faction line', () => {
+  const line = (text) => /^\+ FACTION KEYWORD: (.*)$/m.exec(text)[1]
+  it('comes from the list or the declaration, never from a Chapter the list contradicts', async () => {
+    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { parseList, matchRoster } = await import('./rosterImport.js')
+    const { chapterOf, chapterProof, rosterChapters } = await import('./rosterEngine.js')
+    const core = (await import('../data/roster/core.js')).default
+    const items = (await import('../data/roster/items.js')).default.items
+    const faction = await loadRosterFaction('space-marines')
+    expect(rosterChapters(faction)).toEqual(['Imperial Fists', 'Iron Hands', 'Raven Guard', 'Salamanders', 'Ultramarines', 'White Scars'])
+    const base = { name: 'L', faction: 'space-marines', detachments: [], battleSize: 'strike-force', units: [] }
+    const text = (r, fmt = 'rus') => buildRosterText(r, { faction, core, items }, fmt)
+
+    expect(line(text(base))).toBe('Imperium - Adeptus Astartes')
+    const declared = { ...base, chapter: 'Salamanders' }
+    for (const fmt of ['rus', 'wtc']) expect(line(text(declared, fmt))).toBe('Imperium - Adeptus Astartes - Salamanders')
+
+    const blade = faction.detachments.find((d) => d.chapter === 'Ultramarines')
+    const byDetachment = { ...declared, detachments: [blade.name] }
+    expect(chapterProof(byDetachment, faction)).toEqual({ chapter: 'Ultramarines', from: blade.name })
+    expect(line(text(byDetachment))).toBe('Imperium - Adeptus Astartes - Ultramarines')
+
+    const vulkan = faction.units.find((u) => u.ch === 'Salamanders' && /Vulkan/.test(u.name))
+    const byHero = { ...base, units: [{ uid: 'v', id: vulkan.id, size: 0 }] }
+    expect(chapterOf(byHero, faction)).toBe('Salamanders')
+    // Two Chapters named: only a declaration of one of them stands.
+    const both = { ...base, detachments: [blade.name], units: byHero.units }
+    expect(chapterOf(both, faction)).toBe(null)
+    expect(chapterOf({ ...both, chapter: 'Ultramarines' }, faction)).toBe('Ultramarines')
+    expect(chapterOf({ ...both, chapter: 'White Scars' }, faction)).toBe(null)
+
+    const parsed = parseList(text(declared, 'wtc'))
+    expect(matchRoster(parsed, { faction, core, items }).payload.chapter).toBe('Salamanders')
+  })
+})

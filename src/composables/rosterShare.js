@@ -10,7 +10,7 @@ import { SCHEMA_VERSION } from './useRosters.js'
 import { LIMIT_KEYS } from './rosterLimit.js'
 
 // `cp`: a Combat Patrol box fielded as a list (the tracker builds one for a Combat Patrol game).
-const PICK = ['name', 'faction', 'cp', 'detachments', 'disposition', ...LIMIT_KEYS, 'notes', 'units']
+const PICK = ['name', 'faction', 'cp', 'detachments', 'disposition', 'chapter', ...LIMIT_KEYS, 'notes', 'units']
 // `notes` travels because a list's plan is part of the list — a game snapshot is where it is most
 // wanted (the notes are what the player wrote to read AT the table). Per-unit and per-block notes
 // need no mention here: they live on the entries, and `units` goes whole.

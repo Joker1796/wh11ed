@@ -32,7 +32,7 @@
 // fielded loadout with swaps applied (the same modelsPerMini/swapsByMini accounting the editor
 // shows on screen); where it does not, we fall back to listing only what the player CHANGED.
 import {
-  allegFor, bucketOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
+  allegFor, bucketOf, chapterOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
   copiesHeld, copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
   miniName, modelCount, rosterDetachments, hasKeyword,
 } from './rosterEngine.js'
@@ -74,7 +74,9 @@ const ALLIANCE = { astartes: 'Imperium', imperium: 'Imperium', chaos: 'Chaos', x
 
 // A Chapter with a book of its own sits under the Adeptus Astartes keyword in WTC's line: "Imperium -
 // Adeptus Astartes - Blood Angels" (2026-10-16, a player's note — ours printed "Imperium - Blood
-// Angels"). Space Marines themselves are named by that keyword already.
+// Angels"). Space Marines themselves are named by that keyword already, and one of the Codex's own
+// Chapters follows it the same way: "Imperium - Adeptus Astartes - Salamanders" (Ordo Eventus's
+// sample) — the Chapter the list names or declares (chapterOf), nothing when it is neither.
 /** @param {Resolved} m */
 function factionKeywordLine(m) {
   const slug = m.roster?.faction
@@ -82,7 +84,7 @@ function factionKeywordLine(m) {
   const name = m.faction?.name || ''
   const parts = [group ? ALLIANCE[group.id] : undefined]
   if (group?.id === 'astartes' && slug !== 'space-marines') parts.push('Adeptus Astartes')
-  return `+ FACTION KEYWORD: ${[...parts, name].filter(Boolean).join(' - ')}`
+  return `+ FACTION KEYWORD: ${[...parts, name, m.chapter].filter(Boolean).join(' - ')}`
 }
 
 // GW's own section headings, and which of our five buckets land under each. Battleline has no
@@ -315,7 +317,7 @@ function resolve(roster, { faction, core, items } = {}) {
 
   // The army's own Force Disposition — the declared one where its detachments disagree, and never
   // a list of every candidate: an army list states the card it plays, not the ones it could have.
-  return { rows, loose, attached, detachments, battle, total, sizeName, faction, roster, items, disposition: dispositionOf(roster, detachments) }
+  return { rows, loose, attached, detachments, battle, total, sizeName, faction, roster, items, disposition: dispositionOf(roster, detachments), chapter: chapterOf(roster, faction) }
 }
 
 // ── GW app, 11th edition ─────────────────────────────────────────────────────────────────────

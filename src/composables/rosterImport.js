@@ -800,7 +800,16 @@ export function parseList(text, format = null) {
 // Deathwatch, Space Wolves) are already factions here and match by name.
 // Through norm(), which takes the final s off every word — spelling these out by hand is how the
 // first version of this matched Raven Guard and nothing else.
-const CODEX_CHAPTERS = new Set(['Imperial Fists', 'Iron Hands', 'Raven Guard', 'Salamanders', 'Ultramarines', 'White Scars'].map(norm))
+const CODEX_CHAPTER_NAMES = ['Imperial Fists', 'Iron Hands', 'Raven Guard', 'Salamanders', 'Ultramarines', 'White Scars']
+const CODEX_CHAPTERS = new Set(CODEX_CHAPTER_NAMES.map(norm))
+
+// The Codex Chapter a faction line names ("Imperium - Adeptus Astartes - Salamanders", "Raven Guard,
+// Adeptus Astartes"), spelled as our data spells it — what the imported list declares as its Chapter.
+/** @param {string | null | undefined} name @returns {string | null} */
+export function codexChapterNamed(name) {
+  const parts = norm(name).split(/,| - /).map((x) => x.trim())
+  return CODEX_CHAPTER_NAMES.find((c) => parts.includes(norm(c))) || null
+}
 const ASTARTES_KEYWORD = norm('Adeptus Astartes')
 // Faction keywords that are one faction's and nobody else's, where the keyword is not the name we
 // file that faction under.
@@ -1143,6 +1152,8 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   const battle = parsed.limit
     ? sizes.find((b) => b.points === parsed.limit)
     : total ? sizes.find((b) => b.points >= total) : undefined
+  // The Codex Chapter the faction line names, as the list's declaration (rosterEngine's chapterOf).
+  const chapter = faction.slug === 'space-marines' ? codexChapterNamed(parsed.faction) : null
   /** @type {ImportPayload} */
   const payload = {
     name: parsed.name || 'Roster',
@@ -1151,6 +1162,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // Carried only when the matched detachments actually offer it — an unreadable or stale name
     // would otherwise sit in the list claiming something it does not field.
     ...(parsed.disposition ? { disposition: parsed.disposition } : {}),
+    ...(chapter ? { chapter } : {}),
     battleSize: battle?.id || (parsed.limit ? 'custom' : 'strike-force'),
     units: [],
   }

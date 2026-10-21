@@ -129,6 +129,7 @@
  * @property {string[]} [has] which of the names some enhancement `needs` this unit has (an ability, or an item it can carry)
  * @property {SizeBracket[]} sizes
  * @property {1} [linked] has a datasheet page
+ * @property {string} [ch] the one Chapter that fields it (Codex: Space Marines' Epic Heroes)
  * @property {{ at: number, pts: number }} [step] copy tax: `pts` more from the `at`-th copy on
  * @property {Array<[number, Array<[ItemId, number] | [ItemId, number, 1]>]>} [defaults] per profile, its printed loadout `[item, count, total?]`
  * @property {Array<[number, number]>} [dw] per profile, points one model's default loadout costs
@@ -253,6 +254,7 @@
  * @property {boolean} [checkLegality]
  * @property {boolean} [archived]
  * @property {string} [disposition] the declared Force Disposition, as `fds` spells it
+ * @property {string} [chapter] the declared Chapter (Space Marines; rosterEngine's chapterOf)
  * @property {string} [notes]
  * @property {RosterEntry[]} units
  * @property {number} [createdAt] epoch ms
@@ -437,6 +439,7 @@
  * @property {string[]} detachments
  * @property {string} [detachmentLine] the raw line, resolved against the faction's detachments later
  * @property {string} [disposition]
+ * @property {string} [chapter]
  * @property {ParsedUnit[]} units
  * @property {number} [repeated] repeats of an attached unit folded away
  * @property {Array<{ name: string, onRef: string | null, onName: string | null }>} [enhancements] WTC header
@@ -471,6 +474,7 @@
  * @property {string} faction
  * @property {string[]} detachments
  * @property {string} [disposition]
+ * @property {string} [chapter]
  * @property {string} battleSize
  * @property {number} [customPoints]
  * @property {RosterEntry[]} units

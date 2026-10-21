@@ -69,7 +69,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { rosterItems } from '../../data/roster/index.js'
 import {
-  allySourceOf, dispositionOf, groupLabel, mandatoryEnhancementFor, wargearNames,
+  allySourceOf, chapterOf, dispositionOf, groupLabel, mandatoryEnhancementFor, wargearNames,
   leaderTargetsFor,
   shownModelCount,
 } from '../../composables/rosterEngine.js'
@@ -123,6 +123,9 @@ const facts = computed(() => {
   const out = []
   const fac = props.factionData?.name || props.roster?.faction
   if (fac) out.push(fac)
+  // …and the Codex Chapter it plays as, where the list names or declares one (chapterOf).
+  const ch = chapterOf(props.roster, props.factionData)
+  if (ch) out.push(ch)
   for (const d of props.roster?.detachments || []) out.push(d)
   // The army's Force Disposition, beside the detachments that offer it — the one fact of the
   // muster an opponent reads off the sheet to know which Primary Mission each of you is playing.

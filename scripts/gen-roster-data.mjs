@@ -1764,6 +1764,15 @@ function pickPrices(rows, priced, name, mfmSteps) {
 // own field and is emitted as `enh`; the rest is the runtime's rule (see rosterValidation.js).
 const alliedRows = table('allied_faction')
 const fkParentOf = new Map(table('faction_keyword').map((k) => [k.id, k.parentFactionKeywordId]))
+// The Chapter keyword a datasheet carries, if any: a faction keyword whose parent is ADEPTUS
+// ASTARTES. A Chapter with a book of its own is a faction of its own here, so in practice this
+// names the six Codex Chapters' Epic Heroes.
+const astartesKw = kwByName.get(norm('Adeptus Astartes'))
+const dsChapterKw = new Map()
+for (const r of table('datasheet_faction_keyword')) {
+  if (astartesKw && fkParentOf.get(r.factionKeywordId) === astartesKw) dsChapterKw.set(r.datasheetId, fkwName.get(r.factionKeywordId))
+}
+const chapterKeywordOf = (dsId) => dsChapterKw.get(dsId) || null
 const bsSlug = new Map(table('battle_size').map((b) => [b.id, slugify(enOf(b).name)]))
 const groupBy = (rows, key) => {
   const m = new Map()
@@ -2093,6 +2102,10 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     sizes,
   }
   if (linkedId) unit.linked = 1
+  // A unit only one Chapter fields (Marneus Calgar — ULTRAMARINES): a list holding it is that
+  // Chapter's, and the export's FACTION KEYWORD names it (rosterChapter in rosterEngine.js).
+  const ch = chapterKeywordOf(bd.id)
+  if (ch) unit.ch = ch
   // The names an enhancement may need that this unit has — an ability, or an item it carries
   // (in its loadout or among its options).
   const has = [...NEED_NAMES].filter((n) => abilitiesByDs.get(bd.id)?.has(n)
@@ -3184,6 +3197,8 @@ async function genFaction(slug) {
   const prices = mfmPrices(ownMfmUnits(mfmFaction))
   WARGEAR_MFM = mfmWargear(ownMfmUnits(mfmFaction))
   const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx, kwIndex, prices)).sort((a, b) => a.name.localeCompare(b.name))
+  // A Chapter with a book of its own is its own faction: every unit of it would carry its name.
+  if (isChapter(slug)) for (const u of units) delete u.ch
   // …and the unit such a sheet comes WITH: one that shares a named rule with it ("Using Sir Hekhtur"
   // on Canis Rex and on the pilot alike). `crew` lets the lists draw the pilot as a row of the unit
   // he climbs out of, without loading the datasheets (owner, 2026-10-04) — the same test the unit
@@ -3824,6 +3839,8 @@ async function genCombatPatrol() {
       if (!id || units.some((u) => u.id === id)) continue
       const u = buildUnit(bd, idMap, fx, kwIndex, new Map())
       for (const sz of u.sizes || []) sz.pts = 0
+      // A box's army is fixed — no Chapter to work out from it.
+      delete u.ch
       units.push(u)
     }
     report.price.noUnit.length = quiet
