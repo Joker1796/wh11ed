@@ -3,7 +3,10 @@ import { mount } from '@vue/test-utils'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import UnitEditorFields from './UnitEditorFields.vue'
 import ConfirmModal from '../ConfirmModal.vue'
-import { wargearGroupCap, sameStockSets } from '../../composables/rosterEngine.js'
+import { wargearGroupCap, wargearGroupFallbackCap, sameStockSets, swapRoom, swapOverdraft, optionItems } from '../../composables/rosterEngine.js'
+import { holdGroup, stockLeft } from '../../composables/rosterHold.js'
+import { buildRosterText } from '../../composables/rosterExport.js'
+import rosterCore from '../../data/roster/core.js'
 import rosterItems from '../../data/roster/items.js'
 import drukhari from '../../data/roster/drukhari.js'
 import astraMilitarum from '../../data/roster/astra-militarum.js'
@@ -783,4 +786,137 @@ describe('UnitEditorFields — one choice drawn once', () => {
       expect(sameStockSets(def), name).toEqual([])
     }
   })
+})
+
+// The stock row over a group whose options need different items (2026-10-21, a player's report):
+// the Deathwatch Terminators' "power fist and storm bolter" group, where "storm bolter and
+// chainfist" hands the storm bolter back. Three Terminators took plasma cannons for their storm
+// bolters, the row read "Power Fist + Storm Bolter 0" and the player read it as a ban — while "+" on
+// the chainfist rightly still took. Now the row counts each item on its own.
+describe('UnitEditorFields — a stock row per item', () => {
+  const stockRow = (w, gi) => w.find(`.ues-sec[data-gi="${gi}"] .opt-stock`)
+  // What the stock row says about each item the group replaces: its own count where it is drawn item
+  // by item, otherwise the one number standing for all of them.
+  const shown = (w, def, gi) => {
+    const row = stockRow(w, gi)
+    if (!row.exists()) return null
+    const per = row.findAll('[data-item]')
+    if (per.length) return new Map(per.map((s) => [Number(s.attributes('data-item')), Number(s.find('.stock-item-n').text())]))
+    const n = row.findComponent(NumberStepper).props('modelValue')
+    return new Map(def.gear[gi].rep.map((id) => [id, n]))
+  }
+  // The option steppers of group gi, in option order, and what each option gives up.
+  const optionSteppers = (w, gi) => w.find(`.ues-sec[data-gi="${gi}"]`).findAllComponents(NumberStepper).filter((s) => !s.classes('stock-n'))
+  const givesUp = (g, oi) => { const got = new Set(optionItems(g.o[oi]).map(([id]) => id)); return g.rep.filter((id) => !got.has(id)) }
+
+  it('shows the player\'s Terminators a power fist left to trade', async () => {
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const sm = await loadRosterFaction('space-marines', { allies: true })
+    const def = sm.units.find((u) => u.id === 'deathwatch:deathwatch-terminator-squad')
+    const entry = { uid: 'dw', id: def.id, size: 0, wg: [[0, 3, 3], [1, 2, 1], [2, 2, 1]] }
+    const w = mountFor(def, entry)
+    const name = (id) => rosterItems.items[id]
+    const row = shown(w, def, 2)
+    expect([...row].map(([id, n]) => `${name(id)} ${n}`)).toEqual(['Power Fist 3', 'Storm Bolter 0'])
+    // "+" on "Storm Bolter + Chainfist" takes: the option needs only the fist.
+    const chainfist = def.gear[2].o.findIndex((o) => optionItems(o).some(([id]) => name(id) === 'Chainfist'))
+    expect(chainfist).toBeGreaterThanOrEqual(0)
+    expect(optionSteppers(w, 2)[chainfist].find('.step-btn:last-child').attributes('disabled')).toBeUndefined()
+    // …and three of them: three chainfists, three plasma cannons, no storm bolter on a Terminator.
+    const full = { ...entry, wg: [...entry.wg, [2, chainfist, 3]] }
+    expect(swapOverdraft(def, full)).toEqual([])
+    const roster = { name: 'DW', faction: 'space-marines', battleSize: 'strike-force', detachments: ['Deathwatch Support', 'Assault Brethren', 'Terminator Storm Force'], units: [full] }
+    const text = buildRosterText(roster, { faction: sm, core: rosterCore, items: rosterItems.items }, 'gw')
+    const block = text.slice(text.indexOf('Deathwatch Terminator Squad'))
+    const terminators = block.slice(block.indexOf('x Deathwatch Terminator\n')).split('\n').slice(0, 6).join('\n')
+    expect(terminators).toMatch(/3x Chainfist/)
+    expect(terminators).toMatch(/3x Plasma Cannon/)
+    expect(terminators).not.toMatch(/Storm Bolter/)
+  })
+
+  // Over every datasheet: whenever "+" on an option still takes, the stock row may not say 0 for an
+  // item that option needs — the row's own group's options, and those of the groups drawn under it
+  // as one choice (sameStockSets: Krieg Combat Engineers, Deathwatch Veterans). States: nothing
+  // picked, or another group of the same models spending all it can of an item this row counts —
+  // each with or without one pick of an option under the row.
+  const bundles = import.meta.glob(['../../data/roster/*.js', '!../../data/roster/*.test.js', '!../../data/roster/index.js'], { eager: true })
+  const units = Object.values(bundles).flatMap((m) => m.default?.units || [])
+  const under = (def, gi) => sameStockSets(def).find((set) => set.includes(gi)) || [gi]
+  const statesFor = (def, size, gi) => {
+    const g = def.gear[gi]
+    const base = { uid: 'u1', id: def.id, size, wg: [] }
+    const others = [[]]
+    for (const [hj, h] of def.gear.entries()) {
+      if (hj === gi || !h.rep?.some((id) => g.rep.includes(id))) continue
+      if (!(h.all || g.all || (h.m ?? 0) === (g.m ?? 0))) continue
+      for (const oj of h.o.keys()) {
+        if (!givesUp(h, oj).some((id) => g.rep.includes(id))) continue
+        const cap = wargearGroupCap(def, base, hj, oj)
+        const n = Math.min(swapRoom(def, base, hj, oj) ?? 1, cap ? (cap.dup || cap.limit) : (wargearGroupFallbackCap(def, base, hj) ?? 1))
+        if (n > 0) others.push([[hj, oj, n]])
+      }
+    }
+    const out = []
+    for (const wg of others) {
+      out.push(wg)
+      for (const hj of under(def, gi)) {
+        for (const oi of def.gear[hj].o.keys()) {
+          if (wg.some(([x, o]) => x === hj && o === oi)) continue
+          if ((swapRoom(def, { ...base, wg }, hj, oi) ?? 1) > 0) out.push([...wg, [hj, oi, 1]])
+        }
+      }
+    }
+    return out
+  }
+  // Mounting every state would take minutes; a state is mounted only where the row can show a 0
+  // that matters. Every item's own count is at least the one-number row (each is the models still
+  // carrying it less the picks giving it up), so the one number must be 0; and "+" can take only
+  // where the room the stock rule leaves an option, less its group's other picks, is above its own
+  // count — or where the editor's ceiling does not read that room (no cap at all, or the "for every
+  // N models" line, which counts the room per option).
+  const mayTake = (def, entry, gi) => under(def, gi).some((hj) => {
+    const g = def.gear[hj]
+    const n = (oi, same) => entry.wg.filter(([x, o]) => x === hj && (o === oi) === same).reduce((a, [, , c]) => a + c, 0)
+    if (/for every \d+ model/i.test(rosterItems.texts[g.t] || '')) return true
+    return g.o.some((_, oi) => {
+      if (!givesUp(g, oi).length) return false
+      if (wargearGroupFallbackCap(def, entry, hj) == null && !wargearGroupCap(def, entry, hj, oi)) return true
+      const room = swapRoom(def, entry, hj, oi)
+      return room == null || n(oi, true) < room - n(oi, false)
+    })
+  })
+
+  it('never says 0 for an item an option still takes', async () => {
+    let checked = 0
+    const bad = []
+    for (const def of units) {
+      let w = null
+      for (const size of new Set([0, def.sizes.length - 1])) {
+        for (const [gi, g] of (def.gear || []).entries()) {
+          if (!g.rep?.length || holdGroup(def, gi)) continue
+          for (const wg of statesFor(def, size, gi)) {
+            const entry = { uid: 'u1', id: def.id, size, wg }
+            if (stockLeft(def, entry, gi) !== 0 || !mayTake(def, entry, gi)) continue
+            if (w) await w.setProps({ entry })
+            else w = mountFor(def, entry)
+            const row = shown(w, def, gi)
+            if (!row) continue
+            checked++
+            for (const hj of under(def, gi)) {
+              if (!w.find(`.ues-sec[data-gi="${hj}"]`).exists()) continue
+              const h = def.gear[hj]
+              optionSteppers(w, hj).forEach((s, oi) => {
+                if (s.props('disabled') || !(s.props('max') > s.props('modelValue'))) return
+                const zero = givesUp(h, oi).filter((id) => row.get(id) === 0)
+                if (zero.length) bad.push(`${def.name} g${gi}/g${hj} ${JSON.stringify(wg)}: "${optionItems(h.o[oi]).map(([id]) => rosterItems.items[id]).join(' + ')}" takes, row says 0 for ${zero.map((id) => rosterItems.items[id]).join(', ')}`)
+              })
+            }
+          }
+        }
+      }
+      w?.unmount()
+    }
+    expect(bad).toEqual([])
+    expect(checked).toBeGreaterThan(20)
+  }, 60000)
 })
