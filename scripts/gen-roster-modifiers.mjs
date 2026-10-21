@@ -703,6 +703,7 @@ export function incomingSentences(prose) {
 }
 // Rules whose malus the card cannot place on the unit the record is resolved for, each with why.
 const INCOMING_EXEMPT = new Map([
+  ['necrons · Chrono-impedance Fields', 'the bearer selects another VEHICLE or MOUNTED unit within 6"'],
 ])
 function incomingGaps(slug, sources, existing) {
   const bySid = new Map((existing?.entries || []).map((e) => [e.sid, e]))

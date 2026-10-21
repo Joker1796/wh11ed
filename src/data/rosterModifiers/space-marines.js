@@ -1071,6 +1071,14 @@ export default {
           "op": "add",
           "value": -1,
           "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1441,6 +1449,15 @@ export default {
           "value": -1,
           "vs": "s-gt-t",
           "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "s-gt-t",
+          "when": null,
+          "target": "led"
         }
       ]
     },
@@ -1690,6 +1707,20 @@ export default {
           "cond": [
             "never"
           ]
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "for the phase, after a psychic roll other than a 1",
+            "ru": "до конца фазы после психического броска не на 1"
+          },
+          "cond": [
+            "never"
+          ],
+          "target": "led"
         }
       ]
     },
