@@ -1315,10 +1315,30 @@ function abilityStateLabel(st) {
    edge-to-edge under the solid name plate above; a border separates it from the body.
    Stat boxes get a plain card-colored fill so they pop on the tinted background. */
 .ds-cardhead {
+  position: relative;
+  isolation: isolate;
   margin: calc(-1 * var(--ds-pad-top)) calc(-1 * var(--ds-pad-x)) var(--ds-space);
   padding: var(--ds-band-top) var(--ds-pad-x) var(--ds-band-bottom);
   background: color-mix(in srgb, var(--ds-th-bg, var(--accent)) 10%, var(--bg-card));
   border-bottom: 1px solid var(--border);
+}
+/* The navbar logo's grid (AppNavbar's .navbar-inner::before), at both ends of the band and fading
+   towards its middle (owner, 2026-10-21) — texture where the band is empty, nothing under the
+   stats. Drawn in the text colour, so it holds in either theme. */
+.ds-cardhead::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  --ds-grid-line: color-mix(in srgb, var(--text-primary) 7%, transparent);
+  background-image:
+    linear-gradient(var(--ds-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ds-grid-line) 1px, transparent 1px);
+  background-size: 14px 14px;
+  background-position: -1px -1px;
+  -webkit-mask-image: linear-gradient(to right, #000 0, transparent 9rem, transparent calc(100% - 9rem), #000 100%);
+  mask-image: linear-gradient(to right, #000 0, transparent 9rem, transparent calc(100% - 9rem), #000 100%);
 }
 .ds-cardhead .ds-stat-box::before { background: var(--bg-card); }
 .ds-cardhead .ds-statline:last-child { margin-bottom: 0; }
