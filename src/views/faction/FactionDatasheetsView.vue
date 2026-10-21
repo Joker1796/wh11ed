@@ -807,7 +807,7 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
 }
 
 .ds-chip-chapter {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.4px;
