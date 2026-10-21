@@ -60,7 +60,10 @@
              icon on them, and a tooltip is no answer on a phone — so the key is said once, here,
              instead of on 90 chips. -->
           <div class="ds-tools">
-            <p class="ds-legend">
+            <p
+              v-if="!wide"
+              class="ds-legend"
+            >
               <span><i class="wi wi-pin-on" /> {{ labels.favPinnedGroup }}</span>
               <span><i class="wi wi-own" /> {{ labels.rosterFilterOwned }}</span>
             </p>
@@ -106,7 +109,13 @@
                   :class="{ picked: shown.includes(s.id) }"
                   :aria-current="shown.includes(s.id) ? 'true' : undefined"
                 >
-                  <span class="ds-marks">
+                  <!-- A phone's chip carries the two marks in its corner; a wide screen's row carries a
+                       "…" instead (owner, 2026-10-21) — the chip's context menu, whose rows say both
+                       marks' state. -->
+                  <span
+                    v-if="!wide"
+                    class="ds-marks"
+                  >
                     <button
                       data-press="pop"
                       type="button"
@@ -151,6 +160,17 @@
                     v-if="s.points"
                     class="ds-chip-pts"
                   >{{ ptsSummary(s.points) }}</span>
+                  <button
+                    v-if="wide"
+                    type="button"
+                    class="ds-more"
+                    :title="labels.rosterMoreActions"
+                    :aria-label="labels.rosterMoreActions"
+                    aria-haspopup="menu"
+                    @click.stop.prevent="openMenuAt(s, $event.currentTarget)"
+                  >
+                    <i class="wi wi-more" />
+                  </button>
                 </RouterLink>
               </TransitionGroup>
             </template>
@@ -449,6 +469,12 @@ const unitPress = useLongPress('.ds-chip[data-unit]', (el, anchor) => {
 const menuHref = computed(() => (menu.value ? localePath(`/factions/${slug.value}/datasheets/${menu.value.id}`, locale.value) : ''))
 const menuShownName = computed(() => datasheets.value.find((d) => d.id === shown.value[0])?.name || '')
 function menuDo(fn) { menuOpen.value = false; fn() }
+// The row's "…": the same menu, hung from the button.
+function openMenuAt(sheet, btn) {
+  const r = btn.getBoundingClientRect()
+  menu.value = { id: sheet.id, name: sheet.name, anchor: { left: r.left, right: r.right, top: r.top, bottom: r.bottom } }
+  menuOpen.value = true
+}
 
 // "Copied" has nowhere to show on a menu that has closed: a toast says it.
 const toast = ref('')
@@ -927,24 +953,37 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   .ds-list .ds-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
   /* A row: the name and what is said about it on one line, the two marks side by side at the
      right. The rows touch, sharing one edge (components/CLAUDE.md, Borders that touch). */
+  /* A row: the name, a Legends badge, the price and the "…" on one line; a Space Marines unit's
+     Chapter on a line of its own under them, in the bottom right corner (owner, 2026-10-21). Only
+     the rows that carry a Chapter grow a second line. The rows touch, sharing one edge
+     (components/CLAUDE.md, Borders that touch). */
   .ds-list .ds-chip {
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
     column-gap: 0.45rem;
+    row-gap: 0;
     min-height: 0;
-    padding: 0.4rem 3.4rem 0.4rem 0.55rem;
+    padding: 0.3rem 0.3rem 0.3rem 0.55rem;
   }
   .ds-list .ds-chip + .ds-chip { margin-top: -1px; }
   .ds-list .ds-chip:hover,
   .ds-list .ds-chip.picked { position: relative; z-index: 1; }
   .ds-list .ds-chip-name { flex: 1 1 auto; min-width: 0; font-size: 1rem; }
-  .ds-list .ds-marks {
-    top: 0;
-    bottom: 0;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.1rem;
+  .ds-list .ds-chip-chapter { order: 1; flex-basis: 100%; text-align: right; padding-right: 0.25rem; }
+  .ds-more {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.6rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  @media (hover: hover) {
+    .ds-more:hover { color: var(--text-primary); background: color-mix(in srgb, var(--accent) 12%, transparent); }
   }
   .ds-chip.picked {
     background: color-mix(in srgb, var(--accent) 12%, var(--bg-card));
