@@ -314,6 +314,18 @@ the Watch Sergeant who did so still holds a power weapon to trade for a xenophas
 builds him that way, and 13 corpus lists did. Room is therefore asked per OPTION where the options
 differ in what they return.
 
+**…and the editor's stock row says it per item there too** (`rosterHold.stockByItem`, 2026-10-21).
+The row over a stepper group (`stockLeft`) counts the models still carrying EVERY item the group
+replaces; on the Deathwatch Terminators, with three storm bolters gone to plasma cannons, it read
+"Power Fist + Storm Bolter 0" while "+" on "Storm Bolter + Chainfist" (which needs only the fist)
+rightly still took — and a player read the 0 as a ban. Where the options give up different items the
+row is "Power Fist 3 · Storm Bolter 0" instead, in the same line, no number column (each count is
+the item's `swapRoomByItem` less this group's picks giving it up); where they all give up the same,
+it is unchanged. Not for `alt`, `cp`, `rc` or `keep` groups. Gate: `UnitEditorFields.test.js` → "a
+stock row per item" mounts every datasheet in the states that could show a 0 and fails where "+"
+takes an option the row says 0 for (red on the old row: the two Deathwatch Terminator Squads and the
+Wolf Guard Pack Leader in Terminator Armour).
+
 Fail-open, as every other reader here: a per-copy group (`cp`) and a unit whose models cannot be
 split between profiles (`modelsPerMini` null) are not stock and never close anything. An item the
 profile is not printed with is stock only as far as its own picks hand it out (see "A swap the

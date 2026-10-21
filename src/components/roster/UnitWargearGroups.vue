@@ -128,8 +128,14 @@
           class="opt-tile opt-stock"
         >
           <div class="opt-step-body">
-            <span class="opt-name opt-stock-name"><span>{{ g.rep.map((id) => items[id]).join(' + ') }}</span><span class="opt-tag">{{ labels.rosterStockTag }}</span></span>
+            <span class="opt-name opt-stock-name"><span
+              v-for="[id, n] in stockItems[gi] || []"
+              :key="id"
+              class="stock-item"
+              :data-item="id"
+            >{{ items[id] }}&nbsp;<span class="stock-item-n">{{ n }}</span></span><span v-if="!stockItems[gi]">{{ g.rep.map((id) => items[id]).join(' + ') }}</span><span class="opt-tag">{{ labels.rosterStockTag }}</span></span>
             <NumberStepper
+              v-if="!stockItems[gi]"
               compact
               class="stock-n"
               :model-value="stockLefts[gi]"
@@ -283,8 +289,14 @@
           class="opt-tile opt-stock"
         >
           <div class="opt-step-body">
-            <span class="opt-name opt-stock-name"><span>{{ g.rep.map((id) => items[id]).join(' + ') }}</span><span class="opt-tag">{{ labels.rosterStockTag }}</span></span>
+            <span class="opt-name opt-stock-name"><span
+              v-for="[id, n] in stockItems[gi] || []"
+              :key="id"
+              class="stock-item"
+              :data-item="id"
+            >{{ items[id] }}&nbsp;<span class="stock-item-n">{{ n }}</span></span><span v-if="!stockItems[gi]">{{ g.rep.map((id) => items[id]).join(' + ') }}</span><span class="opt-tag">{{ labels.rosterStockTag }}</span></span>
             <NumberStepper
+              v-if="!stockItems[gi]"
               compact
               class="stock-n"
               :model-value="stockLefts[gi]"
@@ -364,7 +376,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
 import { sameStockSets, modelCount, modelsPerMini, overdrawnGroups, optionItems, optionLabel, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom, wargearPoolOf, wargearPoolCap, wargearPoolRoom, wargearPoolTakenBy } from '../../composables/rosterEngine.js'
-import { holdCounts, holdGroup, holdWg, stockLeft } from '../../composables/rosterHold.js'
+import { holdCounts, holdGroup, holdWg, stockByItem, stockLeft } from '../../composables/rosterHold.js'
 import { TYPE_FROM } from './typeableCount.js'
 
 const props = defineProps({
@@ -682,6 +694,10 @@ function setStep(gi, oi, n) {
 // entry changes when the model gets its new weapon, so leaving a weapon off and walking away
 // changes nothing — the hint over the rows says so.
 const stockLefts = computed(() => (props.def.gear || []).map((g, gi) => (g.rep?.length ? stockLeft(props.def, props.entry, gi) : null)))
+// …and item by item where the group's options need different items (rosterHold's stockByItem):
+// "Power Fist 3 · Storm Bolter 0" in place of the name and the one number, which read 0 while "+" on
+// the option handing the storm bolter back still took. Same row, same line — it only wraps.
+const stockItems = computed(() => (props.def.gear || []).map((g, gi) => (stockLefts.value[gi] != null ? stockByItem(props.def, props.entry, gi) : null)))
 // The row of models still carrying what a group trades: a stepper's own, and a squad's set's once.
 function showStock(gi) {
   if (holds.value[gi] || stockLefts.value[gi] == null) return false
@@ -868,6 +884,12 @@ function groupStepMax(gi, oi) {
    "Boltgun STOCK" — owner, 2026-10-07). */
 .opt-stock-name { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.4rem; }
 .opt-stock-name .opt-tag { margin-left: 0; }
+/* Item by item: each "name count" is a flex item, so the line breaks between items first, a dot
+   after every one but the last; a name too long for the line wraps inside, its count held to its
+   last word by the no-break space. */
+.stock-item { min-width: 0; }
+.stock-item:has(+ .stock-item)::after { content: '·'; margin-left: 0.4rem; color: var(--text-dim); }
+.stock-item-n { font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* Smallest phones (down to 320px) — the section headings (.ues-h) stay full-size, everything
    else shrinks a step so the checkbox tiles/info button/pill row don't force horizontal

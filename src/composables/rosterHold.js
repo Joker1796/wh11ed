@@ -12,12 +12,13 @@
 // validation, export and the game card read it as before; holdWg is the one translation from
 // "who holds what" back to swaps, and rosterHold.test.js walks every distribution of every group
 // this applies to through the engine and back.
-import { optionItems, modelsPerMini, swapRoom } from './rosterEngine.js'
+import { optionItems, modelsPerMini, swapRoom, swapRoomByItem } from './rosterEngine.js'
 import { loadoutItemCopies, sumKnown } from './rosterModifiers.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
 /** @typedef {import('./roster.types.js').WargearPick} WargearPick */
+/** @typedef {import('./roster.types.js').ItemId} ItemId */
 /** @typedef {Partial<RosterEntry>} EntryLike */
 
 // Whether group `gi` is drawn this way: a per-model stepper whose options are single items, among
@@ -128,4 +129,36 @@ export function stockLeft(def, entry, gi) {
   const backs = (oi) => { const got = new Set(optionItems(g.o?.[oi]).map(([id]) => id)); return rep.every((id) => got.has(id)) }
   const spent = (entry?.wg || []).filter(([x, oi]) => x === gi && !backs(oi)).reduce((n, [, , c]) => n + (c || 1), 0)
   return Math.max(0, room - spent)
+}
+
+// The same row item by item, where the group's options do not all need the same items. The
+// Deathwatch Terminators trade "power fist and storm bolter" for "storm bolter and chainfist" or
+// "thunder hammer and storm shield": the first hands the storm bolter back, so it needs only the
+// fist. With three storm bolters gone to plasma cannons, stockLeft — every item at once — read
+// "Power Fist + Storm Bolter 0" while "+" on the chainfist still worked, and a player read the 0 as
+// a ban (2026-10-21). Here every item the group replaces has its own count: the models still
+// carrying it (swapRoomByItem, after the other groups) less this group's picks that give it up —
+// "Power Fist 3 · Storm Bolter 0". null where the options all need the same items (stockLeft's one
+// number says it), and where an item is not one per model and a pick: an "X or Y" group (a pick
+// spends one of the two, which one is the ledger's choice) and one copy of several (`cp`, `rc`).
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {Array<[ItemId, number]> | null}
+ */
+export function stockByItem(def, entry, gi) {
+  const g = def?.gear?.[gi]
+  if (!g?.rep || g.rep.length < 2 || g.keep?.length || g.alt || g.cp || g.rc) return null
+  const rep = g.rep
+  // What each option gives up: what the group replaces less what the option hands back.
+  const gives = (g.o || []).map((o) => { const got = new Set(optionItems(o).map(([id]) => id)); return rep.filter((id) => !got.has(id)) })
+  if (new Set(gives.filter((x) => x.length).map((x) => x.join())).size < 2) return null
+  const byItem = swapRoomByItem(def, entry, gi)
+  if (!byItem || rep.some((id) => byItem.get(id) == null)) return null
+  const picks = (entry?.wg || []).filter(([x]) => x === gi)
+  return rep.map((id) => {
+    const spent = picks.filter(([, oi]) => gives[oi]?.includes(id)).reduce((n, [, , c]) => n + (c || 1), 0)
+    return [id, Math.max(0, Math.floor(/** @type {number} */ (byItem.get(id)) + 1e-9) - spent)]
+  })
 }

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
-import { holdGroup, holdCounts, holdWg, stockLeft } from './rosterHold.js'
+import { holdGroup, holdCounts, holdWg, stockByItem, stockLeft } from './rosterHold.js'
 import { defaultLoadoutLines, fixedLoadoutLines, modelsPerMini, overdrawnGroups, swapOverdraft, unitWargearPoints, wargearGroupFallbackCap } from './rosterEngine.js'
 import shared from '../data/roster/items.js'
 
@@ -89,6 +89,21 @@ describe('the stock row of a swap group', () => {
     expect(stockLeft(def, entry, pistols)).toBe(1)
     expect(stockLeft(def, entry, sgtShield)).toBe(1)
     expect(stockLeft(def, entry, sgtPistols)).toBe(1)
+  })
+
+  // Deathwatch Terminators: "storm bolter and chainfist" hands the storm bolter back, "thunder hammer
+  // and storm shield" does not — the row counts each item (a player's report, 2026-10-21).
+  it('counts item by item where the options need different items', () => {
+    const def = unit('deathwatch', 'Deathwatch Terminator Squad')
+    const gi = def.gear.findIndex((g) => g.m === 1 && g.rep?.length === 2)
+    const names = (wg) => stockByItem(def, { unitId: def.id, size: 0, wg }, gi).map(([id, n]) => `${shared.items[id]} ${n}`)
+    expect(names([])).toEqual(['Power Fist 4', 'Storm Bolter 4'])
+    // Three plasma cannons for storm bolters, one thunder hammer and storm shield.
+    expect(names([[0, 3, 3], [gi, 2, 1]])).toEqual(['Power Fist 3', 'Storm Bolter 0'])
+    expect(stockLeft(def, { unitId: def.id, size: 0, wg: [[0, 3, 3], [gi, 2, 1]] }, gi)).toBe(0)
+    // Where every option needs the same items, the one number says it.
+    const necrons = unit('necrons', 'Necron Warriors')
+    expect(stockByItem(necrons, { unitId: necrons.id, size: 0, wg: [] }, 0)).toBeNull()
   })
 
   it('never reads below zero, in any group, with nothing picked', () => {
