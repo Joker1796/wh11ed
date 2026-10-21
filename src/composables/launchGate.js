@@ -16,7 +16,9 @@ import { ui } from '../i18n/ui.js'
 // Bounded both ways (owner, 2026-10-16): the question gets ASK_MS, the install INSTALL_MS; past
 // either, or with no network, the app opens on what it has and the update arrives later through
 // the plate (UpdatePlate.vue). A worker that already finished installing (downloaded in an earlier
-// session, the plate never pressed) is applied at once, no network needed.
+// session, the plate never pressed) is applied with no network needed — but online, and with a newer
+// version live than the one running, the newer one is installed over it first: applying the old
+// one put the reader on a build that was itself out of date, and the plate came up 3–16 s later.
 //
 // Runs for EVERY load under a worker, not only the installed app: on Android and desktop a tab
 // shares the app's worker, and its F5 would otherwise bring the old copy back (a waiting worker is
@@ -30,26 +32,36 @@ const TAKEOVER_MS = 4000
 // behind the screen for it again; the plate brings it once it is really there.
 const TRIED_KEY = 'wh11ed-launch-tried'
 
-/** The versions live on the server, or null when it cannot be told in time. */
+/**
+ * The versions live on the server, or null when it cannot be told in time.
+ *
+ * The request is outrun, not aborted: an abort rejects the fetch, and a fetch wrapped by an
+ * extension or an antivirus that chains on it without a catch turned that into an unhandled
+ * "AbortError: signal is aborted without reason" in the error log (2026-10-21). A late answer is
+ * simply not listened to.
+ */
 export async function liveVersion({ timeout = ASK_MS, fetchImpl = globalThis.fetch } = {}) {
-  const ctl = new AbortController()
-  const timer = setTimeout(() => ctl.abort(), timeout)
-  try {
-    const res = await fetchImpl('/version.json', { cache: 'no-store', signal: ctl.signal })
+  const ask = (async () => {
+    const res = await fetchImpl('/version.json', { cache: 'no-store' })
     if (!res.ok) return null
     const json = await res.json()
     return typeof json?.app === 'string' && json.app ? json : null
-  } catch {
-    return null
-  } finally {
-    clearTimeout(timer)
-  }
+  })().catch(() => null)
+  return within(ask, timeout, null)
+}
+
+// `promise`, or `fallback` once `ms` have passed without it.
+function within(promise, ms, fallback) {
+  let timer
+  const late = new Promise((resolve) => { timer = setTimeout(() => resolve(fallback), ms) })
+  return Promise.race([promise, late]).finally(() => clearTimeout(timer))
 }
 
 // The worker the registration is installing, once it has installed (it then waits), or null.
-function installed(reg, ms) {
+// `fresh`: not the one already waiting — only one that installs over it.
+function installed(reg, ms, { fresh = false } = {}) {
   return new Promise((resolve) => {
-    if (reg.waiting) return resolve(reg.waiting)
+    if (reg.waiting && !fresh) return resolve(reg.waiting)
     const timer = setTimeout(() => resolve(null), ms)
     const done = (w) => { clearTimeout(timer); resolve(w) }
     const watch = (w) => {
@@ -62,6 +74,17 @@ function installed(reg, ms) {
     watch(reg.installing)
     reg.addEventListener('updatefound', () => watch(reg.installing))
   })
+}
+
+// A worker that installed in an earlier session carries the build that was live THEN; the server
+// may have a newer one by now. A worker does not say which build it carries, but the browser can
+// tell: an update check compares the server's worker with the newest one the registration has —
+// the waiting one — and installs it over that only if it differs (every build's worker differs: it
+// lists the shell's revisions). Resolves with that newer worker once installed, or null when the
+// waiting one is already the live build, or the check or the install does not finish in time.
+async function newerThanWaiting(reg) {
+  await within(reg.update().catch(() => {}), ASK_MS)
+  return reg.installing ? installed(reg, INSTALL_MS, { fresh: true }) : null
 }
 
 // Tell the waiting worker to take over and reload once it has. Resolves false if it never does.
@@ -117,10 +140,16 @@ export async function launchGate({ reload = () => window.location.reload(), spla
   const reg = await sw.getRegistration().catch(() => null)
   if (!reg) return false
 
-  // Downloaded before and never applied: no question to ask.
+  // Downloaded before and never applied. Offline, or nothing newer live, it is what opens.
   if (reg.waiting) {
     const hide = splash('')
-    if (await takeOver(reg.waiting, reload)) return true
+    const live = navigator.onLine ? await liveVersion() : null
+    let worker = reg.waiting
+    if (live && live.app !== version && getItem(TRIED_KEY) !== live.app) {
+      setItem(TRIED_KEY, live.app)
+      worker = (await newerThanWaiting(reg)) || reg.waiting
+    }
+    if (worker && await takeOver(worker, reload)) return true
     hide()
     return false
   }
