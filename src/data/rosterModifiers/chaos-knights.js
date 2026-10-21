@@ -181,6 +181,20 @@ export default {
       ]
     },
     {
+      "sid": "9bb7fe53-0c4c-47c2-b9a6-2e5673235f41:chaos-cerastus-knight-castigator",
+      "kind": "ability",
+      "name": "Chaos Cerastus Knight Castigator: Storm of Bolts",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-cerastus-knight-castigator"
+      },
+      "hash": "1d59273b",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "8029af3f-904f-40d7-91d1-02a270ec8c6e:chaos-cerastus-knight-lancer",
       "kind": "ability",
       "name": "Chaos Cerastus Knight Lancer: Dark Fervour",

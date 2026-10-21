@@ -99,6 +99,20 @@ export default {
       ]
     },
     {
+      "sid": "2228df96-5080-40db-a776-9d20423e6b2e:chaos-predator-destructor",
+      "kind": "ability",
+      "name": "Chaos Predator Destructor: Punishing Suppression",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "chaos-predator-destructor"
+      },
+      "hash": "954b014f",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "33a3fdd4-beec-4f75-8779-cf16bbdadf0f:daemon-prince-of-khorne",
       "kind": "ability",
       "name": "Daemon Prince of Khorne: Devastating Assault",
@@ -1146,6 +1160,20 @@ export default {
       ]
     },
     {
+      "sid": "6ba1aac3-7971-46b5-8b47-46b0f236dd1f",
+      "kind": "enhancement",
+      "name": "Unleash Hell",
+      "det": "Goretrack Onslaught",
+      "ref": {
+        "kind": "enhancement",
+        "det": "goretrack-onslaught"
+      },
+      "hash": "e53db515",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "8d57055e-3476-401d-9382-c0c1eae33a4d",
       "kind": "enhancement",
       "name": "Blade of Endless Bloodshed",
@@ -1538,6 +1566,21 @@ export default {
         }
       ],
       "dur": "turn"
+    },
+    {
+      "sid": "c52715e8-0449-4e3d-adb9-feece5be12c6",
+      "kind": "stratagem",
+      "name": "Daemonic Resistance",
+      "det": "Possessed Slaughterband",
+      "ref": {
+        "kind": "stratagem",
+        "det": "possessed-slaughterband",
+        "name": "Daemonic Resistance"
+      },
+      "hash": "6d559221",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "885813ba-ec4e-4279-bd3b-b0ea000890cb",

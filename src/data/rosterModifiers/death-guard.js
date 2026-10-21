@@ -518,6 +518,20 @@ export default {
       ]
     },
     {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:miasmic-malignifier",
+      "kind": "ability",
+      "name": "Miasmic Malignifier: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "miasmic-malignifier"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "f2ae231c-1b15-4767-8884-015a768c86f0:mortarion",
       "kind": "ability",
       "name": "Mortarion: Boon of Death",
@@ -660,6 +674,20 @@ export default {
       ]
     },
     {
+      "sid": "12f4452d-0d08-48c9-9ac1-64f0e3affbf2:nurglings",
+      "kind": "ability",
+      "name": "Nurglings: Mischief Makers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "nurglings"
+      },
+      "hash": "55ce4f47",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "7e8193c1-c4a6-428c-ab02-1505c56ea17f:rotigus",
       "kind": "ability",
       "name": "Rotigus: Deluge of Nurgle",
@@ -685,6 +713,20 @@ export default {
       "hash": "5bc95a56",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "4df2ee7e-8176-4bc5-95de-7bd50d694002:typhus",
+      "kind": "ability",
+      "name": "Typhus: Destroyer Hive",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "typhus"
+      },
+      "hash": "0e2704e0",
+      "ver": 995,
+      "reviewed": false,
       "effects": []
     },
     {

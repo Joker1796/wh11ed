@@ -780,6 +780,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "0c2bef65-331b-4258-b62b-355f981c1618:ravager",
+      "kind": "ability",
+      "name": "Ravager: Agonising Suppression",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "ravager"
+      },
+      "hash": "17c69053",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "pack:raven-strike-fighter:ground-attack-craft",
       "kind": "ability",
       "name": "Raven Strike Fighter: Ground-attack Craft",
@@ -1167,6 +1181,20 @@ export default {
       "reviewed": true,
       "effects": [],
       "note": "army-composition rule — allied points allowance"
+    },
+    {
+      "sid": "29a8de5a-c329-4c78-9897-584e16e701e6",
+      "kind": "detachmentRule",
+      "name": "Stitchflesh Abominations",
+      "det": "Covenite Coterie",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "covenite-coterie"
+      },
+      "hash": "9862711f",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "60c93592-228e-4a81-a0c7-46967aacfc1d",
@@ -2266,6 +2294,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "63c6595b-9fe1-4676-bfc9-1035b3b5cd00",
+      "kind": "stratagem",
+      "name": "Fighting Shadows",
+      "det": "Realspace Raiders",
+      "ref": {
+        "kind": "stratagem",
+        "det": "realspace-raiders",
+        "name": "Fighting Shadows"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "c9ce7694-250a-49ab-a7be-eca6db661e1c",
       "kind": "stratagem",
       "name": "Insensible to Pain",
@@ -2322,6 +2365,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "0725d812-9181-49d7-a99d-e92874eed991",
+      "kind": "stratagem",
+      "name": "Murderer’s Circus",
+      "det": "Reaper’s Wager",
+      "ref": {
+        "kind": "stratagem",
+        "det": "reapers-wager",
+        "name": "Murderer’s Circus"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "6496bede-f056-48dc-b698-04caeaa6ae7e",

@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "ef2a8a7e-ff69-4080-bdd5-fe96843862bb:aberrants",
+      "kind": "ability",
+      "name": "Aberrants: Hulking Bodyguards",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aberrants"
+      },
+      "hash": "b178de89",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "03af0fc0-6c26-48af-83e0-fa6060aeaa40:achilles-ridgerunners",
       "kind": "ability",
       "name": "Achilles Ridgerunners: Crossfire",
@@ -261,6 +275,32 @@ export default {
       ]
     },
     {
+      "sid": "693e090d-72eb-4589-b1b2-526042d1a974:magus",
+      "kind": "ability",
+      "name": "Magus: Mind Control",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "magus",
+        "scopes": [
+          {
+            "targets": [
+              "PSYKER"
+            ],
+            "excludes": [],
+            "models": [
+              "PSYKER"
+            ],
+            "modelExcludes": []
+          }
+        ]
+      },
+      "hash": "f35bd49c",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "40bcdab4-08ee-48d9-a197-d5be1748f7aa:magus",
       "kind": "ability",
       "name": "Magus: Psychic Familiar",
@@ -333,6 +373,20 @@ export default {
           "target": "unit"
         }
       ]
+    },
+    {
+      "sid": "pack:tectonic-fragdrill:fortification",
+      "kind": "ability",
+      "name": "Tectonic Fragdrill: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "tectonic-fragdrill"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "bb51fe29-292d-4c77-a593-ea15daa0d3e3",
@@ -953,6 +1007,20 @@ export default {
       }
     },
     {
+      "sid": "05991a9e-c519-4267-971c-b9d69f36e679",
+      "kind": "enhancement",
+      "name": "Starfall Shells",
+      "det": "Outlander Claw",
+      "ref": {
+        "kind": "enhancement",
+        "det": "outlander-claw"
+      },
+      "hash": "855ce9db",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "4fb6414e-4c63-4843-b06c-ebcb2e5d0469",
       "kind": "enhancement",
       "name": "Mark of the Star Children (Upgrade)",
@@ -1033,6 +1101,21 @@ export default {
         "kind": "enhancement",
         "det": "xenocreed-congregation"
       }
+    },
+    {
+      "sid": "4cb1bc53-b399-4352-8b12-743fa82c9e82",
+      "kind": "stratagem",
+      "name": "Bio-horror Revelation",
+      "det": "Biosanctic Broodsurge",
+      "ref": {
+        "kind": "stratagem",
+        "det": "biosanctic-broodsurge",
+        "name": "Bio-horror Revelation"
+      },
+      "hash": "0cda3d9c",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "89f9667a-2fe9-43f7-acae-2da2c36fdd58",

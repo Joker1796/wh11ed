@@ -240,6 +240,20 @@ export default {
       ]
     },
     {
+      "sid": "2eda4e50-0e9b-42a2-ad3c-a6765e30710f:kapricus-carrier",
+      "kind": "ability",
+      "name": "Kapricus Carrier: Scanner Uplinks",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "kapricus-carrier"
+      },
+      "hash": "f5abf12e",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "7342cf80-6585-4570-bd7e-a26d2c8a584b:vynn-bane-slayer",
       "kind": "ability",
       "name": "Vynn Bane-Slayer: Fast-firing Targeters",
@@ -635,6 +649,20 @@ export default {
       }
     },
     {
+      "sid": "cc75d3c5-6ce3-4757-ae31-b83fb7461869",
+      "kind": "enhancement",
+      "name": "Quake Multigenerator",
+      "det": "Hearthband",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hearthband"
+      },
+      "hash": "0ab4c3f2",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "b48ffd02-ce7e-41c0-aa75-fc375e1fe200",
       "kind": "enhancement",
       "name": "Calculated Tenacity",
@@ -688,6 +716,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "f2eb2bd9-6e9d-47dc-b2c5-80633c0b88ca",
+      "kind": "enhancement",
+      "name": "Graviton Vault",
+      "det": "Hearthfyre Arsenal",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hearthfyre-arsenal"
+      },
+      "hash": "425cd1e2",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "e39596ad-bfd4-4548-b115-a5d5f63a2fba",
@@ -896,6 +938,21 @@ export default {
       "effects": []
     },
     {
+      "sid": "c0c6a740-7d5f-4f7f-9d61-fe83a4c5af68",
+      "kind": "stratagem",
+      "name": "Weavewërke Buttress",
+      "det": "Dêlve Assault Shift",
+      "ref": {
+        "kind": "stratagem",
+        "det": "delve-assault-shift",
+        "name": "Weavewërke Buttress"
+      },
+      "hash": "6d559221",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "147a06bd-d45b-45c3-98cd-a859b4c7dea3",
       "kind": "stratagem",
       "name": "No Shot Wasted",
@@ -1033,6 +1090,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "f889cbdd-cc18-4c7d-ac2d-34ff35b0200f",
+      "kind": "stratagem",
+      "name": "Preventative Purge",
+      "det": "Hearthfyre Arsenal",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hearthfyre-arsenal",
+        "name": "Preventative Purge"
+      },
+      "hash": "c1afc6a4",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "da07f9ff-6b83-4ccb-b64e-5554fa9ff239",

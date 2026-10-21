@@ -61,7 +61,7 @@ const STAT_LABEL = { m: 'M', t: 'T', sv: 'SV', w: 'W', ld: 'LD', oc: 'OC', inv: 
 // no translating of its own beyond the condition text the record already carries bilingually.
 // The one exception is a dice modifier ("+1 to Hit"): there is no printed column to name, and a
 // made-up "HIT" abbreviation would read as one, so it is worded through the labels.
-const INCOMING_LABEL = { melee: 'modIncomingMelee', ranged: 'modIncomingRanged', psychic: 'modIncomingPsychic', 's-gt-t': 'modIncomingSgtT' }
+const INCOMING_LABEL = { melee: 'modIncomingMelee', ranged: 'modIncomingRanged', psychic: 'modIncomingPsychic', 's-gt-t': 'modIncomingSgtT', 'ranged-s-gt-t': 'modIncomingRangedSgtT', 'melee-s-gt-t': 'modIncomingMeleeSgtT' }
 
 // An attack AGAINST the unit, worded whole — whose number it is has to be said, or "−1 to Wound"
 // reads as this unit's own: "Attacks against this unit: −1 to Wound", "…: AP worse by 1",

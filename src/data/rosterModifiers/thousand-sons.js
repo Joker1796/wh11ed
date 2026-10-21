@@ -217,6 +217,20 @@ export default {
       ]
     },
     {
+      "sid": "613e0d62-0346-4aad-98c2-692f9e94c78f:forgefiend",
+      "kind": "ability",
+      "name": "Forgefiend: Blazing Salvoes",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "forgefiend"
+      },
+      "hash": "27ea67a2",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "90c6edaf-0f74-4a0e-9631-b01641bebe3f:helbrute",
       "kind": "ability",
       "name": "Helbrute: Devoted to Destruction",
@@ -547,6 +561,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "bc3c99c8-bc54-4409-a383-0ce4e9caf716:scarab-occult-terminators",
+      "kind": "ability",
+      "name": "Scarab Occult Terminators: Rites of Coalescence",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "scarab-occult-terminators"
+      },
+      "hash": "485fec5f",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "f243edb4-c65b-4510-a30f-ad0b4b2d18b0:sorcerer-in-terminator-armour",
@@ -1567,6 +1595,21 @@ export default {
         "kind": "enhancement",
         "det": "warpmeld-pact"
       }
+    },
+    {
+      "sid": "2cbc415a-c69a-4d7c-9c66-59b998616212",
+      "kind": "stratagem",
+      "name": "Sulphurous Veil",
+      "det": "Changehost of Deceit",
+      "ref": {
+        "kind": "stratagem",
+        "det": "changehost-of-deceit",
+        "name": "Sulphurous Veil"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "86e94729-5da6-4199-a7ee-1bbca915f068",

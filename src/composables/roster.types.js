@@ -327,7 +327,7 @@
  * @property {string} [target]
  * @property {{ name?: string, notName?: string[], tag?: string, notTag?: string }} [only]
  * @property {number} [alt]
- * @property {'melee' | 'ranged' | 'psychic' | 's-gt-t'} [vs] which incoming attacks (`on: 'incoming'`)
+ * @property {'melee' | 'ranged' | 'psychic' | 's-gt-t' | 'ranged-s-gt-t' | 'melee-s-gt-t'} [vs] which incoming attacks (`on: 'incoming'`)
  * @property {number} [scope]
  * @property {Record<string, number[]>} [rows]
  * @property {string} [best] the rule's own limit on a roll ("3+": Take Cover!)

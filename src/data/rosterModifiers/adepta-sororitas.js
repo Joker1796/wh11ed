@@ -78,6 +78,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:battle-sanctum:fortification",
+      "kind": "ability",
+      "name": "Battle Sanctum: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "battle-sanctum"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "59ee1033-9a10-43cc-b972-674c1dc682dd:canoness-with-jump-pack",
       "kind": "ability",
       "name": "Canoness with Jump Pack: Divine Deliverance",
@@ -255,6 +269,20 @@ export default {
           }
         }
       ]
+    },
+    {
+      "sid": "5f8d3240-9ee1-41a3-ba82-71f68225f681:celestian-sacresants",
+      "kind": "ability",
+      "name": "Celestian Sacresants: Sworn Protectors",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "celestian-sacresants"
+      },
+      "hash": "396e80bb",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "pack:crusaders:spiritual-fortitude",
@@ -1836,6 +1864,21 @@ export default {
       ]
     },
     {
+      "sid": "ee04ab6a-a93f-40e8-b415-d48b5c5e88ba",
+      "kind": "stratagem",
+      "name": "Blinding Radiance",
+      "det": "Army of Faith",
+      "ref": {
+        "kind": "stratagem",
+        "det": "army-of-faith",
+        "name": "Blinding Radiance"
+      },
+      "hash": "21ac06be",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "ee842df1-f44d-45b9-9f16-e1ec47871c8f",
       "kind": "stratagem",
       "name": "Divine Guidance",
@@ -2028,6 +2071,21 @@ export default {
       "hash": "068f028a",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "08d9a628-8178-473c-8d08-906813c20f7d",
+      "kind": "stratagem",
+      "name": "Bastion of Faith",
+      "det": "Champions of Faith",
+      "ref": {
+        "kind": "stratagem",
+        "det": "champions-of-faith",
+        "name": "Bastion of Faith"
+      },
+      "hash": "052836c8",
+      "ver": 995,
+      "reviewed": false,
       "effects": []
     },
     {

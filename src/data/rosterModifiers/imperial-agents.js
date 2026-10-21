@@ -477,6 +477,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:inquisitor-eisenhorn:dominate-will-psychic",
+      "kind": "ability",
+      "name": "Inquisitor Eisenhorn: Dominate Will (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitor-eisenhorn"
+      },
+      "hash": "9becbd8a",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "pack:inquisitor-eisenhorn:malus-codicium",
       "kind": "ability",
       "name": "Inquisitor Eisenhorn: Malus Codicium",
@@ -639,6 +653,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:inquisitor-ostromandeus:ward-against-the-malefic-arts",
+      "kind": "ability",
+      "name": "Inquisitor Ostromandeus: Ward Against the Malefic Arts",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitor-ostromandeus"
+      },
+      "hash": "8116e94b",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "0368fd0e-375b-43eb-9e6e-1d317e3409e0:inquisitors-hand-eversor-assassin",
       "kind": "ability",
       "name": "Inquisitor's Hand Eversor Assassin: Overkill (Once per battle per unit)",
@@ -733,6 +761,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "9058cf2b-6f2c-4605-9161-f4428f83c993:inquisitorial-agents",
+      "kind": "ability",
+      "name": "Inquisitorial Agents: Loyal Henchmen",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "inquisitorial-agents"
+      },
+      "hash": "02c92ad9",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "pack:janus-draik:backroom-deals",
@@ -1756,6 +1798,20 @@ export default {
       }
     },
     {
+      "sid": "2fd8c362-7e6c-418f-b6dc-cfe8901adec0",
+      "kind": "enhancement",
+      "name": "Amulet of Auto-chastisement",
+      "det": "Ordo Xenos, Alien Hunters",
+      "ref": {
+        "kind": "enhancement",
+        "det": "ordo-xenos-alien-hunters"
+      },
+      "hash": "f32b2b09",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "ab3c3644-1c9d-4cd8-9c6f-8022be72daee",
       "kind": "enhancement",
       "name": "Beacon Angelis",
@@ -2133,6 +2189,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "ae044166-2410-4c16-bff9-84828d009345",
+      "kind": "stratagem",
+      "name": "Stun Grenades",
+      "det": "Ordo Hereticus, Purgation Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "ordo-hereticus-purgation-force",
+        "name": "Stun Grenades"
+      },
+      "hash": "89de0db7",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "aa2b5fe6-cfe5-46f6-b3bd-2a525e755ab2",

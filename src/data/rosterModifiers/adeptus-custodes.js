@@ -857,10 +857,10 @@ export default {
           "stat": "wound",
           "op": "add",
           "value": -1,
-          "vs": "ranged",
+          "vs": "ranged-s-gt-t",
           "when": {
-            "en": "while within range of an objective, against attacks with S greater than its T",
-            "ru": "пока отряд в зоне objective, против атак с S выше его T"
+            "en": "while within range of an objective",
+            "ru": "пока отряд в зоне objective"
           },
           "cond": [
             "never"
@@ -1084,10 +1084,10 @@ export default {
           "stat": "wound",
           "op": "add",
           "value": -1,
-          "vs": "melee",
+          "vs": "melee-s-gt-t",
           "when": {
-            "en": "while within range of an objective, against attacks with S greater than its T",
-            "ru": "пока отряд в зоне objective, против атак с S выше его T"
+            "en": "while within range of an objective",
+            "ru": "пока отряд в зоне objective"
           },
           "cond": [
             "never"

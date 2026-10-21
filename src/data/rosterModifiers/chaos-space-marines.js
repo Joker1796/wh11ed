@@ -915,6 +915,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:mutoid-vermin:mischief-makers-aura",
+      "kind": "ability",
+      "name": "Mutoid Vermin: Mischief Makers (Aura)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "mutoid-vermin"
+      },
+      "hash": "13d0c291",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "73fd690a-fa45-4f1e-b838-f8e762cb0bce:nemesis-claw",
       "kind": "ability",
       "name": "Nemesis Claw: Visions of Suffering",
@@ -954,6 +968,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:noctilith-crown",
+      "kind": "ability",
+      "name": "Noctilith Crown: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "noctilith-crown"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "99cceacb-030a-4660-8ec3-af728f5e0d8c:noctilith-crown",
@@ -1197,6 +1225,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:sorcerer-on-bike:prescience-psychic",
+      "kind": "ability",
+      "name": "Sorcerer on Bike: Prescience (Psychic)",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer-on-bike"
+      },
+      "hash": "311b9302",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "pack:sorcerer-on-bike:unholy-power",
       "kind": "ability",
       "name": "Sorcerer on Bike: Unholy Power",
@@ -1319,6 +1361,20 @@ export default {
           "target": "unit"
         }
       ]
+    },
+    {
+      "sid": "3b80480f-15cb-4bdc-bcf4-02f9568a8fc0:sorcerer",
+      "kind": "ability",
+      "name": "Sorcerer: Prescience",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sorcerer"
+      },
+      "hash": "311b9302",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "3ae2b3c4-81d6-4a30-a9ed-1ad9526ead12:traitor-enforcer",
@@ -2116,6 +2172,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "40869151-c6d5-44d2-b3dd-859fe3168974",
+      "kind": "detachmentRule",
+      "name": "Iron Fortitude",
+      "det": "Fellhammer Siege-host",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "fellhammer-siege-host"
+      },
+      "hash": "ab9d17ba",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "1dacaf8f-9649-4bca-b267-e84aa6301dfb",
@@ -3300,6 +3370,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "3baae1e2-4413-4abd-af9e-6d2f92c7697e",
+      "kind": "stratagem",
+      "name": "Monstrous Visages",
+      "det": "Creations of Bile",
+      "ref": {
+        "kind": "stratagem",
+        "det": "creations-of-bile",
+        "name": "Monstrous Visages"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "b851a9d9-4f75-4968-a7c4-8903bcd801c1",

@@ -238,6 +238,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:hounds-of-morkai:morkai-s-howl",
+      "kind": "ability",
+      "name": "Hounds of Morkai: Morkai’s Howl",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hounds-of-morkai"
+      },
+      "hash": "a3d93076",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "6b0f24dc-2a81-497a-bd6f-33b04d7b2284:iron-priest",
       "kind": "ability",
       "name": "Iron Priest: Iron Priest",
@@ -322,6 +336,20 @@ export default {
         }
       ],
       "note": "Read as Aleya: Tenacious Spirit (adeptus-custodes), the same text."
+    },
+    {
+      "sid": "pack:lukas-the-trickster:pelt-of-the-doppegangrel",
+      "kind": "ability",
+      "name": "Lukas the Trickster: Pelt of the Doppegangrel",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "lukas-the-trickster"
+      },
+      "hash": "311b9302",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "8950d4a1-67cf-4d2f-a6cd-6620a52ad87c:njal-stormcaller",

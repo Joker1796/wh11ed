@@ -114,7 +114,15 @@ export default {
       "hash": "f62f7f7a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "mul",
+          "value": 0.5,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "58faded0-9585-4c7d-984b-eb5926fe37d1:avatar-of-khaine",
@@ -433,6 +441,20 @@ export default {
       },
       "hash": "13ab6310",
       "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "12923a40-5ab1-48cc-bf8f-9fff46e1602a:farseer-skyrunner",
+      "kind": "ability",
+      "name": "Farseer Skyrunner: Misfortune",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "farseer-skyrunner"
+      },
+      "hash": "ba3e343b",
+      "ver": 995,
       "reviewed": true,
       "effects": []
     },
@@ -985,6 +1007,14 @@ export default {
           "op": "grant",
           "value": "Stealth",
           "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "vs": "melee",
+          "when": null
         }
       ]
     },
@@ -1299,6 +1329,19 @@ export default {
             "en": "the option selected for this phase",
             "ru": "вариант, выбранный на эту фазу"
           }
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while Trickster’s Grace is selected, until the end of the Fight phase",
+            "ru": "при выбранной Trickster’s Grace, до конца Fight phase"
+          },
+          "cond": [
+            "troupe-tricksters-grace"
+          ]
         }
       ]
     },
@@ -1394,6 +1437,20 @@ export default {
       ]
     },
     {
+      "sid": "934810ee-f708-4a71-ba80-0e7eea0be1c7:vypers",
+      "kind": "ability",
+      "name": "Vyper: Harassment Fire",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "vypers"
+      },
+      "hash": "3f8444a0",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
+    },
+    {
       "sid": "a6519552-88c0-47db-ac86-c2d551fc6b4b:war-walkers",
       "kind": "ability",
       "name": "War Walkers: Crystalline Targeting",
@@ -1406,6 +1463,34 @@ export default {
       "ver": 925,
       "reviewed": true,
       "effects": []
+    },
+    {
+      "sid": "c2793303-87f2-4f43-a0d2-92ffa62303fc:warlock-conclave",
+      "kind": "ability",
+      "name": "Warlock Conclave: Protect",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "warlock-conclave"
+      },
+      "hash": "79fc4f71",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "while a FARSEER model is leading this unit",
+            "ru": "пока отряд возглавляет модель FARSEER"
+          },
+          "cond": [
+            "unit-led"
+          ]
+        }
+      ]
     },
     {
       "sid": "4038cf0b-7832-4c7a-9c63-dc3e52bd0503:warlock-conclave",
@@ -1670,6 +1755,43 @@ export default {
         }
       ],
       "note": "Read as Ynnari Raider: Aethersails (aeldari), the same text."
+    },
+    {
+      "sid": "a8395f79-bb69-466e-bbb8-f25ac208de2d:wave-serpent",
+      "kind": "ability",
+      "name": "Wave Serpent: Wave Serpent Shield",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wave-serpent"
+      },
+      "hash": "b64881b6",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged-s-gt-t",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "pack:webway-gate:fortification",
+      "kind": "ability",
+      "name": "Webway Gate: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "webway-gate"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": true,
+      "effects": []
     },
     {
       "sid": "8a3daae2-6619-44f7-b774-f9452f4ab3c1:wraithblades",
@@ -2337,7 +2459,37 @@ export default {
       "hash": "40ee044b",
       "ver": 995,
       "reviewed": true,
-      "effects": [],
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": {
+            "en": "while the bearer is leading an ASPECT WARRIORS unit",
+            "ru": "пока носитель возглавляет отряд ASPECT WARRIORS"
+          },
+          "cond": [
+            "unit-leading-aspect-warriors"
+          ]
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "vs": "ranged",
+          "when": {
+            "en": "while the bearer is leading an ASPECT WARRIORS unit",
+            "ru": "пока носитель возглавляет отряд ASPECT WARRIORS"
+          },
+          "cond": [
+            "unit-leading-aspect-warriors"
+          ],
+          "target": "led"
+        }
+      ],
       "appliesWhile": [
         "unit-leading-aspect-warriors"
       ]
@@ -3052,6 +3204,36 @@ export default {
       ]
     },
     {
+      "sid": "c73157aa-c3a9-4b4b-a079-fa4317388710",
+      "kind": "enhancement",
+      "name": "Mirage Field",
+      "det": "Windrider Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "windrider-host"
+      },
+      "hash": "17a036d1",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null,
+          "target": "led"
+        }
+      ]
+    },
+    {
       "sid": "16d5e738-7ef2-4b1c-8ab2-0d06387fe9c8",
       "kind": "enhancement",
       "name": "Seersight Strike",
@@ -3296,6 +3478,30 @@ export default {
       "effects": []
     },
     {
+      "sid": "c3609894-ebe0-49fa-8e3f-58e4c84264e2",
+      "kind": "stratagem",
+      "name": "Macabre Resilience",
+      "det": "Devoted of Ynnead",
+      "ref": {
+        "kind": "stratagem",
+        "det": "devoted-of-ynnead",
+        "name": "Macabre Resilience"
+      },
+      "hash": "6d559221",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "d5737f54-4a3e-4335-9ddf-6759368bd099",
       "kind": "stratagem",
       "name": "Soulsight",
@@ -3471,6 +3677,36 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "05a41026-685b-4152-82cd-652e666ec684",
+      "kind": "stratagem",
+      "name": "Shield Nodes",
+      "det": "Guardian Battlehost",
+      "ref": {
+        "kind": "stratagem",
+        "det": "guardian-battlehost",
+        "name": "Shield Nodes"
+      },
+      "hash": "8290f3e9",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "if your unit is within range of an objective marker",
+            "ru": "если отряд в зоне маркера objective"
+          },
+          "cond": [
+            "never"
+          ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
       "sid": "35d8b42d-ab6c-4646-97e5-96f5b764a976",
       "kind": "stratagem",
       "name": "Time to Strike",
@@ -3538,6 +3774,37 @@ export default {
             "en": "while this stratagem is in force",
             "ru": "пока действует стратагема"
           }
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "e9659875-df8c-4064-afef-18cd2a054730",
+      "kind": "stratagem",
+      "name": "Forewarned",
+      "det": "Seer Council",
+      "ref": {
+        "kind": "stratagem",
+        "det": "seer-council",
+        "name": "Forewarned"
+      },
+      "hash": "ce51385d",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "wound",
+          "op": "add",
+          "value": -1,
+          "when": null
         }
       ],
       "dur": "phase"
@@ -3621,7 +3888,16 @@ export default {
       "hash": "6d37add7",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
+      "dur": "phase"
     },
     {
       "sid": "cd8a2849-148d-42c2-baa8-70fde6c32971",
@@ -3676,6 +3952,30 @@ export default {
           "cond": [
             "never"
           ]
+        }
+      ],
+      "dur": "phase"
+    },
+    {
+      "sid": "2d1e6da6-2f05-409b-9ec4-c3c99d081c99",
+      "kind": "stratagem",
+      "name": "Lightning-fast Reactions",
+      "det": "Warhost",
+      "ref": {
+        "kind": "stratagem",
+        "det": "warhost",
+        "name": "Lightning-fast Reactions"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "incoming",
+          "stat": "hit",
+          "op": "add",
+          "value": -1,
+          "when": null
         }
       ],
       "dur": "phase"
@@ -4012,6 +4312,13 @@ export default {
           "op": "set",
           "value": "4+",
           "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
+          "when": null
         }
       ]
     },
@@ -4034,6 +4341,13 @@ export default {
           "stat": "inv",
           "op": "set",
           "value": "4+",
+          "when": null
+        },
+        {
+          "on": "incoming",
+          "stat": "d",
+          "op": "add",
+          "value": -1,
           "when": null
         }
       ]

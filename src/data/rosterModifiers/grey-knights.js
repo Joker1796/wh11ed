@@ -1071,6 +1071,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "c11cfbb8-bc11-4d44-bb9e-70ac3cca22cb",
+      "kind": "stratagem",
+      "name": "Forewarned Evasion",
+      "det": "Augurium Task Force",
+      "ref": {
+        "kind": "stratagem",
+        "det": "augurium-task-force",
+        "name": "Forewarned Evasion"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "1d199aa0-6532-4d07-92b0-bb05550242b5",
       "kind": "stratagem",
       "name": "Mirage of Echoes",
@@ -1434,6 +1449,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "cc57b05a-4f98-4d78-9e26-f9ae67f6dd79",
+      "kind": "stratagem",
+      "name": "Shining Resolve",
+      "det": "Hallowed Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "hallowed-conclave",
+        "name": "Shining Resolve"
+      },
+      "hash": "e353048d",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "d06f1a14-1634-4911-acfb-6eb2caded2d2",

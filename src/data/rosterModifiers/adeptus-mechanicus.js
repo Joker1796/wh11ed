@@ -262,6 +262,20 @@ export default {
       ]
     },
     {
+      "sid": "3c8449cb-941b-401e-8c98-1ff3a8a0f9d9:fulgurite-electro-priests",
+      "kind": "ability",
+      "name": "Fulgurite Electro-Priests: Electro-infusion",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "fulgurite-electro-priests"
+      },
+      "hash": "07936a71",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "ee9ce49a-c67c-4233-a708-dd5510d8d6f8:hastarii-exterminators",
       "kind": "ability",
       "name": "Hastarii Exterminators: Broad‑spectrum Targeting Augurs",
@@ -473,6 +487,20 @@ export default {
       "hash": "618490ed",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:secutarii-peltasts:blind-barrage",
+      "kind": "ability",
+      "name": "Secutarii Peltasts: Blind Barrage",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "secutarii-peltasts"
+      },
+      "hash": "0e9970ab",
+      "ver": 995,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -1382,6 +1410,20 @@ export default {
       ]
     },
     {
+      "sid": "ef617056-0ddf-415e-944f-36e532ec8bbd",
+      "kind": "enhancement",
+      "name": "Lord of Machines",
+      "det": "Cohort Cybernetica",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cohort-cybernetica"
+      },
+      "hash": "02e7d351",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "843a24a0-aa26-4ceb-a889-356c2fcb0f97",
       "kind": "enhancement",
       "name": "Necromechanic",
@@ -2145,6 +2187,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "c6dd192f-f94c-4862-9822-b630c7872c5c",
+      "kind": "stratagem",
+      "name": "Tribute of Emphatic Veneration",
+      "det": "Data-psalm Conclave",
+      "ref": {
+        "kind": "stratagem",
+        "det": "data-psalm-conclave",
+        "name": "Tribute of Emphatic Veneration"
+      },
+      "hash": "75307761",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "0615ff22-fe2b-4fed-a233-75033fdca00e",
       "kind": "stratagem",
       "name": "Servo-Driven Charge",
@@ -2299,6 +2356,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "e1fcf12a-9177-4f04-bb48-7eec3ff9414f",
+      "kind": "stratagem",
+      "name": "Baleful Halo",
+      "det": "Rad-Zone Corps",
+      "ref": {
+        "kind": "stratagem",
+        "det": "rad-zone-corps",
+        "name": "Baleful Halo"
+      },
+      "hash": "7ffbc77a",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "5ca929e2-f7b2-467f-bde5-0bbc37bbea76",

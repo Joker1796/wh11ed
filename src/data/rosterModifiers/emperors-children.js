@@ -206,6 +206,20 @@ export default {
       ]
     },
     {
+      "sid": "94051d05-dee1-4839-9caf-8db7a2ffcc96:keeper-of-secrets",
+      "kind": "ability",
+      "name": "Keeper of Secrets: Mesmerising Form",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "keeper-of-secrets"
+      },
+      "hash": "663cf92e",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "ebc372fc-2320-4b92-b420-4ca74193af7f:lord-exultant",
       "kind": "ability",
       "name": "Lord Exultant: Euphoric Strikes",
@@ -884,6 +898,20 @@ export default {
       ]
     },
     {
+      "sid": "addaeefd-98ba-4ecc-acec-f55d28e38593",
+      "kind": "enhancement",
+      "name": "Intoxicating Musk",
+      "det": "Mercurial Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "mercurial-host"
+      },
+      "hash": "d5ac5e2b",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "4d0851fe-8c7b-4423-b688-916ad670d63e",
       "kind": "enhancement",
       "name": "Steeped in Suffering",
@@ -1183,6 +1211,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "76418992-162f-4dbb-b938-a63247cec6f4",
+      "kind": "stratagem",
+      "name": "Uncanny Reactions",
+      "det": "Carnival of Excess",
+      "ref": {
+        "kind": "stratagem",
+        "det": "carnival-of-excess",
+        "name": "Uncanny Reactions"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "c31be1f6-a71d-44ba-85f7-b4b7021a6b9f",
       "kind": "stratagem",
       "name": "Armour of Abhorrence",
@@ -1272,6 +1315,21 @@ export default {
       "dur": "phase"
     },
     {
+      "sid": "c6ca9284-bf28-49b7-8eac-7842282f0ba3",
+      "kind": "stratagem",
+      "name": "Contemptuous Disregard",
+      "det": "Court of the Phoenician",
+      "ref": {
+        "kind": "stratagem",
+        "det": "court-of-the-phoenician",
+        "name": "Contemptuous Disregard"
+      },
+      "hash": "e353048d",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "41273a31-ffea-438c-8b0a-3b1dc379b8eb",
       "kind": "stratagem",
       "name": "Delight in Agony",
@@ -1326,6 +1384,36 @@ export default {
       "hash": "9e50d86d",
       "ver": 925,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "f0c67e95-5910-4c56-8708-c9bff6bfa4e7",
+      "kind": "stratagem",
+      "name": "Capricious Reactions",
+      "det": "Mercurial Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "mercurial-host",
+        "name": "Capricious Reactions"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "bd287e41-9e6c-40fd-87c2-93b59208d7a0",
+      "kind": "stratagem",
+      "name": "Combat Stimms",
+      "det": "Mercurial Host",
+      "ref": {
+        "kind": "stratagem",
+        "det": "mercurial-host",
+        "name": "Combat Stimms"
+      },
+      "hash": "6d559221",
+      "ver": 995,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -1411,6 +1499,21 @@ export default {
         }
       ],
       "dur": "phase"
+    },
+    {
+      "sid": "240e2010-4374-4cce-97c4-f72eaac8a85e",
+      "kind": "stratagem",
+      "name": "Deft Parry",
+      "det": "Peerless Bladesmen",
+      "ref": {
+        "kind": "stratagem",
+        "det": "peerless-bladesmen",
+        "name": "Deft Parry"
+      },
+      "hash": "214dc667",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "821d0384-2c3d-441d-9d74-dd36b23301ad",

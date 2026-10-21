@@ -123,7 +123,7 @@ describe('rosterModifiers data', () => {
           if (eff.op === 'add') expect(eff.stat === 'ap' ? eff.value > 0 : eff.value < 0, `${where}: incoming sign`).toBe(true)
           else if (eff.op === 'set') expect([eff.stat, eff.value], `${where}: incoming set`).toEqual(['d', 1])
           else expect([eff.op, eff.stat, eff.value], `${where}: incoming op`).toEqual(['mul', 'd', 0.5])
-          if (eff.vs != null) expect(['melee', 'ranged', 'psychic', 's-gt-t'], `${where}: vs`).toContain(eff.vs)
+          if (eff.vs != null) expect(['melee', 'ranged', 'psychic', 's-gt-t', 'ranged-s-gt-t', 'melee-s-gt-t'], `${where}: vs`).toContain(eff.vs)
         } else if (eff.vs != null) expect.fail(`${where}: vs outside an incoming effect`)
         if (eff.on !== 'incoming' && (eff.stat === 'hit' || eff.stat === 'wound')) {
           expect(eff.op, `${where}: ${eff.stat} op`).toBe('add')

@@ -2732,11 +2732,8 @@ export default {
           "stat": "wound",
           "op": "add",
           "value": -1,
-          "vs": "ranged",
-          "when": {
-            "en": "against attacks with S greater than its T",
-            "ru": "против атак с S выше его T"
-          }
+          "vs": "ranged-s-gt-t",
+          "when": null
         }
       ],
       "dur": "phase"

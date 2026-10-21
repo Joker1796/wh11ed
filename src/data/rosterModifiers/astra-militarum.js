@@ -45,6 +45,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "26b11011-e99c-4bcd-8f2d-fe34af25bfa4:aegis-defence-line",
+      "kind": "ability",
+      "name": "Aegis Defence Line: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "aegis-defence-line"
+      },
+      "hash": "ee7e3001",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "c66da885-1906-4bf5-a086-a226b02b16a9:banesword",
       "kind": "ability",
       "name": "Banesword: Armour Obliteration",
@@ -472,6 +486,20 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:earthshaker-platform:fortification",
+      "kind": "ability",
+      "name": "Earthshaker Platform: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "earthshaker-platform"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "pack:elysian-sniper-squad:mark-the-target",
       "kind": "ability",
       "name": "Elysian Sniper Squad: Mark the Target",
@@ -559,6 +587,20 @@ export default {
       ]
     },
     {
+      "sid": "pack:griffon-mortar-carrier:suppression-bombardment",
+      "kind": "ability",
+      "name": "Griffon Mortar Carrier: Suppression Bombardment",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "griffon-mortar-carrier"
+      },
+      "hash": "99cfdd0a",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "pack:heavy-mortar-team:rearm-reload-fire",
       "kind": "ability",
       "name": "Heavy Mortar Team: Rearm, Reload, Fire",
@@ -585,6 +627,20 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:heavy-quad-launcher-team:suppression-bombardment",
+      "kind": "ability",
+      "name": "Heavy Quad Launcher Team: Suppression Bombardment",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "heavy-quad-launcher-team"
+      },
+      "hash": "a48daefc",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "pack:hells-last:lesk-s-heroes",
@@ -615,6 +671,20 @@ export default {
           "target": "led"
         }
       ]
+    },
+    {
+      "sid": "pack:hydra-platform:fortification",
+      "kind": "ability",
+      "name": "Hydra Platform: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "hydra-platform"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "f05d9118-3d4f-4356-bffd-dd7693bc5d92:leman-russ-eradicator",
@@ -782,6 +852,20 @@ export default {
       "hash": "2f253aea",
       "ver": 972,
       "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "pack:manticore-platform:fortification",
+      "kind": "ability",
+      "name": "Manticore Platform: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "manticore-platform"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": false,
       "effects": []
     },
     {
@@ -1204,6 +1288,34 @@ export default {
       "effects": []
     },
     {
+      "sid": "pack:sabre-weapons-battery:fortification",
+      "kind": "ability",
+      "name": "Sabre Weapons Battery: Fortification",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sabre-weapons-battery"
+      },
+      "hash": "e258d19a",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "pack:sergeant-harker:harker-s-hellraisers",
+      "kind": "ability",
+      "name": "Sergeant Harker: Harker’s Hellraisers",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "sergeant-harker"
+      },
+      "hash": "486e0ac9",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "pack:sergeant-harker:payback-time",
       "kind": "ability",
       "name": "Sergeant Harker: Payback Time",
@@ -1442,6 +1554,34 @@ export default {
           ]
         }
       ]
+    },
+    {
+      "sid": "pack:voss-pattern-lightning:agile-dogfighter",
+      "kind": "ability",
+      "name": "Voss-pattern Lightning: Agile Dogfighter",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "voss-pattern-lightning"
+      },
+      "hash": "663cf92e",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "83038c28-eb5f-4279-9a58-aea5ec64cdc2:wyvern",
+      "kind": "ability",
+      "name": "Wyvern: Suppression Bombardment",
+      "det": null,
+      "ref": {
+        "kind": "ability",
+        "unit": "wyvern"
+      },
+      "hash": "7a8a87f6",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "3b10e68b-0230-4669-a0a3-f0c29feaa3b4",
@@ -2062,6 +2202,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "8bb2377e-6388-45ff-9b3c-05b8117106b1",
+      "kind": "enhancement",
+      "name": "Tripwires",
+      "det": "Recon Element",
+      "ref": {
+        "kind": "enhancement",
+        "det": "recon-element"
+      },
+      "hash": "0806e260",
+      "ver": 995,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "e5d2ca6f-bdfc-498e-bef1-9c753c55bc64",
