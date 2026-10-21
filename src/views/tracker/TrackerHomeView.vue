@@ -534,11 +534,9 @@ function armyLines(g, side) {
   if (!doubles) {
     return [factionIndexBySlug(armies[0]?.factionSlug)?.name || labels.value.trackerUnknownFaction]
   }
-  return armies.map((m, mi) => {
-    const who = m?.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2)
-    const what = factionIndexBySlug(m?.factionSlug)?.name || labels.value.trackerUnknownFaction
-    return `${who} · ${what}`
-  })
+  // A doubles team: its name above (pname), its two factions here — no players' names (owner,
+  // 2026-10-21): "Вася · Adepta Sororitas" in a third of a phone broke inside the faction.
+  return armies.map((m) => factionIndexBySlug(m?.factionSlug)?.name || labels.value.trackerUnknownFaction)
 }
 
 // Battle Points per stored array index; concede sweeps 20–0 to the non-conceding player. Uses the
