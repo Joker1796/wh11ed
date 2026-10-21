@@ -7,7 +7,10 @@
        width (negative-margin trick) rather than being capped by .main-content's
        max-width/padding; the inner wrapper re-applies .main-content's padding
        tiers so the visible controls line up with the rest of the page. -->
-  <div class="fpb">
+  <div
+    class="fpb"
+    :class="{ 'fpb--inline': inline }"
+  >
     <div class="fpb-inner">
       <!-- A dropdown under the trigger on a wide screen, the modal on a phone (AdaptivePicker). -->
       <AdaptivePicker
@@ -93,6 +96,10 @@ const props = defineProps({
   slug: { type: String, required: true },
   detachments: { type: Array, default: () => [] },
   chapters: { type: Array, default: () => [] },
+  // A column's own block instead of the bar across the page: not sticky, not bled, the two
+  // pickers stacked — the units tab on a wide screen, where the page does not scroll and the
+  // pickers head the list's column (owner, 2026-10-21).
+  inline: { type: Boolean, default: false },
 })
 
 const { locale } = useLocale()
@@ -182,6 +189,20 @@ function pickChapter(id) {
   .fpb-inner {
     padding: 0.35rem calc(0.5rem + var(--safe-right)) 0.35rem calc(0.5rem + var(--safe-left));
   }
+}
+
+.fpb--inline {
+  position: static;
+  width: auto;
+  margin-left: 0;
+  background: none;
+  border-bottom: 0;
+}
+.fpb--inline .fpb-inner {
+  max-width: none;
+  padding: 0;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 /* Each picker's wrapper (AdaptivePicker) takes the share the trigger used to: side by side. */

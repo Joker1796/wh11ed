@@ -29,7 +29,10 @@
             <i class="wi wi-close" />
           </button>
         </div>
-        <div class="modal-list kum-pop-list">
+        <div
+          class="modal-list kum-pop-list"
+          @click.capture="onPick"
+        >
           <RouterLink
             v-for="u in units"
             :key="(u.slug || factionSlug) + '/' + u.id"
@@ -63,7 +66,10 @@
     <!-- `modal-body` is not cosmetic: it carries the global `overscroll-behavior: contain`
          (style.css) that keeps a scroll at the list's end from chaining to the page behind.
          There is deliberately no body scroll-lock, so this class is what contains it. -->
-    <div class="modal-body modal-list">
+    <div
+      class="modal-body modal-list"
+      @click.capture="onPick"
+    >
       <RouterLink
         v-for="u in units"
         :key="(u.slug || factionSlug) + '/' + u.id"
@@ -98,6 +104,7 @@ import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useMediaQuery } from '../composables/useMediaQuery.js'
 import { placeByAnchor } from '../utils/anchorPlacement.js'
 import { opensPopover } from '../composables/useKeywordPopover.js'
+import { unitLinkOf } from '../utils/unitLink.js'
 
 // Opened from DatasheetCard's Keywords line (see its `keyword-click` emit) — lists every
 // other unit in the SAME faction's roster that also carries the clicked keyword, so a reader
@@ -113,8 +120,19 @@ const props = defineProps({
   factionSlug: { type: String, required: true },
   // The tapped word's rect (useFactionKeywordUnits) — what a wide screen hangs the list from.
   anchor: { type: Object, default: null },
+  // The unit shown where the list was opened takes a row of its own faction in place (`pick`)
+  // instead of following the row's link to the unit's page (FactionUnitSheet's `inPlace`).
+  inPlace: { type: Boolean, default: false },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'pick'])
+
+function onPick(e) {
+  if (!props.inPlace) return
+  const id = unitLinkOf(e, props.factionSlug)
+  if (!id) return
+  e.preventDefault()
+  emit('pick', id)
+}
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])

@@ -2130,11 +2130,10 @@ staying a pin, the owned mark a star.
 Marks are set in three places, all sharing the singleton: the unit card's header
 (`RosterUnitRulesModal`, a star beside the close, keyed by the card's own `factionSlug`/`unitId`
 — which already name an ally's faction), the datasheet
-grid's chips (`FactionDatasheetsView`, where a collection actually gets entered — one unit per
-visit is no way to fill a shelf), and one datasheet's page header. On the chips the pin and the
-star **stack** in the corner rather than standing side by side: two columns of buttons cost the
-name a third line at that grid's 180px. Both are icon-only toggles and a tooltip is no answer on a
-phone, so the key is printed once above the grid (`.ds-legend`) instead of on ninety chips.
+grid's chips (`FactionDatasheetsView`), and one datasheet's page header. On the chips both marks
+live in the chip's "…" (its context menu; owner, 2026-10-21 — the stacked pin and star they
+replaced, with the key printed above the grid); a chip only SHOWS the collection, with the
+catalogue's `.owned-badge` beside its price.
 
 **The catalogue row only SHOWS the mark** (owner's ask, 2026-09-26): an `.owned-badge` beside the
 name — the Legends badge's shape in the faction's `--accent`, a filled star for its word. The row used

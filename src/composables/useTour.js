@@ -132,10 +132,13 @@ export function useTour() {
       free = active.value || asking.value || dialogOpen() ? 0 : free + 1
       if (free < 2) return
       for (const [pid, p] of pending) {
-        if (seen.value.has(pid) || Date.now() - p.at > PENDING_MS) { pending.delete(pid); continue }
+        // Turned off while it waited (the question's "no", the card's "turn off"): only a chapter
+        // asked for from the menu still shows.
+        if (seen.value.has(pid) || Date.now() - p.at > PENDING_MS || (!p.manual && auto.value === 'off')) { pending.delete(pid); continue }
         if (!onScreen(pid, p.ctx)) continue // not drawn yet, or its screen is not the one up
         pending.delete(pid)
-        // The first chapter that would start by itself asks first; the rest wait for the answer.
+        // The first chapter that would start by itself asks first; the rest wait for the answer —
+        // and go by it: "no" dropped above, not read as "answered, so start" (owner, 2026-10-21).
         if (!p.manual && !auto.value) asking.value = { id: pid, ctx: p.ctx }
         else start(pid, p.ctx)
         break
@@ -193,6 +196,8 @@ export function useTour() {
     setItem(AUTO_KEY, auto.value)
     const a = asking.value
     asking.value = null
+    // No: the chapters waiting in line behind the question go too, all but the menu's own.
+    if (!on) for (const [id, p] of pending) if (!p.manual) pending.delete(id)
     if (on && a) start(a.id, a.ctx)
   }
 

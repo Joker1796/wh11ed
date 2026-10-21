@@ -4,136 +4,155 @@
     class="faction-units-page"
   >
     <!-- Datasheets (lazy-loaded per faction from src/data/datasheets/<slug>.js) -->
+    <!-- A tap on a unit (a chip, a Legendary Proxy, a Leader's bodyguard on a card shown here)
+         opens it where the list is instead of leaving for its page: a modal on a phone, beside the
+         list on a wide screen. Caught here, before the links' own navigation (utils/unitLink.js);
+         a click that asks for a new tab still gets one. A right click or a long press on a chip
+         opens its context menu (useLongPress). -->
     <section
       id="datasheets"
       class="fsection"
+      @click.capture="onUnitClick"
+      v-on="unitPress.listeners"
     >
-      <h2 class="fsection-title">
+      <h2 class="fsection-title ds-title">
         {{ labels.factionDatasheets }}
       </h2>
       <template v-if="datasheets.length">
-        <!-- Types the faction's own example queries while empty (useUnitSearchGhost). -->
+        <!-- One box for the list's tools, the list and the unit beside it: a plain stack on a phone,
+             on a wide screen a grid — the tools over the list in the left column, the unit in the
+             right one from the top, the chapter bar across both (owner, 2026-10-21: the tools
+             spanning the page left a band of nothing over the unit). -->
         <div
-          ref="dsSearchEl"
-          class="typing-field ds-search-field"
+          ref="splitEl"
+          class="ds-split"
+          :class="{ 'rw-host': wide }"
         >
-          <input
-            v-model="dsQuery"
-            type="search"
-            class="ds-search"
-            :placeholder="typing ? '' : labels.dsSearch"
-            :aria-label="labels.dsSearch"
-          >
-          <TypingGhost
-            v-if="typing && !dsQuery"
-            :ghost="ghost"
-          />
-        </div>
-        <!-- Global army choice (chapter + detachment), shared with the rule page.
-             Chapter-less factions keep their datasheet list bar-free — a detachment
-             picker filters nothing here. -->
-        <FactionPickerBar
-          v-if="chapters.length"
-          class="ds-picker-bar"
-          :slug="slug"
-          :detachments="detachments"
-          :chapters="chapters"
-        />
-        <!-- What the two corner marks on every chip mean. Both are toggles with nothing but an
-             icon on them, and a tooltip is no answer on a phone — so the key is said once, here,
-             instead of on 90 chips. -->
-        <div class="ds-tools">
-          <p class="ds-legend">
-            <span><i class="wi wi-pin-on" /> {{ labels.favPinnedGroup }}</span>
-            <span><i class="wi wi-own" /> {{ labels.rosterFilterOwned }}</span>
-          </p>
-          <!-- Legends sheets are listed with everything else and marked, not hidden — a rule GW
-               still publishes is a rule somebody is reading. The switch is for the player building
-               a matched-play list, and only appears for the factions that have any. It shares the
-               key's row — width before height — and wraps under it on a phone. -->
-          <label
-            v-if="hasLegends"
-            class="check ds-legends-filter"
-            :class="{ on: hideLegends }"
+          <!-- Types the faction's own example queries while empty (useUnitSearchGhost). -->
+          <div
+            ref="dsSearchEl"
+            class="typing-field ds-search-field"
           >
             <input
-              v-model="hideLegends"
-              type="checkbox"
+              v-model="dsQuery"
+              type="search"
+              class="ds-search"
+              :placeholder="typing ? '' : labels.dsSearch"
+              :aria-label="labels.dsSearch"
             >
-            <span>{{ labels.dsLegendsHide }}</span>
-          </label>
-        </div>
-        <template
-          v-for="g in groupedDatasheets"
-          :key="g.key"
-        >
-          <h3
-            class="ds-group-head"
-            :data-flip="'h:' + g.key"
-          >
-            {{ g.label }}
-          </h3>
-          <TransitionGroup
-            name="sift"
-            tag="div"
-            class="ds-grid"
-          >
-            <RouterLink
-              v-for="s in g.sheets"
-              :key="s.id"
-              :data-flip="s.id"
-              :to="`/factions/${slug}/datasheets/${s.id}`"
-              class="ds-chip"
+            <TypingGhost
+              v-if="typing && !dsQuery"
+              :ghost="ghost"
+            />
+          </div>
+          <!-- Global army choice (chapter + detachment), shared with the rule page.
+             Chapter-less factions keep their datasheet list bar-free — a detachment
+             picker filters nothing here. -->
+          <FactionPickerBar
+            v-if="chapters.length"
+            class="ds-picker-bar"
+            :inline="wide"
+            :slug="slug"
+            :detachments="detachments"
+            :chapters="chapters"
+          />
+          <!-- The Legends switch. Legends sheets are listed with everything else and marked, not
+             hidden — a rule GW still publishes is a rule somebody is reading. The switch is for the
+             player building a matched-play list, and only appears for the factions that have any. -->
+          <div class="ds-tools">
+            <label
+              v-if="hasLegends"
+              class="check ds-legends-filter"
+              :class="{ on: hideLegends }"
             >
-              <span class="ds-marks">
+              <input
+                v-model="hideLegends"
+                type="checkbox"
+              >
+              <span>{{ labels.dsLegendsHide }}</span>
+            </label>
+          </div>
+          <div class="ds-list">
+            <template
+              v-for="(g, gi) in groupedDatasheets"
+              :key="g.key"
+            >
+              <!-- A type group folds (owner, 2026-10-21), open by default; a search opens them all,
+                   so nothing it found is hidden. -->
+              <h3
+                class="ds-group-head"
+                :class="{ folded: !groupOpen(g.key), 'after-folded': gi > 0 && !groupOpen(groupedDatasheets[gi - 1].key) }"
+                :data-flip="'h:' + g.key"
+              >
                 <button
-                  data-press="pop"
                   type="button"
-                  class="ds-fav"
-                  :class="{ on: isUnitFavorite(slug, s.id) }"
-                  data-press-sound="toggle"
-                  :title="isUnitFavorite(slug, s.id) ? labels.dsUnpinUnit : labels.dsPinUnit"
-                  :aria-label="isUnitFavorite(slug, s.id) ? labels.dsUnpinUnit : labels.dsPinUnit"
-                  :aria-pressed="isUnitFavorite(slug, s.id)"
-                  @click.stop.prevent="toggleUnitFavorite(slug, s.id)"
+                  class="ds-group-btn"
+                  :aria-expanded="groupOpen(g.key)"
+                  @click="toggleGroup(g.key)"
                 >
-                  <i :class="isUnitFavorite(slug, s.id) ? 'wi wi-pin-on' : 'wi wi-pin-off'" />
+                  <ChevronIcon
+                    :turned="groupOpen(g.key)"
+                    from="right"
+                    to="down"
+                  />
+                  <span>{{ g.label }}</span>
+                  <span class="ds-group-count">{{ g.sheets.length }}</span>
                 </button>
-                <!-- "I own this one" — the same mark the roster catalogue shows and filters by.
-                     This grid is where a collection actually gets entered: the datasheet page
-                     carries the same button, but one unit per visit is no way to fill a shelf. -->
-                <button
-                  data-press="pop"
-                  type="button"
-                  class="ds-fav ds-own"
-                  :class="{ on: isOwned(slug, s.id) }"
-                  data-press-sound="toggle"
-                  :title="isOwned(slug, s.id) ? labels.dsOwnRemove : labels.dsOwnAdd"
-                  :aria-label="isOwned(slug, s.id) ? labels.dsOwnRemove : labels.dsOwnAdd"
-                  :aria-pressed="isOwned(slug, s.id)"
-                  @click.stop.prevent="toggleOwned(slug, s.id, s.name)"
+              </h3>
+              <CollapseTransition :show="groupOpen(g.key)">
+                <TransitionGroup
+                  name="sift"
+                  tag="div"
+                  class="ds-grid"
                 >
-                  <i :class="isOwned(slug, s.id) ? 'wi wi-own-on' : 'wi wi-own'" />
-                </button>
-              </span>
-              <span class="ds-chip-name">{{ s.name }}</span>
-              <span
-                v-if="chapters.length && !chapter && chapterOf(s)"
-                class="ds-chip-chapter"
-              >{{ chapterOf(s) }}</span>
-              <span
-                v-if="s.legends"
-                class="legends-badge"
-                :title="labels.dsLegendsNote"
-              >{{ labels.dsLegends }}</span>
-              <span
-                v-if="s.points"
-                class="ds-chip-pts"
-              >{{ ptsSummary(s.points) }}</span>
-            </RouterLink>
-          </TransitionGroup>
-        </template>
-        <!-- The prose half of a "Legends: <Faction>" publication (src/data/factionLegends.json).
+                  <RouterLink
+                    v-for="s in g.sheets"
+                    :key="s.id"
+                    :data-flip="s.id"
+                    :data-unit="s.id"
+                    :to="`/factions/${slug}/datasheets/${s.id}`"
+                    class="ds-chip"
+                    :class="{ picked: shown.includes(s.id) }"
+                    :aria-current="shown.includes(s.id) ? 'true' : undefined"
+                  >
+                    <span class="ds-chip-name">{{ s.name }}</span>
+                    <span
+                      v-if="chapters.length && !chapter && chapterOf(s)"
+                      class="ds-chip-chapter"
+                    >{{ chapterOf(s) }}</span>
+                    <span
+                      v-if="s.legends"
+                      class="legends-badge"
+                      :title="labels.dsLegendsNote"
+                    >{{ labels.dsLegends }}</span>
+                    <!-- The collection shown, as the roster catalogue shows it; set from the "…". -->
+                    <span
+                      v-if="isOwned(slug, s.id)"
+                      class="legends-badge owned-badge"
+                      :title="labels.rosterFilterOwned"
+                      :aria-label="labels.rosterFilterOwned"
+                    ><i class="wi wi-own-on" /></span>
+                    <span
+                      v-if="s.points"
+                      class="ds-chip-pts"
+                    >{{ ptsSummary(s.points) }}</span>
+                    <!-- The chip's own actions (pin, collection, a new tab…): its context menu, hung
+                       from the button (owner, 2026-10-21 — the two marks it replaced). -->
+                    <button
+                      type="button"
+                      class="ds-more"
+                      :title="labels.rosterMoreActions"
+                      :aria-label="labels.rosterMoreActions"
+                      aria-haspopup="menu"
+                      @click.stop.prevent="openMenuAt(s, $event.currentTarget)"
+                    >
+                      <i class="wi wi-more" />
+                    </button>
+                  </RouterLink>
+                </TransitionGroup>
+              </CollapseTransition>
+            </template>
+            <!-- The prose half of a "Legends: <Faction>" publication (src/data/factionLegends.json).
              Sits under the list, not above it: a player who opened this page came for the units,
              and the intro is four paragraphs of GW's stance on Legends — folded until asked for.
              The proxies are the useful part and stay open: a retired unit with no datasheet of
@@ -141,68 +160,97 @@
              question a player sent us was exactly that, and this table already answered it in
              appdata. A search query narrows the proxies by the retired names, so typing the old
              unit's name finds its row even though no chip carries it. -->
-        <ExpandTransition>
-          <section
-            v-if="legends && (!dsQuery.trim() || visibleProxies.length)"
-            class="ds-legends"
-          >
-            <h3 class="ds-group-head">
-              {{ labels.dsLegendsTitle }}
-            </h3>
-            <template v-if="!dsQuery.trim() && legends.intro">
-              <button
-                type="button"
-                class="ds-legends-about"
-                :aria-expanded="introOpen"
-                @click="introOpen = !introOpen"
+            <ExpandTransition>
+              <section
+                v-if="legends && (!dsQuery.trim() || visibleProxies.length)"
+                class="ds-legends"
               >
-                <ChevronIcon
-                  :turned="introOpen"
-                  from="right"
-                  to="down"
-                />
-                <span>{{ labels.dsLegendsAbout }}</span>
-              </button>
-              <CollapseTransition :show="introOpen">
-                <div class="ds-legends-intro rule-body">
-                  <RuleBody :body="legends.intro" />
-                </div>
-              </CollapseTransition>
-            </template>
-            <template v-if="visibleProxies.length">
-              <h4
-                id="legendary-proxies"
-                class="ds-legends-sub"
-              >
-                {{ labels.dsLegendsProxies }}
-              </h4>
-              <p class="ds-legends-hint">
-                {{ labels.dsLegendsProxiesHint }}
-              </p>
-              <ul class="ds-proxies">
-                <li
-                  v-for="(p, i) in visibleProxies"
-                  :key="i"
-                >
-                  <span class="ds-proxy-legacy">{{ p.legacy.join(', ') }}</span>
-                  <i class="wi wi-arrow-right ds-proxy-arrow" />
-                  <!-- Both are flex items, so the line breaks around the text cost no space. -->
-                  <RouterLink
-                    v-if="p.id"
-                    :to="`/factions/${slug}/datasheets/${p.id}`"
-                    class="ds-proxy-use"
+                <h3 class="ds-group-head">
+                  {{ labels.dsLegendsTitle }}
+                </h3>
+                <template v-if="!dsQuery.trim() && legends.intro">
+                  <button
+                    type="button"
+                    class="ds-legends-about"
+                    :aria-expanded="introOpen"
+                    @click="introOpen = !introOpen"
                   >
-                    {{ p.use }}
-                  </RouterLink>
-                  <span
-                    v-else
-                    class="ds-proxy-use"
-                  >{{ p.use }}</span>
-                </li>
-              </ul>
-            </template>
-          </section>
-        </ExpandTransition>
+                    <ChevronIcon
+                      :turned="introOpen"
+                      from="right"
+                      to="down"
+                    />
+                    <span>{{ labels.dsLegendsAbout }}</span>
+                  </button>
+                  <CollapseTransition :show="introOpen">
+                    <div class="ds-legends-intro rule-body">
+                      <RuleBody :body="legends.intro" />
+                    </div>
+                  </CollapseTransition>
+                </template>
+                <template v-if="visibleProxies.length">
+                  <h4
+                    id="legendary-proxies"
+                    class="ds-legends-sub"
+                  >
+                    {{ labels.dsLegendsProxies }}
+                  </h4>
+                  <p class="ds-legends-hint">
+                    {{ labels.dsLegendsProxiesHint }}
+                  </p>
+                  <ul class="ds-proxies">
+                    <li
+                      v-for="(p, i) in visibleProxies"
+                      :key="i"
+                    >
+                      <span class="ds-proxy-legacy">{{ p.legacy.join(', ') }}</span>
+                      <i class="wi wi-arrow-right ds-proxy-arrow" />
+                      <!-- Both are flex items, so the line breaks around the text cost no space. -->
+                      <RouterLink
+                        v-if="p.id"
+                        :to="`/factions/${slug}/datasheets/${p.id}`"
+                        class="ds-proxy-use"
+                      >
+                        {{ p.use }}
+                      </RouterLink>
+                      <span
+                        v-else
+                        class="ds-proxy-use"
+                      >{{ p.use }}</span>
+                    </li>
+                  </ul>
+                </template>
+              </section>
+            </ExpandTransition>
+          </div>
+          <!-- Wide screen: the chosen unit beside the list — or two, compared — in a column that
+               stays put and scrolls on its own while the list scrolls with the page. -->
+          <aside
+            v-if="wide"
+            class="ds-side"
+            :class="{ 'ds-side--pair': shown.length === 2 || comparing }"
+          >
+            <FactionUnitSheet
+              v-for="(id, i) in shown"
+              :key="id"
+              :slug="slug"
+              :unit-id="id"
+              :datasheets="datasheets"
+              in-place
+              :compare="shown.length === 1 ? (comparing ? 'on' : 'off') : ''"
+              :closable="shown.length === 2"
+              @compare="comparing = !comparing"
+              @close="closeShown(i)"
+              @open-unit="replaceShown(i, $event)"
+            />
+            <p
+              v-if="!shown.length || comparing"
+              class="empty-note ds-side-note"
+            >
+              {{ comparing ? labels.dsComparePick : labels.dsUnitPick }}
+            </p>
+          </aside>
+        </div>
       </template>
       <p
         v-else-if="loaded"
@@ -211,13 +259,106 @@
         {{ labels.factionsSoon }}
       </p>
     </section>
+    <!-- Phone: the unit in a modal over the list, which stays exactly where it was. The unit's
+         plate is the dialog's header (and its name), the card scrolls under it. -->
+    <BaseModal
+      v-if="modalUnit"
+      max-width="640px"
+      max-height="92dvh"
+      @close="modalUnit = null"
+    >
+      <template #header="{ close, titleId }">
+        <FactionUnitSheet
+          :key="modalUnit"
+          :slug="slug"
+          :unit-id="modalUnit"
+          :datasheets="datasheets"
+          :title-id="titleId"
+          contained
+          in-place
+          closable
+          @close="close"
+          @open-unit="modalUnit = $event"
+        />
+      </template>
+    </BaseModal>
+    <!-- The chip's context menu: at the pointer on a wide screen, the actions sheet on a phone. -->
+    <ActionMenu
+      v-model:open="menuOpen"
+      :anchor="menu?.anchor"
+      :title="menu?.name || ''"
+      width="18rem"
+    >
+      <template v-if="menu">
+        <button
+          class="act-btn act-ico"
+          @click="menuDo(() => openUnit(menu.id))"
+        >
+          <i class="wi wi-datasheet" />{{ labels.dsOpenUnit }}
+        </button>
+        <a
+          :href="menuHref"
+          target="_blank"
+          rel="noopener"
+          class="act-btn act-ico"
+          @click="menuOpen = false"
+        >
+          <i class="wi wi-arrow-right" />{{ labels.dsOpenNewTab }}
+        </a>
+        <button
+          v-if="wide && shown.length && !shown.includes(menu.id)"
+          class="act-btn act-ico"
+          @click="menuDo(() => compareWith(menu.id))"
+        >
+          <i class="wi wi-panes" />{{ labels.dsCompareWith.replace('{name}', menuShownName) }}
+        </button>
+        <button
+          class="act-btn act-ico"
+          @click="menuDo(() => toggleUnitFavorite(slug, menu.id))"
+        >
+          <i :class="isUnitFavorite(slug, menu.id) ? 'wi wi-pin-on' : 'wi wi-pin-off'" />{{ isUnitFavorite(slug, menu.id) ? labels.dsUnpinUnit : labels.dsPinUnit }}
+        </button>
+        <button
+          class="act-btn act-ico"
+          @click="menuDo(() => toggleOwned(slug, menu.id, menu.name))"
+        >
+          <i :class="isOwned(slug, menu.id) ? 'wi wi-own-on' : 'wi wi-own'" />{{ isOwned(slug, menu.id) ? labels.dsOwnRemove : labels.dsOwnAdd }}
+        </button>
+        <button
+          class="act-btn act-ico"
+          @click="menuDo(() => copyUnitName(menu.name))"
+        >
+          <i class="wi wi-copy" />{{ labels.dsCopyName }}
+        </button>
+        <button
+          class="act-btn act-ico"
+          @click="menuDo(() => shareFromMenu(menu))"
+        >
+          <i :class="canShare ? 'wi wi-share' : 'wi wi-link'" />{{ canShare ? labels.dsShare : labels.dsCopyLink }}
+        </button>
+      </template>
+    </ActionMenu>
+    <AppToast
+      :show="!!toast"
+      :text="toast"
+      icon="wi wi-check"
+      @close="toast = ''"
+    />
   </div>
 </template>
+
+<script>
+// Per faction, the type groups folded away — for the session, like the unit below.
+const foldedGroups = new Map()
+// Per faction, the unit last shown beside the list — for the session, not the device: the tab
+// coming back (from the rules, from another faction) finds the unit it left.
+const lastShown = new Map()
+</script>
 
 <script setup>
 import ChevronIcon from '../../components/ChevronIcon.vue'
 import TypingGhost from '../../components/TypingGhost.vue'
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import ExpandTransition from '../../components/ExpandTransition.vue'
 import FactionPickerBar from '../../components/FactionPickerBar.vue'
@@ -236,11 +377,95 @@ import { getItem, setItem } from '../../composables/safeStorage.js'
 import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from '../../composables/datasheetTags.js'
 import { useUnitSearchGhost } from '../../composables/useUnitSearchExamples.js'
+import BaseModal from '../../components/BaseModal.vue'
+import FactionUnitSheet from '../../components/FactionUnitSheet.vue'
+import { useMediaQuery } from '../../composables/useMediaQuery.js'
+import { useViewportFill } from '../../composables/useViewportFill.js'
+import { unitLinkOf } from '../../utils/unitLink.js'
+import ActionMenu from '../../components/ActionMenu.vue'
+import AppToast from '../../components/AppToast.vue'
+import { useLongPress } from '../../composables/useLongPress.js'
+import { canShare, copyText, shareUnit } from '../../composables/useUnitShare.js'
+import { localePath } from '../../router/locale.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// A unit opened from the list stays on this page (owner, 2026-10-04: the way back from a unit's
+// page lost the reader's place in a ninety-unit list). The width the app's pickers switch at
+// (AdaptivePicker) decides how: a phone shows it in a modal, a wide screen beside the list — one
+// unit, or two compared side by side ("compare" on the first, then a tap in the list; a further
+// tap swaps the second). Neither changes the address (owner): the unit's ⋯ shares its own page.
+const wide = useMediaQuery('(min-width: 901px)')
+const modalUnit = ref(null)
+const shown = ref([])
+const comparing = ref(false)
+
+function onUnitClick(e) {
+  // A unit beside the list answers its own links (FactionUnitSheet's `open-unit`).
+  if (e.target instanceof Element && e.target.closest('.ds-side')) return
+  const id = unitLinkOf(e, slug.value)
+  if (!id) return
+  e.preventDefault()
+  openUnit(id)
+}
+function openUnit(id) {
+  if (!wide.value) { modalUnit.value = id; return }
+  const [first] = shown.value
+  if (first && (comparing.value || shown.value.length === 2)) {
+    if (id !== first) shown.value = [first, id]
+    comparing.value = false
+    return
+  }
+  shown.value = [id]
+}
+// A unit shown beside the list takes the unit its card links to in its own place.
+function replaceShown(i, id) {
+  if (shown.value.includes(id)) return
+  shown.value = shown.value.map((x, j) => (j === i ? id : x))
+}
+function compareWith(id) {
+  const [first] = shown.value
+  if (first && first !== id) shown.value = [first, id]
+  comparing.value = false
+}
+function closeShown(i) {
+  shown.value = shown.value.filter((_, j) => j !== i)
+  comparing.value = false
+}
+
+// The chip's context menu (right click / long press): the unit's own actions without opening it,
+// and the new tab a long press cannot otherwise ask for on a phone (owner, 2026-10-21).
+const menu = ref(null)
+const menuOpen = ref(false)
+const unitPress = useLongPress('.ds-chip[data-unit]', (el, anchor) => {
+  const sheet = datasheets.value.find((d) => d.id === el.dataset.unit)
+  if (!sheet) return
+  menu.value = { id: sheet.id, name: sheet.name, anchor }
+  menuOpen.value = true
+})
+const menuHref = computed(() => (menu.value ? localePath(`/factions/${slug.value}/datasheets/${menu.value.id}`, locale.value) : ''))
+const menuShownName = computed(() => datasheets.value.find((d) => d.id === shown.value[0])?.name || '')
+function menuDo(fn) { menuOpen.value = false; fn() }
+// The row's "…": the same menu, hung from the button.
+function openMenuAt(sheet, btn) {
+  const r = btn.getBoundingClientRect()
+  menu.value = { id: sheet.id, name: sheet.name, anchor: { left: r.left, right: r.right, top: r.top, bottom: r.bottom } }
+  menuOpen.value = true
+}
+
+// "Copied" has nowhere to show on a menu that has closed: a toast says it.
+const toast = ref('')
+let toastTimer = null
+function say(text) {
+  toast.value = text
+  clearTimeout(toastTimer)
+  toastTimer = setTimeout(() => { toast.value = '' }, 1500)
+}
+async function copyUnitName(name) { if (await copyText(name)) say(labels.value.dsCopied) }
+async function shareFromMenu(m) { if (await shareUnit(slug.value, m.id, m.name, locale.value)) say(labels.value.dsLinkCopied) }
 
 // Datasheets are lazy-loaded per faction (each src/data/datasheets/<slug>.js is its own
 // chunk) so the heavy unit data never rides in the shared view bundle.
@@ -274,6 +499,9 @@ watch(
     loaded.value = false
     dsQuery.value = ''
     introOpen.value = false
+    shown.value = []
+    comparing.value = false
+    modalUnit.value = null
     if (!s) return
     const [list, leg] = await Promise.all([loadDatasheets(s), loadLegends(s)])
     // guard against a stale resolve after a rapid route change
@@ -401,6 +629,37 @@ const groupedDatasheets = computed(() => {
 const gridRoot = ref(null)
 useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
 
+// The folded type groups: this faction's, kept for the session (foldedGroups above).
+const folded = ref(new Set())
+watch(slug, (s) => { folded.value = new Set(foldedGroups.get(s) || []) }, { immediate: true })
+const groupOpen = (key) => !!dsQuery.value.trim() || !folded.value.has(key)
+function toggleGroup(key) {
+  const next = new Set(folded.value)
+  if (groupOpen(key)) next.add(key)
+  else next.delete(key)
+  folded.value = next
+  foldedGroups.set(slug.value, next)
+}
+
+// A wide screen never shows an empty column beside the list (owner, 2026-10-21): the unit this
+// faction last showed in this session, else the list's first. Only the "pick one to compare" note
+// is ever an empty box.
+function showSomething() {
+  if (!wide.value || !loaded.value || shown.value.length) return
+  const last = lastShown.get(slug.value)
+  const id = last && datasheets.value.some((d) => d.id === last) ? last : groupedDatasheets.value[0]?.sheets[0]?.id
+  if (id) shown.value = [id]
+}
+watch([wide, loaded], showSomething, { immediate: true })
+
+// A wide screen does not scroll the page: the list and the unit scroll, each in its own column, in
+// a box as tall as the window has left under the hero and the tabs (owner, 2026-10-21 — three
+// scrollbars, the page's among them). The roster builder's recipe (useViewportFill, `.rw-host`).
+const splitEl = ref(null)
+const { measure: measureFill } = useViewportFill(splitEl)
+watch([wide, loaded], () => nextTick(measureFill))
+watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
+
 </script>
 
 <style scoped>
@@ -432,6 +691,37 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
   margin-bottom: 0.6rem;
 }
 
+/* Folded groups stand as a tight list of headings: the space a heading keeps under itself for its
+   units, and over itself to part from the units above, has nothing to part when those are folded
+   (owner, 2026-10-21). */
+.ds-group-head.folded { margin-bottom: 0; }
+.ds-group-head.after-folded { margin-top: 0.35rem; }
+
+.ds-group-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ds-group-btn .wi { font-size: 0.75rem; }
+@media (hover: hover) { .ds-group-btn:hover { color: var(--text-primary); } }
+/* How many units the group holds — what a folded group still tells you. */
+.ds-group-count {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0;
+}
+
 .ds-group-head {
   font-family: var(--font-display);
   font-size: 1.3rem;
@@ -452,19 +742,23 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
 
 .ds-chip {
   position: relative;
+  /* A long press is the chip's context menu (useLongPress): not iOS's link preview, not a text
+     selection. */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* The name on its own line; under it the price at the left (the Legends and collection badges
+     beside it) and a Space Marines unit's Chapter at the right — on the price's line where it fits,
+     on a line of its own, still at the right, where it does not (owner, 2026-10-21). */
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.05rem;
+  flex-wrap: wrap;
+  align-items: center;
+  /* A chip stretched to a taller neighbour's row keeps its lines at the top. */
+  align-content: flex-start;
+  gap: 0.05rem 0.45rem;
   text-align: left;
-  padding: 0.35rem 1.9rem 0.35rem 0.55rem;
-  /* The two marks stack in the corner, so they cost the name ONE icon of width instead of two —
-     at this grid's 180px a second column of buttons was breaking names onto a third line. The
-     min-height is what the stack needs: the buttons are absolute and would otherwise hang out of
-     a short chip (a one-line name and its points). Two marks at 1.35rem + their 0.3rem off each
-     edge — 3.3rem (owner, 2026-10-13: flush to the edges they stuck to the frame; 0.3rem, not more,
-     because a one-line chip's own 50px grows to this). */
-  min-height: 3.3rem;
+  /* The top right corner is the "…"'s, so a name never runs under it. */
+  padding: 0.35rem 2.1rem 0.35rem 0.55rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   cursor: pointer;
@@ -472,44 +766,29 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
   transition: background var(--motion-fast), border-color var(--motion-fast);
 }
 
-/* Both marks sit on the chip's right edge, the pin (favourite) at its top and the star (owned) at its
-   bottom (owner, 2026-10-13): stacked together they read as one control on a tall chip. They are
-   inside the RouterLink, so their handlers stop propagation / prevent navigation. */
-.ds-marks { position: absolute; top: 0.3rem; bottom: 0.3rem; right: 0.2rem; display: flex; flex-direction: column; justify-content: space-between; }
-
-.ds-fav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* 1.5×1.35rem, glyph 1rem: as big as the stack can be without outgrowing a one-line chip.
-     Short of the 24px tap target still — listed in `npm run a11y`'s ALLOWED. */
-  width: 1.5rem;
-  height: 1.35rem;
+/* The chip's "…" in its top right corner, where the two marks stood until 2026-10-21. A row on a
+   wide screen puts it on the name's line instead (below). */
+.ds-more {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.15rem;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
   padding: 0;
+  border: 0;
   background: none;
-  border: none;
   color: var(--text-muted);
-  font-size: 1rem;
-  line-height: 1;
   cursor: pointer;
-  opacity: 0.5;
-  transition: color var(--motion-fast), opacity var(--motion-fast), background var(--motion-fast);
 }
-
-.ds-fav:hover {
-  opacity: 1;
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+@media (hover: hover) {
+  .ds-more:hover { color: var(--text-primary); background: color-mix(in srgb, var(--accent) 12%, transparent); }
 }
-
-.ds-fav.on {
-  opacity: 1;
-}
-
-/* Owned takes the faction's own accent — the colour this page is already themed in (FactionLayout
-   folds `--fa-light`/`--fa-dark` into `--accent`), so a marked shelf reads as part of the army
-   rather than as a foreign gold. The pin keeps its quiet outline→filled swap: two marks in one
-   corner, only one of them coloured. */
-.ds-own.on { color: var(--accent-ink); }
+.ds-chip-name { flex: 1 1 100%; min-width: 0; }
+.ds-chip-pts { order: 2; }
+.ds-chip > .legends-badge { order: 3; }
+.ds-chip-chapter { order: 4; margin-left: auto; margin-right: -1.75rem; } /* into the "…"'s gutter: the "…" holds only the top corner */
 
 .ds-chip:hover { text-decoration: none; }
 
@@ -528,7 +807,7 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
 }
 
 .ds-chip-chapter {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.4px;
@@ -549,7 +828,7 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
   white-space: nowrap;
 }
 
-/* The chips' key and the Legends switch on one row (the switch wraps under on a phone). */
+/* The Legends switch's row. */
 .ds-tools {
   display: flex;
   flex-wrap: wrap;
@@ -558,17 +837,6 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
   gap: 0.5rem 1rem;
   margin: 0.5rem 0 0;
 }
-
-/* The chips' key. Dim and small — it is read once and then ignored. */
-.ds-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.2rem 1rem;
-  margin: 0;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-.ds-legend i { margin-right: 0.3rem; }
 
 .ds-empty {
   color: var(--text-muted);
@@ -643,4 +911,80 @@ useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
 }
 .ds-proxy-use { font-weight: 600; }
 
+/* ── Wide screen: the list as rows on the left, the unit(s) on the right ──
+   Below 901px nothing here applies: the grid of chips, and a unit opens in a modal. */
+@media (min-width: 901px) {
+  /* The tools stack over the list in the left column; the unit takes the right one from the top.
+     The list's row is the flexible one, so a unit taller than a short (searched) list stretches
+     that row and never pulls the tools apart. */
+  .ds-split {
+    display: grid;
+    grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+    grid-template-areas:
+      "bar    side"
+      "search side"
+      "tools  side"
+      "list   side";
+    column-gap: 1rem;
+    align-items: start;
+  }
+  .fsection { margin-bottom: 0; }
+  .ds-picker-bar { grid-area: bar; }
+  .ds-search-field { grid-area: search; max-width: none; }
+  .ds-tools { grid-area: tools; margin-top: 0; }
+  /* The two scrollers. The list's own room for the scrollbar keeps the rows clear of it. */
+  .ds-list { grid-area: list; min-width: 0; min-height: 0; height: 100%; overflow-y: auto; overscroll-behavior: contain; padding-right: 0.35rem; }
+  .ds-side { grid-area: side; }
+  /* The list's heading only repeats the tab it hangs from (components/CLAUDE.md, vertical
+     density): out of sight here, still the section's name for a screen reader. */
+  .ds-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .ds-list .ds-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  /* A row: the name and what is said about it on one line, the two marks side by side at the
+     right. The rows touch, sharing one edge (components/CLAUDE.md, Borders that touch). */
+  /* A row: the chip's own two lines, the "…" moved onto the name's line — the name's basis leaves
+     it exactly its room, so what follows wraps. The rows touch, sharing one edge
+     (components/CLAUDE.md, Borders that touch). */
+  .ds-list .ds-chip {
+    min-height: 0;
+    padding: 0.3rem 0.3rem 0.3rem 0.55rem;
+  }
+  .ds-list .ds-chip + .ds-chip { margin-top: -1px; }
+  .ds-list .ds-chip:hover,
+  .ds-list .ds-chip.picked { position: relative; z-index: 1; }
+  .ds-list .ds-chip-name { flex-basis: calc(100% - 2.2rem); font-size: 1rem; }
+  .ds-list .ds-more { order: 1; }
+  .ds-list .ds-chip-chapter { margin-right: 0; padding-right: 0.25rem; }
+  .ds-list .ds-more { position: static; height: 1.6rem; }
+  .ds-chip.picked {
+    background: color-mix(in srgb, var(--accent) 12%, var(--bg-card));
+    border-color: var(--accent);
+  }
+
+  /* The unit's column: the full height of the box, scrolling inside itself. */
+  .ds-side {
+    align-self: stretch;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    min-width: 0;
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+  }
+  .ds-side--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .ds-side-note {
+    margin: 0;
+    padding: 2rem 1rem;
+    border: 1px dashed var(--border);
+    text-align: center;
+  }
+}
 </style>

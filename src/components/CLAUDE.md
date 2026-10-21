@@ -511,9 +511,9 @@ So, when adding or restyling anything that stacks:
 
 - **Count what the first screen shows.** Open the page at 390×844 with the bottom nav and count
   the list rows above the fold. That number is the metric — not how the block looks in isolation.
-- **Spend sideways before spending down.** A label beside its control, not above it; two marks
-  stacked in a corner rather than a second column of them (`.ds-marks`); a name and its price on
-  one line while the width allows.
+- **Spend sideways before spending down.** A label beside its control, not above it; a unit
+  chip's price and Chapter on one line under the name, the Chapter wrapping only when it must; a
+  name and its price on one line while the width allows.
 - **The steps that are already the canon** (2026-08-28, when the faction pages were tightened):
   section gap `1.75rem`, section title `margin-bottom: 0.5rem` with `line-height: 1.1`, a control
   to the list under it `0.55–0.6rem`, group heading `1rem` above / `0.4rem` below, list gaps

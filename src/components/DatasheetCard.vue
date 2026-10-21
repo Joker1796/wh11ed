@@ -17,7 +17,7 @@
          top-aligned to its right and the asterisk note under the band. -->
       <div
         v-if="sheet.profiles?.length"
-        class="ds-cardhead"
+        class="ds-cardhead corner-grid"
       >
         <div
           v-for="({ p, index: i }, row) in profileRows"

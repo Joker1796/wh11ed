@@ -45,6 +45,10 @@ const props = defineProps({
   // `right` lines the panel's right edge up with the trigger's — for a trigger at the end of a
   // line (a "…" in a card's corner, the last field on the desk's settings line).
   align: { type: String, default: 'left' },
+  // A point to open at instead of under the trigger (a context menu: where the right click or the
+  // long press was) — `{ left, top, right, bottom }` in viewport px. The panel opens down from it,
+  // or up when the point is low on the screen, and a scroll closes it: it cannot follow a point.
+  anchor: { type: Object, default: null },
 })
 const open = defineModel('open', { type: Boolean, default: false })
 const toggle = () => { open.value = !open.value }
@@ -67,11 +71,20 @@ function widthPx() {
 function measure() {
   const el = rootEl.value
   if (!el) return
-  const r = el.getBoundingClientRect()
+  const r = props.anchor || el.getBoundingClientRect()
   const cs = getComputedStyle(el)
   const vars = {}
   for (const v of INHERITED) { const val = cs.getPropertyValue(v).trim(); if (val) vars[v] = val }
   const gap = 4
+  if (props.anchor && r.top > window.innerHeight * 0.6) {
+    place.value = {
+      bottom: `${window.innerHeight - r.top + gap}px`,
+      left: `${Math.max(8, Math.min(r.left, window.innerWidth - 8 - widthPx()))}px`,
+      maxHeight: `${Math.max(180, r.top - gap - 12)}px`,
+      ...vars,
+    }
+    return
+  }
   const top = r.bottom + gap
   place.value = {
     top: `${top}px`,
@@ -87,7 +100,7 @@ const panelStyle = computed(() => ({ width: `min(${props.width}, calc(100vw - 16
 
 // While open the panel follows its trigger: a scroll anywhere (capture — the desk's columns are
 // their own scrollers) or a resize moves it.
-const follow = () => measure()
+const follow = () => { if (props.anchor) open.value = false; else measure() }
 function onEscape(e) { if (e.key === 'Escape') open.value = false }
 watch(open, (v) => {
   if (v) {

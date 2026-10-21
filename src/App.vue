@@ -42,7 +42,7 @@
 
     <main
       class="main-content"
-      :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isFactionPageRoute || isCombatPatrolPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk, 'main-content--browse': isRosterBrowseDesk }"
+      :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isFactionPageRoute || isCombatPatrolPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk, 'main-content--browse': isRosterBrowseDesk, 'main-content--fill': isFactionUnitsDesk }"
     >
       <RouterView v-slot="{ Component }">
         <Transition
@@ -57,7 +57,7 @@
           />
         </Transition>
       </RouterView>
-      <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute && !isRosterBrowseDesk && !isBare" />
+      <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute && !isRosterBrowseDesk && !isFactionUnitsDesk && !isBare" />
     </main>
 
     <AppBottomNav
@@ -294,6 +294,9 @@ const isCombatPatrolPageRoute = computed(() => /^\/combat-patrol\/[^/]+$/.test(a
 const rosterBrowseWide = useMediaQuery('(min-width: 901px)')
 const isRosterBrowseDesk = computed(() => rosterBrowseWide.value &&
   (appPath.value === '/roster' || /^\/roster\/[^/]+\/view$/.test(appPath.value)))
+// A faction's units on a wide screen: the list and the unit scroll in columns that fill the window
+// (FactionDatasheetsView), so the page itself does not scroll and has no footer under it.
+const isFactionUnitsDesk = computed(() => rosterBrowseWide.value && /^\/factions\/[^/]+\/datasheets$/.test(appPath.value))
 
 // "Back to game" bar: only when a game is actively in progress and the user is reading something
 // that isn't the game — anywhere outside the tracker, plus the one tracker screen that is itself
@@ -521,6 +524,11 @@ onUnmounted(() => {
     padding-right: 1.5rem;
   }
 }
+
+/* A faction's units on a wide screen fill the window (FactionDatasheetsView): the page's own 4rem
+   under the last line is for a page that scrolls, and here it was a band of nothing under the
+   columns. */
+.main-content--fill { padding-bottom: 0.75rem; }
 
 /* The rosters desk (list + a roster, RosterDeskView) — from where the bottom nav goes. */
 @media (min-width: 901px) {

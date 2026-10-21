@@ -1365,6 +1365,42 @@ strong {
   white-space: nowrap;
 }
 
+/* ── Corner grid ──
+   The navbar logo's grid (AppNavbar's .navbar-inner::before) in a surface's top left and bottom
+   right corners, fading out from each (owner, 2026-10-21): a unit card's statline band. Each fades
+   along the box's own diagonal and is gone just short of the other diagonal — its middle — so the
+   two reach as far as they can without meeting, on a phone's narrow box as on a desktop's. Drawn
+   in the text colour, so it holds in either theme; under everything the box holds. (Tried on the
+   tracker's history cards, corners and then behind the score: taken off, owner.) */
+.corner-grid { position: relative; isolation: isolate; }
+/* One layer per corner, each with its grid laid from ITS corner: one grid laid from the top left
+   ran out mid-cell at the right and bottom edges (owner's screenshot, 2026-10-21) — the box is not
+   a whole number of cells. Drawn from the bottom right, a cell's lines are its top and left, and
+   the box's own edge closes the last one. */
+.corner-grid::before,
+.corner-grid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  --corner-grid-line: color-mix(in srgb, var(--text-primary) 4%, transparent);
+  background-image:
+    linear-gradient(var(--corner-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--corner-grid-line) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+.corner-grid::before {
+  background-position: -1px -1px;
+  -webkit-mask-image: linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%);
+  mask-image: linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%);
+}
+.corner-grid::after {
+  background-position: right bottom;
+  -webkit-mask-image: linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
+  mask-image: linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
+}
+
 /* "In my collection" on a roster catalogue row — the Legends mark's shape in the faction's accent
    (the editor's root folds it into `--accent`), a star for a word. Only a mark: the collection is edited on the datasheet pages, the row's own tap
    already opens the preview and its right edge adds the unit (2026-09-26, owner's ask). */
@@ -1985,6 +2021,10 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   font-size: 0.88rem; font-weight: 600; text-align: left;
 }
 .act-danger { color: var(--danger); }
+/* A row that leads with its icon (a datasheet's "…", the unit list's context menu) — the same
+   icon its button carries elsewhere, so the two read as one thing. */
+.act-ico { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+.act-ico > .wi { width: 1.1rem; height: 1.1rem; margin-inline: 0; text-align: center; color: var(--text-muted); }
 /* A choice that cannot be taken now reads as such — dimmed, no pointer (the stratagem dialog's price
    the bank cannot cover, owner 2026-10-02). */
 .act-btn:disabled { opacity: 0.45; cursor: default; }
