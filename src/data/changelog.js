@@ -22,6 +22,26 @@
 
 export const changelog = [
   {
+    version: '2.10.2',
+    date: '2026-10-21',
+    en: [
+      { h: 'Roster builder' },
+      '**A Space Marines list knows its Chapter.** A Chapter’s detachment or Epic Hero settles it: Blade of Ultramar makes it Ultramarines, [Vulkan He’stan](/factions/space-marines/datasheets/vulkan-hestan) makes it Salamanders. Otherwise you can pick the Chapter in the list’s settings.',
+      '**The “Russian tournament” and WTC exports name the Chapter in FACTION KEYWORD.** For example, “Imperium - Adeptus Astartes - Salamanders”. The printed list shows it too.',
+      '**A unit’s card shows the rules that make attacks against it worse.** For example, “Attacks against this unit: −1 to Wound” or “AP worse by 1”. 220 such rules across all factions are there now. The numbers on the card stay as printed: it is the attacker’s roll.',
+      { h: 'Tracker' },
+      '**Defensive stratagems are chips on a unit’s card.** Tick [Armour of Contempt](/factions/space-marines#strat-gladius-task-force-armour-of-contempt) or another one in your opponent’s turn, and its effect shows under “Modifiers in play”. In your own turn they are greyed.',
+    ],
+    ru: [
+      { h: 'Конструктор ростеров' },
+      '**Ростер Space Marines знает свой орден.** Его подсказывает детачмент или эпический герой ордена: с Blade of Ultramar это Ultramarines, с [Vulkan He’stan](/factions/space-marines/datasheets/vulkan-hestan) — Salamanders. Если по списку не понять, орден можно выбрать в настройках ростера.',
+      '**Экспорт «Русский турнир» и WTC пишет орден в FACTION KEYWORD.** Например, «Imperium - Adeptus Astartes - Salamanders». Орден виден и на печатном листе.',
+      '**На карточке юнита видны правила, которые ухудшают атаки по нему.** Например, «Атаки по этому отряду: −1 к ранению» или «AP хуже на 1». Таких правил во всех фракциях 220. Цифры на карточке остаются напечатанными: это бросок противника.',
+      { h: 'Трекер' },
+      '**Защитные стратагемы стали чипами на карточке юнита.** Отметьте [Armour of Contempt](/factions/space-marines#strat-gladius-task-force-armour-of-contempt) или другую в ход соперника, и её эффект появится в «Действующих модификаторах». В ваш ход они погашены.',
+    ],
+  },
+  {
     version: '2.10.1',
     date: '2026-10-21',
     en: [
