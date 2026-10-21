@@ -1365,17 +1365,15 @@ strong {
   white-space: nowrap;
 }
 
-/* ── Corner grid, centre grid ──
-   The navbar logo's grid (AppNavbar's .navbar-inner::before) faded into a surface (owner,
-   2026-10-21). Drawn in the text colour, so it holds in either theme; under everything the box
-   holds (an emblem stamp included — it comes later at the same layer). Only the mask differs:
-   ▪ `.corner-grid` — the top left and bottom right corners (a unit card's statline band). Each
-     fades along the box's own diagonal and is gone just short of the other diagonal — its middle —
-     so the two reach as far as they can without meeting, on a phone's narrow box as on a desktop's.
-   ▪ `.centre-grid` — a patch in the middle, fading out every way (behind a game card's score in the
-     tracker's history, which stands in the card's middle). */
-.corner-grid, .centre-grid { position: relative; isolation: isolate; }
-.corner-grid::before, .centre-grid::before {
+/* ── Corner grid ──
+   The navbar logo's grid (AppNavbar's .navbar-inner::before) in a surface's top left and bottom
+   right corners, fading out from each (owner, 2026-10-21): a unit card's statline band. Each fades
+   along the box's own diagonal and is gone just short of the other diagonal — its middle — so the
+   two reach as far as they can without meeting, on a phone's narrow box as on a desktop's. Drawn
+   in the text colour, so it holds in either theme; under everything the box holds. (Tried on the
+   tracker's history cards, corners and then behind the score: taken off, owner.) */
+.corner-grid { position: relative; isolation: isolate; }
+.corner-grid::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -1387,20 +1385,12 @@ strong {
     linear-gradient(90deg, var(--corner-grid-line) 1px, transparent 1px);
   background-size: 14px 14px;
   background-position: -1px -1px;
-}
-.corner-grid::before {
   -webkit-mask-image:
     linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%),
     linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
   mask-image:
     linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%),
     linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
-}
-.centre-grid::before {
-  /* A patch behind big type reads fainter than an edge of empty band: a step stronger. */
-  --corner-grid-line: color-mix(in srgb, var(--text-primary) 6%, transparent);
-  -webkit-mask-image: radial-gradient(28% 75% at 50% 50%, #000 35%, transparent);
-  mask-image: radial-gradient(28% 75% at 50% 50%, #000 35%, transparent);
 }
 
 /* "In my collection" on a roster catalogue row — the Legends mark's shape in the faction's accent
