@@ -77,62 +77,79 @@
               v-for="g in groupedDatasheets"
               :key="g.key"
             >
+              <!-- A type group folds (owner, 2026-10-21), open by default; a search opens them all,
+                   so nothing it found is hidden. -->
               <h3
                 class="ds-group-head"
                 :data-flip="'h:' + g.key"
               >
-                {{ g.label }}
-              </h3>
-              <TransitionGroup
-                name="sift"
-                tag="div"
-                class="ds-grid"
-              >
-                <RouterLink
-                  v-for="s in g.sheets"
-                  :key="s.id"
-                  :data-flip="s.id"
-                  :data-unit="s.id"
-                  :to="`/factions/${slug}/datasheets/${s.id}`"
-                  class="ds-chip"
-                  :class="{ picked: shown.includes(s.id) }"
-                  :aria-current="shown.includes(s.id) ? 'true' : undefined"
+                <button
+                  type="button"
+                  class="ds-group-btn"
+                  :aria-expanded="groupOpen(g.key)"
+                  @click="toggleGroup(g.key)"
                 >
-                  <span class="ds-chip-name">{{ s.name }}</span>
-                  <span
-                    v-if="chapters.length && !chapter && chapterOf(s)"
-                    class="ds-chip-chapter"
-                  >{{ chapterOf(s) }}</span>
-                  <span
-                    v-if="s.legends"
-                    class="legends-badge"
-                    :title="labels.dsLegendsNote"
-                  >{{ labels.dsLegends }}</span>
-                  <!-- The collection shown, as the roster catalogue shows it; set from the "…". -->
-                  <span
-                    v-if="isOwned(slug, s.id)"
-                    class="legends-badge owned-badge"
-                    :title="labels.rosterFilterOwned"
-                    :aria-label="labels.rosterFilterOwned"
-                  ><i class="wi wi-own-on" /></span>
-                  <span
-                    v-if="s.points"
-                    class="ds-chip-pts"
-                  >{{ ptsSummary(s.points) }}</span>
-                  <!-- The chip's own actions (pin, collection, a new tab…): its context menu, hung
-                       from the button (owner, 2026-10-21 — the two marks it replaced). -->
-                  <button
-                    type="button"
-                    class="ds-more"
-                    :title="labels.rosterMoreActions"
-                    :aria-label="labels.rosterMoreActions"
-                    aria-haspopup="menu"
-                    @click.stop.prevent="openMenuAt(s, $event.currentTarget)"
+                  <ChevronIcon
+                    :turned="groupOpen(g.key)"
+                    from="right"
+                    to="down"
+                  />
+                  <span>{{ g.label }}</span>
+                  <span class="ds-group-count">{{ g.sheets.length }}</span>
+                </button>
+              </h3>
+              <CollapseTransition :show="groupOpen(g.key)">
+                <TransitionGroup
+                  name="sift"
+                  tag="div"
+                  class="ds-grid"
+                >
+                  <RouterLink
+                    v-for="s in g.sheets"
+                    :key="s.id"
+                    :data-flip="s.id"
+                    :data-unit="s.id"
+                    :to="`/factions/${slug}/datasheets/${s.id}`"
+                    class="ds-chip"
+                    :class="{ picked: shown.includes(s.id) }"
+                    :aria-current="shown.includes(s.id) ? 'true' : undefined"
                   >
-                    <i class="wi wi-more" />
-                  </button>
-                </RouterLink>
-              </TransitionGroup>
+                    <span class="ds-chip-name">{{ s.name }}</span>
+                    <span
+                      v-if="chapters.length && !chapter && chapterOf(s)"
+                      class="ds-chip-chapter"
+                    >{{ chapterOf(s) }}</span>
+                    <span
+                      v-if="s.legends"
+                      class="legends-badge"
+                      :title="labels.dsLegendsNote"
+                    >{{ labels.dsLegends }}</span>
+                    <!-- The collection shown, as the roster catalogue shows it; set from the "…". -->
+                    <span
+                      v-if="isOwned(slug, s.id)"
+                      class="legends-badge owned-badge"
+                      :title="labels.rosterFilterOwned"
+                      :aria-label="labels.rosterFilterOwned"
+                    ><i class="wi wi-own-on" /></span>
+                    <span
+                      v-if="s.points"
+                      class="ds-chip-pts"
+                    >{{ ptsSummary(s.points) }}</span>
+                    <!-- The chip's own actions (pin, collection, a new tab…): its context menu, hung
+                       from the button (owner, 2026-10-21 — the two marks it replaced). -->
+                    <button
+                      type="button"
+                      class="ds-more"
+                      :title="labels.rosterMoreActions"
+                      :aria-label="labels.rosterMoreActions"
+                      aria-haspopup="menu"
+                      @click.stop.prevent="openMenuAt(s, $event.currentTarget)"
+                    >
+                      <i class="wi wi-more" />
+                    </button>
+                  </RouterLink>
+                </TransitionGroup>
+              </CollapseTransition>
             </template>
             <!-- The prose half of a "Legends: <Faction>" publication (src/data/factionLegends.json).
              Sits under the list, not above it: a player who opened this page came for the units,
@@ -330,6 +347,8 @@
 </template>
 
 <script>
+// Per faction, the type groups folded away — for the session, like the unit below.
+const foldedGroups = new Map()
 // Per faction, the unit last shown beside the list — for the session, not the device: the tab
 // coming back (from the rules, from another faction) finds the unit it left.
 const lastShown = new Map()
@@ -609,6 +628,18 @@ const groupedDatasheets = computed(() => {
 const gridRoot = ref(null)
 useFlipMove(() => favoriteUnitIds(slug.value), gridRoot)
 
+// The folded type groups: this faction's, kept for the session (foldedGroups above).
+const folded = ref(new Set())
+watch(slug, (s) => { folded.value = new Set(foldedGroups.get(s) || []) }, { immediate: true })
+const groupOpen = (key) => !!dsQuery.value.trim() || !folded.value.has(key)
+function toggleGroup(key) {
+  const next = new Set(folded.value)
+  if (groupOpen(key)) next.add(key)
+  else next.delete(key)
+  folded.value = next
+  foldedGroups.set(slug.value, next)
+}
+
 // A wide screen never shows an empty column beside the list (owner, 2026-10-21): the unit this
 // faction last showed in this session, else the list's first. Only the "pick one to compare" note
 // is ever an empty box.
@@ -659,6 +690,31 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   margin-bottom: 0.6rem;
 }
 
+.ds-group-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ds-group-btn .wi { font-size: 0.75rem; }
+@media (hover: hover) { .ds-group-btn:hover { color: var(--text-primary); } }
+/* How many units the group holds — what a folded group still tells you. */
+.ds-group-count {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0;
+}
+
 .ds-group-head {
   font-family: var(--font-display);
   font-size: 1.3rem;
@@ -690,6 +746,8 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  /* A chip stretched to a taller neighbour's row keeps its lines at the top. */
+  align-content: flex-start;
   gap: 0.05rem 0.45rem;
   text-align: left;
   /* The top right corner is the "…"'s, so a name never runs under it. */

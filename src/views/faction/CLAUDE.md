@@ -90,6 +90,9 @@ place (2026-10-04/05, journal *Юнит в модалке и сравнение*
   name, the price at the left (Legends and owned beside it) and a Space Marines unit's Chapter at
   the right — wrapping to a line of its own only when it does not fit. On a phone the "…" holds the
   chip's top right corner; on a desktop row it stands at the end of the name's line.
+- **Type groups fold** (owner, 2026-10-21): each heading is an accordion with the group's count,
+  open by default; what is folded is kept per faction for the session, and a search opens every
+  group so nothing it found is hidden.
 
 ## See also
 
