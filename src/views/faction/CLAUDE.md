@@ -78,6 +78,12 @@ place (2026-10-04/05, journal *Юнит в модалке и сравнение*
   click asking for a new tab, another faction's unit and a button inside a link go their usual way.
 - Everything else — search, a keyword popover elsewhere, links from other pages — still opens the
   unit's own page (owner).
+- **A chip has a context menu** (owner, 2026-10-21): right click, or a long press on a phone —
+  open, open in a new tab, compare with the unit shown (desktop), pin, owned, copy name, share.
+  `useLongPress` times the touch itself (iOS sends no `contextmenu`; chips take
+  `-webkit-touch-callout: none`) and stops the click of the lift at the document: on a phone the
+  menu's sheet rises under the finger and that click pressed its first row. The menu is the
+  ordinary `ActionMenu`, opened at a point (`anchor`, through AdaptivePicker → PickerDropdown).
 
 ## See also
 
