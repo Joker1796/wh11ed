@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import UnitEditorFields from './UnitEditorFields.vue'
 import ConfirmModal from '../ConfirmModal.vue'
-import { wargearGroupCap, wargearGroupFallbackCap, sameStockSets, swapRoom, swapOverdraft, optionItems } from '../../composables/rosterEngine.js'
+import { wargearGroupCap, wargearGroupFallbackCap, sameStockSets, swapRoom, swapOverdraft, optionItems, wargearPoolOf } from '../../composables/rosterEngine.js'
 import { holdGroup, stockLeft } from '../../composables/rosterHold.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import rosterCore from '../../data/roster/core.js'
@@ -47,8 +47,10 @@ describe('UnitEditorFields — wargear instructions', () => {
     const w = mountFor(wracks)
     const heads = w.findAll('.ues-h')
     // Every group but the Acothyst's chained swap, which waits under the special weapon that hands
-    // him the torturer's tool (none is picked here).
-    expect(heads.filter((h) => h.classes().includes('ues-instr')).length).toBe(wracks.gear.length - 1)
+    // him the torturer's tool (none is picked here), and the second copy of each shared option —
+    // its sentence is the block's, said once.
+    const sharedCopies = (wracks.pools || []).reduce((n, p) => n + p.g.length - 1, 0)
+    expect(heads.filter((h) => h.classes().includes('ues-instr')).length).toBe(wracks.gear.length - 1 - sharedCopies)
     // The unit-size / model-count / default-loadout headings keep the display face.
     expect(heads.some((h) => !h.classes().includes('ues-instr'))).toBe(true)
   })
@@ -441,9 +443,11 @@ describe('UnitEditorFields — a chained swap', () => {
   })
   it('frames each profile as a card with its heading', () => {
     const w = mountFor(wracks)
-    expect(w.findAll('.ues-profile').map((h) => h.text())).toEqual(['Acothyst', 'Wrack ×4'])
-    expect(w.findAll('.ues-card-first')).toHaveLength(2)
-    expect(w.findAll('.ues-card-last')).toHaveLength(2)
+    // The Wracks have no option of their own: all they take, they share with the Acothyst.
+    expect(w.findAll('.ues-profile').map((h) => h.text())).toEqual(['Acothyst'])
+    const cards = 1 + wracks.pools.length
+    expect(w.findAll('.ues-card-first')).toHaveLength(cards)
+    expect(w.findAll('.ues-card-last')).toHaveLength(cards)
   })
 })
 
@@ -769,7 +773,8 @@ describe('UnitEditorFields — one choice drawn once', () => {
       const found = sameStockSets(def)
       if (!found.length) continue
       const w = mountFor(def)
-      for (const set of found) {
+      // A shared option is drawn in a block of its own (see "a shared option, once").
+      for (const set of found.map((f) => f.filter((gi) => !(def.minis?.length > 1 && wargearPoolOf(def, gi)))).filter((f) => f.length > 1)) {
         const secs = set.map((gi) => w.find(`.ues-sec[data-gi="${gi}"]`)).filter((s) => s.exists())
         const alone = secs.filter((s) => !s.classes('ues-merged') && !s.classes('ues-nested') && !s.find('.ues-hold').exists())
         expect(alone.length, `${def.name}: groups ${set}`).toBeLessThanOrEqual(1)
@@ -777,7 +782,8 @@ describe('UnitEditorFields — one choice drawn once', () => {
       }
       w.unmount()
     }
-    expect(sets).toBeGreaterThan(80)
+    // 68 once the shared options left the profiles' sets (2026-10-21).
+    expect(sets).toBeGreaterThan(60)
   })
   it('keeps apart the units that give up one copy of a pair', () => {
     for (const name of ['Kratos', 'Decimator', 'Talos']) {
@@ -785,6 +791,45 @@ describe('UnitEditorFields — one choice drawn once', () => {
       expect(def, name).toBeTruthy()
       expect(sameStockSets(def), name).toEqual([])
     }
+  })
+})
+
+// An option the profiles share is one block (owner, 2026-10-21, a player's report on CSM
+// Terminators): drawn as a copy in each profile's card, the Champion's tick box came first and read as
+// the whole "up to 3 in the unit" — the Terminators' counter sat a card further down.
+describe('UnitEditorFields — a shared option, once', () => {
+  const bundles = import.meta.glob(['../../data/roster/*.js', '!../../data/roster/*.test.js', '!../../data/roster/index.js'], { eager: true })
+  const units = Object.values(bundles).flatMap((m) => m.default?.units || [])
+  it('draws each shared option as one block: the sentence once, a row per profile', () => {
+    let pools = 0
+    for (const def of units) {
+      if (!def.pools?.length || !(def.minis?.length > 1)) continue
+      const w = mountFor(def)
+      for (const p of def.pools) {
+        const secs = p.g.map((gi) => w.find(`.ues-sec[data-gi="${gi}"]`)).filter((x) => x.exists())
+        if (secs.length < 2) continue
+        const at = `${def.name}: pool ${p.g}`
+        expect(secs[0].classes('ues-shared'), at).toBe(true)
+        // The copies stand together, in the pool's order, and none of them opens a profile's card.
+        const all = w.findAll('.ues-sec').map((x) => x.attributes('data-gi'))
+        const idx = secs.map((x) => all.indexOf(x.attributes('data-gi')))
+        expect(idx, at).toEqual(idx.map((_, k) => idx[0] + k))
+        expect(secs.some((x) => x.find('.ues-profile').exists()), at).toBe(false)
+        expect(secs.map((x) => x.find('.ues-who').exists()), at).toEqual(secs.map(() => true))
+        expect(secs.slice(1).every((x) => x.classes('ues-merged')), at).toBe(true)
+        pools++
+      }
+      w.unmount()
+    }
+    expect(pools).toBeGreaterThan(80)
+  })
+  it('says how much of the allowance the copies have taken', () => {
+    const terms = chaosSpaceMarines.units.find((u) => u.id === 'chaos-terminator-squad')
+    const fist = (m) => terms.gear.findIndex((g) => g.m === m && g.o.some((o) => rosterItems.items[o[0]] === 'Power fist'))
+    const w = mountFor(terms, { wg: [[fist(0), 0, 1], [fist(1), 0, 1]] })
+    const chip = w.find(`.ues-sec[data-gi="${fist(0)}"] .ues-cap`)
+    expect(chip.text()).toBe('up to 3 in the unit · 2 taken')
+    expect(w.find(`.ues-sec[data-gi="${fist(1)}"] .ues-cap`).exists()).toBe(false)
   })
 })
 

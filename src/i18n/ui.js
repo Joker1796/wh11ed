@@ -496,6 +496,7 @@ export const ui = {
     rosterPickDup: 'max {n} of a kind',
     // A profile's copy of a unit-wide option: the allowance is the squad's, shared by every copy.
     rosterPickPool: 'up to {n} in the unit',
+    rosterPickPoolTaken: '{n} taken',
     // Why a copy's row is greyed: another profile's copy holds what the unit is allowed.
     rosterPickTakenBy: 'taken by {name}',
     // The block of options the unit carries, not one of its models ("This unit can be equipped with…").
@@ -2187,6 +2188,7 @@ export const ui = {
     rosterPickUpTo: 'до {n}',
     rosterPickDup: 'не больше {n} одинаковых',
     rosterPickPool: 'до {n} на отряд',
+    rosterPickPoolTaken: 'взято {n}',
     rosterPickTakenBy: 'взял {name}',
     rosterUnitOptions: 'Отряд',
     rosterInstrShow: 'полный текст',
