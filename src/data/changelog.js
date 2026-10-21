@@ -39,6 +39,7 @@ export const changelog = [
       '**An enhancement on a unit of several models now works for its bearer alone.** [Master-forged Firearms](/factions/space-marines#enh-devastator-brethren-master-forged-firearms) on [Company Heroes](/factions/space-marines/datasheets/company-heroes) improves only the Company Champion’s pistol. Before, the whole unit’s weapons got the bonus. 37 more enhancements on Command Squads, Dark Apostle, Grimnyr and other units work the same way. Feel No Pain and other abilities of such an enhancement are marked “The bearer only”.',
       '**Fire Zone Purge and Transdimensional Deployment give +1 to hit rolls.** Their units get it on the turn they arrive from reserves. Before, this part of the rule did not change the card.',
       '**Furies, Giant Chaos Spawn and Spined Chaos Beast choose their god.** The builder asks for KHORNE, TZEENTCH, NURGLE or SLAANESH, and their Creature of … abilities change the card.',
+      '**The stock line above a weapon swap counts each item on its own.** This is where the swap’s options give up different weapons. [Deathwatch Terminator Squad](/factions/deathwatch/datasheets/deathwatch-terminator-squad) with three Plasma Cannons shows “Power Fist 3 · Storm Bolter 0”. Before, it showed 0, though a Chainfist could still be taken.',
       { h: 'Whole site' },
       '**The project has a Telegram channel.** The link is in the footer, next to the VK group.',
       '**A unit’s card opened from the roster builder’s catalogue no longer jumps.** Its “Led by” list reloaded with every letter of the example the search box types. The catalogue, the faction’s unit list and search also do less work while the example is typed, so animations run smoother on a weak phone.',
@@ -46,6 +47,7 @@ export const changelog = [
       '**Error reports now also say when a screen runs slowly on your device.** If you turned them on and a screen answers a tap in 0.2 s or more, or stays busy for long, the site sends which screen, its timings, your browser and how many cores and how much memory the device has. At most once a day, and nothing personal. You can turn it off in ⚙ → “Stop sending error reports”.',
       { h: 'Answers to your questions' },
       'Why is Wolf Guard Battle Leader in Terminator Armour “not available”? It is in Warhammer Legends now. You can still add [Wolf Guard Battle Leader in Terminator Armour](/factions/space-wolves/datasheets/wolf-guard-battle-leader-in-terminator-armour) to a list, and its rules are on the site. The builder warns that a Legends unit is not legal in matched play.',
+      'Can a Deathwatch Terminator with a Plasma Cannon take a Chainfist? Yes. Swap its Power Fist for “Storm Bolter and Chainfist”. It keeps the Plasma Cannon and gets no Storm Bolter back. The GW app builds it the same way.',
     ],
     ru: [
       { h: 'Изменения приложения GW', kind: 'rules' },
@@ -62,6 +64,7 @@ export const changelog = [
       '**Улучшение в отряде из нескольких моделей действует только на носителя.** [Master-forged Firearms](/factions/space-marines#enh-devastator-brethren-master-forged-firearms) у [Company Heroes](/factions/space-marines/datasheets/company-heroes) усиливает только пистолет Company Champion. Раньше бонус получало оружие всего отряда. Так же работают ещё 37 улучшений у Command Squad, Dark Apostle, Grimnyr и других отрядов. Feel No Pain и другие способности такого улучшения помечены «Только носитель».',
       '**Fire Zone Purge и Transdimensional Deployment дают +1 к броскам на попадание.** Их отряды получают бонус в ход, когда выходят из резерва. Раньше эта часть правила не меняла карточку.',
       '**Furies, Giant Chaos Spawn и Spined Chaos Beast выбирают бога.** Конструктор просит выбрать KHORNE, TZEENTCH, NURGLE или SLAANESH, и их способности Creature of … меняют карточку.',
+      '**Строка запаса над заменой оружия считает каждый предмет отдельно.** Так сделано там, где опции замены забирают разное оружие. [Deathwatch Terminator Squad](/factions/deathwatch/datasheets/deathwatch-terminator-squad) с тремя Plasma Cannon показывает «Power Fist 3 · Storm Bolter 0». Раньше там стоял 0, хотя Chainfist можно было взять.',
       { h: 'Весь сайт' },
       '**У проекта есть канал в Telegram.** Ссылка — в подвале сайта, рядом с группой ВКонтакте.',
       '**Карточка юнита, открытая из каталога конструктора, больше не дёргается.** Её список «Кто возглавляет» перезагружался с каждой буквой примера, который печатается в поиске. Каталог, список юнитов фракции и поиск тоже меньше работают, пока печатается пример, поэтому анимации на слабом телефоне идут плавнее.',
@@ -69,6 +72,7 @@ export const changelog = [
       '**Отчёты об ошибках теперь сообщают и о медленных экранах на вашем устройстве.** Если вы их включили, а экран отвечает на нажатие 0,2 с и дольше или надолго занят, сайт отправляет, какой это экран, его времена, ваш браузер, число ядер и объём памяти устройства. Не чаще раза в день и ничего личного. Выключить можно в ⚙ → «Не отправлять отчёты об ошибках».',
       { h: 'Ответы на вопросы' },
       'Почему Wolf Guard Battle Leader in Terminator Armour «недоступен»? Он теперь в Warhammer Legends. [Wolf Guard Battle Leader in Terminator Armour](/factions/space-wolves/datasheets/wolf-guard-battle-leader-in-terminator-armour) по-прежнему можно взять в список, его правила есть на сайте. Конструктор предупреждает, что юнит Legends нелегален в matched play.',
+      'Может ли Терминатор Deathwatch с Plasma Cannon взять Chainfist? Да. Замените его Power Fist на «Storm Bolter and Chainfist». Plasma Cannon останется, а Storm Bolter не вернётся. Приложение GW собирает его так же.',
     ],
   },
   {
