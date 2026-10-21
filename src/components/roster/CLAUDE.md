@@ -3735,6 +3735,21 @@ started from a roster via `rosterHandoff.js` — **and, since 2026-08-22, mid-ga
 started without a list used to be a dead end). What the two attachments are allowed to decide
 differs; see `src/components/tracker/CLAUDE.md`.
 
+**Where a unit stands feeds its card** (2026-10-21). Two facts of `unitStatus` (unitStatus.js) are
+read by the modifier layer, not only drawn:
+- **An arrival from Reserves this turn** proves "Arrived from Reserves" and "Set up this turn"
+  (`statusProves` in rosterGameContext; the chip is the tracker's, `auto`). A disembark is not
+  tracked, so "set up" after one stays the player's switch.
+- **A destroyed part stops being a source** (`sourceUnits` in RosterViewView): Core Rules 19.04
+  and 19.04.01 ("Only In Death Does Duty End") — an ability, enhancement or keyword a Leader,
+  Support or Bodyguard unit confers on its Attached unit lasts until that part's last model is
+  destroyed, and again once revived. The card's `ctx.units`, `attachmentCtxOf` and the attached
+  keywords read the standing parts only. The attachment is NOT undone: who leads whom is still
+  answered from the whole list (`activeFor`), because the unit stays one unit (19.01) and a Leader
+  whose Bodyguard fell keeps its own "while leading" abilities (19.04's footnote). Starting strength
+  is not derived from a fallen part yet: revived characters and the starting-strength cap
+  (01.02.03) are a separate study (hub journal "После 2.10").
+
 **A snapshot, not a reference.** `player.roster` holds the list itself; `player.rosterId` is
 provenance only and may dangle. A game outlives the roster it was played with — the list gets
 edited between games, deleted, or never existed locally at all (an opponent's arrives as a share
