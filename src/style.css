@@ -1373,7 +1373,12 @@ strong {
    in the text colour, so it holds in either theme; under everything the box holds. (Tried on the
    tracker's history cards, corners and then behind the score: taken off, owner.) */
 .corner-grid { position: relative; isolation: isolate; }
-.corner-grid::before {
+/* One layer per corner, each with its grid laid from ITS corner: one grid laid from the top left
+   ran out mid-cell at the right and bottom edges (owner's screenshot, 2026-10-21) — the box is not
+   a whole number of cells. Drawn from the bottom right, a cell's lines are its top and left, and
+   the box's own edge closes the last one. */
+.corner-grid::before,
+.corner-grid::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -1384,13 +1389,16 @@ strong {
     linear-gradient(var(--corner-grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--corner-grid-line) 1px, transparent 1px);
   background-size: 14px 14px;
+}
+.corner-grid::before {
   background-position: -1px -1px;
-  -webkit-mask-image:
-    linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%),
-    linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
-  mask-image:
-    linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%),
-    linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
+  -webkit-mask-image: linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%);
+  mask-image: linear-gradient(to bottom right, #000 0, #000 15%, transparent 48%);
+}
+.corner-grid::after {
+  background-position: right bottom;
+  -webkit-mask-image: linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
+  mask-image: linear-gradient(to top left, #000 0, #000 15%, transparent 48%);
 }
 
 /* "In my collection" on a roster catalogue row — the Legends mark's shape in the faction's accent
