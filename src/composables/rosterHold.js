@@ -159,6 +159,6 @@ export function stockByItem(def, entry, gi) {
   const picks = (entry?.wg || []).filter(([x]) => x === gi)
   return rep.map((id) => {
     const spent = picks.filter(([, oi]) => gives[oi]?.includes(id)).reduce((n, [, , c]) => n + (c || 1), 0)
-    return [id, Math.max(0, Math.floor(/** @type {number} */ (byItem.get(id)) + 1e-9) - spent)]
+    return [id, Math.max(0, Math.floor((byItem.get(id) ?? 0) + 1e-9) - spent)]
   })
 }
