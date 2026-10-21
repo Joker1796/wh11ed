@@ -279,46 +279,6 @@ export const changelog = [
       '**Улучшение Rallying War Cry теперь по-русски.** Раньше оно было на английском.',
     ],
   },
-  {
-    version: '2.9.4',
-    date: '2026-10-16',
-    en: [
-      { h: 'Warhammer 40,000 app changes', kind: 'rules', patch: '995' },
-      '**The data of GW app 2.8.1 is in.** GW fixed two mistakes of the previous update.',
-      '**[Death Company Captain](/factions/blood-angels/datasheets/death-company-captain): the power fist is A6 WS2+ again.** This is the mistake I wrote about in 2.9.0.',
-      '**[Kayvaan Shrike](/factions/space-marines/datasheets/kayvaan-shrike) is an EPIC HERO in the app too.** Here he already was: I had applied it from Chapter Approved.',
-      '**New keywords.** Company Heroes and Ravenwing Command Squad are CHARACTER. Victrix Honour Guard are EPIC HERO, Wardens of Ultramar are PSYKER. Talonstrike Kill Team and Aquila Kill Team are GRAVIS and TACTICUS. Wolf Guard Headtakers are BEASTS instead of BEAST.',
-      '**Aquilon Terminators are on 50mm bases.** Before, 40mm.',
-      '**The Impulsor’s wargear options are on its page.** One of four systems, Fragstorm Grenade Launchers instead of the Storm Bolters, and an Ironhail Heavy Stubber. The roster builder already had them.',
-      { h: 'Whole site' },
-      '**The site no longer reloads itself while you are using it.** When an update comes out, a notice with an Update button appears at the bottom. If you do not press it, the new version opens the next time you start the app.',
-      '**Opening the app after an update takes you straight to the new version.** While it loads you see “Updating to 2.9.4…”. Before, the old version opened first and reloaded a few seconds later.',
-
-      { h: 'Faction rules', kind: 'rules' },
-      '**A weapon ability printed on the unit’s own page now opens its own text.** Tapping [PSYCHIC ASSASSIN] on the Culexus Assassin opened [PSYCHIC] instead. Ten more opened nothing at all, among them [CONVERSION] on Chaos Knights and [PLASMA WARHEAD] on the Deathstrike. Now such a tag opens its text wherever it appears, here too.',
-      { h: 'Roster builder' },
-      '**A Deathwatch list no longer limits Deathwatch units to 500 points.** That limit is for other Space Marine Chapters that take Deathwatch units along. A Blood Angels list, for example, still has it.',
-      '**Sanctifiers can take either a meltagun or holy fire, not both.** Only one Missionary has a plasma gun, and both options are for that gun.',
-    ],
-    ru: [
-      { h: 'Изменения приложения Warhammer 40,000', kind: 'rules', patch: '995' },
-      '**Внесены данные приложения GW 2.8.1.** GW исправил две ошибки прошлого обновления.',
-      '**[Death Company Captain](/factions/blood-angels/datasheets/death-company-captain): у power fist снова A6 WS2+.** Это та ошибка, о которой я писал в 2.9.0.',
-      '**[Kayvaan Shrike](/factions/space-marines/datasheets/kayvaan-shrike) теперь EPIC HERO и в приложении.** У меня он уже был им: я применил это по Chapter Approved.',
-      '**Новые ключевые слова.** Company Heroes и Ravenwing Command Squad — CHARACTER. Victrix Honour Guard — EPIC HERO, Wardens of Ultramar — PSYKER. Talonstrike Kill Team и Aquila Kill Team — GRAVIS и TACTICUS. У Wolf Guard Headtakers BEASTS вместо BEAST.',
-      '**Aquilon Terminators стоят на базах 50 мм.** Раньше было 40 мм.',
-      '**Опции снаряжения Impulsor есть на его странице.** Одна из четырёх систем, Fragstorm Grenade Launchers вместо Storm Bolters и Ironhail Heavy Stubber. В конструкторе ростеров они уже были.',
-      { h: 'Весь сайт' },
-      '**Сайт больше не перезагружается сам, пока вы им пользуетесь.** Когда выходит обновление, внизу появляется плашка с кнопкой «Обновить». Если её не нажать, новая версия откроется при следующем запуске приложения.',
-      '**Если открыть приложение после обновления, сразу откроется новая версия.** Пока она загружается, видно «Обновляю до 2.9.4…». Раньше сначала открывалась старая версия и через несколько секунд перезагружалась.',
-
-      { h: 'Правила фракций', kind: 'rules' },
-      '**Способность оружия, напечатанная на странице юнита, теперь открывает свой текст.** Раньше [PSYCHIC ASSASSIN] у Culexus Assassin открывал [PSYCHIC]. Ещё десять не открывались вовсе, среди них [CONVERSION] у Chaos Knights и [PLASMA WARHEAD] у Deathstrike. Теперь такая способность открывает свой текст везде, где она упомянута, и здесь тоже.',
-      { h: 'Конструктор ростеров' },
-      '**В списке Deathwatch юниты Deathwatch больше не ограничены 500 очками.** Это ограничение для других орденов Space Marines, которые берут юниты Deathwatch с собой. В списке Blood Angels, например, оно осталось.',
-      '**Sanctifiers могут взять либо мельту, либо Holy fire, но не оба.** Плазма есть только у одного Missionary, и обе опции — для неё.',
-    ],
-  },
 ]
 
 // The latest entry drives the banner + the stored "last seen version". Exported so the composable
