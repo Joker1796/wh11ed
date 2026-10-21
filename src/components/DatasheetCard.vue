@@ -1323,8 +1323,10 @@ function abilityStateLabel(st) {
   border-bottom: 1px solid var(--border);
 }
 /* The navbar logo's grid (AppNavbar's .navbar-inner::before), in the band's top left and bottom
-   right corners and fading out from each (owner, 2026-10-21). Drawn in the text colour, so it
-   holds in either theme. */
+   right corners and fading out from each (owner, 2026-10-21). Each fade is sized by the band
+   itself — under half its width, its full height — so the two never meet in the middle, on a
+   phone's narrow band as on a desktop's. (Plain percentages: a `min()` there is not accepted, and
+   the whole mask is dropped with it.) Drawn in the text colour, so it holds in either theme. */
 .ds-cardhead::before {
   content: '';
   position: absolute;
@@ -1338,11 +1340,11 @@ function abilityStateLabel(st) {
   background-size: 14px 14px;
   background-position: -1px -1px;
   -webkit-mask-image:
-    radial-gradient(32rem 16rem at 0 0, #000, transparent),
-    radial-gradient(32rem 16rem at 100% 100%, #000, transparent);
+    radial-gradient(45% 100% at 0 0, #000, transparent),
+    radial-gradient(45% 100% at 100% 100%, #000, transparent);
   mask-image:
-    radial-gradient(32rem 16rem at 0 0, #000, transparent),
-    radial-gradient(32rem 16rem at 100% 100%, #000, transparent);
+    radial-gradient(45% 100% at 0 0, #000, transparent),
+    radial-gradient(45% 100% at 100% 100%, #000, transparent);
 }
 .ds-cardhead .ds-stat-box::before { background: var(--bg-card); }
 .ds-cardhead .ds-statline:last-child { margin-bottom: 0; }
