@@ -74,13 +74,14 @@
           </div>
           <div class="ds-list">
             <template
-              v-for="g in groupedDatasheets"
+              v-for="(g, gi) in groupedDatasheets"
               :key="g.key"
             >
               <!-- A type group folds (owner, 2026-10-21), open by default; a search opens them all,
                    so nothing it found is hidden. -->
               <h3
                 class="ds-group-head"
+                :class="{ folded: !groupOpen(g.key), 'after-folded': gi > 0 && !groupOpen(groupedDatasheets[gi - 1].key) }"
                 :data-flip="'h:' + g.key"
               >
                 <button
@@ -689,6 +690,12 @@ watch(shown, (ids) => { if (ids[0]) lastShown.set(slug.value, ids[0]) })
 .ds-picker-bar {
   margin-bottom: 0.6rem;
 }
+
+/* Folded groups stand as a tight list of headings: the space a heading keeps under itself for its
+   units, and over itself to part from the units above, has nothing to part when those are folded
+   (owner, 2026-10-21). */
+.ds-group-head.folded { margin-bottom: 0; }
+.ds-group-head.after-folded { margin-top: 0.35rem; }
 
 .ds-group-btn {
   display: flex;
