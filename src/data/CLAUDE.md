@@ -479,20 +479,29 @@ only**: a unit's name on screen is always the English one, per the bilingual con
    and puts the hit in `titleRu` — the same translated subline stratagems and detachments get.
    Alias matching works in either locale.
 5. Tests: `useSearch.test.js`, `describe('datasheet unit search')`.
+6. **Retired units** (the Legendary Proxies tables) have no overlay to carry an alias: theirs are in
+   `src/data/legacyAliasesRu.js`, keyed by the English name, and the name-pattern rules apply to
+   them too (a "Land Raider Helios" is «лендак»). They land in the index's `legacyRu` slot. Every
+   retired name must be findable in Russian — `src/utils/legendaryProxies.test.js` fails on one
+   with no alias unless it waits in `LEGACY_ALIASES_PENDING` for the owner's spelling. Found by an
+   alias, a retired unit ranks under every unit found directly, so «термосы» still lists the living
+   Terminators first.
 
 **Adding one.** For a named character: find the unit's block by `id` in the RU overlay (verify the
 id first — GW renames characters between editions). **Check that file's own RU `flavor` before
 anything else**: a transliteration already printed on the page beats the glossary, because an alias
 that contradicts what the reader sees is worse than no alias. If the file is silent, grep the
 community glossary (`grep -i "<name>" ../wh-glossary/terms/*.tsv` — only if that repo is cloned
-alongside); if that is silent too, skip it rather than guess. For a class of units, add a rule to
+alongside); if that is silent too, a transliteration may always be added (owner, 2026-10-22) — and
+a name whose spelling you cannot settle goes to the owner as a list, not into the file.
+For a class of units, add a rule to
 `datasheetAliasRulesRu.js`, checking the real EN datasheet name first (`grep '"name":'
 src/data/datasheets/*.js`) — GW names surprise you (Nobz, not Nobs).
 
 **What not to add.** GW mangles names on purpose (Ork, Tyranid, the stylised "Mongolian" ones like
 Kor'sarro Khan); a naive transliteration of those produces noise. Preference order for a spelling:
-the RU `flavor` in the same file → the community glossary → an uncontroversial transliteration.
-Nothing fits — leave it out.
+the RU `flavor` in the same file → the community glossary → a transliteration. A spelling you
+cannot settle — ask the owner with the list rather than leave the name unfindable.
 
 ## Faction keywords in rule prose
 

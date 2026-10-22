@@ -245,6 +245,25 @@ describe('datasheet unit search', () => {
     expect(page).toMatchObject({ title: 'Ufthak Blackhawk', matchedBy: 'Legendary Proxy → Warboss' })
     expect(res.indexOf(page)).toBeLessThan(res.findIndex((r) => r.route === '/factions/orks/datasheets/warboss'))
   })
+
+  it('finds a retired unit by its Russian name, and by the nickname of its kind', async () => {
+    await preloadDatasheetIndex()
+    const res = search('уфтхак', 'ru')
+    expect(res.find((r) => r.route === '/factions/orks/datasheets/ufthak-blackhawk')).toBeTruthy()
+    expect(res.find((r) => r.route === '/factions/orks/datasheets/warboss')?.matchedBy).toBe('Legendary Proxies: Ufthak Blackhawk')
+    // A retired unit and its sheet, found by an alias, rank under every unit found directly.
+    expect(res.indexOf(res.find((r) => r.route.endsWith('/ufthak-blackhawk')))).toBeLessThan(res.findIndex((r) => r.route.endsWith('/warboss')))
+  })
+
+  it('a nickname of a kind of unit finds the retired ones too, under the living', async () => {
+    await preloadDatasheetIndex()
+    // «лендак» is every Land Raider's (datasheetAliasRulesRu.js), the retired ones' too…
+    const { datasheetIndex } = await import('../data/datasheetIndex.js')
+    const sm = datasheetIndex.find(([slug]) => slug === 'space-marines')[2]
+    expect(sm.find((u) => u[5]?.['Land Raider Helios'])[5]['Land Raider Helios']).toContain('лендак')
+    // …but twenty living Land Raiders fill the list before them.
+    expect(search('лендак', 'ru').every((r) => r.score >= 2)).toBe(true)
+  })
 })
 
 describe('unit search by words', () => {
