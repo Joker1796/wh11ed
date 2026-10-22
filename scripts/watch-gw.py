@@ -2,17 +2,17 @@
 # Watches Games Workshop's primary sources and mails when one of them changes, so a new data drop
 # is noticed by us and not first by a player (2 October 2026: a quiet MFM re-price was reported
 # by a player before we had seen it). Run on our server every 20 minutes (wh11ed-api
-# deploy/gw-watch.sh); .github/workflows/gw-watch.yml ran it hourly and GitHub started it hours
+# deploy/gw-watch.sh); until 2026-10-14 a GitHub workflow ran it hourly and GitHub started it hours
 # late — the 2.8.0 app of 14 October was mailed four and a half hours after it shipped.
 #
 #   python3 scripts/watch-gw.py --state <path/state.json>            # check, mail, update state
 #   python3 scripts/watch-gw.py --state <path/state.json> --dry-run  # print the mail, touch nothing
-#   python3 scripts/watch-gw.py --mail-failure <run url>             # "the watch itself broke"
 #
 # Three sources, and only primary ones (owner, 2026-10-02 — BSData is not watched):
-#   * the GW app — version in the App Store (clean JSON lookup) and on Google Play (scraped from
-#     the store page). A new version is the signal to fetch the APK; this script cannot do that
-#     itself (APKPure answers robots with 403).
+#   * the GW app — version in the App Store (a clean JSON lookup). A new version is the signal to
+#     fetch the APK; this script cannot do that itself (APKPure answers robots with 403). Google
+#     Play is not watched (owner, 2026-10-22): the server, in Russia, cannot reach it, and the App
+#     Store has had each version first.
 #   * the Munitorum Field Manual — compared by PRICES, not by version: the 2 October re-price
 #     shipped under the same "1.5". scrape-mfm.py rewrites src/data/mfm/ in this checkout, so the
 #     mail can show the diff against what the site ships; the fingerprint goes into the state so
@@ -21,18 +21,15 @@
 #     the page's own search API. A new version of a document comes under a new file name.
 #
 # Anything that cannot be read FAILS the run instead of being skipped: a watch that quietly says
-# "nothing new" because GW changed a page is worse than no watch (the workflow mails a failure).
+# "nothing new" because GW changed a page is worse than no watch (the server mails a failure).
 #
 # The first run (no state file) records a baseline and sends nothing.
 #
-# Mail: on the server (wh11ed-api deploy/gw-watch.sh, cron every 20 minutes since 2026-10-14) the
-# script hands each mail to WATCH_MAIL_CMD — the subject as its last argument, the text on stdin —
-# which is the API's own notice relay (scripts/notify.ts), the SMTP the bug reports use. Without it
-# (the GitHub Actions workflow) it goes through Yandex Cloud Postbox over SMTP: the key id is the
-# username, the secret the password. Env: POSTBOX_KEY_ID, POSTBOX_SECRET, WATCH_MAIL_FROM,
-# WATCH_MAIL_TO.
-import argparse, hashlib, json, os, re, shlex, smtplib, subprocess, sys, time, urllib.error, urllib.request
-from email.message import EmailMessage
+# Mail: the script hands each mail to WATCH_MAIL_CMD — the subject as its last argument, the text
+# on stdin. On the server that is the API's own notice relay (scripts/notify.ts), the SMTP the bug
+# reports use. The GitHub workflow's Yandex Cloud Postbox path went with the Postbox account
+# (2026-10-22).
+import argparse, hashlib, json, os, re, shlex, subprocess, sys, time, urllib.error, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, '..'))
@@ -40,7 +37,6 @@ MFM_PATHS = ['src/data/mfm', 'src/data/mfmFactions.js']
 
 APP_ID = 'com.gamesworkshop.w40k'
 APPSTORE_URL = f'https://itunes.apple.com/lookup?bundleId={APP_ID}'
-PLAY_URL = f'https://play.google.com/store/apps/details?id={APP_ID}&hl=en&gl=US'
 WARCOM_API = 'https://www.warhammer-community.com/api/search/downloads/'
 WARCOM_FILE = 'https://assets.warhammer-community.com/'
 UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36'
@@ -83,14 +79,6 @@ def appstore():
     r = res[0]
     return {'version': r['version'], 'date': r.get('currentVersionReleaseDate', ''),
             'notes': (r.get('releaseNotes') or '').strip()}
-
-
-def play():
-    # The store page carries the version as a bare `[[["2.7.1"]]` in its inline data.
-    m = re.search(r'\[\[\["(\d+(?:\.\d+)+)"\]\]', http(PLAY_URL))
-    if not m:
-        raise SourceError('Google Play: version not found on the store page')
-    return {'version': m.group(1)}
 
 
 def warcom():
@@ -141,7 +129,7 @@ def mfm_diff():
     return stat, '\n'.join(shown) + more
 
 
-SOURCES = {'appstore': appstore, 'play': play, 'warcom': warcom, 'mfm': mfm}
+SOURCES = {'appstore': appstore, 'warcom': warcom, 'mfm': mfm}
 
 
 # ── Comparing ────────────────────────────────────────────────────────────────────────────────────
@@ -156,11 +144,6 @@ def compare(old, new):
         subj.append(f'App Store {b["version"]}')
         body.append(f'Приложение в App Store: {a["version"]} → {b["version"]} ({b["date"][:10]})'
                     + (f'\n\n{b["notes"]}' if b['notes'] else ''))
-    a, b = old.get('play'), new.get('play')
-    if has('play') and a['version'] != b['version']:
-        subj.append(f'Google Play {b["version"]}')
-        body.append(f'Приложение в Google Play: {a["version"]} → {b["version"]}\n'
-                    'APK: sources/apk/ → скил appdata-update')
 
     if has('mfm') and old['mfm']['hash'] != new['mfm']['hash']:
         stat, diff = mfm_diff()
@@ -186,38 +169,20 @@ def compare(old, new):
 
 def send(subject, text):
     cmd = os.environ.get('WATCH_MAIL_CMD')
-    if cmd:
-        r = subprocess.run(shlex.split(cmd) + [subject], input=text, text=True, capture_output=True)
-        if r.returncode != 0:
-            raise SystemExit(f'mail not sent ({cmd}): {(r.stdout + r.stderr).strip()[-500:]}')
-        return
-    env = {k: os.environ.get(k, '') for k in ('POSTBOX_KEY_ID', 'POSTBOX_SECRET', 'WATCH_MAIL_FROM', 'WATCH_MAIL_TO')}
-    missing = [k for k, v in env.items() if not v]
-    if missing:
-        raise SystemExit(f'mail not sent, missing env: {", ".join(missing)}')
-    msg = EmailMessage()
-    msg['Subject'], msg['From'], msg['To'] = subject, env['WATCH_MAIL_FROM'], env['WATCH_MAIL_TO']
-    msg.set_content(text)
-    with smtplib.SMTP('postbox.cloud.yandex.net', 587, timeout=30) as s:
-        s.starttls()
-        s.login(env['POSTBOX_KEY_ID'], env['POSTBOX_SECRET'])
-        s.send_message(msg)
+    if not cmd:
+        raise SystemExit('mail not sent, missing env: WATCH_MAIL_CMD')
+    r = subprocess.run(shlex.split(cmd) + [subject], input=text, text=True, capture_output=True)
+    if r.returncode != 0:
+        raise SystemExit(f'mail not sent ({cmd}): {(r.stdout + r.stderr).strip()[-500:]}')
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--state')
     ap.add_argument('--dry-run', action='store_true')
-    ap.add_argument('--mail-failure', metavar='RUN_URL')
-    # The server cannot reach Google Play (blocked from Russia, 2026-10-14): it reads the other
-    # three, and the GitHub workflow keeps Google Play alone — each source mails from one place.
     ap.add_argument('--sources', default=','.join(SOURCES), help='comma list of ' + ', '.join(SOURCES))
     args = ap.parse_args()
 
-    if args.mail_failure:
-        send(SUBJECT + 'проверка обновлений сломалась',
-             f'Запуск упал — пока его не починить, об обновлениях GW писем не будет.\n\n{args.mail_failure}')
-        return
     if not args.state:
         ap.error('--state is required')
 

@@ -18,23 +18,22 @@
 cd ../wh40k-appdata && node scripts/ingest.mjs   # берёт свежий пакет из sources/apk сам
 ```
 
-**Откуда узнаём, что вышло обновление.** `scripts/watch-gw.py` смотрит четыре первоисточника и
-шлёт письмо, если сменилась версия приложения в App Store / Google Play, цены на сайте MFM
-(сравниваются сами цены — тихая переоценка 2 октября вышла под тем же «1.5») или документ в
-Downloads на warhammer-community.com. Источники поделены (с 2026-10-14):
+**Откуда узнаём, что вышло обновление.** `scripts/watch-gw.py` смотрит три первоисточника и
+шлёт письмо, если сменилась версия приложения в App Store, цены на сайте MFM (сравниваются сами
+цены — тихая переоценка 2 октября вышла под тем же «1.5») или документ в Downloads на
+warhammer-community.com. Проверка идёт с нашего сервера каждые 20 минут
+(`wh11ed-api/deploy/gw-watch.sh`, cron, письмо через почту API, состояние в
+`/opt/wh-rules/watch/state.json`, лог `journalctl -t wh-gw-watch`). До 2026-10-14 её гонял GitHub
+раз в час — с опозданием в часы: приложение 2.8.0 пришло письмом через 4,5 часа после выхода.
 
-- **App Store, MFM, warhammer-community.com** — с нашего сервера каждые 20 минут
-  (`wh11ed-api/deploy/gw-watch.sh`, cron, письмо через почту API, состояние в
-  `/opt/wh-rules/watch/state.json`, лог `journalctl -t wh-gw-watch`). GitHub запускал часовое
-  расписание с опозданием в часы: приложение 2.8.0 пришло письмом через 4,5 часа после выхода.
-- **Google Play** — `.github/workflows/gw-watch.yml` (`--sources play`): с сервера в России
-  `play.google.com` недоступен. Состояние — `state.json` в ветке `watch-state`.
+Google Play не отслеживаем (решение владельца 2026-10-22): с сервера в России он недоступен, а
+App Store до сих пор получал каждую версию первым.
 
-Сломанная проверка тоже присылает письмо (на сервере — один раз, пока не починят). Сухой прогон
-без почты: `python3 scripts/watch-gw.py --state <файл> [--sources appstore,mfm,warcom,play]
---dry-run` (первый запуск только запоминает исходное состояние).
+Сломанная проверка тоже присылает письмо (один раз, пока не починят). Сухой прогон без почты:
+`python3 scripts/watch-gw.py --state <файл> [--sources appstore,mfm,warcom] --dry-run` (первый
+запуск только запоминает исходное состояние).
 
-Письмо «Google Play x.y.z» → APK без ожидания APKPure: `node scripts/apk-emu.mjs` в
+Письмо «App Store x.y.z» → APK без ожидания APKPure: `node scripts/apk-emu.mjs` в
 `../wh40k-appdata` (эмулятор с Google Play, кнопку Update в Play нажимает человек; в аккаунт GW
 не входим — приложение работает через Skip). Скрипт сам вытащит APK, сверит Data Version на
 экране приложения с версией в APK и запустит `ingest.mjs`.
