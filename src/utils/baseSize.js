@@ -3,7 +3,11 @@ import { foldName } from './foldName.js'
 // Format a raw Base Size Guide value (as stored on each datasheet's `baseSize`; sourced from
 // wh40k-appdata's datasheet.localisations.en.baseSize and diffed by scripts/sync-appdata.mjs)
 // into a short display label. Round bases get the diameter sign (⌀32mm); oval bases keep
-// their W×H dimensions (75×42mm); Hull / Unique / flying bases are localized words.
+// their W×H dimensions (75×42mm); Hull / Unique / flying bases are localized words, and so is
+// appdata's "None" (a Rhino, a Stompa: no base at all — "No base", owner 2026-10-22) and "Custom"
+// (a Drop Pod). A value of several sizes ("32mm, 60x35.5mm Oval Base") is drawn size by size, and
+// an oval GW gives one number for ("150mm Oval Base") says so. `baseSize.test.js` renders every
+// value the data carries and fails on an English word left in the Russian.
 // A unit whose models stand on different bases carries appdata's lines as they are, one
 // "<model>: <size>" a line (scripts/lib/model-bases.mjs) — each is shown with its name, joined by
 // " · ". The name before the LAST colon: "The Silent King: Szarekh: 100mm".
@@ -21,12 +25,17 @@ export function formatBaseSize(raw, labels) {
 }
 
 function formatOne(s, labels) {
+  if (s.includes(',')) return s.split(',').map((part) => formatOne(part.trim(), labels)).join(', ')
   if (/^hull$/i.test(s)) return labels.baseHull
   if (/^unique$/i.test(s)) return labels.baseUnique
+  if (/^none$/i.test(s)) return labels.baseNone
+  if (/^custom$/i.test(s)) return labels.baseCustom
   if (/^large flying base$/i.test(s)) return labels.baseFlyingLarge
   if (/^small flying base$/i.test(s)) return labels.baseFlyingSmall
   const oval = s.match(/^(\d[\d.]*)x(\d[\d.]*)mm/i)
   if (oval) return `${oval[1]}×${oval[2]}mm`
+  const ovalOne = s.match(/^(\d[\d.]*)mm oval base$/i)
+  if (ovalOne) return labels.baseOvalOne.replace('{n}', ovalOne[1])
   const round = s.match(/^(\d[\d.]*)mm$/i)
   if (round) return `⌀${round[1]}mm`
   return s
