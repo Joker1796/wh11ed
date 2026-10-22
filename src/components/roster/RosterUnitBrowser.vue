@@ -140,58 +140,11 @@
             </span>
             <span class="rub-group-count">{{ g.units.length }}</span>
           </button>
-          <CollapseTransition :show="isOpen(g.id)">
-            <!-- Search and filters narrow the rows in place (the global `sift` motion). -->
-            <TransitionGroup
-              name="sift"
-              tag="div"
-              class="rub-list"
-            >
-              <div
-                v-for="u in g.units"
-                :key="u.id"
-                class="rub-item"
-                :class="{ added: countOf(u.id) }"
-                @click="previewId = u.id"
-              >
-                <span class="rub-text">
-                  <span class="rub-name">{{ u.name }}<span
-                    v-if="u.flags?.legends"
-                    class="legends-badge"
-                    :title="labels.dsLegendsNote"
-                  >{{ labels.dsLegends }}</span><span
-                    v-if="ownsUnit(u)"
-                    class="legends-badge owned-badge"
-                    :title="labels.rosterFilterOwned"
-                    :aria-label="labels.rosterFilterOwned"
-                  ><i class="wi wi-own-on" /></span><span
-                    v-if="countOf(u.id)"
-                    class="rub-count"
-                    :class="{ over: isOver(u) }"
-                  > {{ countLabel(u) }}</span></span>
-                  <span class="rub-pts">{{ minPoints(u) }}{{ labels.rosterPointsLabel }}</span>
-                </span>
-                <!-- Add only. The "−" that used to sit under it took the last copy of the
-                     datasheet — a second, hidden way to delete, one tap below the button that
-                     adds, and on a phone that is where the mis-tap lands. Removing a unit is the
-                     list's own business, beside the unit being removed (2026-09-23). -->
-                <span class="rub-rail">
-                  <button
-                    type="button"
-                    class="rub-add"
-                    data-tour="cat-add"
-                    data-press
-                    :disabled="atCap(u)"
-                    :aria-label="labels.rosterAddUnit"
-                    :title="atCap(u) ? labels.rosterAtDuplicateCap : undefined"
-                    @click.stop="$emit('add', u.id)"
-                  >
-                    <i class="wi wi-add" />
-                  </button>
-                </span>
-              </div>
-            </TransitionGroup>
-          </CollapseTransition>
+          <RosterUnitBrowserGroup
+            :units="g.units"
+            :open="isOpen(g.id)"
+            :row="row"
+          />
         </div>
       </template>
     </div>
@@ -219,6 +172,7 @@ import UnitSearchField from '../UnitSearchField.vue'
 import { computed, ref, watch } from 'vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
+import RosterUnitBrowserGroup from './RosterUnitBrowserGroup.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { allySourceOf, groupLabel, capKeyOf, sectionsOfUnits, grantedKeywordsFor, nextCopyMinPoints } from '../../composables/rosterEngine.js'
@@ -261,7 +215,7 @@ const props = defineProps({
 // every render of this list, and the search box's typing placeholder re-renders it per letter — the
 // open card under it recomputed its whole sheet each time (2026-10-20).
 const previewCtx = computed(() => ({ detachments: props.detachments }))
-defineEmits(['add', 'open-rules'])
+const emit = defineEmits(['add', 'open-rules'])
 
 // Groups start collapsed (same pattern as StratagemsView's per-phase accordions) — the list
 // runs to 90+ units, so a fully-open browser is a wall of rows to scroll past. While the
@@ -443,6 +397,11 @@ function countLabel(u) {
   return (props.checkLegality && Number.isFinite(limit)) ? `${n}/${limit}` : `×${n}`
 }
 
+// What a row asks about its unit (RosterUnitBrowserRow), as one object for the catalogue's
+// lifetime: the rows read it in their own render, so an edit re-renders the rows it moved and
+// leaves the groups alone (RosterUnitBrowserGroup).
+const row = { countOf, isOver, atCap, countLabel, minPoints, ownsUnit, preview: (id) => { previewId.value = id }, add: (id) => emit('add', id) }
+
 // Cheapest bracket (the "from" price) plus any mandatory enhancement this exact unit is stuck
 // with under the roster's selected detachments — so the browse price already matches what
 // step 3's config screen (and the final total) will show, not just the bare datasheet cost.
@@ -566,47 +525,6 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 }
 .rub-group-count { flex-shrink: 0; font-family: var(--font-mono); color: var(--text-dim); }
 
-.rub-list { display: flex; flex-direction: column; gap: 0.35rem; padding-top: 0.35rem; }
-.rub-item {
-  display: flex;
-  align-items: stretch;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  overflow: hidden;
-  cursor: pointer;
-  opacity: 0.55;
-  transition: border-color 0.15s, opacity 0.15s;
-}
-.rub-item.added { opacity: 1; }
-@media (hover: hover) {
-  .rub-item:hover { opacity: 1; border-color: var(--accent); }
-}
-.rub-text { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.55rem 0.7rem; }
-/* min-width, or a long name refuses to shrink past its min-content and runs UNDER the price
-   beside it instead of wrapping — "Huron Blackheart" over "130очк" at pane width. */
-/* The list's own name size (RosterUnitRow .rur-name): a unit reads the same in both panes. */
-.rub-name { min-width: 0; overflow-wrap: break-word; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); }
-/* A step under the name it follows (owner, 2026-10-08), in em so it keeps to the name's size. */
-.rub-count { margin-left: 0.3em; font-size: 0.85em; font-weight: 700; color: var(--text-muted); }
-.rub-count.over { color: var(--danger); }
-.rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
-.rub-rail { flex-shrink: 0; display: flex; align-items: stretch; }
-.rub-add {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.6rem;
-  background: none;
-  border: none;
-  border-left: 1px solid var(--border);
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-.rub-add { color: var(--accent-ink); }
-@media (hover: hover) { .rub-add:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); } }
-.rub-add:disabled { opacity: 0.35; cursor: not-allowed; }
-@media (hover: hover) { .rub-add:disabled:hover { background: none; } }
 @media (max-width: 560px) { .rub-body { gap: 0.3rem; } }
 /* In the build panes the catalogue gets half a phone. The name and its price stop competing for
    one line — a unit row is three or four words and a number, and side by side neither fits — and
@@ -625,15 +543,8 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
      minimum a tap target owes (it was 23) — the four pixels a row costs buy both (2026-09-23). */
   .rub-head { font-size: 0.75rem; padding: 0.4rem 0.35rem; gap: 0.25rem; }
   .rub-ally-cap { display: block; margin-left: 0; }
-  .rub-list { gap: 0.25rem; }
-  .rub-text { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.05rem; padding: 0.4rem 0.45rem; }
-  /* One scale for both panes. The row is ~59px tall either way — the name sat at 12px inside it
-     while the list beside it read at 14 — so this is size the arrangement already had. */
-  .rub-name { font-size: 0.85rem; line-height: 1.25; }
-  .rub-pts { font-size: 0.85rem; }
   .rub-filter-list .check { padding: 0.35rem 0.4rem; gap: 0.35rem; font-size: 0.7rem; }
   .rub-filter-list .check input[type="checkbox"] { width: 16px; height: 16px; }
   .rub-hidden { font-size: 0.62rem; }
-  .rub-add { width: 1.7rem; min-height: 1.7rem; font-size: 0.85rem; }
 }
 </style>

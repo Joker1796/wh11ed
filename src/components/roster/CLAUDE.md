@@ -2872,7 +2872,7 @@ a label truncate instead: the list card and the picker row clamp to two lines, a
 
 ## Components (this directory)
 
-`RosterUnitBrowser` (add-unit list/search), `RosterUnitList` (the roster's own list, shared by the
+`RosterUnitBrowser` (add-unit list/search; each group's rows are `RosterUnitBrowserGroup` and each row `RosterUnitBrowserRow`, so that an edit of the list beside it re-renders only the rows it moved: a group is a `TransitionGroup`, which measures every row it holds whenever it renders, and drawn inline all of them did on every edit — 25–38% of a phone's tap on the editor, 2026-10-22; `RosterUnitBrowser.test.js` → "never the groups" is the gate), `RosterUnitList` (the roster's own list, shared by the
 editor and the wizard — see Editing flow) and `RosterUnitRow` (one entry's collapsed line inside
 it), `UnitEditorFields` (size/warlord/enhancement/leader pick UI for one unit) and
 `UnitWargearGroups` (its wargear groups, split out 2026-10-12: rendered as a fragment so its
