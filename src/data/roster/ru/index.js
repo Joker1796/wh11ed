@@ -16,3 +16,9 @@ export async function loadRosterTextsRu() {
   }
   return cached
 }
+
+// The map if it is already loaded, else null — so a sheet opened after the warm-up
+// (useUnitSheetWarmup) draws in Russian at once rather than drawing twice.
+export function loadedRosterTextsRu() {
+  return cached
+}
