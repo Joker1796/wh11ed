@@ -40,3 +40,37 @@ describe('profileBases', () => {
     expect(profileBases({ ...sk, profiles: [{ name: 'SZAREKH' }] })).toBe(null)
   })
 })
+
+// Every base the data carries, drawn for a Russian reader: no English word left in it. appdata's
+// "None" printed as it was on eight sheets until a look at the Rhino (2026-10-22), and "Custom",
+// "150mm Oval Base" and every list of sizes with an oval in it the same way.
+describe('every base in the data', () => {
+  const files = import.meta.glob(['../data/datasheets/*.js', '../data/combatPatrol.js'], { eager: true })
+  const values = new Set()
+  const walk = (v) => {
+    if (Array.isArray(v)) v.forEach(walk)
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) (k === 'baseSize' && typeof x === 'string' ? values.add(x) : walk(x))
+  }
+  Object.values(files).forEach(walk)
+
+  it('finds the values to check', () => expect(values.size).toBeGreaterThan(50))
+
+  it('reads in Russian, whatever appdata wrote', () => {
+    const english = []
+    for (const v of values) {
+      for (const line of v.split('\n')) {
+        // The model's name before the colon stays English; the size after it must not.
+        const size = line.match(/^(.*):\s*(\S.*)$/)?.[2] ?? line
+        const out = formatBaseSize(size.trim(), ui.ru)
+        if (/[A-Za-z]/.test(out.replace(/mm/g, ''))) english.push(`${size} → ${out}`)
+      }
+    }
+    expect(english).toEqual([])
+  })
+
+  it('draws the shapes it was fixed for', () => {
+    expect(formatBaseSize('Custom', ui.ru)).toBe('Своя база')
+    expect(formatBaseSize('150mm Oval Base', ui.ru)).toBe('150mm, овальная')
+    expect(formatBaseSize('75mm, 90x52.5mm Oval Base', ui.ru)).toBe('⌀75mm, 90×52.5mm')
+  })
+})
