@@ -16,7 +16,7 @@ export const legacyAliasesRu = {
   'Sergeant Telion': ['сержант Телион', 'Телион'],
   'Sergeant Chronus': ['сержант Хрон', 'Хрон', 'Хронус'],
   'Pedro Kantor': ['Педро Кантор', 'Кантор'],
-  'Uriel Ventris': ['Уриил Вентрис', 'Вентрис'],
+  'Uriel Ventris': ['Уриель Вентрис', 'Уриил Вентрис', 'Вентрис'],
   'Marneus Calgar in Armour of Antilochus': ['Марней Калгар', 'Калгар', 'доспех Антилоха'],
   'Tactical Squad': ['тактическое отделение', 'тактикал сквад'],
   'Assault Squad': ['штурмовое отделение', 'ассолт сквад'],
