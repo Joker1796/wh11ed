@@ -305,6 +305,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import { useFlipMove } from '../../composables/useFlipMove.js'
+import { useUnitSheetWarmup } from '../../composables/useUnitSheetWarmup.js'
 import { motionMs } from '../../composables/motionToken.js'
 import { companionRows } from '../../composables/rosterCompanionRows.js'
 import { BLOCK_NAME_MAX, blockNumbers, groupLabel, blockRootUid, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
@@ -359,6 +360,8 @@ const shape = () => [
   [...folded.value].join(','),
 ]
 useFlipMove(shape, listEl, { onAppear: pointAtNew })
+// The first unit opened from this list used to fetch a font and the RU instructions under the tap.
+useUnitSheetWarmup()
 
 // A unit that just arrived: sections sort by name, so it can land anywhere — often below the
 // pane's fold. Outline it for a moment, and bring it into view if it is not. One new tile only:

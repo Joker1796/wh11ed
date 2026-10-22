@@ -203,4 +203,28 @@ describe('the narrow sheet', () => {
     // …and the faction accent still reaches the fields inside it.
     expect(body.find('.modal-body .fa-themed .probe').exists()).toBe(true)
   })
+  // The first unit opened from the list fetched the display face at 400 and the Russian wargear
+  // instructions under the tap — ~120 ms of a slow phone's first open (useUnitSheetWarmup,
+  // 2026-10-22). The list asks for both in its first idle moment instead.
+  it('fetches what the unit sheet needs while idle, before a unit is opened', async () => {
+    const { setLocale } = await import('../../composables/useLocale.js')
+    const ru = await import('../../data/roster/ru/index.js')
+    setLocale('ru')
+    const load = vi.fn(() => Promise.resolve([]))
+    const fonts = document.fonts
+    Object.defineProperty(document, 'fonts', { configurable: true, value: { load } })
+    document.documentElement.style.setProperty('--font-display', "'Sofia Sans Extra Condensed', sans-serif")
+    window.requestIdleCallback = (fn) => fn()
+    try {
+      expect(ru.loadedRosterTextsRu()).toBe(null)
+      mountList()
+      expect(load).toHaveBeenCalledWith("400 1em 'Sofia Sans Extra Condensed', sans-serif", 'Яz')
+      await vi.waitFor(() => expect(ru.loadedRosterTextsRu()).toBeTruthy())
+    } finally {
+      delete window.requestIdleCallback
+      Object.defineProperty(document, 'fonts', { configurable: true, value: fonts })
+      document.documentElement.style.removeProperty('--font-display')
+      setLocale('en')
+    }
+  })
 })

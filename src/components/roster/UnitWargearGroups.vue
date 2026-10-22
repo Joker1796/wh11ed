@@ -387,7 +387,7 @@ import NumberStepper from '../tracker/NumberStepper.vue'
 import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
+import { loadedRosterTextsRu, loadRosterTextsRu } from '../../data/roster/ru/index.js'
 import { sameStockSets, modelCount, modelsPerMini, overdrawnGroups, optionItems, optionLabel, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom, wargearPoolOf, wargearPoolCap, wargearPoolRoom, wargearPoolTakenBy } from '../../composables/rosterEngine.js'
 import { holdCounts, holdGroup, holdWg, stockByItem, stockLeft } from '../../composables/rosterHold.js'
 import { TYPE_FROM } from './typeableCount.js'
@@ -409,7 +409,7 @@ const openWeaponInfo = (names) => emit('weapon-info', names)
 // scripts/gen-roster-texts-ru.mjs). Lazily loaded so an EN reader never downloads the file, and
 // deliberately partial: a wording the generator couldn't translate is simply absent, and the
 // English original shows instead of a half-translated line.
-const textsRu = ref(null)
+const textsRu = ref(locale.value === 'ru' ? loadedRosterTextsRu() : null)
 watch(locale, async (loc) => {
   if (loc !== 'ru' || textsRu.value) return
   const map = await loadRosterTextsRu()

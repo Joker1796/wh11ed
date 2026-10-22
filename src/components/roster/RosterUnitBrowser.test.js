@@ -391,4 +391,24 @@ describe('RosterUnitBrowser — the duplicate caps', () => {
     await w.find('.rub-search').setValue('a')
     expect(granted.calls).toBe(0)
   })
+
+  // An edit of the list beside the catalogue (points moved, a unit added) must not re-render its
+  // groups: each is a TransitionGroup, which measures every row it holds whenever it renders —
+  // all of them did on every edit, the bulk of a slow tap on a phone (2026-10-22). Only the row
+  // whose own count moved re-renders. (A TransitionGroup takes no mixin hooks, so the gate is its
+  // owner: a group component whose props did not change is never rendered.)
+  it('re-renders only the rows an edit moved, never the groups', async () => {
+    const updated = {}
+    const w = mount(RosterUnitBrowser, {
+      props: { units, factionSlug: 'space-marines', addedIds: [], remaining: 1000 },
+      global: { stubs, mixins: [{ updated() { const n = this.$options.__name || this.$options.name; if (n) updated[n] = (updated[n] || 0) + 1 } }] },
+    })
+    for (const h of w.findAll('.rub-head')) await h.trigger('click')
+    for (const k of Object.keys(updated)) delete updated[k]
+    await w.setProps({ remaining: 900 })
+    await w.setProps({ addedIds: ['a'] })
+    expect(w.findAllComponents({ name: 'RosterUnitBrowserGroup' }).length).toBeGreaterThan(1)
+    expect(updated.RosterUnitBrowserGroup || 0).toBe(0)
+    expect(updated.RosterUnitBrowserRow).toBe(1)
+  })
 })
