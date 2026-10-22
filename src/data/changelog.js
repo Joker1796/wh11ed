@@ -22,6 +22,18 @@
 
 export const changelog = [
   {
+    version: '2.10.3',
+    date: '2026-10-22',
+    en: [
+      { h: 'Roster builder' },
+      '**The roster builder is more responsive.** I optimised the page where you build a roster a little. On a phone it should answer taps faster.',
+    ],
+    ru: [
+      { h: 'Конструктор ростеров' },
+      '**Конструктор ростеров стал отзывчивее.** Я немного оптимизировал страницу составления ростера. На телефоне она должна откликаться быстрее.',
+    ],
+  },
+  {
     version: '2.10.2',
     date: '2026-10-21',
     en: [
