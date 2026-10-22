@@ -33,3 +33,25 @@ describe('Legendary Proxies pages', () => {
     expect(proxyPage(factionLegends.orks, 'warboss')).toBeNull()
   })
 })
+
+// A Russian reader types the retired unit's name in Russian: every one is findable so (the index's
+// legacyRu slot, from src/data/legacyAliasesRu.js and the name-pattern rules), or waits for the
+// owner's spelling by name.
+describe('Legendary Proxies in Russian search', () => {
+  const retired = new Set(Object.values(factionLegends).flatMap((t) => t.proxies.filter((p) => p.id).flatMap((p) => p.legacy)))
+
+  it('every retired name has an RU alias in the index, or is pending', async () => {
+    const { datasheetIndex } = await import('../data/datasheetIndex.js')
+    const { LEGACY_ALIASES_PENDING } = await import('../data/legacyAliasesRu.js')
+    const found = new Set()
+    for (const [, , units] of datasheetIndex) for (const u of units) for (const n of Object.keys(u[5] || {})) found.add(n)
+    const pending = new Set(LEGACY_ALIASES_PENDING)
+    expect([...retired].filter((n) => !found.has(n) && !pending.has(n))).toEqual([])
+    expect(LEGACY_ALIASES_PENDING.filter((n) => found.has(n) || !retired.has(n)), 'pending, but found or not retired').toEqual([])
+  })
+
+  it('names in legacyAliasesRu.js are retired units', async () => {
+    const { legacyAliasesRu } = await import('../data/legacyAliasesRu.js')
+    expect(Object.keys(legacyAliasesRu).filter((n) => !retired.has(n))).toEqual([])
+  })
+})

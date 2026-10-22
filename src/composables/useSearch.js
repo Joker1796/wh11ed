@@ -470,7 +470,7 @@ function searchDatasheets(q, locale) {
   const L = ui[locale] || ui.en
   const results = []
   for (const [slug, faction, units] of dsIndex) {
-    for (const [id, name, aliasesRu, legacy, legends] of units) {
+    for (const [id, name, aliasesRu, legacy, legends, legacyRu] of units) {
       const nameHit = wordsIn(name, words)
       // A unit's own name still wins if it also happens to match (checked first) — the alias is
       // only surfaced as `matchedBy` (the "found via nickname" note) when it's the reason this
@@ -479,14 +479,20 @@ function searchDatasheets(q, locale) {
       // A retired Legends unit the sheet stands in for ("Ufthak Blackhawk" → Warboss). The
       // subline says so in either locale: the result's title is a different name from the one
       // typed, and without the reason it reads as a wrong hit.
-      const legacyHit = !nameHit && !aliasHit && (legacy || []).find((a) => wordsIn(a, words))
+      // The words typed name a retired unit by its English name or by one of its RU aliases
+      // («уфтхак»); `legacyText` is what they matched. Found by an alias, the retired unit and the
+      // sheet it brings ranks under every unit found directly: «термосы» names a dozen retired
+      // Terminators, and they must not push the living ones past the result cap.
+      const legacyText = (n) => (wordsIn(n, words) ? n : (legacyRu?.[n] || []).find((a) => wordsIn(a, words)))
+      const byAlias = (n) => legacyText(n) !== n
+      const legacyHit = !nameHit && !aliasHit && (legacy || []).find(legacyText)
       // Found by an ability or keyword ("deep strike", "fly"): the tag is the subline, since the
       // title alone would not say why the unit is here. Ranked under every name hit — a query
       // like "infantry" matches hundreds of sheets, and a unit CALLED what was typed comes first.
       const tagHit = !nameHit && !aliasHit && !legacyHit && unitTagHit(slug, id, qn)
       // …and the retired unit's own page, a row of its own just above the sheet's (owner,
       // 2026-10-21): "Ufthak" finds Ufthak Blackhawk, and Warboss under it says why.
-      for (const n of (legacy || []).filter((a) => wordsIn(a, words))) {
+      for (const n of (legacy || []).filter(legacyText)) {
         results.push({
           id: '',
           key: `ds-${slug}-${proxySlug(n)}`,
@@ -499,7 +505,7 @@ function searchDatasheets(q, locale) {
           route: `/factions/${slug}/datasheets/${proxySlug(n)}`,
           sectionTitle: `${faction} · ${L.factionDatasheets}`,
           legends: false,
-          score: foldName(n).includes(phrase) ? 2.01 : 1.96,
+          score: byAlias(n) ? 1.93 : foldName(n).includes(phrase) ? 2.01 : 1.96,
         })
       }
       if (!nameHit && !aliasHit && !legacyHit && !tagHit) continue
@@ -524,7 +530,7 @@ function searchDatasheets(q, locale) {
         legends: !!legends,
         // The words as typed, side by side, rank above the same words apart: "terminator squad"
         // leads with Terminator Squad, then Terminator Assault Squad.
-        score: tagHit ? 0.9 : foldName(nameHit ? name : aliasHit || legacyHit).includes(phrase) ? 2 : 1.95,
+        score: tagHit ? 0.9 : legacyHit && byAlias(legacyHit) ? 1.92 : foldName(nameHit ? name : aliasHit || legacyHit).includes(phrase) ? 2 : 1.95,
       })
     }
   }
