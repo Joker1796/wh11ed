@@ -297,34 +297,6 @@ export const changelog = [
       '**Справка каждой настройки показывает, что она рисует на экране.**',
     ],
   },
-  {
-    version: '2.9.5',
-    date: '2026-10-16',
-    en: [
-      { h: 'Roster builder' },
-      '**A rule for units with a keyword now reaches the whole attached unit.** In Experimental Prototype Cadre, Crisis Battlesuits led by a Commander now have +6" Range too. By the Core Rules (19.03), an attached unit has the keywords of every unit in it. A rule for models with a keyword still applies to those models only. This is on a unit’s card in a roster and in a game.',
-      '**The ⓘ next to a modifier from part of an army rule opens that part.** On Custodes cards, Daughters of the Abyss opened Martial Ka’tah. The same applies to Synapse, Drones, the Deathwing and the Ravenwing, among others.',
-      '**Every wargear option is in Russian.** 62 of them were in English, among them the Hearthkyn Warriors’ weapons.',
-      { h: 'Whole site' },
-      '**In a browser tab the site always opens in its latest version.** It no longer keeps a copy of itself there. If you visited before, a plate will ask you once to apply the change. Offline works in the installed app.',
-      '**When a new version comes out while the site is open, a plate says so.** Press Update or follow any link.',
-      '**A unit’s composition is in Russian too.** The names stay English, as everywhere.',
-      { h: 'Combat Patrol', kind: 'rules' },
-      '**The Rallying War Cry enhancement is in Russian.** It was in English.',
-    ],
-    ru: [
-      { h: 'Конструктор ростеров' },
-      '**Правило для юнитов с ключевым словом теперь действует на весь отряд с лидером.** В Experimental Prototype Cadre у Crisis Battlesuits под Commander теперь тоже +6" к дальности. По Core Rules (19.03) у отряда с лидером есть ключевые слова всех юнитов в нём. Правило для моделей с ключевым словом по-прежнему действует только на эти модели. Это видно на карточке юнита в ростере и в партии.',
-      '**ⓘ у модификатора из части правила армии открывает эту часть.** На карточках кустодес Daughters of the Abyss открывал Martial Ka’tah. Так же теперь у Synapse, Drones, Deathwing, Ravenwing и других.',
-      '**Все варианты снаряжения теперь по-русски.** 62 из них были на английском, среди них оружие Hearthkyn Warriors.',
-      { h: 'Весь сайт' },
-      '**Во вкладке браузера сайт теперь всегда открывается в последней версии.** Он больше не хранит там свою копию. Если вы заходили раньше, плашка один раз попросит применить изменение. Офлайн работает в установленном приложении.',
-      '**Если новая версия выходит, пока сайт открыт, об этом скажет плашка.** Нажмите «Обновить» или перейдите по любой ссылке.',
-      '**Состав отряда теперь по-русски.** «4‑9 моделей Intercessor» вместо «4‑9 Intercessor models». Названия остаются английскими, как везде.',
-      { h: 'Combat Patrol', kind: 'rules' },
-      '**Улучшение Rallying War Cry теперь по-русски.** Раньше оно было на английском.',
-    ],
-  },
 ]
 
 // The latest entry drives the banner + the stored "last seen version". Exported so the composable
