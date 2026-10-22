@@ -49,8 +49,8 @@ export function preloadDatasheetTags() {
   promise ??= import('../data/datasheetTagIndex.js').then((m) => {
     // Folded once here, not on every keystroke.
     tagIndex = {}
-    for (const [slug, [table, byUnit]] of Object.entries(m.datasheetTagIndex)) {
-      tagIndex[slug] = { table, folded: table.map(foldName), byUnit }
+    for (const [slug, [table, byUnit, legacyRu]] of Object.entries(m.datasheetTagIndex)) {
+      tagIndex[slug] = { table, folded: table.map(foldName), byUnit, legacyRu: legacyRu || {} }
     }
     tagVersion.value++
   })
@@ -69,4 +69,14 @@ export function unitTagHit(slug, unitId, q) {
   const words = queryWords(q)
   for (const i of idx) if (words.every((w) => f.folded[i].includes(w))) return f.table[i]
   return null
+}
+
+// The RU alias of a retired Legends unit (src/data/legacyAliasesRu.js) the query names, or null —
+// «уфтхак» for Ufthak Blackhawk in the faction's unit list, as in the palette. Same waiting rules
+// as unitTagHit.
+export function retiredAliasHit(slug, name, q) {
+  void tagVersion.value
+  if (!tagIndex || q.length < TAG_MIN) return null
+  const words = queryWords(q)
+  return (tagIndex[slug]?.legacyRu[name] || []).find((a) => wordsIn(a, words)) || null
 }
