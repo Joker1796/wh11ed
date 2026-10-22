@@ -74,7 +74,7 @@ function drawMarks(html, locale) {
 // heading the table does not know fails changelogMarks.test.js: a new block is a decision about
 // its colour, not a grey default nobody chose.
 export const SECTION_KINDS = {
-  rules: { icon: 'wi wi-army', words: ['Checking against the GW app', 'Сверка с приложением GW', 'Datasheets', 'Датащиты', 'Core Rules', 'Базовые правила', 'Deathwatch Support'] },
+  rules: { icon: 'wi wi-army', words: ['Checking against the GW app', 'Сверка с приложением GW', 'Datasheets', 'Датащиты', 'Units', 'Юниты', 'Core Rules', 'Базовые правила', 'Deathwatch Support'] },
   roster: { icon: 'wi wi-rosters', words: ['Roster builder', 'Конструктор ростеров', 'Roster in a game', 'Ростер в партии'] },
   tracker: { icon: 'wi wi-tracker', words: ['Tracker', 'Трекер', 'Beta of the new game tracker', 'Бета нового трекера партии'] },
   answers: { icon: 'wi wi-faq', words: ['Answers to your questions', 'Ответы на вопросы'] },
