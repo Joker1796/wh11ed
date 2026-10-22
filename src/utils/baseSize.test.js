@@ -7,6 +7,8 @@ describe('formatBaseSize', () => {
     expect(formatBaseSize('32mm', ui.en)).toBe('⌀32mm')
     expect(formatBaseSize('170x109mm Oval Base', ui.en)).toBe('170×109mm')
     expect(formatBaseSize('Hull', ui.ru)).toBe('Корпус')
+    expect(formatBaseSize('None', ui.ru)).toBe('Без базы')
+    expect(formatBaseSize('None', ui.en)).toBe('No base')
   })
 
   it('names each model where appdata gives them a line each', () => {
