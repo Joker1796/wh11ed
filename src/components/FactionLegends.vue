@@ -38,7 +38,7 @@ const props = defineProps({
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const matched = computed(() => (props.query.trim() ? proxiesMatching(props.legends?.proxies || [], props.query) : []))
+const matched = computed(() => (props.query.trim() ? proxiesMatching(props.legends?.proxies || [], props.query, props.slug) : []))
 </script>
 
 <style scoped>

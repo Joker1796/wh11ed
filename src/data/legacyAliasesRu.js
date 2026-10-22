@@ -6,7 +6,7 @@
 //
 // Applied by scripts/gen-datasheet-index.mjs together with the name-pattern rules of
 // datasheetAliasRulesRu.js (a "Land Raider Helios" is found by «лендак» with no entry here), into
-// the index's `legacyRu` slot. Every retired name must be findable in Russian — the community's
+// the name index's `legacyRu` slot (Ctrl+K) and the tag index (the faction's unit list). Every retired name must be findable in Russian — the community's
 // rendering from the glossary first, then a transliteration (owner, 2026-10-22: a transliteration
 // may always be added) — `legendaryProxies.test.js` fails on a name with neither, unless it waits
 // in LEGACY_ALIASES_PENDING for the owner's spelling. Re-run `npm run datasheets:index` after an
@@ -29,6 +29,10 @@ export const legacyAliasesRu = {
   'Stalker': ['«Ловчий»', 'Сталкер'],
   'Thunderfire Cannon': ['пушка «Громобой»', 'Громобой', 'тандерфаер'],
   'Spartan Assault Tank': ['штурмовой танк «Спартанец»', 'Спартанец', 'Спартан'],
+  'Carab Culln the Risen': ['Караб Куллн', 'Куллн'],
+  'Ferren Aerios': ['Феррен Аэриос', 'Аэриос'],
+  'Suppressor Squad': ['Супрессоры', 'отделение супрессоров'],
+  'Tyrannic War Veterans': ['ветераны Тиранидских войн'],
   'Fellblade Super-heavy Battle Tank': ['«Разящий клинок»', 'Феллблейд'],
   'Javelin Attack Speeder': ['ударный спидер «Дротик»', 'Джавелин'],
   'Caestus Assault Ram': ['штурмовой таран «Цест»', 'Цестус'],
@@ -42,6 +46,8 @@ export const legacyAliasesRu = {
   'Kustom Boosta-blasta': ['Кастом Буста-бласта', 'Буста-бласта'],
   'Megatrakk Scrapjet': ['Мегатракк Скрапджет', 'Скрапджет'],
   'Shokkjump Dragsta': ['Шокджамп Драгста', 'Драгста', 'гоняла'],
+  'Attack Fighta': ['Атак Файта', 'истрибила'],
+  'Wurrboy': ['Вуррбой'],
   'Fighta-Bommer': ['истрибила-бомбила', 'Файта-Боммер'],
   'Big Gunz': ['большие пушки', 'биг ганз'],
   'Kannonwagon': ['Каннонвагон'],
@@ -51,11 +57,4 @@ export const legacyAliasesRu = {
 
 // Retired names still waiting for the owner's spelling — the index test lets these through, and
 // the list printed by the generator keeps them in view. Empty it, not grow it.
-export const LEGACY_ALIASES_PENDING = [
-  'Carab Culln the Risen',
-  'Ferren Aerios',
-  'Suppressor Squad',
-  'Tyrannic War Veterans',
-  'Attack Fighta',
-  'Wurrboy',
-]
+export const LEGACY_ALIASES_PENDING = []

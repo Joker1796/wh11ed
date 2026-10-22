@@ -481,7 +481,8 @@ only**: a unit's name on screen is always the English one, per the bilingual con
 5. Tests: `useSearch.test.js`, `describe('datasheet unit search')`.
 6. **Retired units** (the Legendary Proxies tables) have no overlay to carry an alias: theirs are in
    `src/data/legacyAliasesRu.js`, keyed by the English name, and the name-pattern rules apply to
-   them too (a "Land Raider Helios" is «лендак»). They land in the index's `legacyRu` slot. Every
+   them too (a "Land Raider Helios" is «лендак»). They land in the name index's `legacyRu` slot
+   (Ctrl+K) and in the tag index, for the faction's unit list (`retiredAliasHit`). Every
    retired name must be findable in Russian — `src/utils/legendaryProxies.test.js` fails on one
    with no alias unless it waits in `LEGACY_ALIASES_PENDING` for the owner's spelling. Found by an
    alias, a retired unit ranks under every unit found directly, so «термосы» still lists the living

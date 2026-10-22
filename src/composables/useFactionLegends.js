@@ -1,5 +1,6 @@
 import { ref, watch } from 'vue'
 import { useLocale } from './useLocale.js'
+import { retiredAliasHit } from './datasheetTags.js'
 
 // The prose half of a faction's "Legends: <Faction>" publication (src/data/factionLegends.json): GW's
 // intro on Legends and the Legendary Proxies table. Null for the factions without one — all but the
@@ -36,9 +37,9 @@ export function useFactionLegends(slug) {
   return { legends, ready }
 }
 
-/** The proxies a query names: by a retired name or by the unit they are fielded as. */
-export function proxiesMatching(proxies, query) {
+/** The proxies a query names: by a retired name, its RU alias (`slug`'s), or the unit they are fielded as. */
+export function proxiesMatching(proxies, query, slug = '') {
   const q = query.trim().toLowerCase()
   if (!q) return proxies
-  return proxies.filter((p) => p.legacy.some((n) => n.toLowerCase().includes(q)) || p.use.toLowerCase().includes(q))
+  return proxies.filter((p) => p.legacy.some((n) => n.toLowerCase().includes(q) || retiredAliasHit(slug, n, q)) || p.use.toLowerCase().includes(q))
 }

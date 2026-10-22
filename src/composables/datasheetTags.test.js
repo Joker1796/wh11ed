@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { foldName, preloadDatasheetTags, unitTagHit, queryWords, wordsIn } from './datasheetTags.js'
+import { foldName, preloadDatasheetTags, retiredAliasHit, unitTagHit, queryWords, wordsIn } from './datasheetTags.js'
+import { proxiesMatching } from './useFactionLegends.js'
+import factionLegends from '../data/factionLegends.json'
 
 describe('unit tags', () => {
   it('finds a unit by its own ability, a core ability, a keyword and an RU ability name', async () => {
@@ -19,6 +21,14 @@ describe('unit tags', () => {
     await preloadDatasheetTags()
     expect(unitTagHit('orks', 'boyz', 'mo')).toBe(null)
     expect(unitTagHit('orks', 'no-such-unit', 'mob')).toBe(null)
+  })
+  it("a faction's unit list finds a retired unit by its Russian name", async () => {
+    await preloadDatasheetTags()
+    expect(retiredAliasHit('orks', 'Ufthak Blackhawk', foldName('уфтхак'))).toBe('Уфтхак Чёрный Гребень')
+    expect(retiredAliasHit('orks', 'Ufthak Blackhawk', foldName('уф'))).toBe(null)
+    expect(proxiesMatching(factionLegends.orks.proxies, 'уфтхак', 'orks').map((p) => p.legacy)).toEqual([['Ufthak Blackhawk']])
+    // A Chapter's table has its own aliases, the name-pattern ones included.
+    expect(proxiesMatching(factionLegends['black-templars'].proxies, 'лендак', 'black-templars').length).toBeGreaterThan(0)
   })
 })
 
