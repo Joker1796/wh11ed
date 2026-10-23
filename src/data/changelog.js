@@ -22,18 +22,6 @@
 
 export const changelog = [
   {
-    version: '2.10.4',
-    date: '2026-10-23',
-    en: [
-      { h: 'Whole site' },
-      '**The site no longer measures its speed on your device.** If you turned on error reports, the site now sends only errors. Nothing about slow screens goes out any more.',
-    ],
-    ru: [
-      { h: 'Весь сайт' },
-      '**Сайт больше не замеряет скорость на вашем устройстве.** Если вы включили отчёты об ошибках, теперь уходят только ошибки. О медленных экранах сайт больше ничего не отправляет.',
-    ],
-  },
-  {
     version: '2.10.3',
     date: '2026-10-22',
     en: [
