@@ -279,7 +279,7 @@ import ConfirmModal from '../../components/ConfirmModal.vue'
 import { battlePointsFromVp, concededSide, grandTotal, youIndex as youIdx } from '../../composables/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf, isYouSide, BATTLE_SIZES } from '../../composables/useTracker.js'
+import { useTracker, membersOf, isYouSide, battleName } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
 import { useAuth } from '../../composables/useAuth.js'
@@ -569,7 +569,7 @@ function resultLabel(g) { const r = winnerSide(g); const l = labels.value; retur
 
 function battleSizeName(g) {
   if (g.settings?.combatPatrol) return labels.value.trackerGameTypeCombatPatrol
-  return BATTLE_SIZES.find(b => b.id === g.settings?.battleSize)?.name || ''
+  return battleName(g.settings, labels.value.trackerBattleCustom)
 }
 // Footer: battle size + scoring basis. BP mode names "Battle Points" and shows the raw VP alongside
 // (the big score is BP there); VP mode just names "Victory Points" (the big score already IS the VP).

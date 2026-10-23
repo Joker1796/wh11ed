@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { missions } from '../data/missions.js'
 import {
-  BATTLE_SIZES, DISPOSITIONS, MIRROR_MISSIONS,
+  BATTLE_SIZES, DISPOSITIONS, MIRROR_MISSIONS, battleOf, battleName, byCount,
   dispositionName,
   primaryFor, derivePrimary, missionBySlug, scorableBlocks, cardBlocks, blockRounds,
   secondaryPool, fixedPool, numericVp, sideName,
@@ -15,6 +15,36 @@ describe('battle sizes', () => {
     expect(byId.strikeForce.maxDp).toBe(3)
     expect(byId.incursion.points).toBe(1000)
     expect(byId.strikeForce.points).toBe(2000)
+  })
+})
+
+// A size of the players' own (owner, 2026-10-23). What it does not set follows the printed size its
+// points fall within — the army-rule counters are keyed by that one.
+describe('battleOf', () => {
+  it('reads a printed size whole, with two secondaries', () => {
+    expect(battleOf({ battleSize: 'incursion' })).toMatchObject({ id: 'incursion', points: 1000, maxDp: 2, secondaries: 2, base: 'incursion', custom: false, known: true })
+    expect(battleOf({})).toMatchObject({ id: 'strikeForce', known: false })
+  })
+  it('borrows the size the custom points fall within', () => {
+    expect(battleOf({ battleSize: 'custom', custom: { points: 750 } })).toMatchObject({ base: 'incursion', maxDp: 2, secondaries: 2, points: 750 })
+    expect(battleOf({ battleSize: 'custom', custom: { points: 1500 } })).toMatchObject({ base: 'strikeForce', maxDp: 3 })
+    expect(battleOf({ battleSize: 'custom', custom: { points: 2500 } }).base).toBe('onslaught')
+    expect(battleOf({ battleSize: 'custom', custom: { points: 5000 } }).base).toBe('onslaught')
+  })
+  it('takes the players\' own numbers, and drops one out of range', () => {
+    const b = battleOf({ battleSize: 'custom', custom: { points: 750, dp: 1, secondaries: 1 } })
+    expect(b).toMatchObject({ points: 750, maxDp: 1, secondaries: 1, custom: true })
+    expect(battleOf({ battleSize: 'custom', custom: { points: 750, dp: 9, secondaries: 4 } })).toMatchObject({ maxDp: 2, secondaries: 2 })
+    expect(battleOf({ battleSize: 'custom', custom: null }).points).toBe(1000)
+  })
+  it('names a custom size by its points', () => {
+    expect(battleName({ battleSize: 'custom', custom: { points: 750 } }, 'Custom')).toBe('Custom · 750')
+    expect(battleName({ battleSize: 'onslaught' }, 'Custom')).toBe('Onslaught')
+    expect(battleName({}, 'Custom')).toBe('')
+  })
+  it('counts cards in the one-card form for one', () => {
+    const l = { k: 'Взять {n} вторички', kOne: 'Взять 1 вторичку' }
+    expect([1, 2, 3].map((n) => byCount(l, 'k', n))).toEqual(['Взять 1 вторичку', 'Взять 2 вторички', 'Взять 3 вторички'])
   })
 })
 

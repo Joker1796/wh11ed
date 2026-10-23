@@ -994,6 +994,23 @@ describe('taking the turn\'s two secondaries', () => {
     expect(sec(0).hand).toHaveLength(2)
   })
 
+  // A custom size sets its own number a turn (owner, 2026-10-23: evening events at 750 with one).
+  it('takes as many as a custom size says, by hand and at random', () => {
+    tracker.newGame(setupGame({ settings: { battleSize: 'custom', custom: { points: 750, secondaries: 1 } } }))
+    tracker.beginGame()
+    const [a, b] = sec(0).deck
+    tracker.takeChosenSecondaries(0, [a, b]) // two is not one
+    expect(sec(0).hand).toHaveLength(0)
+    tracker.takeChosenSecondaries(0, [a])
+    expect(sec(0).hand).toEqual([a])
+    expect(tracker.tookSecondaries(0)).toBe('chosen')
+
+    tracker.newGame(setupGame({ settings: { battleSize: 'custom', custom: { points: 2000, secondaries: 3 } } }))
+    tracker.beginGame()
+    tracker.takeRandomSecondaries(0)
+    expect(sec(0).hand).toHaveLength(3)
+  })
+
   it('takes exactly two chosen ones, marks them ✋, and can put them back while unscored', () => {
     tracker.newGame(setupGame())
     tracker.beginGame()

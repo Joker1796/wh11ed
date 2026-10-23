@@ -199,7 +199,7 @@ import StatCurve from '../../components/tracker/stats/StatCurve.vue'
 import StatStack from '../../components/tracker/stats/StatStack.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, BATTLE_SIZES, missionBySlug } from '../../composables/useTracker.js'
+import { useTracker, BATTLE_SIZES, CUSTOM_BATTLE, missionBySlug } from '../../composables/useTracker.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { MIN_SAMPLE, buildStats, rosterRecords } from '../../composables/gameStats.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
@@ -262,6 +262,8 @@ function primaryName(slug) {
 }
 function sizeName(id) {
   if (id === 'combat-patrol') return labels.value.trackerGameTypeCombatPatrol
+  // Every custom size is one group: the numbers differ from event to event.
+  if (id === CUSTOM_BATTLE) return labels.value.trackerBattleCustom
   return BATTLE_SIZES.find((b) => b.id === id)?.name || id
 }
 

@@ -125,6 +125,61 @@
               <span class="bs-name">{{ b.name }}</span>
               <span class="bs-sub">{{ b.points }} · {{ b.maxDp }} DP</span>
             </button>
+            <!-- A size of the players' own: a local event's points, DP and secondaries per turn
+                 (owner, 2026-10-23). Its numbers ride under its name like the printed sizes'. -->
+            <button
+              class="bs-btn"
+              data-press
+              :class="{ on: battle.custom }"
+              @click="chooseCustom"
+            >
+              <span class="bs-name">{{ labels.trackerBattleCustom }}</span>
+              <span class="bs-sub">{{ customBattle.points }} · {{ customBattle.maxDp }} DP</span>
+            </button>
+          </div>
+        </div>
+      </ExpandTransition>
+
+      <!-- The custom size's three numbers, one card of rows (the roster's custom limit's recipe,
+           RosterCustomLimit) — rows, not <label>s: a label hands a tap on its caption to the first
+           control inside, the stepper's −. A number left alone follows the printed size the points fall within
+           (DP) or the rules (two secondaries); moved, it is the game's own. -->
+      <ExpandTransition>
+        <div
+          v-if="!guest && !settings.combatPatrol && battle.custom"
+          class="custom-battle"
+        >
+          <div class="cb-row">
+            <span class="cb-name">{{ labels.trackerCustomPoints }}</span>
+            <NumberStepper
+              editable
+              :model-value="battle.points"
+              :min="CUSTOM_RANGES.points.min"
+              :max="CUSTOM_RANGES.points.max"
+              :step="CUSTOM_RANGES.points.step"
+              :label="labels.trackerCustomPoints"
+              @update:model-value="setCustom('points', $event)"
+            />
+          </div>
+          <div class="cb-row">
+            <span class="cb-name">{{ labels.trackerCustomDp }}</span>
+            <NumberStepper
+              :model-value="battle.maxDp"
+              :min="CUSTOM_RANGES.dp.min"
+              :max="CUSTOM_RANGES.dp.max"
+              :label="labels.trackerCustomDp"
+              @update:model-value="setCustom('dp', $event)"
+            />
+          </div>
+          <div class="cb-row">
+            <span class="cb-name">{{ labels.trackerCustomSecondaries }}</span>
+            <NumberStepper
+              :model-value="battle.secondaries"
+              :min="CUSTOM_RANGES.secondaries.min"
+              :max="CUSTOM_RANGES.secondaries.max"
+              :label="labels.trackerCustomSecondaries"
+              @update:model-value="setCustom('secondaries', $event)"
+            />
           </div>
         </div>
       </ExpandTransition>
@@ -877,7 +932,7 @@
                 v-if="p.secondaryMode === 'fixed'"
                 class="field"
               >
-                <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
+                <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ maxFixed }}</em></span>
                 <button
                   class="btn-choose-twist"
                   data-press
@@ -1242,7 +1297,7 @@
       v-if="fixedPickerFor >= 0"
       :missions="fixedModalMissions"
       :selected="players[fixedPickerFor].fixedSecondaries"
-      :max="MAX_FIXED"
+      :max="maxFixed"
       @toggle="slug => toggleFixed(players[fixedPickerFor], slug)"
       @close="fixedPickerFor = -1"
     />
@@ -1362,6 +1417,7 @@
 
 <script setup>
 import ExpandTransition from '../ExpandTransition.vue'
+import NumberStepper from './NumberStepper.vue'
 import { reactive, ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import LayoutTabs from './LayoutTabs.vue'
@@ -1394,7 +1450,7 @@ import { getEventContent } from '../../data/eventCompanion.js'
 import { useRoute, useRouter } from 'vue-router'
 import { useLobby } from '../../composables/useLobby.js'
 import { useParty } from '../../composables/useParty.js'
-import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, primaryOf, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
+import { useTracker, DISPOSITIONS, BATTLE_SIZES, CUSTOM_BATTLE, CUSTOM_RANGES, battleOf, battleName, MIRROR_MISSIONS, primaryOf, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo, mfmDetachmentNames } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import { combatPatrolRoster, defaultCombatPatrolEnhancement } from '../../composables/combatPatrolRoster.js'
@@ -1439,6 +1495,8 @@ const lastYouName = lastGame
 const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'vp'
 // Strict rules, the same way: off for a first game (owner, 2026-10-19), the last game's after.
 const lastStrict = !!history.value[0]?.settings?.strictRules
+// A custom size's numbers, from the last game played at one: an event's format is set once.
+const lastCustom = history.value.find((g) => g.settings?.battleSize === CUSTOM_BATTLE)?.settings.custom
 // What the game keeps track of: each option's own default, overridden by the last finished game's
 // choice where the option remembers one. The table (trackerOptions.js) owns both, so a new option
 // is added there and nothing here changes.
@@ -1457,7 +1515,6 @@ function namePlaceholder(i) {
 }
 
 const dispositions = DISPOSITIONS
-const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 
 // Defaults (also the shape merged over a restored draft so older drafts gain new fields).
 function defaultMember() {
@@ -1471,7 +1528,7 @@ function defaultPlayer(role, name = '') {
     teamName: '', forceType: null, members: [defaultMember(), defaultMember()],
   }
 }
-const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, gameType: 'singles', dpPerPlayer: null, twist: null, twistMission: null, scoreMode: lastScoreMode, strictRules: lastStrict }
+const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', custom: lastCustom ? { ...lastCustom } : null, combatPatrol: false, gameType: 'singles', dpPerPlayer: null, twist: null, twistMission: null, scoreMode: lastScoreMode, strictRules: lastStrict }
 
 // WHERE THE FORM'S STATE LIVES. Normally in this component: a draft, persisted so it survives a
 // reload. Once the setup is SHARED it lives in the game itself (`current`, phase 'setup') — and
@@ -1809,7 +1866,24 @@ watch(
 )
 
 const battleSizes = BATTLE_SIZES
-const battlePoints = computed(() => BATTLE_SIZES.find(b => b.id === settings.battleSize)?.points ?? null)
+// The size this game is set up at — a printed one or the players' own (battleOf answers both).
+const battle = computed(() => battleOf(settings))
+// The custom button's numbers, also while another size is lit: what choosing it would set.
+const customBattle = computed(() => battleOf({ battleSize: CUSTOM_BATTLE, custom: settings.custom }))
+function chooseCustom() {
+  settings.battleSize = CUSTOM_BATTLE
+  if (!settings.custom) settings.custom = { points: CUSTOM_RANGES.points.default }
+}
+function setCustom(key, v) {
+  settings.custom = { ...settings.custom, [key]: v }
+}
+// Fixed secondaries: as many as a turn draws (two, or a custom size's own), kept for the whole game.
+const maxFixed = computed(() => battle.value.secondaries)
+// Fewer allowed than picked (the custom number went down): the last picks go.
+watch(maxFixed, (n) => {
+  players.forEach((p, i) => { if (editable(i) && p.fixedSecondaries.length > n) p.fixedSecondaries.splice(n) })
+})
+const battlePoints = computed(() => battle.value.points)
 // A list attached before the battle size shrank under it: its points from the stored list (a
 // list taken from a link carries none, and says nothing). Singles only, as the picker.
 const { rosterById } = useRosters()
@@ -1817,10 +1891,10 @@ function rosterOverSize(m) {
   if (!attached(m) || isDoubles.value || battlePoints.value == null) return ''
   const pts = m.rosterId ? rosterById(m.rosterId)?.summary?.points : null
   if (pts == null || pts <= battlePoints.value) return ''
-  const size = BATTLE_SIZES.find(b => b.id === settings.battleSize)?.name || ''
+  const size = battleName(settings, labels.value.trackerBattleCustom)
   return labels.value.trackerRosterOverSize.replace('{points}', pts).replace('{size}', size).replace('{limit}', battlePoints.value)
 }
-const maxDp = computed(() => BATTLE_SIZES.find(b => b.id === settings.battleSize)?.maxDp ?? 3)
+const maxDp = computed(() => battle.value.maxDp)
 // The budget ONE army must fit in: the battle size's in singles; per player in doubles (the
 // battle size's by default, or the organiser's own via settings.dpPerPlayer — null = follow).
 const memberMaxDp = computed(() => (isDoubles.value ? (settings.dpPerPlayer ?? maxDp.value) : maxDp.value))
@@ -1994,7 +2068,7 @@ function setGameMode(mode) {
 function toggleFixed(p, slug) {
   const i = p.fixedSecondaries.indexOf(slug)
   if (i >= 0) p.fixedSecondaries.splice(i, 1)
-  else if (p.fixedSecondaries.length < MAX_FIXED) p.fixedSecondaries.push(slug)
+  else if (p.fixedSecondaries.length < maxFixed.value) p.fixedSecondaries.push(slug)
 }
 
 // Fixed-secondary picker modal — open for player index (-1 = closed). Lists the
@@ -2300,12 +2374,17 @@ async function start() {
     emit('start', {
       // Rows this game cannot offer are written OFF rather than at whatever the last game left in
       // them — the checkbox was disabled, so the value behind it was never the player's answer.
-      settings: normalizeTrackSettings(settings, trackCtx.value),
+      settings: normalizeTrackSettings(ownSizeOnly(settings), trackCtx.value),
       players: out,
     })
   } finally {
     starting.value = false
   }
+}
+// The custom numbers travel only with a custom size: a Strike Force game carrying a stale
+// `custom` would hand the next setup numbers nobody chose for it.
+function ownSizeOnly(s) {
+  return s.battleSize === CUSTOM_BATTLE && !s.combatPatrol ? { ...s, custom: { ...s.custom } } : { ...s, custom: null }
 }
 function cancel() {
   clearDraft()
@@ -2614,9 +2693,14 @@ function cancel() {
     line-height: 1.25;
   }
   .seg-thirds .seg button + button { border-left: 1px solid var(--border); }
+  /* The battle size has four: the three printed and the players' own. */
+  .battle-size .seg { grid-template-columns: repeat(4, 1fr); }
 }
 @media (max-width: 380px) {
   .seg-thirds .seg button { font-size: 0.72rem; }
+  /* Four sizes in ~72px each: the numbers stay one line (a name may take two), or
+     "2000 · 3 DP" broke into three and the row stood four lines tall. */
+  .battle-size .bs-sub { font-size: 0.62rem; white-space: nowrap; }
 }
 /* A battle-size button is two deliberate lines — the name, then the numbers under it in
    small print — instead of one long string breaking wherever the width says. */
@@ -2631,6 +2715,28 @@ function cancel() {
   font-weight: 500;
   opacity: 0.85;
 }
+/* The custom size's numbers: one card of rows under the size buttons, a hairline between rows
+   (RosterCustomLimit's card). */
+.custom-battle {
+  display: flex;
+  flex-direction: column;
+  margin: -0.4rem 0 1rem;
+  /* As wide as the size buttons above, not the step: a stepper at the far edge of a desk
+     screen sat a screen away from its caption. */
+  max-width: 24rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+}
+.cb-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.3rem 0.4rem 0.3rem 0.7rem;
+  border-top: 1px solid var(--border);
+}
+.cb-row:first-child { border-top: none; }
+.cb-name { font-size: 0.85rem; color: var(--text-primary); }
 /* Label beside the control, not above it (the doubles DP-per-player row): three short
    buttons leave the row half-empty, and vertical space is the scarce axis on a phone. */
 .field-inline {

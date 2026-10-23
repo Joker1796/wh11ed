@@ -2,7 +2,7 @@
   <div class="sec">
     <div class="sec-head">
       <span class="sec-title panel-label">{{ labels.trackerSecondary }} · {{ labels.trackerRoundShort }} {{ round }}</span>
-      <!-- The turn's two cards (tactical, the side on turn, live round only): the one way new
+      <!-- The turn's cards (two, or a custom size's own number; tactical, the side on turn, live round only): the one way new
            cards come in. Once taken, the hand changes only through a card's own rule. The same
            dialog stays a tap away after the draw (owner, 2026-09-29) — what came in, the WHEN
            DRAWN rules on offer, and the way to put the pair back. -->
@@ -12,7 +12,7 @@
         data-press
         @click="takeOpen = true"
       >
-        {{ labels.trackerTakeTwo }}
+        {{ takeLabel }}
       </button>
       <button
         v-if="takenNow"
@@ -242,7 +242,7 @@ import BaseModal from '../BaseModal.vue'
 import ReplaceCardModal from './ReplaceCardModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, missionBySlug, cardBlocks, isYouSide } from '../../composables/useTracker.js'
+import { useTracker, missionBySlug, cardBlocks, isYouSide, battleOf, byCount } from '../../composables/useTracker.js'
 import { blockLocked, fixTurnOf } from '../../composables/missionTiming.js'
 import { whenDrawnAction } from '../../composables/whenDrawn.js'
 import { tracks } from '../../data/trackerOptions.js'
@@ -271,6 +271,7 @@ const {
   canTakeSecondaries, tookSecondaries,
   canCpRedraw, cpRedraw, canEndTurnDiscard, isMarkedForTurnEnd, canMarkForTurnEnd, markForTurnEnd, canGainBonus, strictWhy, strictUndoWhy,
 } = useTracker()
+const takeLabel = computed(() => byCount(labels.value, 'trackerTakeTwo', battleOf(current.value?.settings).secondaries))
 // Every dialog of this side's deck — a card, the take, a replacement — in this side's colour.
 provideSideScope(() => !isYouSide(current.value?.players?.[props.pi], props.pi))
 

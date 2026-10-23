@@ -16,9 +16,9 @@ beforeEach(async () => {
 // Dialogs teleport to <body> (BaseModal).
 afterEach(() => { document.body.innerHTML = '' })
 
-function startGame() {
+function startGame(size = { battleSize: 'strikeForce' }) {
   tracker.newGame({
-    settings: { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', scoreMode: 'vp', twist: null, twistMission: null },
+    settings: { trackCP: true, firstTurn: 1, layout: 'A', ...size, scoreMode: 'vp', twist: null, twistMission: null },
     players: [
       { name: 'Me', factionSlug: null, detachments: [], disposition: DISPOSITIONS[0].id, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
       { name: 'Opp', factionSlug: null, detachments: [], disposition: DISPOSITIONS[1].id, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
@@ -32,6 +32,16 @@ const deck = (pi, props = {}) => mount(SecondaryDeck, {
 const dialogOpen = () => !!document.body.querySelector('.tk-main')
 
 describe('SecondaryDeck — the turn\'s two cards', () => {
+  // A custom size of one a turn (owner, 2026-10-23): the button and the dialog count one card.
+  it('says one card where a custom size draws one', async () => {
+    startGame({ battleSize: 'custom', custom: { points: 750, secondaries: 1 } })
+    const w = deck(0)
+    await w.vm.$nextTick()
+    expect(w.find('.take-btn').text()).toBe('Take 1 secondary')
+    expect(document.body.querySelector('.tk-main').textContent).toContain('Draw 1 at random')
+    expect(document.body.textContent).toContain('one Secondary Mission')
+  })
+
   it('opens the take dialog by itself once, for the side on turn, on its own phone', async () => {
     startGame()
     const mine = deck(0)
