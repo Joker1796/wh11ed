@@ -10,6 +10,7 @@
 // failed to load is sent marked `chunk` (staleChunks.js reloads the page for it) and never prompts.
 import { API_BASE_URL } from '../config.js'
 import { APP_VERSION } from '../buildInfo.js'
+import { APP_DATA_VERSION } from '../data/appDataVersion.js'
 import { getItem, setItem } from './safeStorage.js'
 import { isChunkLoadError } from './staleChunks.js'
 
@@ -19,7 +20,6 @@ const errors = []
 export const ERROR_REPORTS_KEY = 'wh11ed-error-reports' // '1' = send
 export const ERROR_OFFER_KEY = 'wh11ed-error-reports-offered' // asked in this browser, whatever the answer
 const HELLO_KEY = 'wh11ed-error-reports-hello' // the day this browser last said "I report"
-const PERF_KEY = 'wh11ed-perf-sent' // the day this browser last sent performance: once a day at most
 const PER_PAGE = 5 // distinct errors sent per page load
 const FLUSH_MS = 3000
 
@@ -66,6 +66,7 @@ function payload(extra) {
   return {
     channel: import.meta.env.VITE_BETA === '1' ? 'beta' : 'prod',
     appVersion: APP_VERSION || '0.0.0',
+    dataVersion: APP_DATA_VERSION,
     locale: location.pathname.startsWith('/ru') ? 'ru' : 'en',
     standalone,
     route: location.pathname, // never the query or the hash: a shared roster rides in the hash
@@ -88,28 +89,6 @@ function flush() {
   post(payload({ errors: queue.splice(0, 10), ...(hello ? { hello: true } : {}) }))
 }
 
-// A phone's class, coarse: logical cores (capped) and device memory in GB, 0 where the browser does
-// not say (Safari, Firefox). What tells a weak phone from a strong one in the performance numbers.
-export function deviceClass() {
-  const cores = Math.min(navigator.hardwareConcurrency || 0, 16)
-  return `c${cores}m${navigator.deviceMemory || 0}`
-}
-
-/**
- * How the screens of this page session performed (perfReport.js), sent beside the errors to the
- * same POST /errors (wh11ed-api `perf`, migrations/004_client_perf.sql) — like them only while
- * sending is on, never offline, and at most once a day. Returns whether it went.
- * @param {{ route: string, inp?: number, longN: number, longMs: number, secs: number }[]} perf
- */
-export function sendPerf(perf) {
-  if (!reportsOn() || !perf.length || navigator.onLine === false) return false
-  const today = new Date().toISOString().slice(0, 10)
-  if (getItem(PERF_KEY, '') === today) return false
-  setItem(PERF_KEY, today)
-  post(payload({ perf: perf.slice(0, 8), device: deviceClass() }))
-  return true
-}
-
 /** Switch sending on or off. On sends what was seen this page load and says hello for the day. */
 export function setErrorReports(on) {
   setItem(ERROR_REPORTS_KEY, on ? '1' : '')
@@ -125,12 +104,40 @@ export function onUnsentError(fn) {
   return () => listeners.delete(fn)
 }
 
+// A stack kept to 1500 characters, its top AND its bottom: a stack overflow ("too much recursion",
+// Firefox, 2.10.0) is thrown wherever the stack ran out, and its first ten frames named only that
+// spot — the loop that filled it was in the part cut off.
+const STACK_MAX = 1500
+export function trimStack(stack) {
+  const s = String(stack)
+  if (s.length <= STACK_MAX) return s
+  const lines = s.split('\n')
+  const head = []
+  const tail = []
+  let room = STACK_MAX - 40 // the "… N frames …" line
+  let i = 0
+  let j = lines.length - 1
+  while (i <= j) {
+    const top = head.length <= tail.length
+    const line = top ? lines[i] : lines[j]
+    if (line.length + 1 > room) break
+    if (top) { head.push(line); i++ } else { tail.unshift(line); j-- }
+    room -= line.length + 1
+  }
+  return [...head, `    … ${j - i + 1} frames …`, ...tail].join('\n')
+}
+
+// Where Vue caught it. A dev build says it in words ("render function"); a production one gives a
+// link to the error reference, cut down here to its code ("runtime-1") — cut by length, the link
+// left "https://vuejs.org/error-refere" and nothing that told one place from another.
+const vueWhere = (info) => String(info).replace(/^https?:\/\/vuejs\.org\/error-reference\/#?/, '').slice(0, 30)
+
 /** An error Vue caught in a component (main.js errorHandler): it never reaches window.onerror. */
 export function logError(err, info) {
   push({
     kind: 'error',
-    msg: `${String(err?.message || err).slice(0, 460)}${info ? ` [vue: ${String(info).slice(0, 30)}]` : ''}`,
-    stack: err?.stack ? String(err.stack).slice(0, 1500) : undefined,
+    msg: `${String(err?.message || err).slice(0, 460)}${info ? ` [vue: ${vueWhere(info)}]` : ''}`,
+    stack: err?.stack ? trimStack(err.stack) : undefined,
   })
 }
 
@@ -141,7 +148,7 @@ export function installErrorLog() {
       kind: 'error',
       msg: String(e.message || e.error || 'error').slice(0, 500),
       src: e.filename ? `${e.filename}:${e.lineno || 0}` : undefined,
-      stack: e.error?.stack ? String(e.error.stack).slice(0, 1500) : undefined,
+      stack: e.error?.stack ? trimStack(e.error.stack) : undefined,
     })
   })
   window.addEventListener('unhandledrejection', (e) => {
@@ -149,7 +156,7 @@ export function installErrorLog() {
     push({
       kind: 'rejection',
       msg: `unhandled rejection: ${String(r?.message || r).slice(0, 500)}`,
-      stack: r?.stack ? String(r.stack).slice(0, 1500) : undefined,
+      stack: r?.stack ? trimStack(r.stack) : undefined,
     })
   })
   // A batch still waiting goes now, as the page is hidden or closed; a reporting browser says

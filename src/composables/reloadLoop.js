@@ -129,15 +129,21 @@ function navigationType() {
   try { return performance.getEntriesByType('navigation')[0]?.type || '?' } catch { return '?' }
 }
 
-/** What the error log is told when a loop is caught: enough to tell the two reloaders apart. */
+/**
+ * What the error log is told when a loop is caught: enough to tell the two reloaders apart. The
+ * message stays one sentence and the state rides in the stack — in the message it made every
+ * combination of worker states a new error, and one loop came back as 27 rows of ×1 (2026-10-23).
+ */
 export async function loopReport(version) {
   const sw = navigator.serviceWorker
   const reg = await sw?.getRegistration?.().catch(() => null)
   const state = (w) => (w ? w.state : '-')
   const waitingVersion = reg?.waiting && getItem(WAITING_KEY)
   const standalone = window.matchMedia?.('(display-mode: standalone)').matches || navigator.standalone === true
-  return `reload loop caught (${LOOP_BOOTS} starts in ${LOOP_WINDOW_MS / 1000}s) — v${version}, `
+  const err = new Error(`reload loop caught (${LOOP_BOOTS} starts in ${LOOP_WINDOW_MS / 1000}s)`)
+  err.stack = `${err.message}\n    v${version}, `
     + `${standalone ? 'installed' : 'tab'}, nav ${navigationType()}, controller ${sw?.controller ? 'yes' : 'no'}, `
     + `sw active ${state(reg?.active)} / waiting ${state(reg?.waiting)}${waitingVersion ? ` (v${waitingVersion} when found)` : ''} / installing ${state(reg?.installing)}, `
     + `path ${location.pathname}, starts [${bootList()}], trail [${reloadTrail()}]`
+  return err
 }
