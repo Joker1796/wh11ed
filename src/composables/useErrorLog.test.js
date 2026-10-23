@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { APP_DATA_VERSION } from '../data/appDataVersion.js'
 
 // The error log's sending half (owner, 2026-10-14): off by default, noise dropped, one send per
 // error per page, a real error while off is what the one-time offer waits for.
@@ -43,6 +44,7 @@ describe('sending errors', () => {
     expect(JSON.stringify(body)).not.toContain('secret')
     expect(body.hello).toBe(true)
     expect(body.channel).toBe('prod')
+    expect(body.dataVersion).toBe(APP_DATA_VERSION)
   })
 
   it('on: batches for a few seconds, then sends', () => {
@@ -79,6 +81,11 @@ describe('sending errors', () => {
   it('a component error Vue caught is logged too', () => {
     log.logError(new Error('render failed'), 'render function')
     expect(log.recentErrors().at(-1).msg).toBe('render failed [vue: render function]')
+  })
+
+  it('a production build\'s link to the error reference becomes its code', () => {
+    log.logError(new Error('render failed'), 'https://vuejs.org/error-reference/#runtime-1')
+    expect(log.recentErrors().at(-1).msg).toBe('render failed [vue: runtime-1]')
   })
 
   it('keeps the buffer for bug reports whatever the switch says', () => {

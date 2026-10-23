@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import { installErrorLog, logError } from './composables/useErrorLog.js'
-import { installPerfReport } from './composables/perfReport.js'
 import { installStaleChunkRecovery } from './composables/staleChunks.js'
 import { noteBoot, loopReport } from './composables/reloadLoop.js'
 import { launchGate } from './composables/launchGate.js'
@@ -18,7 +17,7 @@ import './style.css'
 // First, before anything can throw: the error ring buffer bug reports attach.
 installErrorLog()
 // A page reloading itself in a loop stops here, and says so in the error log (reloadLoop.js).
-if (noteBoot()) loopReport(APP_VERSION).then((msg) => logError(new Error(msg))).catch(() => {})
+if (noteBoot()) loopReport(APP_VERSION).then((err) => logError(err)).catch(() => {})
 // The app in its own window says so, for a tab on the same device to read (appInstalled.js).
 noteStandaloneStart()
 
@@ -43,9 +42,6 @@ function boot() {
 
   // A tab from before a deploy asking for a chunk that is gone: find the new build and reload.
   installStaleChunkRecovery(router)
-
-  // How each screen performs, sent beside the errors by the visitors who send them (perfReport.js).
-  installPerfReport(router)
 
   // How every button answers the finger — one document listener, see pressFeedback.js.
   installPressFeedback()

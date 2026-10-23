@@ -10,6 +10,7 @@
 // failed to load is sent marked `chunk` (staleChunks.js reloads the page for it) and never prompts.
 import { API_BASE_URL } from '../config.js'
 import { APP_VERSION } from '../buildInfo.js'
+import { APP_DATA_VERSION } from '../data/appDataVersion.js'
 import { getItem, setItem } from './safeStorage.js'
 import { isChunkLoadError } from './staleChunks.js'
 
@@ -19,7 +20,6 @@ const errors = []
 export const ERROR_REPORTS_KEY = 'wh11ed-error-reports' // '1' = send
 export const ERROR_OFFER_KEY = 'wh11ed-error-reports-offered' // asked in this browser, whatever the answer
 const HELLO_KEY = 'wh11ed-error-reports-hello' // the day this browser last said "I report"
-const PERF_KEY = 'wh11ed-perf-sent' // the day this browser last sent performance: once a day at most
 const PER_PAGE = 5 // distinct errors sent per page load
 const FLUSH_MS = 3000
 
@@ -66,6 +66,7 @@ function payload(extra) {
   return {
     channel: import.meta.env.VITE_BETA === '1' ? 'beta' : 'prod',
     appVersion: APP_VERSION || '0.0.0',
+    dataVersion: APP_DATA_VERSION,
     locale: location.pathname.startsWith('/ru') ? 'ru' : 'en',
     standalone,
     route: location.pathname, // never the query or the hash: a shared roster rides in the hash
@@ -88,28 +89,6 @@ function flush() {
   post(payload({ errors: queue.splice(0, 10), ...(hello ? { hello: true } : {}) }))
 }
 
-// A phone's class, coarse: logical cores (capped) and device memory in GB, 0 where the browser does
-// not say (Safari, Firefox). What tells a weak phone from a strong one in the performance numbers.
-export function deviceClass() {
-  const cores = Math.min(navigator.hardwareConcurrency || 0, 16)
-  return `c${cores}m${navigator.deviceMemory || 0}`
-}
-
-/**
- * How the screens of this page session performed (perfReport.js), sent beside the errors to the
- * same POST /errors (wh11ed-api `perf`, migrations/004_client_perf.sql) — like them only while
- * sending is on, never offline, and at most once a day. Returns whether it went.
- * @param {{ route: string, inp?: number, longN: number, longMs: number, secs: number }[]} perf
- */
-export function sendPerf(perf) {
-  if (!reportsOn() || !perf.length || navigator.onLine === false) return false
-  const today = new Date().toISOString().slice(0, 10)
-  if (getItem(PERF_KEY, '') === today) return false
-  setItem(PERF_KEY, today)
-  post(payload({ perf: perf.slice(0, 8), device: deviceClass() }))
-  return true
-}
-
 /** Switch sending on or off. On sends what was seen this page load and says hello for the day. */
 export function setErrorReports(on) {
   setItem(ERROR_REPORTS_KEY, on ? '1' : '')
@@ -125,11 +104,16 @@ export function onUnsentError(fn) {
   return () => listeners.delete(fn)
 }
 
+// Where Vue caught it. A dev build says it in words ("render function"); a production one gives a
+// link to the error reference, cut down here to its code ("runtime-1") — cut by length, the link
+// left "https://vuejs.org/error-refere" and nothing that told one place from another.
+const vueWhere = (info) => String(info).replace(/^https?:\/\/vuejs\.org\/error-reference\/#?/, '').slice(0, 30)
+
 /** An error Vue caught in a component (main.js errorHandler): it never reaches window.onerror. */
 export function logError(err, info) {
   push({
     kind: 'error',
-    msg: `${String(err?.message || err).slice(0, 460)}${info ? ` [vue: ${String(info).slice(0, 30)}]` : ''}`,
+    msg: `${String(err?.message || err).slice(0, 460)}${info ? ` [vue: ${vueWhere(info)}]` : ''}`,
     stack: err?.stack ? String(err.stack).slice(0, 1500) : undefined,
   })
 }
