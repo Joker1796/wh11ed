@@ -36,13 +36,22 @@ describe('GameSetup', () => {
     expect(w.find('.custom-battle').exists()).toBe(false)
     await w.findAll('.battle-size .seg button').find((b) => b.text().includes('Custom')).trigger('click')
     const rows = w.findAll('.custom-battle .cb-row')
-    expect(rows.map((r) => r.find('.step-val').text())).toEqual(['1000', '2', '2'])
+    expect(rows[0].find('input').element.value).toBe('1000')
+    expect(rows.slice(1).map((r) => r.find('.step-val').text())).toEqual(['2', '2'])
+    const points = rows[0].find('input')
+    await points.setValue('750')
+    await points.trigger('change')
+    await points.setValue('90000') // held to the range
+    await points.trigger('change')
+    expect(points.element.value).toBe('5000')
+    await points.setValue('750')
+    await points.trigger('change')
     await rows[2].findAll('.step-btn')[0].trigger('click') // one secondary a turn
     await rows[1].findAll('.step-btn')[0].trigger('click') // one DP
     const draft = JSON.parse(localStorage.getItem('wh11ed-tracker-setup-draft') || 'null')
     const settings = draft?.settings ?? w.vm.$.setupState.settings
-    expect(settings).toMatchObject({ battleSize: 'custom', custom: { points: 1000, secondaries: 1, dp: 1 } })
-    expect(w.find('.battle-size .seg button.on').text()).toContain('1000 · 1 DP')
+    expect(settings).toMatchObject({ battleSize: 'custom', custom: { points: 750, secondaries: 1, dp: 1 } })
+    expect(w.find('.battle-size .seg button.on').text()).toContain('750 · 1 DP')
   })
 
   it('disables "Next" until both armies are valid (no faction chosen yet)', () => {
