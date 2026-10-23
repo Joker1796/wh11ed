@@ -25,10 +25,14 @@ export const changelog = [
     version: '2.10.4',
     date: '2026-10-23',
     en: [
+      { h: 'Tracker' },
+      '**The tracker has a custom battle size.** You can set the points limit, the Detachment Points and how many secondaries are drawn a turn: one, two or three. For example, 750 points with one secondary.',
       { h: 'Answers to your questions' },
       'Does the Farseer’s Branching Fates work on the Heavy Weapon Platform? Yes. Only the D-cannon Platform, Shadow Weaver Platform and Vibro Cannon Platform are SUPPORT WEAPON models. The platform in [Guardian Defenders](/factions/aeldari/datasheets/guardian-defenders) does not have this keyword.',
     ],
     ru: [
+      { h: 'Трекер' },
+      '**В трекере появился кастомный размер игры.** В нём можно задать лимит очков, DP и сколько вторичек берётся за ход: одну, две или три. Например, 750 очков и одна вторичка.',
       { h: 'Ответы на вопросы' },
       'Действует ли Branching Fates у Farseer на Heavy Weapon Platform? Да. SUPPORT WEAPON — это только D-cannon Platform, Shadow Weaver Platform и Vibro Cannon Platform. У платформы из отряда [Guardian Defenders](/factions/aeldari/datasheets/guardian-defenders) этого ключевого слова нет.',
     ],
