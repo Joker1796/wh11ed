@@ -2669,7 +2669,7 @@ export const ui = {
     trackerSelectFaction: 'Сначала выберите фракцию',
     trackerChooseFaction: 'Выберите фракцию',
     trackerBattleSize: 'Размер игры',
-    trackerBattleCustom: 'Свой',
+    trackerBattleCustom: 'Кастомный',
     trackerCustomPoints: 'Лимит очков',
     trackerCustomDp: 'DP на армию',
     trackerCustomSecondaries: 'Вторичек за ход',
