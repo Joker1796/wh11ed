@@ -819,7 +819,6 @@ const tab = ref('units')
 // The tour of this page — its own, not inside a game (there the game's chapter tells about it).
 const ownPage = () => !inGame.value && !props.inTracker
 const { maybeStart: maybeStartTour } = useTour()
-useTourShow('viewTab', (k) => { if (ownPage() && viewTabs.value.some((t) => t.key === k)) tab.value = k })
 // The list's notes start folded on every visit — deliberately not remembered: what is worth a row
 // of the first screen is the army, and a plan is read at a moment, not throughout.
 const notesOpen = ref(false)
@@ -834,6 +833,8 @@ const viewTabs = computed(() => {
     ...(inGame.value ? [] : [{ key: 'missions', label: l.rosterViewTabMissions, active: tab.value === 'missions' }]),
   ]
 })
+// Below `viewTabs`, which it reads: useTourShow answers at once when the page opens on its step.
+useTourShow('viewTab', (k) => { if (ownPage() && viewTabs.value.some((t) => t.key === k)) tab.value = k })
 
 // ── Missions tab: the list's Force Disposition and the matchups it can be dealt ──
 // dispositionOf is the answer every other screen reads, so the tab and the export agree.

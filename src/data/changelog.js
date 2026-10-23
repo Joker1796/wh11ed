@@ -22,6 +22,18 @@
 
 export const changelog = [
   {
+    version: '2.10.4',
+    date: '2026-10-23',
+    en: [
+      { h: 'Answers to your questions' },
+      'Does the Farseer’s Branching Fates work on the Heavy Weapon Platform? Yes. Only the D-cannon Platform, Shadow Weaver Platform and Vibro Cannon Platform are SUPPORT WEAPON models. The platform in [Guardian Defenders](/factions/aeldari/datasheets/guardian-defenders) does not have this keyword.',
+    ],
+    ru: [
+      { h: 'Ответы на вопросы' },
+      'Действует ли Branching Fates у Farseer на Heavy Weapon Platform? Да. SUPPORT WEAPON — это только D-cannon Platform, Shadow Weaver Platform и Vibro Cannon Platform. У платформы из отряда [Guardian Defenders](/factions/aeldari/datasheets/guardian-defenders) этого ключевого слова нет.',
+    ],
+  },
+  {
     version: '2.10.3',
     date: '2026-10-22',
     en: [

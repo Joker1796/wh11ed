@@ -56,6 +56,25 @@ describe('RosterViewView', () => {
     expect(replace).toHaveBeenCalledWith('/roster')
   })
 
+  // A tour step that opens a tab answers at once (useTourShow is an immediate watch): coming to
+  // the page with the roster tour's first step up read `viewTabs` before it was declared —
+  // "Cannot access 'gn' before initialization" from a phone on 2.10.1 (hub journal error-triage).
+  it('opens with the tour already on a step that shows a tab', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Toured')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+    const { useTour } = await import('../../composables/useTour.js')
+    const tour = useTour()
+    tour.start('roster-view', {})
+    expect(tour.step.value?.show).toEqual({ viewTab: 'units' })
+    const errors = []
+    const w = mount(RosterViewView, { global: { stubs, config: { errorHandler: (e) => errors.push(e) } } })
+    await waitFor(w, 'Intercessor Squad')
+    expect(errors).toEqual([])
+  })
+
   // The view names an attached block as the editor does, and totals it on that line (owner,
   // 2026-09-24): it used to print only an anonymous total under the last row.
   it('heads each attached block with its name and its points', async () => {

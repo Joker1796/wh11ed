@@ -111,6 +111,10 @@ if [ -n "${CHANGELOG_SSH-}" ]; then
     echo "✗ The changelog rewrite did not check out and was reverted — look before deploying." >&2
     exit 1
   fi
+  # The notes are rule text too: a keyword written in capitals only in a note that just left for the
+  # archive drops out of src/data/capsKeywords.js. Regenerated here and committed in step 5 — the
+  # 2.10.3 rollover took GRAV-ASSAULT with it and left main's capsKeywords.test.js red.
+  node scripts/gen-datasheet-index.mjs >/dev/null
 else
   echo "⚠ CHANGELOG_SSH unset — release notes stay whole in the file (see .env.deploy.example)"
 fi
@@ -339,8 +343,9 @@ fi
 #    clean-tree check already happened in step 0, so this is just recording what shipped).
 if [ "$BUMP" != "none" ]; then
   echo "▶ Committing + pushing version bump…"
-  # The changelog too: step 0b may have moved its older entries to the archive.
-  git add package.json package-lock.json src/data/changelog.js
+  # The changelog too: step 0b may have moved its older entries to the archive, and with them
+  # keywords from the generated list.
+  git add package.json package-lock.json src/data/changelog.js src/data/capsKeywords.js
   git commit -m "chore: release v$(node -p "require('./package.json').version")"
   git push origin "$BRANCH"
   # The release is live, so it becomes the base for everything after it. Fast-forward only: if
