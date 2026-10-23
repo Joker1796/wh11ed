@@ -149,22 +149,18 @@
                 v-if="battle.custom"
                 class="custom-battle"
               >
-                <!-- The points are typed, not stepped (owner, 2026-10-23): an event's limit is one
-                     number, set once. A label here: a tap on the caption puts the caret in. -->
-                <label class="cb-row">
+                <div class="cb-row">
                   <span class="cb-name">{{ labels.trackerCustomPoints }}</span>
-                  <input
-                    class="cb-points"
-                    type="number"
-                    inputmode="numeric"
-                    enterkeyhint="done"
+                  <NumberStepper
+                    editable
+                    :model-value="battle.points"
                     :min="CUSTOM_RANGES.points.min"
                     :max="CUSTOM_RANGES.points.max"
-                    :value="battle.points"
-                    @change="commitPoints($event.target)"
-                    @keydown.enter.prevent="$event.target.blur()"
-                  >
-                </label>
+                    :step="CUSTOM_RANGES.points.step"
+                    :label="labels.trackerCustomPoints"
+                    @update:model-value="setCustom('points', $event)"
+                  />
+                </div>
                 <div class="cb-row">
                   <span class="cb-name">{{ labels.trackerCustomDp }}</span>
                   <NumberStepper
@@ -1884,13 +1880,6 @@ function chooseCustom() {
 function setCustom(key, v) {
   settings.custom = { ...settings.custom, [key]: v }
 }
-// A typed limit, held to the range; a field left empty or not a number goes back to what it was.
-function commitPoints(el) {
-  const { min, max } = CUSTOM_RANGES.points
-  const v = Math.round(Number(el.value))
-  if (el.value !== '' && Number.isFinite(v)) setCustom('points', Math.min(max, Math.max(min, v)))
-  el.value = battle.value.points
-}
 // Fixed secondaries: as many as a turn draws (two, or a custom size's own), kept for the whole game.
 const maxFixed = computed(() => battle.value.secondaries)
 // Fewer allowed than picked (the custom number went down): the last picks go.
@@ -2756,25 +2745,6 @@ function cancel() {
 }
 .cb-row:first-child { border-top: none; }
 .cb-name { font-size: 0.85rem; color: var(--text-primary); }
-/* The typed points: the height of the steppers' buttons beside it, the number in their face. */
-.cb-points {
-  width: 7ch;
-  height: 40px;
-  box-sizing: border-box;
-  padding: 0 0.4rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  font: inherit;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--text-primary);
-  text-align: center;
-  appearance: textfield;
-}
-.cb-points::-webkit-inner-spin-button,
-.cb-points::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-.cb-points:focus { outline: none; border-color: var(--accent); }
 /* Label beside the control, not above it (the doubles DP-per-player row): three short
    buttons leave the row half-empty, and vertical space is the scarce axis on a phone. */
 .field-inline {

@@ -36,16 +36,8 @@ describe('GameSetup', () => {
     expect(w.find('.custom-battle').exists()).toBe(false)
     await w.findAll('.battle-size .seg button').find((b) => b.text().includes('Custom')).trigger('click')
     const rows = w.findAll('.custom-battle .cb-row')
-    expect(rows[0].find('input').element.value).toBe('1000')
-    expect(rows.slice(1).map((r) => r.find('.step-val').text())).toEqual(['2', '2'])
-    const points = rows[0].find('input')
-    await points.setValue('750')
-    await points.trigger('change')
-    await points.setValue('90000') // held to the range
-    await points.trigger('change')
-    expect(points.element.value).toBe('5000')
-    await points.setValue('750')
-    await points.trigger('change')
+    expect(rows.map((r) => r.find('.step-val').text())).toEqual(['1000', '2', '2'])
+    await rows[0].findAll('.step-btn')[0].trigger('click') // 750: a step is 250
     await rows[2].findAll('.step-btn')[0].trigger('click') // one secondary a turn
     await rows[1].findAll('.step-btn')[0].trigger('click') // one DP
     const draft = JSON.parse(localStorage.getItem('wh11ed-tracker-setup-draft') || 'null')

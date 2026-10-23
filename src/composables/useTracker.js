@@ -53,7 +53,9 @@ export const SECONDARIES_PER_TURN = 2
 // offers, and what a field left out reads as.
 export const CUSTOM_BATTLE = 'custom'
 export const CUSTOM_RANGES = {
-  points: { min: 250, max: 5000, step: 50, default: 1000 },
+  // Steps of 250 (owner, 2026-10-23): 750, 1000, 1250 — the sizes events are played at; a
+  // number in between is still typed into the field.
+  points: { min: 250, max: 5000, step: 250, default: 1000 },
   dp: { min: 1, max: 3 },
   secondaries: { min: 1, max: 3 },
 }
