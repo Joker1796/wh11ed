@@ -111,7 +111,7 @@
 
       <template v-else>
         <p class="tk-note">
-          {{ labels.trackerTakeNote }}
+          {{ takeNote }}
         </p>
         <button
           class="btn-primary tk-main"
@@ -119,10 +119,10 @@
           @click="onRandom"
         >
           <DieIcon />
-          {{ labels.trackerTakeRandom }}
+          {{ byCount(labels, 'trackerTakeRandom', battle.secondaries) }}
         </button>
         <div class="or-sep">
-          <span>{{ labels.trackerTakeOrChoose }}</span>
+          <span>{{ byCount(labels, 'trackerTakeOrChoose', battle.secondaries) }}</span>
         </div>
         <!-- Strict rules: the cards are drawn, not chosen — the list stays to be read (its "i"). -->
         <small
@@ -219,7 +219,7 @@ import ChevronIcon from '../ChevronIcon.vue'
 import ReplaceCardModal from './ReplaceCardModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
+import { useTracker, missionBySlug, scorableBlocks, battleOf, byCount } from '../../composables/useTracker.js'
 import { whenDrawnAction, whenDrawnText } from '../../composables/whenDrawn.js'
 
 // The turn's two secondaries (tactical): both at random, or both picked by hand — one way for
@@ -239,7 +239,13 @@ const noReturn = computed(() => strictWhy('return', props.pi))
 
 const player = computed(() => current.value.players[props.pi])
 const taken = computed(() => tookSecondaries(props.pi))
-const need = computed(() => Math.min(2, player.value.secondary.deck.length))
+// Two a turn, or a custom size's own number (battleOf) — what the store's take checks too.
+const battle = computed(() => battleOf(current.value.settings))
+const need = computed(() => Math.min(battle.value.secondaries, player.value.secondary.deck.length))
+// The printed size keeps its sentence (the rule's own words); a custom one says this game's number.
+const takeNote = computed(() => (battle.value.custom
+  ? byCount(labels.value, 'trackerTakeNoteCustom', battle.value.secondaries)
+  : labels.value.trackerTakeNote))
 const mission = (slug) => missionBySlug(slug, player.value.role, locale.value)
 
 const deckMissions = computed(() =>

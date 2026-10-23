@@ -46,6 +46,54 @@ export const BATTLE_SIZES = [
   { id: 'strikeForce', name: 'Strike Force', points: 2000, maxDp: 3 },
   { id: 'onslaught', name: 'Onslaught', points: 3000, maxDp: 3 },
 ]
+// "At the start of your Command phase, draw two Secondary Missions" — and two fixed ones.
+export const SECONDARIES_PER_TURN = 2
+// A size of the players' own (owner, 2026-10-23: evening events at 750 points with one secondary):
+// `battleSize: 'custom'` and `settings.custom = { points, dp, secondaries }`. The ranges the setup
+// offers, and what a field left out reads as.
+export const CUSTOM_BATTLE = 'custom'
+export const CUSTOM_RANGES = {
+  // Steps of 250 (owner, 2026-10-23): 750, 1000, 1250 — the sizes events are played at; a
+  // number in between is still typed into the field.
+  points: { min: 250, max: 5000, step: 250, default: 1000 },
+  dp: { min: 1, max: 3 },
+  secondaries: { min: 1, max: 3 },
+}
+const inRange = (v, { min, max }) => (Number.isInteger(v) && v >= min && v <= max ? v : null)
+
+// The battle a game is played at — every reader of the size goes through this, never
+// BATTLE_SIZES by id, so a custom size answers everywhere a printed one does.
+// `base` is the printed size whose numbers a custom one borrows where it sets none of its own:
+// the army-rule counters keyed by size (GSC's starting pool, the Aeldari per-round gain) — the
+// smallest size the points fit in, as the roster's custom limit does (rosterEngine's
+// effectiveBattle). `known` is false for a game saved with no size at all.
+export function battleOf(settings) {
+  const s = settings || {}
+  if (s.battleSize === CUSTOM_BATTLE) {
+    const c = s.custom || {}
+    const points = inRange(c.points, CUSTOM_RANGES.points) ?? CUSTOM_RANGES.points.default
+    const base = BATTLE_SIZES.find((b) => points <= b.points) || BATTLE_SIZES[BATTLE_SIZES.length - 1]
+    return {
+      id: CUSTOM_BATTLE, base: base.id, name: null, points, custom: true, known: true,
+      maxDp: inRange(c.dp, CUSTOM_RANGES.dp) ?? base.maxDp,
+      secondaries: inRange(c.secondaries, CUSTOM_RANGES.secondaries) ?? SECONDARIES_PER_TURN,
+    }
+  }
+  const b = BATTLE_SIZES.find((x) => x.id === s.battleSize)
+  return { ...(b || BATTLE_SIZES[1]), base: (b || BATTLE_SIZES[1]).id, custom: false, known: !!b, secondaries: SECONDARIES_PER_TURN }
+}
+// The size as a line names it: the printed name, or "Custom · 750" (`custom` is the locale's
+// label). Empty for a game saved with no size.
+export function battleName(settings, custom) {
+  const b = battleOf(settings)
+  if (b.custom) return `${custom} · ${b.points}`
+  return b.known ? b.name : ''
+}
+// A label that counts cards: `<key>` carries {n}, `<key>One` is the one-card form (Russian
+// declines the noun for one and not for two or three, so a lone {n} cannot serve all three).
+export function byCount(labels, key, n) {
+  return n === 1 && labels[`${key}One`] ? labels[`${key}One`] : labels[key].replace('{n}', n)
+}
 export const PRIMARY_ROUND_CAP = 15
 // Game-level caps live in gameScoring.js (single source of truth); re-export for existing
 // importers (RoundTracker, ScoreBreakdown).
@@ -1318,14 +1366,15 @@ export function useTracker() {
     return entry ? entry.vp || 0 : 0
   }
 
-  // ── Taking the turn's two secondaries (tactical) ──────────────────────────────────────────
+  // ── Taking the turn's secondaries (tactical) ──────────────────────────────────────────────
   // "At the start of your Command phase, draw two Secondary Missions" — once per own turn, so
   // once per round per side. `secondary.took[round]` records that it was done and how: 'random'
   // (two off the shuffled deck) or 'chosen' (two picked by hand). One way for both cards, as in
   // Mikhail's prototype. After that the hand changes only through a card's own rule (WHEN
   // DRAWN), the once-per-battle 1CP replacement or the end-of-turn discard. A random draw is
   // written at once, so reopening the dialog cannot re-roll it.
-  const TAKE_COUNT = 2
+  // Two in a printed size; a custom one sets its own (battleOf).
+  const takeCount = () => battleOf(current.value?.settings).secondaries
   function tookSecondaries(pi, round = current.value.currentRound) {
     const s = current.value.players[pi]?.secondary
     if (!s) return null
@@ -1334,7 +1383,7 @@ export function useTracker() {
     // returnSecondaryToDeck undid it — see there).
     if (s.took?.[round]) return Object.values(drawn).includes(round) ? s.took[round] : null
     // A game from before `took` existed: two cards that came in this round are the same fact.
-    return Object.values(drawn).filter(r => r === round).length >= TAKE_COUNT ? 'legacy' : null
+    return Object.values(drawn).filter(r => r === round).length >= takeCount() ? 'legacy' : null
   }
   function canTakeSecondaries(pi) {
     const g = current.value
@@ -1349,18 +1398,18 @@ export function useTracker() {
   }
   function takeRandomSecondaries(pi) {
     if (!canTakeSecondaries(pi)) return
-    for (let k = 0; k < TAKE_COUNT; k++) drawSecondary(pi)
+    for (let k = takeCount(); k > 0; k--) drawSecondary(pi)
     markTook(pi, 'random')
   }
   function takeChosenSecondaries(pi, slugs) {
     if (!canTakeSecondaries(pi) || strictWhy('choose', pi)) return
     const deck = current.value.players[pi].secondary.deck
     const pick = [...new Set(slugs)].filter(x => deck.includes(x))
-    if (pick.length !== Math.min(TAKE_COUNT, deck.length)) return
+    if (pick.length !== Math.min(takeCount(), deck.length)) return
     for (const slug of pick) drawSpecificSecondary(pi, slug)
     markTook(pi, 'chosen')
   }
-  // Take the turn's two back (a mis-tap): only while neither has scored or been replaced.
+  // Take the turn's cards back (a mis-tap): only while none has scored or been replaced.
   function canUntakeSecondaries(pi) {
     const g = current.value
     const s = g?.players?.[pi]?.secondary

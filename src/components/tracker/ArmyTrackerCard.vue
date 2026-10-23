@@ -566,7 +566,7 @@ import ArmySpendModal from './ArmySpendModal.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import RuleBody from '../RuleBody.vue'
-import { useTracker, memberAt, membersOf, isYouSide } from '../../composables/useTracker.js'
+import { useTracker, memberAt, membersOf, isYouSide, battleOf } from '../../composables/useTracker.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { selectionBudget } from '../../data/armyTrackers/selectionBudget.js'
@@ -633,7 +633,8 @@ const cardLabel = computed(() =>
 // battle-size-keyed `start`/`perRound` (GSC, Aeldari) can carry a `combatPatrol` entry instead of
 // silently reading the wrong (or a stale) battle size's numbers.
 const battleSize = computed(() =>
-  current.value?.settings?.combatPatrol ? 'combatPatrol' : (current.value?.settings?.battleSize || 'strikeForce')
+  // A custom size reads the printed size its points fall within (battleOf's `base`).
+  current.value?.settings?.combatPatrol ? 'combatPatrol' : battleOf(current.value?.settings).base
 )
 // A counter may declare a battle-size `start` (GSC Resurgence points begin full and are spent down);
 // an untouched counter defaults to that, else to its min (Drukhari/Votann start at 0).

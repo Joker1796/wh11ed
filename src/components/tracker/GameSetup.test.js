@@ -29,6 +29,23 @@ describe('GameSetup', () => {
     expect(onBtn.text()).toContain('Strike Force')
   })
 
+  // A size of the players' own (owner, 2026-10-23): points, DP and secondaries a turn, its numbers
+  // under the four size buttons; a number left alone follows the printed size the points fall in.
+  it('offers a custom size with its own points, DP and secondaries', async () => {
+    const w = mount(GameSetup)
+    expect(w.find('.custom-battle').exists()).toBe(false)
+    await w.findAll('.battle-size .seg button').find((b) => b.text().includes('Custom')).trigger('click')
+    const rows = w.findAll('.custom-battle .cb-row')
+    expect(rows.map((r) => r.find('.step-val').text())).toEqual(['1000', '2', '2'])
+    await rows[0].findAll('.step-btn')[0].trigger('click') // 750: a step is 250
+    await rows[2].findAll('.step-btn')[0].trigger('click') // one secondary a turn
+    await rows[1].findAll('.step-btn')[0].trigger('click') // one DP
+    const draft = JSON.parse(localStorage.getItem('wh11ed-tracker-setup-draft') || 'null')
+    const settings = draft?.settings ?? w.vm.$.setupState.settings
+    expect(settings).toMatchObject({ battleSize: 'custom', custom: { points: 750, secondaries: 1, dp: 1 } })
+    expect(w.find('.battle-size .seg button.on').text()).toContain('750 · 1 DP')
+  })
+
   it('disables "Next" until both armies are valid (no faction chosen yet)', () => {
     const w = mount(GameSetup)
     // The step-1 advance button is the disabled primary action.
