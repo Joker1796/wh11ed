@@ -107,6 +107,7 @@
         <div
           v-if="!guest && !settings.combatPatrol"
           class="field battle-size seg-thirds"
+          :class="{ 'with-custom': battle.custom }"
           data-tour="setup-size"
         >
           <span>{{ labels.trackerBattleSize }}</span>
@@ -2725,9 +2726,13 @@ function cancel() {
 .bs-wrap {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: var(--bs-gap);
   max-width: 100%;
 }
+/* One gap above the card and below it (owner, 2026-10-23): the card is the buttons' own, and
+   the field's usual 1rem under it read as a second, bigger seam before the player cards. */
+.battle-size { --bs-gap: 0.4rem; }
+.battle-size.with-custom { margin-bottom: var(--bs-gap); }
 /* The custom size's numbers: one card of rows, a hairline between rows (RosterCustomLimit's). */
 .custom-battle {
   display: flex;
