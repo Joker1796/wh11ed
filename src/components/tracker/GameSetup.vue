@@ -110,76 +110,79 @@
           data-tour="setup-size"
         >
           <span>{{ labels.trackerBattleSize }}</span>
-          <!-- The two lines are deliberate structure, not a wrap: the name reads first, the
-               numbers ride under it — a free-wrapping "Strike Force · 2000 · 3DP" broke wherever
-               the width said and every button broke differently. -->
-          <div class="seg">
-            <button
-              v-for="b in battleSizes"
-              :key="b.id"
-              class="bs-btn"
-              data-press
-              :class="{ on: settings.battleSize === b.id }"
-              @click="settings.battleSize = b.id"
-            >
-              <span class="bs-name">{{ b.name }}</span>
-              <span class="bs-sub">{{ b.points }} · {{ b.maxDp }} DP</span>
-            </button>
-            <!-- A size of the players' own: a local event's points, DP and secondaries per turn
-                 (owner, 2026-10-23). Its numbers ride under its name like the printed sizes'. -->
-            <button
-              class="bs-btn"
-              data-press
-              :class="{ on: battle.custom }"
-              @click="chooseCustom"
-            >
-              <span class="bs-name">{{ labels.trackerBattleCustom }}</span>
-              <span class="bs-sub">{{ customBattle.points }} · {{ customBattle.maxDp }} DP</span>
-            </button>
-          </div>
-        </div>
-      </ExpandTransition>
-
-      <!-- The custom size's three numbers, one card of rows (the roster's custom limit's recipe,
-           RosterCustomLimit) — rows, not <label>s: a label hands a tap on its caption to the first
-           control inside, the stepper's −. A number left alone follows the printed size the points fall within
-           (DP) or the rules (two secondaries); moved, it is the game's own. -->
-      <ExpandTransition>
-        <div
-          v-if="!guest && !settings.combatPatrol && battle.custom"
-          class="custom-battle"
-        >
-          <div class="cb-row">
-            <span class="cb-name">{{ labels.trackerCustomPoints }}</span>
-            <NumberStepper
-              editable
-              :model-value="battle.points"
-              :min="CUSTOM_RANGES.points.min"
-              :max="CUSTOM_RANGES.points.max"
-              :step="CUSTOM_RANGES.points.step"
-              :label="labels.trackerCustomPoints"
-              @update:model-value="setCustom('points', $event)"
-            />
-          </div>
-          <div class="cb-row">
-            <span class="cb-name">{{ labels.trackerCustomDp }}</span>
-            <NumberStepper
-              :model-value="battle.maxDp"
-              :min="CUSTOM_RANGES.dp.min"
-              :max="CUSTOM_RANGES.dp.max"
-              :label="labels.trackerCustomDp"
-              @update:model-value="setCustom('dp', $event)"
-            />
-          </div>
-          <div class="cb-row">
-            <span class="cb-name">{{ labels.trackerCustomSecondaries }}</span>
-            <NumberStepper
-              :model-value="battle.secondaries"
-              :min="CUSTOM_RANGES.secondaries.min"
-              :max="CUSTOM_RANGES.secondaries.max"
-              :label="labels.trackerCustomSecondaries"
-              @update:model-value="setCustom('secondaries', $event)"
-            />
+          <!-- The buttons and the custom card under them are one column, as wide as the buttons:
+               the card takes their width rather than one of its own. -->
+          <div class="bs-wrap">
+            <!-- The two lines are deliberate structure, not a wrap: the name reads first, the
+                 numbers ride under it — a free-wrapping "Strike Force · 2000 · 3DP" broke wherever
+                 the width said and every button broke differently. -->
+            <div class="seg">
+              <button
+                v-for="b in battleSizes"
+                :key="b.id"
+                class="bs-btn"
+                data-press
+                :class="{ on: settings.battleSize === b.id }"
+                @click="settings.battleSize = b.id"
+              >
+                <span class="bs-name">{{ b.name }}</span>
+                <span class="bs-sub">{{ b.points }} · {{ b.maxDp }} DP</span>
+              </button>
+              <!-- A size of the players' own: a local event's points, DP and secondaries per turn
+                   (owner, 2026-10-23). Its numbers ride under its name like the printed sizes'. -->
+              <button
+                class="bs-btn"
+                data-press
+                :class="{ on: battle.custom }"
+                @click="chooseCustom"
+              >
+                <span class="bs-name">{{ labels.trackerBattleCustom }}</span>
+                <span class="bs-sub">{{ customBattle.points }} · {{ customBattle.maxDp }} DP</span>
+              </button>
+            </div>
+            <!-- The custom size's three numbers, one card of rows (RosterCustomLimit's recipe) —
+                 rows, not <label>s: a label hands a tap on its caption to the first control
+                 inside, the stepper's −. A number left alone follows the printed size the points
+                 fall within (DP) or the rules (two secondaries); moved, it is the game's own. -->
+            <ExpandTransition>
+              <div
+                v-if="battle.custom"
+                class="custom-battle"
+              >
+                <div class="cb-row">
+                  <span class="cb-name">{{ labels.trackerCustomPoints }}</span>
+                  <NumberStepper
+                    editable
+                    :model-value="battle.points"
+                    :min="CUSTOM_RANGES.points.min"
+                    :max="CUSTOM_RANGES.points.max"
+                    :step="CUSTOM_RANGES.points.step"
+                    :label="labels.trackerCustomPoints"
+                    @update:model-value="setCustom('points', $event)"
+                  />
+                </div>
+                <div class="cb-row">
+                  <span class="cb-name">{{ labels.trackerCustomDp }}</span>
+                  <NumberStepper
+                    :model-value="battle.maxDp"
+                    :min="CUSTOM_RANGES.dp.min"
+                    :max="CUSTOM_RANGES.dp.max"
+                    :label="labels.trackerCustomDp"
+                    @update:model-value="setCustom('dp', $event)"
+                  />
+                </div>
+                <div class="cb-row">
+                  <span class="cb-name">{{ labels.trackerCustomSecondaries }}</span>
+                  <NumberStepper
+                    :model-value="battle.secondaries"
+                    :min="CUSTOM_RANGES.secondaries.min"
+                    :max="CUSTOM_RANGES.secondaries.max"
+                    :label="labels.trackerCustomSecondaries"
+                    @update:model-value="setCustom('secondaries', $event)"
+                  />
+                </div>
+              </div>
+            </ExpandTransition>
           </div>
         </div>
       </ExpandTransition>
@@ -2695,6 +2698,7 @@ function cancel() {
   .seg-thirds .seg button + button { border-left: 1px solid var(--border); }
   /* The battle size has four: the three printed and the players' own. */
   .battle-size .seg { grid-template-columns: repeat(4, 1fr); }
+  .bs-wrap { width: 100%; }
 }
 @media (max-width: 380px) {
   .seg-thirds .seg button { font-size: 0.72rem; }
@@ -2715,15 +2719,19 @@ function cancel() {
   font-weight: 500;
   opacity: 0.85;
 }
-/* The custom size's numbers: one card of rows under the size buttons, a hairline between rows
-   (RosterCustomLimit's card). */
+/* The size buttons and the custom card under them: one column as wide as the buttons (the field
+   lays its children out at their own width), so the card neither runs to the far edge of a desk
+   screen nor stops short of the buttons on a phone. */
+.bs-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 100%;
+}
+/* The custom size's numbers: one card of rows, a hairline between rows (RosterCustomLimit's). */
 .custom-battle {
   display: flex;
   flex-direction: column;
-  margin: -0.4rem 0 1rem;
-  /* As wide as the size buttons above, not the step: a stepper at the far edge of a desk
-     screen sat a screen away from its caption. */
-  max-width: 24rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
 }
