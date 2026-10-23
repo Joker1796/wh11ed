@@ -88,6 +88,17 @@ describe('sending errors', () => {
     expect(log.recentErrors().at(-1).msg).toBe('render failed [vue: runtime-1]')
   })
 
+  it('a long stack keeps its top and its bottom: an overflow\'s loop is at the bottom', () => {
+    const frames = Array.from({ length: 300 }, (_, k) => `    at f${k} (https://x/assets/a.js:${k}:1)`)
+    const kept = log.trimStack(['InternalError: too much recursion', ...frames].join('\n'))
+    expect(kept.length).toBeLessThanOrEqual(1500)
+    expect(kept).toContain('too much recursion')
+    expect(kept).toContain('at f0 ')
+    expect(kept).toContain('at f299 ')
+    expect(kept).toMatch(/… \d+ frames …/)
+    expect(log.trimStack('short')).toBe('short')
+  })
+
   it('keeps the buffer for bug reports whatever the switch says', () => {
     fire('boom')
     expect(log.recentErrors().map((e) => e.msg)).toEqual(['boom'])

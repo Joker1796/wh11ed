@@ -104,6 +104,29 @@ export function onUnsentError(fn) {
   return () => listeners.delete(fn)
 }
 
+// A stack kept to 1500 characters, its top AND its bottom: a stack overflow ("too much recursion",
+// Firefox, 2.10.0) is thrown wherever the stack ran out, and its first ten frames named only that
+// spot — the loop that filled it was in the part cut off.
+const STACK_MAX = 1500
+export function trimStack(stack) {
+  const s = String(stack)
+  if (s.length <= STACK_MAX) return s
+  const lines = s.split('\n')
+  const head = []
+  const tail = []
+  let room = STACK_MAX - 40 // the "… N frames …" line
+  let i = 0
+  let j = lines.length - 1
+  while (i <= j) {
+    const top = head.length <= tail.length
+    const line = top ? lines[i] : lines[j]
+    if (line.length + 1 > room) break
+    if (top) { head.push(line); i++ } else { tail.unshift(line); j-- }
+    room -= line.length + 1
+  }
+  return [...head, `    … ${j - i + 1} frames …`, ...tail].join('\n')
+}
+
 // Where Vue caught it. A dev build says it in words ("render function"); a production one gives a
 // link to the error reference, cut down here to its code ("runtime-1") — cut by length, the link
 // left "https://vuejs.org/error-refere" and nothing that told one place from another.
@@ -114,7 +137,7 @@ export function logError(err, info) {
   push({
     kind: 'error',
     msg: `${String(err?.message || err).slice(0, 460)}${info ? ` [vue: ${vueWhere(info)}]` : ''}`,
-    stack: err?.stack ? String(err.stack).slice(0, 1500) : undefined,
+    stack: err?.stack ? trimStack(err.stack) : undefined,
   })
 }
 
@@ -125,7 +148,7 @@ export function installErrorLog() {
       kind: 'error',
       msg: String(e.message || e.error || 'error').slice(0, 500),
       src: e.filename ? `${e.filename}:${e.lineno || 0}` : undefined,
-      stack: e.error?.stack ? String(e.error.stack).slice(0, 1500) : undefined,
+      stack: e.error?.stack ? trimStack(e.error.stack) : undefined,
     })
   })
   window.addEventListener('unhandledrejection', (e) => {
@@ -133,7 +156,7 @@ export function installErrorLog() {
     push({
       kind: 'rejection',
       msg: `unhandled rejection: ${String(r?.message || r).slice(0, 500)}`,
-      stack: r?.stack ? String(r.stack).slice(0, 1500) : undefined,
+      stack: r?.stack ? trimStack(r.stack) : undefined,
     })
   })
   // A batch still waiting goes now, as the page is hidden or closed; a reporting browser says
