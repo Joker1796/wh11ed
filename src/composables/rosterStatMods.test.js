@@ -1551,3 +1551,37 @@ describe('incoming attack modifiers', () => {
       .toEqual([['ap', true, false, true, false, null], ['wound', true, false, true, false, 'melee']])
   })
 })
+
+// "This unit has +2" Move" is a `self` effect and a `led` copy for the unit the bearer joins. The
+// bearer's own card took both and counted the bonus twice — a Wolf Priest with Wolf-Touched moved
+// 11" off a printed 7" (a player's report, 2026-10-24). Every such enhancement in the game, so the
+// next one written in that shape cannot do it again.
+describe('an enhancement written for the bearer AND the unit he leads', () => {
+  it('reaches the bearer once', async () => {
+    const fs = await import('node:fs')
+    const { loadFactionWithCodex } = await import('./rosterFactionRules.js')
+    const { loadRosterModifiersFor, usableEntries } = await import('../data/rosterModifiers/index.js')
+    const slugs = fs.readdirSync('src/data/factions').filter((f) => /^[a-z-]+\.js$/.test(f) && f !== 'index.js').map((f) => f.slice(0, -3))
+    const key = (e) => JSON.stringify({ ...e, target: undefined })
+    let twins = 0
+    const twice = []
+    for (const slug of slugs) {
+      const records = usableEntries(await loadRosterModifiersFor(slug))
+      if (!records.length) continue
+      const { en } = await loadFactionWithCodex(slug, 'en')
+      for (const rec of records) {
+        if (rec.ref?.kind !== 'enhancement') continue
+        const self = rec.effects.filter((e) => !e.target).map(key)
+        if (!rec.effects.some((e) => e.target === 'led' && self.includes(key(e)))) continue
+        const det = (en?.detachments || []).find((d) => d.id === rec.ref.det)
+        if (!det) continue
+        twins++
+        const own = resolveModifierEntries(records, en, [det.name], rec.name, null).filter((r) => r.name === rec.name && !r.from)
+        const keys = own.flatMap((r) => r.effects).map(key)
+        if (new Set(keys).size !== keys.length) twice.push(`${slug}: ${rec.name}`)
+      }
+    }
+    expect(twins).toBeGreaterThanOrEqual(20)
+    expect(twice).toEqual([])
+  }, 60000)
+})

@@ -1036,6 +1036,9 @@ export function allegianceChoiceOf(def, entry) {
   return entry?.alleg && def?.alleg ? { g: def.alleg.g, gid: def.alleg.gid, opt: entry.alleg } : null
 }
 
+/** An effect with its direction left out: the same change, whoever it is aimed at. @param {ModifierEffect} e */
+const effectKey = (e) => { const { target, ...rest } = /** @type {any} */ (e); return JSON.stringify(rest) }
+
 /**
  * @param {ModEntry[] | null | undefined} records
  * @param {import('../data/data.types.js').FactionRules | null | undefined} facEn the faction's English rules bundle
@@ -1122,8 +1125,14 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
       // read by the generator), and the bearer collects it only if the bearer matches that gate —
       // 22.01 puts the model inside its own aura, it does not make a Captain part of the DEATH
       // COMPANY. Split so the rest of the enhancement stays ungated, as every enhancement is.
+      // "This unit has +2" Move" is written as a `self` effect AND a `led` copy for the unit he
+      // joins (gen-roster-modifiers' "this model's unit" shape). The bearer is the `self` half; the
+      // copy is for the Bodyguard's card, and on his own it counted twice — a Wolf Priest with
+      // Wolf-Touched moved 11" off a printed 7" (a player's report, 2026-10-24). A `led` with no
+      // twin ("models in the bearer's unit") still reaches him: 19.04, he is one of those models.
       const aura = (rec.effects || []).filter((e) => e.target === 'aura')
-      const own = (rec.effects || []).filter((e) => e.target !== 'aura')
+      const selfOf = (rec.effects || []).filter((e) => (e.target || 'self') === 'self').map(effectKey)
+      const own = (rec.effects || []).filter((e) => e.target !== 'aura' && !(e.target === 'led' && selfOf.includes(effectKey(e))))
       if (own.length || !aura.length) out.push({ ...rec, body: found.body, effects: own })
       if (aura.length) out.push({ ...rec, body: found.body, effects: aura, scopes: ref.scopes || null, from: 'self' })
     }

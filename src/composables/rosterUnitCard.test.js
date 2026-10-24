@@ -192,6 +192,14 @@ describe('useRosterUnitCard — a condition the list answers', () => {
     expect(offOf(await cardOf('necrons', 'Awakened Dynasty', 'overlord', alone), 'enh:Nether-realm Casket')).toMatch(/^Not in effect · needs: Leading a unit/)
     expect(offOf(await cardOf('necrons', 'Awakened Dynasty', 'overlord', led), 'enh:Nether-realm Casket')).toBeNull()
   }, 30000)
+  it('Wolf-Touched: +2" Move once on the Wolf Priest, and on the Wulfen he leads', async () => {
+    const led = [{ uid: 'a', id: 'wolf-priest', size: 0, enh: 'Wolf-Touched', leaderOf: 'b' }, { uid: 'b', id: 'wulfen', size: 0 }]
+    // Wolf Priest prints M 7", Wulfen M 9"
+    const priest = await cardOf('space-wolves', 'Saga of the Beastslayer', 'wolf-priest', led)
+    await vi.waitFor(() => expect(priest.statMods.value.sheet.profiles[0].m).toBe('9"'), { timeout: 15000 })
+    const wulfen = await cardOf('space-wolves', 'Saga of the Beastslayer', 'wulfen', led)
+    await vi.waitFor(() => expect(wulfen.statMods.value.sheet.profiles[0].m).toBe('11"'), { timeout: 15000 })
+  }, 30000)
   it('Strategic Savant: +1 OC on the Aspect Warriors the Autarch leads, not on Guardians', async () => {
     const aspect = [{ uid: 'a', id: 'autarch', size: 0, enh: 'Strategic Savant', leaderOf: 'b' }, { uid: 'b', id: 'dire-avengers', size: 0 }]
     const card = await cardOf('aeldari', 'Aspect Host', 'dire-avengers', aspect)

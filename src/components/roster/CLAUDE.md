@@ -3607,6 +3607,11 @@ Three things are specific to the ABILITY source:
   A rule that says "this model's unit" with no leading clause is a third shape: it applies with
   nobody attached, so it stays two effects — an unconditional `self` and a `led` (Astorath's Mass of
   Doom, Lelith's Brides of Death — 12 records).
+  An ENHANCEMENT in that shape ("This unit has +2\" Move", Wolf-Touched and 21 more) reaches its
+  bearer through `resolveModifierEntries`, which leaves the `led` twin of a `self` effect out: the
+  copy is for the Bodyguard's card, and on the bearer's own it counted twice — a Wolf Priest moved
+  11" off a printed 7" until a player asked (2026-10-24). A `led` with no twin ("models in the
+  bearer's unit") still reaches him. Gate: `rosterStatMods.test.js`, "reaches the bearer once".
   So does a plain **"This unit…"** printed on a Leader or Support card (a Chaplain's Litany of Hate,
   an Ancient's +1 OC, a Librarian's Psychic Hood and his psychic powers): by 19.04, once attached,
   "this unit" IS the Attached unit. 40 such records sat on the leader's own card alone until a
