@@ -1037,7 +1037,7 @@ export function allegianceChoiceOf(def, entry) {
 }
 
 /** An effect with its direction left out: the same change, whoever it is aimed at. @param {ModifierEffect} e */
-const effectKey = (e) => { const { target, ...rest } = /** @type {any} */ (e); return JSON.stringify(rest) }
+const effectKey = (e) => JSON.stringify({ ...e, target: undefined })
 
 /**
  * @param {ModEntry[] | null | undefined} records
