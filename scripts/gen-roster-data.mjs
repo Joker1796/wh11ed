@@ -402,7 +402,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cp: { boxes: 0, units: 0, missing: [], unmatched: [] }, cond: {}, spawns: [], spawnUnread: [], maxModels: [] }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [], split: [], joined: [], openProfiles: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cp: { boxes: 0, units: 0, missing: [], unmatched: [] }, cond: {}, spawns: [], spawnUnread: [], maxModels: [] }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -1686,13 +1686,91 @@ function mfmWargear(mfmUnits) {
   return byName
 }
 
+// A bracket whose breakdown leaves several profiles open, all but one of them a 0–1 specialist,
+// becomes one bracket per set of specialists, each with only the remaining profile open — so
+// `modelsPerMini` can answer for every one of them. The open profile keeps its own range, cut to
+// what the bracket's total still allows; a set the total cannot hold is no bracket at all. Anything
+// else with several open profiles (Accursed Cultists: 6–10 Mutants beside 3–6 Torments) is left as
+// it is and reported. The returned list carries `merged` when it split something, which is what
+// lets mergeTouchingBrackets run on this unit only.
+function splitOptionalProfiles(rows, name) {
+  const out = []
+  let merged = false
+  for (const r of rows) {
+    const open = (r.comp || []).filter((c) => c.length === 3)
+    if (open.length < 2) { out.push(r); continue }
+    const optional = open.filter((c) => c[1] === 0 && c[2] === 1)
+    const rest = open.filter((c) => !optional.includes(c))
+    if (rest.length !== 1 || !optional.length) {
+      report.comp.openProfiles.push(`${name} ${r.per.join('-')}`)
+      out.push(r)
+      continue
+    }
+    const [m, a, b] = rest[0]
+    const fixed = r.comp.filter((c) => c.length === 2)
+    // Fewest specialists first, then in profile order: the plain squad leads, as the app lists it.
+    const sets = [...Array(1 << optional.length).keys()]
+      .sort((x, y) => bitCount(x) - bitCount(y) || x - y)
+    const before = out.length
+    for (const set of sets) {
+      const parts = [...fixed, ...optional.map((c, k) => [c[0], (set >> k) & 1])]
+      const held = parts.reduce((n, c) => n + c[1], 0)
+      const lo = Math.max(a, r.per[0] - held)
+      const hi = Math.min(b, r.per[1] - held)
+      if (lo > hi) continue
+      const s = { pts: r.pts, per: [held + lo, held + hi] }
+      if (r.default && !set) s.default = 1
+      s.comp = [...parts, lo === hi ? [m, lo] : [m, lo, hi]].sort((x, y) => x[0] - y[0])
+      out.push(s)
+    }
+    report.comp.split.push(`${name} ${r.per.join('-')} → ${out.length - before} brackets`)
+    merged = true
+  }
+  return Object.assign(out, { merged })
+}
+
+/** @param {number} n */
+function bitCount(n) { let c = 0; for (; n; n >>= 1) c += n & 1; return c }
+
+// After a split, appdata's own fixed builds of the same unit (Voidscarred: four Voidscarred and a
+// Shade Runner, "6 models @140") are the low end of a split bracket with the same specialists — the
+// same price, the same profiles, one count further down. Two such brackets are one: a range that
+// touches another range of the same profile, everything else equal, joins it. Run only on a unit
+// that was split, so no other unit's brackets (and the size indices saved rosters hold) move.
+function mergeTouchingBrackets(rows, name) {
+  const range = (c) => [c[1], c[2] ?? c[1]]
+  for (let again = true; again;) {
+    again = false
+    outer: for (let i = 0; i < rows.length; i++) {
+      for (let j = i + 1; j < rows.length; j++) {
+        const A = rows[i]
+        const B = rows[j]
+        if (A.pts !== B.pts || !A.comp || !B.comp || A.comp.length !== B.comp.length) continue
+        const diff = A.comp.map((c, k) => [c, B.comp[k]]).filter(([x, y]) => x[0] !== y[0] || JSON.stringify(x) !== JSON.stringify(y))
+        if (diff.length !== 1 || diff[0][0][0] !== diff[0][1][0]) continue
+        const [x, y] = diff[0].map(range)
+        if (y[0] > x[1] + 1 || x[0] > y[1] + 1) continue
+        const lo = Math.min(x[0], y[0])
+        const hi = Math.max(x[1], y[1])
+        A.comp = A.comp.map((c) => (c === diff[0][0] ? (lo === hi ? [c[0], lo] : [c[0], lo, hi]) : c))
+        A.per = [Math.min(A.per[0], B.per[0]), Math.max(A.per[1], B.per[1])]
+        if (B.default) A.default = 1
+        rows.splice(j, 1)
+        report.comp.joined.push(`${name} ${A.per.join('-')}`)
+        again = true
+        break outer
+      }
+    }
+  }
+}
+
 // One bracket per unit SIZE, priced by the MFM.
 //
 // appdata lists a datasheet's price rows as several parallel lists — one per Chapter, or per allied
 // context — so the same size appears more than once at different prices. Those are not sizes, and
 // emitting them as such is what put two identical "5 models" pills, at 80 and 75 points, in the
 // editor. Rows are therefore grouped by what actually makes a bracket distinct (model range +
-// per-miniature composition — Corsair Voidscarred really does have three different 7-model builds)
+// per-miniature composition — Accursed Cultists really do have two different 9–16 builds)
 // and each group collapses to ONE bracket.
 //
 // Which of the parallel lists is this army's own? Where the MFM prices that size it says so
@@ -2065,6 +2143,15 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }
     return s
   })
+  // A bracket with SEVERAL open-ended profiles can't say how many models each one fields, and every
+  // reader then falls back to "keep everything": Corsair Voidscarred's 6–10 holds 5–9 Voidscarred
+  // and a 0–1 Shade Runner, Soul Weaver and Way Seeker, so its card kept every model's pistol and
+  // sword uncounted after the swaps and printed the specialists' weapons in a squad without them (a
+  // player's report, 2026-10-24). Where all but one of those profiles are a 0–1 specialist, the
+  // bracket is one bracket per set of specialists — exactly the choice the app's per-profile
+  // steppers make — and only the one profile left open varies.
+  const split = splitOptionalProfiles(rows, bd.name)
+  rows.splice(0, rows.length, ...split)
   // appdata's own ceiling on the unit (`datasheet.maxModelCount`, 8 sheets): a price row may reach
   // past it — Corsair Voidscarred's "6-13 @140" let the editor build 13 of a unit printed "a maximum
   // of 10 models" (2026-10-19). Unread until then.
@@ -2085,6 +2172,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       r.per[1] = Math.max(r.per[0], maxModels)
     }
   }
+  if (split.merged) mergeTouchingBrackets(rows, bd.name)
   const sizes = pickPrices(rows, priced, bd.name, mfmSteps)
   for (const s of sizes) {
     if (s.default && defaultTaken) delete s.default
@@ -3933,6 +4021,9 @@ for (const d of dt.drift.slice(0, 8)) console.log(`    - ${d}`)
 const cmp = report.comp
 console.log(`  unit composition: ${cmp.brackets} brackets on ${cmp.units} multi-profile units carry a per-miniature breakdown${cmp.rejected.length ? `; ${cmp.rejected.length} rejected (bracket and composition disagree)` : ''}`)
 for (const r of cmp.rejected.slice(0, 8)) console.log(`    - ${r}`)
+for (const r of cmp.split) console.log(`    split by specialists: ${r}`)
+if (cmp.joined.length) console.log(`    joined to a split bracket: ${cmp.joined.join('; ')}`)
+if (cmp.openProfiles.length) console.log(`    several open profiles, left unsplit (no per-profile count): ${cmp.openProfiles.join('; ')}`)
 if (report.packAttach.length) {
   console.log(`  !! Faction Pack attachments (PACK_ATTACH): ${report.packAttach.join('; ')}`)
 }

@@ -1916,6 +1916,56 @@ describe('a profile at zero models', () => {
   })
 })
 
+// A unit with swaps has to know how many models of each profile it fields, or the card keeps every
+// weapon uncounted after the swaps (modelsPerMini null — "never hide a weapon on a guess"). Corsair
+// Voidscarred's 6–10 left its three 0–1 specialists open and did exactly that (a player's report,
+// 2026-10-24); the generator splits such a bracket now (splitOptionalProfiles). What is left is
+// listed by name, each with the reason the data cannot say.
+describe('a per-profile model count', () => {
+  const UNSPLIT = {
+    // Faction Pack brackets with the Felarch 0–1 in the middle sizes (pack-roster.mjs reads no breakdown there).
+    'aeldari:corsair-reaver-band': 'pack bracket, Felarch open',
+    'aeldari:corsair-cloud-dancer-band': 'pack bracket, Felarch open',
+    // "One of the following" over two whole compositions, folded into one range per profile.
+    'astra-militarum:death-korps-grenadier-squad': 'two builds folded',
+    // A kill team is laid out freely between its specialist profiles.
+    'imperial-agents:fortis-kill-team': 'free layout',
+    'imperial-agents:indomitor-kill-team': 'free layout',
+    'imperial-agents:proteus-kill-team': 'free layout',
+    'imperial-agents:spectrus-kill-team': 'free layout',
+  }
+  it('is known at every size and count of every unit with swaps, but the listed ones', () => {
+    const unknown = []
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        if (!(u.minis?.length > 1) || !u.gear?.length) continue
+        const open = u.sizes.some((s, size) => {
+          for (let count = s.per[0]; count <= s.per[1]; count++) if (!modelsPerMini(u, { size, count })) return true
+          return false
+        })
+        if (open) unknown.push(`${slug}:${u.id}`)
+      }
+    }
+    expect(unknown.sort()).toEqual(Object.keys(UNSPLIT).sort())
+  })
+
+  it('counts a Voidscarred squad of ten with a Shade Runner after its swaps', async () => {
+    const ael = await loadRosterFaction('aeldari')
+    const def = ael.units.find((u) => u.id === 'corsair-voidscarred')
+    const own = [...def.defaults.flatMap(([, l]) => l.map(([id]) => id)), ...def.gear.flatMap((g) => g.o.flat())]
+    const name = (n) => own.find((id) => rosterItems.items[id] === n)
+    const size = def.sizes.findIndex((s) => s.comp.some(([m, n]) => m === 2 && n === 1) && s.comp.every(([m, n]) => m < 3 || n === 0))
+    const rifle = def.gear.findIndex((g) => g.o.some(([o]) => o === name('Shuriken rifle')) && g.rep?.length === 2)
+    const long = def.gear.findIndex((g) => g.o.some(([o]) => o === name('Long rifle')))
+    const counts = loadoutItemCounts(def, { id: def.id, size, count: 10, wg: [[rifle, 0, 8], [long, 0, 1]] })
+    // Felarch + Shade Runner keep their pistols; eight Voidscarred trade theirs, one rifle goes on.
+    expect(counts.get(name('Shuriken pistol'))).toBe(2)
+    expect(counts.get(name('Power sword'))).toBe(1)
+    expect(counts.get(name('Shuriken rifle'))).toBe(7)
+    expect(counts.get(name('Long rifle'))).toBe(1)
+  })
+})
+
 // Every wargear option of every unit, picked once at every size its profile is fielded (after
 // the option that hands its item out, for a CHAINED swap), must give up what it says it gives up,
 // add what it grants and touch nothing else; picked to its cap it must leave no count below zero.

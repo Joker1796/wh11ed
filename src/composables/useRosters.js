@@ -12,7 +12,7 @@ const KEY = 'wh11ed-rosters'
 // Bump `v` when the stored shape changes; `migrateRoster()` below is the single upgrade point.
 // Exported because a SHARE LINK carries the same shape and the same version (rosterShare.js) — a
 // payload built by an older build has to be read through the same migration a stored roster is.
-export const SCHEMA_VERSION = 12
+export const SCHEMA_VERSION = 13
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -261,6 +261,21 @@ export function migrateRoster(r, v) {
         delete u.wg
         if (V12_CUSTODES_RESIZED.has(next)) { delete u.size; delete u.count }
       } else if (/(^|[:/])kill-tank$/.test(id)) delete u.wg
+    }
+  }
+
+  // → v13: Corsair Voidscarred's 6–10 bracket left its three specialists open, and a squad that
+  // says nothing of its Shade Runner, Soul Weaver and Way Seeker cannot count a single weapon. The
+  // generator splits it into one bracket per set of specialists (gen-roster-data's
+  // splitOptionalProfiles), and appdata's seven fixed builds join the split ones. Every index lands
+  // on the bracket holding the same squad except two: the Soul Weaver + Way Seeker and the Shade
+  // Runner + Way Seeker builds traded places. The old 6–10 is the new one without specialists,
+  // which is the only reading of it the card can count. The model count stays.
+  if (!(v >= 13)) {
+    for (const u of r.units || []) {
+      if (!/(^|:)corsair-voidscarred$/.test(String(u.id || ''))) continue
+      if (u.size === 6) u.size = 7
+      else if (u.size === 7) u.size = 6
     }
   }
   return r

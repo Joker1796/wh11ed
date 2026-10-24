@@ -97,10 +97,23 @@ describe('UnitEditorFields — pick limits', () => {
   it('says so when the size puts a group out of reach', () => {
     // Ratlings: "If this unit contains 10 models, one model's sniper rifle…". The 6-10 bracket
     // is not enough on its own — it's the live model count that opens the group.
+    // It names the count it waits for (owner, 2026-10-24), greyed until the squad reaches it.
     const ratlings = astraMilitarum.units.find((u) => u.name === 'Ratlings')
-    expect(mountFor(ratlings).text()).toContain('Not available at this unit size')
-    expect(mountFor(ratlings, { size: 1, count: 6 }).text()).toContain('Not available at this unit size')
-    expect(mountFor(ratlings, { size: 1, count: 10 }).text()).not.toContain('Not available at this unit size')
+    expect(mountFor(ratlings).text()).toContain('Needs 10 models in the unit · now 5')
+    expect(mountFor(ratlings, { size: 1, count: 6 }).text()).toContain('Needs 10 models in the unit · now 6')
+    expect(mountFor(ratlings, { size: 1, count: 10 }).text()).not.toContain('Needs 10 models')
+  })
+
+  it('greys the Voidscarred long rifle until the squad holds ten, specialists counted', () => {
+    const vs = aeldari.units.find((u) => u.id === 'corsair-voidscarred')
+    const gi = vs.gear.findIndex((g) => g.o.some(([o]) => rosterItems.items[o] === 'Long rifle'))
+    const size = vs.sizes.findIndex((s) => s.comp.some(([m, n]) => m === 2 && n === 1) && s.comp.every(([m, n]) => m < 3 || n === 0))
+    const rifle = vs.gear.findIndex((g) => g.o.some(([o]) => rosterItems.items[o] === 'Shuriken rifle') && g.rep?.length === 2)
+    const at = (count) => mountFor(vs, { size, count, wg: [[rifle, 0, 4]] }).find(`[data-gi="${gi}"]`)
+    expect(at(6).classes()).toContain('ues-inert')
+    expect(at(6).text()).toContain('Needs 10 models in the unit · now 6')
+    expect(at(10).classes()).not.toContain('ues-inert')
+    expect(at(10).text()).not.toContain('Needs 10 models')
   })
 })
 
@@ -142,13 +155,15 @@ describe('UnitEditorFields — unit composition', () => {
   })
 
   it('tells tied size pills apart by what actually differs', () => {
-    // Corsair Voidscarred prices three different 7-model builds at 140 points; the pills read
-    // identically without the profile that separates them.
+    // Corsair Voidscarred's 140-point squads are one build per set of specialists (6–10, 7–10,
+    // 8–10); a pill names the specialists in it, never the Voidscarred every one of them holds.
     const pills = mountFor(voidscarred).findAll('.pill').map((p) => p.text())
-    const sevens = pills.filter((t) => t.startsWith('7 · 140'))
-    expect(sevens).toHaveLength(3)
-    expect(new Set(sevens).size).toBe(3)
-    expect(sevens.join(' ')).toContain('Shade Runner')
+    const at140 = pills.filter((t) => t.includes('140'))
+    expect(at140).toHaveLength(8)
+    expect(new Set(at140).size).toBe(8)
+    expect(at140[0]).toBe('6–10 · 140pts')
+    expect(at140.at(-1)).toBe('8–10 · 140pts · Shade Runner + Soul Weaver + Way Seeker')
+    expect(at140.join(' ')).not.toContain('Corsair Voidscarred')
   })
 
   // Accursed Cultists: two 9–16 builds at 185 with BOTH profiles in each — the names tied too, and

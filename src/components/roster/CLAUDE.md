@@ -494,9 +494,21 @@ into the datasheet pages). Not a preference between two equal sources:
 - appdata records **several parallel price rows per datasheet** — one per Chapter, and for Imperial
   Agents one per allied context. Mapped straight onto `sizes` they became unit-SIZE choices: two
   identical "5 models" pills at 80 and 75 points, the wrong one pre-selected. `pickPrices()` groups
-  rows by what actually makes a bracket distinct (model range + `comp` — Corsair Voidscarred really
-  does have three different 7-model builds) and collapses each group to one bracket. 79 rows
+  rows by what actually makes a bracket distinct (model range + `comp` — Accursed Cultists really
+  do have two different 9–16 builds) and collapses each group to one bracket. 79 rows
   collapse this way.
+- **A bracket with several 0–1 specialists is split by them** (`splitOptionalProfiles`,
+  2026-10-24, a player's report). Corsair Voidscarred's 6–10 held 5–9 Voidscarred and a 0–1 Shade
+  Runner, Soul Weaver and Way Seeker, so `modelsPerMini` could not say who was in the squad and the
+  card kept every pistol and sword uncounted after the swaps. It is now one bracket per set of
+  specialists — the choice the GW app makes with a stepper per profile (checked in the app: 1
+  Felarch, 4–9 Voidscarred, each specialist 0–1, ten at most, 140 from six models) — and appdata's
+  seven fixed builds with four Voidscarred join the split bracket of their set
+  (`mergeTouchingBrackets`, run on a split unit only, so no other unit's size indices move).
+  Stored sizes moved by `useRosters.js` v13. The pills name the specialists a build holds
+  (`sizeTells` groups brackets of one price whose model ranges overlap). Gate: `index.test.js` →
+  "a per-profile model count" — every unit with swaps knows its per-profile count at every size
+  and count, the seven that cannot named with the reason (red on the old data: Voidscarred).
 - Which of the parallel lists is this army's own? Where the MFM prices that size it says so
   outright; where it doesn't (Imperial Agents' "7-11 models") the row's **rank** decides, since the
   lists are parallel. Nothing is interpolated — a size the MFM doesn't price keeps an appdata
@@ -2459,6 +2471,11 @@ size bracket**, since a 6-10 bracket at 6 models is still below a 10-model thres
 no structural cap, keep the old prose-derived behaviour; `{limit: 0}` = the group genuinely
 offers nothing at this size ("if this unit contains 10 models…" in a 5-model squad), which the
 editor states in words instead of hiding, so an existing pick can still be cleared.
+The words name the count it waits for — "Needs 10 models in the unit · now 6"
+(`wargearGroupNeedsModels`: the first threshold of the group's own or its pool's step table that
+opens it, if the unit can reach it; owner, 2026-10-24) — and come before a stock blocker's sentence,
+since the size is the condition the player meets first. 10 units across the game carry such a
+group.
 
 **The cap is what picks the editor's mode**, not appdata's `inputType` alone: a group allowing
 several models becomes per-option steppers sharing one budget (`stepMax` = remaining budget,

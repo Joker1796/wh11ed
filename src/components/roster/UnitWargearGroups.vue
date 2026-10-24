@@ -111,19 +111,20 @@
         >
           {{ labels.rosterWargearOverdrawn }}
         </p>
+        <!-- The size first: it is the harder condition, and the one the player meets first. -->
+        <p
+          v-else-if="unavailable[gi]"
+          key="none"
+          class="ues-bnote"
+        >
+          {{ unavailableText(gi) }}
+        </p>
         <p
           v-else-if="blockers[gi]"
           key="blocked"
           class="ues-blocked"
         >
           {{ blockerText(gi) }}
-        </p>
-        <p
-          v-else-if="unavailable[gi]"
-          key="none"
-          class="ues-bnote"
-        >
-          {{ labels.rosterPickUnavailable }}
         </p>
       </ExpandTransition>
 
@@ -388,7 +389,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadedRosterTextsRu, loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { sameStockSets, modelCount, modelsPerMini, overdrawnGroups, optionItems, optionLabel, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom, wargearPoolOf, wargearPoolCap, wargearPoolRoom, wargearPoolTakenBy } from '../../composables/rosterEngine.js'
+import { sameStockSets, modelCount, modelsPerMini, overdrawnGroups, optionItems, optionLabel, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom, wargearPoolOf, wargearPoolCap, wargearPoolRoom, wargearPoolTakenBy, wargearGroupNeedsModels } from '../../composables/rosterEngine.js'
 import { holdCounts, holdGroup, holdWg, stockByItem, stockLeft } from '../../composables/rosterHold.js'
 import { TYPE_FROM } from './typeableCount.js'
 
@@ -439,6 +440,12 @@ const blockers = computed(() => (props.def.gear || []).map((g, gi) => wargearGro
 // Reavers have no Felarch).
 const unavailable = computed(() => (props.def.gear || []).map((g, gi) => (caps.value[gi] ? !caps.value[gi].limit
   : wargearPoolCap(props.def, props.entry, gi)?.limit === 0 || wargearGroupFallbackCap(props.def, props.entry, gi) === 0)))
+// Why: the model count it waits for, where a step table says so; else the plain sentence.
+function unavailableText(gi) {
+  const need = wargearGroupNeedsModels(props.def, props.entry, gi)
+  return need ? labels.value.rosterPickNeedsModels.replace('{n}', need.models).replace('{now}', need.now)
+    : labels.value.rosterPickUnavailable
+}
 const shut = computed(() => (props.def.gear || []).map((g, gi) => !!blockers.value[gi] || unavailable.value[gi]))
 function blockerText(gi) {
   const b = blockers.value[gi]

@@ -785,19 +785,27 @@ const countAt = (s, m) => {
   if (!c) return ''
   return c[2] != null && c[2] !== c[1] ? `${c[1]}–${c[2]}` : String(c[1])
 }
+// Tied means the same price and model ranges that overlap, not only identical ones: since the
+// Voidscarred's 6–10 is split by specialists (gen-roster-data's splitOptionalProfiles), its builds
+// are 6–10, 7–10 and 8–10 at 140, and the 8–10 with all three specialists must say so too.
 const sizeTells = computed(() => {
-  const out = new Array(props.def.sizes.length).fill('')
-  const groups = new Map()
-  props.def.sizes.forEach((s, i) => {
-    const k = `${s.per.join('-')}:${s.pts}`
-    if (!groups.has(k)) groups.set(k, [])
-    groups.get(k).push(i)
+  const sizes = props.def.sizes
+  const out = new Array(sizes.length).fill('')
+  const overlaps = (a, b) => a.pts === b.pts && a.per[0] <= b.per[1] && b.per[0] <= a.per[1]
+  const groups = []
+  sizes.forEach((s, i) => {
+    const joined = groups.filter((g) => g.some((j) => overlaps(sizes[j], s)))
+    const g = [...joined.flat(), i]
+    for (const x of joined) groups.splice(groups.indexOf(x), 1)
+    groups.push(g.sort((a, b) => a - b))
   })
-  for (const idxs of groups.values()) {
+  for (const idxs of groups) {
     if (idxs.length < 2) continue
     const varying = (props.def.minis || [])
       .map((_, m) => m)
-      .filter((m) => new Set(idxs.map((i) => bracketAt(props.def.sizes[i], m))).size > 1)
+      // Whether a profile is IN the build, not its minimum: the Voidscarred themselves are 5–9 or
+      // 4–8 depending on the specialists, and naming them on every pill tells nothing apart.
+      .filter((m) => new Set(idxs.map((i) => bracketAt(props.def.sizes[i], m) > 0 || countAt(props.def.sizes[i], m).includes('–'))).size > 1)
     for (const i of idxs) {
       out[i] = varying.filter((m) => bracketAt(props.def.sizes[i], m) > 0).map(miniName).join(' + ')
     }

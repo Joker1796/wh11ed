@@ -692,6 +692,29 @@ function poolRow(def, entry, pool) {
   for (const r of pool.lim) if (models >= r[0] && (!row || r[0] > row[0])) row = r
   return row ? { limit: row[1], dup: row[2] || 0 } : { limit: 0, dup: 0 }
 }
+// How many models a group that offers nothing at this size waits for: the first threshold of its
+// step table ("If this unit contains 10 models…", "for every 5 models…") — its own or its pool's —
+// that opens it, if the unit can reach it. The editor greys the group and says "needs 10 models in
+// the unit · now 6" (owner, 2026-10-24: a player asked where the Voidscarred's long rifle was).
+// null when the group is open, or shut for another reason (a profile with no model, a blocker).
+/**
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} entry
+ * @param {number} gi
+ * @returns {{ models: number, now: number } | null}
+ */
+export function wargearGroupNeedsModels(def, entry, gi) {
+  const g = def?.gear?.[gi]
+  const rows = g?.lim?.length ? g.lim : wargearPoolOf(def, gi)?.lim
+  if (!rows?.length) return null
+  const now = modelCount(def, entry)
+  const open = rows.filter((r) => r[1] > 0 && r[0] > now).map((r) => r[0])
+  if (!open.length || rows.some((r) => r[1] > 0 && r[0] <= now)) return null
+  const models = Math.min(...open)
+  const most = Math.max(...(def?.sizes || []).map((s) => s.per[1]))
+  return models <= most ? { models, now } : null
+}
+
 // The shared allowance of the pool a group is in, at this unit size — what the editor's "up to N"
 // chip says for every copy. null when the group is in no pool or the pool has no allowance.
 /**

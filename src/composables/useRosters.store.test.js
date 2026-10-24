@@ -255,6 +255,38 @@ describe('schema → v6', () => {
   })
 })
 
+describe('schema → v13', () => {
+  // Corsair Voidscarred's 6–10 bracket is split by specialists (2026-10-24): every old index lands
+  // on the bracket with the same squad, but the two Way Seeker pairs traded places. Picks and the
+  // model count stay; an ally in a Drukhari list is read the same way.
+  it('moves the two traded Voidscarred builds and leaves everything else where it was', async () => {
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 12,
+      rosters: [
+        {
+          id: 'r1', name: 'Old', faction: 'aeldari', updatedAt: 1,
+          units: [
+            { uid: 'u1', id: 'corsair-voidscarred', size: 1, count: 10, wg: [[2, 0, 6]] },
+            { uid: 'u2', id: 'corsair-voidscarred', size: 6 },
+            { uid: 'u3', id: 'corsair-voidscarred', size: 7 },
+            { uid: 'u4', id: 'corsair-skyreavers', size: 6 },
+          ],
+        },
+        {
+          id: 'r2', name: 'Dru', faction: 'drukhari', updatedAt: 1,
+          units: [{ uid: 'u1', id: 'aeldari:corsair-voidscarred', size: 7 }],
+        },
+      ],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [ael, dru] = useRosters().rosters.value
+    expect(ael.units.map((u) => u.size)).toEqual([1, 7, 6, 6])
+    expect(ael.units[0]).toMatchObject({ count: 10, wg: [[2, 0, 6]] })
+    expect(dru.units[0].size).toBe(6)
+  })
+})
+
 describe('schema → v12', () => {
   // Codex: Adeptus Custodes (data 981): renamed sheets follow, every pick is dropped, a size only
   // where the brackets moved. The Orks Kill Tank's options changed in the same release.

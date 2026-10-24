@@ -515,6 +515,7 @@ export const ui = {
     rosterPickExact: 'pick {n} different',
     rosterPickExactLeft: '{n} more to pick',
     rosterPickUnavailable: 'Not available at this unit size.',
+    rosterPickNeedsModels: 'Needs {n} models in the unit · now {now}',
     // Why a wargear group is greyed out: what the reader has to undo to open it again. The item
     // names that follow stay English, like every other data name in the roster.
     rosterModelsMin: 'min {n}',
@@ -2222,6 +2223,7 @@ export const ui = {
     rosterPickExact: 'выберите {n} разных',
     rosterPickExactLeft: 'выберите ещё {n}',
     rosterPickUnavailable: 'Недоступно при таком размере отряда.',
+    rosterPickNeedsModels: 'Нужно моделей в отряде: {n} · сейчас {now}',
     rosterModelsMin: 'от {n}',
     rosterCondNeedGone: 'Необходимо снять:',
     rosterCondNeedPresent: 'Необходимо взять:',
