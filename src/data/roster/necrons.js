@@ -24,6 +24,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -86,6 +89,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -134,6 +140,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -180,6 +189,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -225,6 +237,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "has": [
@@ -280,6 +295,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -316,6 +334,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "defaults": [
@@ -358,6 +379,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "defaults": [
@@ -463,6 +487,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -508,6 +535,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -548,6 +578,9 @@ export default {
             2
           ]
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "defaults": [
@@ -619,6 +652,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -679,6 +715,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -721,6 +760,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -768,6 +810,9 @@ export default {
             6
           ]
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "step": {
@@ -838,6 +883,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "defaults": [
@@ -917,6 +965,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -979,6 +1030,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1010,6 +1064,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "defaults": [
@@ -1053,6 +1110,9 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "has": [
@@ -1099,6 +1159,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1140,6 +1203,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "step": {
@@ -1192,6 +1258,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1229,6 +1298,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -1267,6 +1339,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "leads": [
@@ -1318,6 +1393,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1357,6 +1435,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "has": [
@@ -1403,6 +1484,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1446,6 +1530,9 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "defaults": [
@@ -1503,6 +1590,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "leads": [
@@ -1577,6 +1667,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1632,6 +1725,9 @@ export default {
             3
           ]
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "step": {
@@ -1692,6 +1788,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "leads": [
@@ -1768,6 +1867,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -1845,6 +1947,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1904,6 +2009,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "has": [
@@ -1980,6 +2088,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2037,6 +2148,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2091,6 +2205,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -2138,6 +2255,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2181,6 +2301,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -2219,6 +2342,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "has": [
@@ -2270,6 +2396,9 @@ export default {
             6
           ]
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "has": [
@@ -2339,6 +2468,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2384,6 +2516,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "leads": [
@@ -2473,6 +2608,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2527,6 +2665,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2573,6 +2714,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2617,6 +2761,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "leads": [
@@ -2668,6 +2815,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -2720,6 +2870,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "step": {
@@ -2793,6 +2946,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -2855,6 +3011,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -2910,6 +3069,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -2963,6 +3125,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -3034,6 +3199,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -3103,6 +3271,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -3171,6 +3342,9 @@ export default {
             6
           ]
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "step": {
@@ -3258,6 +3432,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "defaults": [
         [
           0,
@@ -3327,6 +3504,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Necrons"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3375,6 +3555,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "leads": [
@@ -3430,6 +3613,9 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "has": [
@@ -3492,6 +3678,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Necrons"
       ],
       "linked": 1,
       "step": {
@@ -3557,6 +3746,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Necrons"
+      ],
       "along": [
         "Nemesor Zahndrekh"
       ],

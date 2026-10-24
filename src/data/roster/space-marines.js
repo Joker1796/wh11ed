@@ -30,6 +30,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Salamanders"
+      ],
       "linked": 1,
       "ch": "Salamanders",
       "leads": [
@@ -108,6 +112,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Raven Guard"
+      ],
       "linked": 1,
       "ch": "Raven Guard",
       "has": [
@@ -175,6 +183,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -293,6 +304,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -407,6 +421,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -475,6 +492,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "leads": [
@@ -579,6 +599,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -666,6 +689,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -792,6 +818,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -915,6 +944,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -1016,6 +1048,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1069,6 +1104,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "leads": [
@@ -1140,6 +1178,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -1221,6 +1262,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -1306,6 +1350,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Iron Hands"
+      ],
       "linked": 1,
       "ch": "Iron Hands",
       "has": [
@@ -1360,6 +1408,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "leads": [
@@ -1521,6 +1572,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1634,6 +1688,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1711,6 +1768,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "has": [
@@ -1810,6 +1870,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1896,6 +1959,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Ultramarines"
+      ],
       "linked": 1,
       "ch": "Ultramarines",
       "leads": [
@@ -1974,6 +2041,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "has": [
@@ -2108,6 +2178,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Ultramarines"
+      ],
       "linked": 1,
       "ch": "Ultramarines",
       "leads": [
@@ -2190,6 +2264,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -2356,6 +2433,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -2501,6 +2581,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2585,6 +2668,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "leads": [
@@ -2685,6 +2771,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2770,6 +2859,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2827,6 +2919,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "has": [
@@ -2891,6 +2986,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Ultramarines"
       ],
       "linked": 1,
       "ch": "Ultramarines",
@@ -2985,6 +3084,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -3098,6 +3200,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Imperial Fists"
+      ],
       "linked": 1,
       "ch": "Imperial Fists",
       "has": [
@@ -3155,6 +3261,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -3302,6 +3411,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -3402,6 +3514,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3442,6 +3557,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -3568,6 +3686,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -3665,6 +3786,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -3764,6 +3888,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "defaults": [
@@ -3869,6 +3996,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -3922,6 +4052,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -3968,6 +4101,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -4013,6 +4149,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -4065,6 +4204,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "defaults": [
@@ -4146,6 +4288,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -4266,6 +4411,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -4352,6 +4500,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -4467,6 +4618,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "has": [
@@ -4598,6 +4752,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -4695,6 +4852,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -4794,6 +4954,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -4925,6 +5088,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -5066,6 +5232,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -5131,6 +5300,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -5205,6 +5377,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Iron Hands"
+      ],
       "linked": 1,
       "ch": "Iron Hands",
       "leads": [
@@ -5271,6 +5447,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "leads": [
@@ -5364,6 +5543,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Ultramarines"
+      ],
       "linked": 1,
       "ch": "Ultramarines",
       "leads": [
@@ -5430,6 +5613,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Raven Guard"
+      ],
       "linked": 1,
       "ch": "Raven Guard",
       "has": [
@@ -5487,6 +5674,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "White Scars"
       ],
       "linked": 1,
       "ch": "White Scars",
@@ -5558,6 +5749,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "defaults": [
@@ -5729,6 +5923,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -5808,6 +6005,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -5889,6 +6089,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "defaults": [
@@ -5976,6 +6179,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -6055,6 +6261,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -6122,6 +6331,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "leads": [
@@ -6215,6 +6427,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -6293,6 +6508,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -6366,6 +6584,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "leads": [
@@ -6565,6 +6786,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -6652,6 +6876,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -6694,6 +6921,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Ultramarines"
       ],
       "linked": 1,
       "ch": "Ultramarines",
@@ -6794,6 +7025,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "defaults": [
@@ -6941,6 +7175,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "condBattleline": 1,
       "minis": [
@@ -7073,6 +7310,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -7160,6 +7400,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -7249,6 +7492,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -7315,6 +7561,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "defaults": [
@@ -7388,6 +7637,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -7519,6 +7771,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -7612,6 +7867,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -7691,6 +7949,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -7775,6 +8036,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -7853,6 +8117,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -7910,6 +8177,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -7965,6 +8235,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Ultramarines"
       ],
       "linked": 1,
       "ch": "Ultramarines",
@@ -8033,6 +8307,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -8219,6 +8496,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -8378,6 +8658,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -8514,6 +8797,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -8630,6 +8916,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -8684,6 +8973,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -8737,6 +9029,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "has": [
@@ -8793,6 +9088,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "defaults": [
@@ -8872,6 +9170,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -8975,6 +9276,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -9043,6 +9347,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "White Scars"
+      ],
       "linked": 1,
       "ch": "White Scars",
       "leads": [
@@ -9097,6 +9405,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -9150,6 +9461,9 @@ export default {
             3
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "defaults": [
@@ -9206,6 +9520,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "leads": [
@@ -9304,6 +9621,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "has": [
@@ -9445,6 +9765,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "has": [
@@ -9598,6 +9921,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -9671,6 +9997,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {
@@ -9746,6 +10075,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Imperial Fists"
+      ],
       "linked": 1,
       "ch": "Imperial Fists",
       "leads": [
@@ -9804,6 +10137,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "defaults": [
@@ -9914,6 +10250,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -10091,6 +10430,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -10248,6 +10590,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "defaults": [
@@ -10536,6 +10881,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Ultramarines"
+      ],
       "linked": 1,
       "ch": "Ultramarines",
       "step": {
@@ -10624,6 +10973,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -10692,6 +11044,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Salamanders"
       ],
       "linked": 1,
       "ch": "Salamanders",
@@ -10791,6 +11147,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Ultramarines"
       ],
       "linked": 1,
       "ch": "Ultramarines",
@@ -10939,6 +11299,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "step": {

@@ -25,6 +25,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -67,6 +70,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "defaults": [
@@ -124,6 +130,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "minis": [
@@ -199,6 +208,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "leads": [

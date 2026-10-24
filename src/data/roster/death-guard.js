@@ -33,6 +33,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Plague Legions"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -74,6 +77,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "leads": [
@@ -169,6 +175,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "has": [
@@ -401,6 +410,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -473,6 +485,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "step": {
@@ -565,6 +580,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "step": {
@@ -660,6 +678,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -727,6 +748,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -764,6 +788,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "defaults": [
@@ -807,6 +834,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "has": [
@@ -854,6 +884,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Death Guard"
+      ],
       "defaults": [
         [
           0,
@@ -959,6 +992,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Death Guard"
+      ],
       "defaults": [
         [
           0,
@@ -1084,6 +1120,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Death Guard"
+      ],
       "minis": [
         {
           "n": "Death Guard Cultist Champion"
@@ -1243,6 +1282,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Death Guard"
+      ],
       "minis": [
         {
           "n": "Possessed Champion"
@@ -1329,6 +1371,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Death Guard"
+      ],
       "defaults": [
         [
           0,
@@ -1460,6 +1505,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1549,6 +1597,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "step": {
@@ -1681,6 +1732,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1745,6 +1799,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1791,6 +1848,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "leads": [
@@ -1842,6 +1902,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Plague Legions"
       ],
       "linked": 1,
       "has": [
@@ -1920,6 +1983,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "defaults": [
@@ -2065,6 +2131,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2113,6 +2182,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "has": [
@@ -2165,6 +2237,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2212,6 +2287,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "has": [
@@ -2268,6 +2346,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2321,6 +2402,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2365,6 +2449,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "has": [
@@ -2420,6 +2507,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2469,6 +2559,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "leads": [
@@ -2526,6 +2619,9 @@ export default {
             6
           ]
         }
+      ],
+      "fkws": [
+        "Plague Legions"
       ],
       "linked": 1,
       "has": [
@@ -2594,6 +2690,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Plague Legions"
       ],
       "linked": 1,
       "has": [
@@ -2754,6 +2853,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "minis": [
@@ -3006,6 +3108,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -3062,6 +3167,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Plague Legions"
       ],
       "linked": 1,
       "has": [
@@ -3161,6 +3269,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -3251,6 +3362,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Death Guard"
+      ],
       "linked": 1,
       "condBattleline": 1,
       "defaults": [
@@ -3294,6 +3408,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Plague Legions"
       ],
       "linked": 1,
       "has": [
@@ -3339,6 +3456,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "leads": [
@@ -3390,6 +3510,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Death Guard"
       ],
       "linked": 1,
       "has": [

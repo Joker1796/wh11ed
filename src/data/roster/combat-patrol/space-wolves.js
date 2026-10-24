@@ -36,6 +36,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -109,6 +113,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "minis": [
@@ -190,6 +198,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -249,6 +261,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "leads": [

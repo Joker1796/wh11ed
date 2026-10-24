@@ -28,6 +28,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -143,6 +147,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -222,6 +230,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
       ],
       "linked": 1,
       "leads": [
@@ -306,6 +318,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
       ],
       "linked": 1,
       "minis": [
@@ -489,6 +505,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -552,6 +572,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
       ],
       "linked": 1,
       "leads": [
@@ -633,6 +657,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -692,6 +720,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -750,6 +782,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
       ],
       "linked": 1,
       "step": {
@@ -820,6 +856,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -884,6 +924,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
       ],
       "linked": 1,
       "step": {
@@ -977,6 +1021,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1060,6 +1108,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
       ],
       "linked": 1,
       "step": {
@@ -1154,6 +1206,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
       ],
       "linked": 1,
       "step": {
@@ -1256,6 +1312,10 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Black Templars"
       ],
       "linked": 1,
       "step": {

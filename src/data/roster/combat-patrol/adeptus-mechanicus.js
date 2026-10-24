@@ -29,6 +29,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -84,6 +87,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "minis": [
@@ -157,6 +163,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "minis": [
@@ -271,6 +280,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "minis": [

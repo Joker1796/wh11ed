@@ -42,6 +42,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Grey Knights"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -136,6 +139,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Grey Knights"
       ],
       "linked": 1,
       "minis": [
@@ -234,6 +240,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Grey Knights"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -281,6 +290,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Grey Knights"
       ],
       "linked": 1,
       "defaults": [

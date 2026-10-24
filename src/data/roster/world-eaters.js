@@ -33,6 +33,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -99,6 +102,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Blood Legions"
       ],
       "linked": 1,
       "has": [
@@ -221,6 +227,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Blood Legions"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -324,6 +333,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Blood Legions"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -392,6 +404,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "step": {
@@ -465,6 +480,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "step": {
@@ -557,6 +575,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "step": {
@@ -652,6 +673,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -719,6 +743,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -781,6 +808,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "has": [
@@ -1043,6 +1073,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1086,6 +1119,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1128,6 +1164,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "step": {
@@ -1288,6 +1327,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1372,6 +1414,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "has": [
@@ -1461,6 +1506,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Blood Legions"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1528,6 +1576,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "step": {
@@ -1625,6 +1676,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "condBattleline": 1,
@@ -1735,6 +1789,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1838,6 +1895,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1926,6 +1986,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "condBattleline": 1,
@@ -2063,6 +2126,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2136,6 +2202,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "minis": [
@@ -2311,6 +2380,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -2393,6 +2465,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2455,6 +2530,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2514,6 +2592,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2559,6 +2640,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "step": {
@@ -2630,6 +2714,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Blood Legions"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2675,6 +2762,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "leads": [

@@ -34,6 +34,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Orks"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -111,6 +114,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Orks"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -181,6 +187,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Orks"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -224,6 +233,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Orks"
       ],
       "linked": 1,
       "leads": [
@@ -272,6 +284,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Orks"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -315,6 +330,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Orks"
       ],
       "linked": 1,
       "leads": [

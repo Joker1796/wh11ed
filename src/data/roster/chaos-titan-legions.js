@@ -29,6 +29,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Titanicus Traitoris"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -122,6 +125,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Titanicus Traitoris"
       ],
       "linked": 1,
       "defaults": [
@@ -235,6 +241,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Titanicus Traitoris"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -321,6 +330,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Titanicus Traitoris"
       ],
       "linked": 1,
       "defaults": [

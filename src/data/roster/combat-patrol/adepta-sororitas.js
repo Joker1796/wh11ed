@@ -28,6 +28,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -75,6 +78,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "defaults": [
@@ -132,6 +138,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "minis": [
@@ -277,6 +286,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "minis": [

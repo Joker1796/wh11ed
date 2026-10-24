@@ -28,6 +28,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -118,6 +121,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -195,6 +201,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -308,6 +317,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "minis": [

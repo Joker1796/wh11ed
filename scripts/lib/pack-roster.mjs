@@ -674,6 +674,7 @@ export function packRosterUnit(printedSheet, ctx) {
   if (along === 1) flags.alongside = 1
 
   const unit = { id: sheet.id, name: sheet.name, kws, flags, sizes: sz, linked: 1 }
+  if (sheet.factionKeywords?.length) unit.fkws = sheet.factionKeywords.slice().sort()
   if (Array.isArray(along)) unit.along = along
   if (!single) unit.minis = minis.map((m) => ({ n: m.n }))
   if (defaults.length) unit.defaults = defaults

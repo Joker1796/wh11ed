@@ -30,6 +30,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -73,6 +76,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "leads": [
@@ -120,6 +126,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "leads": [
@@ -234,6 +243,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -307,6 +319,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "has": [
@@ -404,6 +419,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -446,6 +464,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "has": [
@@ -498,6 +519,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -547,6 +571,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "leads": [
@@ -599,6 +626,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -708,6 +738,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "minis": [
         {
           "n": "Cloud Dancer Felarch"
@@ -892,6 +925,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "minis": [
         {
           "n": "Corsair Reaver Felarch"
@@ -1123,6 +1159,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1303,6 +1342,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "minis": [
@@ -1727,6 +1769,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -2016,6 +2061,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2078,6 +2126,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "step": {
@@ -2152,6 +2203,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "minis": [
@@ -2256,6 +2310,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Harlequins"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2326,6 +2383,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "minis": [
@@ -2482,6 +2542,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -2581,6 +2644,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2634,6 +2700,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "has": [
@@ -2724,6 +2793,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2795,6 +2867,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "leads": [
@@ -2895,6 +2970,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "step": {
@@ -3020,6 +3098,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -3079,6 +3160,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Aeldari"
+      ],
       "defaults": [
         [
           0,
@@ -3142,6 +3226,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -3197,6 +3284,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "minis": [
@@ -3284,6 +3374,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -3324,6 +3417,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -3416,6 +3512,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "minis": [
@@ -3533,6 +3632,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -3588,6 +3690,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -3632,6 +3737,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "leads": [
@@ -3683,6 +3791,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -3736,6 +3847,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -3786,6 +3900,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "defaults": [
@@ -3841,6 +3958,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3894,6 +4014,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -3965,6 +4088,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -4005,6 +4131,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "step": {
@@ -4070,6 +4199,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -4113,6 +4245,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "defaults": [
@@ -4298,6 +4433,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -4347,6 +4485,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "leads": [
@@ -4406,6 +4547,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -4451,6 +4595,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "defaults": [
@@ -4529,6 +4676,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -4660,6 +4810,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "minis": [
         {
           "n": "Shadow Spectre Exarch"
@@ -4719,6 +4872,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -4765,6 +4921,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Harlequins"
       ],
       "linked": 1,
       "leads": [
@@ -4857,6 +5016,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "minis": [
@@ -4965,6 +5127,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -5016,6 +5181,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -5119,6 +5287,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Harlequins"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -5194,6 +5365,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Harlequins"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -5234,6 +5408,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "defaults": [
@@ -5283,6 +5460,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -5329,6 +5509,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Harlequins"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -5374,6 +5557,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "leads": [
@@ -5442,6 +5628,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "minis": [
@@ -5588,6 +5777,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "minis": [
@@ -5737,6 +5929,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -5867,6 +6062,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Ynnari"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -5933,6 +6131,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Ynnari"
       ],
       "linked": 1,
       "has": [
@@ -6036,6 +6237,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Harlequins"
       ],
       "linked": 1,
       "condBattleline": 1,
@@ -6209,6 +6413,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Harlequins"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -6292,6 +6499,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -6341,6 +6551,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -6382,6 +6595,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "defaults": [
@@ -6425,6 +6641,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Harlequins"
       ],
       "linked": 1,
       "defaults": [
@@ -6489,6 +6708,9 @@ export default {
             2
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "defaults": [
@@ -6570,6 +6792,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -6635,6 +6860,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "leads": [
@@ -6710,6 +6938,9 @@ export default {
             4
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "leads": [
@@ -6787,6 +7018,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -6856,6 +7090,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -6941,6 +7178,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "has": [
@@ -7075,6 +7315,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -7165,6 +7408,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -7250,6 +7496,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -7284,6 +7533,9 @@ export default {
             6
           ]
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "condBattleline": 1,
@@ -7341,6 +7593,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "condBattleline": 1,
@@ -7401,6 +7656,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "condBattleline": 1,
       "defaults": [
@@ -7457,6 +7715,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "step": {
@@ -7559,6 +7820,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -7638,6 +7902,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "defaults": [
@@ -7735,6 +8002,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Asuryani"
+      ],
       "defaults": [
         [
           0,
@@ -7800,6 +8070,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Ynnari"
       ],
       "linked": 1,
       "leads": [
@@ -7895,6 +8168,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Ynnari"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -7974,6 +8250,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Ynnari"
       ],
       "linked": 1,
       "minis": [
@@ -8154,6 +8433,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Ynnari"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -8241,6 +8523,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Ynnari"
       ],
       "linked": 1,
       "minis": [
@@ -8415,6 +8700,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Ynnari"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -8472,6 +8760,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Ynnari"
       ],
       "linked": 1,
       "has": [
@@ -8547,6 +8838,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Ynnari"
       ],
       "linked": 1,
       "minis": [
@@ -8626,6 +8920,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Ynnari"
       ],
       "linked": 1,
       "leads": [

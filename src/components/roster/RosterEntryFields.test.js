@@ -186,7 +186,9 @@ describe('RosterEntryFields — an ally', () => {
     })
     const open = mountAlly().findComponent(UnitEditorFields)
     expect(open.props('canWarlord')).toBe(true)
-    expect(open.props('enhOptions').some((o) => o.eligible)).toBe(true)
+    // A CSM enhancement names HERETIC ASTARTES, which a daemon is not — refused on its faction
+    // keyword even before the allied rule bars it (2026-10-24).
+    expect(open.props('enhOptions').some((o) => o.eligible)).toBe(false)
     const barred = mountAlly({ allyBarsOf: (id) => allyBars(csm, id, [det]) }).findComponent(UnitEditorFields)
     expect(barred.props('canWarlord')).toBe(false)
     expect(barred.props('enhOptions').length).toBeGreaterThan(0)

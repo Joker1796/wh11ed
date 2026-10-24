@@ -88,6 +88,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -326,6 +329,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -369,6 +375,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "defaults": [
@@ -466,6 +475,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -518,6 +530,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "defaults": [
         [
           0,
@@ -586,6 +601,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "minis": [
         {
           "n": "Legionnaire Sergeant"
@@ -768,6 +786,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "minis": [
@@ -1110,6 +1131,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "minis": [
         {
           "n": "Deathwatch Terminator Sergeant"
@@ -1326,6 +1350,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1379,6 +1406,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "minis": [
@@ -1600,6 +1630,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "minis": [
         {
           "n": "Kill Team Intercessors"
@@ -1792,6 +1825,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1951,6 +1987,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "minis": [
@@ -2160,6 +2199,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -2245,6 +2287,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "minis": [
         {
           "n": "Kill Team Heavy Intercessors"
@@ -2423,6 +2468,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2578,6 +2626,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2676,6 +2727,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2767,6 +2821,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "defaults": [
         [
           0,
@@ -2876,6 +2933,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2971,6 +3031,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "defaults": [
         [
           0,
@@ -3163,6 +3226,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "defaults": [
         [
           0,
@@ -3206,6 +3272,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "defaults": [
@@ -3270,6 +3339,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "minis": [
         {
           "n": "Inquisitor Ostromandeus"
@@ -3421,6 +3493,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "minis": [
@@ -3582,6 +3657,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -3693,6 +3771,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "defaults": [
         [
           0,
@@ -3743,6 +3824,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "along": [
         "Inquisitor"
       ],
@@ -3816,6 +3900,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "minis": [
         {
           "n": "Chaplain Cassius"
@@ -3965,6 +4052,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -4057,6 +4147,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -4112,6 +4205,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "defaults": [
         [
           0,
@@ -4190,6 +4286,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "minis": [
         {
           "n": "Kill Team Veterans"
@@ -4504,6 +4603,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -4631,6 +4733,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "minis": [
@@ -4845,6 +4950,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -4931,6 +5039,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "minis": [
@@ -5164,6 +5275,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "minis": [
         {
           "n": "Kill Team Infiltrators"
@@ -5389,6 +5503,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -5477,6 +5594,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "defaults": [
         [
           0,
@@ -5547,6 +5667,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "minis": [
         {
           "n": "Veteran Biker Sergeant"
@@ -5660,6 +5783,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "minis": [
@@ -5788,6 +5914,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -5845,6 +5974,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "minis": [
@@ -5937,6 +6069,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -5987,6 +6122,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "leads": [

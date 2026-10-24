@@ -34,6 +34,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -101,6 +104,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -160,6 +166,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Asuryani"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -197,6 +206,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Asuryani"
       ],
       "linked": 1,
       "defaults": [

@@ -930,6 +930,14 @@ directory; still part of this feature:
   argument errs toward allowing a legal list rather than blocking one. `index.test.js` pins both
   halves against the real Orks bundle and checks that every flagged datasheet has a grant to gate
   on — a flag with no sidecar entry would silently lose the ×2 where it is deserved.
+  **An enhancement's FACTION keyword is the unit's own** (`fac` against `fkws`, appdata's
+  datasheet_faction_keyword, written by gen-roster-data). A book holds units of several: ANATHEMA
+  PSYKANA in Custodes, HARLEQUINS and YNNARI in Aeldari, TYRANIDS in Genestealer Cults, a Greater
+  Daemon in a Legion's. Until 2026-10-24 `enhEligible` took every unit of the file as qualifying,
+  and a Knight-Centura was offered all the Custodes enhancements (186 offers, 9 factions). A unit
+  with no `fkws` (only a test's hand-built one; a Combat Patrol box's Maggot Lords) still counts as
+  of the faction. Gate: `src/data/roster/index.test.js`, "an enhancement that names a faction
+  keyword" — `fkws` against each datasheet's `factionKeywords`, and every offer against them.
   **Every question it asks about a unit must be asked the way the EDITOR asks it** — about the
   ENTRY, not the printed datasheet. `enhIneligible` reads `enhEligible(e, def, granted)` with the
   keywords the entry has but its datasheet does not print, and both it and `enhOptionsFor` get them

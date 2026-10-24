@@ -39,6 +39,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -161,6 +164,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "minis": [
@@ -287,6 +293,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "minis": [

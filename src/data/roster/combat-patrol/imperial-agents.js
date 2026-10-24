@@ -31,6 +31,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -87,6 +90,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "minis": [
@@ -212,6 +218,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Agents of the Imperium"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -334,6 +343,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Agents of the Imperium"
       ],
       "linked": 1,
       "leads": [

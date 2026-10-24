@@ -25,6 +25,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Deathwatch"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -140,6 +144,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Deathwatch"
       ],
       "linked": 1,
       "has": [
@@ -413,6 +421,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Deathwatch"
       ],
       "linked": 1,
       "minis": [
@@ -784,6 +796,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Deathwatch"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -1042,6 +1058,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Deathwatch"
       ],
       "linked": 1,
       "step": {
@@ -1340,6 +1360,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Deathwatch"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1508,6 +1532,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Deathwatch"
       ],
       "linked": 1,
       "step": {
@@ -1703,6 +1731,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Deathwatch"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1861,6 +1893,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Deathwatch"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1916,6 +1952,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Deathwatch"
       ],
       "linked": 1,
       "leads": [

@@ -27,6 +27,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -140,6 +143,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Drukhari"
+      ],
       "minis": [
         {
           "n": "Beastmaster"
@@ -238,6 +244,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Drukhari"
+      ],
       "minis": [
         {
           "n": "Lhamaean"
@@ -332,6 +341,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -387,6 +399,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -436,6 +451,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Drukhari"
+      ],
       "defaults": [
         [
           0,
@@ -496,6 +514,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -550,6 +571,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "minis": [
@@ -843,6 +867,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1000,6 +1027,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1100,6 +1130,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "minis": [
@@ -1286,6 +1319,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1343,6 +1379,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "leads": [
@@ -1411,6 +1450,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "has": [
@@ -1481,6 +1523,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1542,6 +1587,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "has": [
@@ -1610,6 +1658,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Drukhari"
+      ],
       "defaults": [
         [
           0,
@@ -1651,6 +1702,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "defaults": [
@@ -1734,6 +1788,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Drukhari"
+      ],
       "defaults": [
         [
           0,
@@ -1803,6 +1860,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "step": {
@@ -1983,6 +2043,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2126,6 +2189,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2253,6 +2319,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Drukhari"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2300,6 +2369,9 @@ export default {
             2
           ]
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "step": {
@@ -2402,6 +2474,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Drukhari"
+      ],
       "defaults": [
         [
           0,
@@ -2446,6 +2521,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Drukhari"
+      ],
       "defaults": [
         [
           0,
@@ -2491,6 +2569,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "has": [
@@ -2556,6 +2637,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "defaults": [
@@ -2671,6 +2755,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "minis": [
@@ -2911,6 +2998,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Drukhari"
       ],
       "linked": 1,
       "minis": [

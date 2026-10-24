@@ -28,6 +28,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -81,6 +84,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [
@@ -177,6 +183,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -227,6 +236,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "leads": [
@@ -292,6 +304,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes"
       ],
       "linked": 1,
       "minis": [

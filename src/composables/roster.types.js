@@ -125,6 +125,7 @@
  * @property {string} [sid] appdata datasheet uuid
  * @property {string} name
  * @property {string[]} kws keywords
+ * @property {string[]} [fkws] faction keywords (an enhancement's "ADEPTUS CUSTODES model only" reads these)
  * @property {UnitFlags} flags
  * @property {string[]} [has] which of the names some enhancement `needs` this unit has (an ability, or an item it can carry)
  * @property {SizeBracket[]} sizes

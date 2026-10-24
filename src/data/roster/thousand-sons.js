@@ -32,6 +32,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -103,6 +106,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Scintillating Legions"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -167,6 +173,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "step": {
@@ -240,6 +249,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "step": {
@@ -332,6 +344,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "step": {
@@ -427,6 +442,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -495,6 +513,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -530,6 +551,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "step": {
@@ -603,6 +627,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -650,6 +677,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "has": [
@@ -701,6 +731,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "step": {
@@ -836,6 +869,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -902,6 +938,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "leads": [
@@ -1002,6 +1041,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Scintillating Legions"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1065,6 +1107,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "step": {
@@ -1152,6 +1197,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "defaults": [
@@ -1256,6 +1304,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1313,6 +1364,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "leads": [
@@ -1372,6 +1426,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Scintillating Legions"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1420,6 +1477,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Scintillating Legions"
       ],
       "linked": 1,
       "has": [
@@ -1491,6 +1551,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1537,6 +1600,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "step": {
@@ -1600,6 +1666,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "step": {
@@ -1666,6 +1735,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Scintillating Legions"
       ],
       "linked": 1,
       "has": [
@@ -1817,6 +1889,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "step": {
@@ -1979,6 +2054,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2120,6 +2198,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Scintillating Legions"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2164,6 +2245,9 @@ export default {
             4
           ]
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "step": {
@@ -2244,6 +2328,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -2312,6 +2399,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "has": [
@@ -2412,6 +2502,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "minis": [
@@ -2550,6 +2643,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -2615,6 +2711,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "leads": [
@@ -2696,6 +2795,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "condBattleline": 1,

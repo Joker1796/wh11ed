@@ -28,6 +28,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -80,6 +84,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "minis": [
@@ -150,6 +158,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "minis": [
@@ -229,6 +241,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "minis": [

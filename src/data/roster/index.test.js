@@ -2398,3 +2398,41 @@ describe('units an ability brings into the game', () => {
     ])
   })
 })
+
+// "ADEPTUS CUSTODES model only" names a FACTION keyword, and a book holds units of more than one:
+// ANATHEMA PSYKANA in Custodes, HARLEQUINS and YNNARI in Aeldari, a Greater Daemon in a Legion's.
+// The runtime took every unit of the file as qualifying, and a Knight-Centura was offered all the
+// Custodes enhancements (a player's report, 2026-10-24) — 186 such offers in 9 factions. The
+// datasheet's own faction keywords are the second source this is checked against.
+describe('an enhancement that names a faction keyword', () => {
+  const fold = (s) => String(s).toLowerCase().replace(/[’']/g, '')
+  it('every unit carries its datasheet\'s faction keywords', async () => {
+    const { loadDatasheets } = await import('../datasheets/index.js')
+    const off = []
+    for (const { slug } of factions) {
+      const f = await loadRosterFaction(slug)
+      const ds = new Map((await loadDatasheets(slug) || []).map((d) => [d.id, (d.factionKeywords || []).map(fold).sort()]))
+      for (const u of f?.units || []) {
+        const want = ds.get(u.id)
+        if (!want?.length) continue
+        if (JSON.stringify((u.fkws || []).map(fold).sort()) !== JSON.stringify(want)) off.push(`${slug}: ${u.name} ${JSON.stringify(u.fkws)} ≠ ${want}`)
+      }
+    }
+    expect(off).toEqual([])
+  }, 60000)
+  it('is offered only to a unit that has it', async () => {
+    const wrong = []
+    for (const { slug } of factions) {
+      const f = await loadRosterFaction(slug)
+      for (const d of f?.detachments || []) for (const e of d.enhancements || []) {
+        if (!e.req?.some((g) => g.fac?.length)) continue
+        for (const u of f.units) {
+          if (!enhEligible(e, u)) continue
+          const have = (u.fkws || []).map(fold)
+          if (!e.req.some((g) => (g.fac || []).every((k) => have.includes(fold(k))))) wrong.push(`${slug}: ${e.name} → ${u.name}`)
+        }
+      }
+    }
+    expect(wrong).toEqual([])
+  }, 60000)
+})

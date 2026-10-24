@@ -44,8 +44,9 @@ export function lockedToExactUnit(enh, def) {
 // Is an enhancement legal on this unit? Enhancements go on Characters (unless the enhancement is
 // flagged for non-characters), never on Epic Heroes unless flagged, never on enhancement-barred
 // units. Then the keyword gates: any excluded keyword disqualifies; the OR-groups of required
-// keywords must have at least one group fully satisfied (faction-keyword parts are satisfied by
-// being in the faction, so only the per-unit keywords are checked here); a group may also name
+// keywords must have at least one group fully satisfied — its faction keywords (`fac`, against the
+// unit's own `fkws`: a Knight-Centura is ANATHEMA PSYKANA in the Custodes book, a Shadowseer
+// HARLEQUINS in the Aeldari one) and its per-unit keywords alike; a group may also name
 // one datasheet (`ds`, appdata's own "ARCHON model only"). `lockDs` narrows to specific datasheets
 // by `sid`, overriding those keyword gates the same way lockedToExactUnit does.
 //
@@ -83,7 +84,11 @@ export function enhEligible(enh, def, granted = []) {
   if (enh.req?.length) {
     // `ds` — the group names one datasheet ("ARCHON model only"), matched by name like
     // lockedToExactUnit, apostrophes aside.
-    const ok = enh.req.some((g) => (!g.ds || sameName(g.ds, def.name)) && (g.kw || []).every((k) => has(k)))
+    // A unit with no `fkws` (a hand-built test unit) is taken as of the faction, as everything was
+    // before 2026-10-24; every generated unit carries them (src/data/roster/index.test.js).
+    /** @param {string} k */
+    const fac = (k) => !def.fkws || def.fkws.some((f) => sameName(f, k))
+    const ok = enh.req.some((g) => (!g.ds || sameName(g.ds, def.name)) && (g.fac || []).every(fac) && (g.kw || []).every((k) => has(k)))
     if (!ok) return false
   }
   return true

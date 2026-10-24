@@ -29,6 +29,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -84,6 +88,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
       ],
       "linked": 1,
       "minis": [
@@ -156,6 +164,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
       ],
       "linked": 1,
       "minis": [

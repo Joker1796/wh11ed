@@ -51,6 +51,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -111,6 +114,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -163,6 +169,9 @@ export default {
             2
           ]
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "step": {
@@ -284,6 +293,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "has": [
@@ -435,6 +447,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -557,6 +572,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -660,6 +678,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "step": {
@@ -795,6 +816,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -855,6 +879,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "has": [
@@ -929,6 +956,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -988,6 +1018,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "step": {
@@ -1058,6 +1091,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "step": {
@@ -1136,6 +1172,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "has": [
@@ -1262,6 +1301,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1312,6 +1354,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1354,6 +1399,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "has": [
@@ -1412,6 +1460,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "has": [
@@ -1500,6 +1551,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "has": [
@@ -1696,6 +1750,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1759,6 +1816,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1803,6 +1863,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "has": [
@@ -1873,6 +1936,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1916,6 +1982,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "has": [
@@ -1971,6 +2040,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Genestealer Cults"
       ],
       "linked": 1,
       "has": [
@@ -2035,6 +2107,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Genestealer Cults"
+      ],
       "defaults": [
         [
           0,

@@ -26,6 +26,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -66,6 +69,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -105,6 +111,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [

@@ -29,6 +29,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -82,6 +85,9 @@ export default {
             3
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -162,6 +168,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Anathema Psykana"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -215,6 +224,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -258,6 +270,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -319,6 +334,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -365,6 +383,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -422,6 +443,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -489,6 +513,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -552,6 +579,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "step": {
@@ -623,6 +653,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -662,6 +695,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -727,6 +763,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -787,6 +826,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -824,6 +866,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -867,6 +912,9 @@ export default {
             3
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -939,6 +987,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1006,6 +1057,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Anathema Psykana"
       ],
       "linked": 1,
       "leads": [
@@ -1091,6 +1145,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -1141,6 +1198,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -1218,6 +1278,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Anathema Psykana"
+      ],
       "linked": 1,
       "condBattleline": 1,
       "defaults": [
@@ -1257,6 +1320,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -1298,6 +1364,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -1363,6 +1432,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -1477,6 +1549,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1554,6 +1629,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1623,6 +1701,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "step": {
@@ -1735,6 +1816,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1819,6 +1903,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1883,6 +1970,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1929,6 +2019,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Custodes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1970,6 +2063,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "defaults": [
@@ -2030,6 +2126,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "defaults": [
@@ -2100,6 +2199,9 @@ export default {
             3
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Custodes"
       ],
       "linked": 1,
       "has": [
@@ -2181,6 +2283,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Anathema Psykana"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2234,6 +2339,9 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Anathema Psykana"
       ],
       "linked": 1,
       "defaults": [

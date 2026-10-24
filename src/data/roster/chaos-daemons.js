@@ -35,6 +35,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "defaults": [
         [
           0,
@@ -85,6 +88,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "defaults": [
         [
           0,
@@ -129,6 +135,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -178,6 +187,9 @@ export default {
             2
           ]
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -244,6 +256,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -365,6 +380,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -465,6 +483,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -512,6 +533,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -593,6 +617,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -657,6 +684,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -706,6 +736,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -762,6 +795,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -815,6 +851,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -880,6 +919,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -953,6 +995,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -1056,6 +1101,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1105,6 +1153,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -1159,6 +1210,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1212,6 +1266,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1
     },
     {
@@ -1263,6 +1320,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -1351,6 +1411,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -1443,6 +1506,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1515,6 +1581,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1576,6 +1645,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "defaults": [
         [
           0,
@@ -1630,6 +1702,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "defaults": [
         [
           0,
@@ -1687,6 +1762,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -1773,6 +1851,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1824,6 +1905,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "defaults": [
         [
           0,
@@ -1872,6 +1956,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -1923,6 +2010,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -1979,6 +2069,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2025,6 +2118,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -2081,6 +2177,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -2155,6 +2254,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2224,6 +2326,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2279,6 +2384,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -2430,6 +2538,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2545,6 +2656,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "defaults": [
         [
           0,
@@ -2593,6 +2707,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -2693,6 +2810,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "defaults": [
         [
           0,
@@ -2769,6 +2889,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2819,6 +2942,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -2872,6 +2998,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2921,6 +3050,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "defaults": [
         [
           0,
@@ -2966,6 +3098,9 @@ export default {
             6
           ]
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -3032,6 +3167,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -3144,6 +3282,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3199,6 +3340,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3242,6 +3386,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1
     },
     {
@@ -3265,6 +3412,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -3314,6 +3464,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -3368,6 +3521,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3415,6 +3571,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3458,6 +3617,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -3567,6 +3729,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "defaults": [
         [
           0,
@@ -3624,6 +3789,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3677,6 +3845,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -3736,6 +3907,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3779,6 +3953,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -3828,6 +4005,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3869,6 +4049,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Legiones Daemonica"
       ],
       "linked": 1,
       "has": [
@@ -3926,6 +4109,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3977,6 +4163,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Legiones Daemonica"
+      ],
       "defaults": [
         [
           0,

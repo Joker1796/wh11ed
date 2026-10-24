@@ -31,6 +31,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -105,6 +109,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "leads": [
@@ -187,6 +195,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "has": [
@@ -294,6 +306,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
+      ],
       "minis": [
         {
           "n": "Deathwing Ancient"
@@ -498,6 +514,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -600,6 +620,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
+      ],
       "defaults": [
         [
           0,
@@ -726,6 +750,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "has": [
@@ -902,6 +930,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -981,6 +1013,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1024,6 +1060,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "has": [
@@ -1095,6 +1135,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "leads": [
@@ -1170,6 +1214,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1211,6 +1259,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "defaults": [
@@ -1299,6 +1351,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "step": {
@@ -1433,6 +1489,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "step": {
@@ -1592,6 +1652,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1635,6 +1699,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "has": [
@@ -1697,6 +1765,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
+      ],
       "defaults": [
         [
           0,
@@ -1745,6 +1817,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Dark Angels"
       ],
       "linked": 1,
       "leads": [

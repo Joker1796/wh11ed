@@ -26,6 +26,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Tyranids"
+      ],
       "defaults": [
         [
           0,
@@ -68,6 +71,9 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "defaults": [
@@ -120,6 +126,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -170,6 +179,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -215,6 +227,9 @@ export default {
             2
           ]
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "defaults": [
@@ -370,6 +385,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -406,6 +424,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Tyranids"
+      ],
       "defaults": [
         [
           0,
@@ -437,6 +458,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "step": {
@@ -490,6 +514,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -538,6 +565,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -577,6 +607,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "defaults": [
@@ -644,6 +677,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -685,6 +721,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "step": {
@@ -734,6 +773,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "step": {
@@ -786,6 +828,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "defaults": [
@@ -842,6 +887,9 @@ export default {
             6
           ]
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "step": {
@@ -903,6 +951,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "leads": [
@@ -1016,6 +1067,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1064,6 +1118,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "has": [
@@ -1134,6 +1191,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1173,6 +1233,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Tyranids"
+      ],
       "defaults": [
         [
           0,
@@ -1212,6 +1275,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "step": {
@@ -1254,6 +1320,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "has": [
@@ -1302,6 +1371,9 @@ export default {
             2
           ]
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "has": [
@@ -1374,6 +1446,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -1426,6 +1501,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1468,6 +1546,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "leads": [
@@ -1522,6 +1603,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -1564,6 +1648,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "step": {
@@ -1615,6 +1702,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1659,6 +1749,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "has": [
@@ -1708,6 +1801,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "defaults": [
@@ -1761,6 +1857,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1803,6 +1902,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "has": [
@@ -1859,6 +1961,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1907,6 +2012,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1951,6 +2059,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Tyranids"
+      ],
       "defaults": [
         [
           0,
@@ -1990,6 +2101,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Tyranids"
+      ],
       "defaults": [
         [
           0,
@@ -2042,6 +2156,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2066,6 +2183,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "defaults": [
@@ -2119,6 +2239,9 @@ export default {
             20
           ]
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "defaults": [
@@ -2259,6 +2382,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2319,6 +2445,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2367,6 +2496,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2411,6 +2543,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2444,6 +2579,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "has": [
@@ -2500,6 +2638,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "leads": [
@@ -2589,6 +2730,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "condBattleline": 1,
       "minis": [
@@ -2668,6 +2812,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "condBattleline": 1,
@@ -2860,6 +3007,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2904,6 +3054,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "step": {
@@ -2977,6 +3130,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -3036,6 +3192,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -3077,6 +3236,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -3117,6 +3279,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "has": [
@@ -3184,6 +3349,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "has": [
@@ -3265,6 +3433,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "minis": [

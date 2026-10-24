@@ -29,6 +29,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -60,6 +63,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "defaults": [
@@ -99,6 +105,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -137,6 +146,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Tyranids"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -173,6 +185,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Tyranids"
       ],
       "linked": 1,
       "defaults": [

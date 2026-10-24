@@ -28,6 +28,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "T’au Empire"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -81,6 +84,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "T’au Empire"
       ],
       "linked": 1,
       "minis": [
@@ -150,6 +156,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "T’au Empire"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -205,6 +214,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "T’au Empire"
       ],
       "linked": 1,
       "minis": [

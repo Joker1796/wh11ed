@@ -25,6 +25,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Emperor’s Children"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -74,6 +77,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "minis": [
@@ -138,6 +144,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "leads": [

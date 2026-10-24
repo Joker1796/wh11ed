@@ -40,6 +40,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -132,6 +135,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -169,6 +175,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "defaults": [
         [
           0,
@@ -207,6 +216,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "minis": [
@@ -407,6 +419,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -556,6 +571,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -635,6 +653,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "step": {
@@ -727,6 +748,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "minis": [
@@ -915,6 +939,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "defaults": [
         [
           0,
@@ -980,6 +1007,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "step": {
@@ -1121,6 +1151,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "defaults": [
         [
           0,
@@ -1168,6 +1201,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "has": [
@@ -1235,6 +1271,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "defaults": [
         [
           0,
@@ -1269,6 +1308,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "leads": [
@@ -1336,6 +1378,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "leads": [
@@ -1406,6 +1451,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "step": {
@@ -1571,6 +1619,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1644,6 +1695,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -1715,6 +1769,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1781,6 +1838,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "step": {
@@ -1863,6 +1923,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1917,6 +1980,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "leads": [
@@ -1984,6 +2050,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "leads": [
@@ -2076,6 +2145,9 @@ export default {
             2
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "defaults": [
@@ -2199,6 +2271,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2249,6 +2324,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "leads": [
@@ -2339,6 +2417,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "step": {
@@ -2538,6 +2619,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2637,6 +2721,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -2697,6 +2784,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "defaults": [
         [
           0,
@@ -2772,6 +2862,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "step": {
@@ -2921,6 +3014,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3010,6 +3106,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "minis": [
@@ -3250,6 +3349,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -3434,6 +3536,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -3612,6 +3717,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adepta Sororitas"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -3670,6 +3778,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "leads": [
@@ -3744,6 +3855,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adepta Sororitas"
       ],
       "linked": 1,
       "has": [

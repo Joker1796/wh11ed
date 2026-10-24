@@ -43,6 +43,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -150,6 +153,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -244,6 +250,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "World Eaters"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -292,6 +301,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "World Eaters"
       ],
       "linked": 1,
       "defaults": [

@@ -1851,6 +1851,17 @@ for (const r of table('datasheet_faction_keyword')) {
   if (astartesKw && fkParentOf.get(r.factionKeywordId) === astartesKw) dsChapterKw.set(r.datasheetId, fkwName.get(r.factionKeywordId))
 }
 const chapterKeywordOf = (dsId) => dsChapterKw.get(dsId) || null
+// Every faction keyword a datasheet carries (`fkws`): an enhancement's "ADEPTUS CUSTODES model
+// only" is a FACTION keyword, which `kws` (appdata's datasheet_keyword) does not hold. Without it
+// the runtime took any unit of the file as qualifying, and a Knight-Centura — ANATHEMA PSYKANA,
+// in the Custodes book — was offered every Custodes enhancement (a player's report, 2026-10-24).
+const dsFactionKws = new Map()
+for (const r of table('datasheet_faction_keyword')) {
+  const name = fkwName.get(r.factionKeywordId)
+  if (!name) continue
+  if (!dsFactionKws.has(r.datasheetId)) dsFactionKws.set(r.datasheetId, [])
+  dsFactionKws.get(r.datasheetId).push(name)
+}
 const bsSlug = new Map(table('battle_size').map((b) => [b.id, slugify(enOf(b).name)]))
 const groupBy = (rows, key) => {
   const m = new Map()
@@ -2189,6 +2200,9 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     flags,
     sizes,
   }
+  // None for a Combat Patrol box's own Maggot Lords: appdata names no faction keyword there.
+  const fkws = (dsFactionKws.get(bd.id) || []).slice().sort()
+  if (fkws.length) unit.fkws = fkws
   if (linkedId) unit.linked = 1
   // A unit only one Chapter fields (Marneus Calgar — ULTRAMARINES): a list holding it is that
   // Chapter's, and the export's FACTION KEYWORD names it (rosterChapter in rosterEngine.js).

@@ -28,6 +28,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Chaos Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -81,6 +84,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Chaos Knights"
       ],
       "linked": 1,
       "step": {
@@ -183,6 +189,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Chaos Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -235,6 +244,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Chaos Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -282,6 +294,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Chaos Knights"
       ],
       "linked": 1,
       "step": {
@@ -331,6 +346,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Chaos Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -374,6 +392,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Chaos Knights"
       ],
       "linked": 1,
       "step": {
@@ -450,6 +471,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Chaos Knights"
       ],
       "linked": 1,
       "step": {
@@ -528,6 +552,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Chaos Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -583,6 +610,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Chaos Knights"
       ],
       "linked": 1,
       "step": {
@@ -650,6 +680,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Chaos Knights"
       ],
       "linked": 1,
       "step": {
@@ -826,6 +859,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Chaos Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -878,6 +914,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Chaos Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -928,6 +967,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Chaos Knights"
       ],
       "linked": 1,
       "step": {
@@ -1036,6 +1078,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Chaos Knights"
+      ],
       "linked": 1,
       "condBattleline": 1,
       "alleg": {
@@ -1112,6 +1157,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Chaos Knights"
+      ],
       "linked": 1,
       "condBattleline": 1,
       "alleg": {
@@ -1183,6 +1231,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Chaos Knights"
       ],
       "linked": 1,
       "condBattleline": 1,
@@ -1256,6 +1307,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Chaos Knights"
+      ],
       "linked": 1,
       "condBattleline": 1,
       "alleg": {
@@ -1327,6 +1381,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Chaos Knights"
       ],
       "linked": 1,
       "step": {
@@ -1482,6 +1539,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Chaos Knights"
       ],
       "linked": 1,
       "condBattleline": 1,

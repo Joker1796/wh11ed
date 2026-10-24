@@ -27,6 +27,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Emperor’s Children"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -102,6 +105,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Emperor’s Children"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -169,6 +175,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Emperor’s Children"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -213,6 +222,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "has": [
@@ -455,6 +467,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Emperor’s Children"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -501,6 +516,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "has": [
@@ -559,6 +577,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Legions of Excess"
       ],
       "linked": 1,
       "has": [
@@ -657,6 +678,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "step": {
@@ -817,6 +841,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Legions of Excess"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -879,6 +906,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Emperor’s Children"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -927,6 +957,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Emperor’s Children"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -973,6 +1006,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "defaults": [
@@ -1056,6 +1092,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "minis": [
@@ -1167,6 +1206,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legions of Excess"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1237,6 +1279,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "step": {
@@ -1336,6 +1381,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Emperor’s Children"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1413,6 +1461,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Emperor’s Children"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1458,6 +1509,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "step": {
@@ -1530,6 +1584,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "step": {
@@ -1667,6 +1724,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Legions of Excess"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1780,6 +1840,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Legions of Excess"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1833,6 +1896,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "leads": [
@@ -1919,6 +1985,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Emperor’s Children"
       ],
       "linked": 1,
       "minis": [

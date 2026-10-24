@@ -26,6 +26,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -84,6 +87,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "defaults": [
@@ -151,6 +157,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "has": [
@@ -220,6 +229,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -274,6 +286,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -311,6 +326,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "leads": [
@@ -364,6 +382,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -408,6 +429,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "step": {
@@ -490,6 +514,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "step": {
@@ -578,6 +605,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -643,6 +673,9 @@ export default {
             4
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "step": {
@@ -743,6 +776,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -817,6 +853,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -888,6 +927,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "defaults": [
@@ -1023,6 +1065,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1119,6 +1164,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "has": [
@@ -1220,6 +1268,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "minis": [
         {
           "n": "Hoplite Alpha"
@@ -1338,6 +1389,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "minis": [
         {
           "n": "Peltast Alpha"
@@ -1462,6 +1516,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -1570,6 +1627,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "minis": [
@@ -1690,6 +1750,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "step": {
@@ -1845,6 +1908,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1994,6 +2060,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -2080,6 +2149,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2146,6 +2218,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "minis": [
@@ -2330,6 +2405,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -2504,6 +2582,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2570,6 +2651,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -2628,6 +2712,9 @@ export default {
             3
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "defaults": [
@@ -2688,6 +2775,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2730,6 +2820,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "defaults": [
@@ -2791,6 +2884,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "leads": [
@@ -2904,6 +3000,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2987,6 +3086,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Mechanicus"
       ],
       "linked": 1,
       "leads": [
@@ -3083,6 +3185,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -3162,6 +3267,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "defaults": [
         [
           0,
@@ -3239,6 +3347,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -3283,6 +3394,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Mechanicus"
+      ],
       "defaults": [
         [
           0,

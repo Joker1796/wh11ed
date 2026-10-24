@@ -31,6 +31,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -73,6 +77,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
       ],
       "linked": 1,
       "step": {
@@ -178,6 +186,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -276,6 +288,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "defaults": [
         [
           0,
@@ -350,6 +366,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "defaults": [
         [
           0,
@@ -431,6 +451,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -480,6 +504,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
       ],
       "linked": 1,
       "has": [
@@ -540,6 +568,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
       ],
       "linked": 1,
       "leads": [
@@ -621,6 +653,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
       ],
       "linked": 1,
       "has": [
@@ -753,6 +789,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -835,6 +875,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "defaults": [
         [
           0,
@@ -934,6 +978,10 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
       ],
       "linked": 1,
       "step": {
@@ -1108,6 +1156,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "defaults": [
         [
           0,
@@ -1220,6 +1272,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "defaults": [
         [
           0,
@@ -1329,6 +1385,10 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
       ],
       "linked": 1,
       "has": [
@@ -1518,6 +1578,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "defaults": [
         [
           0,
@@ -1639,6 +1703,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "defaults": [
         [
           0,
@@ -1719,6 +1787,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1771,6 +1843,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "defaults": [
         [
           0,
@@ -1842,6 +1918,10 @@ export default {
             6
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
       ],
       "linked": 1,
       "has": [
@@ -1915,6 +1995,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
       ],
       "linked": 1,
       "leads": [
@@ -1994,6 +2078,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "defaults": [
         [
           0,
@@ -2047,6 +2135,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -2091,6 +2183,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Blood Angels"
+      ],
       "defaults": [
         [
           0,

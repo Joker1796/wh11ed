@@ -28,6 +28,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -81,6 +84,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Imperial Knights"
       ],
       "linked": 1,
       "step": {
@@ -178,6 +184,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "condBattleline": 1,
       "defaults": [
@@ -236,6 +245,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Imperial Knights"
       ],
       "linked": 1,
       "step": {
@@ -379,6 +391,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "condBattleline": 1,
       "defaults": [
@@ -445,6 +460,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -499,6 +517,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -551,6 +572,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -598,6 +622,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Imperial Knights"
       ],
       "linked": 1,
       "step": {
@@ -647,6 +674,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -690,6 +720,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Imperial Knights"
       ],
       "linked": 1,
       "step": {
@@ -779,6 +812,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Imperial Knights"
       ],
       "linked": 1,
       "step": {
@@ -894,6 +930,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -953,6 +992,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Imperial Knights"
       ],
       "linked": 1,
       "step": {
@@ -1072,6 +1114,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1168,6 +1213,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1250,6 +1298,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Imperial Knights"
       ],
       "linked": 1,
       "step": {
@@ -1351,6 +1402,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1450,6 +1504,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1538,6 +1595,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Imperial Knights"
       ],
       "linked": 1,
       "step": {
@@ -1639,6 +1699,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Imperial Knights"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -1714,6 +1777,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Imperial Knights"
       ],
       "linked": 1,
       "step": {

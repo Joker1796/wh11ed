@@ -31,6 +31,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -156,6 +159,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -240,6 +246,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -320,6 +329,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {
@@ -541,6 +553,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -676,6 +691,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -773,6 +791,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {
@@ -941,6 +962,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -1074,6 +1098,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -1216,6 +1243,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -1344,6 +1374,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -1464,6 +1497,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -1596,6 +1632,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -1714,6 +1753,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "has": [
@@ -1842,6 +1884,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1956,6 +2001,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "step": {
@@ -2074,6 +2122,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -2164,6 +2215,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
@@ -2249,6 +2303,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "has": [
@@ -2536,6 +2593,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -2637,6 +2697,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "step": {
@@ -2756,6 +2819,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "step": {
@@ -3084,6 +3150,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -3216,6 +3285,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
@@ -3346,6 +3418,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "minis": [
         {
           "n": "Cultist Champion"
@@ -3540,6 +3615,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -3590,6 +3668,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {
@@ -3798,6 +3879,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -3953,6 +4037,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -4070,6 +4157,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "step": {
@@ -4228,6 +4318,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -4289,6 +4382,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -4386,6 +4482,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "leads": [
@@ -4544,6 +4643,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
@@ -4681,6 +4783,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -4804,6 +4909,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "minis": [
         {
           "n": "Nightmare Hulks"
@@ -4863,6 +4971,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -4910,6 +5021,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -4961,6 +5075,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "has": [
@@ -5030,6 +5147,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "step": {
@@ -5197,6 +5317,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
@@ -5323,6 +5446,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
@@ -5403,6 +5529,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -5487,6 +5616,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -5570,6 +5702,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "alleg": {
         "g": "daemonic-allegiance",
@@ -5631,6 +5766,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "has": [
@@ -5697,6 +5835,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "has": [
@@ -5818,6 +5959,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -5886,6 +6030,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "step": {
@@ -5969,6 +6116,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "has": [
@@ -6077,6 +6227,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -6142,6 +6295,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {
@@ -6481,6 +6637,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
@@ -6585,6 +6744,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {
@@ -6720,6 +6882,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {
@@ -6898,6 +7063,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -7059,6 +7227,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
@@ -7141,6 +7312,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -7209,6 +7383,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -7244,6 +7421,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -7329,6 +7509,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {
@@ -7558,6 +7741,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "alleg": {
         "g": "mark-of-chaos",
@@ -7615,6 +7801,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "has": [
@@ -7712,6 +7901,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "step": {
@@ -7857,6 +8049,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "has": [
@@ -8185,6 +8380,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -8342,6 +8540,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {
@@ -8505,6 +8706,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -8616,6 +8820,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -8720,6 +8927,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "minis": [
         {
           "n": "Ogryn Pack Master"
@@ -8796,6 +9006,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -8871,6 +9084,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -8909,6 +9125,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -8991,6 +9210,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {
@@ -9129,6 +9351,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -9244,6 +9469,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -9357,6 +9585,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -9453,6 +9684,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -9552,6 +9786,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "defaults": [
         [
           0,
@@ -9646,6 +9883,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {
@@ -9755,6 +9995,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "condBattleline": 1,
@@ -9909,6 +10152,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -9950,6 +10196,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "step": {
@@ -10048,6 +10297,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Heretic Astartes"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -10132,6 +10384,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Heretic Astartes"
       ],
       "linked": 1,
       "alleg": {

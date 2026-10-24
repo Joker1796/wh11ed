@@ -28,6 +28,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -84,6 +88,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "defaults": [
@@ -172,6 +180,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "minis": [
@@ -265,6 +277,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -319,6 +335,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -362,6 +382,10 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "step": {
@@ -411,6 +435,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "minis": [
@@ -517,6 +545,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -596,6 +628,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "minis": [
         {
           "n": "Hound of Morkai Pack Leader"
@@ -655,6 +691,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "leads": [
@@ -723,6 +763,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -778,6 +822,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "has": [
@@ -844,6 +892,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -920,6 +972,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "minis": [
         {
           "n": "Long Fang Pack Leader"
@@ -1069,6 +1125,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -1119,6 +1179,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1165,6 +1229,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "leads": [
@@ -1239,6 +1307,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "leads": [
@@ -1338,6 +1410,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "minis": [
         {
           "n": "Skyclaw Pack Leader"
@@ -1508,6 +1584,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -1598,6 +1678,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -1696,6 +1780,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "step": {
@@ -1872,6 +1960,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1936,6 +2028,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "step": {
@@ -2067,6 +2163,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "minis": [
         {
           "n": "Wolf Guard Pack Leader"
@@ -2188,6 +2288,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -2284,6 +2388,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -2411,6 +2519,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -2597,6 +2709,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -2685,6 +2801,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -2811,6 +2931,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -2950,6 +3074,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -3080,6 +3208,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "has": [
@@ -3241,6 +3373,10 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "defaults": [
         [
           0,
@@ -3368,6 +3504,10 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -3467,6 +3607,10 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "step": {
@@ -3656,6 +3800,10 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -3713,6 +3861,10 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "step": {
@@ -3793,6 +3945,10 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Adeptus Astartes",
+        "Space Wolves"
       ],
       "linked": 1,
       "step": {

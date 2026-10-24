@@ -32,6 +32,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -96,6 +99,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "minis": [
@@ -194,6 +200,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Thousand Sons"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -233,6 +242,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Thousand Sons"
       ],
       "linked": 1,
       "defaults": [

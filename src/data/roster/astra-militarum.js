@@ -31,6 +31,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -78,6 +81,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1
     },
     {
@@ -104,6 +110,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -163,6 +172,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -287,6 +299,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -376,6 +391,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -463,6 +481,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -529,6 +550,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -566,6 +590,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -656,6 +683,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -793,6 +823,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -840,6 +873,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -972,6 +1008,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -1089,6 +1128,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -1209,6 +1251,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -1308,6 +1353,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -1454,6 +1502,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -1585,6 +1636,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "leads": [
@@ -1877,6 +1931,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -1954,6 +2011,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "minis": [
@@ -2183,6 +2243,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "hosts": {
         "n": 2,
@@ -2349,6 +2412,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -2486,6 +2552,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "leads": [
@@ -2689,6 +2758,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -2784,6 +2856,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "hosts": {
@@ -2913,6 +2988,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -2966,6 +3044,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -3011,6 +3092,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -3122,6 +3206,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -3167,6 +3254,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -3231,6 +3321,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "leads": [
@@ -3331,6 +3424,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -3389,6 +3485,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "leads": [
@@ -3458,6 +3557,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "leads": [
@@ -3540,6 +3642,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -3591,6 +3696,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -3623,6 +3731,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "minis": [
         {
           "n": "Grenadier Sergeant"
@@ -3762,6 +3873,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "hosts": {
@@ -3989,6 +4103,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "along": [
         "Death Rider Squadron Commander",
         "Lord Marshal Dreir",
@@ -4070,6 +4187,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -4148,6 +4268,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -4223,6 +4346,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -4336,6 +4462,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -4458,6 +4587,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -4498,6 +4630,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -4540,6 +4675,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -4605,6 +4743,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -4647,6 +4788,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "defaults": [
@@ -4744,6 +4888,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "minis": [
@@ -4873,6 +5020,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -4976,6 +5126,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -5047,6 +5200,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -5084,6 +5240,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -5125,6 +5284,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -5181,6 +5343,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "minis": [
         {
           "n": "Minka Lesk"
@@ -5278,6 +5443,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -5409,6 +5577,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -5508,6 +5679,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -5586,6 +5760,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -5656,6 +5833,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -5703,6 +5883,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -5934,6 +6117,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -6183,6 +6369,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "leads": [
@@ -6441,6 +6630,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -6524,6 +6716,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -6665,6 +6860,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -6832,6 +7030,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -6968,6 +7169,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -7106,6 +7310,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -7242,6 +7449,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -7380,6 +7590,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -7516,6 +7729,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -7658,6 +7874,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -7711,6 +7930,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "leads": [
@@ -7788,6 +8010,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -7899,6 +8124,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8007,6 +8235,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8118,6 +8349,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8229,6 +8463,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8345,6 +8582,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8445,6 +8685,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8542,6 +8785,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8653,6 +8899,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 3,
@@ -8727,6 +8976,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8768,6 +9020,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8843,6 +9098,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8915,6 +9173,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -8966,6 +9227,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "has": [
@@ -9195,6 +9459,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -9285,6 +9552,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -9335,6 +9605,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "minis": [
         {
           "n": "Mukaali Rider Sergeant"
@@ -9461,6 +9734,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -9556,6 +9832,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -9626,6 +9905,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "leads": [
@@ -9758,6 +10040,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "minis": [
         {
@@ -9813,6 +10098,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -9871,6 +10159,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "leads": [
@@ -9946,6 +10237,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -10005,6 +10299,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "minis": [
         {
           "n": "Quartermaster Revenant"
@@ -10091,6 +10388,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -10133,6 +10433,9 @@ export default {
             10
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "defaults": [
@@ -10241,6 +10544,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "minis": [
         {
           "n": "Master of Ordnance"
@@ -10330,6 +10636,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "minis": [
         {
           "n": "Rein"
@@ -10397,6 +10706,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -10531,6 +10843,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -10669,6 +10984,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -10734,6 +11052,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -10804,6 +11125,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -10879,6 +11203,9 @@ export default {
             2
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "defaults": [
@@ -10971,6 +11298,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -11011,6 +11341,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -11055,6 +11388,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -11179,6 +11515,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "defaults": [
         [
@@ -11223,6 +11562,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -11306,6 +11648,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -11439,6 +11784,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -11560,6 +11908,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 2,
@@ -11680,6 +12031,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -11757,6 +12111,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -11813,6 +12170,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -11879,6 +12239,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -11944,6 +12307,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "step": {
         "at": 4,
@@ -12000,6 +12366,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -12090,6 +12459,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -12170,6 +12542,9 @@ export default {
             ]
           ]
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "has": [
@@ -12417,6 +12792,9 @@ export default {
           ]
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "has": [
         "Deep Strike"
@@ -12591,6 +12969,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -12658,6 +13039,9 @@ export default {
           "default": 1
         }
       ],
+      "fkws": [
+        "Astra Militarum"
+      ],
       "linked": 1,
       "leads": [
         {
@@ -12710,6 +13094,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -12806,6 +13193,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
@@ -12904,6 +13294,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -12968,6 +13361,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -13039,6 +13435,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -13090,6 +13489,9 @@ export default {
         }
       ],
       "linked": 1,
+      "fkws": [
+        "Astra Militarum"
+      ],
       "defaults": [
         [
           0,
@@ -13158,6 +13560,9 @@ export default {
           ],
           "default": 1
         }
+      ],
+      "fkws": [
+        "Astra Militarum"
       ],
       "linked": 1,
       "step": {
