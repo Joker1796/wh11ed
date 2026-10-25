@@ -106,19 +106,17 @@ describe('PreBattle — one phone', () => {
 describe('PreBattle — a shared game, on the guest\'s phone', () => {
   const guest = { id: 'p', memberId: 'm-guest', token: 't', side: 1, mi: null, host: false, seq: 1, versions: {} }
 
-  it('chooses its own side\'s secondaries and hides the other\'s until both have', async () => {
+  // What is chosen is chosen (owner, 2026-10-25): no Done, no Change; the other side's choice is
+  // not shown before the battle.
+  it('chooses its own side\'s secondaries with no Done, and keeps the other\'s hidden', async () => {
     startGame({ party: guest })
     const w = mountIt()
     const [host, mine] = step(w, 6).findAll('.pb-side')
     expect(host.find('.pb-seg').exists()).toBe(false)
-    expect(host.find('.pb-status').text()).toBe('choosing…')
+    expect(host.find('.pb-status').text()).toBe('chooses on their phone')
     expect(mine.find('.pb-seg').exists()).toBe(true)
-    // The host confirms: still nothing of its choice on this phone, until this one has chosen.
-    tracker.confirmSecondaries(0)
-    await w.vm.$nextTick()
-    expect(step(w, 6).findAll('.pb-side')[0].find('.pb-status').text()).toBe('has chosen — shown once you have')
-    await step(w, 6).findAll('.pb-side')[1].find('.pb-done').trigger('click')
-    expect(step(w, 6).findAll('.pb-side')[0].find('.pb-status').text()).toContain('Tactical')
+    expect(w.find('.pb-done').exists()).toBe(false)
+    expect(w.find('.pb-change').exists()).toBe(false)
     expect(tracker.battleWaitsFor()).toBe('firstTurn')
   })
 

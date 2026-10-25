@@ -174,7 +174,7 @@
           :end-locked="!canEdit(turnIndex) || !!battleWait"
           :undo-title="undoTitle"
           :end-title="endTitle"
-          :locked-text="battleWait ? labels[BATTLE_WAIT[battleWait]] : (begun ? labels.trackerTurnOf : labels.trackerStartsOf).replace('{name}', playerName(turnIndex))"
+          :locked-text="battleWait ? labels[waitStep || battleWait !== 'fixed' ? BATTLE_WAIT[battleWait] : 'pbWaitSecondaries'] : (begun ? labels.trackerTurnOf : labels.trackerStartsOf).replace('{name}', playerName(turnIndex))"
           :start-go="!!waitStep"
           @start="beginGame()"
           @go="goToWaitStep"
@@ -645,7 +645,7 @@ const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, spendCp
 const strictText = (why) => (why ? labels.value[`trackerStrict_${why}`] : '')
 const begun = computed(() => gameBegun(current.value))
 // What the battle still waits for before it may begin (PreBattle's two choices), said on Start.
-const BATTLE_WAIT = { fixed: 'pbWaitFixed', secondaries: 'pbWaitSecondaries', firstTurn: 'pbWaitFirstTurn' }
+const BATTLE_WAIT = { fixed: 'pbWaitFixed', firstTurn: 'pbWaitFirstTurn' }
 const battleWait = computed(() => (begun.value ? null : battleWaitsFor()))
 // …and the step THIS phone can answer it at, where Start then takes (TurnBar `startGo`): the roll is
 // the host's to mark in a shared game, the secondaries each side's own. Waiting on another phone
@@ -655,7 +655,6 @@ const waitStep = computed(() => {
   const pls = current.value?.players || []
   if (w === 'firstTurn') return !partyActive.value || isHost.value ? 10 : null
   if (w === 'fixed') return pls.some((pl, i) => pl.secondaryMode === 'fixed' && !pl.secondary?.hand?.length && canEdit(i)) ? 6 : null
-  if (w === 'secondaries') return pls.some((pl, i) => pl.secondaryPending && canEdit(i)) ? 6 : null
   return null
 })
 async function goToWaitStep() {
@@ -674,7 +673,9 @@ async function goToWaitStep() {
   // A pulse on the step, so the eye lands where the finger has to go next.
   el.animate?.([{ backgroundColor: 'color-mix(in srgb, var(--accent) 22%, transparent)' }, { backgroundColor: 'transparent' }], { duration: motionMs('--motion-flash') * 3, easing: 'ease-out' })
 }
-const secretOf = (pi) => !begun.value && !canEdit(pi) && current.value.players.some((p) => p.secondaryPending)
+// A side another phone plays keeps its secondaries to itself until the battle begins (Mission
+// Sequence step 6: chosen in secret).
+const secretOf = (pi) => !begun.value && !canEdit(pi)
 // Every tab carries its word on a wide screen (see .game-tabs in the styles).
 const wideTabs = useMediaQuery('(min-width: 901px)')
 
