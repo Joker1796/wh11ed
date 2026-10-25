@@ -44,7 +44,29 @@
             :key="i"
             class="pb-side"
           >
-            <span class="pb-who">{{ name(i) }}</span>
+            <!-- The side's name and what is left to do with it on one line; the choice under it. -->
+            <div class="pb-side-head">
+              <span class="pb-who">{{ name(i) }}</span>
+              <span
+                v-if="!choosing(i)"
+                class="pb-status"
+              >{{ status(i) }}</span>
+              <button
+                v-if="choosing(i) && shared"
+                class="btn-primary pb-done"
+                :disabled="mode(i) === 'fixed' && !hand(i).length"
+                @click="confirmSecondaries(i)"
+              >
+                {{ labels.lobbyDone }}
+              </button>
+              <button
+                v-else-if="!choosing(i) && canEdit(i)"
+                class="btn-ghost pb-change"
+                @click="reopen(i)"
+              >
+                {{ labels.pbChange }}
+              </button>
+            </div>
             <template v-if="choosing(i)">
               <div class="seg pb-seg">
                 <button
@@ -75,24 +97,6 @@
                   <i class="wi wi-chevron-right picker-trigger-chev" />
                 </button>
               </ExpandTransition>
-              <button
-                v-if="shared"
-                class="btn-primary pb-done"
-                :disabled="mode(i) === 'fixed' && !hand(i).length"
-                @click="confirmSecondaries(i)"
-              >
-                {{ labels.lobbyDone }}
-              </button>
-            </template>
-            <template v-else>
-              <span class="pb-status">{{ status(i) }}</span>
-              <button
-                v-if="canEdit(i)"
-                class="btn-ghost pb-change"
-                @click="reopen(i)"
-              >
-                {{ labels.pbChange }}
-              </button>
             </template>
           </div>
         </div>
@@ -257,14 +261,13 @@ function roll(i) {
 </script>
 
 <style scoped>
-/* A card over the missions while the battle has not begun: the steps the table works through, one
-   short line each — the sides' names in them, so nobody looks up which of the two is the Defender. */
+/* Over the missions while the battle has not begun, inside their frame: the steps the table works
+   through, one short line each — the sides' names in them, so nobody looks up which of the two is
+   the Defender. No frame of its own: a rule under it parts it from the side's missions. */
 .pb {
-  margin: 0 0 0.9rem;
-  padding: 0.7rem 0.85rem 0.8rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  margin: 0.3rem 0 0.8rem;
+  padding: 0 0 0.8rem;
+  border-bottom: 1px solid var(--border);
 }
 .pb-head {
   display: flex;
@@ -289,20 +292,18 @@ function roll(i) {
 .pb-body { min-width: 0; }
 .pb-name { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
 .pb-text { margin: 0.1rem 0 0; font-size: 0.84rem; line-height: 1.4; color: var(--text-muted); }
-/* A side's choice: its name, then the switch and the cards — on one line while the width allows. */
-.pb-side {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 0.6rem;
-  margin-top: 0.45rem;
-}
-.pb-who { flex: 0 0 auto; min-width: 0; max-width: 100%; font-size: 0.84rem; font-weight: 600; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pb-seg { flex: 1 1 14rem; }
+/* A side's choice: its name and Done (or its state and Change) on one line, the switch and the
+   cards under it at the full width — beside the name the switch's two words were cut at 375px. */
+.pb-side { display: grid; gap: 0.35rem; margin-top: 0.5rem; }
+.pb-side-head { display: flex; align-items: center; gap: 0.6rem; min-height: 40px; }
+/* The name keeps its width (up to half the line) and the state beside it wraps — shrunk first, the
+   name was "М…" beside "has chosen — shown once you have" (2026-10-25). */
+.pb-who { flex: 0 0 auto; max-width: 50%; font-size: 0.86rem; font-weight: 600; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pb-seg { display: flex; }
 .pb-seg button { flex: 1 1 0; min-width: 0; }
-.pb-fixed { flex: 1 1 100%; min-height: 40px; }
+.pb-fixed { width: 100%; min-height: 40px; }
 .pb-placeholder { color: var(--text-muted); font-weight: 500; }
-.pb-done, .pb-change { flex: 0 0 auto; min-height: 40px; padding: 0.3rem 0.8rem; font-size: 0.85rem; }
-.pb-status { flex: 1 1 auto; min-width: 0; font-size: 0.84rem; color: var(--text-muted); }
+.pb-done, .pb-change { flex: 0 0 auto; margin-left: auto; min-height: 40px; padding: 0.3rem 0.8rem; font-size: 0.85rem; }
+.pb-status { flex: 1 1 0; min-width: 0; font-size: 0.84rem; line-height: 1.35; color: var(--text-muted); }
 .pb-roll { margin-top: 0.4rem; display: flex; }
 </style>

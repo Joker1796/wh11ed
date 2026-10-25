@@ -88,6 +88,9 @@ describe('TrackOptions', () => {
       expect(turnRow(t).find('input').element.disabled).toBe(true)
       expect(turnRow(t).text()).toContain('Host only')
     }
+    // …shown at the host's value: "off" on a guest's phone read as "the host does not count CP".
+    expect(turnRow('Command points').find('input').element.checked).toBe(true)
+    expect(turnRow('Track phases').find('input').element.checked).toBe(false)
     for (const t of ['Stratagems', 'Ask the unit and the cost', 'Rules for this phase or turn', 'Missions']) {
       expect(turnRow(t).find('input').element.disabled).toBe(false)
     }

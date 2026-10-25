@@ -796,8 +796,9 @@
               class="ph-team"
             >&nbsp;· {{ p.teamName }}</span>
           </h3>
+          <!-- Not over another phone's report: it names the army itself, and the line read twice. -->
           <p
-            v-if="!guest"
+            v-if="!guest && !mirrored(i)"
             class="army-summary"
           >
             {{ armySummary(p, i) }}

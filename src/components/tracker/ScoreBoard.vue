@@ -142,7 +142,8 @@ const bp = computed(() => battlePointsOf(game.value))
 
 // Whose turn it is — a live game only; a result has no "now". players[0] is the first-turn
 // player, so the turn is a player index.
-const turnIdx = computed(() => (props.finished ? -1 : game.value?.currentTurn === 1 ? 1 : 0))
+// Nobody's before the roll for the first turn (PreBattle): the order is provisional until then.
+const turnIdx = computed(() => (props.finished || game.value?.firstTurnPending ? -1 : game.value?.currentTurn === 1 ? 1 : 0))
 
 // The army under the name: one faction, or a doubles side's two. The light factionsIndex, never
 // the heavy tracker dataset.

@@ -249,9 +249,6 @@
       data-tour="game-missions"
       role="tabpanel"
     >
-      <!-- Before the battle: the Mission Sequence's steps from the secondaries to the pre-battle
-           rules, over the missions they lead to (PreBattle.vue). -->
-      <PreBattle v-if="!begun" />
       <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
       <details
         v-if="activeTwist"
@@ -288,6 +285,10 @@
         class="mside side-frame"
         :class="{ opp: !isYouSide(current.players[missionSide], missionSide) }"
       >
+        <!-- Before the battle: the Mission Sequence's steps from the secondaries to the pre-battle
+             rules, over the missions they lead to (PreBattle.vue). Inside the frame, so the panel
+             still hangs from the tab strip. -->
+        <PreBattle v-if="!begun" />
         <!-- In a shared game a side another phone plays is shown as it is, greyed, with the
              reason under its title — never hidden: what the opponent has scored is exactly what a
              player wants to see. The lock is on what SCORES — the primary's stepper, the deck's
@@ -993,6 +994,8 @@ const turnHeadline = computed(() => {
   const t = turnIndex.value
   const pl = current.value.players[t]
   const parts = [{ text: `${l.trackerRoundShort} ` }, { text: String(current.value.currentRound), strong: true }, { text: ' \u00b7 ' }]
+  // Nobody has the turn before the roll for it (PreBattle): the order on screen is provisional.
+  if (current.value.firstTurnPending) return [...parts, { text: l.pbTitle.toLowerCase() }]
   // Your own turn is "your turn" whatever you named yourself (owner, 2026-10-06): the name is for
   // telling the OTHER side apart. "Your" is this phone's side — in a shared game `isYou` is the
   // device's seat, not the host's — and in doubles the side is the team, which plays its turn together.

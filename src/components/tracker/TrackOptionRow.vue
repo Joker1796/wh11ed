@@ -3,7 +3,9 @@
        inside it to its control, so the help button cannot live in there — it would silently flip
        the setting it explains. The two sit side by side instead, sharing one dividing line.
        A row that cannot be flipped shows as off: a pale tick under a switched-off parent read as
-       "on" (QA, 2026-10-17); its stored value stays and comes back with the parent. -->
+       "on" (QA, 2026-10-17); its stored value stays and comes back with the parent. The one
+       exception is the host's row on a guest's phone (`held`): it is the game's answer, so it
+       shows what the host chose — "off" there read as "the host does not count CP". -->
   <div
     class="opt-row"
     :class="{ off: !enabled, child: depth > 0 }"
@@ -11,11 +13,11 @@
   >
     <label
       class="check"
-      :class="{ on: enabled && settings[o.setting] }"
+      :class="{ on: shown }"
     >
       <input
         type="checkbox"
-        :checked="enabled && !!settings[o.setting]"
+        :checked="shown"
         :disabled="!enabled"
         @change="settings[o.setting] = $event.target.checked"
       >
@@ -66,8 +68,10 @@
 // is the caller's draft, written in place (see TrackOptions).
 import ExpandTransition from '../ExpandTransition.vue'
 import SideColorPreview from './SideColorPreview.vue'
+import { computed } from 'vue'
+import { tracks } from '../../data/trackerOptions.js'
 
-defineProps({
+const props = defineProps({
   o: { type: Object, required: true },
   settings: { type: Object, required: true },
   ctx: { type: Object, required: true },
@@ -77,11 +81,14 @@ defineProps({
   // How far in it is drawn: 1 under its parent, 2 under a child (trackerOptions' depthOf).
   depth: { type: Number, default: 0 },
   reason: { type: String, default: null },
+  // The host's row on a guest's phone: shown at the host's value though it cannot be flipped.
+  held: { type: Boolean, default: false },
   // A caption under the label, as a ui.js key (TrackOptions' `shared`).
   tag: { type: String, default: null },
   labels: { type: Object, required: true },
 })
 defineEmits(['help'])
+const shown = computed(() => (props.held ? tracks(props.settings, props.o.setting) : props.enabled && !!props.settings[props.o.setting]))
 </script>
 
 <style scoped>

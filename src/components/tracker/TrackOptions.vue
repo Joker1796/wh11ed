@@ -27,6 +27,7 @@
         :enabled="enabledOf(o)"
         :reason="reasonOf(o)"
         :tag="tagOf(o)"
+        :held="hostsRow(o)"
         :labels="labels"
         @help="helpFor = $event"
       />
@@ -57,6 +58,7 @@
               :enabled="enabledOf(f)"
               :reason="reasonOf(f)"
               :tag="tagOf(f)"
+              :held="hostsRow(f)"
               :labels="labels"
               @help="helpFor = $event"
             />
