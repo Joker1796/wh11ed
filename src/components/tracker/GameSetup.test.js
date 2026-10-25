@@ -382,9 +382,11 @@ describe('GameSetup — a list and the battle size', () => {
     await toIncursion(w)
     const next = w.findAll('.actions .btn-primary').find((b) => b.text().includes('Next'))
     await next.trigger('click')
-    await flushPromises()
+    // The check loads the list's faction data: a cold import outlasts one flush (it failed one run
+    // in four on a fresh cache).
+    await settle()
     const body = new DOMWrapper(document.body)
-    expect(body.text()).toContain('The list does not fit the game')
+    await vi.waitFor(() => expect(body.text()).toContain('The list does not fit the game'))
     expect(body.text()).toContain('Da List: detachments cost 3 DP, the game allows 2')
     await body.findAll('button').find((b) => b.text().includes('Go on anyway')).trigger('click')
     await flushPromises()
