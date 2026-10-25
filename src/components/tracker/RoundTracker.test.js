@@ -485,15 +485,17 @@ describe('RoundTracker — a shared game', () => {
   }
   const lockedBoth = async (w) => [locked(await sideCard(w, 0)), locked(await sideCard(w, 1))]
   const mountBoth = async () => mountTracker()
-  // The lock is on the scoring controls, never on the card (the army rule's tracker, readable but
-  // inert on a side another phone plays, is the Armies tab's: ArmiesPanel.test.js).
+  // The lock is on the scoring controls, never on the card or a mission (the army rule's tracker,
+  // readable but inert on a side another phone plays, is the Armies tab's: ArmiesPanel.test.js).
+  // The primary's card and the deck stay live — their cards open view only — and the deck is
+  // told it may not score (`editable`), which is what takes its actions away.
   function locked(card) {
-    const primary = card.find('.mission-card, .score-row')
     const deck = card.findComponent({ name: 'SecondaryDeck' })
     return {
       card: card.attributes('inert'),
-      primary: primary.attributes('inert'),
+      primary: card.find('.mission-card').attributes('inert'),
       deck: deck.attributes('inert'),
+      scores: deck.props('editable'),
       caption: card.find('.plocked').exists(),
     }
   }
@@ -503,8 +505,8 @@ describe('RoundTracker — a shared game', () => {
     await flushPromises()
     return [...document.body.querySelectorAll('.act-btn')].find((b) => b.textContent.includes('Setup'))
   }
-  const OPEN = { card: undefined, primary: undefined, deck: undefined, caption: false }
-  const LOCKED = { card: undefined, primary: 'true', deck: 'true', caption: true }
+  const OPEN = { card: undefined, primary: undefined, deck: undefined, scores: true, caption: false }
+  const LOCKED = { card: undefined, primary: undefined, deck: undefined, scores: false, caption: true }
 
   it('leaves both cards live and the setup button enabled with no party', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
@@ -519,6 +521,20 @@ describe('RoundTracker — a shared game', () => {
     expect(await lockedBoth(w)).toEqual([LOCKED, OPEN])
     expect((await sideCard(w, 0)).text()).toContain('Scored on another device')
     expect((await setupRow(w)).disabled).toBe(false)
+  })
+
+  // The opponent's missions lie face up (Event Companion): a guest opens the other side's primary
+  // and reads it, ticking nothing (the owner's first game, 2026-10-24).
+  it('a guest opens the other side\'s primary view only', async () => {
+    withParty({ host: false, side: 1 })
+    const w = await mountBoth()
+    const card = await sideCard(w, 0)
+    await card.find('.mission-card').trigger('click')
+    await flushPromises()
+    const dialog = document.body.querySelector('[role="dialog"]')
+    expect(dialog.querySelector('.view-only').textContent).toContain('Scored on another device')
+    expect(dialog.querySelectorAll('.m-cond').length).toBeGreaterThan(0)
+    expect(dialog.querySelectorAll('.m-cond input, .m-cond button')).toHaveLength(0)
   })
 
   it('the host edits a side nobody sits on, and not one another phone holds', async () => {

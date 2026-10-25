@@ -287,12 +287,14 @@
       >
         <!-- In a shared game a side another phone plays is shown as it is, greyed, with the
              reason under its title — never hidden: what the opponent has scored is exactly what a
-             player wants to see. The lock is on what SCORES — the primary, the deck, the army
-             tracker's controls (`inert`, see lock()) — not on the card, because the card is also
-             where the opponent's army rule is READ. A guest who could not open the other side's
-             Waaagh! rule was the first complaint about the shared game. The sync layer snaps
-             back anything that gets past the lock. `inert` is a presence attribute — a rendered
-             "false" would still be inert — hence `undefined` rather than false. -->
+             player wants to see. The lock is on what SCORES — the primary's stepper, the deck's
+             take and card actions, the army tracker's controls (`inert`, see lock()) — never on
+             what is READ: the mission cards open, view only (the opponent's missions lie face up,
+             Event Companion; a whole inert deck kept them shut, the owner's first game,
+             2026-10-24), and the army rule stays readable (a guest who could not open the other
+             side's Waaagh! rule was the first complaint about the shared game). The sync layer
+             snaps back anything that gets past the lock. `inert` is a presence attribute — a
+             rendered "false" would still be inert — hence `undefined` rather than false. -->
         <template
           v-for="i in [missionSide]"
           :key="i"
@@ -317,7 +319,6 @@
               type="button"
               class="mission-card"
               data-press
-              :inert="lock(i)"
               @click="openPrimary = i"
             >
               <span class="mc-name">{{ primaryName(i) }}</span>
@@ -353,7 +354,6 @@
               :turn-names="playerNames"
               :editable="canEdit(i)"
               :name="playerName(i)"
-              :inert="lock(i)"
               @open-turn="t => openTurn(t)"
             />
           </div>
@@ -498,8 +498,8 @@
       :blocks="primaryBlocks(openPrimary)"
       :briefing="primaryMission(openPrimary).briefing"
       :count="(bi, ri) => primaryRowCount(openPrimary, shownRound - 1, bi, ri)"
-      :readonly="!!pastWhy"
-      :view-only-note="pastWhy"
+      :readonly="!!pastWhy || !canEdit(openPrimary)"
+      :view-only-note="pastWhy || (canEdit(openPrimary) ? null : labels.partyOtherSide)"
       :locked="b => primaryLocked(openPrimary, b)"
       :fix="primaryFix(openPrimary)"
       :opp="!isYouSide(current.players[openPrimary], openPrimary)"

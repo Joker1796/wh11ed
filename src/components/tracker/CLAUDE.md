@@ -478,8 +478,11 @@ yours", one rule instead of a permission matrix — and the host takes it back b
 (`party.scoreAll`, local to the handle, off by default; for a guest who joined to watch). The right stays wider than the lock on purpose: a setup edit rewrites both
 sides, so a server-side lock would break the host's own dialog. `RoundTracker` greys the locked
 side with the reason under its title (the host's line names the way back) and puts `inert` (a
-presence attribute — `undefined`, not `false`) on what SCORES — the primary, the deck, the CP
-stepper; `ArmiesPanel`, where the army rule's tracker lives since 2026-09-29 (owner: everything
+presence attribute — `undefined`, not `false`) on what SCORES — the primary's stepper, the CP
+stepper. The mission cards are not inert: the opponent's primary and secondaries lie face up
+(Event Companion), so they open view only ("Scored on another device"), and `SecondaryDeck`'s
+`editable` takes its actions away — the take, a card's "⋯", return (until 2026-10-25 the whole deck
+was inert, and the owner could not read his opponent's missions in his first game); `ArmiesPanel`, where the army rule's tracker lives since 2026-09-29 (owner: everything
 about an army in one place, not under the missions), passes `readonly` to `ArmyTrackerCard`, which inerts its own controls and leaves the
 rule text, the active rule and the spent log live; the card itself is never inert, because the
 opponent's setup facts, list and army rule are things to READ mid-game (the first complaint about

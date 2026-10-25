@@ -15,7 +15,7 @@
         {{ takeLabel }}
       </button>
       <button
-        v-if="takenNow"
+        v-if="takenNow && editable"
         class="untake-btn"
         data-press
         @click="takeOpen = true"
@@ -75,7 +75,7 @@
             <span class="card-vp">{{ secondaryCardVp(pi, m.slug, round) }} VP</span>
           </button>
           <button
-            v-if="live && mode === 'tactical' && inHand(m.slug)"
+            v-if="editable && live && mode === 'tactical' && inHand(m.slug)"
             class="manage"
             data-press
             :title="labels.trackerCardActions"
@@ -85,7 +85,7 @@
             ⋯
           </button>
           <button
-            v-else-if="live && mode === 'tactical' && isSetAside(m.slug)"
+            v-else-if="editable && live && mode === 'tactical' && isSetAside(m.slug)"
             class="manage restore"
             data-press
             :disabled="!!restoreWhy(m.slug)"
@@ -98,7 +98,7 @@
         </div>
         <!-- Strict rules: a card set aside before the side's last action stays set aside. -->
         <small
-          v-if="live && mode === 'tactical' && isSetAside(m.slug) && restoreWhy(m.slug)"
+          v-if="editable && live && mode === 'tactical' && isSetAside(m.slug) && restoreWhy(m.slug)"
           class="check-note card-why"
         >{{ labels[`trackerStrict_${restoreWhy(m.slug)}`] }}</small>
       </li>
@@ -117,12 +117,12 @@
       :vp="secondaryCardVp(pi, openMission.slug, round)"
       :blocks="relevantBlocks(openMission)"
       :briefing="openMission.briefing"
-      :when-drawn="live ? whenDrawnFor(openMission) : null"
-      :readonly="readonlyCard(openMission.slug) || !!pastWhy"
-      :view-only-note="pastWhy ? labels[`trackerStrict_${pastWhy}`] : null"
+      :when-drawn="live && editable ? whenDrawnFor(openMission) : null"
+      :readonly="readonlyCard(openMission.slug) || !!pastWhy || !editable"
+      :view-only-note="!editable ? labels.partyOtherSide : pastWhy ? labels[`trackerStrict_${pastWhy}`] : null"
       :count="(bi, ri) => secondaryRowCount(pi, openMission.slug, bi, ri, round)"
       :locked="b => rowLocked(openMission, b)"
-      :fix="fixLabel(openMission)"
+      :fix="editable ? fixLabel(openMission) : ''"
       :opp="!isYouSide(player, pi)"
       @set="(bi, ri, c) => scoreSecondaryRow(pi, openMission.slug, bi, ri, c, round, turn)"
       @fix="$emit('open-turn', fixTurn(openMission))"
@@ -250,9 +250,10 @@ import { provideSideScope } from '../../composables/modalScope.js'
 
 // `round`, `turn` — the turn on screen: the live one, or one already played being corrected (the
 // game screen's round steps; `open-turn` asks it to open another). `turnNames` — whose each turn
-// is, for the lock's reason. `editable` — this phone may score this side (a shared game locks the
-// other side; the parent makes the block inert, this only decides whether a dialog may open by
-// itself). `name` — the side's name for the dialogs.
+// is, for the lock's reason. `editable` — this phone may score this side. A shared game locks the
+// other side's ACTIONS here — the take, a card's "⋯" and return, the dialog opening by itself —
+// and opens its cards view only: they lie face up, and a deck the parent made inert kept the
+// opponent's missions shut (2026-10-24). `name` — the side's name for the dialogs.
 const props = defineProps({
   pi: { type: Number, required: true },
   round: { type: Number, required: true },
@@ -349,7 +350,7 @@ function whenDrawnFor(m) {
 // once per turn on the phone that plays that side — where the game keeps the mission help on
 // (`trackMissionAids`); off, the take button is still there, it just does not open itself.
 const takeOpen = ref(false)
-const canTake = computed(() => live.value && canTakeSecondaries(props.pi))
+const canTake = computed(() => live.value && props.editable && canTakeSecondaries(props.pi))
 // Taken this turn by the side on turn: the dialog reopens on what came in.
 const takenNow = computed(() => live.value && mode.value === 'tactical'
   && (current.value.currentTurn === 1 ? 1 : 0) === props.pi && !!tookSecondaries(props.pi))
