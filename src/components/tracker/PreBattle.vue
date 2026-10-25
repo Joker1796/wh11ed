@@ -219,6 +219,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, sideName, isYouSide, battleOf, fixedPool, missionBySlug } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
+import { provideSideScope } from '../../composables/modalScope.js'
 
 // The Event Companion's Mission Sequence, which these steps are numbered by.
 const SEQUENCE = { path: '/event-companion', hash: '#ec-chapter-sequence' }
@@ -267,6 +268,9 @@ function status(i) {
   return mode(i) === 'fixed' ? `${labels.value.pbFixed}: ${fixedLine(i)}` : labels.value.pbTactical
 }
 const pickerFor = ref(-1)
+// The fixed-secondaries picker is the side's it was opened for, in that side's colour — as its row
+// is (owner, 2026-10-25: the opponent's picker opened in yours).
+provideSideScope(() => (pickerFor.value >= 0 ? !isYouSide(players.value[pickerFor.value], pickerFor.value) : null))
 const maxFixed = computed(() => battleOf(current.value.settings).secondaries)
 const fixedMissions = computed(() => {
   if (pickerFor.value < 0) return []
