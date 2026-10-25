@@ -3859,6 +3859,10 @@ export default {
         {
           "to": "corsair-voidreavers",
           "type": "leader"
+        },
+        {
+          "to": "corsair-reaver-band",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -4497,6 +4501,10 @@ export default {
         },
         {
           "to": "corsair-voidreavers",
+          "type": "leader"
+        },
+        {
+          "to": "corsair-reaver-band",
           "type": "leader"
         }
       ],
@@ -6089,6 +6097,10 @@ export default {
         },
         {
           "to": "ynnari-wyches",
+          "type": "support"
+        },
+        {
+          "to": "corsair-reaver-band",
           "type": "support"
         }
       ],
@@ -8952,6 +8964,10 @@ export default {
         },
         {
           "to": "ynnari-wyches",
+          "type": "leader"
+        },
+        {
+          "to": "corsair-reaver-band",
           "type": "leader"
         }
       ],

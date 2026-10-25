@@ -360,6 +360,10 @@ export default {
         {
           "to": "sternguard-veteran-squad",
           "type": "support"
+        },
+        {
+          "to": "wolf-guard",
+          "type": "support"
         }
       ],
       "defaults": [
@@ -451,6 +455,10 @@ export default {
         },
         {
           "to": "terminator-squad",
+          "type": "support"
+        },
+        {
+          "to": "deathwing-command-squad",
           "type": "support"
         }
       ],
@@ -1477,6 +1485,10 @@ export default {
         {
           "to": "vanguard-veteran-squad",
           "type": "leader"
+        },
+        {
+          "to": "wolf-guard",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -1723,6 +1735,10 @@ export default {
         {
           "to": "reiver-squad",
           "type": "leader"
+        },
+        {
+          "to": "hounds-of-morkai",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -1799,6 +1815,10 @@ export default {
         },
         {
           "to": "terminator-assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "deathwing-command-squad",
           "type": "leader"
         }
       ],
@@ -2064,6 +2084,10 @@ export default {
         },
         {
           "to": "assault-intercessors-with-jump-packs",
+          "type": "leader"
+        },
+        {
+          "to": "skyclaws",
           "type": "leader"
         }
       ],
@@ -2729,6 +2753,14 @@ export default {
         {
           "to": "vanguard-veteran-squad",
           "type": "leader"
+        },
+        {
+          "to": "death-company-marines-with-boltguns",
+          "type": "leader"
+        },
+        {
+          "to": "wolf-guard",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -2801,6 +2833,10 @@ export default {
         },
         {
           "to": "terminator-assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "deathwing-command-squad",
           "type": "leader"
         }
       ],
@@ -2942,6 +2978,14 @@ export default {
         },
         {
           "to": "assault-intercessors-with-jump-packs",
+          "type": "leader"
+        },
+        {
+          "to": "death-company-marines-with-boltguns-and-jump-packs",
+          "type": "leader"
+        },
+        {
+          "to": "skyclaws",
           "type": "leader"
         }
       ],
@@ -5500,6 +5544,10 @@ export default {
         {
           "to": "sternguard-veteran-squad",
           "type": "support"
+        },
+        {
+          "to": "wolf-guard",
+          "type": "support"
         }
       ],
       "defaults": [
@@ -6380,6 +6428,10 @@ export default {
         {
           "to": "vanguard-veteran-squad",
           "type": "leader"
+        },
+        {
+          "to": "wolf-guard",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -6462,6 +6514,10 @@ export default {
         {
           "to": "reiver-squad",
           "type": "leader"
+        },
+        {
+          "to": "hounds-of-morkai",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -6538,6 +6594,10 @@ export default {
         },
         {
           "to": "terminator-assault-squad",
+          "type": "leader"
+        },
+        {
+          "to": "deathwing-command-squad",
           "type": "leader"
         }
       ],
@@ -6648,6 +6708,10 @@ export default {
         },
         {
           "to": "sternguard-veteran-squad",
+          "type": "support"
+        },
+        {
+          "to": "wolf-guard",
           "type": "support"
         }
       ],
@@ -6816,6 +6880,10 @@ export default {
         },
         {
           "to": "reiver-squad",
+          "type": "support"
+        },
+        {
+          "to": "hounds-of-morkai",
           "type": "support"
         }
       ],

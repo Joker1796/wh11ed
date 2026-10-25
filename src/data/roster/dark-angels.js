@@ -220,6 +220,10 @@ export default {
         {
           "to": "terminator-assault-squad",
           "type": "leader"
+        },
+        {
+          "to": "deathwing-command-squad",
+          "type": "leader"
         }
       ],
       "defaults": [

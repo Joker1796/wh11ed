@@ -277,6 +277,20 @@ export default {
       "support"
     ]
   ],
+  "hounds-of-morkai": [
+    [
+      "Captain in Phobos Armour",
+      "leader"
+    ],
+    [
+      "Librarian in Phobos Armour",
+      "leader"
+    ],
+    [
+      "Lieutenant in Phobos Armour",
+      "support"
+    ]
+  ],
   "incursor-squad": [
     [
       "Captain in Phobos Armour",
@@ -426,6 +440,14 @@ export default {
     ]
   ],
   "skyclaws": [
+    [
+      "Captain with Jump Pack",
+      "leader"
+    ],
+    [
+      "Chaplain with Jump Pack",
+      "leader"
+    ],
     [
       "Wolf Guard Pack Leader with Jump Pack",
       "support"
@@ -577,8 +599,32 @@ export default {
   ],
   "wolf-guard": [
     [
+      "Captain",
+      "leader"
+    ],
+    [
+      "Chaplain",
+      "leader"
+    ],
+    [
       "Krom Dragongaze",
       "leader"
+    ],
+    [
+      "Librarian",
+      "leader"
+    ],
+    [
+      "Ancient",
+      "support"
+    ],
+    [
+      "Judiciar",
+      "support"
+    ],
+    [
+      "Lieutenant",
+      "support"
     ]
   ],
   "wolf-guard-headtakers": [

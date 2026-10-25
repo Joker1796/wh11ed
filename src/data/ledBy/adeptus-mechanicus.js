@@ -123,6 +123,50 @@ export default {
       "support"
     ]
   ],
+  "secutarii-hoplites": [
+    [
+      "Tech-Priest Dominus",
+      "leader"
+    ],
+    [
+      "Tech-Priest Enginseer",
+      "leader"
+    ],
+    [
+      "Tech-Priest Manipulus",
+      "leader"
+    ],
+    [
+      "Skitarii Marshal",
+      "support"
+    ],
+    [
+      "Technoarcheologist",
+      "support"
+    ]
+  ],
+  "secutarii-peltasts": [
+    [
+      "Tech-Priest Dominus",
+      "leader"
+    ],
+    [
+      "Tech-Priest Enginseer",
+      "leader"
+    ],
+    [
+      "Tech-Priest Manipulus",
+      "leader"
+    ],
+    [
+      "Skitarii Marshal",
+      "support"
+    ],
+    [
+      "Technoarcheologist",
+      "support"
+    ]
+  ],
   "servitor-battleclade": [
     [
       "Tech-Priest Dominus",

@@ -155,6 +155,48 @@ export default {
       "leader"
     ]
   ],
+  "cultist-mob-with-firearms": [
+    [
+      "Cultist Firebrand",
+      "leader",
+      {
+        "in": [
+          "Pactbound Zealots"
+        ]
+      }
+    ],
+    [
+      "Dark Apostle",
+      "leader",
+      {
+        "out": [
+          "Pactbound Zealots"
+        ]
+      }
+    ],
+    [
+      "Dark Commune",
+      "leader",
+      {
+        "out": [
+          "Pactbound Zealots"
+        ]
+      }
+    ],
+    [
+      "Fabius Bile",
+      "leader",
+      {
+        "out": [
+          "Pactbound Zealots"
+        ]
+      }
+    ],
+    [
+      "Rogue Psyker",
+      "leader"
+    ]
+  ],
   "havocs": [
     [
       "Warpsmith",
@@ -236,6 +278,42 @@ export default {
     ]
   ],
   "negavolt-cultists": [
+    [
+      "Cultist Firebrand",
+      "leader",
+      {
+        "in": [
+          "Pactbound Zealots"
+        ]
+      }
+    ],
+    [
+      "Dark Apostle",
+      "leader",
+      {
+        "out": [
+          "Pactbound Zealots"
+        ]
+      }
+    ],
+    [
+      "Dark Commune",
+      "leader",
+      {
+        "out": [
+          "Pactbound Zealots"
+        ]
+      }
+    ],
+    [
+      "Fabius Bile",
+      "leader",
+      {
+        "out": [
+          "Pactbound Zealots"
+        ]
+      }
+    ],
     [
       "Rogue Psyker",
       "leader"

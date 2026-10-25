@@ -1968,6 +1968,14 @@ export default {
         {
           "to": "beasts-of-nurgle",
           "type": "leader"
+        },
+        {
+          "to": "plague-toads",
+          "type": "leader"
+        },
+        {
+          "to": "pox-riders",
+          "type": "leader"
         }
       ],
       "defaults": [

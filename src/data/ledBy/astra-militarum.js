@@ -141,7 +141,39 @@ export default {
   ],
   "death-korps-grenadier-squad": [
     [
+      "Commissar",
+      "leader"
+    ],
+    [
+      "Commissar Graves on Foot",
+      "leader"
+    ],
+    [
+      "Commissar Yarrick",
+      "leader"
+    ],
+    [
+      "Krieg Command Squad",
+      "leader"
+    ],
+    [
+      "Lord Solar Leontus",
+      "leader"
+    ],
+    [
+      "Ministorum Priest",
+      "leader"
+    ],
+    [
+      "Primaris Psyker",
+      "leader"
+    ],
+    [
       "Quartermaster Cadre Squad",
+      "leader"
+    ],
+    [
+      "Tech-Priest Enginseer",
       "leader"
     ]
   ],

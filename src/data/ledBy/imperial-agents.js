@@ -85,7 +85,39 @@ export default {
   ],
   "deathwatch-terminator-squad": [
     [
+      "Inquisitor",
+      "leader"
+    ],
+    [
+      "Inquisitor Coteaz",
+      "leader"
+    ],
+    [
+      "Inquisitor Draxus",
+      "leader"
+    ],
+    [
+      "Inquisitor Eisenhorn",
+      "leader"
+    ],
+    [
+      "Inquisitor Greyfax",
+      "leader"
+    ],
+    [
       "Inquisitor in Terminator Armour",
+      "leader"
+    ],
+    [
+      "Inquisitor Ostromandeus",
+      "leader"
+    ],
+    [
+      "Watch Captain Artemis",
+      "leader"
+    ],
+    [
+      "Watch Master",
       "leader"
     ]
   ],
@@ -125,11 +157,39 @@ export default {
   ],
   "fortis-kill-team": [
     [
+      "Inquisitor",
+      "leader"
+    ],
+    [
+      "Inquisitor Coteaz",
+      "leader"
+    ],
+    [
+      "Inquisitor Draxus",
+      "leader"
+    ],
+    [
       "Inquisitor Eisenhorn",
       "leader"
     ],
     [
+      "Inquisitor Greyfax",
+      "leader"
+    ],
+    [
       "Inquisitor in Terminator Armour",
+      "leader"
+    ],
+    [
+      "Inquisitor Ostromandeus",
+      "leader"
+    ],
+    [
+      "Watch Captain Artemis",
+      "leader"
+    ],
+    [
+      "Watch Master",
       "leader"
     ]
   ],
@@ -199,11 +259,39 @@ export default {
   ],
   "indomitor-kill-team": [
     [
+      "Inquisitor",
+      "leader"
+    ],
+    [
+      "Inquisitor Coteaz",
+      "leader"
+    ],
+    [
+      "Inquisitor Draxus",
+      "leader"
+    ],
+    [
       "Inquisitor Eisenhorn",
       "leader"
     ],
     [
+      "Inquisitor Greyfax",
+      "leader"
+    ],
+    [
       "Inquisitor in Terminator Armour",
+      "leader"
+    ],
+    [
+      "Inquisitor Ostromandeus",
+      "leader"
+    ],
+    [
+      "Watch Captain Artemis",
+      "leader"
+    ],
+    [
+      "Watch Master",
       "leader"
     ]
   ],
@@ -247,11 +335,39 @@ export default {
   ],
   "proteus-kill-team": [
     [
+      "Inquisitor",
+      "leader"
+    ],
+    [
+      "Inquisitor Coteaz",
+      "leader"
+    ],
+    [
+      "Inquisitor Draxus",
+      "leader"
+    ],
+    [
       "Inquisitor Eisenhorn",
       "leader"
     ],
     [
+      "Inquisitor Greyfax",
+      "leader"
+    ],
+    [
       "Inquisitor in Terminator Armour",
+      "leader"
+    ],
+    [
+      "Inquisitor Ostromandeus",
+      "leader"
+    ],
+    [
+      "Watch Captain Artemis",
+      "leader"
+    ],
+    [
+      "Watch Master",
       "leader"
     ]
   ],
@@ -301,11 +417,39 @@ export default {
   ],
   "spectrus-kill-team": [
     [
+      "Inquisitor",
+      "leader"
+    ],
+    [
+      "Inquisitor Coteaz",
+      "leader"
+    ],
+    [
+      "Inquisitor Draxus",
+      "leader"
+    ],
+    [
       "Inquisitor Eisenhorn",
       "leader"
     ],
     [
+      "Inquisitor Greyfax",
+      "leader"
+    ],
+    [
       "Inquisitor in Terminator Armour",
+      "leader"
+    ],
+    [
+      "Inquisitor Ostromandeus",
+      "leader"
+    ],
+    [
+      "Watch Captain Artemis",
+      "leader"
+    ],
+    [
+      "Watch Master",
       "leader"
     ]
   ],

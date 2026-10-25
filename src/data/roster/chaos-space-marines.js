@@ -3216,6 +3216,30 @@ export default {
           "to": "accursed-cultists",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "cultist-mob-with-firearms",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
+        },
+        {
+          "to": "negavolt-cultists",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
+          "allKw": [
+            "Chaos Undivided",
+            "Nurgle",
+            "Khorne",
+            "Tzeentch",
+            "Slaanesh"
+          ]
         }
       ],
       "defaults": [
@@ -3799,6 +3823,16 @@ export default {
             "Tzeentch",
             "Slaanesh"
           ]
+        },
+        {
+          "to": "cultist-mob-with-firearms",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "negavolt-cultists",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "minis": [
@@ -3942,6 +3976,16 @@ export default {
             "Tzeentch",
             "Slaanesh"
           ]
+        },
+        {
+          "to": "cultist-mob-with-firearms",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "negavolt-cultists",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "minis": [
@@ -4572,6 +4616,16 @@ export default {
             "Tzeentch",
             "Slaanesh"
           ]
+        },
+        {
+          "to": "cultist-mob-with-firearms",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "negavolt-cultists",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "minis": [
@@ -9182,6 +9236,10 @@ export default {
         },
         {
           "to": "negavolt-cultists",
+          "type": "leader"
+        },
+        {
+          "to": "cultist-mob-with-firearms",
           "type": "leader"
         }
       ]
