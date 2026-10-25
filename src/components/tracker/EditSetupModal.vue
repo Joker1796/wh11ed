@@ -1,6 +1,6 @@
 <template>
   <BaseModal
-    :title="labels.trackerEditSetupTitle"
+    :title="phoneOnly ? labels.trackerPhoneSettingsTitle : labels.trackerEditSetupTitle"
     max-width="560px"
     @close="$emit('close')"
   >
@@ -26,7 +26,7 @@
           v-if="noteOpen"
           class="es-note"
         >
-          {{ guest ? labels.trackerEditSetupGuestNote : labels.trackerEditSetupNote }}
+          {{ phoneOnly ? labels.trackerPhoneSettingsNote : guest ? labels.trackerEditSetupGuestNote : labels.trackerEditSetupNote }}
         </p>
       </ExpandTransition>
 
@@ -220,10 +220,10 @@
            that started without a list can ever get the clock. -->
       <div class="settings">
         <TrackPresets
-          v-if="!guest"
           :settings="settings"
           :ctx="trackCtx"
           :labels="labels"
+          :lock-shared="guest"
         />
         <TrackOptions
           :settings="settings"
@@ -231,6 +231,7 @@
           group="turn"
           heading="trackerGroupTurn"
           :lock-shared="guest"
+          :shared="partyActive"
         />
         <TrackOptions
           :settings="settings"
@@ -238,6 +239,7 @@
           group="armies"
           heading="trackerGroupArmies"
           :lock-shared="guest"
+          :shared="partyActive"
         />
         <TrackOptions
           :settings="settings"
@@ -245,6 +247,7 @@
           group="roster"
           heading="trackerRosterHeading"
           :lock-shared="guest"
+          :shared="partyActive"
         />
         <TrackOptions
           :settings="settings"
@@ -252,6 +255,7 @@
           group="look"
           heading="trackerLookHeading"
           :lock-shared="guest"
+          :shared="partyActive"
         />
       </div>
 
@@ -259,7 +263,7 @@
            report, 2026-10-15: "the opponent who joined can't see the map"). Here and not on the
            game screen: a guest joins in the lobby and reads the battlefield while filling in. -->
       <div
-        v-if="guest ? currentLayout : layouts.length"
+        v-if="!phoneOnly && (guest ? currentLayout : layouts.length)"
         class="settings layout-block"
       >
         <h3 class="block-head">
@@ -341,6 +345,11 @@ import { useParty } from '../../composables/useParty.js'
 import { useSetupLayout } from '../../composables/trackerLayout.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 
+// `phoneOnly` — this phone's options alone, for a guest waiting in the lobby (LobbyWait): the army
+// it has just sent is the lobby's business, and the map is not chosen yet.
+const props = defineProps({
+  phoneOnly: { type: Boolean, default: false },
+})
 const emit = defineEmits(['close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -411,7 +420,7 @@ const anyRoster = computed(() => players.some((p) => armiesOf(p).some((m) => !!m
 // The army cards on screen: both for the host; for a guest its own side, and only until the battle
 // begins — a list attached mid-battle would change what the game has been scoring against.
 const cardSides = computed(() => (guest
-  ? (gameBegun(game) ? [] : players.map((_, i) => i).filter((i) => canEdit(i)))
+  ? (gameBegun(game) || props.phoneOnly ? [] : players.map((_, i) => i).filter((i) => canEdit(i)))
   : players.map((_, i) => i)))
 
 function isYou(i) { return isYouSide(game.players[i], i) }

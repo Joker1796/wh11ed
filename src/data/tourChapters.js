@@ -778,6 +778,11 @@ export const TOUR_CHAPTERS = {
         en: { title: 'Change', text: 'Press to change your side. While the host is on the armies, the change is yours at once. Later it is a request the host answers.' },
       },
       {
+        target: 'lobby-phone-settings',
+        ru: { title: 'Настройки телефона', text: 'Нажмите, чтобы выбрать, что этот телефон покажет в игре. Подсчёт CP и фазы выбирает хост.' },
+        en: { title: 'This phone’s settings', text: 'Press to choose what this phone shows in the game. Command points and phases are the host’s choice.' },
+      },
+      {
         target: 'lobby-takeover',
         ru: { title: 'Забрать редактирование', text: 'Вашу сторону сейчас заполняет другое устройство. Нажмите, чтобы заполнять её самому.' },
         en: { title: 'Take editing over', text: 'Another device is filling in your side now. Press to fill it in yourself.' },

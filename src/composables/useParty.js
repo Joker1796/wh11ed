@@ -4,6 +4,7 @@ import { useTracker } from './useTracker.js'
 import { sliceGame, assembleGame, stableJson, sideOfSlice, SLICE_NAMES } from './gameSlices.js'
 import { API_BASE_URL } from '../config.js'
 import { TRACKER_GEN } from './trackerGen.js'
+import { localTrackSeed } from '../data/trackerOptions.js'
 
 // One game on several phones. The host — the only one who needs an account — shares the game in
 // progress; the others join by link, QR or a six-digit code and take a seat. What is shared is the
@@ -92,7 +93,7 @@ function saveBase() {
 
 export function useParty() {
   const { status: authStatus, authedFetch } = useAuth()
-  const { current, applyRemote } = useTracker()
+  const { current, history, applyRemote } = useTracker()
 
   const party = computed(() => current.value?.party || null)
   const active = computed(() => !!party.value && !party.value.revoked && !party.value.ended)
@@ -570,6 +571,8 @@ export function useParty() {
     if (!res.ok) return data.error || `seat ${res.status}`
     const slices = Object.fromEntries(Object.entries(joined.slices).map(([n, s]) => [n, s.data]))
     const game = assembleGame(slices, { you: side })
+    // This phone's own rows (trackerOptions `local`) never travel: it starts from its own last game.
+    game.settings = { ...game.settings, ...localTrackSeed(history.value[0]?.settings) }
     game.party = {
       ...handle,
       name, // what this phone called itself when it sat down — the lobby shows it as the editor

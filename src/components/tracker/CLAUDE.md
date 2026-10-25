@@ -54,8 +54,9 @@ unit is" being the same thing, owner 2026-10-17 — `trackBattleShock`, `trackAr
 "Details" fold beneath the master, counting how many are on). `trackStratagems` requires the master
 AND `trackStratPlay`: without stratagems played there is nothing spent to change a card. `requires`
 takes a list for that; a row is drawn one step in per parent in its own group (`depthOf`). `look` —
-the broadcast button, `showLogStats` (the Log and Stats tabs; `local`) and the side colours. A
-`local` row says "on this phone" under its caption. What each family governs on the roster screen is
+the broadcast button, `showLogStats` (the Log and Stats tabs) and the side colours. In a shared
+game the host's CP and clock rows say "for every phone in the game" (`everyPhone`); see the shared
+game below for which rows are a phone's own. What each family governs on the roster screen is
 in `src/components/roster/CLAUDE.md`.
 
 `TRACK_PRESETS` — Minimal (nothing), Base (CP without stratagems, the mission help, both army-rule
@@ -488,9 +489,15 @@ rule text, the active rule and the spent log live; the card itself is never iner
 opponent's setup facts, list and army rule are things to READ mid-game (the first complaint about
 the shared game was a guest who could not open the other side's rule). The setup gear opens for a
 guest too: `EditSetupModal` in guest mode shows only the option blocks, `TrackOptions` with
-`lockShared` leaves live the rows the table marks `local` (`trackArmyYou`/`trackArmyOpp` — the
-same flag `gameSlices` keeps out of the sync) and disables the rest with "host only", and Save
-writes only those. The finished screen's Resume is disabled for a guest and its primary button
+`lockShared` leaves live the rows the table marks `local` (the same flag `gameSlices` keeps out of
+the sync) and disables the rest with "host only", and Save writes only those. **Since 2026-10-25
+that is every row but command points, the clock and the broadcast** (owner: what a phone SHOWS is
+its own, what the game RECORDS for both is the host's — a guest not counting CP would leave the host
+a stale balance, a host not keeping phases would leave the guest's reminder on Command). A guest's
+own rows start from its own last game (`localTrackSeed` in `takeSeat`), its presets touch only them
+(`TrackPresets` `lockShared`), and the lobby's waiting screen has "This phone's settings"
+(`EditSetupModal` `phoneOnly`). The host's screens mark the two rows it sets for every phone
+(`everyPhone`, `TrackOptions` `shared`); a local row carries no caption — on one phone it is every row. The finished screen's Resume is disabled for a guest and its primary button
 reads "Save to my history". `RosterViewView`'s `canSwitch` includes `canEdit(pi)`. `SyncIndicator.vue` sits on the round bar: a quiet dot (tap: how long ago), a
 spinner only for a request older than 400 ms — except on resume, when it is wanted at once — and a
 warning glyph with its reason. **The tap opens a bubble ABOVE it, not text inside it** (2026-09-23):
@@ -508,7 +515,7 @@ archived from the finished screen, from the tracker home's "New game", from the 
 a host ends the party (`DELETE`). `archiveGame` strips `party` from the record. `init()` arms
 that watcher; the tracker home, the game screen and the game roster all call it.
 
-**Deliberately not synced:** `isYou`, `trackArmyYou`/`trackArmyOpp`/`trackArmyRule`, `party`,
+**Deliberately not synced:** `isYou`, every `local` row of the option table (`LOCAL_TRACK_SETTINGS`), `party`,
 `broadcast` (see Slices). In doubles the host sits in its team's FIRST member seat (`mi: 0`,
 since 2026-10-05 — as the TEAM, `mi: null`, it held no member seat and a joining phone could take
 the host's own army); partners joining pick one of the other three. The server contract is `wh11ed-api/README.md` "A shared live game".

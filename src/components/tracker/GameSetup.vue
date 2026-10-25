@@ -1235,6 +1235,7 @@
             :ctx="trackCtx"
             group="turn"
             heading="trackerGroupTurn"
+            :shared="inLobby"
           />
           <TrackOptions
             class="opts-next"
@@ -1242,6 +1243,7 @@
             :ctx="trackCtx"
             group="armies"
             heading="trackerGroupArmies"
+            :shared="inLobby"
           />
         </div>
         <div
@@ -1253,6 +1255,7 @@
             :ctx="trackCtx"
             group="roster"
             heading="trackerRosterHeading"
+            :shared="inLobby"
             guide
           />
         </div>
@@ -1266,6 +1269,7 @@
           :ctx="trackCtx"
           group="look"
           heading="trackerLookHeading"
+          :shared="inLobby"
         />
       </div>
 
@@ -1466,7 +1470,7 @@ import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
 import TrackOptions from './TrackOptions.vue'
 import TrackPresets from './TrackPresets.vue'
 import { useTour } from '../../composables/useTour.js'
-import { defaultTrackSettings, fromBeforePresets, normalizeTrackSettings } from '../../data/trackerOptions.js'
+import { defaultTrackSettings, rememberedSettings, normalizeTrackSettings } from '../../data/trackerOptions.js'
 
 // Where the Doubles terminology in the force-type help actually comes from — the Event
 // Companion's Doubles chapter. A route object, not a string, so the locale guard can add
@@ -1505,7 +1509,7 @@ const lastCustom = history.value.find((g) => g.settings?.battleSize === CUSTOM_B
 // choice where the option remembers one. The table (trackerOptions.js) owns both, so a new option
 // is added there and nothing here changes.
 // A last game from before the presets counts as none: the first game after the update is Base.
-const lastS = fromBeforePresets(history.value[0]?.settings) ? {} : (history.value[0]?.settings ?? {})
+const lastS = rememberedSettings(history.value[0]?.settings)
 // "You" is the side THIS phone plays — 0 in a setup of one and for the host, the seat for a
 // guest. Keyed by side, never by index (the same rule the option table follows).
 // In a shared game the other side has a player of its own, and once they have typed their name the

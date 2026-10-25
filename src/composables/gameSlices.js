@@ -19,10 +19,11 @@
 //
 // WHAT IS NOT SYNCED — what belongs to the device, not the game. `isYou` marks which side THIS
 // PHONE plays (the stats page and the You/Opponent labels hang on it), and the other phone's
-// answer is the opposite one. The two `trackArmyYou` / `trackArmyOpp` settings (and their retired
-// `trackArmyRule`) are read through that flag — "show MY army's card" — so on the other phone
-// they would mean the other army: they stay each phone's own too — the option table marks them
-// `local`, and that flag is also what lets a guest flip them (EditSetupModal's guest mode). And the
+// answer is the opposite one. Every row of the option table marked `local` is this phone's too —
+// since 2026-10-25 all of them but command points, the clock and the broadcast (trackerOptions.js):
+// what a phone shows is its own; `trackArmyYou` / `trackArmyOpp` are even read through `isYou`, so
+// on the other phone they would mean the other army. The same flag is what lets a guest flip them
+// (EditSetupModal's guest mode). And the
 // game's own sync and broadcast handles (`party`, `broadcast`) are this phone's credentials — a
 // member token, a stream token — never the other phone's. applySlice keeps every one of these;
 // assembleGame sets `isYou` from the joiner's seat and leaves the rest for the caller.

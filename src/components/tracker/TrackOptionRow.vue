@@ -21,11 +21,12 @@
       >
       <span>
         {{ labels[o.label] }}
-        <!-- A row that is this phone's alone, whatever the other phones in a shared game choose. -->
+        <!-- In a shared game, a row the host decides for every phone (`local` rows are each
+             phone's own and say nothing — they are the many, and on one phone it is every row). -->
         <small
-          v-if="o.local"
+          v-if="tag"
           class="opt-local"
-        >{{ labels.trackerOnThisPhone }}</small>
+        >{{ labels[tag] }}</small>
         <!-- Why a row cannot be flipped. A caveat about what flipping it will get you (`note`)
              goes into the row's help instead (owner, 2026-10-02). -->
         <ExpandTransition>
@@ -76,6 +77,8 @@ defineProps({
   // How far in it is drawn: 1 under its parent, 2 under a child (trackerOptions' depthOf).
   depth: { type: Number, default: 0 },
   reason: { type: String, default: null },
+  // A caption under the label, as a ui.js key (TrackOptions' `shared`).
+  tag: { type: String, default: null },
   labels: { type: Object, required: true },
 })
 defineEmits(['help'])

@@ -22,8 +22,16 @@
 //                there is off here, whatever this row's own value says. Drawn as a child of the
 //                first one — and a child of a child is drawn one step further in.
 //   local        this PHONE's choice, not the game's: kept out of the shared-game sync
-//                (gameSlices.js) and the one kind of row a guest may flip in a game another phone
-//                hosts. Everything else on the setup dialog is the host's, because it is the game.
+//                (gameSlices.js) and the kind of row a guest may flip in a game another phone
+//                hosts. The rule (owner, 2026-10-25): what a phone SHOWS is its own, what the game
+//                RECORDS for both is the host's — command points and the clock, which the other
+//                phone reads (a guest not counting CP would leave the host a stale balance, a host
+//                not keeping phases would leave the guest's reminder stuck on Command), and the
+//                broadcast, which is the host's stream. Every other row is local. A local row says
+//                nothing on screen, since on one phone "on this phone" is every row.
+//   everyPhone   a shared row the host decides FOR every phone (CP, the clock): the host's screen
+//                says so in a shared game (TrackOptions `shared`). Not the broadcast — that one is
+//                the host's alone, and a guest sees it as "host only" like every shared row.
 //   enabled      (ctx) => boolean — whether the row can be flipped in THIS game
 //   unavailable  (ctx) => ui.js key | null — why not, printed under a disabled caption
 //   note         (ctx) => ui.js key | null — a caveat for an enabled row, appended to its help
@@ -66,6 +74,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpCp',
     default: true,
     remember: true,
+    everyPhone: true,
   },
   {
     id: 'army-you',
@@ -103,6 +112,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpStratPlay',
     default: true,
     remember: true,
+    local: true,
     requires: 'trackCP',
   },
   {
@@ -117,6 +127,7 @@ export const TRACK_OPTIONS = [
     // Off: a tap spends the printed cost, and the row's ⚙ asks (Mikhail, 2026-10-19).
     default: false,
     remember: true,
+    local: true,
     requires: 'trackStratPlay',
   },
 
@@ -134,6 +145,7 @@ export const TRACK_OPTIONS = [
     // Off by default: an optional ornament, never a precondition.
     default: false,
     remember: true,
+    everyPhone: true,
   },
   {
     id: 'phase-rules',
@@ -143,6 +155,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpPhaseRules',
     default: true,
     remember: true,
+    local: true,
     // No `requires` since 2026-10-08: without the clock the tab lists the whole turn instead.
   },
   {
@@ -159,6 +172,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpMissionAids',
     default: true,
     remember: true,
+    local: true,
     legacy: 'trackTurnChecks',
   },
   {
@@ -220,6 +234,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpModifiers',
     default: true,
     remember: true,
+    local: true,
     unavailable: NEEDS_ROSTER,
   },
   {
@@ -233,6 +248,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpUnitStates',
     default: true,
     remember: true,
+    local: true,
     requires: 'trackModifiers',
     fold: true,
     unavailable: NEEDS_ROSTER,
@@ -252,6 +268,7 @@ export const TRACK_OPTIONS = [
     default: true,
     defaultWhen: (settings) => tracks(settings, 'trackCP'),
     remember: true,
+    local: true,
     requires: 'trackModifiers',
     fold: true,
     unavailable: NEEDS_ROSTER,
@@ -264,6 +281,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpArmyStates',
     default: true,
     remember: true,
+    local: true,
     requires: 'trackModifiers',
     fold: true,
     unavailable: NEEDS_ROSTER,
@@ -278,6 +296,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpStratagems',
     default: true,
     remember: true,
+    local: true,
     requires: ['trackModifiers', 'trackStratPlay'],
     fold: true,
     unavailable: NEEDS_ROSTER,
@@ -290,6 +309,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpAuras',
     default: true,
     remember: true,
+    local: true,
     requires: 'trackModifiers',
     fold: true,
     unavailable: NEEDS_ROSTER,
@@ -302,6 +322,7 @@ export const TRACK_OPTIONS = [
     help: 'trackerHelpAbilitySets',
     default: true,
     remember: true,
+    local: true,
     requires: 'trackModifiers',
     fold: true,
     unavailable: NEEDS_ROSTER,
@@ -359,6 +380,12 @@ export function fromBeforePresets(last) {
   return !!last && Object.keys(last).length > 0 && !('trackStratPlay' in last)
 }
 
+// The last finished game's settings as the basis of the next one's — none for a game played before
+// the presets (fromBeforePresets above).
+export function rememberedSettings(last) {
+  return fromBeforePresets(last) ? {} : (last ?? {})
+}
+
 // The setup wizard's starting values: the last finished game's choice where the row remembers one,
 // else the row's default. `last` is that game's settings (or `{}` when there is no history).
 // Read through `tracks` per row, so a parent switched off in the last game doesn't drag its
@@ -378,6 +405,14 @@ export function defaultTrackSettings(last = {}) {
     out[o.setting] = (own ?? old ?? defaultOf(o, { ...last, ...out })) !== false
   }
   return out
+}
+
+// A guest's own rows on joining someone else's game: what this phone chose last time, as the host's
+// wizard starts from the host's last game. The shared slice carries none of them (gameSlices), so
+// without this a guest started every game from the rows' defaults.
+export function localTrackSeed(last) {
+  const all = defaultTrackSettings(rememberedSettings(last))
+  return Object.fromEntries(TRACK_OPTIONS.filter((o) => o.local).map((o) => [o.setting, all[o.setting]]))
 }
 
 // The live game's values, for a dialog that edits a game already under way. Same shape, but every
@@ -440,16 +475,19 @@ export const TRACK_PRESETS = [
 ]
 export const DEFAULT_PRESET = 'base'
 
+// A guest's presets set and read only its own rows: the shared ones are the host's (`local`).
+const presetRows = (p, localOnly) => Object.entries(p.values).filter(([k]) => !localOnly || BY_SETTING.get(k)?.local)
+
 /** Write a preset onto a settings draft, in place (the callers hold the draft by identity). */
-export function applyTrackPreset(settings, id) {
+export function applyTrackPreset(settings, id, { localOnly = false } = {}) {
   const p = TRACK_PRESETS.find((x) => x.id === id)
-  if (p) Object.assign(settings, p.values)
+  if (p) Object.assign(settings, Object.fromEntries(presetRows(p, localOnly)))
 }
 
 // Which preset the draft is, or null. Only the rows the game can offer are compared — a row a game
 // without a list must keep off (normalizeTrackSettings) does not make "Normal" read as a custom set.
-export function presetOf(settings, ctx) {
+export function presetOf(settings, ctx, { localOnly = false } = {}) {
   const now = trackSettingsOf(settings)
   const offered = (k) => { const o = BY_SETTING.get(k); return !o || !ctx || optionEnabled(o, ctx) }
-  return TRACK_PRESETS.find((p) => Object.entries(p.values).every(([k, v]) => !offered(k) || now[k] === v))?.id ?? null
+  return TRACK_PRESETS.find((p) => presetRows(p, localOnly).every(([k, v]) => !offered(k) || now[k] === v))?.id ?? null
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { TRACK_OPTIONS, TRACK_PRESETS, applyTrackPreset, presetOf, tracks, depthOf, defaultTrackSettings, fromBeforePresets, trackSettingsOf, normalizeTrackSettings, optionsIn, optionEnabled } from './trackerOptions.js'
+import { TRACK_OPTIONS, TRACK_PRESETS, LOCAL_TRACK_SETTINGS, applyTrackPreset, presetOf, tracks, depthOf, defaultTrackSettings, fromBeforePresets, trackSettingsOf, normalizeTrackSettings, optionsIn, optionEnabled, localTrackSeed } from './trackerOptions.js'
 import { ui } from '../i18n/ui.js'
 
 const CTX_FULL = {
@@ -154,6 +154,35 @@ describe('the Battle-shock row', () => {
 
   it('needs the modifiers master, like the unit states', () => {
     expect(tracks({ trackCP: true, trackModifiers: false }, 'trackBattleShock')).toBe(false)
+  })
+})
+
+// A shared game (owner, 2026-10-25): what a phone shows is its own; command points, the clock and
+// the broadcast are the host's.
+describe('the rows a phone keeps for itself', () => {
+  it('is every row but CP, the clock and the broadcast', () => {
+    expect(TRACK_OPTIONS.filter((o) => !o.local).map((o) => o.setting)).toEqual(['trackCP', 'trackPhases', 'trackBroadcast'])
+    expect(TRACK_OPTIONS.filter((o) => o.everyPhone).map((o) => o.setting)).toEqual(['trackCP', 'trackPhases'])
+    expect(LOCAL_TRACK_SETTINGS).toContain('trackTurnChecks') // a retired name stays home too
+  })
+  it('seeds a guest from its own last game, and only its own rows', () => {
+    const last = { ...defaultTrackSettings(), trackPhaseRules: false, showLogStats: false, trackCP: false }
+    const seed = localTrackSeed(last)
+    expect(seed.trackPhaseRules).toBe(false)
+    expect(seed.showLogStats).toBe(false)
+    expect(seed).not.toHaveProperty('trackCP')
+    expect(Object.keys(seed).sort()).toEqual(TRACK_OPTIONS.filter((o) => o.local).map((o) => o.setting).sort())
+    // No game behind it: the default preset's rows.
+    expect(presetOf({ trackCP: true, ...localTrackSeed(undefined) }, CTX_FULL)).toBe('base')
+  })
+  it('a guest\'s preset sets and reads its own rows, never the host\'s', () => {
+    const s = { ...defaultTrackSettings(), trackCP: false, trackPhases: true }
+    applyTrackPreset(s, 'maximal', { localOnly: true })
+    expect(s.trackCP).toBe(false)
+    expect(s.trackPhases).toBe(true)
+    expect(s.trackPhaseRules).toBe(true)
+    expect(presetOf(s, CTX_FULL, { localOnly: true })).toBe('maximal')
+    expect(presetOf(s, CTX_FULL)).toBeNull() // whole-table: CP is off, so not "Maximal"
   })
 })
 

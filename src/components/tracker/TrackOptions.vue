@@ -26,6 +26,7 @@
         :depth="depthOf(o)"
         :enabled="enabledOf(o)"
         :reason="reasonOf(o)"
+        :tag="tagOf(o)"
         :labels="labels"
         @help="helpFor = $event"
       />
@@ -55,6 +56,7 @@
               :ctx="ctx"
               :enabled="enabledOf(f)"
               :reason="reasonOf(f)"
+              :tag="tagOf(f)"
               :labels="labels"
               @help="helpFor = $event"
             />
@@ -133,6 +135,9 @@ const props = defineProps({
   // A guest in a shared game: only the rows marked `local` in the table are this phone's to flip;
   // the rest are the host's, drawn disabled with that as the reason.
   lockShared: { type: Boolean, default: false },
+  // The host of a shared game (the lobby's wizard, the game's setup dialog): the rows it decides
+  // for every phone say so (`everyPhone`); the rest each phone picks for itself.
+  shared: { type: Boolean, default: false },
 })
 
 const { locale } = useLocale()
@@ -157,6 +162,9 @@ function enabledOf(o) {
 function reasonOf(o) {
   if (hostsRow(o)) return 'partyHostOnly'
   return o.unavailable?.(props.ctx) || null
+}
+function tagOf(o) {
+  return props.shared && !props.lockShared && o.everyPhone ? 'trackerOnEveryPhone' : null
 }
 // The help, with the row's caveat for THIS game as its last paragraph — a row nobody can touch
 // has nothing to caveat.
