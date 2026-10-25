@@ -327,7 +327,9 @@ function roll(i) {
 }
 .pb-step { min-width: 0; }
 .pb-name { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
-.pb-n { margin-right: 0.4rem; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; } /* the text's own colour (owner) */
+/* The step's number in the score board's figures (its display face), a size up, in the text's own
+   colour (owner, 2026-10-25). Over 18px, so weight 500 is allowed (npm run a11y's face check). */
+.pb-n { margin-right: 0.45rem; font-family: var(--font-display); font-size: 1.4rem; font-weight: 500; line-height: 1; vertical-align: -0.08em; }
 .pb-text { margin: 0.1rem 0 0; font-size: 0.84rem; line-height: 1.4; color: var(--text-muted); }
 .pb-player { font-weight: 600; }
 .pb-done-steps { grid-column: 1 / -1; font-size: 0.84rem; color: var(--text-muted); }
