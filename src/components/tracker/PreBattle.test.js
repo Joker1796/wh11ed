@@ -75,6 +75,20 @@ describe('PreBattle — one phone', () => {
     expect(names()).toEqual([['Me', true], ['Opp', false]])
   })
 
+  // The fixed-secondaries picker opens in the colour of the side it was opened for, under a game
+  // screen whose turn colour is yours (owner, 2026-10-25).
+  it('opens the opponent\'s picker in the opponent\'s colour', async () => {
+    startGame()
+    const { defineComponent, h, computed } = await import('vue')
+    const { provideModalScope } = await import('../../composables/modalScope.js')
+    const Screen = defineComponent({ setup() { provideModalScope(computed(() => ({ class: ['turn-colored'] }))); return () => h(PreBattle) } })
+    const w = mount(Screen, { global: { stubs: { RouterLink } }, attachTo: document.body })
+    await step(w, 6).findAll('.pb-side')[1].findAll('.pb-seg button')[1].trigger('click')
+    await flushPromises()
+    expect(document.body.querySelector('.modal-overlay').classList.contains('turn-opp')).toBe(true)
+    w.unmount()
+  })
+
   // Each side's controls wear that side's colour, as its name does (owner, 2026-10-25), and the
   // roll's light the winner's.
   it('colours each side\'s switches and the roll by their side', async () => {
