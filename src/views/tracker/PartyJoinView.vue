@@ -98,6 +98,12 @@
                 v-if="s.takenBy"
                 class="pj-seat-taken"
               >{{ labels.partyJoinSeatTakenPlain }}</span>
+              <!-- A free seat says what a tap does (owner, 2026-10-25); one with no name yet says it
+                   in its own line ("Take player 2's seat"), so it is not said twice. -->
+              <span
+                v-else-if="s.named"
+                class="pj-seat-take"
+              >{{ labels.partyJoinSeatTake }}</span>
             </button>
           </li>
         </ul>
@@ -208,6 +214,7 @@ function onCode() {
 // An empty seat reads as a seat ("Player 1's seat"), not as a person called "Player 1" — the
 // name sent on sitting down stays the plain "Player 1" until its owner types one (owner, 2026-10-05).
 const seatOf = (n) => (n === 0 ? labels.value.partySeat1 : labels.value.partySeat2)
+const takeSeatOf = (n) => (n === 0 ? labels.value.partySeatTake1 : labels.value.partySeatTake2)
 const seats = computed(() => {
   const j = joined.value
   if (!j) return []
@@ -221,7 +228,8 @@ const seats = computed(() => {
         const h = holder(side, mi)
         out.push({
           key: `${side}:${mi}`, side, mi,
-          label: m.name || seatOf(mi),
+          label: m.name || (h ? seatOf(mi) : takeSeatOf(mi)),
+          named: !!m.name,
           name: m.name || (mi === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2),
           team: pl.teamName || '',
           faction: factionIndexBySlug(m.factionSlug)?.name || '',
@@ -232,7 +240,8 @@ const seats = computed(() => {
       const h = holder(side, null)
       out.push({
         key: `${side}`, side, mi: null,
-        label: pl.name || seatOf(side),
+        label: pl.name || (h ? seatOf(side) : takeSeatOf(side)),
+        named: !!pl.name,
         name: pl.name || (side === 0 ? labels.value.trackerPlayer1 : labels.value.trackerPlayer2),
         team: '',
         faction: factionIndexBySlug(pl.factionSlug)?.name || '',
@@ -369,6 +378,7 @@ onMounted(() => {
 .pj-seat-name { max-width: 100%; font-size: 1.05rem; font-weight: 600; overflow-wrap: anywhere; }
 .pj-seat-faction { font-size: 0.85rem; color: var(--text-muted); }
 .pj-seat-taken { font-size: 0.78rem; color: var(--accent-ink); }
+.pj-seat-take { font-size: 0.78rem; color: var(--accent-ink); }
 .pj-err {
   margin: 0.6rem 0 0;
   font-size: 0.85rem;
