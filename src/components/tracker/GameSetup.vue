@@ -233,7 +233,6 @@
             <span
               v-if="sharedSetup && sideNote(i)"
               class="ph-note"
-              :class="{ ok: isReady(i) }"
               :title="sideNote(i)"
             >{{ sideNote(i) }}</span>
             <button
@@ -1740,7 +1739,8 @@ const dispositionOf = (i) => players[i]?.disposition || null
 // is in. A side this phone edits says nothing — the fields under it are the answer.
 function sideNote(i) {
   if (!sharedSetup.value) return ''
-  if (isReady(i)) return labels.value.lobbySideReady
+  // This phone's own side confirmed says nothing to the one who confirmed it (owner, 2026-10-25).
+  if (isReady(i)) return i === youIdx.value ? '' : labels.value.lobbySideReady
   // Doubles: this phone fills its WHOLE team, both armies — the one thing a player who sat down
   // on "Player 2's seat" would not guess from two forms appearing (owner, 2026-10-05).
   if (editable(i)) {
@@ -2559,7 +2559,8 @@ function cancel() {
    line the heading already took — the button is not a row of its own. */
 .ph-row {
   display: flex;
-  align-items: center;
+  /* The note sits on the heading's baseline, not centred against its taller box (owner, 2026-10-25). */
+  align-items: baseline;
   gap: 0.6rem;
   margin-bottom: 0.75rem;
 }
@@ -2567,7 +2568,6 @@ function cancel() {
    button leave), then the heading, to an ellipsis, before the row grows. */
 .ph-row .player-head { flex: 0 1 auto; min-width: 0; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ph-note { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.78rem; color: var(--text-muted); }
-.ph-note.ok { color: var(--accent-ink); }
 .ph-invite {
   margin-left: auto;
   flex: 0 0 auto;
