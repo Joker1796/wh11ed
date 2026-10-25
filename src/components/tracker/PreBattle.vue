@@ -52,10 +52,13 @@
              or its state and Change. The two sides share one grid, so their switches line up
              whatever the names' lengths. -->
         <div class="pb-sides">
+          <!-- Each side's controls wear that side's colour, as its name does (owner, 2026-10-25: the
+               opponent's lit "Tactical" was in yours). -->
           <div
             v-for="i in [0, 1]"
             :key="i"
             class="pb-side"
+            :class="sideTone(i)"
           >
             <span
               class="pb-who"
@@ -167,6 +170,7 @@
         <div
           v-if="canRoll"
           class="seg pb-seg pb-roll"
+          :class="rolled ? sideTone(0) : null"
           role="radiogroup"
           :aria-label="labels.pbStepFirst"
         >
@@ -230,6 +234,8 @@ const name = (i) => sideName(players.value[i], i, labels.value)
 const roleIdx = (role) => players.value.findIndex((p) => p.role === role)
 // A side's own colour (the game screen's --side-you / --side-opponent), for its name in a step.
 const sideColor = (i) => ({ color: isYouSide(players.value[i], i) ? 'var(--side-you)' : 'var(--side-opponent)' })
+// …and the accent of its controls, through the screen's own recipe (style.css .turn-colored).
+const sideTone = (i) => ['turn-colored', { 'turn-opp': !isYouSide(players.value[i], i) }]
 // A step's sentence with the side's name in it as a part of its own, so it can wear the colour —
 // one element per part, built here: adjacent template fragments would join with stray spaces.
 function withName(label, i) {
