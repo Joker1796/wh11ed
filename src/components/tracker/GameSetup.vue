@@ -2970,6 +2970,9 @@ function cancel() {
 .primary-card {
   margin: 0 calc(-1 * var(--pc-pad));
 }
+/* In a side's coloured card the bleed stops at the side's stripe (the 3px inset shadow of .pc-side):
+   with its own background over it, the primary cut the stripe in two (owner, 2026-10-25). */
+.pc-side .primary-card { margin-left: calc(3px - var(--pc-pad)); }
 .primary-card :deep(.mcard) {
   border: none;
   border-bottom: 1px solid var(--border);
