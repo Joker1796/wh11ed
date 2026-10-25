@@ -17,7 +17,15 @@
         class="sr-when"
       />
     </button>
-    <div class="sr-ctrl">
+    <!-- Shown, not paid for here (`stratSpendCp` off): the printed cost, nothing to press. -->
+    <span
+      v-if="!playable"
+      class="sr-cost"
+    >{{ cost }}CP</span>
+    <div
+      v-else
+      class="sr-ctrl"
+    >
       <!-- The other way to play it: the dialog with the cost and the unit, for the time a rule
            changed the cost or the unit matters (Mikhail, 2026-10-19: "a tap spends it, a gear
            beside it sets the price"). The cost button beside it spends at the printed cost. -->
@@ -48,7 +56,7 @@
     <!-- One line under the row, only when there is something to say: used this round (and the
          way back), or why it cannot be used now. -->
     <div
-      v-if="used || reason || (undoable && undoWhy)"
+      v-if="playable && (used || reason || (undoable && undoWhy))"
       class="sr-foot"
     >
       <span
@@ -86,6 +94,7 @@ import { vSafeHtml } from '../../directives/safeHtml.js'
 // One stratagem in the CP tab: name and timing (tap for the full card) and the cost button, which
 // plays it (the cost a rule changed is asked then, StratPlayModal). Pure presentation — CpStratagems decides every number and the reason.
 defineProps({
+  playable: { type: Boolean, default: true },
   strat: { type: Object, required: true },
   tag: { type: String, default: '' },          // a word after the name — "core" in a mixed list
   cost: { type: Number, required: true },
@@ -146,6 +155,8 @@ const { renderRichText } = useRenderInline()
   .sr-use:not(:disabled):hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
 }
 .sr-use:disabled { border-color: var(--border); color: var(--text-dim); cursor: default; }
+/* The cost as information only: the button's face, no frame. */
+.sr-cost { flex: none; align-self: center; min-width: 50px; text-align: center; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-muted); }
 .sr-adjust {
   width: 36px; height: 36px; padding: 0;
   border: 1px solid var(--border); background: none; color: var(--text-muted); cursor: pointer;

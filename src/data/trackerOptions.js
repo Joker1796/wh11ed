@@ -103,8 +103,8 @@ export const TRACK_OPTIONS = [
     note: (ctx) => (ctx.opp.trackable ? null : 'trackerArmyReferenceOnly'),
   },
   {
-    // Playing stratagems from the CP tab (and from a unit's card): the list, the spend, the log.
-    // Off: the CP tab is the counter alone. Old games had both under one row, so on by default.
+    // Stratagems in the tracker: the CP tab's list and a unit card's stratagem box. Paying for them
+    // is the row under it (owner, 2026-10-25). Off: the CP tab is the counter alone.
     id: 'strat-play',
     setting: 'trackStratPlay',
     group: 'turn',
@@ -114,6 +114,22 @@ export const TRACK_OPTIONS = [
     remember: true,
     local: true,
     requires: 'trackCP',
+  },
+  {
+    // Paying CP for a stratagem: its cost button spends it, the card's box plays it (owner,
+    // 2026-10-25, a player's report: shown and paid were one row, and in a game that showed none
+    // the only way to spend CP was the pencil). Off: the list is a reference, the card's box a plain
+    // mark, and the balance carries − and + (CpBank's `stepper`). On by default: a game saved before
+    // the row paid as it did.
+    id: 'strat-spend',
+    setting: 'stratSpendCp',
+    group: 'turn',
+    label: 'trackerTrackStratSpend',
+    help: 'trackerHelpStratSpend',
+    default: true,
+    remember: true,
+    local: true,
+    requires: 'trackStratPlay',
   },
   {
     // Playing a stratagem asks which unit and whether a rule changed its cost (StratPlayModal).
@@ -128,7 +144,7 @@ export const TRACK_OPTIONS = [
     default: false,
     remember: true,
     local: true,
-    requires: 'trackStratPlay',
+    requires: 'stratSpendCp',
   },
 
   {

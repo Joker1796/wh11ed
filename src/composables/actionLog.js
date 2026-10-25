@@ -87,9 +87,11 @@ function strip(e) {
 
 // A CP ledger entry (cpLedger.js) as the log tells it.
 export function ledgerEvent(e) {
-  const type = e.kind === 'spend' ? 'strat' : e.kind
+  // A point spent from the balance's "−" (no stratagem to spend through) is a CP line, not a stratagem.
+  const manual = e.kind === 'spend' && e.source === 'manual'
+  const type = manual ? 'spend' : e.kind === 'spend' ? 'strat' : e.kind
   return {
-    round: e.round, turn: e.turn ?? null, kind: e.kind === 'spend' ? 'strat' : 'cp', type, t: e.t,
+    round: e.round, turn: e.turn ?? null, kind: e.kind === 'spend' && !manual ? 'strat' : 'cp', type, t: e.t,
     amount: e.amount, ...(e.source ? { source: e.source } : {}), ...(e.name ? { name: e.name } : {}), ...(e.ref ? { ref: e.ref } : {}),
     ...(e.target ? { target: e.target } : {}),
   }

@@ -27,8 +27,24 @@
     <!-- The balance, and a pencil for the rare correction (owner, 2026-10-19 — Mikhail asked why
          − and + sat beside the stratagems when CP come by themselves and go on stratagems): the
          stepper lives in a dialog that says what it is for. -->
-    <span class="cr-adjust cr-count">{{ cp }} CP</span>
+    <!-- Where stratagems are not paid for here (`stratSpendCp` off, or none shown), CP are spent by
+         hand: − and + at the balance (owner, 2026-10-25). "−" spends, "+" corrects. -->
+    <NumberStepper
+      v-if="stepper"
+      class="cr-adjust cr-inline"
+      :model-value="cp"
+      :min="0"
+      :max="editWhy ? cp : null"
+      :disabled="locked"
+      :aria-label="`${name} — CP`"
+      @update:model-value="v => v < cp ? $emit('spend') : $emit('update:cp', v)"
+    />
+    <span
+      v-else
+      class="cr-adjust cr-count"
+    >{{ cp }} CP</span>
     <button
+      v-if="!stepper"
       type="button"
       class="cr-edit"
       data-press
@@ -102,8 +118,9 @@ defineProps({
   inert: { type: Boolean, default: false },
   auto: { type: Boolean, default: true },        // core CP come by themselves (the game's cpAuto)
   editWhy: { type: String, default: '' },       // why the pencil is refused (strict rules), said on it
+  stepper: { type: Boolean, default: false },   // − and + at the balance instead of the pencil
 })
-defineEmits(['bonus', 'update:cp', 'help'])
+defineEmits(['bonus', 'update:cp', 'spend', 'help'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const editOpen = ref(false)

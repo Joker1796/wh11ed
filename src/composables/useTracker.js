@@ -865,6 +865,15 @@ export function useTracker() {
     adjustTo(g.players[pi], value, g.currentRound, g.currentTurn === 1 ? 1 : 0)
   }
 
+  // The balance's "−" where stratagems are not paid for here (`stratSpendCp` off): a point spent,
+  // told as one in the log. Allowed by strict rules — with no stratagem to spend through, this is
+  // the spend, not a correction (the "+" stays one, setCp).
+  function spendCpByHand(pi) {
+    const g = current.value
+    if (!g || (g.players[pi].cp || 0) <= 0) return
+    spendCp(pi, 1, 'manual')
+  }
+
   // ── Bonus CP: at most one a battle round, besides Core CP (cpLedger.js) ──
   function canGainBonus(pi) {
     const g = current.value
@@ -1993,7 +2002,7 @@ export function useTracker() {
 
   return {
     current, history, setupDraft,
-    startLobby, closeLobby, newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
+    startLobby, closeLobby, newGame, updateSetup, setRoundPrimary, setCp, spendCpByHand, setArmyCounter, setArmySelection, toggleArmyMulti,
     setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
     setArmyCondition, setUnitCondition, setUnitStratagem, setUnitUse, setUnitAura, setUnitPick,
     resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,

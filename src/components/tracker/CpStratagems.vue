@@ -89,6 +89,7 @@
               :strat="s"
               :tag="deck === 'all' && isCore(s) ? labels.trackerStratCoreTag : ''"
               v-bind="rowProps(s)"
+              :playable="spends"
               @open="openStrat = s"
               @use="use(s)"
               @adjust="ask(s)"
@@ -115,7 +116,7 @@
       <!-- Played from the card too (owner, 2026-10-08): the card is where the decision is made.
            The same button and lock as its row; the dialog hands over to the play dialog. -->
       <footer
-        v-if="canEdit(side)"
+        v-if="canEdit(side) && spends"
         class="cps-card-foot"
       >
         <!-- Why it cannot be played, short of CP included: a disabled button's tooltip never
@@ -233,6 +234,8 @@ watch(
 // ── The filter: the Stratagems page's toolbar (StratFilterBar) ──
 const phasesOn = computed(() => tracks(current.value?.settings, 'trackPhases'))
 const stratsPlayed = computed(() => tracks(current.value?.settings, 'trackStratPlay'))
+// …and paid for here (`stratSpendCp`, owner 2026-10-25). Off: the list is a reference.
+const spends = computed(() => tracks(current.value?.settings, 'stratSpendCp'))
 const livePhase = computed(() => current.value?.currentPhase || 'command')
 const deck = ref('all')
 // The deck filter (all / core / army) shortens the list the same way: the page holds its height and

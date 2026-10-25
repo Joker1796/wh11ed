@@ -401,8 +401,10 @@
             :inert="lock(side)"
             :auto="!!current.cpAuto"
             :edit-why="strictText(strictWhy('pencil', side))"
+            :stepper="!tracks(current.settings, 'stratSpendCp')"
             @bonus="bonusOf(side) ? undoBonusCp(side) : gainBonusCp(side)"
             @update:cp="v => setCp(side, v)"
+            @spend="spendCpByHand(side)"
             @help="cpHelpOpen = true"
           />
           <!-- Inside the bank's slot, so it is under CpStratagems and wears the colour of the side
@@ -626,7 +628,7 @@ import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, battleWaitsFor, undoTurn, canUndoTurn, finishGame, strictWhy, strictUndoWhy } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, spendCpByHand, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, battleWaitsFor, undoTurn, canUndoTurn, finishGame, strictWhy, strictUndoWhy } = useTracker()
 // Strict rules' reason (strictRules.js), as the screen says it — '' when nothing is refused.
 const strictText = (why) => (why ? labels.value[`trackerStrict_${why}`] : '')
 const begun = computed(() => gameBegun(current.value))
@@ -668,6 +670,8 @@ const tourCtx = () => ({
   get cp() { return tracks(current.value?.settings, 'trackCP') },
   // Whether the CP tab lists stratagems to play (CpStratagems' `stratsPlayed`), or only counts CP.
   get stratPlay() { return tracks(current.value?.settings, 'trackStratPlay') },
+  // …and whether a tap on one pays for it, or the balance carries − and + (`stratSpendCp`).
+  get stratSpend() { return tracks(current.value?.settings, 'stratSpendCp') },
   get turnChecks() { return tracks(current.value?.settings, 'trackMissionAids') },
   get broadcast() { return broadcastOn.value || tracks(current.value?.settings, 'trackBroadcast') },
   get lists() { return !!listSide.value },

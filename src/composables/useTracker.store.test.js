@@ -1478,3 +1478,29 @@ describe('unit status', () => {
     expect(side.unitStatus).toEqual({})
   })
 })
+
+// The balance's "−" where stratagems are not paid for here (owner, 2026-10-25): a point spent, a
+// CP line in the log — allowed under strict rules, where the "+" (a correction) is not.
+describe('spending CP by hand', () => {
+  it('spends a point and tells it as a spend', async () => {
+    tracker.newGame(setupGame({ settings: { strictRules: true } }))
+    tracker.beginGame()
+    const pl = tracker.current.value.players[0]
+    const before = pl.cp
+    tracker.spendCpByHand(0)
+    expect(pl.cp).toBe(before - 1)
+    const { buildGameLog } = await import('./gameLog.js')
+    const line = buildGameLog(tracker.current.value).find((e) => e.type === 'spend')
+    expect(line).toMatchObject({ kind: 'cp', amount: -1, pi: 0 })
+    tracker.setCp(0, pl.cp + 3)
+    expect(pl.cp).toBe(before - 1)
+  })
+  it('spends nothing from an empty bank', () => {
+    tracker.newGame(setupGame())
+    tracker.beginGame()
+    const pl = tracker.current.value.players[0]
+    tracker.setCp(0, 0)
+    tracker.spendCpByHand(0)
+    expect(pl.cp).toBe(0)
+  })
+})

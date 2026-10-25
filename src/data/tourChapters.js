@@ -330,12 +330,17 @@ export const TOUR_CHAPTERS = {
         show: { tab: 'cp' },
         when: (ctx) => ctx.tabs?.includes('cp'),
         // A game that does not play stratagems here (`trackStratPlay` off) shows only the counter.
-        ru: (ctx) => (ctx.stratPlay
+        // Shown but not paid for here (`stratSpendCp` off): the list to read and − / + at the balance.
+        ru: (ctx) => (ctx.stratSpend
           ? { title: 'CP и стратагемы', text: 'Нажмите на цену стратагемы, чтобы сыграть её: CP спишутся сами. Если правило изменило цену или нужно указать отряд, нажмите ⚙ рядом. Стратагемы, которые сейчас сыграть нельзя, отмечены с причиной.' }
-          : { title: 'Командные очки', text: 'Командные очки начисляются сами. «Бонус 1 CP» — очко из правила, одно за раунд. Карандаш поправляет счёт, если он разошёлся со столом. Чтобы играть стратагемы прямо здесь, включите их в настройках партии.' }),
-        en: (ctx) => (ctx.stratPlay
+          : ctx.stratPlay
+            ? { title: 'CP и стратагемы', text: 'Нажмите «−», чтобы потратить очко, и «+», чтобы поправить счёт. Командные очки начисляются сами. Ниже ваши стратагемы по фазам: нажмите на строку, чтобы прочитать карту.' }
+            : { title: 'Командные очки', text: 'Нажмите «−», чтобы потратить очко, и «+», чтобы поправить счёт. Командные очки начисляются сами. «Бонус 1 CP» — очко из правила, одно за раунд.' }),
+        en: (ctx) => (ctx.stratSpend
           ? { title: 'CP and stratagems', text: 'Tap a stratagem’s cost to play it: the CP are taken off by themselves. If a rule changed the cost or the unit matters, tap the ⚙ beside it. The ones that cannot be played now say why.' }
-          : { title: 'Command Points', text: 'Command Points come by themselves. “Bonus 1 CP” is a point from a rule, one a round. The pencil corrects the count if it drifts from the table’s. To play stratagems right here, turn them on in the game’s settings.' }),
+          : ctx.stratPlay
+            ? { title: 'CP and stratagems', text: 'Tap “−” to spend a point and “+” to correct the count. Command Points come by themselves. Below are your stratagems by phase: tap a line to read the card.' }
+            : { title: 'Command Points', text: 'Tap “−” to spend a point and “+” to correct the count. Command Points come by themselves. “Bonus 1 CP” is a point from a rule, one a round.' }),
       },
       {
         target: 'game-panel-armies',
