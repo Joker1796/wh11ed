@@ -74,6 +74,19 @@ describe('PreBattle — one phone', () => {
     expect(tracker.current.value.players.map((p) => p.name)).toEqual(['Me', 'Opp'])
     expect(names()).toEqual([['Me', true], ['Opp', false]])
   })
+
+  // Each side's controls wear that side's colour, as its name does (owner, 2026-10-25), and the
+  // roll's light the winner's.
+  it('colours each side\'s switches and the roll by their side', async () => {
+    startGame()
+    const w = mountIt()
+    const sides = w.findAll('.pb-side')
+    expect(sides[0].classes()).toEqual(expect.arrayContaining(['turn-colored']))
+    expect(sides[0].classes()).not.toContain('turn-opp')
+    expect(sides[1].classes()).toEqual(expect.arrayContaining(['turn-colored', 'turn-opp']))
+    await step(w, 10).findAll('.pb-roll button')[1].trigger('click')
+    expect(step(w, 10).find('.pb-roll').classes()).toEqual(expect.arrayContaining(['turn-colored', 'turn-opp']))
+  })
 })
 
 describe('PreBattle — a shared game, on the guest\'s phone', () => {
