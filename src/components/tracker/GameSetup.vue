@@ -226,6 +226,16 @@
             <h3 class="player-head">
               {{ playerLabel(i) }}
             </h3>
+            <!-- Whose side this is, and what it is waiting for: a status beside the heading, not a
+                 line of its own — under it, the line pushed one card's fields below its twin's
+                 (owner, 2026-10-25). The card is INERT when another phone holds it — its fields
+                 are still there to read, they just cannot be typed into. -->
+            <span
+              v-if="sharedSetup && sideNote(i)"
+              class="ph-note"
+              :class="{ ok: isReady(i) }"
+              :title="sideNote(i)"
+            >{{ sideNote(i) }}</span>
             <button
               v-if="invitesFrom(i)"
               type="button"
@@ -251,16 +261,6 @@
               {{ inviteWhy }}
             </p>
           </ExpandTransition>
-          <!-- Whose side this is, and what it is waiting for. The card is INERT when another
-               phone holds it — its fields are still there to read (an opponent's army is
-               exactly what you want to look at), they just cannot be typed into. -->
-          <p
-            v-if="sharedSetup && sideNote(i)"
-            class="side-note"
-            :class="{ ok: isReady(i) }"
-          >
-            {{ sideNote(i) }}
-          </p>
 
           <!-- A side someone else is filling in is not a form with every field greyed out — it
                is a REPORT. Empty until they press Done, because an empty form under a "waiting"
@@ -2556,14 +2556,17 @@ function cancel() {
    line the heading already took — the button is not a row of its own. */
 .ph-row {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.35rem 0.75rem;
+  gap: 0.6rem;
   margin-bottom: 0.75rem;
 }
-.ph-row .player-head { margin: 0; }
+/* One line, always: the heading and the status give way to an ellipsis before the row grows. */
+.ph-row .player-head { flex: 0 1 auto; min-width: 0; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ph-note { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.78rem; color: var(--text-muted); }
+.ph-note.ok { color: var(--accent-ink); }
 .ph-invite {
+  margin-left: auto;
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -2871,12 +2874,6 @@ function cancel() {
   color: var(--text-primary);
 }
 .se-retry { margin-left: auto; }
-.side-note {
-  margin: -0.15rem 0 0.6rem;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-}
-.side-note.ok { color: var(--accent-ink); }
 .side-takeover { margin-top: 0.7rem; }
 /* The lobby's own row, under the step navigation: text, not buttons with frames, so it reads as
    an annotation to the party rather than a third and fourth way forward. Same recipe as the
