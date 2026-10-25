@@ -289,6 +289,7 @@ function roll(i) {
    through, one short line each — the sides' names in them, so nobody looks up which of the two is
    the Defender. No frame of its own: a rule under it parts it from the side's missions. */
 .pb {
+  container-type: inline-size;
   margin: 0.3rem 0 0.8rem;
   padding: 0 0 0.8rem;
   border-bottom: 1px solid var(--border);
@@ -311,6 +312,11 @@ function roll(i) {
 .pb-link { font-size: 0.78rem; color: var(--text-dim); }
 @media (hover: hover) { .pb-link:hover { color: var(--accent-ink); } }
 .pb-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+/* A wide screen (owner, 2026-10-25): the steps in two columns, read in rows — 6|7, 8|9, 10|11.
+   From 760px of the block: each half then holds a name and the whole "Tactical / Fixed" switch. */
+@container (min-width: 760px) {
+  .pb-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem 2rem; }
+}
 .pb-step { min-width: 0; }
 .pb-name { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
 .pb-n { margin-right: 0.4rem; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--accent-ink); }
