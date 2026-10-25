@@ -8,6 +8,7 @@ const replace = vi.fn()
 vi.mock('vue-router', () => ({
   useRoute: () => ({ params: { get id() { return ROSTER_ID }, get pi() { return GAME_PI }, get gid() { return GAME_GID } } }),
   useRouter: () => ({ push: vi.fn(), replace }),
+  onBeforeRouteLeave: () => {},
   RouterLink: { name: 'RouterLink', props: ['to'], template: '<a :href="to"><slot /></a>' },
 }))
 

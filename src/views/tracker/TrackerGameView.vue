@@ -79,6 +79,7 @@
 <script setup>
 import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useFileFinishedGameOnLeave } from '../../composables/fileFinishedGame.js'
 import SetupLoading from '../../components/tracker/SetupLoading.vue'
 // Async: GameSetup pulls in the faction/detachment dataset (mfmFactions.js, ~290 KB via
 // trackerFactions.js). It's only shown in the setup phase, so loading it lazily keeps that
@@ -169,6 +170,8 @@ function backToTracker() {
   archiveGame()
   router.push('/tracker')
 }
+// Leaving any other way files the finished game too (fileFinishedGame.js).
+useFileFinishedGameOnLeave()
 </script>
 
 <style scoped>

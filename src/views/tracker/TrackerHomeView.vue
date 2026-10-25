@@ -171,7 +171,7 @@
             ><span
               class="gc-live-dot"
               aria-hidden="true"
-            />{{ labels.trackerLiveTag }}</span>
+            />{{ g.live === 'setup' ? labels.trackerSetupTag : labels.trackerLiveTag }}</span>
             <span
               v-else
               class="gc-date"
@@ -206,11 +206,14 @@
               >{{ line }}</span>
             </div>
             <div class="gc-center">
-              <div class="gc-score">
+              <div
+                v-if="g.live !== 'setup'"
+                class="gc-score"
+              >
                 {{ score(g)[0] }}<span class="gc-dash">–</span>{{ score(g)[1] }}
               </div>
               <div class="gc-result">
-                {{ g.live ? labels.trackerLiveRound.replace('{n}', g.currentRound || 1) : resultLabel(g) }}
+                {{ g.live === 'setup' ? setupLine(g) : g.live ? labels.trackerLiveRound.replace('{n}', g.currentRound || 1) : resultLabel(g) }}
               </div>
             </div>
             <div class="gc-side gc-side--right">
@@ -272,6 +275,7 @@ import { battlePointsFromVp, concededSide, grandTotal, youIndex as youIdx } from
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, membersOf, isYouSide, battleName } from '../../composables/useTracker.js'
+import { fileFinishedGame } from '../../composables/fileFinishedGame.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
 import { useAuth } from '../../composables/useAuth.js'
@@ -288,6 +292,11 @@ const { formatDate } = useFormatDate()
 const { current, history, setupDraft, putAwayCurrent, resumeFromHistory, deleteHistory } = useTracker()
 // Only the host of a shared game needs an account, and this is the button that makes one.
 const { init: initParty } = useParty()
+// A finished game nobody filed (a reload on its finished screen, the app reopened here) goes to
+// the history before the list is drawn (fileFinishedGame.js) — with the party's watcher armed
+// first, so a shared game's host still ends the party for the other phones.
+initParty()
+fileFinishedGame()
 const { status, ensureSession } = useAuth()
 const {
   init: initCloudSync,
@@ -326,12 +335,22 @@ function showMore() {
 }
 const summaryGame = ref(null)
 // The game in progress as a history card: the card reads `result.totals`, which a game only gets
-// when it ends, so its totals as they stand are lent to it here.
+// when it ends, so its totals as they stand are lent to it here. A game still being set up leads
+// the list too (owner, 2026-10-25), tagged "Setting up" rather than "In progress" and with no score:
+// a shared game's lobby (`current` in `setup`), or this phone's own wizard left half-done (the
+// draft, `step` and all). A tap goes back to it, as the big button does.
 const liveGame = computed(() => {
   const g = current.value
-  if (!g || g.phase !== 'playing') return null
-  return { ...g, live: true, result: { totals: [grandTotal(g, 0), grandTotal(g, 1)] } }
+  if (g?.phase === 'playing') return { ...g, live: 'playing', result: { totals: [grandTotal(g, 0), grandTotal(g, 1)] } }
+  if (g?.phase === 'setup') return { ...g, live: 'setup' }
+  const d = setupDraft.value
+  if (!g && d?.players?.length === 2) return { id: 'draft', players: d.players, settings: d.settings || {}, step: d.step, live: 'setup' }
+  return null
 })
+// Where a setup stands: the wizard's step for this phone's own draft, "shared game" for a lobby.
+function setupLine(g) {
+  return g.id === 'draft' ? labels.value.trackerSetupStep.replace('{n}', g.step || 1) : labels.value.partyTitle
+}
 const rows = computed(() => (liveGame.value ? [liveGame.value, ...visibleGames.value] : visibleGames.value))
 function openRow(g) {
   if (g.live) router.push('/tracker/game')
