@@ -128,7 +128,8 @@ describe('useTour', () => {
     for (let i = 0; i < n; i++) { await nextTick(); t.next() }
     await nextTick()
     scope.stop()
-    expect(shown).toEqual(['missions', 'missions', 'missions', 'phase', 'cp', 'armies', 'log', 'stats', 'missions'])
+    // Before the battle its steps are a tab of their own (2026-10-25): the step about them opens it.
+    expect(shown).toEqual(['missions', 'prebattle', 'missions', 'missions', 'phase', 'cp', 'armies', 'log', 'stats', 'missions'])
   })
 
   it('a chapter in line is not dropped while the one before it is read', () => {

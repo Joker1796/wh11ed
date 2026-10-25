@@ -98,6 +98,33 @@ describe('useBackToClose', () => {
     expect(location.pathname).toBe('/game')
   })
 
+  // The guest's path (owner, 2026-10-25): "save and join" stays open while the seat is taken, the
+  // router replaces its copy with the game, and the dialog's token rode onto the game's entry. The
+  // next dialog closed with a Back that landed on that entry, read it as a dead copy and stepped
+  // on over it — out of the game, onto the join page.
+  it('a dialog closed after its copy was replaced by a navigation leaves the next dialog\'s Back alone', async () => {
+    history.pushState({ position: 4 }, '', '/join')
+    const a = host()
+    a.show.value = true
+    await nextTick()
+    history.replaceState({ ...history.state }, '', '/game')
+    a.show.value = false
+    await nextTick()
+    await settle()
+    await settle()
+    expect(location.pathname).toBe('/game')
+    const b = host()
+    wrapper = { unmount() { a.wrapper.unmount(); b.wrapper.unmount() } }
+    b.show.value = true
+    await nextTick()
+    b.show.value = false // "Don't turn on"
+    await nextTick()
+    await settle()
+    await settle()
+    await settle()
+    expect(location.pathname).toBe('/game')
+  })
+
   it('a dead copy left behind by close-and-navigate is stepped over on the way back', async () => {
     history.pushState({ position: 1 }, '', '/a')
     const { show, wrapper: w } = host()

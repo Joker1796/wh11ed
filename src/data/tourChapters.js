@@ -769,8 +769,8 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'lobby-phone-settings',
-        ru: { title: 'Настройки телефона', text: 'Нажмите, чтобы выбрать, что этот телефон покажет в игре. Подсчёт CP и фазы выбирает хост.' },
-        en: { title: 'This phone’s settings', text: 'Press to choose what this phone shows in the game. Command points and phases are the host’s choice.' },
+        ru: { title: 'Настройки трекера', text: 'Нажмите, чтобы выбрать, что этот телефон покажет в игре. Подсчёт CP и фазы выбирает хост.' },
+        en: { title: 'Tracker settings', text: 'Press to choose what this phone shows in the game. Command points and phases are the host’s choice.' },
       },
       {
         target: 'lobby-takeover',

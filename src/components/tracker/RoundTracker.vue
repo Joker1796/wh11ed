@@ -734,7 +734,9 @@ const logOn = computed(() => tracks(current.value.settings, 'showLog'))
 const statsOn = computed(() => tracks(current.value.settings, 'showStats'))
 const { sides: phaseSides } = usePhaseRules()
 const tabs = computed(() => [
-  ...(begun.value ? [] : [{ id: 'prebattle', label: labels.value.trackerTabPreBattle, icon: 'wi wi-signpost' }]),
+  // On a phone the open tab is the only word in the strip, and with every tab on "Before the battle"
+  // ran to "Before the ba…" at 375px (owner, 2026-10-25): there it says the short word.
+  ...(begun.value ? [] : [{ id: 'prebattle', label: labels.value.trackerTabPreBattle, short: labels.value.trackerTabPreBattleShort, icon: 'wi wi-signpost' }]),
   { id: 'missions', label: labels.value.trackerTabMissions, icon: 'wi wi-missions' },
   // The phase right after the missions (owner, 2026-09-30): what speaks now is read during the turn.
   ...(phaseTabOn.value ? [{ id: 'phase', label: phasesOn.value ? labels.value.trackerTabPhase : labels.value.trackerTabTurn, icon: 'wi wi-phase', count: sideRuleCount.value }] : []),

@@ -279,7 +279,7 @@ describe('RoundTracker — before the battle', () => {
     expect(start.attributes('disabled')).toBeUndefined()
     await start.trigger('click')
     expect(tracker.current.value.begun).toBe(false)
-    expect(w.find('.gt-tab.on').text()).toBe('Before the battle')
+    expect(w.find('.gt-tab.on').text()).toBe('Pre-battle') // the phone's short word
     tracker.rollFirstTurn(0)
     await w.vm.$nextTick()
     expect(w.find('.tr-end').attributes('disabled')).toBeUndefined()
@@ -683,7 +683,7 @@ describe('RoundTracker — the tab before the battle', () => {
     const w = mountTracker()
     await flushPromises()
     expect(tabLabels(w)[0]).toBe('Before the battle')
-    expect(w.find('.gt-tab.on').text()).toBe('Before the battle')
+    expect(w.find('.gt-tab.on').text()).toBe('Pre-battle') // the phone's short word
     expect(w.find('.pb').exists()).toBe(true)
     tracker.beginGame()
     await flushPromises()

@@ -9,27 +9,30 @@
     class="pb"
     data-tour="game-prebattle"
   >
-    <!-- The tab says "Before the battle" (owner, 2026-10-25): no title of its own under it. -->
-    <div class="pb-head">
-      <RouterLink
-        class="pb-link"
-        :to="SEQUENCE"
-      >
-        {{ labels.pbSequence }}
-      </RouterLink>
-    </div>
-
     <!-- Every step one block, its number in the title's line and its text the full width (owner,
          2026-10-25: a column for the numbers and a row for each name cost a third of a phone's
          screen). The sides' names stand in their colours in the steps' text. -->
     <ol class="pb-steps">
       <!-- Steps 1–5 were the setup's: said in one line, so the list does not seem to start at 6 out
            of nowhere (owner, 2026-10-25), and the numbers stay the Event Companion's. -->
+      <!-- The tab says "Before the battle", so no title under it; the Mission Sequence it follows is
+           a "?" at the end of this line, not a row of its own (owner, 2026-10-25). -->
       <li class="pb-step pb-done-steps">
-        <span class="pb-n">1–5</span><span>{{ labels.pbStepsDone }}</span><i
+        <span class="pb-done-text"><span class="pb-n">1–5</span><span>{{ labels.pbStepsDone }}</span><i
           class="wi wi-check pb-tick"
           aria-hidden="true"
-        />
+        /></span>
+        <RouterLink
+          class="pb-help"
+          :to="SEQUENCE"
+          :title="labels.pbSequence"
+          :aria-label="labels.pbSequence"
+        >
+          <i
+            class="wi wi-help"
+            aria-hidden="true"
+          />
+        </RouterLink>
       </li>
       <!-- 6 · The secondaries. Each side on its own phone in a shared game, in secret: a side
            another phone plays says only that it is choosing, or has chosen, until both have
@@ -316,16 +319,8 @@ function roll(i) {
   container-type: inline-size;
   margin: 0.3rem 0 0;
 }
-.pb-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: flex-end;
-  column-gap: 0.75rem;
-  margin-bottom: 0.45rem;
-}
-.pb-link { font-size: 0.78rem; color: var(--text-dim); }
-@media (hover: hover) { .pb-link:hover { color: var(--accent-ink); } }
+.pb-help { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; margin: -0.4rem -0.4rem -0.4rem 0; font-size: 1.35rem; color: var(--text-dim); text-decoration: none; }
+@media (hover: hover) { .pb-help:hover { color: var(--accent-ink); } }
 .pb-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
 /* A wide screen (owner, 2026-10-25): the steps in two columns, read in rows — 6|7, 8|9, 10|11.
    From 760px of the block: each half then holds a name and the whole "Tactical / Fixed" switch. */
@@ -340,7 +335,8 @@ function roll(i) {
 .pb-text { margin: 0.1rem 0 0; font-size: 0.84rem; line-height: 1.4; color: var(--text-muted); }
 /* A name is the players' own text: one long word must break rather than push the page sideways. */
 .pb-player { font-weight: 600; overflow-wrap: anywhere; }
-.pb-done-steps { grid-column: 1 / -1; font-size: 0.84rem; color: var(--text-muted); }
+.pb-done-steps { grid-column: 1 / -1; display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.84rem; color: var(--text-muted); }
+.pb-done-text { flex: 1 1 auto; min-width: 0; }
 .pb-tick { margin-left: 0.35rem; font-size: 0.8rem; }
 /* A side's choice on one line: the name, the switch beside it (and Done), the cards under them. One
    grid for both sides (each side's box is `display: contents`): the names' column is as wide as the
