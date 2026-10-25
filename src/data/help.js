@@ -66,6 +66,7 @@ export const help = {
         toLabel: 'Open the tracker',
         body: `The tracker keeps score for both players: the primary and secondary missions, command points, and the totals by round with a running Battle Points result.
 ▪ The game in progress is remembered. Closing the tab or losing signal mid-game changes nothing.
+▪ The setup ends with the Attacker and the Defender. The secondary missions and who goes first come after, on the game screen before the battle, in the mission sequence's order.
 **What to track**
 ▪ The last step of the setup lists what the app keeps beside the missions, in four groups: the turn and the score (command points, the turn-and-phase clock, what applies now, the mission check before the turn passes), the armies (each side's army rule, whether playing a stratagem asks the unit and the cost), the army list (modifiers, where each unit is; the finer switches are under "Details") and the screen (the Log and Stats tabs, the broadcast, the colours).
 ▪ Three ready sets sit on top: a quick game with only the missions and CP, the normal one, and a full one with the phases and every modifier. Change any box and the set becomes your own.
@@ -77,10 +78,10 @@ export const help = {
 ▪ The **statistics** page builds itself from the history: win rate, average score, going first and second, which factions beat you, which secondary cards pay. Under five games it shows counts, not percentages.
 ▪ Sign in from the ⚙ menu, and the history and your lists are the same on all your devices. There is nothing to press: a new phone starts where the old one left off.
 **Setting a game up together**
-▪ On the tracker page press "Shared game", then "Start a new one". Choose the game type and press "Open the lobby". Only you need an account.
-▪ The others press "Shared game", then "Join a game", and enter the code — or open your link or QR code.
+▪ Start a new game and press "Invite" on the opponent's card. The code, the QR code and the link open; the same button shows them again. Only you need an account.
+▪ The others press "Join a game" on the tracker page and enter the code — or open your link or QR code.
 ▪ Each guest fills in their own side on their device: name, faction, detachments, list. Then they press "Done". Nothing leaves their phone before that.
-▪ You choose the mission, the battlefield, who goes first and what to track. You start the game once the other side is in.
+▪ You choose the mission, the battlefield, and whether command points and phases are kept — for every phone. What else a phone shows, each player chooses on their own phone. You start the game once the other side is in; before the battle each player chooses their secondaries on their own phone, and you mark who won the roll for the first turn.
 ▪ A side is filled in by one phone: the first to join it. It can hand the right over to a partner.
 ▪ While you are on the armies step, a guest changes their side freely. Once you have moved on, they ask, and you answer.
 **One game, several phones**
@@ -169,6 +170,7 @@ export const help = {
         toLabel: 'Открыть трекер',
         body: `Трекер считает за обоих игроков: первичную и вторичные миссии, командные очки и суммы по раундам с текущим результатом в Battle Points.
 ▪ Начатая партия запоминается. Закрыть вкладку или потерять сеть посреди игры ничего не меняет.
+▪ Настройка заканчивается на Attacker и Defender. Вторичные миссии и первый ход — потом, на экране партии перед битвой, в порядке последовательности миссии.
 **Что отслеживать**
 ▪ На последнем шаге настройки перечислено, что приложение ведёт рядом с миссиями, в четырёх группах: ход и счёт (командные очки, часы «ход и фаза», что действует сейчас, проверка миссий перед передачей хода), армии (правило армии каждой стороны, спрашивать ли при розыгрыше стратагемы отряд и цену), список армии (модификаторы, где каждый отряд; подробные переключатели — под «Подробнее») и экран (вкладки «Лог» и «Статистика», трансляция, цвета).
 ▪ Сверху три готовых набора: быстрая игра — только миссии и CP, обычная и полная — с фазами и всеми модификаторами. Поменяйте любую галочку — набор станет вашим.
@@ -180,10 +182,10 @@ export const help = {
 ▪ Страница **статистики** складывается из истории сама: винрейт, средний счёт, первый и второй ход, кто вас обыгрывает, какие вторичные карты приносят очки. Пока партий меньше пяти, она показывает количество, а не проценты.
 ▪ Войдите в аккаунт в меню ⚙, и история с листами будут одинаковыми на всех ваших устройствах. Нажимать ничего не нужно: новый телефон начинает с того же места.
 **Настроить партию вместе**
-▪ На странице трекера нажмите «Совместная игра», затем «Начать новую». Выберите тип игры и запустите лобби. Аккаунт нужен только вам.
-▪ Остальные нажимают «Совместная игра», затем «Подключиться», и вводят код — или открывают вашу ссылку или QR-код.
+▪ Начните новую партию и нажмите «Пригласить» в карточке соперника. Откроются код, QR-код и ссылка; та же кнопка покажет их снова. Аккаунт нужен только вам.
+▪ Остальные нажимают «Подключиться» на странице трекера и вводят код — или открывают вашу ссылку или QR-код.
 ▪ Каждый гость заполняет свою сторону на своём устройстве: имя, фракцию, детачменты, лист. Потом нажимает «Готово». До этого с его телефона ничего не уходит.
-▪ Вы выбираете миссию, поле, очерёдность хода и что отслеживать. Партию начинаете вы, когда сторона соперника на месте.
+▪ Вы выбираете миссию, поле и то, ведутся ли CP и фазы, — для всех телефонов. Что ещё показывает телефон, каждый выбирает на своём. Партию начинаете вы, когда сторона соперника на месте; перед битвой каждый выбирает вторичные миссии на своём телефоне, а вы отмечаете, кто выиграл кубовку на первый ход.
 ▪ Сторону заполняет один телефон — тот, что подключился к ней первым. Он может передать право партнёру.
 ▪ Пока вы на шаге «Армии», гость меняет свою сторону свободно. Когда вы ушли дальше, он просит, а вы отвечаете.
 **Одна партия на нескольких телефонах**

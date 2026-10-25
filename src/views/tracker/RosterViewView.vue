@@ -613,6 +613,7 @@ import { modelsLabel } from '../../utils/copyTier.js'
 import ChevronIcon from '../../components/ChevronIcon.vue'
 import { computed, markRaw, onMounted, onUnmounted, ref, shallowRef, toRaw, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useFileFinishedGameOnLeave } from '../../composables/fileFinishedGame.js'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import ExpandTransition from '../../components/ExpandTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
@@ -691,6 +692,8 @@ const props = defineProps({
 })
 
 const route = useRoute()
+// The game's roster is one of the game's screens: leaving the game from here files a finished one.
+useFileFinishedGameOnLeave()
 const router = useRouter()
 const { locale } = useLocale()
 // The same popover a core ability or a modifier note opens — a chip's "i" is one more way in.

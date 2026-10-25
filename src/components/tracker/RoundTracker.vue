@@ -171,10 +171,10 @@
           :can-prev="canStepInTurn(-1) && !strictWhy('clock')"
           :can-next="canStepInTurn(1)"
           :can-end="!begun || canEndTurn()"
-          :end-locked="!canEdit(turnIndex)"
+          :end-locked="!canEdit(turnIndex) || !!battleWait"
           :undo-title="undoTitle"
           :end-title="endTitle"
-          :locked-text="(begun ? labels.trackerTurnOf : labels.trackerStartsOf).replace('{name}', playerName(turnIndex))"
+          :locked-text="battleWait ? labels[BATTLE_WAIT[battleWait]] : (begun ? labels.trackerTurnOf : labels.trackerStartsOf).replace('{name}', playerName(turnIndex))"
           @start="beginGame()"
           @reserves="openReserves"
           @invite="partyOpen = true"
@@ -285,14 +285,20 @@
         class="mside side-frame"
         :class="{ opp: !isYouSide(current.players[missionSide], missionSide) }"
       >
+        <!-- Before the battle: the Mission Sequence's steps from the secondaries to the pre-battle
+             rules, over the missions they lead to (PreBattle.vue). Inside the frame, so the panel
+             still hangs from the tab strip. -->
+        <PreBattle v-if="!begun" />
         <!-- In a shared game a side another phone plays is shown as it is, greyed, with the
              reason under its title — never hidden: what the opponent has scored is exactly what a
-             player wants to see. The lock is on what SCORES — the primary, the deck, the army
-             tracker's controls (`inert`, see lock()) — not on the card, because the card is also
-             where the opponent's army rule is READ. A guest who could not open the other side's
-             Waaagh! rule was the first complaint about the shared game. The sync layer snaps
-             back anything that gets past the lock. `inert` is a presence attribute — a rendered
-             "false" would still be inert — hence `undefined` rather than false. -->
+             player wants to see. The lock is on what SCORES — the primary's stepper, the deck's
+             take and card actions, the army tracker's controls (`inert`, see lock()) — never on
+             what is READ: the mission cards open, view only (the opponent's missions lie face up,
+             Event Companion; a whole inert deck kept them shut, the owner's first game,
+             2026-10-24), and the army rule stays readable (a guest who could not open the other
+             side's Waaagh! rule was the first complaint about the shared game). The sync layer
+             snaps back anything that gets past the lock. `inert` is a presence attribute — a
+             rendered "false" would still be inert — hence `undefined` rather than false. -->
         <template
           v-for="i in [missionSide]"
           :key="i"
@@ -317,7 +323,6 @@
               type="button"
               class="mission-card"
               data-press
-              :inert="lock(i)"
               @click="openPrimary = i"
             >
               <span class="mc-name">{{ primaryName(i) }}</span>
@@ -344,16 +349,23 @@
               <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
             </div>
 
-            <!-- Combat Patrol has no secondaries: a player scores their box's mission alone. -->
+            <!-- Combat Patrol has no secondaries: a player scores their box's mission alone.
+                 Before the battle another phone's choice stays hidden until both sides have
+                 chosen (PreBattle.vue — the Mission Sequence's secret choice). -->
+            <p
+              v-if="!current.settings?.combatPatrol && secretOf(i)"
+              class="sec-secret"
+            >
+              {{ labels.pbSecretDeck }}
+            </p>
             <SecondaryDeck
-              v-if="!current.settings?.combatPatrol"
+              v-else-if="!current.settings?.combatPatrol"
               :pi="i"
               :round="shownRound"
               :turn="shownTurn"
               :turn-names="playerNames"
               :editable="canEdit(i)"
               :name="playerName(i)"
-              :inert="lock(i)"
               @open-turn="t => openTurn(t)"
             />
           </div>
@@ -498,8 +510,8 @@
       :blocks="primaryBlocks(openPrimary)"
       :briefing="primaryMission(openPrimary).briefing"
       :count="(bi, ri) => primaryRowCount(openPrimary, shownRound - 1, bi, ri)"
-      :readonly="!!pastWhy"
-      :view-only-note="pastWhy"
+      :readonly="!!pastWhy || !canEdit(openPrimary)"
+      :view-only-note="pastWhy || (canEdit(openPrimary) ? null : labels.partyOtherSide)"
       :locked="b => primaryLocked(openPrimary, b)"
       :fix="primaryFix(openPrimary)"
       :opp="!isYouSide(current.players[openPrimary], openPrimary)"
@@ -570,6 +582,7 @@ import CpBank from './CpBank.vue'
 import TurnBar from './TurnBar.vue'
 import GameTabs from './GameTabs.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
+import PreBattle from './PreBattle.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
 import CpStratagems from './CpStratagems.vue'
@@ -613,10 +626,14 @@ import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame, strictWhy, strictUndoWhy } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, battleWaitsFor, undoTurn, canUndoTurn, finishGame, strictWhy, strictUndoWhy } = useTracker()
 // Strict rules' reason (strictRules.js), as the screen says it — '' when nothing is refused.
 const strictText = (why) => (why ? labels.value[`trackerStrict_${why}`] : '')
 const begun = computed(() => gameBegun(current.value))
+// What the battle still waits for before it may begin (PreBattle's two choices), said on Start.
+const BATTLE_WAIT = { fixed: 'pbWaitFixed', secondaries: 'pbWaitSecondaries', firstTurn: 'pbWaitFirstTurn' }
+const battleWait = computed(() => (begun.value ? null : battleWaitsFor()))
+const secretOf = (pi) => !begun.value && !canEdit(pi) && current.value.players.some((p) => p.secondaryPending)
 // Every tab carries its word on a wide screen (see .game-tabs in the styles).
 const wideTabs = useMediaQuery('(min-width: 901px)')
 
@@ -977,6 +994,8 @@ const turnHeadline = computed(() => {
   const t = turnIndex.value
   const pl = current.value.players[t]
   const parts = [{ text: `${l.trackerRoundShort} ` }, { text: String(current.value.currentRound), strong: true }, { text: ' \u00b7 ' }]
+  // Nobody has the turn before the roll for it (PreBattle): the order on screen is provisional.
+  if (current.value.firstTurnPending) return [...parts, { text: l.pbTitle.toLowerCase() }]
   // Your own turn is "your turn" whatever you named yourself (owner, 2026-10-06): the name is for
   // telling the OTHER side apart. "Your" is this phone's side — in a shared game `isYou` is the
   // device's seat, not the host's — and in doubles the side is the team, which plays its turn together.
@@ -1219,6 +1238,7 @@ function onEndBattle(reason) {
 .sr-sub { font-size: 0.72rem; color: var(--text-dim); }
 /* A side another phone plays: readable, not touchable. */
 .player-locked { opacity: 0.72; }
+.sec-secret { margin: 0.7rem 0 0; font-size: 0.82rem; color: var(--text-dim); }
 .plocked {
   margin: 0.1rem 0 0.4rem;
   font-size: 0.72rem;

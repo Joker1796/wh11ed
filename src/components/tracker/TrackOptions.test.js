@@ -81,9 +81,19 @@ describe('TrackOptions', () => {
       props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'turn', lockShared: true },
       global: { stubs: { RouterLink } },
     })
-    const ask = turn.findAll('.opt-row').find((r) => r.text().includes('Ask the unit and the cost'))
-    expect(ask.find('input').element.disabled).toBe(true)
-    expect(ask.text()).toContain('Host only')
+    // CP and the clock are the host's, for every phone; the rest of the turn is this phone's
+    // (owner, 2026-10-25) — the stratagems and the ask under CP included.
+    const turnRow = (t) => turn.findAll('.opt-row').find((r) => r.text().includes(t))
+    for (const t of ['Command points', 'Track phases']) {
+      expect(turnRow(t).find('input').element.disabled).toBe(true)
+      expect(turnRow(t).text()).toContain('Host only')
+    }
+    // …shown at the host's value: "off" on a guest's phone read as "the host does not count CP".
+    expect(turnRow('Command points').find('input').element.checked).toBe(true)
+    expect(turnRow('Track phases').find('input').element.checked).toBe(false)
+    for (const t of ['Stratagems', 'Ask the unit and the cost', 'Rules for this phase or turn', 'Missions']) {
+      expect(turnRow(t).find('input').element.disabled).toBe(false)
+    }
     // The colours have a card of their own, and are a way of looking at the game: this phone's.
     const look = mount(TrackOptions, {
       props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'look', lockShared: true },
@@ -124,12 +134,13 @@ describe('TrackOptions — the groups of 2026-10-14', () => {
     await head.trigger('click')
     expect(head.attributes('aria-expanded')).toBe('true')
   })
-  it('marks a row that is this phone\'s alone', () => {
-    const w = mount(TrackOptions, {
-      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'look' },
+  // The host of a shared game is told which of its rows bind every phone; one phone says nothing.
+  it('marks the rows the host sets for every phone, in a shared game only', () => {
+    const tags = (shared) => mount(TrackOptions, {
+      props: { settings: reactive(trackSettingsOf({})), ctx: CTX, group: 'turn', shared },
       global: { stubs: { RouterLink } },
-    })
-    const log = w.findAll('.opt-row').find((r) => r.text().includes('Log and Stats tabs'))
-    expect(log.find('.opt-local').text()).toBe('on this phone')
+    }).findAll('.opt-local').map((t) => t.text())
+    expect(tags(false)).toEqual([])
+    expect(tags(true)).toEqual(['for every phone in the game', 'for every phone in the game'])
   })
 })

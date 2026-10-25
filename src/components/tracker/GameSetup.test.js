@@ -308,15 +308,15 @@ describe('GameSetup gates in a lobby', () => {
     expect(w.findAll('.side-mirror')).toHaveLength(2) // armies + mission
     expect(w.findAll('.side-mirror .sm-waiting')).toHaveLength(2)
 
-    // …and "a report" means the whole card. The secondaries switch used to sit outside the
-    // mirror/form split and only go inert, so the mission step offered the host a live
-    // "Tactical / Fixed" toggle for a side another phone fills in (owner, 2026-09-24).
+    // …and "a report" means the whole card: no control of another phone's side on the mission
+    // step (owner, 2026-09-24 — a live "Tactical / Fixed" toggle once sat there; the secondaries
+    // are chosen before the battle now, on each side's own phone).
     const cards = w.findAll('.step-panel')[1].findAll('.player-card')
     const theirs = cards.find((c) => c.find('.side-mirror').exists())
     expect(theirs).toBeTruthy()
-    expect(theirs.findAll('.seg')).toHaveLength(0)
-    // The host's own card still asks, or the step would have nothing to fill in.
-    expect(cards.find((c) => !c.find('.side-mirror').exists()).findAll('.seg').length).toBeGreaterThan(0)
+    expect(theirs.findAll('.seg, .field')).toHaveLength(0)
+    // The host's own card still asks its disposition, or the step would have nothing to fill in.
+    expect(cards.find((c) => !c.find('.side-mirror').exists()).findAll('.field').length).toBeGreaterThan(0)
   })
 })
 
@@ -388,5 +388,63 @@ describe('GameSetup — a list and the battle size', () => {
     await flushPromises()
     expect(body.text()).not.toContain('The list does not fit the game')
     w.unmount()
+  })
+})
+
+// Two phones are decided on the opponent's card (owner, 2026-10-25): the button invites before
+// the lobby exists and shows the code again after; the host's name comes first, since the seats a
+// joining phone picks from are named by it.
+describe('GameSetup — the invitation on the opponent\'s card', () => {
+  it('sits on the opponent\'s card alone, and waits for the host\'s name', async () => {
+    const w = mount(GameSetup)
+    const cards = w.findAll('.step-panel')[0].findAll('.player-card')
+    expect(cards[0].find('.ph-invite').exists()).toBe(false)
+    const invite = cards[1].find('.ph-invite')
+    expect(invite.text()).toBe('Invite')
+    expect(invite.attributes('aria-haspopup')).toBe('dialog')
+    expect(invite.attributes('disabled')).toBeDefined()
+    expect(cards[1].find('.ph-why').text()).toContain('Enter your name first')
+    await cards[0].find('input[type="text"]').setValue('Host')
+    expect(cards[1].find('.ph-invite').attributes('disabled')).toBeUndefined()
+    expect(cards[1].find('.ph-why').exists()).toBe(false)
+  })
+
+  it('shows the invitation again from the same button once the lobby is open', async () => {
+    vi.resetModules()
+    vi.stubGlobal('fetch', vi.fn(() => new Promise(() => {})))
+    const { useTracker } = await import('../../composables/useTracker.js')
+    const tracker = useTracker()
+    const side = (over) => ({
+      name: '', factionSlug: null, detachments: [], disposition: null, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false,
+      members: [{ name: '', factionSlug: null, detachments: [] }, { name: '', factionSlug: null, detachments: [] }], ...over,
+    })
+    tracker.startLobby({
+      settings: { gameType: 'singles', combatPatrol: false, battleSize: 'strikeForce', firstTurn: 1, layout: 'A' },
+      players: [side({ name: 'Host', role: 'attacker' }), side({ role: 'defender' })],
+    })
+    tracker.current.value.party = { id: 'p1', memberId: 'm-host', token: 't', side: 0, mi: null, host: true, seq: 1, versions: {} }
+    const w = mount((await import('./GameSetup.vue')).default)
+    await flushPromises()
+    const invite = w.findAll('.step-panel')[0].findAll('.player-card')[1].find('.ph-invite')
+    expect(invite.text()).toBe('Link and code')
+    expect(invite.attributes('disabled')).toBeUndefined()
+    await invite.trigger('click')
+    await flushPromises()
+    expect(document.body.querySelector('[role="dialog"]').textContent).toContain('Shared game')
+    vi.unstubAllGlobals()
+  })
+})
+
+// The Mission Sequence's order (owner, 2026-10-25): the setup ends with the Attacker and the
+// Defender (step 5). The secondaries (6) and the first turn (10) are the game screen's, before the
+// battle — so the wizard neither asks them nor sends a first turn.
+describe('GameSetup — the steps the setup no longer asks', () => {
+  it('has no secondaries on the mission step and no first turn on the battlefield step', () => {
+    const w = mount(GameSetup)
+    const [, mission, field] = w.findAll('.step-panel')
+    expect(mission.text()).not.toContain('Secondary missions')
+    expect(field.find('[data-tour="setup-first"]').exists()).toBe(false)
+    expect(field.text()).not.toContain('First turn')
+    expect(w.vm.$.setupState.settings.firstTurn).toBeNull()
   })
 })

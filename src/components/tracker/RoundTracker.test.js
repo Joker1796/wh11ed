@@ -14,10 +14,12 @@ beforeEach(async () => {
   RoundTracker = (await import('./RoundTracker.vue')).default
 })
 
+// Fixed secondaries keep the take dialog out of these cases — with a card, as no setup ever
+// started a fixed game without one (and the battle does not begin on none: battleWaitsFor).
 function player(over = {}) {
   return {
     name: 'P', factionSlug: null, detachments: [], role: 'attacker',
-    secondaryMode: 'fixed', fixedSecondaries: [], battleReady: false, ...over,
+    secondaryMode: 'fixed', fixedSecondaries: ['a-grievous-blow'], battleReady: false, ...over,
   }
 }
 function startGame(p0, p1, settings = {}) {
@@ -262,11 +264,30 @@ describe('RoundTracker — the round line with phases', () => {
   })
 })
 
+// Before the battle (PreBattle.vue): Start waits for the roll for the first turn, and says so in
+// place of its word — the setup no longer asks who goes first (owner, 2026-10-25).
+describe('RoundTracker — before the battle', () => {
+  it('shows the steps over the missions and holds Start until the roll', async () => {
+    startGame({}, {}, { firstTurn: null })
+    expect(tracker.current.value.begun).toBe(false) // beginGame refused: nobody rolled
+    const w = mountTracker()
+    expect(w.find('.pb').exists()).toBe(true)
+    const start = w.find('.tr-end')
+    expect(start.text()).toBe('Roll for the first turn')
+    expect(start.attributes('disabled')).toBeDefined()
+    tracker.rollFirstTurn(0)
+    await w.vm.$nextTick()
+    expect(w.find('.tr-end').attributes('disabled')).toBeUndefined()
+    await w.find('.tr-end').trigger('click')
+    expect(w.find('.pb').exists()).toBe(false)
+  })
+})
+
 describe('RoundTracker — ending a turn', () => {
   it('passes the turn at once when nothing scores at its end', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, {})
-    // no primary cards: nothing at all falls due
-    for (const pl of tracker.current.value.players) pl.primarySlug = null
+    // no primary cards and no secondaries in hand: nothing at all falls due
+    for (const pl of tracker.current.value.players) { pl.primarySlug = null; pl.secondary.hand = [] }
     const w = mountTracker()
     await w.find('.tr-end').trigger('click')
     expect(tracker.current.value.currentTurn).toBe(1)
@@ -485,15 +506,17 @@ describe('RoundTracker — a shared game', () => {
   }
   const lockedBoth = async (w) => [locked(await sideCard(w, 0)), locked(await sideCard(w, 1))]
   const mountBoth = async () => mountTracker()
-  // The lock is on the scoring controls, never on the card (the army rule's tracker, readable but
-  // inert on a side another phone plays, is the Armies tab's: ArmiesPanel.test.js).
+  // The lock is on the scoring controls, never on the card or a mission (the army rule's tracker,
+  // readable but inert on a side another phone plays, is the Armies tab's: ArmiesPanel.test.js).
+  // The primary's card and the deck stay live — their cards open view only — and the deck is
+  // told it may not score (`editable`), which is what takes its actions away.
   function locked(card) {
-    const primary = card.find('.mission-card, .score-row')
     const deck = card.findComponent({ name: 'SecondaryDeck' })
     return {
       card: card.attributes('inert'),
-      primary: primary.attributes('inert'),
+      primary: card.find('.mission-card').attributes('inert'),
       deck: deck.attributes('inert'),
+      scores: deck.props('editable'),
       caption: card.find('.plocked').exists(),
     }
   }
@@ -503,8 +526,8 @@ describe('RoundTracker — a shared game', () => {
     await flushPromises()
     return [...document.body.querySelectorAll('.act-btn')].find((b) => b.textContent.includes('Setup'))
   }
-  const OPEN = { card: undefined, primary: undefined, deck: undefined, caption: false }
-  const LOCKED = { card: undefined, primary: 'true', deck: 'true', caption: true }
+  const OPEN = { card: undefined, primary: undefined, deck: undefined, scores: true, caption: false }
+  const LOCKED = { card: undefined, primary: undefined, deck: undefined, scores: false, caption: true }
 
   it('leaves both cards live and the setup button enabled with no party', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
@@ -519,6 +542,20 @@ describe('RoundTracker — a shared game', () => {
     expect(await lockedBoth(w)).toEqual([LOCKED, OPEN])
     expect((await sideCard(w, 0)).text()).toContain('Scored on another device')
     expect((await setupRow(w)).disabled).toBe(false)
+  })
+
+  // The opponent's missions lie face up (Event Companion): a guest opens the other side's primary
+  // and reads it, ticking nothing (the owner's first game, 2026-10-24).
+  it('a guest opens the other side\'s primary view only', async () => {
+    withParty({ host: false, side: 1 })
+    const w = await mountBoth()
+    const card = await sideCard(w, 0)
+    await card.find('.mission-card').trigger('click')
+    await flushPromises()
+    const dialog = document.body.querySelector('[role="dialog"]')
+    expect(dialog.querySelector('.view-only').textContent).toContain('Scored on another device')
+    expect(dialog.querySelectorAll('.m-cond').length).toBeGreaterThan(0)
+    expect(dialog.querySelectorAll('.m-cond input, .m-cond button')).toHaveLength(0)
   })
 
   it('the host edits a side nobody sits on, and not one another phone holds', async () => {

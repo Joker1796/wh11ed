@@ -39,8 +39,24 @@
         </p>
       </ExpandTransition>
 
+      <!-- The connection, and beside it what this phone will show in the game: everything but CP
+           and the clock is the guest's own choice (trackerOptions `local`), and the wait is when
+           there is time to make it. -->
       <div class="lw-sync">
         <SyncIndicator />
+        <button
+          type="button"
+          class="lw-opts"
+          aria-haspopup="dialog"
+          data-tour="lobby-phone-settings"
+          @click="settingsOpen = true"
+        >
+          <i
+            class="wi wi-settings"
+            aria-hidden="true"
+          />
+          {{ labels.trackerPhoneSettings }}
+        </button>
       </div>
 
       <div class="lw-actions">
@@ -73,6 +89,11 @@
       </div>
     </div>
 
+    <EditSetupModal
+      v-if="settingsOpen"
+      phone-only
+      @close="settingsOpen = false"
+    />
     <ConfirmModal
       v-if="takeOverOpen"
       :title="labels.lobbyTakeOver"
@@ -100,6 +121,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import SyncIndicator from './SyncIndicator.vue'
+import EditSetupModal from './EditSetupModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
@@ -140,6 +162,7 @@ const hostQuiet = computed(() => {
 })
 
 const takeOverOpen = ref(false)
+const settingsOpen = ref(false)
 const leaveOpen = ref(false)
 
 const me = computed(() => current.value?.players?.[mySide.value] || null)
@@ -273,8 +296,25 @@ onMounted(() => maybeStartTour('lobby-wait', { get doubles() { return !!doubles.
 .lw-sync {
   margin-top: 1rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  gap: 0.25rem 1rem;
 }
+.lw-opts {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 36px;
+  padding: 0 0.4rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+@media (hover: hover) { .lw-opts:hover { color: var(--accent-ink); } }
 /* One row, always: two short buttons on a 390px screen have no business stacking, and the
    waiting screen is the last place that needs to look busy. */
 .lw-actions {

@@ -55,7 +55,7 @@
           >
             <PresetDemo
               class="tp-demo"
-              :values="p.values"
+              :values="demoValues(p)"
               aria-hidden="true"
             />
             <span class="tp-card-name">{{ labels[p.label] }}</span>
@@ -86,15 +86,24 @@ import { computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import PresetDemo from './help/PresetDemo.vue'
 import ChevronIcon from '../ChevronIcon.vue'
-import { TRACK_PRESETS, DEFAULT_PRESET, applyTrackPreset, presetOf } from '../../data/trackerOptions.js'
+import { TRACK_PRESETS, TRACK_OPTIONS, DEFAULT_PRESET, applyTrackPreset, presetOf, trackSettingsOf } from '../../data/trackerOptions.js'
 
 const props = defineProps({
   settings: { type: Object, required: true },
   ctx: { type: Object, required: true },
   labels: { type: Object, required: true },
+  // A guest in a shared game: a preset sets and reads only this phone's own rows (`local`); the
+  // host's — CP, the clock — stay as the host chose them, and the pictures show them so.
+  lockShared: { type: Boolean, default: false },
 })
 const open = ref(false)
-const current = computed(() => presetOf(props.settings, props.ctx))
+const scope = computed(() => ({ localOnly: props.lockShared }))
+const current = computed(() => presetOf(props.settings, props.ctx, scope.value))
+function demoValues(p) {
+  if (!props.lockShared) return p.values
+  const now = trackSettingsOf(props.settings)
+  return { ...p.values, ...Object.fromEntries(TRACK_OPTIONS.filter((o) => !o.local).map((o) => [o.setting, now[o.setting]])) }
+}
 const presetById = (id) => TRACK_PRESETS.find((p) => p.id === id)
 // The plate's line (owner, 2026-10-20: "Выбран пресет: …"), built here rather than from template
 // fragments, which the compiler would join with a stray space.
@@ -107,7 +116,7 @@ function openDialog() {
   open.value = true
 }
 function choose(id) {
-  applyTrackPreset(props.settings, id)
+  applyTrackPreset(props.settings, id, scope.value)
   open.value = false
 }
 </script>

@@ -394,9 +394,22 @@ function makeMember(m = {}) {
   }
 }
 
+// A side's secondary missions as a game holds them: tactical draws from a shuffled deck each
+// round; fixed keeps the cards chosen, active from round 1. Built at the start, and again while
+// the battle has not begun — the secondaries are chosen before the battle (setSecondaries).
+function secondaryState(role, mode, fixed = []) {
+  return {
+    deck: mode === 'tactical' ? shuffle(secondaryPool(role).map(m => m.slug)) : [],
+    hand: mode === 'fixed' ? [...fixed] : [],
+    // round each card became active (fixed cards are active from round 1).
+    drawn: mode === 'fixed' ? Object.fromEntries(fixed.map(s => [s, 1])) : {},
+    discarded: [],            // [{ slug, round }] — set aside (kept their points, won't be redrawn)
+    scored: [],               // [{ slug, round, picks: {'bi:ri': count}, vp }]
+  }
+}
+
 function makePlayer(p, opponent, settings, isYou = false) {
   const primary = primaryOf(p, opponent, settings)
-  const poolSlugs = secondaryPool(p.role).map(m => m.slug)
   const secondaryMode = p.secondaryMode || 'tactical'
   const doubles = settings.gameType === 'doubles'
   const members = doubles ? [makeMember(p.members?.[0]), makeMember(p.members?.[1])] : null
@@ -444,17 +457,7 @@ function makePlayer(p, opponent, settings, isYou = false) {
     // convenience tracks per member (members[mi].army) instead.
     army: {},
     rounds: Array.from({ length: ROUND_COUNT }, () => ({ primary: 0, picks: {} })),
-    secondary: {
-      // tactical: draw from a shuffled deck each round; fixed: the set chosen at setup is locked in.
-      deck: secondaryMode === 'tactical' ? shuffle(poolSlugs) : [],
-      hand: secondaryMode === 'fixed' ? [...(p.fixedSecondaries || [])] : [],
-      // round each card became active (fixed cards are active from round 1).
-      drawn: secondaryMode === 'fixed'
-        ? Object.fromEntries((p.fixedSecondaries || []).map(s => [s, 1]))
-        : {},
-      discarded: [],            // [{ slug, round }] — set aside (kept their points, won't be redrawn)
-      scored: [],               // [{ slug, round, picks: {'bi:ri': count}, vp }]
-    },
+    secondary: secondaryState(p.role, secondaryMode, p.fixedSecondaries || []),
   }
 }
 
@@ -593,9 +596,10 @@ export function useTracker() {
       phase: 'setup',
       settings,
       players,
-      // 'invite' — the host is on the lobby screen handing out the code; 'armies' once it has
-      // walked on into the wizard (see useLobby.js).
-      lobby: { stage: 'invite' },
+      // The host opens the lobby from the wizard's first step (the opponent's card), so it is on
+      // the armies already (see useLobby.js). The code screen before the wizard is gone since
+      // 2026-10-25; a lobby saved at its old 'invite' stage reads as this one.
+      lobby: { stage: 'armies' },
     }
     setupDraft.value = null
     saveNow()
@@ -653,6 +657,11 @@ export function useTracker() {
       // secondaries dialog) happens while the players are still deploying. A game saved without
       // the flag has begun.
       begun: false,
+      // The Mission Sequence's order (owner, 2026-10-25): the first turn is rolled for AFTER
+      // deployment (step 10), on the game screen before the battle (PreBattle.vue) — until then the
+      // players stand in the setup's order, provisionally. The setup says so by leaving
+      // `firstTurn` unset; a game set up with it (a resumed or an older one) needs no roll.
+      ...(setup.settings?.firstTurn == null ? { firstTurnPending: true } : {}),
       // Command points are a ledger in this game (cpLedger.js): Core CP arrive by themselves at
       // every Command phase. A game started before the ledger has no flag and keeps its stepper.
       cpAuto: true,
@@ -663,8 +672,49 @@ export function useTracker() {
         ? [makePlayer(a, b, settings, true),  makePlayer(b, a, settings, false)]
         : [makePlayer(b, a, settings, false), makePlayer(a, b, settings, true)],
     }
+    // A shared game's secondaries are chosen by each side on its own phone, in secret, and shown
+    // once both have (Mission Sequence step 6) — so each side starts with its choice to confirm.
+    if (lobby?.party) current.value.players.forEach((pl) => { pl.secondaryPending = true })
     stripLobby(current.value)
     return { swapped: !youFirst && !!lobby }
+  }
+
+  // ── Before the battle (PreBattle.vue): the Mission Sequence's steps 6 and 10 ──────────────
+  // The secondaries of a side, chosen while the battle has not begun: the deck is rebuilt for the
+  // mode (and the fixed cards). In a shared game a change is a choice still to be confirmed.
+  function setSecondaries(pi, mode, fixed = []) {
+    const g = current.value
+    const pl = g?.players?.[pi]
+    if (!pl || g.phase !== 'playing' || gameBegun(g)) return
+    pl.secondaryMode = mode === 'fixed' ? 'fixed' : 'tactical'
+    pl.secondary = secondaryState(pl.role, pl.secondaryMode, mode === 'fixed' ? fixed : [])
+    if (g.party) pl.secondaryPending = true
+  }
+  // "Done" on a side's secondaries in a shared game: what the other phone waits for to see both.
+  function confirmSecondaries(pi) {
+    const pl = current.value?.players?.[pi]
+    if (pl) delete pl.secondaryPending
+  }
+  // The roll for the first turn (step 10): the winner goes first, so it moves to index 0 — the
+  // setup's order was provisional. Returns whether the sides were exchanged (a shared game's seats
+  // then travel with them: useParty's reseat).
+  function rollFirstTurn(pi) {
+    const g = current.value
+    if (!g || g.phase !== 'playing' || gameBegun(g) || !g.players?.[pi]) return false
+    delete g.firstTurnPending
+    if (pi === 0) return false
+    g.players.reverse()
+    return true
+  }
+  // Whether the battle may begin, and if not, the first thing it waits for — the turn bar's
+  // Start says it in place of its word.
+  function battleWaitsFor() {
+    const g = current.value
+    if (!g || gameBegun(g)) return null
+    if (g.players.some((pl) => pl.secondaryMode === 'fixed' && !pl.secondary?.hand?.length)) return 'fixed'
+    if (g.players.some((pl) => pl.secondaryPending)) return 'secondaries'
+    if (g.firstTurnPending) return 'firstTurn'
+    return null
   }
 
   // Fallback (no primary card): set the round primary directly, clamped to the round cap.
@@ -1691,7 +1741,10 @@ export function useTracker() {
     const g = current.value
     if (!g || g.phase !== 'playing') return
     const starting = g.begun === false
+    if (starting && battleWaitsFor()) return
     delete g.begun
+    delete g.firstTurnPending
+    g.players.forEach((pl) => { delete pl.secondaryPending })
     if (starting) pushAct(g, { type: 'turn', round: g.currentRound, turn: 0, pi: 0 })
     if (starting) g.clockAt = Date.now()
   }
@@ -1941,7 +1994,7 @@ export function useTracker() {
     stratUses, stratBlock, useStratagem, lastStratUse, undoStratagem, playStratagem, unplayOnUnit,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     setUnitStatus,
-    goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
+    goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, battleWaitsFor, setSecondaries, confirmSecondaries, rollFirstTurn, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
     applyRemote,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }

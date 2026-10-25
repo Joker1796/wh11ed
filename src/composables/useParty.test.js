@@ -312,6 +312,29 @@ describe('joining', () => {
     expect(fetchMock).not.toHaveBeenCalled() // the assembled game IS the base
   })
 
+  // This phone's own rows never travel (trackerOptions `local`): a guest starts from its own last
+  // game, as the host's wizard does from the host's (owner, 2026-10-25).
+  it('gives the joining phone its own last choices for its own rows, the host\'s for the rest', async () => {
+    const { sliceGame } = await import('./gameSlices.js')
+    tracker.current.value.settings.trackCP = true
+    tracker.current.value.settings.trackPhaseRules = true
+    const slices = sliceGame(tracker.current.value)
+    const joined = {
+      partyId: 'p9', memberId: 'm-guest', memberToken: 'tok-guest', seq: 4, status: 'open',
+      slices: Object.fromEntries(Object.entries(slices).map(([n, data]) => [n, { version: 2, data }])),
+      members: [], you: { memberId: 'm-guest', side: null, mi: null, host: false },
+    }
+    tracker.discardGame()
+    tracker.history.value.unshift({ id: 'old', settings: { trackStratPlay: true, trackCP: false, trackPhaseRules: false, showLogStats: false } })
+    fetchMock.mockResolvedValueOnce(answer(200, { seq: 5, you: { memberId: 'm-guest', side: 1, mi: null, host: false } }))
+    expect(await party.takeSeat(joined, { side: 1, name: 'Opp' })).toBeNull()
+    const s = tracker.current.value.settings
+    expect(s.trackCP).toBe(true) // the host's
+    expect(s.trackPhaseRules).toBe(false) // this phone's, from its last game
+    expect(s.showLogStats).toBe(false)
+    expect(sliceGame(tracker.current.value).shared.settings).not.toHaveProperty('trackPhaseRules')
+  })
+
   it('a refused seat reports why and changes nothing', async () => {
     const before = tracker.current.value.id
     fetchMock.mockResolvedValueOnce(answer(409, { error: 'seat_taken', heldBy: { name: 'X' } }))

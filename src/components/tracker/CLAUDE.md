@@ -11,7 +11,7 @@ Architecture section) — its own state/data below.
 
 ## State
 
-`src/composables/useTracker.js` — a module-singleton store (same pattern as `useLocale`) persisted to localStorage under `wh11ed-tracker-current` (active game) and `wh11ed-tracker-history` (finished games), via deep `watch` (500ms debounce, flushed on `pagehide`/`visibilitychange`). **Critical transitions (`archiveGame`/`discardGame`/`resumeFromHistory`) call `saveNow()` for a synchronous, immediate write** — the debounce alone lost finished games on installed iOS PWAs that get frozen/killed without firing `pagehide`. `flushSave` writes history before current so an archive can't drop the game from both keys. A game = `{ id, phase: 'setup'|'playing'|'finished', currentRound, settings:{firstTurn,layout:'A'|'B'|'C'|'custom',customLayout,battleSize:'incursion'|'strikeForce'|'onslaught'|'custom',custom,twist,twistMission,scoreMode:'vp'|'bp'}, players:[P,P] }`. `battleSize` (rule 25.03) sets the setup DP budget (`BATTLE_SIZES` in `useTracker.js`: Incursion 2 DP / Strike Force 3 DP / Onslaught 3 DP); **`'custom'` is a size of the players' own** (owner, 2026-10-23: evening events at 750 points with one secondary) — `settings.custom = { points, dp?, secondaries? }`, chosen as a fourth size button with a card of three steppers under it, remembered from the last game played at one. **Every reader of the size goes through `battleOf(settings)`** (points, `maxDp`, `secondaries` — 2, or 1–3 custom — and `base`, the printed size the custom points fall within, which the army-rule counters keyed by size read) and `battleName` for its label; nothing looks a size up in `BATTLE_SIZES` by id any more. The number of secondaries is what the take draws (`takeCount`), what the take dialog counts and what fixed mode lets a player pick; caps stay the rules' (15 a round, 45 a game). Labels that count cards use `byCount` (`<key>` with `{n}`, `<key>One` — Russian declines the noun for one only); `twist`/`twistMission` are the optional pre-game Twist (see below); `scoreMode` toggles VP vs Battle Points results. `layout` is the recommended A/B/C of the dispositions' matchup, or `'custom'` with `customLayout:{id,image,edge,label}` when any of the 45 layouts is picked — resolved everywhere via `resolveLayout(settings, dispA, dispB)` in `composables/trackerLayout.js`. Player = `{ name, factionSlug, detachments[], disposition, role, secondaryMode:'tactical'|'fixed', battleReady, primarySlug, cp, rounds:[{primary, picks{'bi:ri':count}}×5], secondary:{deck,hand,drawn{slug→round},discarded:[{slug,round}],scored:[{slug,round,picks,vp}]} }`.
+`src/composables/useTracker.js` — a module-singleton store (same pattern as `useLocale`) persisted to localStorage under `wh11ed-tracker-current` (active game) and `wh11ed-tracker-history` (finished games), via deep `watch` (500ms debounce, flushed on `pagehide`/`visibilitychange`). **A finished game is filed into the history as soon as its player leaves the game's screens** (`fileFinishedGame.js`, 2026-10-25): the finished screen's "Back to tracker", the nav, any link — `/tracker/game` and its rosters excepted — and the home files one it finds on arrival (a reload). Until then only that one button filed it, and a player who left by the nav saw the game missing from the list and "Resume" on the big button. **The home's list leads with the game on the phone**: in play ("In progress", its score and round) or still being set up ("Setting up", no score — a lobby, or this phone's wizard draft with its step). **Critical transitions (`archiveGame`/`discardGame`/`resumeFromHistory`) call `saveNow()` for a synchronous, immediate write** — the debounce alone lost finished games on installed iOS PWAs that get frozen/killed without firing `pagehide`. `flushSave` writes history before current so an archive can't drop the game from both keys. A game = `{ id, phase: 'setup'|'playing'|'finished', currentRound, settings:{firstTurn,layout:'A'|'B'|'C'|'custom',customLayout,battleSize:'incursion'|'strikeForce'|'onslaught'|'custom',custom,twist,twistMission,scoreMode:'vp'|'bp'}, players:[P,P] }`. `battleSize` (rule 25.03) sets the setup DP budget (`BATTLE_SIZES` in `useTracker.js`: Incursion 2 DP / Strike Force 3 DP / Onslaught 3 DP); **`'custom'` is a size of the players' own** (owner, 2026-10-23: evening events at 750 points with one secondary) — `settings.custom = { points, dp?, secondaries? }`, chosen as a fourth size button with a card of three steppers under it, remembered from the last game played at one. **Every reader of the size goes through `battleOf(settings)`** (points, `maxDp`, `secondaries` — 2, or 1–3 custom — and `base`, the printed size the custom points fall within, which the army-rule counters keyed by size read) and `battleName` for its label; nothing looks a size up in `BATTLE_SIZES` by id any more. The number of secondaries is what the take draws (`takeCount`), what the take dialog counts and what fixed mode lets a player pick; caps stay the rules' (15 a round, 45 a game). Labels that count cards use `byCount` (`<key>` with `{n}`, `<key>One` — Russian declines the noun for one only); `twist`/`twistMission` are the optional pre-game Twist (see below); `scoreMode` toggles VP vs Battle Points results. `layout` is the recommended A/B/C of the dispositions' matchup, or `'custom'` with `customLayout:{id,image,edge,label}` when any of the 45 layouts is picked — resolved everywhere via `resolveLayout(settings, dispA, dispB)` in `composables/trackerLayout.js`. Player = `{ name, factionSlug, detachments[], disposition, role, secondaryMode:'tactical'|'fixed', battleReady, primarySlug, cp, rounds:[{primary, picks{'bi:ri':count}}×5], secondary:{deck,hand,drawn{slug→round},discarded:[{slug,round}],scored:[{slug,round,picks,vp}]} }`.
 
 ## What to track
 
@@ -54,8 +54,9 @@ unit is" being the same thing, owner 2026-10-17 — `trackBattleShock`, `trackAr
 "Details" fold beneath the master, counting how many are on). `trackStratagems` requires the master
 AND `trackStratPlay`: without stratagems played there is nothing spent to change a card. `requires`
 takes a list for that; a row is drawn one step in per parent in its own group (`depthOf`). `look` —
-the broadcast button, `showLogStats` (the Log and Stats tabs; `local`) and the side colours. A
-`local` row says "on this phone" under its caption. What each family governs on the roster screen is
+the broadcast button, `showLogStats` (the Log and Stats tabs) and the side colours. In a shared
+game the host's CP and clock rows say "for every phone in the game" (`everyPhone`); see the shared
+game below for which rows are a phone's own. What each family governs on the roster screen is
 in `src/components/roster/CLAUDE.md`.
 
 `TRACK_PRESETS` — Minimal (nothing), Base (CP without stratagems, the mission help, both army-rule
@@ -478,16 +479,25 @@ yours", one rule instead of a permission matrix — and the host takes it back b
 (`party.scoreAll`, local to the handle, off by default; for a guest who joined to watch). The right stays wider than the lock on purpose: a setup edit rewrites both
 sides, so a server-side lock would break the host's own dialog. `RoundTracker` greys the locked
 side with the reason under its title (the host's line names the way back) and puts `inert` (a
-presence attribute — `undefined`, not `false`) on what SCORES — the primary, the deck, the CP
-stepper; `ArmiesPanel`, where the army rule's tracker lives since 2026-09-29 (owner: everything
+presence attribute — `undefined`, not `false`) on what SCORES — the primary's stepper, the CP
+stepper. The mission cards are not inert: the opponent's primary and secondaries lie face up
+(Event Companion), so they open view only ("Scored on another device"), and `SecondaryDeck`'s
+`editable` takes its actions away — the take, a card's "⋯", return (until 2026-10-25 the whole deck
+was inert, and the owner could not read his opponent's missions in his first game); `ArmiesPanel`, where the army rule's tracker lives since 2026-09-29 (owner: everything
 about an army in one place, not under the missions), passes `readonly` to `ArmyTrackerCard`, which inerts its own controls and leaves the
 rule text, the active rule and the spent log live; the card itself is never inert, because the
 opponent's setup facts, list and army rule are things to READ mid-game (the first complaint about
 the shared game was a guest who could not open the other side's rule). The setup gear opens for a
 guest too: `EditSetupModal` in guest mode shows only the option blocks, `TrackOptions` with
-`lockShared` leaves live the rows the table marks `local` (`trackArmyYou`/`trackArmyOpp` — the
-same flag `gameSlices` keeps out of the sync) and disables the rest with "host only", and Save
-writes only those. The finished screen's Resume is disabled for a guest and its primary button
+`lockShared` leaves live the rows the table marks `local` (the same flag `gameSlices` keeps out of
+the sync) and disables the rest with "host only", and Save writes only those. **Since 2026-10-25
+that is every row but command points, the clock and the broadcast** (owner: what a phone SHOWS is
+its own, what the game RECORDS for both is the host's — a guest not counting CP would leave the host
+a stale balance, a host not keeping phases would leave the guest's reminder on Command). A guest's
+own rows start from its own last game (`localTrackSeed` in `takeSeat`), its presets touch only them
+(`TrackPresets` `lockShared`), and the lobby's waiting screen has "This phone's settings"
+(`EditSetupModal` `phoneOnly`). The host's screens mark the two rows it sets for every phone
+(`everyPhone`, `TrackOptions` `shared`); a local row carries no caption — on one phone it is every row. The finished screen's Resume is disabled for a guest and its primary button
 reads "Save to my history". `RosterViewView`'s `canSwitch` includes `canEdit(pi)`. `SyncIndicator.vue` sits on the round bar: a quiet dot (tap: how long ago), a
 spinner only for a request older than 400 ms — except on resume, when it is wanted at once — and a
 warning glyph with its reason. **The tap opens a bubble ABOVE it, not text inside it** (2026-09-23):
@@ -505,34 +515,28 @@ archived from the finished screen, from the tracker home's "New game", from the 
 a host ends the party (`DELETE`). `archiveGame` strips `party` from the record. `init()` arms
 that watcher; the tracker home, the game screen and the game roster all call it.
 
-**Deliberately not synced:** `isYou`, `trackArmyYou`/`trackArmyOpp`/`trackArmyRule`, `party`,
+**Deliberately not synced:** `isYou`, every `local` row of the option table (`LOCAL_TRACK_SETTINGS`), `party`,
 `broadcast` (see Slices). In doubles the host sits in its team's FIRST member seat (`mi: 0`,
 since 2026-10-05 — as the TEAM, `mi: null`, it held no member seat and a joining phone could take
 the host's own army); partners joining pick one of the other three. The server contract is `wh11ed-api/README.md` "A shared live game".
 
 ## The lobby — setting the game up together (`useLobby.js`)
 
-Since 2026-09-23 the setup itself can be shared, not just the game in progress. It starts on the
-TRACKER HOME — "Shared game" → *Start a new one* (`SharedGameModal.vue`, which also holds the
-join entry: the two are one subject and differ only in whether an account is needed) — and that
-opens the wizard with `?share=1`, whose only job is to share on arrival. **The game type is chosen
-in that dialog, before the lobby exists** (2026-10-05) — with the team names when it is doubles — and
-rides along as `?mode=`/`?team0=`/`?team1=`: the lobby locks the type (below), and until then it
-always opened as singles, so a shared doubles game could not be made at all.
-
-**The host lands on `LobbyInvite.vue`, not in the wizard.** The lobby's first stage is `invite`:
-the code, its QR, the link and who has arrived so far — because at a real table you call the
-other player over first and settle the mission after. "Set the game up" moves the stage to
-`armies` and the wizard takes the screen; nobody has to be waited for, since the wizard's own
-gate is what holds Start until the other side confirms. The invitation itself is
-`PartyInvite.vue`, shared with the sharing dialog of a game already running — the same
-invitation, drawn once. There is deliberately no
-"share this setup" button inside the wizard: by the time the armies are being entered, whether
-this is a game for two phones was settled long ago, and a second door into the same room only
-made the step's button row longer. The wizard's draft becomes a **game in `phase: 'setup'`**
-(`useTracker`'s `startLobby`) which `share()` then puts on the server like any other. Guests join
-by link, QR or code and fill in THEIR side from their own phone; the host keeps the mission, the
-battlefield, the turn order and the option table, and presses Start.
+Since 2026-09-23 the setup itself can be shared, not just the game in progress. **Since
+2026-10-25 it starts in the wizard, on the opponent's card** (owner: "на первом экране кнопка для
+приглашения"): "Invite" beside the card's heading opens the lobby over the wizard — the draft becomes
+the lobby game, the type and the names are the ones already on screen — and `PartyModal` shows the
+code, the QR and the link; the same button then reads "Code 123 456" and opens it again. It waits
+for the host's own name (in doubles, its member name and both team names: the seats a joining phone
+picks from are named by them), and signed out it opens the sign-in, which comes back to the kept
+draft. The lobby is created at stage `armies` — the host is on that step already. Before this the
+way in was a door of its own on the tracker home ("Shared game" → `SharedGameModal`, which asked the
+name and the type again, `?share=1`, then a code screen, `LobbyInvite.vue`, before the wizard), and
+the wizard itself had no way in; all three are gone, and the home's second button is "Join a game"
+(`/tracker/join`). A lobby saved at the old `invite` stage reads as `armies`. The step's
+`.lobby-bar` keeps the sync dot and "Close the lobby". Guests join by link, QR or code and fill in
+THEIR side from their own phone; the host keeps the mission, the battlefield, the turn order and the
+option rows that are the game's (CP, the clock — see the shared game above), and presses Start.
 
 **The lobby game holds the wizard's own objects, not copies.** `GameSetup` reads `players` and
 `settings` out of `current` when the game is in `setup`, so an incoming slice lands in the very
@@ -713,9 +717,33 @@ same ability are one reminder, not three identical lines.
 
 ## Setup wizard
 
-**Setup is a four-step wizard** (`GameSetup.vue`, internal `step` ref): step 1 "Armies" (battle size, then per-player name + faction + detachments + battle ready); step 2 "Mission" (**the twist**, then active disposition, secondary mode + fixed picks, full primary `MissionCard`); step 3 "Field & deployment" (**who is the Attacker** — one linked seg, moved here from the army cards on 2026-09-17 because the Mission Sequence rolls for it after the mission and before deployment, and what it decides is the side of the table the layout marks; then the recommended layout A/B/C via `LayoutCard`, then who goes first); step 4 "Settings" (the score mode and the two option blocks). The secondary decks differ by role, but the four fixed-capable cards are the same slugs in both, so fixed picks made on step 2 against the default roles survive a flip on step 3. **Steps 3 and 4 are two columns above 700px** (`.two-col`, the threshold the player cards of steps 1–2 already use) so each fits one desktop screen like those do: step 3 puts the layout picture left (two thirds), capped to the height the screen has left (`max(260px, 100dvh − 23rem)`), and the two deployment questions plus the layout tabs in one card right (`LayoutTabs.vue` is drawn in the side column or above the picture by the same breakpoint, via `useMediaQuery`, so the tabs exist once); step 4 puts the score mode with the `game` option group left and the `roster` group right — the split `trackerOptions.js` already makes. DOM order is phone order (questions, then the picture); the grid reorders.
+**Setup is a four-step wizard** (`GameSetup.vue`, internal `step` ref): step 1 "Armies" (battle size, then per-player name + faction + detachments + battle ready, and on the opponent's card the invitation to two phones); step 2 "Mission" (**the twist**, then active disposition and the full primary `MissionCard`); step 3 "Field & deployment" (the score mode, strict rules, **who is the Attacker** — one linked seg, moved here from the army cards on 2026-09-17 because the Mission Sequence rolls for it after the mission and before deployment, and what it decides is the side of the table the layout marks — then the recommended layout A/B/C via `LayoutCard`); step 4 "Settings" (the option blocks). **The setup stops at the Mission Sequence's step 5** (owner, 2026-10-25, after his first 11th-edition game): the secondaries (step 6) and who goes first (step 10, rolled AFTER deployment) are not asked here — the game opens before the battle with them as steps to take (see "Before the battle" below), so `settings.firstTurn` leaves the wizard unset. Until then step 2 asked the secondaries before the roles and the layout, and step 3 asked who goes first before anyone had deployed. **Steps 3 and 4 are two columns above 700px** (`.two-col`, the threshold the player cards of steps 1–2 already use) so each fits one desktop screen like those do: step 3 puts the layout picture left (two thirds), capped to the height the screen has left (`max(260px, 100dvh − 23rem)`), and the questions plus the layout tabs in one card right (`LayoutTabs.vue` is drawn in the side column or above the picture by the same breakpoint, via `useMediaQuery`, so the tabs exist once); step 4 puts the `game` option group left and the `roster` group right — the split `trackerOptions.js` already makes. DOM order is phone order (questions, then the picture); the grid reorders.
 
-**The steps were re-cut on 2026-08-25** rather than a fifth being added for the roster options, and two of the moves were fixes rather than tidying. **The twist belongs with the mission because it CHANGES it**: Scrambled Communications swaps the two primaries, Mirrored World replaces both, and step 2's own preview goes through `derivePrimary(disp, disp, settings)` — which reads `settings.twist`. Chosen on the last step, as it was, it rewrote a card the player had already read and walked away from. **Who goes first belongs with the layout** — both answer "where and in what order do we set up", and step 3 was otherwise one tab row and a picture. What was left, the score mode and the toggles, is a settings page and now says so. The step indicator collapses to a compact "N / 4" on phones (`≤560px`). The two players are labelled **"You" / "Opponent"** (`trackerYou`/`trackerOpponent`) throughout the tracker (also the empty-name fallback in `RoundTracker`/`ScoreBoard`/`ScoreBreakdown`/history); player 1's name pre-fills from the most recent finished game (editable). The chosen `settings.layout` is shown next to the round label in `RoundTracker`. Parent contract unchanged (`@start`/`@cancel`).
+## Before the battle (`PreBattle.vue`, since 2026-10-25)
+
+The game screen while the battle has not begun (`begun: false`) carries, over the missions, the
+Mission Sequence from where the setup stops — each step under its Event Companion number and title,
+one line, with the sides' NAMES in it (who is the Defender is the question at the table, not the
+word): **6** the secondaries, **7** battle formations (the turn bar's Reserves is where they are
+marked), **8** deployment (the Defender first; TITANIC skips a turn), **9** redeployment (the
+Attacker first), **10** the roll for the first turn, **11** pre-battle rules (whoever goes first).
+Two of them are choices the tracker keeps, and Start waits for both, saying which in place of its
+word (`battleWaitsFor`: `fixed` — a fixed side with no card, `secondaries`, `firstTurn`):
+
+- **The secondaries** (`setSecondaries` rebuilds the side's deck for the mode while not begun,
+  `secondaryState` being what `makePlayer` builds too). On one phone both sides are chosen here. In
+  a shared game each phone chooses its own side, in secret as the sequence says: a side starts
+  `secondaryPending` (set by `newGame` for a game promoted from a lobby), Done clears it
+  (`confirmSecondaries`), a change sets it again, and until no side is pending another phone's
+  choice is shown only as "choosing…" / "has chosen" — its deck too (`RoundTracker`'s `secretOf`).
+  The choice rides in the side slice like any other of that side's; the hiding is the screen's.
+- **The first turn** (`rollFirstTurn`): the winner moves to index 0 — the setup's order was
+  provisional (`firstTurnPending`, set by `newGame` only when the setup left `firstTurn` unset, so a
+  resumed or older game needs no roll) — and in a shared game the host marks it and the seats travel
+  with the sides (`reseat`, as `EditSetupModal`'s first-turn switch does). Start is then the
+  winner's to press, as it always was the first player's.
+
+**The steps were re-cut on 2026-08-25** rather than a fifth being added for the roster options, and two of the moves were fixes rather than tidying. **The twist belongs with the mission because it CHANGES it**: Scrambled Communications swaps the two primaries, Mirrored World replaces both, and step 2's own preview goes through `derivePrimary(disp, disp, settings)` — which reads `settings.twist`. Chosen on the last step, as it was, it rewrote a card the player had already read and walked away from. Who goes first was moved next to the layout that day ("where and in what order do we set up") and left the setup altogether on 2026-10-25 — the sequence rolls for it after deployment (see "Before the battle"). What was left, the score mode and the toggles, is a settings page and now says so. The step indicator collapses to a compact "N / 4" on phones (`≤560px`). The two players are labelled **"You" / "Opponent"** (`trackerYou`/`trackerOpponent`) throughout the tracker (also the empty-name fallback in `RoundTracker`/`ScoreBoard`/`ScoreBreakdown`/history); player 1's name pre-fills from the most recent finished game (editable). The chosen `settings.layout` is shown next to the round label in `RoundTracker`. Parent contract unchanged (`@start`/`@cancel`).
 
 **A name the player typed sets no floor — anywhere.** The same bug as the setup cards below,
 found on a phone in a doubles game (2026-09-15): the CP row is one non-wrapping flex row, and in
@@ -856,8 +884,9 @@ action, then says what the thing is, in the names the screen prints.
   (`party.held`), or a guest is told to press a "Start game" that is grey on its screen. Steps
   come in variants by `when`; a doubles step names the partner's army by seat (`member:
   'partner' | 'mine'`), never by index — a guest may sit on the team's second army. Chapters of
-  their own: `shared` (after the game's), `lobby-invite` (the host's code screen), `lobby-guest`
-  (a guest's side), `lobby-wait`; the setup's chapters take `ctx.lobby`.
+  their own: `shared` (after the game's), `lobby-guest` (a guest's side), `lobby-wait`; the
+  setup's chapters take `ctx.lobby` (its `setup-invite` step says "invite" before the lobby and
+  "the code again" after).
 - **Seen once, then on request.** Every screen's chapters come back from the ⚙ menu ("Tutorial of
   this screen"): `maybeStart` records what the page asked for, seen or not, in `tourScreen.js` (a
   module without the texts — the navbar is in the root bundle), the overlay forgets it on a new

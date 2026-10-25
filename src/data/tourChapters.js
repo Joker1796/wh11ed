@@ -34,9 +34,9 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'home-coop',
-        ru: { title: 'Совместная игра', text: 'Нажмите, если играете на нескольких устройствах. Каждый игрок ведёт свою сторону на своём устройстве. Один игрок создаёт партию и отправляет остальным ссылку или код.' },
+        ru: { title: 'Подключиться', text: 'Нажмите, чтобы подключиться к чужой партии по коду, ссылке или QR-коду. Каждый ведёт свою сторону на своём устройстве. Чтобы позвать соперника к себе, начните новую партию и нажмите «Пригласить» в его карточке.' },
 
-        en: { title: 'Shared game', text: 'Press this when you play on several devices. Each player keeps their own side on their own device. One player creates the game and sends the others a link or a code.' },
+        en: { title: 'Join a game', text: 'Press this to join someone else’s game by code, link or QR code. Each player keeps their own side on their own device. To call an opponent into yours, start a new game and press “Invite” on their card.' },
 
       },
       {
@@ -61,8 +61,8 @@ export const TOUR_CHAPTERS = {
       {
         target: 'setup-gametype',
         when: (ctx) => ctx.lobby,
-        ru: { title: 'Тип игры', text: 'Тип игры вы выбрали, когда открыли совместную игру. Здесь его уже не поменять: к нему привязаны места подключившихся устройств.' },
-        en: { title: 'Game type', text: 'You chose the game type when you opened the shared game. It cannot change here: the joined devices’ seats depend on it.' },
+        ru: { title: 'Тип игры', text: 'После приглашения тип игры уже не поменять: к нему привязаны места подключившихся устройств.' },
+        en: { title: 'Game type', text: 'Once you have invited, the game type cannot change: the joined devices’ seats depend on it.' },
       },
       {
         target: 'setup-size',
@@ -92,6 +92,18 @@ export const TOUR_CHAPTERS = {
         en: { title: 'Your team', text: 'Fill in both armies of your team: names, factions, detachments, rosters. The opposing team is filled in by its player, on their device.' },
       },
       {
+        target: 'setup-invite',
+        when: (ctx) => !ctx.lobby,
+        ru: { title: 'Пригласить', text: 'Нажмите, если соперник ведёт свою сторону на своём телефоне. Откроются код, QR-код и ссылка. Аккаунт нужен только вам.' },
+        en: { title: 'Invite', text: 'Press this if the opponent keeps their side on their own phone. The code, the QR code and the link open. Only you need an account.' },
+      },
+      {
+        target: 'setup-invite',
+        when: (ctx) => ctx.lobby,
+        ru: { title: 'Код приглашения', text: 'Нажмите, чтобы снова показать код, QR-код и ссылку. Там же видно, кто подключился.' },
+        en: { title: 'Invitation code', text: 'Press to show the code, the QR code and the link again. It also shows who has joined.' },
+      },
+      {
         target: 'lobby-other',
         when: (ctx) => ctx.lobby,
         ru: { title: 'Сторона соперника', text: 'Здесь появится то, что заполнил соперник, когда он нажмёт «Готово». До этого здесь ожидание. Если соперник не может заполнить сторону сам, нажмите «Заполнить самому».' },
@@ -106,13 +118,6 @@ export const TOUR_CHAPTERS = {
         ru: { title: 'Твист', text: 'Нажмите «Выбрать твист» и выберите его из списка или возьмите случайный. Твист — дополнительное правило партии, которое меняет миссию.' },
 
         en: { title: 'Twist', text: 'Press “Choose twist” and pick one from the list, or take a random one. A twist is an extra rule of the game that changes the mission.' },
-
-      },
-      {
-        target: 'setup-secondary',
-        ru: { title: 'Вторичные миссии', text: 'Выберите, как вы играете вторичные миссии. Тактические — каждый ход вы берёте новые карты из колоды. Фиксированные — вы выбираете две миссии сейчас, и они остаются на всю партию.' },
-
-        en: { title: 'Secondary missions', text: 'Choose how you play secondary missions. Tactical: you draw new cards from the deck every turn. Fixed: you pick two missions now, and they stay for the whole game.' },
 
       },
       {
@@ -148,13 +153,6 @@ export const TOUR_CHAPTERS = {
 
       },
       {
-        target: 'setup-first',
-        ru: { title: 'Первый ход', text: 'Отметьте, кто ходит первым. Этот порядок ходов сохранится на всю партию.' },
-
-        en: { title: 'First turn', text: 'Mark who goes first. This turn order stays for the whole game.' },
-
-      },
-      {
         target: 'setup-layout',
         ru: { title: 'Расстановка поля', text: 'Поставьте террейн на столе по этой схеме. Это рекомендованная расстановка для вашей миссии.' },
 
@@ -186,22 +184,22 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'setup-look',
-        ru: { title: 'Экран', text: 'Здесь вкладки «Лог» и «Статистика», трансляция и цвета сторон. Отметьте «Настроить цвета», чтобы выбрать цвет каждой стороны самому; без этого каждая сторона окрашена в цвет своей фракции. Пункты с пометкой «на этом телефоне» действуют только на вашем устройстве.' },
-        en: { title: 'Screen', text: 'The Log and Stats tabs, the broadcast and the side colours are here. Tick “Customise colours” to choose each side’s colour yourself; otherwise each side wears its faction’s colour. Rows marked “on this phone” apply to your device only.' },
+        ru: { title: 'Экран', text: 'Здесь вкладки «Лог» и «Статистика», трансляция и цвета сторон. Отметьте «Настроить цвета», чтобы выбрать цвет каждой стороны самому; без этого каждая сторона окрашена в цвет своей фракции.' },
+        en: { title: 'Screen', text: 'The Log and Stats tabs, the broadcast and the side colours are here. Tick “Customise colours” to choose each side’s colour yourself; otherwise each side wears its faction’s colour.' },
       },
       {
         target: 'setup-start',
         when: (ctx) => !ctx.lobby,
-        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово. Откроется экран партии. Бой начнётся отдельной кнопкой, когда вы расставите армии.' },
+        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово. Откроется экран партии с шагами перед битвой: вторичные миссии, расстановка, кубовка на первый ход. Бой начнётся отдельной кнопкой.' },
 
-        en: { title: 'Go to the game', text: 'Press this when everything is ready. The game screen opens. The battle starts with its own button once you have deployed.' },
+        en: { title: 'Go to the game', text: 'Press this when everything is ready. The game screen opens with the steps before the battle: secondary missions, deployment, the roll for the first turn. The battle starts with its own button.' },
 
       },
       {
         target: 'setup-start',
         when: (ctx) => ctx.lobby,
-        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово и соперник отправил свою сторону. Партия откроется на всех устройствах сразу. Бой начнётся отдельной кнопкой, когда вы расставите армии.' },
-        en: { title: 'Go to the game', text: 'Press this when everything is ready and the opponent has sent their side. The game opens on every device at once. The battle starts with its own button once you have deployed.' },
+        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово и соперник отправил свою сторону. Партия откроется на всех устройствах сразу, с шагами перед битвой: каждый выберет вторичные миссии на своём устройстве. Бой начнётся отдельной кнопкой.' },
+        en: { title: 'Go to the game', text: 'Press this when everything is ready and the opponent has sent their side. The game opens on every device at once, with the steps before the battle: each player chooses their secondary missions on their own device. The battle starts with its own button.' },
       },
     ],
   },
@@ -243,6 +241,13 @@ export const TOUR_CHAPTERS = {
         when: (ctx) => ctx.doubles,
         ru: (c) => ({ title: 'Команда соперника', text: `Нажмите на карточку команды соперника, и вкладки ниже покажут её: ${sideTabs(c, 'ru').replace('армию', 'армии')}. Сейчас выбрана команда соперника. С новым ходом вкладки снова покажут команду, которая ходит.` }),
         en: (c) => ({ title: 'The opposing team', text: `Tap the opposing team’s card, and the tabs below show that team: ${sideTabs(c, 'en').replace('army', 'armies')}. The opposing team is chosen now. With each new turn the tabs go back to the team on turn.` }),
+      },
+      {
+        target: 'game-prebattle',
+        show: { side: null },
+        when: (ctx) => !ctx.begun,
+        ru: { title: 'Перед битвой', text: 'Пройдите шаги по порядку, как в последовательности миссии. Шаг 6 — выберите вторичные миссии, шаг 10 — отметьте, кто выиграл кубовку на первый ход. Без этих двух бой не начнётся.' },
+        en: { title: 'Before the battle', text: 'Go through the steps in order, as in the mission sequence. At step 6 choose your secondary missions, at step 10 mark who won the roll for the first turn. The battle does not start without these two.' },
       },
       {
         target: 'game-reserves',
@@ -722,26 +727,6 @@ export const TOUR_CHAPTERS = {
       },
     ],
   },
-  // The host's first screen of a shared setup: calling the others over.
-  'lobby-invite': {
-    steps: [
-      {
-        target: 'lobby-code',
-        ru: { title: 'Приглашение', text: 'Покажите сопернику код или QR-код, или отправьте ему ссылку. Он подключится без аккаунта.' },
-        en: { title: 'Invitation', text: 'Show the opponent the code or the QR code, or send them the link. They join without an account.' },
-      },
-      {
-        target: 'lobby-people',
-        ru: { title: 'Подключены', text: 'Здесь появятся те, кто подключился. Ждать их не обязательно: настраивать партию можно сразу.' },
-        en: { title: 'Joined', text: 'Whoever joins shows here. There is no need to wait: you can set the game up straight away.' },
-      },
-      {
-        target: 'lobby-go',
-        ru: { title: 'Настроить партию', text: 'Нажмите «Настроить партию». Соперник заполнит свою сторону сам, а миссию, поле и настройки выберете вы.' },
-        en: { title: 'Set the game up', text: 'Press “Set the game up”. The opponent fills in their own side; the mission, the field and the settings are yours.' },
-      },
-    ],
-  },
   // A guest's own side of a shared setup.
   'lobby-guest': {
     steps: [
@@ -776,6 +761,11 @@ export const TOUR_CHAPTERS = {
         target: 'lobby-change',
         ru: { title: 'Изменить', text: 'Нажмите, чтобы изменить свою сторону. Пока хост выбирает армии, правка сразу ваша. Позже это просьба, и хост её подтвердит.' },
         en: { title: 'Change', text: 'Press to change your side. While the host is on the armies, the change is yours at once. Later it is a request the host answers.' },
+      },
+      {
+        target: 'lobby-phone-settings',
+        ru: { title: 'Настройки телефона', text: 'Нажмите, чтобы выбрать, что этот телефон покажет в игре. Подсчёт CP и фазы выбирает хост.' },
+        en: { title: 'This phone’s settings', text: 'Press to choose what this phone shows in the game. Command points and phases are the host’s choice.' },
       },
       {
         target: 'lobby-takeover',

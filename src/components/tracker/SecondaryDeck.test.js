@@ -59,7 +59,26 @@ describe('SecondaryDeck — the turn\'s two cards', () => {
     const w = deck(0, { editable: false })
     await w.vm.$nextTick()
     expect(dialogOpen()).toBe(false)
-    expect(w.find('.take-btn').exists()).toBe(true) // the button is there; the side's lock is the parent's inert
+    expect(w.find('.take-btn').exists()).toBe(false) // taking is the other phone's
+  })
+
+  // The opponent's missions lie face up (Event Companion): another phone's side opens its cards
+  // view only, and offers none of their actions (the owner's first game, 2026-10-24).
+  it('opens another phone\'s cards view only, with none of their actions', async () => {
+    startGame()
+    tracker.takeRandomSecondaries(0)
+    const w = deck(0, { editable: false })
+    await w.vm.$nextTick()
+    expect(w.findAll('.card')).toHaveLength(2)
+    expect(w.find('.manage').exists()).toBe(false)
+    expect(w.find('.untake-btn').exists()).toBe(false)
+    expect(w.find('.card-open').attributes('inert')).toBeUndefined()
+    await w.find('.card-open').trigger('click')
+    await w.vm.$nextTick()
+    const dialog = document.body.querySelector('[role="dialog"]')
+    expect(dialog.querySelector('.view-only').textContent).toContain('Scored on another device')
+    expect(dialog.querySelectorAll('.m-cond').length).toBeGreaterThan(0)
+    expect(dialog.querySelectorAll('.m-cond input, .m-cond button')).toHaveLength(0)
   })
 
   it('shows how each card came in once taken, and offers them back', async () => {
