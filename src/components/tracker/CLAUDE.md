@@ -622,6 +622,12 @@ from its own disposition, since that control lives one step further on.
 **One gate the lobby adds:** the game TYPE is locked once the setup is shared (a seat means "a
 side" in singles and "one member of a team" in doubles, so switching would unseat everyone).
 
+**A lobby that stops being shared is this phone's setup again** (2026-10-25): `useParty`'s
+`forget()` runs `closeLobby` on a game in `setup` — the stage, the editors, the requests go with the
+handle — and `startLobby` clears every side's `lobby` before a new party starts. Left behind (the
+host's "Stop sharing", then "Invite" again), the old editor named a member of the party that was
+gone, and the host's own side read as held by another phone under the host's own name.
+
 **A lobby is dropped, never archived.** `putAwayCurrent()` in the store is what "New game" and
 joining someone else's table call: a played game is frozen at its score and kept, a lobby is
 discarded. Archiving one would put a game that never happened into the record — and into the

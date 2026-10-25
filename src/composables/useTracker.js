@@ -596,6 +596,11 @@ export function useTracker() {
   // and the server never has to know about any of it. `stripLobby` wipes it when the game
   // starts: none of it belongs in history, in the cloud backup or in a broadcast.
   function startLobby({ settings, players }) {
+    // A new lobby starts with nobody filling anything in. The wizard hands its own player objects
+    // over, and one that sat in an earlier lobby (sharing stopped, the setup kept) still carried
+    // that lobby's editor — a member id the new party never had, so the host's own side read as held
+    // by "another phone" under the host's own name (the owner's test, 2026-10-25).
+    players.forEach((pl) => { delete pl.lobby })
     current.value = {
       id: 'g' + Date.now(),
       createdAt: new Date().toISOString(),

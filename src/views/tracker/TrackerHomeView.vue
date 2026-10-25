@@ -355,9 +355,11 @@ const liveGame = computed(() => {
   if (!g && d?.players?.length === 2) return { id: 'draft', players: d.players, settings: d.settings || {}, step: d.step, live: 'setup' }
   return null
 })
-// Where a setup stands: the wizard's step for this phone's own draft, "shared game" for a lobby.
+// Where a setup stands: the wizard's step for this phone's own draft, "shared game" for a lobby that
+// is shared; a lobby whose sharing stopped is a setup like any other, with no step on record.
 function setupLine(g) {
-  return g.id === 'draft' ? labels.value.trackerSetupStep.replace('{n}', g.step || 1) : labels.value.partyTitle
+  if (g.id === 'draft') return labels.value.trackerSetupStep.replace('{n}', g.step || 1)
+  return g.party ? labels.value.partyTitle : ''
 }
 const rows = computed(() => (liveGame.value ? [liveGame.value, ...visibleGames.value] : visibleGames.value))
 function openRow(g) {

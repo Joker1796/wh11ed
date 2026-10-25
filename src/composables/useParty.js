@@ -93,7 +93,7 @@ function saveBase() {
 
 export function useParty() {
   const { status: authStatus, authedFetch } = useAuth()
-  const { current, history, applyRemote } = useTracker()
+  const { current, history, applyRemote, closeLobby } = useTracker()
 
   const party = computed(() => current.value?.party || null)
   const active = computed(() => !!party.value && !party.value.revoked && !party.value.ended)
@@ -731,7 +731,11 @@ export function useParty() {
     members.value = []
     invite.value = null
     status.value = 'off'
-    if (current.value?.party) delete current.value.party
+    // A lobby left without its party is this phone's own setup again: its bookkeeping (stage,
+    // editors, requests) goes with the handle — left behind, it named a member of a party that is
+    // gone (closeLobby; useTracker's startLobby clears the editors too).
+    if (current.value?.phase === 'setup') closeLobby()
+    else if (current.value?.party) delete current.value.party
   }
 
   return {

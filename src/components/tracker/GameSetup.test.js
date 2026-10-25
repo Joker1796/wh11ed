@@ -244,10 +244,12 @@ describe('GameSetup gates in a lobby', () => {
       players: [
         // the host's own side, complete
         side({ name: 'Host', factionSlug: 'orks', detachments: ['Bully Boyz'], role: 'attacker' }),
-        // the other side: claimed by another phone and still empty
-        side({ role: 'defender', lobby: { editor: { id: oppEditor, mi: null, name: 'Гость' }, ready: false } }),
+        side({ role: 'defender' }),
       ],
     })
+    // the other side: claimed by another phone and still empty (a lobby starts with no editors —
+    // the claim arrives with that phone's slice)
+    tracker.current.value.players[1].lobby = { editor: { id: oppEditor, mi: null, name: 'Гость' }, ready: false }
     tracker.current.value.party = { id: 'p1', memberId: 'm-host', token: 't', side: 0, mi: null, host: true, seq: 1, versions: {} }
     const Screen = (await import('./GameSetup.vue')).default
     return mount(Screen)

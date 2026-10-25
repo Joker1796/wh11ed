@@ -369,6 +369,33 @@ describe('leaving', () => {
   })
 })
 
+// A lobby left without its party (the host's "Stop sharing") is this phone's own setup again —
+// with no editor of a party that is gone. Left behind, the next lobby found the host's own side
+// "held" by that old member under the host's name (the owner's test, 2026-10-25).
+describe('a lobby that stops being shared', () => {
+  it('drops its bookkeeping with the handle, and a new lobby starts with no editors', async () => {
+    const setup = { settings: { gameType: 'singles', battleSize: 'strikeForce', firstTurn: null, layout: 'A' }, players: [
+      { name: 'Host', factionSlug: null, detachments: [], disposition: D0, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
+      { name: 'Opp', factionSlug: null, detachments: [], disposition: D1, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
+    ] }
+    tracker.startLobby(setup)
+    tracker.current.value.players[0].isYou = true
+    await shareAsHost()
+    tracker.current.value.players[0].lobby = { editor: { id: 'm-host', mi: null, name: 'Host' } }
+    fetchMock.mockResolvedValueOnce(answer(204))
+    await party.leave()
+    const g = tracker.current.value
+    expect(g.phase).toBe('setup')
+    expect(g.party).toBeUndefined()
+    expect(g.lobby).toBeUndefined()
+    expect(g.players.map((p) => p.lobby)).toEqual([undefined, undefined])
+    // …and a lobby started from objects that still carried one starts clean.
+    setup.players[0].lobby = { editor: { id: 'm-old', mi: null, name: 'Host' } }
+    tracker.startLobby(setup)
+    expect(tracker.current.value.players[0].lobby).toBeUndefined()
+  })
+})
+
 describe('the other tracker', () => {
   it('a join says which tracker this is, and a refusal says which one the host plays', async () => {
     fetchMock.mockResolvedValueOnce(answer(409, { error: 'tracker_version', gen: 2 }))
