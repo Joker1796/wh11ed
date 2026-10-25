@@ -362,7 +362,10 @@ function roll(i) {
 .pb-placeholder { color: var(--text-muted); font-weight: 500; }
 .pb-done, .pb-change { flex: 0 0 auto; margin-left: auto; min-height: 38px; padding: 0.25rem 0.75rem; font-size: 0.85rem; }
 .pb-status { flex: 1 1 auto; min-width: 0; font-size: 0.84rem; line-height: 1.35; color: var(--text-muted); }
+/* The roll's two names at their own width; they shrink, each to an ellipsis, only when the pair
+   would pass the line. No percentage cap: a .seg is fit-content, and 50% of a width the buttons
+   themselves make cut "слепой" to "сле…" with the line half empty (2026-10-25). */
 .pb-roll { display: flex; max-width: 100%; margin-top: 0.35rem; }
-.pb-roll button { flex: 0 1 auto; min-width: 0; max-width: 50%; padding-inline: 0.9rem; }
+.pb-roll button { flex: 0 1 auto; min-width: 0; padding-inline: 0.9rem; }
 .pb-roll-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>
