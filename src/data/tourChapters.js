@@ -165,8 +165,8 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'setup-presets',
-        ru: { title: 'Готовые наборы', text: 'Выберите набор: «Минимальный» — только счёт и миссии, «Базовый» — ещё CP, помощь с миссиями, счётчики армий, модификаторы и вкладка «Лог», «Максимальный» — всё. Галочки ниже можно менять и после выбора, набор тогда называется «Свой».' },
-        en: { title: 'Ready sets', text: 'Pick a set: “Minimal” is the score and the missions, “Base” adds CP, the mission help, the army counters, the modifiers and the Log tab, “Maximal” is everything. You can still change the boxes below; the set is then called “Your own”.' },
+        ru: { title: 'Готовые наборы', text: 'Выберите набор: «Минимальный» — только счёт и миссии, «Базовый» — ещё CP с кнопками − и +, помощь с миссиями, счётчики армий, модификаторы и вкладка «Лог», «Максимальный» — всё. Галочки ниже можно менять и после выбора, набор тогда называется «Свой».' },
+        en: { title: 'Ready sets', text: 'Pick a set: “Minimal” is the score and the missions, “Base” adds CP with − and +, the mission help, the army counters, the modifiers and the Log tab, “Maximal” is everything. You can still change the boxes below; the set is then called “Your own”.' },
       },
       {
         target: 'setup-opts-game',
@@ -213,14 +213,14 @@ export const TOUR_CHAPTERS = {
       {
         target: 'game-rounds',
         when: (ctx) => ctx.phases,
-        ru: { title: 'Раунды', text: 'Нажмите на полосу, чтобы открыть список раундов. Там можно открыть прошлый раунд и поправить его счёт. Полоса — это пять раундов партии, текущий разбит на фазы обоих ходов.' },
-        en: { title: 'Rounds', text: 'Tap the strip to open the list of rounds. There you can open a past round and correct its score. The strip is the game’s five rounds, the current one split into both turns’ phases.' },
+        ru: { title: 'Раунды', text: 'Нажмите на сыгранный раунд, чтобы открыть его и поправить счёт. Нажатие на текущий возвращает к игре. Полоса — это пять раундов партии, текущий разбит на фазы обоих ходов.' },
+        en: { title: 'Rounds', text: 'Tap a round already played to open it and correct its score. Tapping the current one brings you back to the game. The strip is the game’s five rounds, the current one split into both turns’ phases.' },
       },
       {
         target: 'game-rounds',
         when: (ctx) => !ctx.phases,
-        ru: { title: 'Раунды', text: 'Нажмите на полосу, чтобы открыть список раундов. Там можно открыть прошлый раунд и поправить его счёт. Полоса — это пять раундов партии.' },
-        en: { title: 'Rounds', text: 'Tap the strip to open the list of rounds. There you can open a past round and correct its score. The strip is the game’s five rounds.' },
+        ru: { title: 'Раунды', text: 'Нажмите на сыгранный раунд, чтобы открыть его и поправить счёт. Нажатие на текущий возвращает к игре. Полоса — это пять раундов партии.' },
+        en: { title: 'Rounds', text: 'Tap a round already played to open it and correct its score. Tapping the current one brings you back to the game. The strip is the game’s five rounds.' },
       },
       {
         target: 'game-score',
@@ -315,15 +315,15 @@ export const TOUR_CHAPTERS = {
         target: 'game-panel-phase',
         show: { tab: 'phase' },
         when: (ctx) => ctx.tabs?.includes('phase') && ctx.phases,
-        ru: { title: 'Фаза', text: 'Здесь то, что действует в текущей фазе: правила армии и детачмента, способности юнитов и стратагемы этой фазы. Нажмите на строку, чтобы открыть правило или карточку юнита. Число на значке вкладки — сколько правил у этой фазы.' },
-        en: { title: 'Phase', text: 'What works in the current phase is here: the army and detachment rules, the units’ abilities and this phase’s stratagems. Tap a line to open the rule or the unit’s card. The number on the tab’s icon is how many rules this phase has.' },
+        ru: { title: 'Фаза', text: 'Здесь то, что действует в текущей фазе: правила армии и детачмента, способности юнитов и карты миссий, которые сейчас засчитываются. Нажмите на строку, чтобы открыть правило или карточку юнита. Число на значке вкладки — сколько строк у этой фазы.' },
+        en: { title: 'Phase', text: 'What works in the current phase is here: the army and detachment rules, the units’ abilities and the mission cards that score now. Tap a line to open the rule or the unit’s card. The number on the tab’s icon is how many lines this phase has.' },
       },
       {
         target: 'game-panel-phase',
         show: { tab: 'phase' },
         when: (ctx) => ctx.tabs?.includes('phase') && !ctx.phases,
-        ru: { title: 'Ход', text: 'Здесь то, что действует в каждой фазе хода: правила армии и детачмента, способности юнитов и стратагемы. Нажмите на строку, чтобы открыть правило или карточку юнита.' },
-        en: { title: 'Turn', text: 'What works in each phase of the turn is here: the army and detachment rules, the units’ abilities and the stratagems. Tap a line to open the rule or the unit’s card.' },
+        ru: { title: 'Ход', text: 'Здесь то, что действует в каждой фазе хода: правила армии и детачмента, способности юнитов и карты миссий, когда они засчитываются. Нажмите на строку, чтобы открыть правило или карточку юнита.' },
+        en: { title: 'Turn', text: 'What works in each phase of the turn is here: the army and detachment rules, the units’ abilities and the mission cards when they score. Tap a line to open the rule or the unit’s card.' },
       },
       {
         target: 'game-panel-cp',

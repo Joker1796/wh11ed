@@ -16,7 +16,7 @@ describe('help text markup', () => {
 // The tracker's helps are set one way (owner, 2026-10-15): a lead line, points, an off line —
 // short, and the two languages the same shape, so a point added in one is added in both.
 const HELPS = Object.keys(ui.en).filter((k) => /^trackerHelp[A-Z]/.test(k))
-  .concat(['trackerRoleHelp', 'trackerForceTypeHelp', 'trackerCpHelp', 'trackerCpHelpManual', 'trackerRoundsHelp', 'trackerScoreHelpText'])
+  .concat(['trackerRoleHelp', 'trackerForceTypeHelp', 'trackerCpHelp', 'trackerCpHelpManual', 'trackerCpHelpHand', 'trackerCpHelpManualHand', 'trackerRoundsHelp', 'trackerScoreHelpText'])
 describe('tracker help texts', () => {
   it.each(HELPS)('%s: same shape in EN and RU, short', (k) => {
     const shape = (t) => helpBlocks(t).map((b) => (b.t === 'ul' ? `ul${b.items.length}` : b.t)).join(' ')

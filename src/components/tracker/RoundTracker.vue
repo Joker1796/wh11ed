@@ -412,7 +412,7 @@
           <OptionHelpModal
             v-if="cpHelpOpen"
             :title="labels.trackerCpHelpTitle"
-            :text="current.cpAuto ? labels.trackerCpHelp : labels.trackerCpHelpManual"
+            :text="labels[`trackerCpHelp${current.cpAuto ? '' : 'Manual'}${tracks(current.settings, 'stratSpendCp') ? '' : 'Hand'}`]"
             @close="cpHelpOpen = false"
           />
         </template>
