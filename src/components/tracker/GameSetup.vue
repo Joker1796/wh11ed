@@ -2545,10 +2545,13 @@ function cancel() {
 .pc-side .player-head { color: var(--accent-ink); }
 /* The army's emblem before "You" / "Opponent", a space's width from the word. */
 .player-head .faction-emblem { margin-right: 0.35em; }
+/* A side's card is headed at the page title's size (owner, 2026-10-25): at 1.21rem the condensed
+   face read smaller than the caps field labels under it. */
 .player-head {
   font-family: var(--font-display);
-  font-size: 1.21rem;
+  font-size: 1.65rem;
   font-weight: 500;
+  line-height: 1.15;
   color: var(--text-muted);
   margin-bottom: 0.75rem;
 }
@@ -2560,9 +2563,10 @@ function cancel() {
   gap: 0.6rem;
   margin-bottom: 0.75rem;
 }
-/* One line, always: the heading and the status give way to an ellipsis before the row grows. */
+/* One line, always: the status gives way first (its basis is 0 — it takes what the heading and the
+   button leave), then the heading, to an ellipsis, before the row grows. */
 .ph-row .player-head { flex: 0 1 auto; min-width: 0; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ph-note { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.78rem; color: var(--text-muted); }
+.ph-note { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.78rem; color: var(--text-muted); }
 .ph-note.ok { color: var(--accent-ink); }
 .ph-invite {
   margin-left: auto;
