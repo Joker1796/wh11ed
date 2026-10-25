@@ -66,6 +66,8 @@ const { renderParagraphs } = useRenderInline()
   margin: 0;
 }
 .tcard-name-ru {
+  /* Right under the name, as a mission's Russian name is (MissionCard, owner 2026-10-25). */
+  margin-top: -0.15rem;
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--text-muted);
