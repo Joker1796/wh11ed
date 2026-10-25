@@ -14,10 +14,12 @@ beforeEach(async () => {
   RoundTracker = (await import('./RoundTracker.vue')).default
 })
 
+// Fixed secondaries keep the take dialog out of these cases — with a card, as no setup ever
+// started a fixed game without one (and the battle does not begin on none: battleWaitsFor).
 function player(over = {}) {
   return {
     name: 'P', factionSlug: null, detachments: [], role: 'attacker',
-    secondaryMode: 'fixed', fixedSecondaries: [], battleReady: false, ...over,
+    secondaryMode: 'fixed', fixedSecondaries: ['a-grievous-blow'], battleReady: false, ...over,
   }
 }
 function startGame(p0, p1, settings = {}) {
@@ -262,11 +264,30 @@ describe('RoundTracker — the round line with phases', () => {
   })
 })
 
+// Before the battle (PreBattle.vue): Start waits for the roll for the first turn, and says so in
+// place of its word — the setup no longer asks who goes first (owner, 2026-10-25).
+describe('RoundTracker — before the battle', () => {
+  it('shows the steps over the missions and holds Start until the roll', async () => {
+    startGame({}, {}, { firstTurn: null })
+    expect(tracker.current.value.begun).toBe(false) // beginGame refused: nobody rolled
+    const w = mountTracker()
+    expect(w.find('.pb').exists()).toBe(true)
+    const start = w.find('.tr-end')
+    expect(start.text()).toBe('Roll for the first turn')
+    expect(start.attributes('disabled')).toBeDefined()
+    tracker.rollFirstTurn(0)
+    await w.vm.$nextTick()
+    expect(w.find('.tr-end').attributes('disabled')).toBeUndefined()
+    await w.find('.tr-end').trigger('click')
+    expect(w.find('.pb').exists()).toBe(false)
+  })
+})
+
 describe('RoundTracker — ending a turn', () => {
   it('passes the turn at once when nothing scores at its end', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, {})
-    // no primary cards: nothing at all falls due
-    for (const pl of tracker.current.value.players) pl.primarySlug = null
+    // no primary cards and no secondaries in hand: nothing at all falls due
+    for (const pl of tracker.current.value.players) { pl.primarySlug = null; pl.secondary.hand = [] }
     const w = mountTracker()
     await w.find('.tr-end').trigger('click')
     expect(tracker.current.value.currentTurn).toBe(1)

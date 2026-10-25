@@ -171,10 +171,10 @@
           :can-prev="canStepInTurn(-1) && !strictWhy('clock')"
           :can-next="canStepInTurn(1)"
           :can-end="!begun || canEndTurn()"
-          :end-locked="!canEdit(turnIndex)"
+          :end-locked="!canEdit(turnIndex) || !!battleWait"
           :undo-title="undoTitle"
           :end-title="endTitle"
-          :locked-text="(begun ? labels.trackerTurnOf : labels.trackerStartsOf).replace('{name}', playerName(turnIndex))"
+          :locked-text="battleWait ? labels[BATTLE_WAIT[battleWait]] : (begun ? labels.trackerTurnOf : labels.trackerStartsOf).replace('{name}', playerName(turnIndex))"
           @start="beginGame()"
           @reserves="openReserves"
           @invite="partyOpen = true"
@@ -249,6 +249,9 @@
       data-tour="game-missions"
       role="tabpanel"
     >
+      <!-- Before the battle: the Mission Sequence's steps from the secondaries to the pre-battle
+           rules, over the missions they lead to (PreBattle.vue). -->
+      <PreBattle v-if="!begun" />
       <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
       <details
         v-if="activeTwist"
@@ -345,9 +348,17 @@
               <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
             </div>
 
-            <!-- Combat Patrol has no secondaries: a player scores their box's mission alone. -->
+            <!-- Combat Patrol has no secondaries: a player scores their box's mission alone.
+                 Before the battle another phone's choice stays hidden until both sides have
+                 chosen (PreBattle.vue — the Mission Sequence's secret choice). -->
+            <p
+              v-if="!current.settings?.combatPatrol && secretOf(i)"
+              class="sec-secret"
+            >
+              {{ labels.pbSecretDeck }}
+            </p>
             <SecondaryDeck
-              v-if="!current.settings?.combatPatrol"
+              v-else-if="!current.settings?.combatPatrol"
               :pi="i"
               :round="shownRound"
               :turn="shownTurn"
@@ -570,6 +581,7 @@ import CpBank from './CpBank.vue'
 import TurnBar from './TurnBar.vue'
 import GameTabs from './GameTabs.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
+import PreBattle from './PreBattle.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
 import CpStratagems from './CpStratagems.vue'
@@ -613,10 +625,14 @@ import { useParty } from '../../composables/useParty.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, undoTurn, canUndoTurn, finishGame, strictWhy, strictUndoWhy } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, canGainBonus, gainBonusCp, canUndoBonus, undoBonusCp, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, battleWaitsFor, undoTurn, canUndoTurn, finishGame, strictWhy, strictUndoWhy } = useTracker()
 // Strict rules' reason (strictRules.js), as the screen says it — '' when nothing is refused.
 const strictText = (why) => (why ? labels.value[`trackerStrict_${why}`] : '')
 const begun = computed(() => gameBegun(current.value))
+// What the battle still waits for before it may begin (PreBattle's two choices), said on Start.
+const BATTLE_WAIT = { fixed: 'pbWaitFixed', secondaries: 'pbWaitSecondaries', firstTurn: 'pbWaitFirstTurn' }
+const battleWait = computed(() => (begun.value ? null : battleWaitsFor()))
+const secretOf = (pi) => !begun.value && !canEdit(pi) && current.value.players.some((p) => p.secondaryPending)
 // Every tab carries its word on a wide screen (see .game-tabs in the styles).
 const wideTabs = useMediaQuery('(min-width: 901px)')
 
@@ -1219,6 +1235,7 @@ function onEndBattle(reason) {
 .sr-sub { font-size: 0.72rem; color: var(--text-dim); }
 /* A side another phone plays: readable, not touchable. */
 .player-locked { opacity: 0.72; }
+.sec-secret { margin: 0.7rem 0 0; font-size: 0.82rem; color: var(--text-dim); }
 .plocked {
   margin: 0.1rem 0 0.4rem;
   font-size: 0.72rem;

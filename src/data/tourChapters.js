@@ -121,13 +121,6 @@ export const TOUR_CHAPTERS = {
 
       },
       {
-        target: 'setup-secondary',
-        ru: { title: 'Вторичные миссии', text: 'Выберите, как вы играете вторичные миссии. Тактические — каждый ход вы берёте новые карты из колоды. Фиксированные — вы выбираете две миссии сейчас, и они остаются на всю партию.' },
-
-        en: { title: 'Secondary missions', text: 'Choose how you play secondary missions. Tactical: you draw new cards from the deck every turn. Fixed: you pick two missions now, and they stay for the whole game.' },
-
-      },
-      {
         target: 'setup-primary',
         ru: { title: 'Первичная миссия', text: 'Нажмите на карточку, чтобы прочитать правила первичной миссии вашей партии. Твист в ней уже учтён.' },
 
@@ -157,13 +150,6 @@ export const TOUR_CHAPTERS = {
         ru: { title: 'Attacker', text: 'Отметьте, кто атакует. От этого зависит, с какой стороны стола вы расставляетесь.' },
 
         en: { title: 'Attacker', text: 'Mark who attacks. It decides which side of the table you deploy on.' },
-
-      },
-      {
-        target: 'setup-first',
-        ru: { title: 'Первый ход', text: 'Отметьте, кто ходит первым. Этот порядок ходов сохранится на всю партию.' },
-
-        en: { title: 'First turn', text: 'Mark who goes first. This turn order stays for the whole game.' },
 
       },
       {
@@ -198,22 +184,22 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'setup-look',
-        ru: { title: 'Экран', text: 'Здесь вкладки «Лог» и «Статистика», трансляция и цвета сторон. Отметьте «Настроить цвета», чтобы выбрать цвет каждой стороны самому; без этого каждая сторона окрашена в цвет своей фракции. Пункты с пометкой «на этом телефоне» действуют только на вашем устройстве.' },
-        en: { title: 'Screen', text: 'The Log and Stats tabs, the broadcast and the side colours are here. Tick “Customise colours” to choose each side’s colour yourself; otherwise each side wears its faction’s colour. Rows marked “on this phone” apply to your device only.' },
+        ru: { title: 'Экран', text: 'Здесь вкладки «Лог» и «Статистика», трансляция и цвета сторон. Отметьте «Настроить цвета», чтобы выбрать цвет каждой стороны самому; без этого каждая сторона окрашена в цвет своей фракции.' },
+        en: { title: 'Screen', text: 'The Log and Stats tabs, the broadcast and the side colours are here. Tick “Customise colours” to choose each side’s colour yourself; otherwise each side wears its faction’s colour.' },
       },
       {
         target: 'setup-start',
         when: (ctx) => !ctx.lobby,
-        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово. Откроется экран партии. Бой начнётся отдельной кнопкой, когда вы расставите армии.' },
+        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово. Откроется экран партии с шагами перед битвой: вторичные миссии, расстановка, кубовка на первый ход. Бой начнётся отдельной кнопкой.' },
 
-        en: { title: 'Go to the game', text: 'Press this when everything is ready. The game screen opens. The battle starts with its own button once you have deployed.' },
+        en: { title: 'Go to the game', text: 'Press this when everything is ready. The game screen opens with the steps before the battle: secondary missions, deployment, the roll for the first turn. The battle starts with its own button.' },
 
       },
       {
         target: 'setup-start',
         when: (ctx) => ctx.lobby,
-        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово и соперник отправил свою сторону. Партия откроется на всех устройствах сразу. Бой начнётся отдельной кнопкой, когда вы расставите армии.' },
-        en: { title: 'Go to the game', text: 'Press this when everything is ready and the opponent has sent their side. The game opens on every device at once. The battle starts with its own button once you have deployed.' },
+        ru: { title: 'Перейти к игре', text: 'Нажмите, когда всё готово и соперник отправил свою сторону. Партия откроется на всех устройствах сразу, с шагами перед битвой: каждый выберет вторичные миссии на своём устройстве. Бой начнётся отдельной кнопкой.' },
+        en: { title: 'Go to the game', text: 'Press this when everything is ready and the opponent has sent their side. The game opens on every device at once, with the steps before the battle: each player chooses their secondary missions on their own device. The battle starts with its own button.' },
       },
     ],
   },
@@ -255,6 +241,13 @@ export const TOUR_CHAPTERS = {
         when: (ctx) => ctx.doubles,
         ru: (c) => ({ title: 'Команда соперника', text: `Нажмите на карточку команды соперника, и вкладки ниже покажут её: ${sideTabs(c, 'ru').replace('армию', 'армии')}. Сейчас выбрана команда соперника. С новым ходом вкладки снова покажут команду, которая ходит.` }),
         en: (c) => ({ title: 'The opposing team', text: `Tap the opposing team’s card, and the tabs below show that team: ${sideTabs(c, 'en').replace('army', 'armies')}. The opposing team is chosen now. With each new turn the tabs go back to the team on turn.` }),
+      },
+      {
+        target: 'game-prebattle',
+        show: { side: null },
+        when: (ctx) => !ctx.begun,
+        ru: { title: 'Перед битвой', text: 'Пройдите шаги по порядку, как в последовательности миссии. Шаг 6 — выберите вторичные миссии, шаг 10 — отметьте, кто выиграл кубовку на первый ход. Без этих двух бой не начнётся.' },
+        en: { title: 'Before the battle', text: 'Go through the steps in order, as in the mission sequence. At step 6 choose your secondary missions, at step 10 mark who won the roll for the first turn. The battle does not start without these two.' },
       },
       {
         target: 'game-reserves',

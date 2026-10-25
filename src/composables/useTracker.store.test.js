@@ -922,6 +922,64 @@ describe('applyRemote (multi-device sync)', () => {
 })
 
 // ── The lobby: a game that exists before it is played ──────────────────────────────────────
+// The Mission Sequence's steps after the setup (owner, 2026-10-25): the secondaries (step 6) and
+// the roll for the first turn (step 10) come before the battle, on the game screen (PreBattle.vue).
+describe('before the battle', () => {
+  it('waits for the roll when the setup left the first turn open, and starts in the setup\'s order', () => {
+    tracker.newGame(setupGame({ settings: { firstTurn: null } }))
+    const g = tracker.current.value
+    expect(g.firstTurnPending).toBe(true)
+    expect(g.players.map((p) => p.name)).toEqual(['Me', 'Opp'])
+    expect(tracker.battleWaitsFor()).toBe('firstTurn')
+    tracker.beginGame()
+    expect(g.begun).toBe(false) // refused: nobody has rolled
+    // The Opponent won: it moves to index 0, and the battle may begin.
+    expect(tracker.rollFirstTurn(1)).toBe(true)
+    expect(g.players.map((p) => p.name)).toEqual(['Opp', 'Me'])
+    expect(g.players.map((p) => p.isYou)).toEqual([false, true])
+    expect(tracker.battleWaitsFor()).toBeNull()
+    tracker.beginGame()
+    expect(mod.gameBegun(g)).toBe(true)
+    expect(g).not.toHaveProperty('firstTurnPending')
+  })
+  it('needs no roll for a game set up with its first turn', () => {
+    tracker.newGame(setupGame())
+    expect(tracker.current.value).not.toHaveProperty('firstTurnPending')
+    expect(tracker.battleWaitsFor()).toBeNull()
+  })
+  it('rebuilds a side\'s secondaries before the battle, and leaves them alone after', () => {
+    tracker.newGame(setupGame())
+    const pl = tracker.current.value.players[0]
+    const fixed = mod.fixedPool(pl.role).slice(0, 2).map((m) => m.slug)
+    tracker.setSecondaries(0, 'fixed', [])
+    expect(tracker.battleWaitsFor()).toBe('fixed') // fixed with no card yet
+    tracker.setSecondaries(0, 'fixed', fixed)
+    expect(pl.secondaryMode).toBe('fixed')
+    expect(pl.secondary.hand).toEqual(fixed)
+    expect(pl.secondary.deck).toEqual([])
+    expect(pl.secondary.drawn).toEqual({ [fixed[0]]: 1, [fixed[1]]: 1 })
+    tracker.setSecondaries(0, 'tactical')
+    expect(pl.secondary.hand).toEqual([])
+    expect(pl.secondary.deck.length).toBeGreaterThan(0)
+    tracker.beginGame()
+    tracker.setSecondaries(0, 'fixed', fixed)
+    expect(pl.secondaryMode).toBe('tactical') // the battle has begun
+  })
+  it('in a shared game, waits for each side to confirm its secondaries', () => {
+    tracker.startLobby(setupGame())
+    tracker.current.value.party = { id: 'p', token: 't', side: 0, host: true, seq: 1, versions: {} }
+    tracker.newGame(setupGame())
+    const g = tracker.current.value
+    expect(g.players.map((p) => p.secondaryPending)).toEqual([true, true])
+    expect(tracker.battleWaitsFor()).toBe('secondaries')
+    tracker.confirmSecondaries(0)
+    tracker.confirmSecondaries(1)
+    expect(tracker.battleWaitsFor()).toBeNull()
+    tracker.setSecondaries(1, 'tactical') // a change is a choice to confirm again
+    expect(g.players[1].secondaryPending).toBe(true)
+  })
+})
+
 describe('lobby', () => {
   it('startLobby turns the wizard state into a game in phase setup', () => {
     const setup = setupGame()

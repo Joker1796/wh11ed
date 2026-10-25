@@ -308,15 +308,15 @@ describe('GameSetup gates in a lobby', () => {
     expect(w.findAll('.side-mirror')).toHaveLength(2) // armies + mission
     expect(w.findAll('.side-mirror .sm-waiting')).toHaveLength(2)
 
-    // …and "a report" means the whole card. The secondaries switch used to sit outside the
-    // mirror/form split and only go inert, so the mission step offered the host a live
-    // "Tactical / Fixed" toggle for a side another phone fills in (owner, 2026-09-24).
+    // …and "a report" means the whole card: no control of another phone's side on the mission
+    // step (owner, 2026-09-24 — a live "Tactical / Fixed" toggle once sat there; the secondaries
+    // are chosen before the battle now, on each side's own phone).
     const cards = w.findAll('.step-panel')[1].findAll('.player-card')
     const theirs = cards.find((c) => c.find('.side-mirror').exists())
     expect(theirs).toBeTruthy()
-    expect(theirs.findAll('.seg')).toHaveLength(0)
-    // The host's own card still asks, or the step would have nothing to fill in.
-    expect(cards.find((c) => !c.find('.side-mirror').exists()).findAll('.seg').length).toBeGreaterThan(0)
+    expect(theirs.findAll('.seg, .field')).toHaveLength(0)
+    // The host's own card still asks its disposition, or the step would have nothing to fill in.
+    expect(cards.find((c) => !c.find('.side-mirror').exists()).findAll('.field').length).toBeGreaterThan(0)
   })
 })
 
@@ -432,5 +432,19 @@ describe('GameSetup — the invitation on the opponent\'s card', () => {
     await flushPromises()
     expect(document.body.querySelector('[role="dialog"]').textContent).toContain('Shared game')
     vi.unstubAllGlobals()
+  })
+})
+
+// The Mission Sequence's order (owner, 2026-10-25): the setup ends with the Attacker and the
+// Defender (step 5). The secondaries (6) and the first turn (10) are the game screen's, before the
+// battle — so the wizard neither asks them nor sends a first turn.
+describe('GameSetup — the steps the setup no longer asks', () => {
+  it('has no secondaries on the mission step and no first turn on the battlefield step', () => {
+    const w = mount(GameSetup)
+    const [, mission, field] = w.findAll('.step-panel')
+    expect(mission.text()).not.toContain('Secondary missions')
+    expect(field.find('[data-tour="setup-first"]').exists()).toBe(false)
+    expect(field.text()).not.toContain('First turn')
+    expect(w.vm.$.setupState.settings.firstTurn).toBeNull()
   })
 })

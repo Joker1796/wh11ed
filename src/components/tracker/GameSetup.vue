@@ -925,52 +925,9 @@
             </div>
           </ExpandTransition>
 
-          <!-- Which deck a side plays is that side's own call, so on a card another phone holds
-               these are not offered: `.side-mirror` above reports the answer instead (sideSummary
-               prints it, and the armies step's card has always said it that way). They used to
-               sit outside that split and merely go inert — a bright "Tactical / Fixed" switch
-               under "waiting for your opponent", which is the one thing on the card the host had
-               no business touching (owner, 2026-09-24). No `inert` inside here: within
-               `!mirrored` the side is always this phone's to edit. -->
-          <!-- No secondaries in Combat Patrol: a player scores their box's mission alone. -->
-          <template v-if="!mirrored(i) && !settings.combatPatrol">
-            <label
-              class="field"
-              data-tour="setup-secondary"
-            >
-              <span>{{ labels.trackerSecondaryMode }}</span>
-              <div class="seg">
-                <button
-                  :class="{ on: p.secondaryMode === 'tactical' }"
-                  @click="p.secondaryMode = 'tactical'"
-                >{{ labels.trackerTactical }}</button>
-                <button
-                  :class="{ on: p.secondaryMode === 'fixed' }"
-                  @click="p.secondaryMode = 'fixed'"
-                >{{ labels.trackerFixed }}</button>
-              </div>
-            </label>
-
-            <ExpandTransition>
-              <div
-                v-if="p.secondaryMode === 'fixed'"
-                class="field"
-              >
-                <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ maxFixed }}</em></span>
-                <button
-                  class="btn-choose-twist"
-                  data-press
-                  @click="fixedPickerFor = i"
-                >
-                  <span
-                    class="ct-name"
-                    :class="{ placeholder: !p.fixedSecondaries.length }"
-                  >{{ fixedSummary(p) }}</span>
-                  <i class="wi wi-chevron-right ct-chev" />
-                </button>
-              </div>
-            </ExpandTransition>
-          </template>
+          <!-- No secondaries here since 2026-10-25: the Mission Sequence chooses them after the
+               Attacker and the Defender (step 6, after 5), each side in secret — on the game screen
+               before the battle (PreBattle.vue), where each phone chooses its own. -->
         </div>
       </div>
 
@@ -1126,24 +1083,8 @@
               </button>
             </div>
           </div>
-          <!-- Who deploys first sits with the layout: both answer "where and in what order do we
-               set up", and neither is a setting of the app. -->
-          <label
-            class="field"
-            data-tour="setup-first"
-          >
-            <span>{{ labels.trackerFirstTurn }}</span>
-            <div class="seg">
-              <button
-                :class="{ on: settings.firstTurn === 1 }"
-                @click="settings.firstTurn = 1"
-              >{{ labels.trackerYou }}</button>
-              <button
-                :class="{ on: settings.firstTurn === 2 }"
-                @click="settings.firstTurn = 2"
-              >{{ playerLabel(1 - youIdx) }}</button>
-            </div>
-          </label>
+          <!-- No "who goes first" here since 2026-10-25: the Mission Sequence rolls for it after
+               deployment (step 10), and the game screen asks it before the battle (PreBattle.vue). -->
           <!-- Desktop: the layout tabs join the questions in the side column, so the picture on
                the left has the whole card to itself. On a phone they stay above the picture. -->
           <div
@@ -1321,15 +1262,6 @@
       @close="twistPickerOpen = false"
     />
 
-    <SecondaryPickerModal
-      v-if="fixedPickerFor >= 0"
-      :missions="fixedModalMissions"
-      :selected="players[fixedPickerFor].fixedSecondaries"
-      :max="maxFixed"
-      @toggle="slug => toggleFixed(players[fixedPickerFor], slug)"
-      @close="fixedPickerFor = -1"
-    />
-
     <MissionPickerModal
       v-if="mirrorPickerOpen"
       :title="labels.trackerTwistMission"
@@ -1458,7 +1390,6 @@ import AdaptivePicker from '../AdaptivePicker.vue'
 import { combatPatrolBoxOf, combatPatrolBoxesOf } from '../../composables/combatPatrolBox.js'
 import { dpLimitFor } from '../../composables/rosterEngine.js'
 import FactionPickerList from './FactionPickerList.vue'
-import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import ConfirmModal from '../ConfirmModal.vue'
@@ -1479,7 +1410,7 @@ import { useLobby } from '../../composables/useLobby.js'
 import { useParty } from '../../composables/useParty.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useAccountActions } from '../../composables/useAccountActions.js'
-import { useTracker, DISPOSITIONS, BATTLE_SIZES, CUSTOM_BATTLE, CUSTOM_RANGES, battleOf, battleName, MIRROR_MISSIONS, primaryOf, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
+import { useTracker, DISPOSITIONS, BATTLE_SIZES, CUSTOM_BATTLE, CUSTOM_RANGES, battleOf, battleName, MIRROR_MISSIONS, primaryOf, deriveForceType, missionBySlug, dispositionName } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo, mfmDetachmentNames } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import { combatPatrolRoster, defaultCombatPatrolEnhancement } from '../../composables/combatPatrolRoster.js'
@@ -1555,7 +1486,7 @@ function defaultPlayer(role, name = '') {
     teamName: '', forceType: null, members: [defaultMember(), defaultMember()],
   }
 }
-const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', custom: lastCustom ? { ...lastCustom } : null, combatPatrol: false, gameType: 'singles', dpPerPlayer: null, twist: null, twistMission: null, scoreMode: lastScoreMode, strictRules: lastStrict }
+const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: null, layout: 'A', customLayout: null, battleSize: 'strikeForce', custom: lastCustom ? { ...lastCustom } : null, combatPatrol: false, gameType: 'singles', dpPerPlayer: null, twist: null, twistMission: null, scoreMode: lastScoreMode, strictRules: lastStrict }
 
 // WHERE THE FORM'S STATE LIVES. Normally in this component: a draft, persisted so it survives a
 // reload. Once the setup is SHARED it lives in the game itself (`current`, phase 'setup') — and
@@ -1796,11 +1727,6 @@ function sideSummary(i) {
   const disp = p.disposition ? dispositionName(p.disposition) : ''
   if (disp) out.push(`${labels.value.trackerDisposition}: ${disp}`)
   if (p.battleReady) out.push(labels.value.trackerBattleReady)
-  // The step-2 card shows this report too, so the secondaries belong in it: which deck this side
-  // plays is a fact about the game, not a control the host may touch.
-  if (settings.combatPatrol) return out // no secondaries in Combat Patrol
-  out.push(`${labels.value.trackerSecondaryMode}: ${p.secondaryMode === 'fixed' ? labels.value.trackerFixed : labels.value.trackerTactical}`)
-  if (p.secondaryMode === 'fixed' && p.fixedSecondaries?.length) out.push(fixedSummary(p))
   return out
 }
 
@@ -1912,12 +1838,6 @@ function chooseCustom() {
 function setCustom(key, v) {
   settings.custom = { ...settings.custom, [key]: v }
 }
-// Fixed secondaries: as many as a turn draws (two, or a custom size's own), kept for the whole game.
-const maxFixed = computed(() => battle.value.secondaries)
-// Fewer allowed than picked (the custom number went down): the last picks go.
-watch(maxFixed, (n) => {
-  players.forEach((p, i) => { if (editable(i) && p.fixedSecondaries.length > n) p.fixedSecondaries.splice(n) })
-})
 const battlePoints = computed(() => battle.value.points)
 // A list attached before the battle size shrank under it: its points from the stored list (a
 // list taken from a link carries none, and says nothing). Singles only, as the picker.
@@ -2100,15 +2020,6 @@ function setGameMode(mode) {
   }
 }
 
-function toggleFixed(p, slug) {
-  const i = p.fixedSecondaries.indexOf(slug)
-  if (i >= 0) p.fixedSecondaries.splice(i, 1)
-  else if (p.fixedSecondaries.length < maxFixed.value) p.fixedSecondaries.push(slug)
-}
-
-// Fixed-secondary picker modal — open for player index (-1 = closed). Lists the
-// localized full mission cards so their text can be read before choosing.
-const fixedPickerFor = ref(-1)
 // Army-scoped pickers are keyed by ak(side, member) — '' = closed (see armiesOf/ak above).
 const detPickerKey = ref('')
 const factionPickerKey = ref('')
@@ -2144,15 +2055,6 @@ function clearRoster(p) {
 function selectFaction(p, slug) {
   p.factionSlug = slug
   factionPickerKey.value = ''
-}
-const fixedModalMissions = computed(() => {
-  if (fixedPickerFor.value < 0) return []
-  const role = players[fixedPickerFor.value].role
-  return fixedPool(role).map(m => missionBySlug(m.slug, role, locale.value))
-})
-function fixedSummary(p) {
-  if (!p.fixedSecondaries.length) return labels.value.trackerSelect
-  return p.fixedSecondaries.map(slug => missionBySlug(slug, p.role, locale.value)?.name || slug).join(', ')
 }
 
 function detSummary(p) {
@@ -2272,11 +2174,6 @@ const primaryCards = computed(() => players.map((p, i) => {
   return m ? missionBySlug(m.slug, null, locale.value) : null
 }))
 
-// Switching back to tactical drops any chosen fixed missions.
-players.forEach((p, i) => watch(() => p.secondaryMode, (m) => {
-  if (editable(i) && m !== 'fixed') p.fixedSecondaries = []
-}))
-
 // The recommended layouts for the current Force Disposition matchup (15 matchups
 // cover all pairs, including mirrors). Reset the choice to A whenever it changes.
 const { matchup, layouts, currentLayout, layoutPickerOpen, selectLayout, onPickLayout } =
@@ -2305,12 +2202,12 @@ const canArmies = computed(() =>
   players.every((p, i) => (sharedSetup.value && !editable(i)) || armiesOkFor(p)),
 )
 
-// Step 2 (Mission): dispositions resolved (→ a primary for each) + fixed picks chosen
-// where in fixed mode.
+// Step 2 (Mission): dispositions resolved (→ a primary for each). The secondaries are chosen
+// before the battle, on the game screen (PreBattle.vue).
 function missionOkFor(p) {
-  // Combat Patrol: the box is the mission — no disposition to choose, no secondaries.
+  // Combat Patrol: the box is the mission — no disposition to choose.
   if (settings.combatPatrol) return !!p.factionSlug
-  return !!p.disposition && (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)
+  return !!p.disposition
 }
 // Both sides, deliberately: the primary mission IS the pair of dispositions, and the layouts on
 // the next step are the pair's matchup. This is the point where the other side genuinely has to
