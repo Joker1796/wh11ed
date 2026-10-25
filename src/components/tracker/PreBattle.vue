@@ -21,6 +21,9 @@
       </RouterLink>
     </div>
 
+    <!-- Every step one block, its number in the title's line and its text the full width (owner,
+         2026-10-25: a column for the numbers and a row for each name cost a third of a phone's
+         screen). The sides' names stand in their colours in the steps' text. -->
     <ol class="pb-steps">
       <!-- 6 · The secondaries. Each side on its own phone in a shared game, in secret: a side
            another phone plays says only that it is choosing, or has chosen, until both have
@@ -30,56 +33,49 @@
         class="pb-step"
         data-tour="game-prebattle-secondaries"
       >
-        <span class="pb-n">6</span>
-        <div class="pb-body">
-          <strong class="pb-name">{{ labels.pbStepSecondaries }}</strong>
-          <p
-            v-if="shared"
-            class="pb-text"
-          >
-            {{ labels.pbSecondariesSecret }}
-          </p>
+        <strong class="pb-name"><span class="pb-n">6</span>{{ labels.pbStepSecondaries }}</strong>
+        <p
+          v-if="shared"
+          class="pb-text"
+        >
+          {{ labels.pbSecondariesSecret }}
+        </p>
+        <!-- A side on one line: its name, the switch (and Done), the cards under them when fixed;
+             or its state and Change. The two sides share one grid, so their switches line up
+             whatever the names' lengths. -->
+        <div class="pb-sides">
           <div
             v-for="i in [0, 1]"
             :key="i"
             class="pb-side"
           >
-            <!-- The side's name and what is left to do with it on one line; the choice under it. -->
-            <div class="pb-side-head">
-              <span class="pb-who">{{ name(i) }}</span>
-              <span
-                v-if="!choosing(i)"
-                class="pb-status"
-              >{{ status(i) }}</span>
-              <button
-                v-if="choosing(i) && shared"
-                class="btn-primary pb-done"
-                :disabled="mode(i) === 'fixed' && !hand(i).length"
-                @click="confirmSecondaries(i)"
-              >
-                {{ labels.lobbyDone }}
-              </button>
-              <button
-                v-else-if="!choosing(i) && canEdit(i)"
-                class="btn-ghost pb-change"
-                @click="reopen(i)"
-              >
-                {{ labels.pbChange }}
-              </button>
-            </div>
+            <span
+              class="pb-who"
+              :style="sideColor(i)"
+            >{{ name(i) }}</span>
             <template v-if="choosing(i)">
-              <div class="seg pb-seg">
+              <div class="pb-ctl">
+                <div class="seg pb-seg">
+                  <button
+                    :class="{ on: mode(i) === 'tactical' }"
+                    @click="setMode(i, 'tactical')"
+                  >
+                    {{ labels.pbTactical }}
+                  </button>
+                  <button
+                    :class="{ on: mode(i) === 'fixed' }"
+                    @click="setMode(i, 'fixed')"
+                  >
+                    {{ labels.pbFixed }}
+                  </button>
+                </div>
                 <button
-                  :class="{ on: mode(i) === 'tactical' }"
-                  @click="setMode(i, 'tactical')"
+                  v-if="shared"
+                  class="btn-primary pb-done"
+                  :disabled="mode(i) === 'fixed' && !hand(i).length"
+                  @click="confirmSecondaries(i)"
                 >
-                  {{ labels.trackerTactical }}
-                </button>
-                <button
-                  :class="{ on: mode(i) === 'fixed' }"
-                  @click="setMode(i, 'fixed')"
-                >
-                  {{ labels.trackerFixed }}
+                  {{ labels.lobbyDone }}
                 </button>
               </div>
               <ExpandTransition>
@@ -98,36 +94,50 @@
                 </button>
               </ExpandTransition>
             </template>
+            <div
+              v-else
+              class="pb-ctl"
+            >
+              <span class="pb-status">{{ status(i) }}</span>
+              <button
+                v-if="canEdit(i)"
+                class="btn-ghost pb-change"
+                @click="reopen(i)"
+              >
+                {{ labels.pbChange }}
+              </button>
+            </div>
           </div>
         </div>
       </li>
 
       <li class="pb-step">
-        <span class="pb-n">7</span>
-        <div class="pb-body">
-          <strong class="pb-name">{{ labels.pbStepFormations }}</strong>
-          <p class="pb-text">
-            {{ labels.pbFormations }}
-          </p>
-        </div>
+        <strong class="pb-name"><span class="pb-n">7</span>{{ labels.pbStepFormations }}</strong>
+        <p class="pb-text">
+          {{ labels.pbFormations }}
+        </p>
       </li>
       <li class="pb-step">
-        <span class="pb-n">8</span>
-        <div class="pb-body">
-          <strong class="pb-name">{{ labels.pbStepDeploy }}</strong>
-          <p class="pb-text">
-            {{ labels.pbDeploy.replace('{name}', roleName('defender')) }}
-          </p>
-        </div>
+        <strong class="pb-name"><span class="pb-n">8</span>{{ labels.pbStepDeploy }}</strong>
+        <p class="pb-text">
+          <span
+            v-for="(part, k) in withName(labels.pbDeploy, roleIdx('defender'))"
+            :key="k"
+            :class="{ 'pb-player': part.side != null }"
+            :style="part.side != null ? sideColor(part.side) : null"
+          >{{ part.text }}</span>
+        </p>
       </li>
       <li class="pb-step">
-        <span class="pb-n">9</span>
-        <div class="pb-body">
-          <strong class="pb-name">{{ labels.pbStepRedeploy }}</strong>
-          <p class="pb-text">
-            {{ labels.pbRedeploy.replace('{name}', roleName('attacker')) }}
-          </p>
-        </div>
+        <strong class="pb-name"><span class="pb-n">9</span>{{ labels.pbStepRedeploy }}</strong>
+        <p class="pb-text">
+          <span
+            v-for="(part, k) in withName(labels.pbRedeploy, roleIdx('attacker'))"
+            :key="k"
+            :class="{ 'pb-player': part.side != null }"
+            :style="part.side != null ? sideColor(part.side) : null"
+          >{{ part.text }}</span>
+        </p>
       </li>
 
       <!-- 10 · Who goes first, rolled for now and not at the setup. The host's to mark in a shared
@@ -136,39 +146,43 @@
         class="pb-step"
         data-tour="game-prebattle-first"
       >
-        <span class="pb-n">10</span>
-        <div class="pb-body">
-          <strong class="pb-name">{{ labels.pbStepFirst }}</strong>
-          <p class="pb-text">
-            {{ canRoll ? labels.pbFirstRoll : rolled ? labels.pbFirstIs.replace('{name}', name(0)) : labels.pbFirstHost }}
-          </p>
-          <div
-            v-if="canRoll"
-            class="seg pb-seg pb-roll"
-            role="radiogroup"
-            :aria-label="labels.pbStepFirst"
+        <strong class="pb-name"><span class="pb-n">10</span>{{ labels.pbStepFirst }}</strong>
+        <p class="pb-text">
+          <span
+            v-for="(part, k) in withName(canRoll ? labels.pbFirstRoll : rolled ? labels.pbFirstIs : labels.pbFirstHost, 0)"
+            :key="k"
+            :class="{ 'pb-player': part.side != null }"
+            :style="part.side != null ? sideColor(part.side) : null"
+          >{{ part.text }}</span>
+        </p>
+        <div
+          v-if="canRoll"
+          class="seg pb-seg pb-roll"
+          role="radiogroup"
+          :aria-label="labels.pbStepFirst"
+        >
+          <button
+            v-for="i in [0, 1]"
+            :key="i"
+            role="radio"
+            :aria-checked="rolled && i === 0"
+            :class="{ on: rolled && i === 0 }"
+            @click="roll(i)"
           >
-            <button
-              v-for="i in [0, 1]"
-              :key="i"
-              role="radio"
-              :aria-checked="rolled && i === 0"
-              :class="{ on: rolled && i === 0 }"
-              @click="roll(i)"
-            >
-              {{ name(i) }}
-            </button>
-          </div>
+            {{ name(i) }}
+          </button>
         </div>
       </li>
       <li class="pb-step">
-        <span class="pb-n">11</span>
-        <div class="pb-body">
-          <strong class="pb-name">{{ labels.pbStepPreBattle }}</strong>
-          <p class="pb-text">
-            {{ rolled ? labels.pbPreBattle.replace('{name}', name(0)) : labels.pbPreBattleFirst }}
-          </p>
-        </div>
+        <strong class="pb-name"><span class="pb-n">11</span>{{ labels.pbStepPreBattle }}</strong>
+        <p class="pb-text">
+          <span
+            v-for="(part, k) in withName(rolled ? labels.pbPreBattle : labels.pbPreBattleFirst, 0)"
+            :key="k"
+            :class="{ 'pb-player': part.side != null }"
+            :style="part.side != null ? sideColor(part.side) : null"
+          >{{ part.text }}</span>
+        </p>
       </li>
     </ol>
 
@@ -189,7 +203,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, sideName, battleOf, fixedPool, missionBySlug } from '../../composables/useTracker.js'
+import { useTracker, sideName, isYouSide, battleOf, fixedPool, missionBySlug } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
 
 // The Event Companion's Mission Sequence, which these steps are numbered by.
@@ -203,9 +217,19 @@ const { active: shared, isHost, canEdit, reseat } = useParty()
 const players = computed(() => current.value.players)
 const combatPatrol = computed(() => !!current.value.settings?.combatPatrol)
 const name = (i) => sideName(players.value[i], i, labels.value)
-const roleName = (role) => {
-  const i = players.value.findIndex((p) => p.role === role)
-  return i < 0 ? '' : name(i)
+const roleIdx = (role) => players.value.findIndex((p) => p.role === role)
+// A side's own colour (the game screen's --side-you / --side-opponent), for its name in a step.
+const sideColor = (i) => ({ color: isYouSide(players.value[i], i) ? 'var(--side-you)' : 'var(--side-opponent)' })
+// A step's sentence with the side's name in it as a part of its own, so it can wear the colour —
+// one element per part, built here: adjacent template fragments would join with stray spaces.
+function withName(label, i) {
+  const at = label.indexOf('{name}')
+  if (at < 0 || i < 0) return [{ text: label.replace('{name}', ''), side: null }]
+  return [
+    { text: label.slice(0, at), side: null },
+    { text: name(i), side: i },
+    { text: label.slice(at + '{name}'.length), side: null },
+  ].filter((part) => part.text)
 }
 
 // ── 6 · The secondaries ──
@@ -224,7 +248,7 @@ function fixedLine(i) {
 function status(i) {
   if (pending(i)) return labels.value.pbChoosing
   if (anyPending.value) return labels.value.pbChosenHidden
-  return mode(i) === 'fixed' ? `${labels.value.trackerFixed}: ${fixedLine(i)}` : labels.value.trackerTactical
+  return mode(i) === 'fixed' ? `${labels.value.pbFixed}: ${fixedLine(i)}` : labels.value.pbTactical
 }
 const pickerFor = ref(-1)
 const maxFixed = computed(() => battleOf(current.value.settings).secondaries)
@@ -286,24 +310,28 @@ function roll(i) {
 }
 .pb-link { font-size: 0.78rem; color: var(--text-dim); }
 @media (hover: hover) { .pb-link:hover { color: var(--accent-ink); } }
-.pb-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
-.pb-step { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); gap: 0 0.4rem; align-items: baseline; }
-.pb-n { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--accent-ink); text-align: right; }
-.pb-body { min-width: 0; }
+.pb-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.pb-step { min-width: 0; }
 .pb-name { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+.pb-n { margin-right: 0.4rem; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--accent-ink); }
 .pb-text { margin: 0.1rem 0 0; font-size: 0.84rem; line-height: 1.4; color: var(--text-muted); }
-/* A side's choice: its name and Done (or its state and Change) on one line, the switch and the
-   cards under it at the full width — beside the name the switch's two words were cut at 375px. */
-.pb-side { display: grid; gap: 0.35rem; margin-top: 0.5rem; }
-.pb-side-head { display: flex; align-items: center; gap: 0.6rem; min-height: 40px; }
-/* The name keeps its width (up to half the line) and the state beside it wraps — shrunk first, the
-   name was "М…" beside "has chosen — shown once you have" (2026-10-25). */
-.pb-who { flex: 0 0 auto; max-width: 50%; font-size: 0.86rem; font-weight: 600; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pb-seg { display: flex; }
-.pb-seg button { flex: 1 1 0; min-width: 0; }
-.pb-fixed { width: 100%; min-height: 40px; }
+.pb-player { font-weight: 600; }
+/* A side's choice on one line: the name, the switch beside it (and Done), the cards under them. One
+   grid for both sides (each side's box is `display: contents`): the names' column is as wide as the
+   longer name, up to 35% of the line, so the two switches start at one edge. */
+.pb-sides { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); align-items: center; gap: 0.4rem 0.6rem; margin-top: 0.4rem; }
+/* The second column: the switch (or the state) and, beside it, Done (or Change). */
+.pb-ctl { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.5rem; min-width: 0; }
+.pb-side { display: contents; }
+.pb-who { grid-column: 1; max-width: 35vw; font-size: 0.86rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pb-seg { flex: 1 1 12rem; display: flex; min-width: 0; }
+.pb-seg button { flex: 1 1 0; min-width: 0; min-height: 38px; padding: 0.25rem 0.5rem; font-size: 0.86rem; }
+/* 320px: "Фиксированные" must fit half of what the name leaves. */
+@media (max-width: 359px) { .pb-seg button { padding-inline: 0.25rem; font-size: 0.78rem; } }
+.pb-fixed { grid-column: 2; min-width: 0; min-height: 38px; }
 .pb-placeholder { color: var(--text-muted); font-weight: 500; }
-.pb-done, .pb-change { flex: 0 0 auto; margin-left: auto; min-height: 40px; padding: 0.3rem 0.8rem; font-size: 0.85rem; }
-.pb-status { flex: 1 1 0; min-width: 0; font-size: 0.84rem; line-height: 1.35; color: var(--text-muted); }
-.pb-roll { margin-top: 0.4rem; display: flex; }
+.pb-done, .pb-change { flex: 0 0 auto; margin-left: auto; min-height: 38px; padding: 0.25rem 0.75rem; font-size: 0.85rem; }
+.pb-status { flex: 1 1 auto; min-width: 0; font-size: 0.84rem; line-height: 1.35; color: var(--text-muted); }
+.pb-roll { display: inline-flex; margin-top: 0.35rem; }
+.pb-roll button { flex: 0 1 auto; padding-inline: 0.9rem; }
 </style>
