@@ -175,7 +175,9 @@
           :undo-title="undoTitle"
           :end-title="endTitle"
           :locked-text="battleWait ? labels[BATTLE_WAIT[battleWait]] : (begun ? labels.trackerTurnOf : labels.trackerStartsOf).replace('{name}', playerName(turnIndex))"
+          :start-go="!!waitStep"
           @start="beginGame()"
+          @go="goToWaitStep"
           @reserves="openReserves"
           @invite="partyOpen = true"
           @undo="undoConfirm = true"
@@ -243,6 +245,19 @@
          browser is idle right after, so a switch only shows what is already there — nothing is
          built in the frame the panel slides in (owner, 2026-09-30). The CP panel first came up
          empty for a frame while its decks loaded and the page jumped (2026-09-29). -->
+    <!-- Before the battle: the Mission Sequence's steps from the secondaries to the pre-battle rules
+         (PreBattle.vue), a tab of its own in front of the missions while the battle has not begun
+         (owner, 2026-10-25: inside the Missions tab it pushed the missions a screen down). It is about
+         both sides, so it wears no side's frame, as the Log does. -->
+    <section
+      v-if="!begun"
+      v-show="tab === 'prebattle'"
+      class="panel"
+      role="tabpanel"
+    >
+      <PreBattle />
+    </section>
+
     <section
       v-show="tab === 'missions'"
       class="panel panel-framed"
@@ -285,10 +300,6 @@
         class="mside side-frame"
         :class="{ opp: !isYouSide(current.players[missionSide], missionSide) }"
       >
-        <!-- Before the battle: the Mission Sequence's steps from the secondaries to the pre-battle
-             rules, over the missions they lead to (PreBattle.vue). Inside the frame, so the panel
-             still hangs from the tab strip. -->
-        <PreBattle v-if="!begun" />
         <!-- In a shared game a side another phone plays is shown as it is, greyed, with the
              reason under its title — never hidden: what the opponent has scored is exactly what a
              player wants to see. The lock is on what SCORES — the primary's stepper, the deck's
@@ -622,6 +633,7 @@ import { provideModalScope } from '../../composables/modalScope.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
 import { hold, settle } from '../../composables/settleScroll.js'
 import { motionMs } from '../../composables/motionToken.js'
+import { instantly } from '../../composables/useRefNavigation.js'
 import { useTracker, gameBegun, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks, cardBlocks } from '../../composables/useTracker.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
@@ -635,6 +647,33 @@ const begun = computed(() => gameBegun(current.value))
 // What the battle still waits for before it may begin (PreBattle's two choices), said on Start.
 const BATTLE_WAIT = { fixed: 'pbWaitFixed', secondaries: 'pbWaitSecondaries', firstTurn: 'pbWaitFirstTurn' }
 const battleWait = computed(() => (begun.value ? null : battleWaitsFor()))
+// …and the step THIS phone can answer it at, where Start then takes (TurnBar `startGo`): the roll is
+// the host's to mark in a shared game, the secondaries each side's own. Waiting on another phone
+// leaves Start greyed with the reason, as before.
+const waitStep = computed(() => {
+  const w = battleWait.value
+  const pls = current.value?.players || []
+  if (w === 'firstTurn') return !partyActive.value || isHost.value ? 10 : null
+  if (w === 'fixed') return pls.some((pl, i) => pl.secondaryMode === 'fixed' && !pl.secondary?.hand?.length && canEdit(i)) ? 6 : null
+  if (w === 'secondaries') return pls.some((pl, i) => pl.secondaryPending && canEdit(i)) ? 6 : null
+  return null
+})
+async function goToWaitStep() {
+  const n = waitStep.value
+  if (!n) return
+  built.value.add('prebattle')
+  const switching = tab.value !== 'prebattle'
+  tab.value = 'prebattle'
+  await nextTick()
+  // A tab switch brings the strip back under the header as its panel comes in (bringTabsIntoView):
+  // scrolled before that, the step was scrolled away again.
+  if (switching) await new Promise((r) => setTimeout(r, motionMs('--motion-tab') + 50))
+  const el = document.getElementById(`pb-step-${n}`)
+  if (!el) return
+  instantly(() => el.scrollIntoView({ block: 'center' }))
+  // A pulse on the step, so the eye lands where the finger has to go next.
+  el.animate?.([{ backgroundColor: 'color-mix(in srgb, var(--accent) 22%, transparent)' }, { backgroundColor: 'transparent' }], { duration: motionMs('--motion-flash') * 3, easing: 'ease-out' })
+}
 const secretOf = (pi) => !begun.value && !canEdit(pi) && current.value.players.some((p) => p.secondaryPending)
 // Every tab carries its word on a wide screen (see .game-tabs in the styles).
 const wideTabs = useMediaQuery('(min-width: 901px)')
@@ -654,7 +693,8 @@ provideModalScope(computed(() => ({
 
 // The working area's tabs (see the template). CP is offered only to a game that tracks it; a
 // game that stops tracking it mid-way falls back to the missions rather than to an empty panel.
-const tab = ref('missions')
+// A game not yet begun opens on its steps before the battle.
+const tab = ref(gameBegun(current.value) ? 'missions' : 'prebattle')
 // The tour (useTour.js): its chapter the first time this screen comes up, and a step that is
 // about a tab opens it.
 const { maybeStart: maybeStartTour, start: startTour } = useTour()
@@ -694,6 +734,7 @@ const logOn = computed(() => tracks(current.value.settings, 'showLog'))
 const statsOn = computed(() => tracks(current.value.settings, 'showStats'))
 const { sides: phaseSides } = usePhaseRules()
 const tabs = computed(() => [
+  ...(begun.value ? [] : [{ id: 'prebattle', label: labels.value.trackerTabPreBattle, icon: 'wi wi-signpost' }]),
   { id: 'missions', label: labels.value.trackerTabMissions, icon: 'wi wi-missions' },
   // The phase right after the missions (owner, 2026-09-30): what speaks now is read during the turn.
   ...(phaseTabOn.value ? [{ id: 'phase', label: phasesOn.value ? labels.value.trackerTabPhase : labels.value.trackerTabTurn, icon: 'wi wi-phase', count: sideRuleCount.value }] : []),

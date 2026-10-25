@@ -45,8 +45,8 @@
       data-press
       data-tour="game-start"
       :class="{ opp, says: endLocked && lockedText }"
-      :disabled="endLocked"
-      @click="$emit('start')"
+      :disabled="endLocked && !startGo"
+      @click="endLocked ? $emit('go') : $emit('start')"
     >
       <span class="tr-label">{{ endLocked && lockedText ? lockedText : labels.trackerStart }}</span>
     </button>
@@ -160,6 +160,10 @@ import { useLocale } from '../../composables/useLocale.js'
 import { phaseLabel } from '../../composables/stratagemPhases.js'
 
 defineProps({
+  // Start waits for a choice THIS phone makes before the battle (the first turn's roll, its own
+  // secondaries): the button then takes there instead of sitting greyed (owner, 2026-10-25: «I press
+  // it and nothing happens»). It says what it waits for; a tap emits 'go'.
+  startGo: { type: Boolean, default: false },
   mode: { type: String, default: 'plain' },     // 'begin' | 'phased' | 'plain'
   who: { type: String, default: '' },           // whose turn, over the phase
   phase: { type: String, default: 'command' },
@@ -177,7 +181,7 @@ defineProps({
   // grey "Start game" read as broken to a guest (2026-10-17) — "Alice starts", "Alice's turn".
   lockedText: { type: String, default: '' },
 })
-defineEmits(['start', 'reserves', 'invite', 'undo', 'step', 'pick-phase', 'end'])
+defineEmits(['start', 'go', 'reserves', 'invite', 'undo', 'step', 'pick-phase', 'end'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 </script>

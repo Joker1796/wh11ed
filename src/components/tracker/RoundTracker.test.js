@@ -273,8 +273,13 @@ describe('RoundTracker — before the battle', () => {
     const w = mountTracker()
     expect(w.find('.pb').exists()).toBe(true)
     const start = w.find('.tr-end')
-    expect(start.text()).toBe('Roll for the first turn')
-    expect(start.attributes('disabled')).toBeDefined()
+    // Start asks what it waits for, and a tap takes to that step instead of doing nothing (owner,
+    // 2026-10-25: «I press it and nothing happens»).
+    expect(start.text()).toBe('Who goes first?')
+    expect(start.attributes('disabled')).toBeUndefined()
+    await start.trigger('click')
+    expect(tracker.current.value.begun).toBe(false)
+    expect(w.find('.gt-tab.on').text()).toBe('Before the battle')
     tracker.rollFirstTurn(0)
     await w.vm.$nextTick()
     expect(w.find('.tr-end').attributes('disabled')).toBeUndefined()
@@ -660,5 +665,29 @@ describe('the reserves button', () => {
   it('is not there when the game does not keep it', async () => {
     const w = setUp(false); await flushPromises()
     expect(w.find('.tr-reserves').exists()).toBe(false)
+  })
+})
+
+// Before the battle the Mission Sequence's steps are a tab of their own, first and open (owner,
+// 2026-10-25: inside the Missions tab they pushed the missions a screen down); the battle begun,
+// the tab goes and the screen is on the missions.
+describe('RoundTracker — the tab before the battle', () => {
+  it('leads the tabs and opens first, then leaves when the battle begins', async () => {
+    tracker.newGame({
+      settings: { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', scoreMode: 'vp', twist: null, twistMission: null },
+      players: [
+        player({ name: 'Me', disposition: DISPOSITIONS[0].id, role: 'attacker' }),
+        player({ name: 'Opp', disposition: DISPOSITIONS[1].id, role: 'defender' }),
+      ],
+    })
+    const w = mountTracker()
+    await flushPromises()
+    expect(tabLabels(w)[0]).toBe('Before the battle')
+    expect(w.find('.gt-tab.on').text()).toBe('Before the battle')
+    expect(w.find('.pb').exists()).toBe(true)
+    tracker.beginGame()
+    await flushPromises()
+    expect(tabLabels(w)).not.toContain('Before the battle')
+    expect(w.find('.gt-tab.on').text()).toBe('Missions')
   })
 })

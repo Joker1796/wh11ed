@@ -244,7 +244,7 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'game-prebattle',
-        show: { side: null },
+        show: { side: null, tab: 'prebattle' },
         when: (ctx) => !ctx.begun,
         ru: { title: 'Перед битвой', text: 'Пройдите шаги по порядку, как в последовательности миссии. Шаг 6 — выберите вторичные миссии, шаг 10 — отметьте, кто выиграл кубовку на первый ход. Без этих двух бой не начнётся.' },
         en: { title: 'Before the battle', text: 'Go through the steps in order, as in the mission sequence. At step 6 choose your secondary missions, at step 10 mark who won the roll for the first turn. The battle does not start without these two.' },
