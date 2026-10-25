@@ -200,6 +200,24 @@ describe('useRosterUnitCard — a condition the list answers', () => {
     const wulfen = await cardOf('space-wolves', 'Saga of the Beastslayer', 'wulfen', led)
     await vi.waitFor(() => expect(wulfen.statMods.value.sheet.profiles[0].m).toBe('11"'), { timeout: 15000 })
   }, 30000)
+  // The card's own gate once ruled "the bearer only" out after the shield's row was split off
+  // (a player's report, 2026-10-24): the row said Storm Shield, the W stayed 3.
+  it('Storm Shield: W 4 on the Deathwatch Terminator who took it, W 3 on the rest', async () => {
+    const fac = await loadRosterFaction('deathwatch')
+    const def = fac.units.find((u) => u.id === 'deathwatch-terminator-squad')
+    const shield = (o) => JSON.stringify(o).match(/\d+/g).some((id) => rosterItems.items[id] === 'Storm Shield')
+    // The Terminators' own group, not the Sergeant's
+    const gi = def.gear.findIndex((g) => g.m === 1 && g.o.some(shield))
+    const oi = def.gear[gi].o.findIndex(shield)
+    const entry = { uid: 't', id: def.id, size: 0, wg: [[gi, oi, 1]] }
+    const card = cardFor({ unitId: def.id, factionSlug: 'deathwatch', ctx: { def, items: rosterItems.items, detachments: fac.detachments.slice(0, 1), entry, units: [entry] } })
+    await vi.waitFor(() => expect(card.loaded.value && card.rulesFaction.value && card.modifiersSettled.value).toBeTruthy(), { timeout: 15000 })
+    expect(card.statMods.value.sheet.profiles.map((p) => [p.name, p.w])).toEqual([
+      ['Deathwatch Terminator Sergeant', '3'],
+      ['Deathwatch Terminator', '3'],
+      ['Deathwatch Terminator · Storm Shield', '4'],
+    ])
+  }, 30000)
   it('Strategic Savant: +1 OC on the Aspect Warriors the Autarch leads, not on Guardians', async () => {
     const aspect = [{ uid: 'a', id: 'autarch', size: 0, enh: 'Strategic Savant', leaderOf: 'b' }, { uid: 'b', id: 'dire-avengers', size: 0 }]
     const card = await cardOf('aeldari', 'Aspect Host', 'dire-avengers', aspect)

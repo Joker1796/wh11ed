@@ -1,6 +1,9 @@
 // "The bearer only" wargear, end to end on the shipped data: the card's own pipeline (trim the
-// weapons to the loadout, pick the records the entry carries, place them, apply) for the units the
-// placement was written for, and for the one it must leave alone.
+// weapons to the loadout, pick the records the entry carries, gate them, place them, apply) for the
+// units the placement was written for, and for the one it must leave alone. The gate is in the
+// pipeline because it once sat between the two without these tests seeing it: from 2026-10-18 it
+// read "the bearer only" as a roster condition the list had answered no, and every Storm Shield's
+// +1 W was dropped after its row had been split off (a player's report, 2026-10-24).
 import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -10,7 +13,7 @@ import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
 import { loadRosterModifiersFor } from '../data/rosterModifiers/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
 import { overlaySheet, loadoutItemNames, itemKey } from './rosterModifiers.js'
-import { applyStatMods, datasheetEntriesFor, splitBearers, resolveModifierEntries } from './rosterStatMods.js'
+import { applyStatMods, datasheetEntriesFor, gateStratagems, splitBearers, resolveModifierEntries } from './rosterStatMods.js'
 import { loadFactionWithCodex } from './rosterFactionRules.js'
 
 const items = rosterItems.items
@@ -34,9 +37,9 @@ async function card(slug, unitId, size, picks) {
   const records = (await loadRosterModifiersFor(slug)).entries.filter((e) => e.reviewed && e.effects?.length)
   const entry = { uid: 'u', id: unitId, size, wg: picks.map(([item, n, m]) => [...pick(def, item, m), n]) }
   const sheet = overlaySheet(printed, { def, entry, items }).sheet
-  const entries = datasheetEntriesFor(records, { unitId, itemNames: loadoutItemNames(def, entry, items) })
-  const placed = splitBearers(sheet, entries, def, entry, items)
   const kws = [...printed.keywords, ...printed.factionKeywords]
+  const entries = gateStratagems(datasheetEntriesFor(records, { unitId, itemNames: loadoutItemNames(def, entry, items) }), kws, [], new Set())
+  const placed = splitBearers(sheet, entries, def, entry, items)
   return applyStatMods(placed.sheet, placed.entries, kws, [], new Set(), new Set())
 }
 
@@ -176,9 +179,9 @@ describe('splitBearers — copies from a unit-wide group', () => {
             for (let n = 1; n <= Math.min(cap?.limit ?? models, models * 2); n++) {
               const entry = { uid: 'u', id: def.id, size, count: models, wg: [[gi, oi, n]] }
               const sheet = overlaySheet(printed, { def, entry, items }).sheet
-              const entries = datasheetEntriesFor([rec], { unitId: def.id, itemNames: loadoutItemNames(def, entry, items) })
+              const entries = gateStratagems(datasheetEntriesFor([rec], { unitId: def.id, itemNames: loadoutItemNames(def, entry, items) }), [], [], new Set())
               const placed = splitBearers(sheet, entries, def, entry, items)
-              if (!placed.entries.some((e) => e.effects.some((x) => x.rows))) lost.push(`${slug} ${def.id} ${rec.ref.item} ×${n} in ${models}`)
+              if (!placed.entries.some((e) => e.effects.some((x) => x.rows && !x.ruledOut))) lost.push(`${slug} ${def.id} ${rec.ref.item} ×${n} in ${models}`)
             }
           }
         }

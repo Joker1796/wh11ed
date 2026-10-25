@@ -685,8 +685,9 @@ export function gateStratagems(entries, keywords, factionKeywordSets, active = n
   // against ("…and −1 AP while a NECRONS CHARACTER is leading the unit" on a unit nobody leads —
   // Protocol of the Hungry Void) is not a possibility the game can still bring about, so it is not
   // offered as one. Only conditions of `scope: 'roster'`; anything the game answers stays a note.
+  // Not a `placed` one: "the bearer only" is answered after this, by splitBearers, not by `active`.
   /** @param {ModEntry} e @param {ModifierEffect} eff */
-  const decidedAgainst = (e, eff) => (eff.cond || []).some((id) => conditions[id]?.scope === 'roster' && !proven(id, active, e))
+  const decidedAgainst = (e, eff) => (eff.cond || []).some((id) => conditions[id]?.scope === 'roster' && !conditions[id].placed && !proven(id, active, e))
   return kept.map((e) => {
     const effects = e.effects || []
     if (!effects.some((eff) => decidedAgainst(e, eff))) return e

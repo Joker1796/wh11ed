@@ -3240,6 +3240,10 @@ profile no mini names, a second item on models already given one — stays a not
 The card, the print card and the tracker's list plates all place the same way. Before this, 24
 such effects were `blocked-subset` notes, and the Mortifiers' Anchorite Sarcophagus carried no
 condition at all — one of two Mortifiers taking it printed M 7" and Sv 3+ for both.
+`wargear-bearer` is the one roster condition answered by placing, never by the active set
+(`placed: true` in conditions.js), so a gate that rules out what the list answered no must skip it:
+from 2026-10-18 to 2.10.5 `gateStratagems` read it as decided against, and every Storm Shield got its row
+with W unchanged (a player's report). `splitBearers.test.js` runs the gate in its pipeline since.
 
 **An enhancement is one model's too** (2026-10-20, a player's report). A dozen Characters are units
 of several models — Company Heroes, the Command Squads, a Dark Apostle with his Disciples, a

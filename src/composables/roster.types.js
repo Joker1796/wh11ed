@@ -507,6 +507,7 @@
  * @property {string} [bodyguardCore]  in an attached unit whose Bodyguard prints this core ability
  * @property {boolean} [attachedCharacter]  in an attached unit that holds another CHARACTER
  * @property {string[]} [warlord]  the army's Warlord carries all of these keywords
+ * @property {boolean} [placed]  answered by placing the effect on the models that carry the item (splitBearers), never by the active set
  * @property {boolean} [onUse]  a spent rule's own option: offered only while a stratagem or once-per-battle use naming it is in force on the unit
  */
 

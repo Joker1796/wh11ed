@@ -422,7 +422,10 @@ export const conditions = {
   // in the active set: it is answered by PLACING the effect — rosterStatMods' splitBearers gives the
   // models that carry the item a row of their own and applies the effect to that row alone. Until
   // it is `blocked-subset`'s note, and where the list cannot say who carries what it stays one.
-  'wargear-bearer': { scope: 'roster', duration: 'battle', label: { en: 'The bearer only', ru: 'Только носитель' } },
+  // `placed` says so to the gate that rules out what the list answered no (gateStratagems): with
+  // nothing in the active set to prove it, every Storm Shield's +1 W read as decided against and
+  // was dropped after the shield's row was split off (a player's report, 2026-10-24).
+  'wargear-bearer': { scope: 'roster', duration: 'battle', placed: true, label: { en: 'The bearer only', ru: 'Только носитель' } },
 
   // ── A rule's own choices (2026-10-15) ───────────────────────────────────────────────────
   // Options a detachment rule offers and the player picks — a Vow, a Hyper-adaptation, a Contract.
