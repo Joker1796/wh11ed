@@ -4,7 +4,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, leadTypeFor, armySidsOf, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, wargearPoolOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
+import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, joinLedBy, joinsClash, leadTypeFor, armySidsOf, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, wargearPoolOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
 
 /** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
@@ -472,8 +472,14 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     // leadTypeFor, not def.leads: an enhancement can grant an attach the datasheet doesn't list,
     // and a datasheet can name its targets by KEYWORD rather than by name — which is the only way
     // an allied leader can join anything in the army it was lent to.
-    if (!target || !leadTypeFor(def, u, defOf(target.id), detachments, armySids)) {
+    const type = target ? leadTypeFor(def, u, defOf(target.id), detachments, armySids) : null
+    if (!type) {
       add('leaderTargetInvalid', 'warn', { uid: u.uid, params: { target: (target && nameOf(target.uid)) || '—' } })
+    } else if (type === 'join' && !joinLedBy(def, target, units, defOf, u.uid)) {
+      // Joined to a unit its character has since left: the rule allows the join only while a
+      // character it names leads that unit ("…one other unit … that is being led by a Cryptek").
+      const by = [...new Set((def?.joins?.by || []).map((id) => defOf(id)?.name || id))]
+      add('joinNotLed', 'warn', { uid: u.uid, params: { target: nameOf(target.uid) || '—', names: by.join(', ') } })
     }
   }
 
@@ -511,8 +517,12 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
       // Carnivores take two once twenty strong (`hosts`, see hostLimitsFor).
       const lim = hostLimitsFor(hostDef, host)
       const slots = new Map()
+      // Joining units hold no Leader or Support slot; one of each excluding set (`joins.one`).
+      const joined = list.filter((u) => defOf(u.id)?.joins)
+      joined.forEach((u, k) => { if (joined.slice(0, k).some((o) => joinsClash(defOf(u.id), defOf(o.id)))) tooMany(u, uid) })
       for (const u of list) {
         const own = defOf(u.id)
+        if (own?.joins) continue
         const type = leadTypeFor(own, u, hostDef, detachments, armySids) || ''
         // …and a leader that takes no slot at all (`flags.alongside`, see leaderOccupies): the
         // Death Guard characters join a Plague Marines unit that already has a Leader, and only a

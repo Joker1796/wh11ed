@@ -814,7 +814,7 @@ export function attachedEnhKeys(entry, units, enhOf) {
  * @param {{ unitId?: string, leaderUnitIds?: string[], ledUnitId?: string | null, coLeaderUnitIds?: string[], itemNames?: Set<string> | null, leaderItemNames?: Map<string, Set<string>> | null, leaderEnhNames?: Set<string> | null, attachedEnhKeys?: Set<string> | null, auraOn?: Set<string> | null, detIds?: Set<string> | null }} [opts]
  * @returns {ModEntry[]}
  */
-export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], itemNames = null, leaderItemNames = null, leaderEnhNames = null, attachedEnhKeys = null, auraOn = null, detIds = null } = {}) {
+export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], joinedUnitIds = [], itemNames = null, leaderItemNames = null, leaderEnhNames = null, attachedEnhKeys = null, auraOn = null, detIds = null } = {}) {
   const out = []
   for (const rec of records || []) {
     // A DETACHMENT RULE's aura radiates from a keyword, not from an entry ("friendly IMPERIAL
@@ -939,6 +939,9 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       if (of('self').length) push(of('led'), 'co')
       pushAura('co')
     }
+    // A unit that joined the unit this Character leads (Cryptothralls, Servitors): its rule for "that
+    // CRYPTEK model" (Bound Creation) is about the Character, as a Bodyguard's would be.
+    if (joinedUnitIds.includes(ref.unit)) push(of('leader'), 'joined')
     if (ledUnitId && ref.unit === ledUnitId) {
       push(of('leader'), 'leader')
       pushAura('leader')   // …and the Character standing in that unit is inside its aura too
@@ -1507,4 +1510,30 @@ function enhBearer(body, minis, def, perMini) {
   const hit = minis.find((m) => named.some((p) => words(def?.minis?.[m]?.n).includes(p)))
   if (hit != null) return hit
   return minis.find((m) => perMini.get(m) === 1) ?? minis[0]
+}
+
+// Who stands with whom in an Attached unit, for datasheetEntriesFor() — one reading for the unit
+// card and the roster screen, which each wrote it out. A unit that JOINED a led unit (`joins`:
+// Cryptothralls, Servitors, Court of the Archon) leads nobody: the Characters leading that unit
+// lead it too (its models count as part of the Bodyguard unit), and a Character standing there
+// takes its rules for "that CRYPTEK model" (`joinedUnitIds`). `isJoiner` is the caller's (it holds
+// the roster's definitions).
+/**
+ * @param {{ uid?: string, leaderOf?: string | null }} entry
+ * @param {Array<{ uid?: string, id?: string, leaderOf?: string | null }>} units
+ * @param {(u: { id?: string }) => boolean} isJoiner
+ */
+export function attachmentOf(entry, units, isJoiner) {
+  const list = units || []
+  if (entry.leaderOf && isJoiner(entry)) {
+    const leaders = list.filter((u) => u.leaderOf === entry.leaderOf && u.uid !== entry.uid && !isJoiner(u))
+    return { leaders, ledUnitId: null, coLeaderUnitIds: [], joinedUnitIds: [] }
+  }
+  const mates = entry.leaderOf ? list.filter((u) => u.leaderOf === entry.leaderOf && u.uid !== entry.uid) : []
+  return {
+    leaders: list.filter((u) => u.leaderOf === entry.uid),
+    ledUnitId: entry.leaderOf ? list.find((u) => u.uid === entry.leaderOf)?.id || null : null,
+    coLeaderUnitIds: mates.filter((u) => !isJoiner(u)).map((u) => u.id),
+    joinedUnitIds: mates.filter(isJoiner).map((u) => u.id),
+  }
 }

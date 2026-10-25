@@ -1442,6 +1442,7 @@ export function hostLimitsFor(def, entry) {
 export function hostSlotTaken(def, entry, host, hostDef, attached, detachments = [], armySids = null) {
   const lim = hostLimitsFor(hostDef, host)
   const type = leadTypeFor(def, entry, hostDef, detachments, armySids)
+  if (type === 'join') return attached.some((o) => joinsClash(def, o.def))
   const same = attached.filter((o) => leadTypeFor(o.def, o.entry, hostDef, detachments, armySids) === type && occupies(def, o.def))
   if (same.length >= (type === 'leader' ? lim.leader : lim.support)) return true
   const { oneKw } = lim
@@ -1511,10 +1512,16 @@ export function isSupportUnit(def) {
  * @param {RosterUnit | null | undefined} targetDef
  * @param {Detachment[] | null | undefined} [detachments]
  * @param {Set<string> | null} [armySids] see gatedLeads
- * @returns {'leader' | 'support' | null}
+ * @returns {'leader' | 'support' | 'join' | null}
  */
 export function leadTypeFor(def, entry, targetDef, detachments = [], armySids = null) {
   if (!def || !targetDef) return null
+  // A unit that JOINS a unit already led (`joins`): of the units its rule names, or any — never
+  // another such unit. Whether the target is led by the right character is joinLedBy's question.
+  if (def.joins) {
+    if (targetDef.joins) return null
+    return !def.joins.to || def.joins.to.includes(bareUnitId(targetDef.id)) ? 'join' : null
+  }
   const direct = leadTo(leadsFor(def, entry, detachments, armySids), targetDef.id)
   if (direct) return direct.type
   const kwGroups = gatedLeads((def.leadKw || []).map((g) => ({ ...g, to: (g.kw || []).join('+') })), detachments)
@@ -1542,6 +1549,35 @@ const occupies = (def, other) => (joinsAlongside(def, other) || joinsAlongside(o
   ? def?.id != null && def.id === other?.id
   : true)
 
+// A unit that joins a unit already led — Cryptothralls, Servitors, Court of the Archon, the Aeldari
+// support weapons (`joins`, read by gen-roster-data's readJoins; owner, 2026-10-25). Stored in
+// `leaderOf` like any attachment, so the attached block, the card and the tracker take it as part
+// of that unit, which is what its rule says ("every model in this unit counts as being part of that
+// Bodyguard unit"). Two questions only it asks: is the unit it joins led by a character its rule
+// names (`joins.by`), and is another of the units it excludes (`joins.one`) already joined there.
+/**
+ * Whether `host` is led by a character `def`'s rule names — always, for a rule that names none.
+ * @param {RosterUnit | null | undefined} def
+ * @param {EntryLike | null | undefined} host
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {DefOf} defOf
+ * @param {string | null} [selfUid]
+ */
+export function joinLedBy(def, host, units, defOf, selfUid = null) {
+  const by = def?.joins?.by
+  if (!by?.length) return true
+  return (units || []).some((o) => o.uid !== selfUid && o.leaderOf === host?.uid && !defOf?.(o.id)?.joins && by.includes(bareUnitId(o.id)))
+}
+/**
+ * Whether two joining units may not stand in one unit together.
+ * @param {RosterUnit | null | undefined} a
+ * @param {RosterUnit | null | undefined} b
+ */
+export function joinsClash(a, b) {
+  if (!a?.joins || !b?.joins) return false
+  return a.joins.one.includes(bareUnitId(b.id)) || b.joins.one.includes(bareUnitId(a.id))
+}
+
 // `items` is optional and only feeds the disambiguating facts below: the wargear a target's own
 // player CHOSE, which is often the only thing separating two squads of one datasheet. A caller
 // that has no item dictionary to hand (the print sheet, the read-only view) simply gets none.
@@ -1557,7 +1593,7 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
   const entry = (units || []).find((u) => u.uid === excludeUid)
   const army = defOf ? armySidsOf(units, defOf) : null
   const leads = leadsFor(def, entry, detachments, army)
-  if (!leads.length && !def?.leadKw?.length) return []
+  if (!leads.length && !def?.leadKw?.length && !def?.joins) return []
   /** @param {string} id */
   const typeOf = (id) => leadTypeFor(def, entry, defOf ? defOf(id) : null, detachments, army)
   // Pactbound Zealots: only a unit sharing one of the keywords the attachment requires
@@ -1565,6 +1601,8 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
   // unit, in any order.
   return (units || [])
     .filter((u) => u.uid !== excludeUid && typeOf(u.id))
+    // A joining unit joins a unit, not a character, and only one its rule's character leads.
+    .filter((u) => !def?.joins || (!u.leaderOf && joinLedBy(def, u, units, defOf, excludeUid)))
     .filter((u) => !defOf || !sharedKeywordClash(def, entry, defOf(u.id), u, detachments, army))
     .map((u) => {
       const type = typeOf(u.id)

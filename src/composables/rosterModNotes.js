@@ -17,6 +17,7 @@ export function modSourceLabel(n, l) {
     // `co` is a second Character attached to the same unit — named the same way as one leading it.
     if (n.from === 'led' || n.from === 'co') return `${l.rosterLeaderTag} · ${n.owner}`
     if (n.from === 'leader') return `${l.srcLedUnit} · ${n.owner}`
+    if (n.from === 'joined') return `${l.rosterJoinTag} · ${n.owner}`
     // An aura reached this card from another model on the table, so the owner is the whole answer
     // to "why is this number different" — without it the reader has no idea which chip to untick.
     if (n.from === 'aura') return n.owner ? `${l.srcAura} · ${n.owner}` : l.srcAura

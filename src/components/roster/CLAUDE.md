@@ -443,6 +443,43 @@ nobody — invisible while appdata's own tables carried the links, fatal for the
 Legends were never mirrored at all (`mirrorPackLeads`). 12 links added, Nemesis Claw and Red
 Corsairs Raiders' Legends leaders among them.
 
+### A unit that joins a unit already led — `joins` (added 2026-10-25)
+
+"At the start of the Declare Battle Formations step, this unit can join one other unit from your
+army that is being led by a Cryptek model (a unit cannot have more than one CRYPTOTHRALLS unit
+joined to it). If it does, … every model in this unit counts as being part of that Bodyguard
+unit." Not a Leader and not a Support: the unit joins a unit that is ALREADY led. Ten datasheets
+say it — Cryptothralls and Canoptek Tomb Crawlers (Cryptek), Court of the Archon (Kabalite Warriors
+or Hand of the Archon led by an Archon), X-101 (a Tech-Priest Infantry model), Servitors (a
+Brotherhood Techmarine), Munitorum Servitors (a Tech-Priest Enginseer), Daemonhost (Inquisitorial
+Agents led by an Inquisitor) and the three Aeldari support weapons (one Guardian Defenders unit, no
+leader asked). Until then the builder had no way to put them anywhere, and their "while a … is
+leading this unit" rules never applied (found by the 2.10.5 card sweep).
+
+- **The data** is `joins: { by?, to?, one }`, read from the sheet's own text by
+  `gen-roster-data.mjs`'s `readJoins` (abilities, special abilities, rules): `by` the characters
+  that must lead the unit joined (their ids, matched by keyword — "TECH-PRIEST INFANTRY" is two),
+  `to` the units it may join where the sentence names them, `one` the units of which only one may
+  be joined to one unit (itself; "…more than one Support Weapon model…" names the three platforms;
+  "…cannot have both a TOMB CRAWLERS and a Cryptothralls unit…"). A "can join one" sentence the
+  reader does not understand fails the run. "This unit can be led by an ARCHON" (Court of the
+  Archon) is an ordinary lead the Archons gain.
+- **The list stores it in `leaderOf`**, like any attachment: the attached block, its header and
+  total, removal, the card's "attached unit" keywords and the tracker all take the unit as part of
+  that Bodyguard unit, which is what its rule says. `leadTypeFor` answers `'join'`.
+- **What only it asks** (rosterEngine): `joinLedBy` — is the host led by a character `by` names
+  (the picker offers only such hosts; `validateRoster` warns `joinNotLed` when the character has
+  left), and `joinsClash` — a second unit of `one` on the same host (`hostSlotTaken` greys it,
+  `manyLeaders` reports it). A joined unit takes no Leader or Support slot.
+- **On screen**: the editor's section reads "Join a unit", and with no such host in the list says
+  who must lead it first; the row's tag is "Joined"; the GW export prints "Attached as: Retinue"
+  (our word — the app's is not known) and the importer reads it back.
+- **On the card**: `attachmentOf` (rosterStatMods) is the one reading of who stands with whom, for
+  the card and the roster screen. A joined unit leads nobody; the Characters leading its unit lead
+  it (their "models in that unit" reach it), and its rules for "that CRYPTEK model" (Bound
+  Creation, `target: 'leader'`) reach those Characters (`joinedUnitIds`, from `'joined'`).
+- Gate: `src/composables/rosterJoin.test.js`.
+
 ### Who can lead this unit — the builder's four views
 
 An attachment is read from four ends; the first two ask `leadTypeFor`, so they cannot disagree:

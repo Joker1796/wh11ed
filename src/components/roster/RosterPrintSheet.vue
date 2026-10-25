@@ -225,6 +225,7 @@ const cardEntries = computed(() => groups.value.flatMap((g) => g.entries.map((en
       detachments: dataDetachments.value,
       leaderTargets: leaderTargetsFor(defOf(entry.id), props.roster?.units, entry.uid, defOf, dataDetachments.value),
       units: props.roster?.units || [],
+      defOf,
     },
   }
 })))

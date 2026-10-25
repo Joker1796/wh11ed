@@ -387,7 +387,9 @@ function gwText(m, version) {
       // misstates what it is and loses which of the host's two slots it fills.
       for (const l of g.leaders) {
         const type = leadTypeFor(l.def, l.entry, g.body.def, m.detachments)
-        lines.push('', ...gwUnit(l, type === 'support' ? 'Support' : 'Leader (Character)'))
+        // A unit that joins a led unit (Cryptothralls, Servitors) is neither: the app's word for
+        // it is not known to us, so ours — and the importer reads it back.
+        lines.push('', ...gwUnit(l, type === 'support' ? 'Support' : type === 'join' ? 'Retinue' : 'Leader (Character)'))
       }
       const role = g.body.bucket === 'battleline' ? 'Bodyguard (Battleline)' : 'Bodyguard'
       lines.push('', ...gwUnit(g.body, role), '')

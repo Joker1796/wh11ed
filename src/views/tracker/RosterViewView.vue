@@ -656,7 +656,7 @@ import RosterStatPlates from '../../components/roster/RosterStatPlates.vue'
 import { loadKeywordVocabulary, unitKeywordsOf } from '../../composables/ruleTargets.js'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../composables/rosterEngine.js'
-import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from '../../composables/rosterStatMods.js'
+import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys, attachmentOf } from '../../composables/rosterStatMods.js'
 import { itemKey, loadoutItemNames, findEnhancementProse, detKey, wargearConditions } from '../../composables/rosterModifiers.js'
 import { unitDoctrines } from '../../composables/doctrineRules.js'
 import { foldName } from '../../utils/foldName.js'
@@ -1078,6 +1078,7 @@ const viewingCard = computed(() => (viewingCrew.value
         leaderTargets: viewingLeaderTargets.value,
         // What reaches this unit from the rest of its Attached unit — the parts still standing.
         units: sourceUnits.value,
+        defOf,
       },
       gameCtx: viewingGameCtx.value,
     }
@@ -1185,11 +1186,13 @@ const sourceUnits = computed(() => {
 // so these uids are the ones the entries themselves hold.
 function attachmentCtxOf(entry) {
   const units = sourceUnits.value
+  const at = attachmentOf(entry, units, (u) => !!defOf(u.id)?.joins)
   return {
     unitId: entry.id,
-    leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
-    ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
-    coLeaderUnitIds: entry.leaderOf ? units.filter((u) => u.leaderOf === entry.leaderOf && u.uid !== entry.uid).map((u) => u.id) : [],
+    leaderUnitIds: at.leaders.map((u) => u.id),
+    ledUnitId: at.ledUnitId,
+    coLeaderUnitIds: at.coLeaderUnitIds,
+    joinedUnitIds: at.joinedUnitIds,
     itemNames: loadoutItemNames(defOf(entry.id), entry, rosterItems.items),
     // The auras the player has marked as reaching this unit. The bearer's own unit and the unit it
     // is attached to are not in here — 22.01 answers those from the list itself.
@@ -1199,13 +1202,13 @@ function attachmentCtxOf(entry) {
     detIds: fieldedDetIds.value,
     // What the attached Leaders are carrying — a Kustom Force Field covers the unit its Big Mek
     // joined, not the Big Mek.
-    leaderItemNames: units.filter((u) => u.leaderOf === entry.uid).reduce((set, u) => {
+    leaderItemNames: at.leaders.reduce((set, u) => {
       for (const n of loadoutItemNames(defOf(u.id), u, rosterItems.items) || []) set.add(n)
       return set
     }, new Set()),
     // …and which ENHANCEMENTS they wear, for the same reason: an enhancement aura radiates from the
     // model, and the unit that model joined is inside it by 22.01 — no distance to judge, no chip.
-    leaderEnhNames: units.filter((u) => u.leaderOf === entry.uid).reduce((set, u) => {
+    leaderEnhNames: at.leaders.reduce((set, u) => {
       const n = u.enh || mandatoryEnhancementFor(defOf(u.id), curDetachments.value)?.name || null
       if (n) set.add(n)
       return set

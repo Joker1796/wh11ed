@@ -3849,6 +3849,68 @@ async function mirrorPackBodyguards() {
   }
 }
 
+// "At the start of the Declare Battle Formations step, this unit can join one other unit from your
+// army that is being led by a Cryptek model (a unit cannot have more than one CRYPTOTHRALLS unit
+// joined to it). If it does, … every model in this unit counts as being part of that Bodyguard
+// unit" — Cryptothralls, Canoptek Tomb Crawlers, Court of the Archon, X-101 and two Servitors
+// (owner, 2026-10-25). Not a Leader or a Support: the unit joins a unit that is ALREADY led, by a
+// character the sentence names. `joins: { by: [unit ids the leader must be], to?: [unit ids it may
+// join] }`; the runtime stores the join in `leaderOf` like any attachment, so the attached block,
+// the card and the tracker read it as one unit (rosterEngine's 'join' type). "This unit can be led
+// by an ARCHON" (Court of the Archon) is an ordinary lead the Archons gain. A sentence of this kind
+// we cannot read fails the run.
+const JOIN_RE = /this (?:unit|model) can join one (other unit|(.+?) unit) from your army(?: that is being led by an? ([^(.]+?)(?: models?)?)?\s*(?:\(|\.)/i
+const LED_BY_RE = /^This unit can be led by an? ([A-Z][A-Z' -]+)\./
+async function readJoins() {
+  report.joins = { read: [], unread: [], ledBy: [] }
+  for (const { slug, data } of built) {
+    const own = (await loadModule(path.join(ROOT, 'src/data/datasheets', `${slug}.js`)))?.default || []
+    const sheetOf = new Map(own.map((d) => [d.id, d]))
+    const kwsOf = (u) => (sheetOf.get(u.id) ? unitKeywordsOf(sheetOf.get(u.id)) : [...(u.kws || []), u.name]).map(norm)
+    // "TECH-PRIEST INFANTRY": one or more keywords in a row, each of which the unit must have.
+    const fits = (kws, phrase) => {
+      const words = norm(phrase).split(' ')
+      const seg = (i) => i === words.length || words.slice(i).some((_, k) => kws.includes(words.slice(i, i + k + 1).join(' ')) && seg(i + k + 1))
+      return seg(0)
+    }
+    for (const u of data.units) {
+      const d = sheetOf.get(u.id)
+      if (!d) continue
+      const texts = [...(d.abilities || []), ...(d.specialAbilities || []), ...(d.rules || [])].map((a) => a.text || '')
+      for (const t of texts) {
+        const led = t.match(LED_BY_RE)
+        if (led) {
+          const by = data.units.filter((x) => x.id !== u.id && fits(kwsOf(x), led[1]))
+          for (const x of by) if (!(x.leads || []).some((l) => l.to === u.id)) (x.leads = x.leads || []).push({ to: u.id, type: 'leader' })
+          report.joins.ledBy.push(`${d.name} ← ${by.map((x) => x.name).join(', ') || '!! nobody'}`)
+        }
+        if (!/can join one/i.test(t)) continue
+        const m = t.match(JOIN_RE)
+        /** @param {string} n */
+        const named = (n) => data.units.filter((x) => norm(x.name) === norm(n) || norm(x.name) === norm(n).replace(/s$/, '') || fits(kwsOf(x), n)).map((x) => x.id)
+        const by = m?.[3] ? data.units.filter((x) => x.id !== u.id && (x.leads?.length || x.leadKw?.length) && fits(kwsOf(x), m[3])) : []
+        const to = m?.[2] ? m[2].split(/ or /i).flatMap(named) : null
+        // At most one of these joined to one unit: "(a unit cannot have more than one CRYPTOTHRALLS
+        // unit joined to it", "…one Support Weapon model…", "…cannot have both a TOMB CRAWLERS and a
+        // Cryptothralls unit…". No clause: one of itself.
+        const capM = t.match(/cannot have more than one (.+?) (?:units?|models?) joined/i)
+        const both = t.match(/cannot have both an? (.+?) and an? (.+?) unit joined/i)
+        const one = [u.id, ...(capM ? named(capM[1]) : []), ...(both ? [...named(both[1]), ...named(both[2])] : [])]
+        if (!m || (m[3] && !by.length) || (to && !to.length) || (!m[3] && !to) || (capM && !named(capM[1]).length) || (both && (!named(both[1]).length || !named(both[2]).length))) {
+          report.joins.unread.push(`${d.name}: ${t.slice(0, 120)}`)
+          continue
+        }
+        u.joins = {
+          ...(by.length ? { by: by.map((x) => x.id).sort() } : {}),
+          ...(to ? { to: [...new Set(to)].sort() } : {}),
+          one: [...new Set(one)].sort(),
+        }
+        report.joins.read.push(`${d.name} joins ${to ? to.join(' / ') : 'a unit'}${by.length ? ` led by ${by.map((x) => x.name).join(', ')}` : ''}; one of ${u.joins.one.join(', ')} a unit`)
+      }
+    }
+  }
+}
+
 // "Led by" / "Supported by" for a BODYGUARD unit's datasheet page (owner, 2026-10-07): the reverse
 // of every leader's `leads`, per faction, so the datasheet shows who may join the unit the way a
 // leader's shows whom it may join. Read from the roster layer rather than from the printed "can be
@@ -4067,6 +4129,7 @@ for (const { slug, data } of built) {
 // After every faction is built: a Chapter's Legends bodyguard borrows leaders from the Space Marines
 // file, which is built before it.
 await mirrorPackBodyguards()
+await readJoins()
 for (const { slug, data } of built) writeOut(`${slug}.js`, `${HEAD}export default ${stableJson(data)}\n`)
 await genCombatPatrol()
 genItems() // after all factions — the intern dicts are complete
@@ -4129,6 +4192,12 @@ if (report.hosts.unread.length) console.log(`    !! ${report.hosts.unread.length
   console.log(`  ${report.mirror.rules} "attached to this unit instead" rules read; ${seen.length} link${seen.length === 1 ? '' : 's'} appdata's own tables did not carry:`)
   for (const l of seen) console.log(`      - ${l}`)
   if (report.mirror.unread.length) console.log(`    !! ${report.mirror.unread.length} could not be read: ${report.mirror.unread.join(', ')}`)
+  if (report.joins) {
+    console.log(`  units that join a unit already led (${report.joins.read.length}):`)
+    for (const r of report.joins.read) console.log(`    ${r}`)
+    for (const r of report.joins.ledBy) console.log(`    led by: ${r}`)
+    if (report.joins.unread.length) { console.log(`    !! ${report.joins.unread.length} "can join one" sentence(s) not read: ${report.joins.unread.join('; ')}`); process.exitCode = 1 }
+  }
   if (report.packMirror) {
     const added = [...new Set(report.packMirror.added)]
     console.log(`  Faction Pack Legends that take whoever leads another unit: ${added.length} link${added.length === 1 ? '' : 's'} added`)

@@ -691,7 +691,21 @@ export default {
             1840
           ]
         }
-      ]
+      ],
+      "joins": {
+        "by": [
+          "chronomancer",
+          "geomancer",
+          "orikan-the-diviner",
+          "plasmancer",
+          "psychomancer",
+          "technomancer"
+        ],
+        "one": [
+          "canoptek-tomb-crawlers",
+          "cryptothralls"
+        ]
+      }
     },
     {
       "id": "canoptek-tomb-sentinel",
@@ -1083,7 +1097,20 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "joins": {
+        "by": [
+          "chronomancer",
+          "geomancer",
+          "orikan-the-diviner",
+          "plasmancer",
+          "psychomancer",
+          "technomancer"
+        ],
+        "one": [
+          "cryptothralls"
+        ]
+      }
     },
     {
       "id": "deathmarks",

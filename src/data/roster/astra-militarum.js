@@ -9825,7 +9825,15 @@ export default {
             3281
           ]
         }
-      ]
+      ],
+      "joins": {
+        "by": [
+          "tech-priest-enginseer"
+        ],
+        "one": [
+          "munitorum-servitors"
+        ]
+      }
     },
     {
       "id": "nork-deddog",

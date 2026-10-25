@@ -3451,7 +3451,18 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "joins": {
+        "by": [
+          "tech-priest-dominus",
+          "tech-priest-enginseer",
+          "tech-priest-manipulus",
+          "technoarcheologist"
+        ],
+        "one": [
+          "x-101"
+        ]
+      }
     }
   ],
   "detachments": [
