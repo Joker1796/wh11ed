@@ -171,8 +171,8 @@
           :aria-label="labels.pbStepFirst"
         >
           <button
-            v-for="i in [0, 1]"
-            :key="i"
+            v-for="(i, k) in rollOrder"
+            :key="k"
             role="radio"
             :aria-checked="rolled && i === 0"
             :class="{ on: rolled && i === 0 }"
@@ -287,6 +287,10 @@ function reopen(i) {
 
 // ── 10 · The first turn ──
 const rolled = computed(() => !current.value.firstTurnPending)
+// The two names stand still, "you" first: marking the winner moves them to the front of the game
+// (players[0] goes first), and buttons in that order swapped places under the finger with the light
+// staying on the left one — the roll looked like it did nothing (owner, 2026-10-25).
+const rollOrder = computed(() => (isYouSide(players.value[1], 1) && !isYouSide(players.value[0], 0) ? [1, 0] : [0, 1]))
 const canRoll = computed(() => !shared.value || isHost.value)
 function roll(i) {
   if (rolled.value && i === 0) return

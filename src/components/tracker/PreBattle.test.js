@@ -66,6 +66,13 @@ describe('PreBattle — one phone', () => {
     expect(tracker.battleWaitsFor()).toBeNull()
     expect(step(w, 10).find('.pb-roll button.on').text()).toBe('Opp')
     expect(step(w, 11).text()).toContain('Opp first')
+    // The names stand still under the finger, and the light moves to the one tapped: in the game's
+    // order they swapped places with the light left on the left one (owner, 2026-10-25).
+    const names = () => step(w, 10).findAll('.pb-roll button').map((b) => [b.text(), b.classes('on')])
+    expect(names()).toEqual([['Me', false], ['Opp', true]])
+    await step(w, 10).findAll('.pb-roll button')[0].trigger('click')
+    expect(tracker.current.value.players.map((p) => p.name)).toEqual(['Me', 'Opp'])
+    expect(names()).toEqual([['Me', true], ['Opp', false]])
   })
 })
 
