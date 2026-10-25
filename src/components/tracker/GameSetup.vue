@@ -315,6 +315,7 @@
                 <input
                   v-model="p.teamName"
                   type="text"
+                  :maxlength="PLAYER_NAME_MAX"
                   :placeholder="labels.trackerTeamName"
                 >
               </label>
@@ -342,6 +343,7 @@
                 <input
                   v-model="m.name"
                   type="text"
+                  :maxlength="PLAYER_NAME_MAX"
                   :placeholder="isDoubles ? labels.trackerMemberName : namePlaceholder(i)"
                 >
               </label>
@@ -1411,7 +1413,7 @@ import { useLobby } from '../../composables/useLobby.js'
 import { useParty } from '../../composables/useParty.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useAccountActions } from '../../composables/useAccountActions.js'
-import { useTracker, DISPOSITIONS, BATTLE_SIZES, CUSTOM_BATTLE, CUSTOM_RANGES, battleOf, battleName, MIRROR_MISSIONS, primaryOf, deriveForceType, missionBySlug, dispositionName } from '../../composables/useTracker.js'
+import { useTracker, DISPOSITIONS, BATTLE_SIZES, CUSTOM_BATTLE, CUSTOM_RANGES, battleOf, battleName, MIRROR_MISSIONS, primaryOf, deriveForceType, missionBySlug, dispositionName, PLAYER_NAME_MAX } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo, mfmDetachmentNames } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import { combatPatrolRoster, defaultCombatPatrolEnhancement } from '../../composables/combatPatrolRoster.js'

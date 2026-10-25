@@ -58,6 +58,7 @@
             <input
               v-model="players[i].teamName"
               type="text"
+              :maxlength="PLAYER_NAME_MAX"
               :placeholder="labels.trackerTeamName"
             >
           </label>
@@ -82,6 +83,7 @@
               <input
                 v-model="m.name"
                 type="text"
+                :maxlength="PLAYER_NAME_MAX"
                 :placeholder="isDoubles ? labels.trackerMemberName : namePlaceholder(i)"
               >
             </label>
@@ -340,7 +342,7 @@ import { trackSettingsOf, normalizeTrackSettings, LOCAL_TRACK_SETTINGS } from '.
 import { detKey } from '../../data/slugify.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, membersOf, isYouSide, sideLabel, gameBegun, battleOf } from '../../composables/useTracker.js'
+import { useTracker, membersOf, isYouSide, sideLabel, gameBegun, battleOf, PLAYER_NAME_MAX } from '../../composables/useTracker.js'
 import { useParty } from '../../composables/useParty.js'
 import { useSetupLayout } from '../../composables/trackerLayout.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'

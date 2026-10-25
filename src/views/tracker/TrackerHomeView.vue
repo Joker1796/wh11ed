@@ -786,6 +786,12 @@ function footLine(g) {
   font-size: 1.02rem;
   line-height: 1.15;
   overflow-wrap: anywhere;
+  /* Two lines at most: a long name broke into four in a third of a phone (2026-10-25). */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
 }
 .gc-faction { font-size: 0.8rem; color: var(--text-muted); line-height: 1.25; overflow-wrap: anywhere; }
 /* The same label as on the game's board (ScoreBoard's .you-tag), in the text's own colour here. */

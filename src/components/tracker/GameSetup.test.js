@@ -448,3 +448,19 @@ describe('GameSetup — the steps the setup no longer asks', () => {
     expect(w.vm.$.setupState.settings.firstTurn).toBeNull()
   })
 })
+
+// A name is the players' own text, drawn on every screen of the game: no field takes one longer
+// than PLAYER_NAME_MAX (owner, 2026-10-25 — unbounded, one long word pushed screens sideways, and
+// the API refuses a game whose name passes 120, so its cloud backup failed).
+describe('GameSetup — the length of a name', () => {
+  it('caps every name and team-name field, singles and doubles', async () => {
+    const { PLAYER_NAME_MAX } = await import('../../composables/useTracker.js')
+    const w = mount(GameSetup)
+    const nameFields = () => w.findAll('.step-panel')[0].findAll('.player-card input[type="text"]')
+    expect(nameFields().length).toBe(2)
+    for (const f of nameFields()) expect(f.attributes('maxlength')).toBe(String(PLAYER_NAME_MAX))
+    await w.findAll('.game-type .seg button')[1].trigger('click') // doubles
+    expect(nameFields().length).toBe(6) // two team names, four members
+    for (const f of nameFields()) expect(f.attributes('maxlength')).toBe(String(PLAYER_NAME_MAX))
+  })
+})

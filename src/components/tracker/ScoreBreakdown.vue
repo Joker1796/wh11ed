@@ -302,7 +302,7 @@ function secondaries(pi) {
 .bd-player {
   background: var(--bg-card); border: 1px solid var(--border); padding: 0.8rem;
 }
-.bd-name { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.6rem; }
+.bd-name { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.6rem; overflow-wrap: anywhere; }
 .bd-player { --side: var(--side-you); }
 .bd-player.opp { --side: var(--side-opponent); }
 /* The side's own colour, as on its score card — the accent red read as a third side. */

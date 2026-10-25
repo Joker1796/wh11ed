@@ -341,13 +341,13 @@ onUnmounted(() => clearInterval(timer))
 .pt-list { list-style: none; margin: 0; padding: 0; }
 .pt-member {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.15rem 0.6rem;
   padding: 0.4rem 0;
   border-bottom: 1px solid var(--border);
   font-size: 0.82rem;
 }
-.pt-mname { color: var(--text-primary); }
+.pt-mname { color: var(--text-primary); overflow-wrap: anywhere; }
 .pt-badge {
   margin-left: 0.3rem;
   padding: 0 0.3rem;

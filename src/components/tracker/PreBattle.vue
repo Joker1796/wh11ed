@@ -60,6 +60,7 @@
             <span
               class="pb-who"
               :style="sideColor(i)"
+              :title="name(i)"
             >{{ name(i) }}</span>
             <template v-if="choosing(i)">
               <div class="pb-ctl">
@@ -175,9 +176,10 @@
             role="radio"
             :aria-checked="rolled && i === 0"
             :class="{ on: rolled && i === 0 }"
+            :title="name(i)"
             @click="roll(i)"
           >
-            {{ name(i) }}
+            <span class="pb-roll-name">{{ name(i) }}</span>
           </button>
         </div>
       </li>
@@ -331,7 +333,8 @@ function roll(i) {
    colour (owner, 2026-10-25). Over 18px, so weight 500 is allowed (npm run a11y's face check). */
 .pb-n { margin-right: 0.45rem; font-family: var(--font-display); font-size: 1.4rem; font-weight: 500; line-height: 1; vertical-align: -0.08em; }
 .pb-text { margin: 0.1rem 0 0; font-size: 0.84rem; line-height: 1.4; color: var(--text-muted); }
-.pb-player { font-weight: 600; }
+/* A name is the players' own text: one long word must break rather than push the page sideways. */
+.pb-player { font-weight: 600; overflow-wrap: anywhere; }
 .pb-done-steps { grid-column: 1 / -1; font-size: 0.84rem; color: var(--text-muted); }
 .pb-tick { margin-left: 0.35rem; font-size: 0.8rem; }
 /* A side's choice on one line: the name, the switch beside it (and Done), the cards under them. One
@@ -341,15 +344,25 @@ function roll(i) {
 /* The second column: the switch (or the state) and, beside it, Done (or Change). */
 .pb-ctl { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.5rem; min-width: 0; }
 .pb-side { display: contents; }
-.pb-who { grid-column: 1; max-width: 35vw; font-size: 0.86rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pb-who { grid-column: 1; max-width: 6rem; font-size: 0.86rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pb-seg { flex: 1 1 12rem; display: flex; min-width: 0; }
 .pb-seg button { flex: 1 1 0; min-width: 0; min-height: 38px; padding: 0.25rem 0.5rem; font-size: 0.86rem; }
 /* 320px: "Фиксированные" must fit half of what the name leaves. */
-@media (max-width: 359px) { .pb-seg button { padding-inline: 0.25rem; font-size: 0.78rem; } }
+/* Narrow: the switch's two words a size down; narrower still, the name goes above its switch rather
+   than squeeze it — the thresholds are the block's own width (container), measured with the longest
+   name the field takes (2026-10-25). */
+@container (max-width: 359px) { .pb-seg button { padding-inline: 0.25rem; font-size: 0.8rem; } }
+@container (max-width: 299px) {
+  .pb-sides { grid-template-columns: minmax(0, 1fr); row-gap: 0.25rem; }
+  .pb-who { max-width: none; }
+  .pb-ctl, .pb-fixed { grid-column: 1; }
+  .pb-ctl { margin-bottom: 0.25rem; }
+}
 .pb-fixed { grid-column: 2; min-width: 0; min-height: 38px; }
 .pb-placeholder { color: var(--text-muted); font-weight: 500; }
 .pb-done, .pb-change { flex: 0 0 auto; margin-left: auto; min-height: 38px; padding: 0.25rem 0.75rem; font-size: 0.85rem; }
 .pb-status { flex: 1 1 auto; min-width: 0; font-size: 0.84rem; line-height: 1.35; color: var(--text-muted); }
-.pb-roll { display: inline-flex; margin-top: 0.35rem; }
-.pb-roll button { flex: 0 1 auto; padding-inline: 0.9rem; }
+.pb-roll { display: flex; max-width: 100%; margin-top: 0.35rem; }
+.pb-roll button { flex: 0 1 auto; min-width: 0; max-width: 50%; padding-inline: 0.9rem; }
+.pb-roll-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>

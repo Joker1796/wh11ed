@@ -276,6 +276,7 @@ onMounted(() => maybeStartTour('lobby-wait', { get doubles() { return !!doubles.
   color: var(--text-muted);
 }
 .lw-summary {
+  overflow-wrap: anywhere;
   list-style: none;
   margin: 1rem 0 0;
   padding: 0.75rem 0 0;

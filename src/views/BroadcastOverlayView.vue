@@ -481,7 +481,7 @@ html:has(.bo-root) .app-layout {
   font-size: 0.92rem;
   min-width: 0;
 }
-.bo-pname { font-weight: 600; white-space: nowrap; }
+.bo-pname { min-width: 0; overflow: hidden; text-overflow: ellipsis; font-weight: 600; white-space: nowrap; }
 .bo-pfac {
   color: var(--bo-dim);
   font-size: 0.82rem;

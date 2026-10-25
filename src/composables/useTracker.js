@@ -127,6 +127,12 @@ export { membersOf, memberAt }
 // Which side is this device's owner. `isYou` is absent on games saved before it existed, and the
 // first player was always the owner then — which is why every read goes through here (the
 // history's roster links once read the flag bare and called an old game's owner "Opponent").
+// The longest name a player or a team may be given (owner, 2026-10-25). A name is the players' own
+// text, drawn on a phone's score cards, in the steps' sentences, on the history and over a broadcast;
+// unbounded, one long word pushed screens sideways, and the API refuses a game whose name passes 120
+// (wh11ed-api domain/game.ts), so its cloud backup failed. Every place that draws one still copes
+// with it whole: a game saved before the limit keeps its name.
+export const PLAYER_NAME_MAX = 30
 export function isYouSide(pl, i) { return pl?.isYou ?? i === 0 }
 // "You" / "Opponent", and a side's name falling back to it — nine screens spelled these out.
 export function sideLabel(pl, i, labels) { return isYouSide(pl, i) ? labels.trackerYou : labels.trackerOpponent }

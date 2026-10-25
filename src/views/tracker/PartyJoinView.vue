@@ -366,7 +366,7 @@ onMounted(() => {
 .pj-seat:disabled { cursor: default; opacity: 0.6; }
 /* A seat nobody holds yet is an open slot, drawn as one: dashed until someone sits there. */
 .pj-seat.free { border-style: dashed; border-color: var(--text-muted); }
-.pj-seat-name { font-size: 1.05rem; font-weight: 600; }
+.pj-seat-name { max-width: 100%; font-size: 1.05rem; font-weight: 600; overflow-wrap: anywhere; }
 .pj-seat-faction { font-size: 0.85rem; color: var(--text-muted); }
 .pj-seat-taken { font-size: 0.78rem; color: var(--accent-ink); }
 .pj-err {

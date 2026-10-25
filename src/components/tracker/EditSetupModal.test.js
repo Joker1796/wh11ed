@@ -230,3 +230,16 @@ describe('EditSetupModal — a guest in a shared game', () => {
     expect(block.find('[role="tab"], .layout-tabs').exists()).toBe(false)
   })
 })
+
+// The game's setup dialog takes names under the same cap as the wizard (GameSetup.test.js).
+describe('EditSetupModal — the length of a name', () => {
+  it('caps the name fields', async () => {
+    const { PLAYER_NAME_MAX } = await import('../../composables/useTracker.js')
+    startGame()
+    mount(EditSetupModal)
+    await flushPromises()
+    const fields = body().findAll('.player-card input[type="text"]')
+    expect(fields.length).toBeGreaterThan(0)
+    for (const f of fields) expect(f.attributes('maxlength')).toBe(String(PLAYER_NAME_MAX))
+  })
+})
