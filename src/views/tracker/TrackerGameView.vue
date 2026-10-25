@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFileFinishedGameOnLeave } from '../../composables/fileFinishedGame.js'
 import SetupLoading from '../../components/tracker/SetupLoading.vue'
@@ -102,6 +102,7 @@ import { endReasonFor, leader as leaderOf } from '../../composables/gameScoring.
 import { gameSideColorStyle } from '../../composables/sideColors.js'
 import { useParty } from '../../composables/useParty.js'
 import { useLobby } from '../../composables/useLobby.js'
+import { instantly } from '../../composables/useRefNavigation.js'
 
 const router = useRouter()
 const { locale } = useLocale()
@@ -113,6 +114,13 @@ const { current, newGame, resumeGame, archiveGame, closeLobby, discardGame } = u
 const { active: partyActive, isHost, canResume, attach, detach, leave, end, reseat } = useParty()
 onMounted(attach)
 onUnmounted(detach)
+
+// The setup, the game and its result are one address, so a change of screen is no navigation and the
+// scroll stayed where the wizard's Start was — the game opened with its tabs under the header and
+// the score above the fold (owner, 2026-10-25). A new screen of the game starts at its top.
+watch(() => current.value?.phase, (now, before) => {
+  if (before && now && now !== before) instantly(() => window.scrollTo(0, 0))
+}, { flush: 'post' })
 
 // Which of the three setup screens this phone is on. `editing` is the one piece of screen state
 // the lobby needs: a guest that asked to change its side (and was allowed) is back in the form

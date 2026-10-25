@@ -31,7 +31,7 @@
         <span
           v-if="active === t.id || wide"
           class="gt-word"
-        >{{ t.label }}</span>
+        >{{ wide ? t.label : t.short || t.label }}</span>
       </Transition>
       <span
         v-if="t.count"
@@ -50,7 +50,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
 defineProps({
-  tabs: { type: Array, required: true },       // [{ id, label, icon, count? }]
+  tabs: { type: Array, required: true },       // [{ id, label, short?, icon, count? }] — `short` on a phone
   active: { type: String, default: '' },
   wide: { type: Boolean, default: false },     // every tab says its word (a wide screen)
   pinned: { type: Boolean, default: true },

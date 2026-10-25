@@ -74,8 +74,22 @@ function wire(router) {
   if (!router || wiredRouters.has(router)) return
   wiredRouters.add(router)
   router.beforeEach(() => { navigating = true })
-  router.afterEach(() => { navigating = false })
+  router.afterEach(() => { navigating = false; forgetReplacedCopy() })
   router.onError(() => { navigating = false })
+}
+
+// A dialog's copy that a navigation REPLACED is the new page now, not a copy: router.replace keeps
+// history.state's extra keys, so the dialog's token rode onto it. Left there, the next dialog's Back
+// landed on it, read a token nobody holds as a dead copy and stepped on over it — out of the game
+// onto the join page (owner, 2026-10-25: a guest declining the tutorial after "save and join").
+// The token comes off the entry the moment no open dialog holds it.
+function forgetReplacedCopy() {
+  const st = history.state
+  const t = st?.[KEY]
+  if (!t || open.has(t)) return
+  const rest = { ...st }
+  delete rest[KEY]
+  history.replaceState(rest, '', location.href)
 }
 
 // Push the copy for an overlay that just opened; returns the function to call when it closes by
@@ -96,7 +110,10 @@ function attach(onClose, router) {
       // The URL is checked too: router.replace keeps history.state's extra keys, so a dialog that
       // navigated with replace while open left its token on the NEW entry, and the Back below undid
       // the navigation ("save and join" bounced back to the seat list, acceptance 2026-10-18).
-      if (navigating || history.state?.[KEY] !== token || location.href !== href) return
+      if (navigating || history.state?.[KEY] !== token) return
+      // Replaced by a navigation while open: the entry is the new page — take the token off, do
+      // not go Back (which would undo the navigation).
+      if (location.href !== href) { forgetReplacedCopy(); return }
       history.back()
     }, 0)
   }
