@@ -65,7 +65,8 @@ const tabs = computed(() => {
     ...(on('trackPhaseRules') ? [{ id: 'phase', label: on('trackPhases') ? l.trackerTabPhase : l.trackerTabTurn, icon: 'wi wi-phase' }] : []),
     ...(on('trackCP') ? [{ id: 'cp', label: l.trackerCp, icon: 'wi wi-cp' }] : []),
     { id: 'armies', label: l.trackerTabArmies, icon: 'wi wi-army' },
-    ...(on('showLogStats') ? [{ id: 'log', label: l.trackerTabLog, icon: 'wi wi-log' }, { id: 'stats', label: l.trackerTabStats, icon: 'wi wi-stats' }] : []),
+    ...(on('showLog') ? [{ id: 'log', label: l.trackerTabLog, icon: 'wi wi-log' }] : []),
+    ...(on('showStats') ? [{ id: 'stats', label: l.trackerTabStats, icon: 'wi wi-stats' }] : []),
   ]
 })
 </script>

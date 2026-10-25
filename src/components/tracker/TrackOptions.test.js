@@ -101,7 +101,8 @@ describe('TrackOptions', () => {
     })
     const row = (t) => look.findAll('.opt-row').find((r) => r.text().includes(t))
     expect(row('Customise colours').find('input').element.disabled).toBe(false)
-    expect(row('Log and Stats tabs').find('input').element.disabled).toBe(false)
+    expect(row('Log tab').find('input').element.disabled).toBe(false)
+    expect(row('Stats tab').find('input').element.disabled).toBe(false)
     // The broadcast button is the host's: it streams the game, not this phone's view of it.
     expect(row('Broadcast (OBS)').find('input').element.disabled).toBe(true)
   })

@@ -54,13 +54,14 @@ unit is" being the same thing, owner 2026-10-17 — `trackBattleShock`, `trackAr
 "Details" fold beneath the master, counting how many are on). `trackStratagems` requires the master
 AND `trackStratPlay`: without stratagems played there is nothing spent to change a card. `requires`
 takes a list for that; a row is drawn one step in per parent in its own group (`depthOf`). `look` —
-the broadcast button, `showLogStats` (the Log and Stats tabs) and the side colours. In a shared
+the broadcast button, `showLog` and `showStats` (the Log and the Stats tab, one row `showLogStats`
+until 2026-10-25, still read as their legacy) and the side colours. In a shared
 game the host's CP and clock rows say "for every phone in the game" (`everyPhone`); see the shared
 game below for which rows are a phone's own. What each family governs on the roster screen is
 in `src/components/roster/CLAUDE.md`.
 
 `TRACK_PRESETS` — Minimal (nothing), Base (CP without stratagems, the mission help, both army-rule
-counters, the modifiers without a family, the Log and Stats tabs — since 2026-10-25) and Maximal (everything) — are starting points over the
+counters, the modifiers without a family, the Log tab — since 2026-10-25) and Maximal (everything) — are starting points over the
 rows. `TrackPresets.vue` is a "Preset" button with the preset in force named beside it (or "Your
 own"); the button opens a dialog showing the game screen with each — three columns on a wide screen,
 one under a three-way switch on a phone — drawn live by `help/PresetDemo.vue`: the score board,

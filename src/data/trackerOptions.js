@@ -191,16 +191,30 @@ export const TRACK_OPTIONS = [
     remember: true,
   },
   {
-    // The Log and Stats tabs (owner, 2026-10-14): two of the seven icons on a phone's tab strip,
-    // read after a turn rather than during one. This phone's own choice, like the colours.
-    id: 'log-stats',
-    setting: 'showLogStats',
+    // The Log and the Stats tabs (owner, 2026-10-14): two of the seven icons on a phone's tab strip,
+    // read after a turn rather than during one. This phone's own choice, like the colours. One row
+    // until 2026-10-25 (`showLogStats`, still read for older games): the owner wanted the log in the
+    // Base preset and the stats only in Maximal.
+    id: 'log',
+    setting: 'showLog',
     group: 'look',
-    label: 'trackerShowLogStats',
-    help: 'trackerHelpLogStats',
+    label: 'trackerShowLog',
+    help: 'trackerHelpLog',
     default: true,
     remember: true,
     local: true,
+    legacy: 'showLogStats',
+  },
+  {
+    id: 'stats',
+    setting: 'showStats',
+    group: 'look',
+    label: 'trackerShowStats',
+    help: 'trackerHelpStats',
+    default: true,
+    remember: true,
+    local: true,
+    legacy: 'showLogStats',
   },
   {
     // The sides' colours on the game screen: each side's faction accent by default; on, this
@@ -449,10 +463,10 @@ export function optionsIn(group) {
 // button — how the screen looks, not how much the tracker does.
 //   minimal  nothing: the score and the missions, which are the game
 //   base     the default: CP without stratagems, the mission help, the army-rule counters, the
-//            modifiers without a single family under them, and the Log and Stats tabs (owner,
-//            2026-10-25: the log is how a game is put right afterwards)
+//            modifiers without a single family under them, and the Log tab (owner, 2026-10-25:
+//            the log is how a game is put right afterwards; the Stats tab is Maximal's)
 //   maximal  everything
-const PRESET_ROWS = TRACK_OPTIONS.filter((o) => o.group !== 'look' || o.id === 'log-stats').map((o) => o.setting)
+const PRESET_ROWS = TRACK_OPTIONS.filter((o) => o.group !== 'look' || o.id === 'log' || o.id === 'stats').map((o) => o.setting)
 const every = (on) => Object.fromEntries(PRESET_ROWS.map((k) => [k, on]))
 export const TRACK_PRESETS = [
   {
@@ -465,7 +479,7 @@ export const TRACK_PRESETS = [
     id: 'base',
     label: 'trackerPresetBase',
     blurb: 'trackerPresetBaseBlurb',
-    values: { ...every(false), trackCP: true, trackMissionAids: true, trackArmyYou: true, trackArmyOpp: true, trackModifiers: true, showLogStats: true },
+    values: { ...every(false), trackCP: true, trackMissionAids: true, trackArmyYou: true, trackArmyOpp: true, trackModifiers: true, showLog: true },
   },
   {
     id: 'maximal',

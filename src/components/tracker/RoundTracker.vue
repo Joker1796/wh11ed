@@ -686,7 +686,8 @@ const built = ref(new Set([tab.value]))
 // readable without opening it. Without the clock it is the Turn tab: the same list for each phase
 // of the turn (owner, 2026-10-08).
 const phaseTabOn = computed(() => tracks(current.value.settings, 'trackPhaseRules'))
-const logStatsOn = computed(() => tracks(current.value.settings, 'showLogStats'))
+const logOn = computed(() => tracks(current.value.settings, 'showLog'))
+const statsOn = computed(() => tracks(current.value.settings, 'showStats'))
 const { sides: phaseSides } = usePhaseRules()
 const tabs = computed(() => [
   { id: 'missions', label: labels.value.trackerTabMissions, icon: 'wi wi-missions' },
@@ -696,13 +697,12 @@ const tabs = computed(() => [
   // The armies right after CP (owner, 2026-09-29): both are looked at during a turn, the log and
   // the stats after it.
   { id: 'armies', label: labels.value.trackerTabArmies, icon: 'wi wi-army' },
-  // The log and the stats, this phone's choice (`showLogStats`, owner 2026-10-14).
-  ...(logStatsOn.value ? [
-    { id: 'log', label: labels.value.trackerTabLog, icon: 'wi wi-log' },
-    { id: 'stats', label: labels.value.trackerTabStats, icon: 'wi wi-stats' },
-  ] : []),
+  // The log and the stats, each this phone's choice (`showLog`, `showStats`; one row until 2026-10-25).
+  ...(logOn.value ? [{ id: 'log', label: labels.value.trackerTabLog, icon: 'wi wi-log' }] : []),
+  ...(statsOn.value ? [{ id: 'stats', label: labels.value.trackerTabStats, icon: 'wi wi-stats' }] : []),
 ])
-watch(logStatsOn, (on) => { if (!on && (tab.value === 'log' || tab.value === 'stats')) tab.value = 'missions' })
+watch(logOn, (on) => { if (!on && tab.value === 'log') tab.value = 'missions' })
+watch(statsOn, (on) => { if (!on && tab.value === 'stats') tab.value = 'missions' })
 watch(phaseTabOn, (on) => { if (!on && tab.value === 'phase') tab.value = 'missions' })
 watch(cpOn, (on) => { if (!on && tab.value === 'cp') tab.value = 'missions' })
 const hasLists = computed(() => (current.value?.players || []).some((pl) => membersOf(pl).some((m) => m.roster)))

@@ -325,13 +325,13 @@ describe('joining', () => {
       members: [], you: { memberId: 'm-guest', side: null, mi: null, host: false },
     }
     tracker.discardGame()
-    tracker.history.value.unshift({ id: 'old', settings: { trackStratPlay: true, trackCP: false, trackPhaseRules: false, showLogStats: false } })
+    tracker.history.value.unshift({ id: 'old', settings: { trackStratPlay: true, trackCP: false, trackPhaseRules: false, showLog: false } })
     fetchMock.mockResolvedValueOnce(answer(200, { seq: 5, you: { memberId: 'm-guest', side: 1, mi: null, host: false } }))
     expect(await party.takeSeat(joined, { side: 1, name: 'Opp' })).toBeNull()
     const s = tracker.current.value.settings
     expect(s.trackCP).toBe(true) // the host's
     expect(s.trackPhaseRules).toBe(false) // this phone's, from its last game
-    expect(s.showLogStats).toBe(false)
+    expect(s.showLog).toBe(false)
     expect(sliceGame(tracker.current.value).shared.settings).not.toHaveProperty('trackPhaseRules')
   })
 

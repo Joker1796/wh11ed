@@ -98,8 +98,8 @@ describe('availability', () => {
   it('leaves the tracker\'s own rows alone', () => {
     // The two army rows want a faction; the clock, its reminder and the colours are always offered
     // (a side with no faction still has a colour to customise).
-    expect(enabled(CTX_BARE)).toEqual(['cp', 'strat-play', 'strat-ask', 'phases', 'phase-rules', 'missions', 'broadcast', 'log-stats', 'custom-colors'])
-    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'strat-play', 'strat-ask', 'phases', 'phase-rules', 'missions', 'broadcast', 'log-stats', 'custom-colors'])
+    expect(enabled(CTX_BARE)).toEqual(['cp', 'strat-play', 'strat-ask', 'phases', 'phase-rules', 'missions', 'broadcast', 'log', 'stats', 'custom-colors'])
+    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'strat-play', 'strat-ask', 'phases', 'phase-rules', 'missions', 'broadcast', 'log', 'stats', 'custom-colors'])
   })
 })
 
@@ -166,10 +166,10 @@ describe('the rows a phone keeps for itself', () => {
     expect(LOCAL_TRACK_SETTINGS).toContain('trackTurnChecks') // a retired name stays home too
   })
   it('seeds a guest from its own last game, and only its own rows', () => {
-    const last = { ...defaultTrackSettings(), trackPhaseRules: false, showLogStats: false, trackCP: false }
+    const last = { ...defaultTrackSettings(), trackPhaseRules: false, showLog: false, trackCP: false }
     const seed = localTrackSeed(last)
     expect(seed.trackPhaseRules).toBe(false)
-    expect(seed.showLogStats).toBe(false)
+    expect(seed.showLog).toBe(false)
     expect(seed).not.toHaveProperty('trackCP')
     expect(Object.keys(seed).sort()).toEqual(TRACK_OPTIONS.filter((o) => o.local).map((o) => o.setting).sort())
     // No game behind it: the default preset's rows.
@@ -183,6 +183,16 @@ describe('the rows a phone keeps for itself', () => {
     expect(s.trackPhaseRules).toBe(true)
     expect(presetOf(s, CTX_FULL, { localOnly: true })).toBe('maximal')
     expect(presetOf(s, CTX_FULL)).toBeNull() // whole-table: CP is off, so not "Maximal"
+  })
+})
+
+// One row until 2026-10-25: a game saved with `showLogStats` answers for both tabs.
+describe('the Log and Stats tabs', () => {
+  it('are two rows, both read from the retired one', () => {
+    expect(tracks({ showLogStats: false }, 'showLog')).toBe(false)
+    expect(tracks({ showLogStats: false }, 'showStats')).toBe(false)
+    expect(tracks({}, 'showLog')).toBe(true)
+    expect(tracks({ showLogStats: true, showStats: false }, 'showStats')).toBe(false)
   })
 })
 
@@ -224,7 +234,7 @@ describe('presets (owner, 2026-10-17)', () => {
     expect(on('minimal')).toEqual([])
   })
   it('base: CP without stratagems, the missions, the army counters, the modifiers without a family, the log', () => {
-    expect(on('base')).toEqual(['cp', 'army-you', 'army-opp', 'missions', 'log-stats', 'modifiers'])
+    expect(on('base')).toEqual(['cp', 'army-you', 'army-opp', 'missions', 'log', 'modifiers'])
   })
   it('maximal: everything', () => {
     expect(on('maximal')).toHaveLength(TRACK_OPTIONS.length - 2)

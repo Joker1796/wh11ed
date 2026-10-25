@@ -14,9 +14,9 @@ describe('PresetDemo', () => {
     expect(w.text()).not.toContain('CP')
     expect(w.text()).not.toContain('Command phase')
   })
-  it('Base adds the CP tab and column, and the Log and Stats tabs', () => {
+  it('Base adds the CP tab and column, and the Log tab', () => {
     const w = mount(PresetDemo, { props: { values: values('base') } })
-    expect(w.findAll('[role="tab"]')).toHaveLength(5)
+    expect(w.findAll('[role="tab"]')).toHaveLength(4)
     expect(w.text()).toContain('CP')
   })
   it('Maximal: every tab, and the phase on the bar', () => {
