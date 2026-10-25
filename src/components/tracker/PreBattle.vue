@@ -34,9 +34,10 @@
           />
         </RouterLink>
       </li>
-      <!-- 6 · The secondaries. Each side on its own phone in a shared game, in secret: a side
-           another phone plays says only that it is choosing, or has chosen, until both have
-           (`secondaryPending`, confirmed with Done). On one phone both are chosen here openly. -->
+      <!-- 6 · The secondaries. What is chosen is chosen — no Done (owner, 2026-10-25). In a shared
+           game each side chooses on its own phone, and a side another phone plays says only that:
+           its choice shows once the battle begins (RoundTracker's secretOf). On one phone both are
+           chosen here openly. -->
       <li
         v-if="!combatPatrol"
         id="pb-step-6"
@@ -83,14 +84,6 @@
                     {{ labels.pbFixed }}
                   </button>
                 </div>
-                <button
-                  v-if="shared"
-                  class="btn-primary pb-done"
-                  :disabled="mode(i) === 'fixed' && !hand(i).length"
-                  @click="confirmSecondaries(i)"
-                >
-                  {{ labels.lobbyDone }}
-                </button>
               </div>
               <ExpandTransition>
                 <button
@@ -112,14 +105,7 @@
               v-else
               class="pb-ctl"
             >
-              <span class="pb-status">{{ status(i) }}</span>
-              <button
-                v-if="canEdit(i)"
-                class="btn-ghost pb-change"
-                @click="reopen(i)"
-              >
-                {{ labels.pbChange }}
-              </button>
+              <span class="pb-status">{{ labels.pbChosenHidden }}</span>
             </div>
           </div>
         </div>
@@ -229,7 +215,7 @@ const SEQUENCE = { path: '/event-companion', hash: '#ec-chapter-sequence' }
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setSecondaries, confirmSecondaries, rollFirstTurn } = useTracker()
+const { current, setSecondaries, rollFirstTurn } = useTracker()
 const { active: shared, isHost, canEdit, reseat } = useParty()
 
 const players = computed(() => current.value.players)
@@ -255,20 +241,12 @@ function withName(label, i) {
 // ── 6 · The secondaries ──
 const mode = (i) => players.value[i].secondaryMode
 const hand = (i) => players.value[i].secondary?.hand || []
-const pending = (i) => !!players.value[i].secondaryPending
-// Chosen on this phone: its own side (both on one phone), and in a shared game until it says Done.
-const choosing = (i) => canEdit(i) && (!shared.value || pending(i))
-const anyPending = computed(() => players.value.some((p) => p.secondaryPending))
+// Chosen on this phone: its own side (both on one phone).
+const choosing = (i) => canEdit(i)
 function fixedLine(i) {
   const picked = hand(i)
   if (!picked.length) return labels.value.trackerChooseFixed
   return picked.map((slug) => missionBySlug(slug, players.value[i].role, locale.value)?.name || slug).join(', ')
-}
-// What a side another phone plays says about its choice: nothing of it until both have chosen.
-function status(i) {
-  if (pending(i)) return labels.value.pbChoosing
-  if (anyPending.value) return labels.value.pbChosenHidden
-  return mode(i) === 'fixed' ? `${labels.value.pbFixed}: ${fixedLine(i)}` : labels.value.pbTactical
 }
 const pickerFor = ref(-1)
 // The fixed-secondaries picker is the side's it was opened for, in that side's colour — as its row
@@ -292,10 +270,6 @@ function toggleFixed(slug) {
   if (at >= 0) picked.splice(at, 1)
   else if (picked.length < maxFixed.value) picked.push(slug)
   setSecondaries(i, 'fixed', picked)
-}
-// Changing a confirmed choice: the same cards, to be confirmed again.
-function reopen(i) {
-  setSecondaries(i, mode(i), hand(i))
 }
 
 // ── 10 · The first turn ──
@@ -361,7 +335,6 @@ function roll(i) {
 }
 .pb-fixed { grid-column: 2; min-width: 0; min-height: 38px; }
 .pb-placeholder { color: var(--text-muted); font-weight: 500; }
-.pb-done, .pb-change { flex: 0 0 auto; margin-left: auto; min-height: 38px; padding: 0.25rem 0.75rem; font-size: 0.85rem; }
 .pb-status { flex: 1 1 auto; min-width: 0; font-size: 0.84rem; line-height: 1.35; color: var(--text-muted); }
 /* The roll's two names at their own width; they shrink, each to an ellipsis, only when the pair
    would pass the line. No percentage cap: a .seg is fit-content, and 50% of a width the buttons

@@ -739,15 +739,16 @@ word): **6** the secondaries, **7** battle formations (the turn bar's Reserves i
 marked), **8** deployment (the Defender first; TITANIC skips a turn), **9** redeployment (the
 Attacker first), **10** the roll for the first turn, **11** pre-battle rules (whoever goes first).
 Two of them are choices the tracker keeps, and Start waits for both, saying which in place of its
-word (`battleWaitsFor`: `fixed` — a fixed side with no card, `secondaries`, `firstTurn`):
+word (`battleWaitsFor`: `fixed` — a fixed side with no card, `firstTurn`):
 
 - **The secondaries** (`setSecondaries` rebuilds the side's deck for the mode while not begun,
   `secondaryState` being what `makePlayer` builds too). On one phone both sides are chosen here. In
-  a shared game each phone chooses its own side, in secret as the sequence says: a side starts
-  `secondaryPending` (set by `newGame` for a game promoted from a lobby), Done clears it
-  (`confirmSecondaries`), a change sets it again, and until no side is pending another phone's
-  choice is shown only as "choosing…" / "has chosen" — its deck too (`RoundTracker`'s `secretOf`).
-  The choice rides in the side slice like any other of that side's; the hiding is the screen's.
+  a shared game each phone chooses its own side, in secret as the sequence says, and what is chosen
+  is chosen — there is no Done (owner, 2026-10-25; 2.10.5 betas had one, `secondaryPending`, which
+  `beginGame` still clears off a saved game). Another phone's side reads "chooses on their phone",
+  and its deck stays hidden until the battle begins (`RoundTracker`'s `secretOf`). Start says only
+  "Waiting for the secondaries" when the side owing its fixed cards is another phone's — it does not
+  give away that the opponent went fixed. The choice rides in the side slice like any other.
 - **The first turn** (`rollFirstTurn`): the winner moves to index 0 — the setup's order was
   provisional (`firstTurnPending`, set by `newGame` only when the setup left `firstTurn` unset, so a
   resumed or older game needs no roll) — and in a shared game the host marks it and the seats travel

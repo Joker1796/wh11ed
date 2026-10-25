@@ -965,18 +965,17 @@ describe('before the battle', () => {
     tracker.setSecondaries(0, 'fixed', fixed)
     expect(pl.secondaryMode).toBe('tactical') // the battle has begun
   })
-  it('in a shared game, waits for each side to confirm its secondaries', () => {
+  // What is chosen is chosen (owner, 2026-10-25): a shared game waits for no Done.
+  it('in a shared game, waits for no confirmation of the secondaries', () => {
     tracker.startLobby(setupGame())
     tracker.current.value.party = { id: 'p', token: 't', side: 0, host: true, seq: 1, versions: {} }
     tracker.newGame(setupGame())
     const g = tracker.current.value
-    expect(g.players.map((p) => p.secondaryPending)).toEqual([true, true])
-    expect(tracker.battleWaitsFor()).toBe('secondaries')
-    tracker.confirmSecondaries(0)
-    tracker.confirmSecondaries(1)
+    expect(g.players.map((p) => p.secondaryPending)).toEqual([undefined, undefined])
     expect(tracker.battleWaitsFor()).toBeNull()
-    tracker.setSecondaries(1, 'tactical') // a change is a choice to confirm again
-    expect(g.players[1].secondaryPending).toBe(true)
+    tracker.setSecondaries(1, 'tactical')
+    expect(g.players[1].secondaryPending).toBeUndefined()
+    expect(tracker.battleWaitsFor()).toBeNull()
   })
 })
 

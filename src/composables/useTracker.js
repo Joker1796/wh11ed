@@ -683,28 +683,20 @@ export function useTracker() {
         ? [makePlayer(a, b, settings, true),  makePlayer(b, a, settings, false)]
         : [makePlayer(b, a, settings, false), makePlayer(a, b, settings, true)],
     }
-    // A shared game's secondaries are chosen by each side on its own phone, in secret, and shown
-    // once both have (Mission Sequence step 6) — so each side starts with its choice to confirm.
-    if (lobby?.party) current.value.players.forEach((pl) => { pl.secondaryPending = true })
     stripLobby(current.value)
     return { swapped: !youFirst && !!lobby }
   }
 
   // ── Before the battle (PreBattle.vue): the Mission Sequence's steps 6 and 10 ──────────────
   // The secondaries of a side, chosen while the battle has not begun: the deck is rebuilt for the
-  // mode (and the fixed cards). In a shared game a change is a choice still to be confirmed.
+  // mode (and the fixed cards). What is chosen is chosen — no Done (owner, 2026-10-25); in a shared
+  // game the other phone sees it once the battle begins (RoundTracker's secretOf).
   function setSecondaries(pi, mode, fixed = []) {
     const g = current.value
     const pl = g?.players?.[pi]
     if (!pl || g.phase !== 'playing' || gameBegun(g)) return
     pl.secondaryMode = mode === 'fixed' ? 'fixed' : 'tactical'
     pl.secondary = secondaryState(pl.role, pl.secondaryMode, mode === 'fixed' ? fixed : [])
-    if (g.party) pl.secondaryPending = true
-  }
-  // "Done" on a side's secondaries in a shared game: what the other phone waits for to see both.
-  function confirmSecondaries(pi) {
-    const pl = current.value?.players?.[pi]
-    if (pl) delete pl.secondaryPending
   }
   // The roll for the first turn (step 10): the winner goes first, so it moves to index 0 — the
   // setup's order was provisional. Returns whether the sides were exchanged (a shared game's seats
@@ -723,7 +715,6 @@ export function useTracker() {
     const g = current.value
     if (!g || gameBegun(g)) return null
     if (g.players.some((pl) => pl.secondaryMode === 'fixed' && !pl.secondary?.hand?.length)) return 'fixed'
-    if (g.players.some((pl) => pl.secondaryPending)) return 'secondaries'
     if (g.firstTurnPending) return 'firstTurn'
     return null
   }
@@ -1764,6 +1755,7 @@ export function useTracker() {
     if (starting && battleWaitsFor()) return
     delete g.begun
     delete g.firstTurnPending
+    // A game saved while sides still confirmed their secondaries (2.10.5 betas) carries the flag.
     g.players.forEach((pl) => { delete pl.secondaryPending })
     if (starting) pushAct(g, { type: 'turn', round: g.currentRound, turn: 0, pi: 0 })
     if (starting) g.clockAt = Date.now()
@@ -2014,7 +2006,7 @@ export function useTracker() {
     stratUses, stratBlock, useStratagem, lastStratUse, undoStratagem, playStratagem, unplayOnUnit,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     setUnitStatus,
-    goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, battleWaitsFor, setSecondaries, confirmSecondaries, rollFirstTurn, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
+    goToRound, stepPhase, goToPhase, canStepPhase, endTurn, canEndTurn, beginGame, battleWaitsFor, setSecondaries, rollFirstTurn, undoTurn, canUndoTurn, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, putAwayCurrent, deleteHistory,
     applyRemote,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }
