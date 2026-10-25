@@ -22,6 +22,34 @@
 
 export const changelog = [
   {
+    version: '2.10.5',
+    date: '2026-10-24',
+    en: [
+      { h: 'Roster builder' },
+      '**A squad of 6–10 [Corsair Voidscarred](/factions/aeldari/datasheets/corsair-voidscarred) is built with its specialists.** You pick the Shade Runner, Soul Weaver and Way Seeker together with the unit size. After the swaps the card counts the pistols, swords and rifles correctly. If your squad had specialists, pick its size again.',
+      '**An option that needs a bigger unit says how many models it needs.** For example, “Needs 10 models in the unit · now 6”. It stays greyed out until the unit is big enough.',
+      '**An enhancement that works on its bearer and his unit no longer counts twice on the bearer.** With Wolf-Touched a Wolf Priest has +2” M, not +4”. 21 more enhancements had the same error, among them Radiant Mantle and Mirage Field.',
+      '**A unit is offered only the enhancements its faction keyword allows.** A Knight-Centura can no longer take a Custodes enhancement, and a Shield-Captain cannot take one from Null Maiden Vigil. The same holds for Asuryani, Harlequins and Ynnari, for Genestealer Cults and for Greater Daemons in Legion armies. If a unit in your list already has such an enhancement, the list shows an error on it.',
+      '**Wargear that changes its bearer changes the number on the card again.** A Terminator with a Storm Shield has W 4 on his own row. The same goes for Shield Drones, Anchorite Sarcophagus and other such wargear. Since 2.9.6 the row was there, but the number stayed as printed.',
+      { h: 'Answers to your questions' },
+      'Why can’t Corsair Voidscarred take a long rifle? Only a unit of 10 models can take it. The specialists count towards the 10. A unit of 6–9 models cannot take it, the same as in the GW app.',
+      'Does Wolf-Touched make Wulfen faster? Yes, if the Wolf Priest is attached to them in your list. Then the Wulfen card shows M 11”.',
+      'Can a TOWERING or TITANIC model see over low terrain? No. A terrain area with a light or dense feature blocks visibility whatever the height of the model or the terrain (13.10). It blocks it both ways: if your model cannot see the enemy, the enemy cannot see it. Only an area one of the two models is within does not block. Low walls and barricades are light terrain. TOWERING only gives Plunging Fire against a unit within 12”.',
+    ],
+    ru: [
+      { h: 'Конструктор ростеров' },
+      '**Отряд [Corsair Voidscarred](/factions/aeldari/datasheets/corsair-voidscarred) из 6–10 моделей собирается со спецами.** Shade Runner, Soul Weaver и Way Seeker выбираются вместе с размером отряда. После замен карточка правильно считает пистолеты, мечи и винтовки. Если в вашем отряде были спецы, выберите размер заново.',
+      '**У опции, которой нужен отряд побольше, написано, сколько нужно моделей.** Например, «Нужно моделей в отряде: 10 · сейчас 6». Пока моделей меньше, опция приглушена.',
+      '**Улучшение, которое действует на носителя и его отряд, больше не считается у носителя дважды.** С Wolf-Touched у Wolf Priest +2” M, а не +4”. Такая же ошибка была ещё у 21 улучшения, среди них Radiant Mantle и Mirage Field.',
+      '**Юниту предлагаются только улучшения его фракционного ключевого слова.** Knight-Centura больше не может взять улучшение Custodes. Shield-Captain не может взять улучшение Null Maiden Vigil. Так же теперь у Asuryani, Harlequins и Ynnari, у Genestealer Cults и у великих демонов в армиях легионов. Если у юнита в вашем списке уже есть такое улучшение, список покажет на нём ошибку.',
+      '**Снаряжение, которое меняет носителя, снова меняет число на карточке.** У Terminator со Storm Shield на его строке W 4. Так же у Shield Drones, Anchorite Sarcophagus и другого такого снаряжения. С 2.9.6 строка носителя была, но число оставалось как в датащите.',
+      { h: 'Ответы на вопросы' },
+      'Почему у Corsair Voidscarred нет long rifle? Её может взять только отряд из 10 моделей. Спецы тоже входят в эти 10. Отряду из 6–9 моделей она недоступна, как и в приложении GW.',
+      'Ускоряет ли Wolf-Touched отряд Wulfen? Да, если Wolf Priest прикреплён к нему в вашем списке. Тогда на карточке Wulfen M 11”.',
+      'Видит ли модель TOWERING или TITANIC поверх низкого террейна? Нет. Область укрытия с лёгким или надёжным элементом закрывает видимость при любой высоте модели и террейна (13.10). Закрывает в обе стороны: если ваша модель не видит врага, враг не видит её. Не закрывает только область, в которой стоит одна из двух моделей. Низкие стены и баррикады относятся к лёгким укрытиям. TOWERING даёт только Plunging Fire по отряду в пределах 12”.',
+    ],
+  },
+  {
     version: '2.10.4',
     date: '2026-10-23',
     en: [
