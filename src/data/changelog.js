@@ -47,6 +47,7 @@ export const changelog = [
       { h: 'Answers to your questions' },
       'Why can’t Corsair Voidscarred take a long rifle? Only a unit of 10 models can take it. The specialists count towards the 10. A unit of 6–9 models cannot take it, the same as in the GW app.',
       'Does Wolf-Touched make Wulfen faster? Yes, if the Wolf Priest is attached to them in your list. Then the Wulfen card shows M 11”.',
+      'Why does Yandex Browser switch the site to Russian by itself? That is the browser’s automatic translation, not ours. The site now asks browsers not to translate it. If Yandex Browser still does, turn off automatic page translation in its settings.',
       'Can a TOWERING or TITANIC model see over low terrain? No. A terrain area with a light or dense feature blocks visibility whatever the height of the model or the terrain (13.10). It blocks it both ways: if your model cannot see the enemy, the enemy cannot see it. Only an area one of the two models is within does not block. Low walls and barricades are light terrain. TOWERING only gives Plunging Fire against a unit within 12”.',
     ],
     ru: [
@@ -72,6 +73,7 @@ export const changelog = [
       { h: 'Ответы на вопросы' },
       'Почему у Corsair Voidscarred нет long rifle? Её может взять только отряд из 10 моделей. Спецы тоже входят в эти 10. Отряду из 6–9 моделей она недоступна, как и в приложении GW.',
       'Ускоряет ли Wolf-Touched отряд Wulfen? Да, если Wolf Priest прикреплён к нему в вашем списке. Тогда на карточке Wulfen M 11”.',
+      'Почему Яндекс Браузер сам переключает сайт на русский? Это автоматический перевод браузера, а не наш перевод. Теперь сайт просит браузеры его не переводить. Если Яндекс Браузер всё равно переводит, выключите автоматический перевод страниц в его настройках.',
       'Видит ли модель TOWERING или TITANIC поверх низкого террейна? Нет. Область укрытия с лёгким или надёжным элементом закрывает видимость при любой высоте модели и террейна (13.10). Закрывает в обе стороны: если ваша модель не видит врага, враг не видит её. Не закрывает только область, в которой стоит одна из двух моделей. Низкие стены и баррикады относятся к лёгким укрытиям. TOWERING даёт только Plunging Fire по отряду в пределах 12”.',
     ],
   },
