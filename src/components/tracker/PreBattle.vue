@@ -9,10 +9,8 @@
     class="pb"
     data-tour="game-prebattle"
   >
+    <!-- The tab says "Before the battle" (owner, 2026-10-25): no title of its own under it. -->
     <div class="pb-head">
-      <h3 class="pb-title">
-        {{ labels.pbTitle }}
-      </h3>
       <RouterLink
         class="pb-link"
         :to="SEQUENCE"
@@ -38,6 +36,7 @@
            (`secondaryPending`, confirmed with Done). On one phone both are chosen here openly. -->
       <li
         v-if="!combatPatrol"
+        id="pb-step-6"
         class="pb-step"
         data-tour="game-prebattle-secondaries"
       >
@@ -155,6 +154,7 @@
       <!-- 10 · Who goes first, rolled for now and not at the setup. The host's to mark in a shared
            game — the order is every slice, and the seats travel with it (reseat). -->
       <li
+        id="pb-step-10"
         class="pb-step"
         data-tour="game-prebattle-first"
       >
@@ -309,29 +309,20 @@ function roll(i) {
 </script>
 
 <style scoped>
-/* Over the missions while the battle has not begun, inside their frame: the steps the table works
+/* A tab of its own while the battle has not begun (owner, 2026-10-25): the steps the table works
    through, one short line each — the sides' names in them, so nobody looks up which of the two is
-   the Defender. No frame of its own: a rule under it parts it from the side's missions. */
+   the Defender. */
 .pb {
   container-type: inline-size;
-  margin: 0.3rem 0 0.8rem;
-  padding: 0 0 0.8rem;
-  border-bottom: 1px solid var(--border);
+  margin: 0.3rem 0 0;
 }
 .pb-head {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: flex-end;
   column-gap: 0.75rem;
   margin-bottom: 0.45rem;
-}
-.pb-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.21rem;
-  font-weight: 500;
-  color: var(--text-primary);
 }
 .pb-link { font-size: 0.78rem; color: var(--text-dim); }
 @media (hover: hover) { .pb-link:hover { color: var(--accent-ink); } }
