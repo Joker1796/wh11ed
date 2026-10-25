@@ -206,8 +206,16 @@
               >{{ line }}</span>
             </div>
             <div class="gc-center">
+              <!-- A game being set up has no score yet: the word stands where the score would
+                   (owner, 2026-10-25), its step under it. -->
               <div
-                v-if="g.live !== 'setup'"
+                v-if="g.live === 'setup'"
+                class="gc-score gc-setup"
+              >
+                {{ labels.trackerSetupWord }}
+              </div>
+              <div
+                v-else
                 class="gc-score"
               >
                 {{ score(g)[0] }}<span class="gc-dash">–</span>{{ score(g)[1] }}
@@ -550,6 +558,8 @@ function battleSizeName(g) {
 // Footer: battle size + scoring basis. BP mode names "Battle Points" and shows the raw VP alongside
 // (the big score is BP there); VP mode just names "Victory Points" (the big score already IS the VP).
 function footLine(g) {
+  // No score to describe before the game begins: the size alone.
+  if (g.live === 'setup') return battleSizeName(g)
   let basis
   if (g.settings?.scoreMode !== 'bp') {
     basis = labels.value.trackerVictoryPoints
@@ -821,6 +831,8 @@ function footLine(g) {
   white-space: nowrap;
   letter-spacing: -0.01em;
 }
+/* The word in the score's place, a size down from a score: "Настройка" must fit a phone's centre. */
+.gc-score.gc-setup { font-size: clamp(1.3rem, 6vw, 1.7rem); font-weight: 500; }
 .gc-dash { margin: 0 0.24em; color: var(--text-dim); font-weight: 500; }
 .gc-result { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.11em; }
 .res-win .gc-result { color: #e3b341; }

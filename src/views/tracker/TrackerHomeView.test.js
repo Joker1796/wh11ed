@@ -75,6 +75,7 @@ describe('TrackerHomeView — a game being set up', () => {
     const card = w.find('.game.live')
     expect(card.find('.gc-live').text()).toBe('Setting up')
     expect(card.find('.gc-result').text()).toBe('Step 2 of 4')
-    expect(card.find('.gc-score').exists()).toBe(false)
+    expect(card.find('.gc-score').text()).toBe('Setup') // the word where the score would be
+    expect(card.find('.gc-foot').text()).toBe('Strike Force') // no score basis before the game
   })
 })
