@@ -2567,10 +2567,13 @@ function cancel() {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  min-height: 40px;
-  padding: 0.3rem 0.7rem;
+  min-height: 36px;
+  padding: 0.2rem 0.65rem;
   font-size: 0.85rem;
   white-space: nowrap;
+  /* It must not make its row taller than the heading alone: the other side's card has no button,
+     and its fields stood a few pixels higher (owner, 2026-10-25). The box reaches past the row. */
+  margin-block: -0.45rem;
 }
 .ph-why {
   margin: -0.45rem 0 0.75rem;
