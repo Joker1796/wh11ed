@@ -45,9 +45,9 @@ export function useLobby() {
   const oppSide = computed(() => (mySide.value === 0 ? 1 : 0))
   const myId = computed(() => party.value?.memberId || null)
 
-  // 'invite' — the host is still on the lobby screen, showing the code around; 'armies' — it is
-  // on the wizard's first step, where a guest may still reopen its side freely; 'host' — it has
-  // moved past that, and reopening is a request.
+  // 'armies' — the host is on the wizard's first step, where a guest may still reopen its side
+  // freely; 'host' — it has moved past that, and reopening is a request. ('invite', the code screen
+  // the host stood on before the wizard until 2026-10-25, is read like 'armies'.)
   const stage = computed(() => game.value?.lobby?.stage || 'armies')
 
   function lobbyOf(pi) {

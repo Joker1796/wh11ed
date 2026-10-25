@@ -522,27 +522,21 @@ the host's own army); partners joining pick one of the other three. The server c
 
 ## The lobby — setting the game up together (`useLobby.js`)
 
-Since 2026-09-23 the setup itself can be shared, not just the game in progress. It starts on the
-TRACKER HOME — "Shared game" → *Start a new one* (`SharedGameModal.vue`, which also holds the
-join entry: the two are one subject and differ only in whether an account is needed) — and that
-opens the wizard with `?share=1`, whose only job is to share on arrival. **The game type is chosen
-in that dialog, before the lobby exists** (2026-10-05) — with the team names when it is doubles — and
-rides along as `?mode=`/`?team0=`/`?team1=`: the lobby locks the type (below), and until then it
-always opened as singles, so a shared doubles game could not be made at all.
-
-**The host lands on `LobbyInvite.vue`, not in the wizard.** The lobby's first stage is `invite`:
-the code, its QR, the link and who has arrived so far — because at a real table you call the
-other player over first and settle the mission after. "Set the game up" moves the stage to
-`armies` and the wizard takes the screen; nobody has to be waited for, since the wizard's own
-gate is what holds Start until the other side confirms. The invitation itself is
-`PartyInvite.vue`, shared with the sharing dialog of a game already running — the same
-invitation, drawn once. There is deliberately no
-"share this setup" button inside the wizard: by the time the armies are being entered, whether
-this is a game for two phones was settled long ago, and a second door into the same room only
-made the step's button row longer. The wizard's draft becomes a **game in `phase: 'setup'`**
-(`useTracker`'s `startLobby`) which `share()` then puts on the server like any other. Guests join
-by link, QR or code and fill in THEIR side from their own phone; the host keeps the mission, the
-battlefield, the turn order and the option table, and presses Start.
+Since 2026-09-23 the setup itself can be shared, not just the game in progress. **Since
+2026-10-25 it starts in the wizard, on the opponent's card** (owner: "на первом экране кнопка для
+приглашения"): "Invite" beside the card's heading opens the lobby over the wizard — the draft becomes
+the lobby game, the type and the names are the ones already on screen — and `PartyModal` shows the
+code, the QR and the link; the same button then reads "Code 123 456" and opens it again. It waits
+for the host's own name (in doubles, its member name and both team names: the seats a joining phone
+picks from are named by them), and signed out it opens the sign-in, which comes back to the kept
+draft. The lobby is created at stage `armies` — the host is on that step already. Before this the
+way in was a door of its own on the tracker home ("Shared game" → `SharedGameModal`, which asked the
+name and the type again, `?share=1`, then a code screen, `LobbyInvite.vue`, before the wizard), and
+the wizard itself had no way in; all three are gone, and the home's second button is "Join a game"
+(`/tracker/join`). A lobby saved at the old `invite` stage reads as `armies`. The step's
+`.lobby-bar` keeps the sync dot and "Close the lobby". Guests join by link, QR or code and fill in
+THEIR side from their own phone; the host keeps the mission, the battlefield, the turn order and the
+option rows that are the game's (CP, the clock — see the shared game above), and presses Start.
 
 **The lobby game holds the wizard's own objects, not copies.** `GameSetup` reads `players` and
 `settings` out of `current` when the game is in `setup`, so an incoming slice lands in the very
@@ -866,8 +860,9 @@ action, then says what the thing is, in the names the screen prints.
   (`party.held`), or a guest is told to press a "Start game" that is grey on its screen. Steps
   come in variants by `when`; a doubles step names the partner's army by seat (`member:
   'partner' | 'mine'`), never by index — a guest may sit on the team's second army. Chapters of
-  their own: `shared` (after the game's), `lobby-invite` (the host's code screen), `lobby-guest`
-  (a guest's side), `lobby-wait`; the setup's chapters take `ctx.lobby`.
+  their own: `shared` (after the game's), `lobby-guest` (a guest's side), `lobby-wait`; the
+  setup's chapters take `ctx.lobby` (its `setup-invite` step says "invite" before the lobby and
+  "the code again" after).
 - **Seen once, then on request.** Every screen's chapters come back from the ⚙ menu ("Tutorial of
   this screen"): `maybeStart` records what the page asked for, seen or not, in `tourScreen.js` (a
   module without the texts — the navbar is in the root bundle), the overlay forgets it on a new

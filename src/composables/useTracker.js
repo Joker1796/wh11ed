@@ -593,9 +593,10 @@ export function useTracker() {
       phase: 'setup',
       settings,
       players,
-      // 'invite' — the host is on the lobby screen handing out the code; 'armies' once it has
-      // walked on into the wizard (see useLobby.js).
-      lobby: { stage: 'invite' },
+      // The host opens the lobby from the wizard's first step (the opponent's card), so it is on
+      // the armies already (see useLobby.js). The code screen before the wizard is gone since
+      // 2026-10-25; a lobby saved at its old 'invite' stage reads as this one.
+      lobby: { stage: 'armies' },
     }
     setupDraft.value = null
     saveNow()

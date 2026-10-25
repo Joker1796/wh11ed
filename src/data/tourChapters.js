@@ -34,9 +34,9 @@ export const TOUR_CHAPTERS = {
       },
       {
         target: 'home-coop',
-        ru: { title: 'Совместная игра', text: 'Нажмите, если играете на нескольких устройствах. Каждый игрок ведёт свою сторону на своём устройстве. Один игрок создаёт партию и отправляет остальным ссылку или код.' },
+        ru: { title: 'Подключиться', text: 'Нажмите, чтобы подключиться к чужой партии по коду, ссылке или QR-коду. Каждый ведёт свою сторону на своём устройстве. Чтобы позвать соперника к себе, начните новую партию и нажмите «Пригласить» в его карточке.' },
 
-        en: { title: 'Shared game', text: 'Press this when you play on several devices. Each player keeps their own side on their own device. One player creates the game and sends the others a link or a code.' },
+        en: { title: 'Join a game', text: 'Press this to join someone else’s game by code, link or QR code. Each player keeps their own side on their own device. To call an opponent into yours, start a new game and press “Invite” on their card.' },
 
       },
       {
@@ -61,8 +61,8 @@ export const TOUR_CHAPTERS = {
       {
         target: 'setup-gametype',
         when: (ctx) => ctx.lobby,
-        ru: { title: 'Тип игры', text: 'Тип игры вы выбрали, когда открыли совместную игру. Здесь его уже не поменять: к нему привязаны места подключившихся устройств.' },
-        en: { title: 'Game type', text: 'You chose the game type when you opened the shared game. It cannot change here: the joined devices’ seats depend on it.' },
+        ru: { title: 'Тип игры', text: 'После приглашения тип игры уже не поменять: к нему привязаны места подключившихся устройств.' },
+        en: { title: 'Game type', text: 'Once you have invited, the game type cannot change: the joined devices’ seats depend on it.' },
       },
       {
         target: 'setup-size',
@@ -90,6 +90,18 @@ export const TOUR_CHAPTERS = {
         when: (ctx) => ctx.lobby && ctx.doubles,
         ru: { title: 'Ваша команда', text: 'Заполните обе армии своей команды: имена, фракции, детачменты, ростеры. Команду соперника заполняет её игрок, на своём устройстве.' },
         en: { title: 'Your team', text: 'Fill in both armies of your team: names, factions, detachments, rosters. The opposing team is filled in by its player, on their device.' },
+      },
+      {
+        target: 'setup-invite',
+        when: (ctx) => !ctx.lobby,
+        ru: { title: 'Пригласить', text: 'Нажмите, если соперник ведёт свою сторону на своём телефоне. Откроются код, QR-код и ссылка. Аккаунт нужен только вам.' },
+        en: { title: 'Invite', text: 'Press this if the opponent keeps their side on their own phone. The code, the QR code and the link open. Only you need an account.' },
+      },
+      {
+        target: 'setup-invite',
+        when: (ctx) => ctx.lobby,
+        ru: { title: 'Код приглашения', text: 'Нажмите, чтобы снова показать код, QR-код и ссылку. Там же видно, кто подключился.' },
+        en: { title: 'Invitation code', text: 'Press to show the code, the QR code and the link again. It also shows who has joined.' },
       },
       {
         target: 'lobby-other',
@@ -719,26 +731,6 @@ export const TOUR_CHAPTERS = {
         when: (ctx) => !ctx.host,
         ru: { title: 'Участники', text: 'Нажмите «…» и выберите «Совместная игра»: там видно, кто подключён. Оттуда же можно выйти из партии.' },
         en: { title: 'Who is in', text: 'Press “…” and pick “Shared game”: it shows who has joined. You can leave the game from there too.' },
-      },
-    ],
-  },
-  // The host's first screen of a shared setup: calling the others over.
-  'lobby-invite': {
-    steps: [
-      {
-        target: 'lobby-code',
-        ru: { title: 'Приглашение', text: 'Покажите сопернику код или QR-код, или отправьте ему ссылку. Он подключится без аккаунта.' },
-        en: { title: 'Invitation', text: 'Show the opponent the code or the QR code, or send them the link. They join without an account.' },
-      },
-      {
-        target: 'lobby-people',
-        ru: { title: 'Подключены', text: 'Здесь появятся те, кто подключился. Ждать их не обязательно: настраивать партию можно сразу.' },
-        en: { title: 'Joined', text: 'Whoever joins shows here. There is no need to wait: you can set the game up straight away.' },
-      },
-      {
-        target: 'lobby-go',
-        ru: { title: 'Настроить партию', text: 'Нажмите «Настроить партию». Соперник заполнит свою сторону сам, а миссию, поле и настройки выберете вы.' },
-        en: { title: 'Set the game up', text: 'Press “Set the game up”. The opponent fills in their own side; the mission, the field and the settings are yours.' },
       },
     ],
   },

@@ -73,18 +73,16 @@
         >
           {{ labels.trackerNewGame }}
         </button>
-        <!-- ONE entry for the shared game, both directions behind it. Starting one and joining
-             someone else's are one subject, they differ in a single fact (an account is needed
-             for one and not the other), and side by side they made the row three equal links
-             under the primary button. The dialog asks which; it never needs an account itself. -->
-        <button
-          type="button"
+        <!-- Joining someone else's table. Starting a shared game is no longer a door of its own: the
+             new game's wizard invites from the opponent's card (owner, 2026-10-25), so this is the
+             one thing left here — and it needs no account. -->
+        <RouterLink
+          to="/tracker/join"
           class="btn-ghost"
           data-tour="home-coop"
-          @click="sharedOpen = true"
         >
-          <i class="wi wi-people" /> {{ labels.lobbyNewGameShort }}
-        </button>
+          <i class="wi wi-people" /> {{ labels.lobbyChoiceJoin }}
+        </RouterLink>
         <!-- The way to the statistics (owner, 2026-09-29), the roster list heading's button,
              kept in the quiet row (owner, 2026-09-30) — taken over by the old tracker on
              2026-10-15. It replaced a record bar over the history, which showed only once a game
@@ -105,12 +103,6 @@
            so the way in and out is the navbar's account menu — the line above only reports where
            the games stand. -->
     </div>
-
-    <SharedGameModal
-      v-if="sharedOpen"
-      @create="onSharedCreate"
-      @close="sharedOpen = false"
-    />
 
     <section class="history">
       <div class="history-head">
@@ -285,7 +277,6 @@ import { toneVars } from '../../utils/tone.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useCloudSync } from '../../composables/useCloudSync.js'
 import { useParty } from '../../composables/useParty.js'
-import SharedGameModal from '../../components/tracker/SharedGameModal.vue'
 import FactionEmblem from '../../components/FactionEmblem.vue'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 
@@ -296,7 +287,7 @@ const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
 const { current, history, setupDraft, putAwayCurrent, resumeFromHistory, deleteHistory } = useTracker()
 // Only the host of a shared game needs an account, and this is the button that makes one.
-const { canShare, init: initParty } = useParty()
+const { init: initParty } = useParty()
 const { status, ensureSession } = useAuth()
 const {
   init: initCloudSync,
@@ -429,40 +420,6 @@ const primary = computed(() => {
   return { to: null, label: labels.value.trackerNewGame }
 })
 
-// The same start, with the lobby opened on arrival: `?share=1` is the wizard's instruction to
-// share as soon as it is on screen, so the host lands on the armies step with the code already
-// in hand instead of finding a button there. `choice` is what SharedGameModal asked for — the host's
-// name, the game type (set before the lobby opens, because the lobby locks it) and, in doubles, the
-// team names.
-function startShared(choice) {
-  if (!canShare.value) return
-  if (current.value) {
-    const lobby = current.value.phase === 'setup'
-    confirmState.value = {
-      title: labels.value.lobbyNewGame,
-      message: lobby ? labels.value.lobbyDiscardConfirm : labels.value.trackerOverwriteConfirm,
-      confirmLabel: labels.value.lobbyNewGame,
-      action: () => doStartShared(choice),
-    }
-    return
-  }
-  doStartShared(choice)
-}
-const sharedOpen = ref(false)
-function onSharedCreate(choice) {
-  sharedOpen.value = false
-  startShared(choice)
-}
-function doStartShared(choice) {
-  archiveCurrent()
-  setupDraft.value = null
-  const query = { share: '1' }
-  if (choice?.mode && choice.mode !== 'singles') query.mode = choice.mode
-  if (choice?.name) query.name = choice.name
-  if (choice?.teams?.[0]) query.team0 = choice.teams[0]
-  if (choice?.teams?.[1]) query.team1 = choice.teams[1]
-  router.push({ path: '/tracker/game', query })
-}
 // Resume any finished game from the summary modal — pull it back into active play.
 function onResumeGame(id) {
   summaryGame.value = null

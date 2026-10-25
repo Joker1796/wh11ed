@@ -4,16 +4,8 @@
          component cut down to its own side — and, once it has pressed Done, the waiting screen
          (useLobby.js explains why a side is filled by exactly one phone). -->
     <template v-if="!current || current.phase === 'setup'">
-      <!-- The host, having just opened a lobby: the code and who has arrived, before the wizard.
-           Calling the other player over comes first at a real table, and the wizard behind this
-           screen is unchanged — the host walks into it when ready. -->
-      <LobbyInvite
-        v-if="hostInviting"
-        @next="toWizard"
-        @cancel="cancelLobby"
-      />
       <LobbyWait
-        v-else-if="guestWaiting"
+        v-if="guestWaiting"
         @edit="editing = true"
       />
       <GameSetup
@@ -102,7 +94,6 @@ import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
 import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'
 import ArmyRuleSummary from '../../components/tracker/ArmyRuleSummary.vue'
 import LobbyWait from '../../components/tracker/LobbyWait.vue'
-import LobbyInvite from '../../components/tracker/LobbyInvite.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, sideName } from '../../composables/useTracker.js'
@@ -125,15 +116,11 @@ onUnmounted(detach)
 // Which of the three setup screens this phone is on. `editing` is the one piece of screen state
 // the lobby needs: a guest that asked to change its side (and was allowed) is back in the form
 // even though the side it sent is still marked confirmed until it presses Done again.
-const { shared: sharedSetup, mySide, isEditor, isReady, stage, setStage } = useLobby()
+const { shared: sharedSetup, mySide, isEditor, isReady } = useLobby()
 const editing = ref(false)
 const guestSetup = computed(() =>
   sharedSetup.value && !isHost.value && isEditor(mySide.value) && (editing.value || !isReady(mySide.value)))
 const guestWaiting = computed(() => sharedSetup.value && !isHost.value && !guestSetup.value)
-const hostInviting = computed(() => sharedSetup.value && isHost.value && stage.value === 'invite')
-function toWizard() {
-  setStage('armies')
-}
 // Closing the lobby, from the code screen or the wizard's lobby row: the party ends for every
 // phone and the setup is thrown away — a lobby is dropped, never archived (putAwayCurrent).
 // Until 2026-10-05 this kept the setup as the host's own; the owner asked for a full cancel.

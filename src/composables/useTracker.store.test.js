@@ -928,7 +928,7 @@ describe('lobby', () => {
     tracker.startLobby(setup)
     const g = tracker.current.value
     expect(g.phase).toBe('setup')
-    expect(g.lobby.stage).toBe('invite') // the host hands out the code before the wizard
+    expect(g.lobby.stage).toBe('armies') // opened from the wizard's first step, which it stays on
     // The very objects the wizard edits, not copies of them: a slice arriving from another
     // phone has to land in the fields on screen, and what the wizard types has to reach the
     // game with no bridge in between. (Identity is checked through a mutation: `current` is a

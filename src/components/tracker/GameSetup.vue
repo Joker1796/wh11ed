@@ -219,9 +219,38 @@
           class="player-card"
           :data-tour="i === shownPlayers[0].i ? 'setup-player' : undefined"
         >
-          <h3 class="player-head">
-            {{ playerLabel(i) }}
-          </h3>
+          <!-- The opponent's card carries the way to play on two phones (owner, 2026-10-25): at a
+               real table that is the first thing decided, and it is decided about THIS side. Before
+               the lobby the button invites; after, the same button shows the code again. -->
+          <div class="ph-row">
+            <h3 class="player-head">
+              {{ playerLabel(i) }}
+            </h3>
+            <button
+              v-if="invitesFrom(i)"
+              type="button"
+              class="btn-ghost ph-invite"
+              aria-haspopup="dialog"
+              data-tour="setup-invite"
+              :title="sharedSetup ? labels.lobbyInvite : labels.trackerInviteHint"
+              :disabled="!!inviteWhy"
+              @click="onInvite"
+            >
+              <i
+                class="wi wi-qr"
+                aria-hidden="true"
+              />
+              {{ inviteLabel }}
+            </button>
+          </div>
+          <ExpandTransition>
+            <p
+              v-if="invitesFrom(i) && inviteWhy"
+              class="ph-why"
+            >
+              {{ inviteWhy }}
+            </p>
+          </ExpandTransition>
           <!-- Whose side this is, and what it is waiting for. The card is INERT when another
                phone holds it — its fields are still there to read (an opponent's army is
                exactly what you want to look at), they just cannot be typed into. -->
@@ -636,16 +665,7 @@
           class="lobby-bar"
         >
           <SyncIndicator />
-          <button
-            type="button"
-            class="lobby-q"
-            :title="labels.lobbyInvite"
-            @click="partyOpen = true"
-          >
-            <i class="wi wi-qr" />
-            <span v-if="inviteCode">{{ labels.partyCode }} {{ inviteCode }}</span>
-            <span v-else>{{ labels.lobbyInvite }}</span>
-          </button>
+          <!-- The code itself is on the opponent's card, on the button that invited them. -->
           <button
             type="button"
             class="lobby-q"
@@ -1455,9 +1475,10 @@ import { useSetupLayout } from '../../composables/trackerLayout.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { getEventContent } from '../../data/eventCompanion.js'
-import { useRoute, useRouter } from 'vue-router'
 import { useLobby } from '../../composables/useLobby.js'
 import { useParty } from '../../composables/useParty.js'
+import { useAuth } from '../../composables/useAuth.js'
+import { useAccountActions } from '../../composables/useAccountActions.js'
 import { useTracker, DISPOSITIONS, BATTLE_SIZES, CUSTOM_BATTLE, CUSTOM_RANGES, battleOf, battleName, MIRROR_MISSIONS, primaryOf, deriveForceType, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo, mfmDetachmentNames } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
@@ -1485,8 +1506,6 @@ const props = defineProps({
   mode: { type: String, default: 'wizard' },
 })
 const guest = computed(() => props.mode === 'guest')
-const route = useRoute()
-const router = useRouter()
 
 const emit = defineEmits(['start', 'cancel', 'done', 'leave', 'close-lobby'])
 const { locale } = useLocale()
@@ -1589,20 +1608,18 @@ const shownPlayers = computed(() => sides.value.map((i) => ({ p: players[i], i }
 const partyOpen = ref(false)
 const cancelConfirmOpen = ref(false)
 const takeOverConfirmOpen = ref(null) // the side whose editing is being taken over
-// Called on arrival when the tracker home asked for a shared game (`?share=1`).
-//
-// A failure here used to be silent: the lobby closed and the reader was left in the ordinary
-// wizard, with no way to tell that the button they pressed had not worked. The server carries
-// the link between the phones, so there is no offline version of this — what there is instead
-// is a line saying so, and a way to try again.
-// The code on the lobby row. `invite` is module state in useParty, so it survives moving between
-// steps; after a RELOAD it is empty until asked for, and the row would otherwise read "Link and
-// code" forever on a lobby that has both.
+// The code on the opponent's card's button. `invite` is module state in useParty, so it survives
+// moving between steps; after a RELOAD it is empty until asked for, and the button would otherwise
+// read "Link and code" forever on a lobby that has both.
 const inviteCode = computed(() => {
   const c = invite.value?.code
   return c ? `${c.slice(0, 3)} ${c.slice(3)}` : ''
 })
 
+// Opening the lobby (the invite button below). A failure used to be silent: the lobby closed and
+// the reader was left in the ordinary wizard, with no way to tell that the button they pressed had
+// not worked. The server carries the link between the phones, so there is no offline version of
+// this — what there is instead is a line saying so, and a way to try again.
 const shareError = ref('')
 async function createLobby() {
   shareError.value = ''
@@ -1623,6 +1640,37 @@ async function createLobby() {
   }
   claimHostSide() // the guest's phone sees who is filling what from the first tick
   partyOpen.value = true
+}
+
+// The invitation, on the opponent's card (owner, 2026-10-25: "на первом экране кнопка для
+// приглашения"). It used to be a door of its own on the tracker home — "Shared game", a dialog
+// asking the name and the game type again, then a code screen before the wizard — and the wizard
+// itself had no way in. Now the wizard IS the way in: the type and the names are the ones already
+// on this screen, the lobby opens over it and the code is a dialog, and the same button shows the
+// code again. The host's own name — in doubles both team names — comes first: it is what a joining
+// phone reads on the seats, and an unnamed seat is the one nobody can tell apart.
+const { status: authStatus } = useAuth()
+const { signIn } = useAccountActions()
+function invitesFrom(i) {
+  return !guest.value && i !== youIdx.value
+}
+const inviteWhy = computed(() => {
+  if (sharedSetup.value) return ''
+  if (authStatus.value === 'down') return labels.value.partyServerDown
+  if (isDoubles.value) {
+    const named = players.every((p) => p.teamName?.trim()) && !!players[youIdx.value].members?.[0]?.name?.trim()
+    return named ? '' : labels.value.trackerInviteNeedsTeams
+  }
+  return players[youIdx.value].name?.trim() ? '' : labels.value.trackerInviteNeedsName
+})
+const inviteLabel = computed(() => {
+  if (!sharedSetup.value) return labels.value.trackerInviteOpponent
+  return inviteCode.value ? `${labels.value.partyCode} ${inviteCode.value}` : labels.value.lobbyInvite
+})
+function onInvite() {
+  if (sharedSetup.value) partyOpen.value = true
+  else if (!canShare.value) signIn() // comes back here: the draft is kept
+  else createLobby()
 }
 
 // The host's way out of the lobby: the parent ends the party and throws the setup away, the same
@@ -1694,28 +1742,7 @@ function guestLeave() {
 // A guest's form is open from the moment the screen appears: it claims the side (the slice
 // version settles a tie) and holds this phone's own side back until "Done". The host claims its
 // own side the same way, so the guest's phone can see who is filling what.
-onMounted(async () => {
-  // Asked for from the tracker home ("New shared game"): open the lobby straight away, so the
-  // host arrives with the code in hand instead of a button to press. The query is dropped once
-  // it has been acted on — a reload must not try to share a second time.
-  // Optional chaining throughout: the component is mounted without a router in its own tests,
-  // and a wizard that throws on mount is a blank tracker.
-  if (route?.query?.share === '1') {
-    // What the host gave before asking for the lobby (SharedGameModal) — its name, the type and in
-    // doubles the team names — set while it is still this phone's own setup, since sharing locks
-    // the type. The name goes on the side first: entering doubles copies it into member 1.
-    const { mode, name, team0, team1 } = route.query
-    router?.replace({ path: route.path, query: {} })
-    if (!sharedSetup.value && canShare.value) {
-      if (typeof name === 'string' && name) players[0].name = name
-      if (mode === 'doubles' || mode === 'combatPatrol') setGameMode(mode)
-      if (mode === 'doubles') {
-        if (typeof team0 === 'string') players[0].teamName = team0
-        if (typeof team1 === 'string') players[1].teamName = team1
-      }
-      await createLobby()
-    }
-  }
+onMounted(() => {
   if (!sharedSetup.value) return
   if (guest.value) openForm(youIdx.value, players[youIdx.value]?.name || '')
   else {
@@ -2624,6 +2651,31 @@ function cancel() {
   font-weight: 500;
   color: var(--text-muted);
   margin-bottom: 0.75rem;
+}
+/* The card's heading row: the side's name, and on the opponent's card the invitation, on the one
+   line the heading already took — the button is not a row of its own. */
+.ph-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.ph-row .player-head { margin: 0; }
+.ph-invite {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.ph-why {
+  margin: -0.45rem 0 0.75rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
 }
 /* The team name beside "You"/"Opponent" in a step-2 heading — muted so the fixed side label
    stays the anchor and the free-text name cannot be mistaken for part of it. */

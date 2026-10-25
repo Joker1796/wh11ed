@@ -390,3 +390,47 @@ describe('GameSetup — a list and the battle size', () => {
     w.unmount()
   })
 })
+
+// Two phones are decided on the opponent's card (owner, 2026-10-25): the button invites before
+// the lobby exists and shows the code again after; the host's name comes first, since the seats a
+// joining phone picks from are named by it.
+describe('GameSetup — the invitation on the opponent\'s card', () => {
+  it('sits on the opponent\'s card alone, and waits for the host\'s name', async () => {
+    const w = mount(GameSetup)
+    const cards = w.findAll('.step-panel')[0].findAll('.player-card')
+    expect(cards[0].find('.ph-invite').exists()).toBe(false)
+    const invite = cards[1].find('.ph-invite')
+    expect(invite.text()).toBe('Invite')
+    expect(invite.attributes('aria-haspopup')).toBe('dialog')
+    expect(invite.attributes('disabled')).toBeDefined()
+    expect(cards[1].find('.ph-why').text()).toContain('Enter your name first')
+    await cards[0].find('input[type="text"]').setValue('Host')
+    expect(cards[1].find('.ph-invite').attributes('disabled')).toBeUndefined()
+    expect(cards[1].find('.ph-why').exists()).toBe(false)
+  })
+
+  it('shows the invitation again from the same button once the lobby is open', async () => {
+    vi.resetModules()
+    vi.stubGlobal('fetch', vi.fn(() => new Promise(() => {})))
+    const { useTracker } = await import('../../composables/useTracker.js')
+    const tracker = useTracker()
+    const side = (over) => ({
+      name: '', factionSlug: null, detachments: [], disposition: null, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false,
+      members: [{ name: '', factionSlug: null, detachments: [] }, { name: '', factionSlug: null, detachments: [] }], ...over,
+    })
+    tracker.startLobby({
+      settings: { gameType: 'singles', combatPatrol: false, battleSize: 'strikeForce', firstTurn: 1, layout: 'A' },
+      players: [side({ name: 'Host', role: 'attacker' }), side({ role: 'defender' })],
+    })
+    tracker.current.value.party = { id: 'p1', memberId: 'm-host', token: 't', side: 0, mi: null, host: true, seq: 1, versions: {} }
+    const w = mount((await import('./GameSetup.vue')).default)
+    await flushPromises()
+    const invite = w.findAll('.step-panel')[0].findAll('.player-card')[1].find('.ph-invite')
+    expect(invite.text()).toBe('Link and code')
+    expect(invite.attributes('disabled')).toBeUndefined()
+    await invite.trigger('click')
+    await flushPromises()
+    expect(document.body.querySelector('[role="dialog"]').textContent).toContain('Shared game')
+    vi.unstubAllGlobals()
+  })
+})

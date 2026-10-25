@@ -77,10 +77,10 @@ export const help = {
 ▪ The **statistics** page builds itself from the history: win rate, average score, going first and second, which factions beat you, which secondary cards pay. Under five games it shows counts, not percentages.
 ▪ Sign in from the ⚙ menu, and the history and your lists are the same on all your devices. There is nothing to press: a new phone starts where the old one left off.
 **Setting a game up together**
-▪ On the tracker page press "Shared game", then "Start a new one". Choose the game type and press "Open the lobby". Only you need an account.
-▪ The others press "Shared game", then "Join a game", and enter the code — or open your link or QR code.
+▪ Start a new game and press "Invite" on the opponent's card. The code, the QR code and the link open; the same button shows them again. Only you need an account.
+▪ The others press "Join a game" on the tracker page and enter the code — or open your link or QR code.
 ▪ Each guest fills in their own side on their device: name, faction, detachments, list. Then they press "Done". Nothing leaves their phone before that.
-▪ You choose the mission, the battlefield, who goes first and what to track. You start the game once the other side is in.
+▪ You choose the mission, the battlefield, who goes first, and whether command points and phases are kept — for every phone. What else a phone shows, each player chooses on their own phone. You start the game once the other side is in.
 ▪ A side is filled in by one phone: the first to join it. It can hand the right over to a partner.
 ▪ While you are on the armies step, a guest changes their side freely. Once you have moved on, they ask, and you answer.
 **One game, several phones**
@@ -180,10 +180,10 @@ export const help = {
 ▪ Страница **статистики** складывается из истории сама: винрейт, средний счёт, первый и второй ход, кто вас обыгрывает, какие вторичные карты приносят очки. Пока партий меньше пяти, она показывает количество, а не проценты.
 ▪ Войдите в аккаунт в меню ⚙, и история с листами будут одинаковыми на всех ваших устройствах. Нажимать ничего не нужно: новый телефон начинает с того же места.
 **Настроить партию вместе**
-▪ На странице трекера нажмите «Совместная игра», затем «Начать новую». Выберите тип игры и запустите лобби. Аккаунт нужен только вам.
-▪ Остальные нажимают «Совместная игра», затем «Подключиться», и вводят код — или открывают вашу ссылку или QR-код.
+▪ Начните новую партию и нажмите «Пригласить» в карточке соперника. Откроются код, QR-код и ссылка; та же кнопка покажет их снова. Аккаунт нужен только вам.
+▪ Остальные нажимают «Подключиться» на странице трекера и вводят код — или открывают вашу ссылку или QR-код.
 ▪ Каждый гость заполняет свою сторону на своём устройстве: имя, фракцию, детачменты, лист. Потом нажимает «Готово». До этого с его телефона ничего не уходит.
-▪ Вы выбираете миссию, поле, очерёдность хода и что отслеживать. Партию начинаете вы, когда сторона соперника на месте.
+▪ Вы выбираете миссию, поле, очерёдность хода и то, ведутся ли CP и фазы, — для всех телефонов. Что ещё показывает телефон, каждый выбирает на своём. Партию начинаете вы, когда сторона соперника на месте.
 ▪ Сторону заполняет один телефон — тот, что подключился к ней первым. Он может передать право партнёру.
 ▪ Пока вы на шаге «Армии», гость меняет свою сторону свободно. Когда вы ушли дальше, он просит, а вы отвечаете.
 **Одна партия на нескольких телефонах**
