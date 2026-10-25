@@ -201,6 +201,9 @@ function isPerEach(text) {
 .mcard-name-ru {
   order: 4;
   flex-basis: 100%;
+  /* Right under the name, as its subtitle (owner, 2026-10-25): the head's row gap and the display
+     face's tall line left it floating apart. */
+  margin-top: -0.4rem;
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--text-muted);
