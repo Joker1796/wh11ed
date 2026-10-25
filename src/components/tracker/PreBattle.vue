@@ -25,6 +25,14 @@
          2026-10-25: a column for the numbers and a row for each name cost a third of a phone's
          screen). The sides' names stand in their colours in the steps' text. -->
     <ol class="pb-steps">
+      <!-- Steps 1–5 were the setup's: said in one line, so the list does not seem to start at 6 out
+           of nowhere (owner, 2026-10-25), and the numbers stay the Event Companion's. -->
+      <li class="pb-step pb-done-steps">
+        <span class="pb-n">1–5</span><span>{{ labels.pbStepsDone }}</span><i
+          class="wi wi-check pb-tick"
+          aria-hidden="true"
+        />
+      </li>
       <!-- 6 · The secondaries. Each side on its own phone in a shared game, in secret: a side
            another phone plays says only that it is choosing, or has chosen, until both have
            (`secondaryPending`, confirmed with Done). On one phone both are chosen here openly. -->
@@ -319,9 +327,11 @@ function roll(i) {
 }
 .pb-step { min-width: 0; }
 .pb-name { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
-.pb-n { margin-right: 0.4rem; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--accent-ink); }
+.pb-n { margin-right: 0.4rem; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; } /* the text's own colour (owner) */
 .pb-text { margin: 0.1rem 0 0; font-size: 0.84rem; line-height: 1.4; color: var(--text-muted); }
 .pb-player { font-weight: 600; }
+.pb-done-steps { grid-column: 1 / -1; font-size: 0.84rem; color: var(--text-muted); }
+.pb-tick { margin-left: 0.35rem; font-size: 0.8rem; }
 /* A side's choice on one line: the name, the switch beside it (and Done), the cards under them. One
    grid for both sides (each side's box is `display: contents`): the names' column is as wide as the
    longer name, up to 35% of the line, so the two switches start at one edge. */

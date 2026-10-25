@@ -34,10 +34,11 @@ const mountIt = () => mount(PreBattle, { global: { stubs: { RouterLink } } })
 const step = (w, n) => w.findAll('.pb-step').find((s) => s.find('.pb-n').text() === String(n))
 
 describe('PreBattle — one phone', () => {
-  it('lists steps 6 to 11, naming who starts each', () => {
+  it('lists steps 6 to 11 after the setup\'s 1–5, naming who starts each', () => {
     startGame()
     const w = mountIt()
-    expect(w.findAll('.pb-n').map((n) => n.text())).toEqual(['6', '7', '8', '9', '10', '11'])
+    expect(w.findAll('.pb-n').map((n) => n.text())).toEqual(['1–5', '6', '7', '8', '9', '10', '11'])
+    expect(w.find('.pb-done-steps').text()).toContain('done in the setup')
     expect(step(w, 8).text()).toContain('Opp, the Defender, sets up a unit first')
     expect(step(w, 9).text()).toContain('Me — the Attacker — first')
     expect(step(w, 11).text()).toContain('starting with whoever goes first')
