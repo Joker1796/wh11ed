@@ -200,7 +200,7 @@ describe('presets (owner, 2026-10-17)', () => {
     }
     const s = defaultTrackSettings()
     applyTrackPreset(s, 'base')
-    s.showLogStats = true
+    s.trackPhases = true
     expect(presetOf(s, CTX_FULL)).toBeNull()
   })
   it('names only rows the table has, and leaves the colours and the broadcast alone', () => {
@@ -223,8 +223,8 @@ describe('presets (owner, 2026-10-17)', () => {
   it('minimal: nothing', () => {
     expect(on('minimal')).toEqual([])
   })
-  it('base: CP without stratagems, the missions, the army counters, the modifiers without a family', () => {
-    expect(on('base')).toEqual(['cp', 'army-you', 'army-opp', 'missions', 'modifiers'])
+  it('base: CP without stratagems, the missions, the army counters, the modifiers without a family, the log', () => {
+    expect(on('base')).toEqual(['cp', 'army-you', 'army-opp', 'missions', 'log-stats', 'modifiers'])
   })
   it('maximal: everything', () => {
     expect(on('maximal')).toHaveLength(TRACK_OPTIONS.length - 2)

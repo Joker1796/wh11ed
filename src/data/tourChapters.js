@@ -165,8 +165,8 @@ export const TOUR_CHAPTERS = {
     steps: [
       {
         target: 'setup-presets',
-        ru: { title: 'Готовые наборы', text: 'Выберите набор: «Минимальный» — только счёт и миссии, «Базовый» — ещё CP, помощь с миссиями, счётчики армий и модификаторы, «Максимальный» — всё. Галочки ниже можно менять и после выбора, набор тогда называется «Свой».' },
-        en: { title: 'Ready sets', text: 'Pick a set: “Minimal” is the score and the missions, “Base” adds CP, the mission help, the army counters and the modifiers, “Maximal” is everything. You can still change the boxes below; the set is then called “Your own”.' },
+        ru: { title: 'Готовые наборы', text: 'Выберите набор: «Минимальный» — только счёт и миссии, «Базовый» — ещё CP, помощь с миссиями, счётчики армий, модификаторы и вкладки «Лог» и «Статистика», «Максимальный» — всё. Галочки ниже можно менять и после выбора, набор тогда называется «Свой».' },
+        en: { title: 'Ready sets', text: 'Pick a set: “Minimal” is the score and the missions, “Base” adds CP, the mission help, the army counters, the modifiers and the Log and Stats tabs, “Maximal” is everything. You can still change the boxes below; the set is then called “Your own”.' },
       },
       {
         target: 'setup-opts-game',

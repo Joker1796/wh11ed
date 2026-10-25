@@ -449,7 +449,8 @@ export function optionsIn(group) {
 // button — how the screen looks, not how much the tracker does.
 //   minimal  nothing: the score and the missions, which are the game
 //   base     the default: CP without stratagems, the mission help, the army-rule counters, the
-//            modifiers without a single family under them
+//            modifiers without a single family under them, and the Log and Stats tabs (owner,
+//            2026-10-25: the log is how a game is put right afterwards)
 //   maximal  everything
 const PRESET_ROWS = TRACK_OPTIONS.filter((o) => o.group !== 'look' || o.id === 'log-stats').map((o) => o.setting)
 const every = (on) => Object.fromEntries(PRESET_ROWS.map((k) => [k, on]))
@@ -464,7 +465,7 @@ export const TRACK_PRESETS = [
     id: 'base',
     label: 'trackerPresetBase',
     blurb: 'trackerPresetBaseBlurb',
-    values: { ...every(false), trackCP: true, trackMissionAids: true, trackArmyYou: true, trackArmyOpp: true, trackModifiers: true },
+    values: { ...every(false), trackCP: true, trackMissionAids: true, trackArmyYou: true, trackArmyOpp: true, trackModifiers: true, showLogStats: true },
   },
   {
     id: 'maximal',

@@ -60,7 +60,7 @@ game below for which rows are a phone's own. What each family governs on the ros
 in `src/components/roster/CLAUDE.md`.
 
 `TRACK_PRESETS` — Minimal (nothing), Base (CP without stratagems, the mission help, both army-rule
-counters, the modifiers without a family) and Maximal (everything) — are starting points over the
+counters, the modifiers without a family, the Log and Stats tabs — since 2026-10-25) and Maximal (everything) — are starting points over the
 rows. `TrackPresets.vue` is a "Preset" button with the preset in force named beside it (or "Your
 own"); the button opens a dialog showing the game screen with each — three columns on a wide screen,
 one under a three-way switch on a phone — drawn live by `help/PresetDemo.vue`: the score board,
