@@ -68,6 +68,10 @@ export default {
         {
           "to": "celestian-sacresants",
           "type": "leader"
+        },
+        {
+          "to": "crusaders",
+          "type": "leader"
         }
       ],
       "minis": [
@@ -446,6 +450,10 @@ export default {
         },
         {
           "to": "retributor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "crusaders",
           "type": "leader"
         }
       ],
@@ -1337,6 +1345,10 @@ export default {
         {
           "to": "sisters-novitiate-squad",
           "type": "support"
+        },
+        {
+          "to": "crusaders",
+          "type": "support"
         }
       ],
       "defaults": [
@@ -1402,6 +1414,10 @@ export default {
         },
         {
           "to": "dominion-squad",
+          "type": "support"
+        },
+        {
+          "to": "crusaders",
           "type": "support"
         }
       ],
@@ -1727,6 +1743,10 @@ export default {
         {
           "to": "sisters-novitiate-squad",
           "type": "support"
+        },
+        {
+          "to": "crusaders",
+          "type": "support"
         }
       ],
       "defaults": [
@@ -1792,6 +1812,10 @@ export default {
         },
         {
           "to": "celestian-insidiants",
+          "type": "support"
+        },
+        {
+          "to": "crusaders",
           "type": "support"
         }
       ],
@@ -2009,6 +2033,10 @@ export default {
         {
           "to": "battle-sisters-squad",
           "type": "leader"
+        },
+        {
+          "to": "crusaders",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -2078,6 +2106,10 @@ export default {
         },
         {
           "to": "sanctifiers",
+          "type": "leader"
+        },
+        {
+          "to": "crusaders",
           "type": "leader"
         }
       ],
@@ -2352,6 +2384,10 @@ export default {
         },
         {
           "to": "dominion-squad",
+          "type": "leader"
+        },
+        {
+          "to": "crusaders",
           "type": "leader"
         }
       ],
@@ -3786,6 +3822,10 @@ export default {
       "leads": [
         {
           "to": "battle-sisters-squad",
+          "type": "leader"
+        },
+        {
+          "to": "crusaders",
           "type": "leader"
         }
       ],

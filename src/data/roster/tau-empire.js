@@ -824,6 +824,10 @@ export default {
         {
           "to": "crisis-fireknife-battlesuits",
           "type": "leader"
+        },
+        {
+          "to": "crisis-battlesuits",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -885,6 +889,10 @@ export default {
         },
         {
           "to": "crisis-starscythe-battlesuits",
+          "type": "leader"
+        },
+        {
+          "to": "crisis-battlesuits",
           "type": "leader"
         }
       ],
@@ -1344,6 +1352,10 @@ export default {
         },
         {
           "to": "crisis-fireknife-battlesuits",
+          "type": "leader"
+        },
+        {
+          "to": "crisis-battlesuits",
           "type": "leader"
         }
       ],

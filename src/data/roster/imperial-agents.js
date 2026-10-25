@@ -2512,6 +2512,26 @@ export default {
         {
           "to": "sanctifiers",
           "type": "leader"
+        },
+        {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "indomitor-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "proteus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "spectrus-kill-team",
+          "type": "leader"
         }
       ],
       "leadKw": [
@@ -2662,6 +2682,26 @@ export default {
         {
           "to": "grey-knights-terminator-squad",
           "type": "leader"
+        },
+        {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "indomitor-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "proteus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "spectrus-kill-team",
+          "type": "leader"
         }
       ],
       "leadKw": [
@@ -2758,6 +2798,26 @@ export default {
         },
         {
           "to": "subductor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "indomitor-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "proteus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "spectrus-kill-team",
           "type": "leader"
         }
       ],
@@ -2891,6 +2951,10 @@ export default {
         {
           "to": "subductor-squad",
           "type": "leader"
+        },
+        {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
         }
       ],
       "leadKw": [
@@ -2972,6 +3036,26 @@ export default {
         },
         {
           "to": "inquisitorial-agents",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "indomitor-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "proteus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "spectrus-kill-team",
           "type": "leader"
         }
       ],
@@ -3413,6 +3497,26 @@ export default {
         },
         {
           "to": "sanctifiers",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "indomitor-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "proteus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "spectrus-kill-team",
           "type": "leader"
         }
       ],
@@ -6081,6 +6185,26 @@ export default {
         {
           "to": "deathwatch-kill-team",
           "type": "leader"
+        },
+        {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "indomitor-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "proteus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "spectrus-kill-team",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -6134,6 +6258,26 @@ export default {
         },
         {
           "to": "aquila-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "indomitor-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "proteus-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "spectrus-kill-team",
           "type": "leader"
         }
       ],

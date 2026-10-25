@@ -79,6 +79,12 @@ export default {
       "leader"
     ]
   ],
+  "plague-toads": [
+    [
+      "Horticulous Slimux",
+      "leader"
+    ]
+  ],
   "plaguebearers": [
     [
       "Epidemius",
@@ -94,6 +100,12 @@ export default {
     ],
     [
       "Spoilpox Scrivener",
+      "leader"
+    ]
+  ],
+  "pox-riders": [
+    [
+      "Horticulous Slimux",
       "leader"
     ]
   ],

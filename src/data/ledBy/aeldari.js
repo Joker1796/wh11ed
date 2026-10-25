@@ -7,6 +7,24 @@ export default {
       "leader"
     ]
   ],
+  "corsair-reaver-band": [
+    [
+      "Kharseth",
+      "leader"
+    ],
+    [
+      "Prince Yriel",
+      "leader"
+    ],
+    [
+      "Yvraine",
+      "leader"
+    ],
+    [
+      "The Visarch",
+      "support"
+    ]
+  ],
   "corsair-voidreavers": [
     [
       "Kharseth",

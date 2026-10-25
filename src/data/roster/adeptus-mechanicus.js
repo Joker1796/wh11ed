@@ -2169,6 +2169,14 @@ export default {
         {
           "to": "hastarii-exterminators",
           "type": "support"
+        },
+        {
+          "to": "secutarii-hoplites",
+          "type": "support"
+        },
+        {
+          "to": "secutarii-peltasts",
+          "type": "support"
         }
       ],
       "defaults": [
@@ -2925,6 +2933,14 @@ export default {
         {
           "to": "hastarii-exterminators",
           "type": "leader"
+        },
+        {
+          "to": "secutarii-hoplites",
+          "type": "leader"
+        },
+        {
+          "to": "secutarii-peltasts",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -3040,6 +3056,14 @@ export default {
         {
           "to": "servitor-battleclade",
           "type": "leader"
+        },
+        {
+          "to": "secutarii-hoplites",
+          "type": "leader"
+        },
+        {
+          "to": "secutarii-peltasts",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -3126,6 +3150,14 @@ export default {
         },
         {
           "to": "kataphron-destroyers",
+          "type": "leader"
+        },
+        {
+          "to": "secutarii-hoplites",
+          "type": "leader"
+        },
+        {
+          "to": "secutarii-peltasts",
           "type": "leader"
         }
       ],
@@ -3224,6 +3256,14 @@ export default {
         },
         {
           "to": "skitarii-vanguard",
+          "type": "support"
+        },
+        {
+          "to": "secutarii-hoplites",
+          "type": "support"
+        },
+        {
+          "to": "secutarii-peltasts",
           "type": "support"
         }
       ],

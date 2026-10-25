@@ -43,6 +43,10 @@ export default {
         {
           "to": "death-company-marines-with-jump-packs",
           "type": "leader"
+        },
+        {
+          "to": "death-company-marines-with-boltguns-and-jump-packs",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -578,6 +582,10 @@ export default {
         {
           "to": "death-company-marines",
           "type": "leader"
+        },
+        {
+          "to": "death-company-marines-with-boltguns",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -665,6 +673,10 @@ export default {
       "leads": [
         {
           "to": "death-company-marines-with-jump-packs",
+          "type": "leader"
+        },
+        {
+          "to": "death-company-marines-with-boltguns-and-jump-packs",
           "type": "leader"
         }
       ],
@@ -1798,6 +1810,10 @@ export default {
       "leads": [
         {
           "to": "death-company-marines-with-jump-packs",
+          "type": "leader"
+        },
+        {
+          "to": "death-company-marines-with-boltguns-and-jump-packs",
           "type": "leader"
         }
       ],

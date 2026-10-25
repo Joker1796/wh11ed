@@ -17,7 +17,19 @@ export default {
   ],
   "crisis-battlesuits": [
     [
+      "Commander Farsight",
+      "leader"
+    ],
+    [
+      "Commander in Coldstar Battlesuit",
+      "leader"
+    ],
+    [
       "Commander in Crisis Battlesuit",
+      "leader"
+    ],
+    [
+      "Commander in Enforcer Battlesuit",
       "leader"
     ]
   ],

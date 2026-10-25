@@ -121,6 +121,48 @@ export default {
       "support"
     ]
   ],
+  "crusaders": [
+    [
+      "Aestred Thurga and Agathae Dolan",
+      "leader"
+    ],
+    [
+      "Canoness",
+      "leader"
+    ],
+    [
+      "Junith Eruita",
+      "leader"
+    ],
+    [
+      "Ministorum Priest",
+      "leader"
+    ],
+    [
+      "Palatine",
+      "leader"
+    ],
+    [
+      "Triumph of Saint Katherine",
+      "leader"
+    ],
+    [
+      "Dialogus",
+      "support"
+    ],
+    [
+      "Dogmata",
+      "support"
+    ],
+    [
+      "Hospitaller",
+      "support"
+    ],
+    [
+      "Imagifier",
+      "support"
+    ]
+  ],
   "dominion-squad": [
     [
       "Aestred Thurga and Agathae Dolan",

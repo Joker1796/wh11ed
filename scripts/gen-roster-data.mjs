@@ -3779,6 +3779,76 @@ function mirrorPackLeads(slug, pack) {
   }
 }
 
+// The other side of MIRROR_ATTACH for the Faction Pack Legends: a Legends BODYGUARD whose own
+// sheet says "If a CHARACTER unit from your army with the Leader ability can be attached to a
+// Sternguard Veteran Squad or Vanguard Veteran Squad, it can be attached to this unit instead".
+// MIRROR_ATTACH reads that sentence out of appdata only, and appdata does not carry the pack sheets,
+// so Wolf Guard could be led by Krom Dragongaze alone (his own sheet names it) and its Chosen
+// Companions never applied (found 2026-10-25). Every leader of the named units — this faction's, and
+// for a Chapter the Space Marines pool it folds in — gains the unit at the type it leads the named
+// one, gated the same way. The head of the sentence is a restriction ("a CHAPLAIN model", "a
+// Ministorum Priest or Inquisitor model", "(excluding Epic Heroes)"); a named unit we cannot
+// resolve — by name, else by keyword — is reported, never guessed.
+// Units a pack sheet still names that no longer exist in the game (not in appdata, not in any pack
+// we transcribe): the sentence then borrows from nobody, which is what the rule says today.
+const PACK_MIRROR_GONE = new Set(['tactical squad', 'assault squad with jump packs', 'devastator squad'])
+const PACK_MIRROR_RE = /If an? ([^.]*?) can be attached to (?:an? )?([^.]*?), it can be attached to this unit instead/gi
+async function mirrorPackBodyguards() {
+  const bySlug = new Map(built.map(({ slug, data }) => [slug, data]))
+  const sheetsOf = new Map()
+  const sheets = async (slug) => {
+    if (!sheetsOf.has(slug)) sheetsOf.set(slug, (await loadModule(path.join(ROOT, 'src/data/datasheets', `${slug}.js`)))?.default || [])
+    return sheetsOf.get(slug)
+  }
+  report.packMirror = { added: [], unread: [] }
+  for (const { slug, data } of built) {
+    const own = await sheets(slug)
+    const packSheets = own.filter((d) => d.source === 'faction-pack' && data.units.some((u) => u.id === d.id))
+    if (!packSheets.length) continue
+    const sm = isChapter(slug) ? bySlug.get('space-marines') : null
+    const shared = new Set(data.sharedUnitIds || [])
+    const pool = [...data.units, ...(sm ? sm.units.filter((u) => shared.has(u.id)) : [])]
+    const smSheets = sm ? await sheets('space-marines') : []
+    const sheetOf = (id) => own.find((d) => d.id === id) || smSheets.find((d) => d.id === id)
+    const kwsOf = (u) => (sheetOf(u.id) ? unitKeywordsOf(sheetOf(u.id)) : [...(u.kws || []), u.name]).map(norm)
+    const byName = (name) => {
+      const n = norm(name).replace(/ units?$/, '')
+      return pool.filter((u) => [norm(u.name), norm(u.name).replace(/s$/, '')].includes(n) || norm(u.name) === n.replace(/s$/, ''))
+    }
+    for (const d of packSheets) {
+      const text = [...(d.abilities || []), ...(d.rules || [])].map((a) => a.text || '').join('\n')
+      for (const m of text.matchAll(PACK_MIRROR_RE)) {
+        const head = m[1]
+        const noEpic = /excluding[^)]*epic/i.test(head)
+        const need = head.replace(/\([^)]*\)/g, '').replace(/ from your army.*$/i, '').replace(/ (model|unit)s?$/i, '')
+          .split(/ or /i).map((k) => norm(k)).filter((k) => k && !['character', 'model', 'unit'].includes(k))
+        const names = m[2].split(/,? or an? |,? or /i).map((x) => x.replace(/^(an?|the) /i, '').trim())
+        const from = new Set()
+        for (const name of names) {
+          let hit = byName(name)
+          // "a DEATHWATCH KILL TEAM": a keyword, not a datasheet name.
+          if (!hit.length) hit = pool.filter((u) => kwsOf(u).includes(norm(name).replace(/ units?$/, '')))
+          if (!hit.length && !PACK_MIRROR_GONE.has(norm(name))) report.packMirror.unread.push(`${d.name}: "${name}"`)
+          for (const u of hit) if (u.id !== d.id) from.add(u.id)
+        }
+        if (!from.size) continue
+        for (const leader of pool) {
+          const via = (leader.leads || []).find((l) => from.has(l.to))
+          if (!via || leader.leads.some((l) => l.to === d.id && l.type === via.type)) continue
+          if (noEpic && leader.flags?.epic) continue
+          if (need.length && !need.some((k) => kwsOf(leader).some((x) => x === k || x.includes(k)))) continue
+          const lead = { to: d.id, type: via.type }
+          if (via.reqDet) lead.reqDet = via.reqDet
+          if (via.exclDet) lead.exclDet = via.exclDet
+          if (via.allKw) lead.allKw = [...via.allKw]
+          leader.leads.push(lead)
+          report.packMirror.added.push(`${leader.name} → ${d.name} (Legends)`)
+        }
+      }
+    }
+  }
+}
+
 // "Led by" / "Supported by" for a BODYGUARD unit's datasheet page (owner, 2026-10-07): the reverse
 // of every leader's `leads`, per faction, so the datasheet shows who may join the unit the way a
 // leader's shows whom it may join. Read from the roster layer rather than from the printed "can be
@@ -3993,8 +4063,11 @@ for (const { slug, data } of built) {
   mirrorPackLeads(slug, pack)
   oneEachPerModel(slug, data.units)
   crossGroupPerModel(slug, data.units)
-  writeOut(`${slug}.js`, `${HEAD}export default ${stableJson(data)}\n`)
 }
+// After every faction is built: a Chapter's Legends bodyguard borrows leaders from the Space Marines
+// file, which is built before it.
+await mirrorPackBodyguards()
+for (const { slug, data } of built) writeOut(`${slug}.js`, `${HEAD}export default ${stableJson(data)}\n`)
 await genCombatPatrol()
 genItems() // after all factions — the intern dicts are complete
 genIndex()
@@ -4056,6 +4129,12 @@ if (report.hosts.unread.length) console.log(`    !! ${report.hosts.unread.length
   console.log(`  ${report.mirror.rules} "attached to this unit instead" rules read; ${seen.length} link${seen.length === 1 ? '' : 's'} appdata's own tables did not carry:`)
   for (const l of seen) console.log(`      - ${l}`)
   if (report.mirror.unread.length) console.log(`    !! ${report.mirror.unread.length} could not be read: ${report.mirror.unread.join(', ')}`)
+  if (report.packMirror) {
+    const added = [...new Set(report.packMirror.added)]
+    console.log(`  Faction Pack Legends that take whoever leads another unit: ${added.length} link${added.length === 1 ? '' : 's'} added`)
+    for (const a of added) console.log(`    ${a}`)
+    if (report.packMirror.unread.length) console.log(`    !! ${report.packMirror.unread.length} named unit${report.packMirror.unread.length === 1 ? '' : 's'} not found: ${report.packMirror.unread.join('; ')}`)
+  }
 }
 const lk = report.leadKw
 console.log(`  ${report.proseAttachAdded} attachment${report.proseAttachAdded === 1 ? '' : 's'} appdata states only in prose, added by hand (PROSE_ATTACH)`)

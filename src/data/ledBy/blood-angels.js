@@ -167,7 +167,33 @@ export default {
   ],
   "death-company-marines-with-boltguns": [
     [
+      "Chaplain",
+      "leader"
+    ],
+    [
+      "Death Company Captain",
+      "leader"
+    ],
+    [
       "Tycho the Lost",
+      "leader"
+    ]
+  ],
+  "death-company-marines-with-boltguns-and-jump-packs": [
+    [
+      "Astorath",
+      "leader"
+    ],
+    [
+      "Chaplain with Jump Pack",
+      "leader"
+    ],
+    [
+      "Death Company Captain with Jump Pack",
+      "leader"
+    ],
+    [
+      "Lemartes",
       "leader"
     ]
   ],

@@ -2436,3 +2436,43 @@ describe('an enhancement that names a faction keyword', () => {
     expect(wrong).toEqual([])
   }, 60000)
 })
+
+// A Faction Pack Legends bodyguard whose own sheet says "If a CHARACTER unit from your army with the
+// Leader ability can be attached to a X, it can be attached to this unit instead": every leader of X
+// leads it too. appdata carries no pack sheet, so the appdata-side mirror never read these — Wolf
+// Guard could be led by Krom Dragongaze alone, and its Chosen Companions never applied (2026-10-25).
+describe('a Legends unit that takes whoever leads another unit', () => {
+  const MIRROR = /If an? ([^.]*?) can be attached to (?:an? )?([^.]*?), it can be attached to this unit instead/gi
+  it('every leader of the named unit can lead it (unrestricted wordings)', async () => {
+    const missing = []
+    for (const f of fs.readdirSync(DIR).filter((f) => /^[a-z-]+\.js$/.test(f) && !['index.js', 'items.js', 'core.js'].includes(f))) {
+      const slug = f.replace(/\.js$/, '')
+      const sheets = (await import(`../datasheets/${slug}.js`)).default.filter((d) => d.source === 'faction-pack')
+      if (!sheets.length) continue
+      const fac = await loadRosterFaction(slug)
+      const norm = (s) => s.toLowerCase().replace(/ units?$/, '').replace(/s$/, '')
+      for (const d of sheets) {
+        if (!fac.units.some((u) => u.id === d.id)) continue
+        const text = [...(d.abilities || []), ...(d.rules || [])].map((a) => a.text || '').join('\n')
+        for (const m of text.matchAll(MIRROR)) {
+          // Only the heads that restrict nothing but "a Character / a model with the Leader ability".
+          if (!/^(character|model|unit)\b/i.test(m[1]) || /\(/.test(m[1])) continue
+          for (const name of m[2].split(/,? or an? |,? or /i).map((x) => x.replace(/^(an?|the) /i, ''))) {
+            const named = fac.units.filter((u) => norm(u.name) === norm(name))
+            for (const t of named) {
+              for (const l of fac.units.filter((u) => (u.leads || []).some((x) => x.to === t.id))) {
+                if (!(l.leads || []).some((x) => x.to === d.id)) missing.push(`${slug}: ${l.name} leads ${t.name} but not ${d.name}`)
+              }
+            }
+          }
+        }
+      }
+    }
+    expect(missing).toEqual([])
+  }, 60000)
+  it('a Captain leads Wolf Guard', async () => {
+    const sw = await loadRosterFaction('space-wolves')
+    const leadsWg = sw.units.filter((u) => (u.leads || []).some((l) => l.to === 'wolf-guard')).map((u) => u.id)
+    expect(leadsWg).toEqual(expect.arrayContaining(['captain', 'lieutenant', 'krom-dragongaze']))
+  })
+})

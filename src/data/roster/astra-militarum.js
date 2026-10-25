@@ -3350,6 +3350,10 @@ export default {
         {
           "to": "cadian-shock-troops",
           "type": "leader"
+        },
+        {
+          "to": "death-korps-grenadier-squad",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -3514,6 +3518,10 @@ export default {
         {
           "to": "krieg-combat-engineers",
           "type": "leader"
+        },
+        {
+          "to": "death-korps-grenadier-squad",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -3585,6 +3593,10 @@ export default {
         },
         {
           "to": "kasrkin",
+          "type": "leader"
+        },
+        {
+          "to": "death-korps-grenadier-squad",
           "type": "leader"
         }
       ],
@@ -6382,6 +6394,10 @@ export default {
         {
           "to": "death-korps-of-krieg",
           "type": "leader"
+        },
+        {
+          "to": "death-korps-grenadier-squad",
+          "type": "leader"
         }
       ],
       "minis": [
@@ -7963,6 +7979,10 @@ export default {
         {
           "to": "death-korps-of-krieg",
           "type": "leader"
+        },
+        {
+          "to": "death-korps-grenadier-squad",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -9487,6 +9507,10 @@ export default {
         {
           "to": "krieg-combat-engineers",
           "type": "leader"
+        },
+        {
+          "to": "death-korps-grenadier-squad",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -10187,6 +10211,10 @@ export default {
         },
         {
           "to": "catachan-jungle-fighters",
+          "type": "leader"
+        },
+        {
+          "to": "death-korps-grenadier-squad",
           "type": "leader"
         }
       ],
@@ -12482,6 +12510,10 @@ export default {
         },
         {
           "to": "kasrkin",
+          "type": "leader"
+        },
+        {
+          "to": "death-korps-grenadier-squad",
           "type": "leader"
         }
       ],

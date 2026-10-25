@@ -137,6 +137,26 @@ export default {
   ],
   "deathwing-command-squad": [
     [
+      "Belial",
+      "leader"
+    ],
+    [
+      "Captain in Terminator Armour",
+      "leader"
+    ],
+    [
+      "Chaplain in Terminator Armour",
+      "leader"
+    ],
+    [
+      "Librarian in Terminator Armour",
+      "leader"
+    ],
+    [
+      "Ancient in Terminator Armour",
+      "support"
+    ],
+    [
       "Deathwing Strikemaster",
       "support"
     ]
