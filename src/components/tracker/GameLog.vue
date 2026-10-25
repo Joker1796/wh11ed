@@ -201,6 +201,7 @@ function line(e) {
     case 'core': return l.trackerLogCore
     case 'bonus': return l.trackerLogBonus
     case 'adjust': return l.trackerLogAdjust.replace('{n}', signed(e.amount))
+    case 'spend': return l.trackerLogSpend.replace('{cp}', -e.amount)
     case 'strat': return (e.target ? l.trackerLogStratOn.replace('{unit}', e.target.name || '') : l.trackerLogStrat).replace('{name}', e.name || '').replace('{cp}', -e.amount)
     case 'undo': return e.of ? l.trackerLogUndo.replace('{what}', line({ ...e.of, pi: e.pi })) : ''
     case 'fix': return (e.atTurn == null ? l.trackerLogFixRound : l.trackerLogFix.replace('{who}', props.names[e.atTurn] || ''))

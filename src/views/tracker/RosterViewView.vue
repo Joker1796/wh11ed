@@ -1644,7 +1644,7 @@ const viewingGameCtx = computed(() => {
 // Strict rules: a stratagem played on this unit before the side's last act cannot be unticked —
 // the box stays on, greyed, with why (ConditionChips' `strictLast`).
 function strictStrats(list, entry) {
-  if (!keeps('trackStratPlay')) return list
+  if (!keeps('stratSpendCp')) return list
   return list.map((st) => (st.on && tracker.value?.strictUndoWhy?.('unplay', gamePi.value, entry.uid, st.id)
     ? { ...st, blocked: true, blockedBy: 'strictLast' }
     : st))
@@ -1659,7 +1659,8 @@ async function toggleUnitStrat(st) {
   const entry = viewingEntry.value
   const t = tracker.value
   if (!entry || !t) return
-  if (!keeps('trackStratPlay')) {
+  // Shown but not paid for here (`stratSpendCp` off): the plain mark too.
+  if (!keeps('stratSpendCp')) {
     t.setUnitStratagem(gamePi.value, entry.uid, st.id, stampOf(gameClock.value), !st.on, gameMi.value, actOf(entry, st))
     return
   }

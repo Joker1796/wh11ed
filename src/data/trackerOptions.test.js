@@ -98,8 +98,8 @@ describe('availability', () => {
   it('leaves the tracker\'s own rows alone', () => {
     // The two army rows want a faction; the clock, its reminder and the colours are always offered
     // (a side with no faction still has a colour to customise).
-    expect(enabled(CTX_BARE)).toEqual(['cp', 'strat-play', 'strat-ask', 'phases', 'phase-rules', 'missions', 'broadcast', 'log', 'stats', 'custom-colors'])
-    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'strat-play', 'strat-ask', 'phases', 'phase-rules', 'missions', 'broadcast', 'log', 'stats', 'custom-colors'])
+    expect(enabled(CTX_BARE)).toEqual(['cp', 'strat-play', 'strat-spend', 'strat-ask', 'phases', 'phase-rules', 'missions', 'broadcast', 'log', 'stats', 'custom-colors'])
+    expect(enabled({ ...CTX_BARE, you: { faction: 'orks' } })).toEqual(['cp', 'army-you', 'strat-play', 'strat-spend', 'strat-ask', 'phases', 'phase-rules', 'missions', 'broadcast', 'log', 'stats', 'custom-colors'])
   })
 })
 
@@ -246,7 +246,16 @@ describe('the rows of 2026-10-17', () => {
     expect(tracks({ trackCP: false, trackStratPlay: true }, 'trackStratPlay')).toBe(false)
     expect(tracks({ trackCP: true, trackStratPlay: false, askStratagems: true }, 'askStratagems')).toBe(false)
     expect(depthOf(TRACK_OPTIONS.find((o) => o.id === 'strat-play'))).toBe(1)
-    expect(depthOf(TRACK_OPTIONS.find((o) => o.id === 'strat-ask'))).toBe(2)
+    expect(depthOf(TRACK_OPTIONS.find((o) => o.id === 'strat-spend'))).toBe(2)
+    expect(depthOf(TRACK_OPTIONS.find((o) => o.id === 'strat-ask'))).toBe(3)
+  })
+  // Shown and paid for are two rows (owner, 2026-10-25): a game can list its stratagems and count
+  // CP by hand. A game saved before the row paid as it did.
+  it('paying for stratagems hangs off showing them, and the ask off paying', () => {
+    expect(tracks({ trackCP: true, trackStratPlay: true }, 'stratSpendCp')).toBe(true)
+    expect(tracks({ trackCP: true, trackStratPlay: false, stratSpendCp: true }, 'stratSpendCp')).toBe(false)
+    expect(tracks({ trackCP: true, trackStratPlay: true, stratSpendCp: false, askStratagems: true }, 'askStratagems')).toBe(false)
+    expect(tracks({ trackCP: true, trackStratPlay: true, stratSpendCp: false, trackModifiers: true, trackStratagems: true }, 'trackStratagems')).toBe(true)
   })
   it('a spent stratagem changes the card only where stratagems are played AND the modifiers are on', () => {
     const s = { trackCP: true, trackStratPlay: true, trackModifiers: true, trackStratagems: true }

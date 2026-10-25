@@ -38,8 +38,12 @@ the player's answer. Without it "Track phases", remembered from a game that had 
 phase row in a game that had none.
 
 **Four groups, three presets (owner, 2026-10-14; reshaped 2026-10-17).** `turn` — CP (`trackCP`, the
-counter), under it playing stratagems (`trackStratPlay`: the CP tab's list and a unit card's play;
-off, the CP tab is the counter alone and a card's stratagem box is a plain mark), under that
+counter), under it showing stratagems (`trackStratPlay`: the CP tab's list and a unit card's box;
+off, the CP tab is the counter alone), under that paying for them (`stratSpendCp`, split off on
+2026-10-25 after a player found the only way to spend CP in a Base game was the pencil: off, the
+list is a reference with the cost as a label, a card's stratagem box is a plain mark, and the
+balance carries − and + — `CpBank`'s `stepper`; "−" is `spendCpByHand`, a spend the log tells as
+one and strict rules allow, "+" the old correction), under that
 `askStratagems` (off, a stratagem is spent at its printed cost at one tap — on no unit from the CP
 tab, on the unit from its card — and a play the tracker refuses opens StratPlayModal after all,
 which says why); the clock (`trackPhases`), the phase reminder (`trackPhaseRules` — the Phase tab
