@@ -138,6 +138,7 @@
  * @property {Array<{ n: string }>} [minis] miniature profiles, by name
  * @property {LeadLink[]} [leads]
  * @property {LeadKeywordGroup[]} [leadKw]
+ * @property {{ by?: string[], to?: string[], one: string[] }} [joins] joins a unit already led (gen-roster-data's readJoins): `by` the characters that must lead it, `to` the units it may join, `one` the units of which one only may join one unit
  * @property {string[]} [along] keywords of a Leader this one may join beside
  * @property {{ n?: number, minModels?: number, noDup?: 1, oneKw?: string }} [hosts] a bodyguard that holds more than one Leader
  * @property {AllegianceChoice} [alleg]

@@ -86,6 +86,7 @@ export function useRosterDerived(roster, factionData) {
   function attachRole(e) {
     const host = e.leaderOf && units.value.find((u) => u.uid === e.leaderOf)
     if (!host) return ''
+    if (defOf(e.id)?.joins) return labels.value.rosterJoinTag
     const type = leadTo(leadsFor(defOf(e.id), e, curDetachments.value, armySidsOf(units.value, defOf)), host.id)?.type
     return type === 'support' ? labels.value.rosterSupportTag : labels.value.rosterLeaderTag
   }

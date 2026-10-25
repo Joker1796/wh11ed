@@ -547,7 +547,24 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "joins": {
+        "by": [
+          "inquisitor",
+          "inquisitor-coteaz",
+          "inquisitor-draxus",
+          "inquisitor-eisenhorn",
+          "inquisitor-greyfax",
+          "inquisitor-in-terminator-armour",
+          "inquisitor-ostromandeus"
+        ],
+        "to": [
+          "inquisitorial-agents"
+        ],
+        "one": [
+          "daemonhost"
+        ]
+      }
     },
     {
       "id": "damned-legionnaires",

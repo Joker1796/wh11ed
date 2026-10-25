@@ -1855,7 +1855,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // say who joined whom, so anything else in a block that HAS a bodyguard is attached to it —
       // one export prints "Attached as: Bodyguard" under the Tyrant Guard and nothing at all under
       // the Hive Tyrant above it, and reading only the label left the character standing alone.
-      if (m.attachedAs && !/^(leader|support)/i.test(m.attachedAs)) continue
+      if (m.attachedAs && !/^(leader|support|retinue)/i.test(m.attachedAs)) continue
       if (unlabelled && !canLead(m, body)) continue
       m.entry.leaderOf = body.entry.uid
     }

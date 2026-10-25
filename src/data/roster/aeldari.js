@@ -2153,7 +2153,17 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "joins": {
+        "to": [
+          "guardian-defenders"
+        ],
+        "one": [
+          "d-cannon-platform",
+          "shadow-weaver-platform",
+          "vibro-cannon-platform"
+        ]
+      }
     },
     {
       "id": "dark-reapers",
@@ -4902,7 +4912,17 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "joins": {
+        "to": [
+          "guardian-defenders"
+        ],
+        "one": [
+          "d-cannon-platform",
+          "shadow-weaver-platform",
+          "vibro-cannon-platform"
+        ]
+      }
     },
     {
       "id": "shadowseer",
@@ -6630,7 +6650,17 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "joins": {
+        "to": [
+          "guardian-defenders"
+        ],
+        "one": [
+          "d-cannon-platform",
+          "shadow-weaver-platform",
+          "vibro-cannon-platform"
+        ]
+      }
     },
     {
       "id": "voidweaver",

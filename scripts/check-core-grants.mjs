@@ -151,10 +151,6 @@ const ALLOW = [
     name: 'imperial-agents · Vindicare Assassin: Dead‐shot',
     why: 'the ability TAKES Lone Operative away from enemy units; this layer can hand a core ability out, '
       + 'not remove one, and never from the opponent\'s list.' },
-  { sid: '6ddcfb42-49e2-43ad-9517-3d69a35da32a:cryptothralls',
-    name: 'necrons · Cryptothralls: Bound Creation',
-    why: 'the Feel No Pain goes to the CRYPTEK sharing the unit, and the roster models no attachment '
-      + 'either way for Cryptothralls — neither `leader` nor `led` can reach that card.' },
   { sid: '9579d65f-0b07-430d-9139-fa89007766eb',
     name: 'orks · Flyin’ Headbutt',
     why: 'the stratagem takes the unit\'s own Deadly Demise away before removing it; this layer can hand a '

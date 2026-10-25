@@ -2900,7 +2900,15 @@ export default {
             3281
           ]
         }
-      ]
+      ],
+      "joins": {
+        "by": [
+          "brotherhood-techmarine"
+        ],
+        "one": [
+          "servitors"
+        ]
+      }
     },
     {
       "id": "stormhawk-interceptor",

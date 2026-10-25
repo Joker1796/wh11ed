@@ -43,6 +43,10 @@ export default {
         {
           "to": "incubi",
           "type": "leader"
+        },
+        {
+          "to": "court-of-the-archon",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -310,7 +314,20 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "joins": {
+        "by": [
+          "archon",
+          "lady-malys"
+        ],
+        "to": [
+          "hand-of-the-archon",
+          "kabalite-warriors"
+        ],
+        "one": [
+          "court-of-the-archon"
+        ]
+      }
     },
     {
       "id": "cronos",
@@ -1334,6 +1351,10 @@ export default {
         },
         {
           "to": "hand-of-the-archon",
+          "type": "leader"
+        },
+        {
+          "to": "court-of-the-archon",
           "type": "leader"
         }
       ],

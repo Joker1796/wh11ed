@@ -359,13 +359,24 @@
          already means that (same logic as the enhancement list above). -->
     <ExpandTransition>
       <section
-        v-if="leaderTargets.length"
+        v-if="leaderTargets.length || joinHint"
         class="ues-sec"
       >
         <h4 class="ues-h">
-          {{ labels.rosterAttachTo }}
+          {{ def?.joins ? labels.rosterJoinTo : labels.rosterAttachTo }}
         </h4>
-        <div class="opt-col">
+        <!-- A unit that joins a unit already led: with no such unit in the list, say what it needs
+             rather than draw an empty picker or none at all. -->
+        <p
+          v-if="!leaderTargets.length"
+          class="ues-join-none"
+        >
+          {{ joinHint }}
+        </p>
+        <div
+          v-else
+          class="opt-col"
+        >
           <div
             v-for="t in leaderTargets"
             :key="t.uid"
@@ -433,6 +444,10 @@
                   v-if="s.type === 'support'"
                   class="opt-tag"
                 >{{ labels.rosterSupportTag }}</span>
+                <span
+                  v-else-if="s.type === 'join'"
+                  class="opt-tag"
+                >{{ labels.rosterJoinTag }}</span>
                 <span
                   v-if="s.used"
                   class="opt-tag"
@@ -588,8 +603,18 @@ const props = defineProps({
 })
 // The cards' contexts as objects of their own, not template literals (a new object per render —
 // see RosterUnitBrowser's previewCtx).
-const sheetCtx = computed(() => ({ def: props.def, entry: props.entry, items: props.items, detachments: props.detachments, leaderTargets: props.leaderTargets, units: props.units }))
+const sheetCtx = computed(() => ({ def: props.def, entry: props.entry, items: props.items, detachments: props.detachments, leaderTargets: props.leaderTargets, units: props.units, defOf: props.defOf }))
 const previewCtx = computed(() => ({ detachments: props.detachments }))
+// What a joining unit needs before it can join anything: a unit its rule's character leads, or a
+// unit of the kind it names.
+const joinHint = computed(() => {
+  const j = props.def?.joins
+  if (!j || props.leaderTargets.length) return ''
+  const names = (ids) => [...new Set((ids || []).map((id) => props.defOf?.(id)?.name || id))].join(', ')
+  return j.by?.length
+    ? labels.value.rosterJoinNeedsLeader.replace('{by}', names(j.by))
+    : labels.value.rosterJoinNeedsUnit.replace('{to}', names(j.to))
+})
 const emit = defineEmits(['toggle-warlord', 'add-leader', 'add-host'])
 
 const { locale } = useLocale()
@@ -975,6 +1000,7 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   font-size: 0.82rem;
 }
 .ues-req { font-style: normal; font-size: 0.78rem; margin-left: 0.4rem; }
+.ues-join-none { margin: 0; font-size: 0.8rem; line-height: 1.35; color: var(--text-muted); }
 .pill-tell { opacity: 0.75; }
 .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 /* Which of the two squads of that name this row is. Its OWN line — the name above it is what the

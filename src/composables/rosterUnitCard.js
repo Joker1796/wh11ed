@@ -25,7 +25,7 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import { overlaySheet, enhKey, detKey, findEnhancementProse, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
 import { loadKeywordVocabulary, ruleAppliesTo, unitKeywordsOf } from './ruleTargets.js'
-import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, attachedEnhKeys, armyRuleMatches, armyRuleSection } from './rosterStatMods.js'
+import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, attachedEnhKeys, armyRuleMatches, armyRuleSection, attachmentOf } from './rosterStatMods.js'
 import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
 import { unitDoctrines } from './doctrineRules.js'
@@ -300,17 +300,22 @@ export function useRosterUnitCard(props) {
     const units = props.ctx?.units || []
     const entry = props.ctx?.entry
     if (!entry) return []
+    // A unit that joined a led unit is told apart by its roster definition (`joins`): this card's
+    // own is ctx.def, the others' come from ctx.defOf where the caller has one.
+    const isJoiner = (u) => !!(u.uid === entry.uid ? props.ctx?.def : props.ctx?.defOf?.(u.id))?.joins
+    const at = attachmentOf(entry, units, isJoiner)
     return datasheetEntriesFor(usableModifierEntries.value, {
       unitId: props.unitId,
       // What this entry is actually carrying — a Storm Shield's 4+ invulnerable is not a fact about
       // the datasheet, it is a fact about the model that took the shield.
       itemNames: loadoutItemNames(props.ctx?.def, entry, props.ctx?.items),
-      leaderUnitIds: units.filter((u) => u.leaderOf === entry.uid).map((u) => u.id),
-      ledUnitId: entry.leaderOf ? units.find((u) => u.uid === entry.leaderOf)?.id || null : null,
-      coLeaderUnitIds: entry.leaderOf ? units.filter((u) => u.leaderOf === entry.leaderOf && u.uid !== entry.uid).map((u) => u.id) : [],
+      leaderUnitIds: at.leaders.map((u) => u.id),
+      ledUnitId: at.ledUnitId,
+      coLeaderUnitIds: at.coLeaderUnitIds,
+      joinedUnitIds: at.joinedUnitIds,
       // An enhancement aura worn by an attached Leader covers this unit with no distance to judge
       // (22.01 — the model is standing in it), so it arrives here rather than as a chip.
-      leaderEnhNames: units.filter((u) => u.leaderOf === entry.uid).reduce((set, u) => {
+      leaderEnhNames: at.leaders.reduce((set, u) => {
         if (u.enh) set.add(u.enh)
         return set
       }, new Set()),

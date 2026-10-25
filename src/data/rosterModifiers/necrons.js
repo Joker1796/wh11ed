@@ -399,7 +399,16 @@ export default {
       "hash": "02088f8a",
       "ver": 925,
       "reviewed": true,
-      "effects": []
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "core",
+          "op": "grant",
+          "value": "Feel No Pain 4+",
+          "when": null,
+          "target": "leader"
+        }
+      ]
     },
     {
       "sid": "06857b82-348e-4ef7-8443-87fede494115:doom-scythe",
