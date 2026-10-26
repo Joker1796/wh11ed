@@ -22,7 +22,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, SLUG_MAP, norm, loadJson, loadModule, byNormName, table, combatPatrolNames, APPDATA, NUMBER_WORDS } from './lib/sync-common.mjs'
-import { foldChars } from '../src/utils/foldName.js'
+import { foldChars } from '../src/core/shared/foldName.js'
 
 // Pictures wh11ed deliberately does not transcribe as numbers. Keep the reason concrete.
 const ALLOW = []

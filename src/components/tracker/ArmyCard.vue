@@ -113,7 +113,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { loadArmyRules } from '../../composables/gameStratagems.js'
-import { foldName } from '../../utils/foldName.js'
+import { foldName } from '../../core/shared/foldName.js'
 
 // One army's card in the Armies tab (ArmiesPanel keeps one per army, built once): its faction and
 // the way to its units, then what it plays by — the army rule's tracker and the detachment rules.

@@ -15,7 +15,7 @@ import { factionAliasesRu } from '../data/factionAliasesRu.js'
 import { h4AnchorId } from './anchors.js'
 import { splitBodyEntries } from './columnChunks.js'
 import { foldName, preloadDatasheetTags, queryWords, TAG_MIN, unitTagHit, wordsIn } from './datasheetTags.js'
-import { foldChars } from '../utils/foldName.js'
+import { foldChars } from '../core/shared/foldName.js'
 import { proxySlug } from '../utils/legendaryProxies.js'
 
 // Every core-rules chapter lives on one page now, so a hit's `route` is the same for all of

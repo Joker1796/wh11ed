@@ -30,21 +30,21 @@ import { SM_FAMILY } from '../data/smChapters.js'
 import { tracks } from '../data/trackerOptions.js'
 import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
 import { unitKeywordsOf } from './ruleTargets.js'
-import { foldName } from '../utils/foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 
-/** @typedef {import('./roster.types.js').GameClock} GameClock */
-/** @typedef {import('./roster.types.js').Condition} Condition */
-/** @typedef {import('./roster.types.js').GameState} GameState */
-/** @typedef {import('./roster.types.js').GamePlayer} GamePlayer */
-/** @typedef {import('./roster.types.js').Stamp} Stamp */
-/** @typedef {import('./roster.types.js').StampStore} StampStore */
-/** @typedef {import('./roster.types.js').CondSwitch} CondSwitch */
-/** @typedef {import('./roster.types.js').AuraReach} AuraReach */
-/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../core/shared/roster.types.js').GameClock} GameClock */
+/** @typedef {import('../core/shared/roster.types.js').Condition} Condition */
+/** @typedef {import('../core/shared/roster.types.js').GameState} GameState */
+/** @typedef {import('../core/shared/roster.types.js').GamePlayer} GamePlayer */
+/** @typedef {import('../core/shared/roster.types.js').Stamp} Stamp */
+/** @typedef {import('../core/shared/roster.types.js').StampStore} StampStore */
+/** @typedef {import('../core/shared/roster.types.js').CondSwitch} CondSwitch */
+/** @typedef {import('../core/shared/roster.types.js').AuraReach} AuraReach */
+/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
 /** The entry a card is drawn for — read for its uid, id and leaderOf only. @typedef {Partial<RosterEntry>} EntryLike */
-/** @typedef {import('./roster.types.js').ModifierRecord} ModifierRecord */
-/** @typedef {import('./roster.types.js').ModEntry} ModEntry */
-/** @typedef {import('./roster.types.js').SheetOf} SheetOf */
+/** @typedef {import('../core/shared/roster.types.js').ModifierRecord} ModifierRecord */
+/** @typedef {import('../core/shared/roster.types.js').ModEntry} ModEntry */
+/** @typedef {import('../core/shared/roster.types.js').SheetOf} SheetOf */
 /** A group's size for one unit, where a rule raises it above the group's own: `{ order: 2 }`. @typedef {Record<string, number>} GroupLimits */
 /** A clock, or the bare round number a game saved before the clock existed stores. @typedef {GameClock | number | null | undefined} ClockLike */
 

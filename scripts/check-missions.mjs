@@ -14,7 +14,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, loadJson } from './lib/sync-common.mjs'
-import { foldName } from '../src/utils/foldName.js'
+import { foldName } from '../src/core/shared/foldName.js'
 import { plainText } from './sync-faction-text.mjs'
 
 export async function run() {

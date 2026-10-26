@@ -51,7 +51,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, SLUG_MAP, norm, looseName, isWeaponType, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, diffSet, matchWeapon, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
-import { foldChars } from '../src/utils/foldName.js'
+import { foldChars } from '../src/core/shared/foldName.js'
 import { infoKey, ruleKey } from '../src/composables/wargearInfo.js'
 
 // Scalar field maps for statline/weapon-profile comparisons: [wh11ed key, appdata key].

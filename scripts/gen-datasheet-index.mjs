@@ -48,7 +48,7 @@ import { legacyAliasesRu } from '../src/data/legacyAliasesRu.js'
 import { localizeSheet } from '../src/data/datasheets/ru/localize.js'
 import { factionKeywordPatterns, factionKeywordsAt, nameAround } from '../src/utils/factionKeywordMarkup.js'
 import { unitKeywordsOf } from '../src/composables/ruleTargets.js'
-import { foldChars, foldName } from '../src/utils/foldName.js'
+import { foldChars, foldName } from '../src/core/shared/foldName.js'
 import { spawnPhrases } from './lib/spawnPhrases.mjs'
 import { capsKeywordsIn, capsNamesOf, isScannedSource } from '../src/utils/capsKeywords.js'
 

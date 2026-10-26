@@ -37,12 +37,12 @@ import {
   miniName, modelCount, rosterDetachments, hasKeyword,
 } from './rosterEngine.js'
 
-/** @typedef {import('./roster.types.js').Roster} Roster */
-/** @typedef {import('./roster.types.js').RosterFaction} RosterFaction */
-/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('./roster.types.js').Detachment} Detachment */
-/** @typedef {import('./roster.types.js').BattleSize} BattleSize */
+/** @typedef {import('../core/shared/roster.types.js').Roster} Roster */
+/** @typedef {import('../core/shared/roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../core/shared/roster.types.js').Detachment} Detachment */
+/** @typedef {import('../core/shared/roster.types.js').BattleSize} BattleSize */
 /** One profile's share of a unit's loadout, as the export prints it. @typedef {{ name: string, models: number, items: Array<{ name: string, n: number }> }} GearOut */
 /**
  * One roster entry, resolved for printing.

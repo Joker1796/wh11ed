@@ -20,7 +20,7 @@
 // rosterGameContext's stratagemsFor marks a Battle-shocked unit's unspent stratagems `blocked`, so
 // the card will not let you spend one. The second has nothing to enforce: the tracker does not
 // model actions at all.
-/** @type {import('../../composables/roster.types.js').ModifierRecord[]} */
+/** @type {import('../../core/shared/roster.types.js').ModifierRecord[]} */
 export const coreModifiers = [
   {
     sid: 'core:01.07',

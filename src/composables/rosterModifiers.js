@@ -19,18 +19,18 @@ import { copiesHeld, wargearGroupCap, wargearGroupLive, findEnhancement, mandato
 import { conditions } from '../data/rosterModifiers/conditions.js'
 import rosterItemsData from '../data/roster/items.js'
 import ENH_WEAPONS from '../data/enhancementWeapons.js'
-import { foldName } from '../utils/foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 // Rule-granted keywords moved to rosterEngine.js, which needs them to answer whether a unit can
 // carry an enhancement; re-exported here because this is where every caller already imports them.
 export { grantedKeywordsFor, detKey } from './rosterEngine.js'
 
-/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('./roster.types.js').Detachment} Detachment */
-/** @typedef {import('./roster.types.js').ItemId} ItemId */
-/** @typedef {import('./roster.types.js').WeaponRow} WeaponRow */
-/** @typedef {import('./roster.types.js').PrintedSheet} PrintedSheet */
-/** @typedef {import('./roster.types.js').ModifierRecord} ModifierRecord */
+/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../core/shared/roster.types.js').Detachment} Detachment */
+/** @typedef {import('../core/shared/roster.types.js').ItemId} ItemId */
+/** @typedef {import('../core/shared/roster.types.js').WeaponRow} WeaponRow */
+/** @typedef {import('../core/shared/roster.types.js').PrintedSheet} PrintedSheet */
+/** @typedef {import('../core/shared/roster.types.js').ModifierRecord} ModifierRecord */
 /** @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {Record<number, string>} Items */
 /** One copy of an item: the profile holding it (`m`, null for a unit-wide group) and on how many of its models (`n`, null when unknown). @typedef {{ m: number | null, n: number | null }} Slot */

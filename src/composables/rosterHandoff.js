@@ -9,7 +9,7 @@ import { rosterSnapshot } from './rosterGameLink.js'
 import { UNLIMITED_BATTLE } from './rosterEngine.js'
 import rosterCore from '../data/roster/core.js'
 
-/** @typedef {import('./roster.types.js').Roster} Roster */
+/** @typedef {import('../core/shared/roster.types.js').Roster} Roster */
 
 // Roster battle-size ids come from the appdata slug ('strike-force'); the tracker uses its own
 // camelCase id ('strikeForce'). Incursion / Onslaught match.

@@ -36,7 +36,7 @@ import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { enhEligible } from '../src/composables/rosterEnhEligible.js'
 import { unitKeywordsOf } from '../src/composables/ruleTargets.js'
-import { foldChars, foldName } from '../src/utils/foldName.js'
+import { foldChars, foldName } from '../src/core/shared/foldName.js'
 
 const T = path.join(APPDATA, 'tables')
 const OUT = path.join(ROOT, 'src/data/roster')
@@ -3627,7 +3627,7 @@ const boxLoaders = import.meta.glob('./combat-patrol/*.js', { import: 'default' 
 /**
  * @param {string} slug
  * @param {{ allies?: boolean, cp?: string | null }} [opts] \`cp\` — the Combat Patrol box id
- * @returns {Promise<import('../../composables/roster.types.js').RosterFaction | null>}
+ * @returns {Promise<import('../../core/shared/roster.types.js').RosterFaction | null>}
  */
 export async function loadRosterFaction(slug, { allies = false, cp = null } = {}) {
   const data = await loadFactionData(slug, { allies })

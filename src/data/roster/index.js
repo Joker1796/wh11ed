@@ -122,7 +122,7 @@ const boxLoaders = import.meta.glob('./combat-patrol/*.js', { import: 'default' 
 /**
  * @param {string} slug
  * @param {{ allies?: boolean, cp?: string | null }} [opts] `cp` — the Combat Patrol box id
- * @returns {Promise<import('../../composables/roster.types.js').RosterFaction | null>}
+ * @returns {Promise<import('../../core/shared/roster.types.js').RosterFaction | null>}
  */
 export async function loadRosterFaction(slug, { allies = false, cp = null } = {}) {
   const data = await loadFactionData(slug, { allies })

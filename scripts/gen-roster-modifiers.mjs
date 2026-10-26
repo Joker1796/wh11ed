@@ -50,7 +50,7 @@ import crypto from 'node:crypto'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion, invertSourceIds, table } from './lib/sync-common.mjs'
 import { ruleScopes } from '../src/composables/ruleTargets.js'
-import { foldName } from '../src/utils/foldName.js'
+import { foldName } from '../src/core/shared/foldName.js'
 import { appliesWhileOf } from '../src/data/rosterModifiers/appliesWhile.js'
 import { flattenGrantLists } from './lib/grant-lists.mjs'
 

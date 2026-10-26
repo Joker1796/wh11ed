@@ -18,7 +18,7 @@
     "types": ["vite/client"]
   },
   "include": [
-    "src/composables/roster.types.js",
+    "src/core/shared/roster.types.js",
     "src/data/data.types.js",
     "src/composables/rosterEngine.js",
     "src/composables/rosterEnhEligible.js",

@@ -5,7 +5,7 @@ import { unitKeywordVocabulary } from '../data/unitKeywordVocabulary.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { unitKeywordsOf } from '../composables/ruleTargets.js'
 import { combatPatrol } from '../data/combatPatrol.js'
-import { foldName } from './foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 
 // The renderer bolds the capitals src/data/capsKeywords.js lists, and that list is generated
 // (`npm run datasheets:index`). A keyword written in capitals after the last run would render

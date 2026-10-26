@@ -24,15 +24,15 @@ import { modelsPerMini, mandatoryEnhancementFor } from './rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
 import { dominates } from './abilityDominance.js'
-import { foldName } from '../utils/foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 
-/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('./roster.types.js').PrintedSheet} PrintedSheet */
-/** @typedef {import('./roster.types.js').ModEntry} ModEntry */
-/** @typedef {import('./roster.types.js').ModifierEffect} ModifierEffect */
+/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../core/shared/roster.types.js').PrintedSheet} PrintedSheet */
+/** @typedef {import('../core/shared/roster.types.js').ModEntry} ModEntry */
+/** @typedef {import('../core/shared/roster.types.js').ModifierEffect} ModifierEffect */
 /** @typedef {Set<string> | null | undefined} IdSet */
-/** @typedef {import('./roster.types.js').RuleScope} RuleScope */
+/** @typedef {import('../core/shared/roster.types.js').RuleScope} RuleScope */
 /** @typedef {import('./ruleTargets.js').UnitKeywords} UnitKeywords */
 /** @typedef {import('../data/data.types.js').DatasheetProfile} DatasheetProfile */
 /** Every datasheet's keywords in the faction — for the "extraction matched nobody" escape. @typedef {string[][] | null | undefined} KeywordSets */

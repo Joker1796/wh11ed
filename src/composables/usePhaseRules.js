@@ -24,7 +24,7 @@ import { detachmentSources } from '../data/detachmentSources.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionChoice } from './useFactionChoice.js'
 import { useRefNavigation } from './useRefNavigation.js'
-import { foldName } from '../utils/foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 
 // The steps of each phase in play order (Core Rules 08–12), and the step a rule that fires
 // "during" the phase is shown at — its main step. Start and End are the phase's own first and

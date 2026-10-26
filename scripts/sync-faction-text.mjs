@@ -33,7 +33,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, SLUG_MAP, norm, appdataToMarkup, bodyText, currentWargearRules, loadModule, byNormName, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
-import { foldChars } from '../src/utils/foldName.js'
+import { foldChars } from '../src/core/shared/foldName.js'
 
 // Strip wh11ed's enrichment layer (and appdata's residual markup) down to bare comparable words.
 // Applied to BOTH sides — appdata text is run through appdataToMarkup first, so both arrive in

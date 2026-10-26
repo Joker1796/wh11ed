@@ -10,7 +10,7 @@
 // Points are not read here: the Munitorum Field Manual is the points canon (src/data/mfm), and
 // its history is diffed on its own. Combat Patrol content is a separate game mode and is skipped.
 import { appdataToMarkup, appdataToParagraphs, bodyText, norm, looseName } from '../lib/sync-common.mjs'
-import { foldChars } from '../../src/utils/foldName.js'
+import { foldChars } from '../../src/core/shared/foldName.js'
 
 // Text as a player reads it: no markup, one kind of quote, dash and space.
 export function plain(s) {

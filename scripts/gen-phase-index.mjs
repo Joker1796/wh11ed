@@ -34,7 +34,7 @@ import { join } from 'node:path'
 import { phasesOf, phaseSidesOf, phaseMomentsOf } from '../src/composables/stratagemPhases.js'
 import { lockedToExactUnit } from '../src/composables/rosterEnhEligible.js'
 import { slugify } from '../src/data/slugify.js'
-import { foldName } from '../src/utils/foldName.js'
+import { foldName } from '../src/core/shared/foldName.js'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const imp = (rel) => import(pathToFileURL(join(ROOT, rel)).href)

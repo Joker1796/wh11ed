@@ -11,7 +11,7 @@
 // this is the reason every caller here is dynamic — see wh11ed/CLAUDE.md.
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { detachmentSources } from '../data/detachmentSources.js'
-import { foldName } from '../utils/foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 
 // Apostrophes travel badly between datasets: the roster stores the detachment name the MFM prints,
 // the faction file spells it its own way. Compare through this, never raw.

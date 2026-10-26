@@ -18,7 +18,7 @@ import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
 import { PACKS, packFiles, slugOf, versionOf } from './check-packs.mjs'
-import { foldChars } from '../src/utils/foldName.js'
+import { foldChars } from '../src/core/shared/foldName.js'
 
 const BASELINE = path.join(ROOT, 'scripts', 'lib', 'pack-text-baseline.json')
 const STAT_HEAD = /^\s*M\s+T\s+SV\s+W\s+LD\s+OC\b/

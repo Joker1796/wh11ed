@@ -1,4 +1,4 @@
-import { foldChars } from '../../src/utils/foldName.js'
+import { foldChars } from '../../src/core/shared/foldName.js'
 
 // The units an ability brings into the game, by the name it gives them: "you can add one new
 // **SPORE MINES** unit to your army" → ["SPORE MINES"]. Only a capitalised name counts — "a new

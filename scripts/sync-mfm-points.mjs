@@ -32,7 +32,7 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { foldName } from '../src/utils/foldName.js'
+import { foldName } from '../src/core/shared/foldName.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const DS = path.join(ROOT, 'src/data/datasheets')

@@ -9,7 +9,7 @@
 // `spawns` are read with). Matched on the folded text, one character for one (foldName.js), so a
 // position found is a position in the original; case is free, appdata writes SPORE MINES as well.
 
-import { foldChars } from './foldName.js'
+import { foldChars } from '../core/shared/foldName.js'
 
 const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 

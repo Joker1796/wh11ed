@@ -29,9 +29,9 @@ import rosterCore from '../data/roster/core.js'
 import { loadRosterFaction } from '../data/roster/index.js'
 import { APP_VERSION } from '../buildInfo.js'
 
-/** @typedef {import('./roster.types.js').Roster} Roster */
-/** @typedef {import('./roster.types.js').RosterFaction} RosterFaction */
-/** @typedef {import('./roster.types.js').RosterSummary} RosterSummary */
+/** @typedef {import('../core/shared/roster.types.js').Roster} Roster */
+/** @typedef {import('../core/shared/roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('../core/shared/roster.types.js').RosterSummary} RosterSummary */
 
 // The shape, in one place. Callers on an editing screen pass the points and error count they
 // already compute live, rather than paying for a second pass over the same units.

@@ -1,4 +1,4 @@
-import { foldChars } from '../../src/utils/foldName.js'
+import { foldChars } from '../../src/core/shared/foldName.js'
 
 // What a wargear group is CONDITIONED on: "[if …] not equipped with X" / "equipped with X" — the
 // items named and whether the sentence negates them, or null. Read off the folded text: appdata

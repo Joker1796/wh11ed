@@ -7,10 +7,10 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { typedefProps, inlineKeys } from '../../scripts/lib/typedef-keys.mjs'
+import { typedefProps, inlineKeys } from '../../../scripts/lib/typedef-keys.mjs'
 
 const HERE = path.dirname(fileURLToPath(import.meta.url))
-const DATA = path.join(HERE, '../data/roster')
+const DATA = path.join(HERE, '../../data/roster')
 const TYPES = fs.readFileSync(path.join(HERE, 'roster.types.js'), 'utf8')
 
 const defs = typedefProps(TYPES)
@@ -74,7 +74,7 @@ describe('roster types', () => {
   // The modifier records (src/data/rosterModifiers/<slug>.js) — the same promise for the overlay's
   // own input: the record, its effects, and its `ref` per kind (ModifierRef is a union by kind).
   it('describes every key the modifier records carry', async () => {
-    const MODS = path.join(HERE, '../data/rosterModifiers')
+    const MODS = path.join(HERE, '../../data/rosterModifiers')
     const recProps = new Set(defs.get('ModifierRecord').keys())
     const effProps = new Set(defs.get('ModifierEffect').keys())
     const refBlock = TYPES.slice(TYPES.indexOf('@typedef {{ kind:'), TYPES.indexOf('ModifierRef */'))

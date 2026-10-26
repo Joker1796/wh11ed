@@ -19,7 +19,7 @@ import { membersOf } from './rosterGameLink.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { detachmentSources } from '../data/detachmentSources.js'
 import { combatPatrolBoxIn } from './combatPatrolBox.js'
-import { foldName } from '../utils/foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 
 // A stratagem's own usage limits, from its ENGLISH restrictions. Only limits on USING the
 // stratagem — "you cannot select the same model more than once per battle" is about a target

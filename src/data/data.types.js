@@ -33,8 +33,8 @@
  * @property {Array<{ name: string, points: number }>} [wargearPoints]  the MFM's WARGEAR OPTIONS — each piece's price on top of the unit
  * @property {string} [flavor]
  * @property {DatasheetProfile[]} [profiles]
- * @property {import('../composables/roster.types.js').WeaponRow[]} [ranged]
- * @property {import('../composables/roster.types.js').WeaponRow[]} [melee]
+ * @property {import('../core/shared/roster.types.js').WeaponRow[]} [ranged]
+ * @property {import('../core/shared/roster.types.js').WeaponRow[]} [melee]
  * @property {string} [core]      the core abilities line
  * @property {string} [faction]   the faction ability line — names the army rule
  * @property {NamedText[]} [abilities]

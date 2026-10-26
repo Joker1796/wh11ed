@@ -16,7 +16,7 @@
 // Shared by the renderer (useRenderInline.js) and the generator that decides which keywords are
 // worth listing (scripts/gen-datasheet-index.mjs), so the two can never disagree.
 
-import { foldChars } from './foldName.js'
+import { foldChars } from '../core/shared/foldName.js'
 
 // Read folded (foldName.js): appdata types "Shield‑Captain" and "Grav‑tank" with U+2011, the
 // keyword list carries the plain hyphen. One character for one, so positions found in the folded

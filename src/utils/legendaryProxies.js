@@ -3,7 +3,7 @@
 // the sheet it is fielded as (Warboss). Not in the unit list; reached from the table, the "Proxy"
 // badge and search. The address is made from the name — `legendaryProxies.test.js` holds every one
 // apart from the faction's datasheet ids and from each other.
-import { foldName } from './foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 
 /** The address of a retired unit's page, from its name. @param {string} name */
 export function proxySlug(name) {

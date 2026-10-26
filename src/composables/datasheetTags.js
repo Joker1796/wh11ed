@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { foldChars } from '../utils/foldName.js'
+import { foldChars } from '../core/shared/foldName.js'
 
 // Finding a unit by what it HAS rather than what it is called: its ability names (its own,
 // wargear, core, the faction rule — EN, and RU where the overlay renames the header) and its

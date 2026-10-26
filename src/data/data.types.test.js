@@ -9,7 +9,7 @@ import { typedefProps, inlineKeys } from '../../scripts/lib/typedef-keys.mjs'
 
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const TYPES = fs.readFileSync(path.join(HERE, 'data.types.js'), 'utf8')
-const ROSTER_TYPES = fs.readFileSync(path.join(HERE, '../composables/roster.types.js'), 'utf8')
+const ROSTER_TYPES = fs.readFileSync(path.join(HERE, '../core/shared/roster.types.js'), 'utf8')
 const defs = new Map([...typedefProps(ROSTER_TYPES), ...typedefProps(TYPES)])
 // One-line typedefs of an inline object type: `@typedef {{ name: string, text: string }} NamedText`.
 for (const m of TYPES.matchAll(/@typedef \{(\{.*?\})\} (\w+)/g)) defs.set(m[2], new Map(inlineKeys(m[1]).map((k) => [k, ''])))

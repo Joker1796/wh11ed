@@ -29,7 +29,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
-import { foldName } from '../src/utils/foldName.js'
+import { foldName } from '../src/core/shared/foldName.js'
 import MANUAL from './lib/roster-texts-ru-manual.mjs'
 
 const OUT = path.join(ROOT, 'src/data/roster/ru/texts.js')

@@ -29,7 +29,7 @@ import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf
 import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
 import { unitDoctrines } from './doctrineRules.js'
-import { foldName } from '../utils/foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
@@ -39,8 +39,8 @@ import { useDatasheetsRu } from './useDatasheetsRu.js'
 
 /** @typedef {import('../data/data.types.js').Datasheet} Datasheet */
 /** @typedef {import('../data/data.types.js').FactionRules} FactionRules */
-/** @typedef {import('./roster.types.js').ModifierRecord} ModifierRecord */
-/** @typedef {import('./roster.types.js').CondSwitch} CondSwitch */
+/** @typedef {import('../core/shared/roster.types.js').ModifierRecord} ModifierRecord */
+/** @typedef {import('../core/shared/roster.types.js').CondSwitch} CondSwitch */
 /** A note under the stats, as applyStatMods writes it. @typedef {ReturnType<typeof applyStatMods>['notes'][number]} StatNote */
 /**
  * The calling component's props.
@@ -48,7 +48,7 @@ import { useDatasheetsRu } from './useDatasheetsRu.js'
  * @property {string} unitId
  * @property {string} factionSlug
  * @property {import('./rosterModifiers.js').OverlayContext | null} [ctx]
- * @property {import('./roster.types.js').CardGameCtx | null} [gameCtx]
+ * @property {import('../core/shared/roster.types.js').CardGameCtx | null} [gameCtx]
  */
 
 /** @param {UnitCardProps} props */
@@ -302,7 +302,7 @@ export function useRosterUnitCard(props) {
     if (!entry) return []
     // A unit that joined a led unit is told apart by its roster definition (`joins`): this card's
     // own is ctx.def, the others' come from ctx.defOf where the caller has one.
-    /** @param {Partial<import('./roster.types.js').RosterEntry>} u */
+    /** @param {Partial<import('../core/shared/roster.types.js').RosterEntry>} u */
     const defOf = (u) => (u.uid === entry.uid ? props.ctx?.def : u.id ? props.ctx?.defOf?.(u.id) : null)
     return datasheetEntriesFor(usableModifierEntries.value, {
       unitId: props.unitId,

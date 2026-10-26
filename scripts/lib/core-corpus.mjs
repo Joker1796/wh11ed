@@ -13,7 +13,7 @@
 import path from 'node:path'
 import { ROOT, APPDATA, loadJson, loadModule } from './sync-common.mjs'
 import { splitBodyEntries } from '../../src/composables/columnChunks.js'
-import { foldChars } from '../../src/utils/foldName.js'
+import { foldChars } from '../../src/core/shared/foldName.js'
 
 // Section-array files (each `{ en: Section[] }` with subsections/children carrying sectionNum):
 // basicRules 01-06, battleRound 07-12, battlefields 13-16, advancedRules 17-23, muster 25.

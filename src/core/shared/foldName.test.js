@@ -28,7 +28,7 @@ describe('foldName', () => {
 // "grav-tank", a translated line left half English). A `.replace` whose character class names an
 // apostrophe or a hyphen variant, anywhere but foldName.js, fails here unless it is listed below
 // with the reason it is not comparing names.
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..')
 const ALLOWED = {
   // URL slugs: apostrophes dropped, every other non-letter becomes "-" anyway.
   'src/data/slugify.js': 'slug',
@@ -66,7 +66,7 @@ describe('no name matcher folds characters by itself', () => {
     const found = []
     for (const dir of ['src', 'scripts']) {
       for (const rel of sources(dir)) {
-        if (rel === 'src/utils/foldName.js' || ALLOWED[rel]) continue
+        if (rel === 'src/core/shared/foldName.js' || ALLOWED[rel]) continue
         // Generated data files carry names, not code.
         if (/^src\/data\/(datasheets|factions|roster|mfm|rosterModifiers)\//.test(rel)) continue
         const text = fs.readFileSync(path.join(ROOT, rel), 'utf8')

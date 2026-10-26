@@ -1,4 +1,4 @@
-import { foldName } from './foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 
 // Format a raw Base Size Guide value (as stored on each datasheet's `baseSize`; sourced from
 // wh40k-appdata's datasheet.localisations.en.baseSize and diffed by scripts/sync-appdata.mjs)

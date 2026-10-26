@@ -11,7 +11,7 @@
 // `fx` the appdata units use (an item the pack shares with appdata — "Bolt pistol" — gets appdata's
 // id, so the importer, the stock rule and the export cannot tell the two sources apart).
 import { norm } from './sync-common.mjs'
-import { foldChars } from '../../src/utils/foldName.js'
+import { foldChars } from '../../src/core/shared/foldName.js'
 import { KEEP_RE } from './keepClause.mjs'
 
 const WORD_NUM = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6 }

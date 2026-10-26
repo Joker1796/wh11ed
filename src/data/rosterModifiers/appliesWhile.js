@@ -20,7 +20,7 @@
 // keywords (conditions.js). None does → `?<words>`, which is no condition: the gate then fails
 // naming the words, and the vocabulary gets the condition it lacks.
 import { conditions } from './conditions.js'
-import { foldName } from '../../utils/foldName.js'
+import { foldName } from '../../core/shared/foldName.js'
 
 const ONLY = /^[^.]*\bonly\.\s*/i
 const BEARER = /^(?:while|when|if) the bearer is (?:leading|attached to) (?:a|an) (.+?) unit\b/i

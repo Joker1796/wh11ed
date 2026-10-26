@@ -2,7 +2,7 @@
 // or its header (errata) — what GW changed is the answer or the errata's body. A Space Marine
 // Chapter's file carries the Codex: Space Marines entries too (gen-faction-faq.mjs folds them in);
 // those are reported once, under Space Marines.
-import { foldName } from '../../src/utils/foldName.js'
+import { foldName } from '../../src/core/shared/foldName.js'
 const CHAPTERS = new Set(['black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves'])
 const key = (s) => foldName(String(s || '').replace(/[“”]/g, '"').replace(/\*\*/g, ''))
 const idOf = (e) => `${e.type}|${key(e.type === 'qa' ? e.q : e.header)}`

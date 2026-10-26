@@ -24,7 +24,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
-import { foldChars } from '../src/utils/foldName.js'
+import { foldChars } from '../src/core/shared/foldName.js'
 import { baseTag } from '../src/utils/weaponTag.js'
 
 const DS_DIR = path.join(ROOT, 'src/data/datasheets')

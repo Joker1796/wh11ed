@@ -19,7 +19,7 @@ const loaders = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '
 // One faction's records, or null when the faction has no file (or the layer was removed).
 /**
  * @param {string} slug
- * @returns {Promise<{ entries?: import('../../composables/roster.types.js').ModifierRecord[] } | null>}
+ * @returns {Promise<{ entries?: import('../../core/shared/roster.types.js').ModifierRecord[] } | null>}
  */
 export async function loadRosterModifiers(slug) {
   const loader = loaders[`./${slug}.js`]
@@ -42,7 +42,7 @@ export async function loadRosterModifiers(slug) {
 // a card it does not bear on.
 /**
  * @param {string} slug
- * @returns {Promise<{ entries?: import('../../composables/roster.types.js').ModifierRecord[] } | null>} null when neither
+ * @returns {Promise<{ entries?: import('../../core/shared/roster.types.js').ModifierRecord[] } | null>} null when neither
  *   this faction nor any it borrows from has records
  */
 export async function loadRosterModifiersFor(slug) {

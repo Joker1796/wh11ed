@@ -28,7 +28,7 @@ import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from '
 import { join } from 'node:path'
 import { ROOT, HUB } from './lib/layout-art.mjs'
 import { loadModule } from './lib/sync-common.mjs'
-import { foldChars } from '../src/utils/foldName.js'
+import { foldChars } from '../src/core/shared/foldName.js'
 
 const SOURCES = join(HUB, 'sources')
 const BASELINE = join(ROOT, 'scripts', 'lib', 'companion-pdfs.json')

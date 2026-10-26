@@ -659,7 +659,7 @@ import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCan
 import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachmentContext } from '../../composables/rosterStatMods.js'
 import { itemKey, loadoutItemNames, findEnhancementProse, detKey, wargearConditions } from '../../composables/rosterModifiers.js'
 import { unitDoctrines } from '../../composables/doctrineRules.js'
-import { foldName } from '../../utils/foldName.js'
+import { foldName } from '../../core/shared/foldName.js'
 import { groupModNotes, modDelta, possibleModNotes } from '../../composables/rosterModNotes.js'
 import { coreModifiers } from '../../data/rosterModifiers/coreRules.js'
 import { conditions } from '../../data/rosterModifiers/conditions.js'

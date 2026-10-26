@@ -23,7 +23,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { APPDATA, ROOT, norm, appdataToMarkup, bodyText, loadModule, SLUG_MAP as ALIAS } from './lib/sync-common.mjs'
-import { foldChars } from '../src/utils/foldName.js'
+import { foldChars } from '../src/core/shared/foldName.js'
 
 // ALIAS = wh11ed slug → appdata bundle slug (the 7 that diverge). Was a local 2-entry copy that
 // silently skipped aeldari/chaos-daemons/imperial-agents/titan-legions/chaos-titan-legions.

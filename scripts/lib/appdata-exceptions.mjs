@@ -53,7 +53,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { APPDATA, ROOT, SLUG_MAP, loadJson, norm } from './sync-common.mjs'
-import { foldChars } from '../../src/utils/foldName.js'
+import { foldChars } from '../../src/core/shared/foldName.js'
 
 export const APPDATA_EXCEPTIONS = [
   {

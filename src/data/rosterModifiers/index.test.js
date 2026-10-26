@@ -3,7 +3,7 @@ import { usableEntries } from './index.js'
 import { conditions, SENTINELS, isSentinel, isAnswerable } from './conditions.js'
 import { coreModifiers } from './coreRules.js'
 import { appliesWhileOf } from './appliesWhile.js'
-import { foldName } from '../../utils/foldName.js'
+import { foldName } from '../../core/shared/foldName.js'
 
 // Every faction file in this directory, read eagerly — this is a test, not the app (the app
 // loads one faction at a time; see index.js).

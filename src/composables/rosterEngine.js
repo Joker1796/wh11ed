@@ -4,33 +4,33 @@
 import { detKey } from '../data/slugify.js'
 import conditionalKeywords from '../data/conditionalKeywords.json'
 import { hasKeyword, enhEligible, lockedToExactUnit } from './rosterEnhEligible.js'
-import { foldName } from '../utils/foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 
 export { hasKeyword, enhEligible }
 
 /** conditionalKeywords.json: faction → datasheet → the keywords it gains (`det`: only in that detachment). @type {Record<string, Record<string, Array<{ kw: string, det?: string, extra?: boolean }>>>} */
 const KEYWORD_GRANTS = conditionalKeywords
 
-/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('./roster.types.js').Detachment} Detachment */
-/** @typedef {import('./roster.types.js').RosterFaction} RosterFaction */
-/** @typedef {import('./roster.types.js').Enhancement} Enhancement */
-/** @typedef {import('./roster.types.js').GearOption} GearOption */
-/** @typedef {import('./roster.types.js').GearCond} GearCond */
-/** @typedef {import('./roster.types.js').WargearPick} WargearPick */
-/** @typedef {import('./roster.types.js').AllyGroup} AllyGroup */
-/** @typedef {import('./roster.types.js').AllegianceChoice} AllegianceChoice */
-/** @typedef {import('./roster.types.js').LeadLink} LeadLink */
-/** @typedef {import('./roster.types.js').Roster} Roster */
-/** @typedef {import('./roster.types.js').BattleSize} BattleSize */
-/** @typedef {import('./roster.types.js').DefOf} DefOf */
-/** @typedef {import('./roster.types.js').ItemId} ItemId */
+/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../core/shared/roster.types.js').Detachment} Detachment */
+/** @typedef {import('../core/shared/roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('../core/shared/roster.types.js').Enhancement} Enhancement */
+/** @typedef {import('../core/shared/roster.types.js').GearOption} GearOption */
+/** @typedef {import('../core/shared/roster.types.js').GearCond} GearCond */
+/** @typedef {import('../core/shared/roster.types.js').WargearPick} WargearPick */
+/** @typedef {import('../core/shared/roster.types.js').AllyGroup} AllyGroup */
+/** @typedef {import('../core/shared/roster.types.js').AllegianceChoice} AllegianceChoice */
+/** @typedef {import('../core/shared/roster.types.js').LeadLink} LeadLink */
+/** @typedef {import('../core/shared/roster.types.js').Roster} Roster */
+/** @typedef {import('../core/shared/roster.types.js').BattleSize} BattleSize */
+/** @typedef {import('../core/shared/roster.types.js').DefOf} DefOf */
+/** @typedef {import('../core/shared/roster.types.js').ItemId} ItemId */
 /** An entry as the engine reads it — a saved one, or a partial one a caller builds to ask a question. @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {NonNullable<RosterUnit['xpm']>[number]} XpmSet */
-/** @typedef {import('./roster.types.js').GearGroup} GearGroup */
-/** @typedef {import('./roster.types.js').GearPool} GearPool */
-/** @typedef {import('./roster.types.js').SizeBracket} SizeBracket */
+/** @typedef {import('../core/shared/roster.types.js').GearGroup} GearGroup */
+/** @typedef {import('../core/shared/roster.types.js').GearPool} GearPool */
+/** @typedef {import('../core/shared/roster.types.js').SizeBracket} SizeBracket */
 /** What sectionsOf files: anything with a datasheet id, and for an attached block its uid and host. @typedef {{ id: string, uid?: string, leaderOf?: string | null }} SectionItem */
 /** @typedef {{ faction?: { slug?: string, allies?: AllyGroup[] } | null, detachments?: Detachment[], keepLocked?: boolean, pairAttached?: boolean }} SectionOpts */
 /**

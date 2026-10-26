@@ -15,10 +15,10 @@
 import { optionItems, modelsPerMini, swapRoom, swapRoomByItem } from './rosterEngine.js'
 import { loadoutItemCopies, sumKnown } from './rosterModifiers.js'
 
-/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('./roster.types.js').WargearPick} WargearPick */
-/** @typedef {import('./roster.types.js').ItemId} ItemId */
+/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../core/shared/roster.types.js').WargearPick} WargearPick */
+/** @typedef {import('../core/shared/roster.types.js').ItemId} ItemId */
 /** @typedef {Partial<RosterEntry>} EntryLike */
 
 // Whether group `gi` is drawn this way: a per-model stepper whose options are single items, among

@@ -1,4 +1,4 @@
-import { foldName } from './foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 
 // The ALL-CAPS keywords our rule text writes, for the renderer to bold (useRenderInline's
 // AUTO_BOLD_RE). The data writes a keyword in capitals and leaves the bold to the renderer, which

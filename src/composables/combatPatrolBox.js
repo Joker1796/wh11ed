@@ -5,7 +5,7 @@
 // before the choice existed (or from a faction with one box) resolves to the faction's first box,
 // which is what it was played with. `boxes` is combatPatrol.<locale>.factions; the match reads the
 // detachment name, which stays English in both locales.
-import { foldName as norm } from '../utils/foldName.js'
+import { foldName as norm } from '../core/shared/foldName.js'
 
 /** @param {Array<{ id: string, slug: string, rule?: { name: string } }>} boxes */
 export function combatPatrolBoxesOf(boxes, slug) {

@@ -47,7 +47,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
 import { localizeSheet } from '../src/data/datasheets/ru/localize.js'
-import { foldChars } from '../src/utils/foldName.js'
+import { foldChars } from '../src/core/shared/foldName.js'
 
 const args = process.argv.slice(2)
 const only = (() => {

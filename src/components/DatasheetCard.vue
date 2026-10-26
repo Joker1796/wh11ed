@@ -1001,7 +1001,7 @@
 </template>
 
 <script setup>
-import { foldName } from '../utils/foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 import ChevronIcon from './ChevronIcon.vue'
 import { copyTierLabel } from '../utils/copyTier.js'
 import { computed, ref, watch } from 'vue'

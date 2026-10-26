@@ -17,7 +17,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { chromium } from 'playwright-core'
 import { patches } from '../src/data/patches/index.js'
-import { foldName } from '../src/utils/foldName.js'
+import { foldName } from '../src/core/shared/foldName.js'
 
 const OUT = path.resolve(process.argv[2] || 'points-pdf')
 const REPO = process.cwd()

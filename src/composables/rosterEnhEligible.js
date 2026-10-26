@@ -4,9 +4,9 @@
 // own, importing only plain modules, so the Node generator can load it: rosterEngine.js pulls a
 // JSON file in, and plain Node will not import that.
 
-import { foldName } from '../utils/foldName.js'
-/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('./roster.types.js').Enhancement} Enhancement */
+import { foldName } from '../core/shared/foldName.js'
+/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../core/shared/roster.types.js').Enhancement} Enhancement */
 
 /**
  * @param {{ kws?: string[], name?: string } | null | undefined} unit

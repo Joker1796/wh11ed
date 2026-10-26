@@ -53,7 +53,7 @@ import { pathToFileURL } from 'node:url'
 import { ROOT, loadModule, allFactionBundles, appdataToMarkup, bodyText, escapeRegex } from './lib/sync-common.mjs'
 import { eachFactionTextPair } from './sync-faction-text.mjs'
 import { CORE_KEYWORDS, FACTION_KEYWORDS, AUTO_BOLD_RE } from '../src/composables/useRenderInline.js'
-import { foldChars } from '../src/utils/foldName.js'
+import { foldChars } from '../src/core/shared/foldName.js'
 
 // The abilities `[core:…]` is worth spending: exactly the ones KeywordPopover can open, read from
 // the same file it reads. An ability it cannot resolve would render as a link to nothing.

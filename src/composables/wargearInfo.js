@@ -1,5 +1,5 @@
 import rosterItemsData from '../data/roster/items.js'
-import { foldName } from '../utils/foldName.js'
+import { foldName } from '../core/shared/foldName.js'
 import { weaponBase } from '../utils/weaponGroups.js'
 
 // What a wargear option's info button looks up on a datasheet: the item's name, the way the

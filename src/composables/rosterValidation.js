@@ -6,14 +6,14 @@
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
 import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, joinLedBy, joinsClash, leadTypeFor, armySidsOf, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, wargearPoolOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
 
-/** @typedef {import('./roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('./roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('./roster.types.js').RosterFaction} RosterFaction */
-/** @typedef {import('./roster.types.js').Roster} Roster */
-/** @typedef {import('./roster.types.js').BattleSize} BattleSize */
-/** @typedef {import('./roster.types.js').RosterIssue} RosterIssue */
-/** @typedef {import('./roster.types.js').DefOf} DefOf */
-/** @typedef {import('./roster.types.js').Detachment} Detachment */
+/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../core/shared/roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('../core/shared/roster.types.js').Roster} Roster */
+/** @typedef {import('../core/shared/roster.types.js').BattleSize} BattleSize */
+/** @typedef {import('../core/shared/roster.types.js').RosterIssue} RosterIssue */
+/** @typedef {import('../core/shared/roster.types.js').DefOf} DefOf */
+/** @typedef {import('../core/shared/roster.types.js').Detachment} Detachment */
 
 // Which issues the SETUP tab is the place to fix. An editor tab can only carry an honest mark if
 // the mark means "the fix is in here": faction, detachments, the Force Disposition they disagree

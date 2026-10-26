@@ -41,7 +41,7 @@
 // Usage:
 //   node scripts/sync-event-companion.mjs
 import path from 'node:path'
-import { foldChars } from '../src/utils/foldName.js'
+import { foldChars } from '../src/core/shared/foldName.js'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, loadJson, loadModule } from './lib/sync-common.mjs'
 
