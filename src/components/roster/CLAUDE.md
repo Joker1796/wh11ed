@@ -4350,6 +4350,12 @@ toner. The "can be attached to" block is not printed: the list answered that, an
 says which unit it joined. `DatasheetCard`'s print-only props (`dense`, `hideAttachment`,
 `hidePoints`) went away with its print duty.
 
+**Identical units print one card, "×N"** (a player's idea, 2026-10-26; `cardFoldKey` in
+`RosterPrintSheet`). Identical means the whole entry but its uid, plus its price where prices are
+printed — the copy tax makes a later copy dearer, and a "×2" over one price would lie about the
+other. A unit in an Attached unit (leading or led) never folds: its card names whom it stands with,
+and the rules that reach it are not its twin's. The list table above still prints a row per unit.
+
 **The browser prints it.** `window.print()`, no PDF library: the document is text and tables, so
 "Save as PDF" in the browser's own dialog gives selectable text, embedded fonts and Cyrillic for
 free, offline, at zero bundle cost. **Open question, needs a device:** whether an installed PWA on

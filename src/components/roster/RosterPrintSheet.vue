@@ -209,8 +209,34 @@ const stratagemGroups = computed(() => {
   return out
 })
 
-// One card per entry, in the order the list prints them, each with the context the overlay needs.
-const cardEntries = computed(() => groups.value.flatMap((g) => g.entries.map((entry) => {
+// What makes two entries print the SAME card: the entry minus its uid, and its price where prices
+// are printed (the copy tax makes the fourth Chaos Lord dearer than the first). A unit in an
+// Attached unit never folds — its card names who it stands with, and the rules reaching it differ.
+/** @param {any} entry */
+function cardFoldKey(entry) {
+  const units = props.roster?.units || []
+  if (entry.leaderOf || units.some((u) => u.leaderOf === entry.uid)) return entry.uid
+  const { uid, ...rest } = entry
+  const sorted = Object.fromEntries(Object.entries(rest).sort(([a], [b]) => a.localeCompare(b)))
+  return JSON.stringify([sorted, props.opts.points ? pointsOf(entry) : null])
+}
+
+// One card per entry, in the order the list prints them, each with the context the overlay needs —
+// and one card for entries that would print identically, marked "×N" (a player's idea, 2026-10-26).
+const cardEntries = computed(() => {
+  const byKey = new Map()
+  for (const g of groups.value) {
+    for (const entry of g.entries) {
+      const key = cardFoldKey(entry)
+      const seen = byKey.get(key)
+      if (seen) seen.copies++
+      else byKey.set(key, { entry, copies: 1 })
+    }
+  }
+  return [...byKey.values()].map(({ entry, copies }) => ({ ...cardEntryOf(entry), copies }))
+})
+/** @param {any} entry */
+function cardEntryOf(entry) {
   const src = allySourceOf(entry.id)
   return {
     entry,
@@ -228,7 +254,7 @@ const cardEntries = computed(() => groups.value.flatMap((g) => g.entries.map((en
       defOf,
     },
   }
-})))
+}
 
 const armyRule = computed(() => props.rulesFaction?.armyRule || null)
 
