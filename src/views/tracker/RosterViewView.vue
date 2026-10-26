@@ -777,16 +777,24 @@ const modsOn = computed(() => keeps('trackModifiers'))
 // The roster of the game in progress is a LIVE screen of that game — it writes rule switches —
 // so while it is up a shared game polls for the other phones' changes (useParty's gate). Loaded
 // with the store, dynamically, for the same reason: the plain roster route must not carry it.
+// Read again when the player's list itself changes, not only the place: the in-tracker screen is
+// kept by its place in the game, and the roll for the first turn swaps the players into each
+// other's places (until 2026-10-26 the place kept the other player's list then).
 let liveParty = null
-watch([gamePi, gameMi, historyId], async ([pi, , gid]) => {
-  if (pi == null) { gameRoster.value = undefined; tracker.value = null; return }
+let readFrom = null
+watch([gamePi, gameMi, historyId, () => gamePlayer.value?.roster], async ([pi, , gid]) => {
+  if (pi == null) { gameRoster.value = undefined; tracker.value = null; readFrom = null; return }
   const [{ useTracker }, { rosterFromPlayer }, { useParty }] = await Promise.all([
     import('../../composables/useTracker.js'),
     import('../../composables/rosterGameLink.js'),
     import('../../composables/useParty.js'),
   ])
   tracker.value = useTracker()
-  gameRoster.value = rosterFromPlayer(gamePlayer.value)
+  const player = gamePlayer.value
+  // The run the tracker's own arrival sets off finds the list it has just read.
+  if (gameRoster.value !== undefined && player?.roster === readFrom) return
+  readFrom = player?.roster
+  gameRoster.value = rosterFromPlayer(player)
   const party = useParty()
   partyCanEdit.value = party.canEdit
   if (!gid && !liveParty) {

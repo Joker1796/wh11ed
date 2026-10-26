@@ -177,10 +177,10 @@ export async function loadSideStratagems(player, loc, { combatPatrol = false } =
 
 // One signature per side covering every army it fields (both members' factions/detachments in
 // doubles) — what a caller watches to know when to load again.
-export const sideSignature = (pl) =>
-  membersOf(pl || {})
-    .map((m) => `${m?.factionSlug || ''}:${(m?.detachments || []).join(',')}`)
-    .join('|')
+export const sideSignature = (pl) => membersOf(pl || {}).map(armySignature).join('|')
+
+// One army's: its faction and detachments — what its loaded rules depend on (ArmyCard).
+export const armySignature = (m) => `${m?.factionSlug || ''}:${(m?.detachments || []).join(',')}`
 
 // One ARMY's rules — the army rule and the rule of each detachment it fields, localized — for the
 // Armies tab. `{ armyRule: { name, body } | null, detachments: [{ name, rule }] }`, or null for

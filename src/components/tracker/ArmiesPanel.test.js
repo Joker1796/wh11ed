@@ -153,6 +153,19 @@ describe('ArmiesPanel', () => {
     expect(shown(w).findComponent({ name: 'ArmyTrackerCard' }).props('texts').length).toBe(2) // its rules at once
   })
 
+  // Mikhail, 2026-10-26: the card is kept by its place in the game, and the roll for the first
+  // turn swaps the players into each other's places — the card kept the other army's rules.
+  it('follows the army when the roll for the first turn swaps the places', async () => {
+    start({ factionSlug: 'orks', detachments: ['War Horde'] }, { factionSlug: 'necrons', detachments: ['Awakened Dynasty'] })
+    tracker.current.value.firstTurnPending = true
+    const w = mountPanel()
+    const titles = () => shown(w).findComponent({ name: 'ArmyTrackerCard' }).props('texts').map((x) => x.title).join(' / ')
+    await vi.waitFor(async () => { await flushPromises(); expect(titles()).toContain('War Horde') }, { timeout: 5000 })
+    expect(tracker.rollFirstTurn(1)).toBe(true)
+    await vi.waitFor(async () => { await flushPromises(); expect(titles()).toContain('Awakened Dynasty') }, { timeout: 5000 })
+    expect(titles()).not.toContain('War Horde')
+  })
+
   it('reads the rules plainly for a side that switched its tracker off', async () => {
     start({ factionSlug: 'orks', detachments: ['War Horde'] }, { factionSlug: 'necrons' }, { trackArmyYou: false })
     const w = mountPanel()

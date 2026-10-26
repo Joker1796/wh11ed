@@ -112,7 +112,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
-import { loadArmyRules } from '../../composables/gameStratagems.js'
+import { loadArmyRules, armySignature } from '../../composables/gameStratagems.js'
 import { foldName } from '../../core/shared/foldName.js'
 
 // One army's card in the Armies tab (ArmiesPanel keeps one per army, built once): its faction and
@@ -155,19 +155,26 @@ const unitsLink = computed(() => {
 
 // The army's rules: its army rule and its detachments'. Kept while the card lives, so coming back
 // to this army shows them at once instead of a card that shrinks while they load again.
+// Loaded again when the ARMY changes, not only the language: the card is kept by its place in the
+// game, and the roll for the first turn swaps the players into each other's places — until
+// 2026-10-26 the card kept the other player's rules then (a player's report).
 const rules = ref(null)
+const openRules = ref([])
 let token = 0
-watch(locale, async () => {
-  if (!props.army.member.factionSlug) return
+const combatPatrol = () => !!current.value?.settings?.combatPatrol
+watch([locale, () => armySignature(props.army.member), combatPatrol], async (now, before) => {
+  if (before && now[1] !== before[1]) {
+    rules.value = null
+    openRules.value = []
+  }
   const t = ++token
-  const r = await loadArmyRules(props.army.member, locale.value, !!current.value?.settings?.combatPatrol)
+  const r = props.army.member.factionSlug ? await loadArmyRules(props.army.member, locale.value, combatPatrol()) : null
   if (t === token) rules.value = r
 }, { immediate: true })
 // What reads under the army rule: its full text (the card drops it where it already is the text)
 // and each detachment's rule.
 // Folded under an attached list (the Army tab shows it right below); a fold opened stays open.
 const foldRules = computed(() => !!props.army.member.roster)
-const openRules = ref([])
 const toggleRule = (key) => {
   openRules.value = openRules.value.includes(key) ? openRules.value.filter((k) => k !== key) : [...openRules.value, key]
 }

@@ -602,6 +602,26 @@ describe('RosterViewView', () => {
       expect(w.find('.rvst-mod').exists()).toBe(false) // off screen: as it was
       return w
     }
+    // The game's lists are kept by their place in the game, and the roll for the first turn swaps
+    // the players into each other's places: the list kept at a place follows the player now
+    // standing there (a player's report, 2026-10-26 — the army rules had stayed with the place).
+    it('follows the player when the roll for the first turn swaps the places', async () => {
+      const { rosterSnapshot } = await import('../../composables/rosterGameLink.js')
+      const t = await startGame(fielded)
+      const orks = {
+        id: 'r2s', name: 'Da List', faction: 'orks', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
+      }
+      t.current.value.players[1].rosterId = orks.id
+      t.current.value.players[1].roster = rosterSnapshot(orks)
+      t.current.value.firstTurnPending = true
+      const w = mount(RosterViewView, { props: { inTracker: true, pi: 0 }, global: { stubs } })
+      await waitFor(w, 'Intercessor Squad')
+      expect(t.rollFirstTurn(1)).toBe(true)
+      await waitFor(w, 'Da List')
+      expect(w.text()).not.toContain('Fielded List')
+    })
+
     it('holds still while frozen and catches up when shown', async () => {
       const w = await frozenOrks()
       expect(w.find('.back').exists()).toBe(false) // the game screen is around it
