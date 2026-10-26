@@ -40,10 +40,10 @@ function resolve(overrides = {}, preset = 'compact') {
   return out
 }
 
-const sheet = (opts) => mount(RosterPrintSheet, {
-  props: { roster: ROSTER, factionData, rulesFaction, detachments, opts },
+const sheet = (opts, roster = ROSTER) => mount(RosterPrintSheet, {
+  props: { roster, factionData, rulesFaction, detachments, opts },
   // The cards resolve a datasheet apiece and are tested on their own.
-  global: { stubs: { RosterPrintUnitCard: { name: 'RosterPrintUnitCard', template: '<div class="card" />' } } },
+  global: { stubs: { RosterPrintUnitCard: { name: 'RosterPrintUnitCard', props: ['copies'], template: '<div class="card" :data-copies="copies" />' } } },
 })
 
 describe('the header and the list', () => {
@@ -126,6 +126,25 @@ describe('the cards', () => {
   it('are absent in the compact sheet and one per unit in the full one', () => {
     expect(sheet(resolve()).findAll('.rps-measure .card')).toHaveLength(0)
     expect(sheet(resolve({}, 'full')).findAll('.rps-measure .card')).toHaveLength(1)
+  })
+
+  // A player's idea (2026-10-26): two units that would print the same card print it once, "×2".
+  const copiesOn = (w) => w.findAll('.rps-measure .card').map((c) => Number(c.attributes('data-copies')))
+  const withUnits = (units) => ({ ...ROSTER, units })
+  it('print one card for units that would print the same one', () => {
+    const twins = withUnits([{ uid: 'u1', id: 'necron-warriors', size: 0 }, { uid: 'u2', id: 'necron-warriors', size: 0 }])
+    expect(copiesOn(sheet(resolve({}, 'full'), twins))).toEqual([2])
+    const sized = withUnits([{ uid: 'u1', id: 'necron-warriors', size: 0 }, { uid: 'u2', id: 'necron-warriors', size: 1 }])
+    expect(copiesOn(sheet(resolve({}, 'full'), sized))).toEqual([1, 1])
+  })
+
+  it('never fold a unit that stands in an Attached unit', () => {
+    const led = withUnits([
+      { uid: 'u1', id: 'necron-warriors', size: 0 },
+      { uid: 'u2', id: 'necron-warriors', size: 0 },
+      { uid: 'o', id: 'overlord', size: 0, leaderOf: 'u1' },
+    ])
+    expect(copiesOn(sheet(resolve({}, 'full'), led))).toEqual([1, 1, 1])
   })
 })
 

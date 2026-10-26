@@ -474,8 +474,10 @@ leading this unit" rules never applied (found by the 2.10.5 card sweep).
 - **On screen**: the editor's section reads "Join a unit", and with no such host in the list says
   who must lead it first; the row's tag is "Joined"; the GW export prints "Attached as: Retinue"
   (our word — the app's is not known) and the importer reads it back.
-- **On the card**: `attachmentOf` (rosterStatMods) is the one reading of who stands with whom, for
-  the card and the roster screen. A joined unit leads nobody; the Characters leading its unit lead
+- **On the card**: `attachmentOf` (rosterStatMods) is the one reading of who stands with whom, and
+  `attachmentContext` builds everything `datasheetEntriesFor` needs from it — for the card and the
+  roster screen alike (2026-10-26: the card had assembled its own and dropped the Leaders' wargear,
+  their mandatory enhancements and what their models prove). A joined unit leads nobody; the Characters leading its unit lead
   it (their "models in that unit" reach it), and its rules for "that CRYPTEK model" (Bound
   Creation, `target: 'leader'`) reach those Characters (`joinedUnitIds`, from `'joined'`).
 - Gate: `src/composables/rosterJoin.test.js`.
@@ -3260,6 +3262,13 @@ itemNames — the add-unit preview, which cannot know the loadout — shows noth
 everything: unlike a weapon row there is no printed line being hidden. Five items read "while the
 bearer is leading a unit" and carry `target: 'led'`, answered from `ctx.leaderItemNames`.
 
+**A `led` rule gated on a model of the part it came FROM** (2026-10-26, a player's report): "while
+this unit contains a Tempestor Prime" is the Command Squad's model, and the Scions' entry it reaches
+has none — gated against the Scions' own loadout it never held. `attachmentContext` reads each
+attached part's `wargearConditions` into `partGear`, and a `led`/`co` record carries its part's as
+`proves`, which `proven()` accepts beside `active`. Two records today: Tempestus Command Squad →
+Scions, Quartermaster Cadre's Medi-packs → Krieg. Gate: `src/composables/rosterLedGear.test.js`.
+
 **"The bearer only" gets a row of its own (2026-10-01).** An item that changes the model carrying
 it — a Storm Shield's +1 W, a Mistshield's 4+ invulnerable, Shieldvanes' Save and Move, a
 Grav-talon on the bearer's melee weapons — carries `cond: ['wargear-bearer']`, and
@@ -4340,6 +4349,12 @@ or washes at all — separation is rules and weight, because a printer pays for 
 toner. The "can be attached to" block is not printed: the list answered that, and the name plate
 says which unit it joined. `DatasheetCard`'s print-only props (`dense`, `hideAttachment`,
 `hidePoints`) went away with its print duty.
+
+**Identical units print one card, "×N"** (a player's idea, 2026-10-26; `cardFoldKey` in
+`RosterPrintSheet`). Identical means the whole entry but its uid, plus its price where prices are
+printed — the copy tax makes a later copy dearer, and a "×2" over one price would lie about the
+other. A unit in an Attached unit (leading or led) never folds: its card names whom it stands with,
+and the rules that reach it are not its twin's. The list table above still prints a row per unit.
 
 **The browser prints it.** `window.print()`, no PDF library: the document is text and tables, so
 "Save as PDF" in the browser's own dialog gives selectable text, embedded fonts and Cyrillic for

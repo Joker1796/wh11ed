@@ -64,6 +64,12 @@ describe('the name plate facts', () => {
     expect(tags.join(' · ')).toContain('115')
   })
 
+  // One card standing for several identical units of the list says how many, first.
+  it('say how many identical units the card stands for', () => {
+    expect(cardOf(card({}, { copies: 2 })).props('tags')[0]).toBe('×2')
+    expect(cardOf(card()).props('tags').join(' ')).not.toContain('×')
+  })
+
   it('say nothing about points when prices are not being printed', () => {
     expect(cardOf(card()).props('tags').join(' ')).not.toContain('115')
   })

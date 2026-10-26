@@ -36,7 +36,7 @@ export { grantedKeywordsFor, detKey } from './rosterEngine.js'
 /** One copy of an item: the profile holding it (`m`, null for a unit-wide group) and on how many of its models (`n`, null when unknown). @typedef {{ m: number | null, n: number | null }} Slot */
 /** A keyword the roster gives a unit that its sheet does not print: from a rule (`detName`), or the mark the entry chose (`alleg`, that choice's title). @typedef {{ kw: string, detName: string | null, extra: boolean, alleg?: string | null }} GrantedKeyword */
 /** A rule bearing on an entry, to be resolved to its prose by the caller. @typedef {{ kind: 'enhancement' | 'detachment', name: string } | { kind: 'leader', unitId: string }} RuleSource */
-/** @typedef {{ def?: RosterUnit | null, entry?: EntryLike | null, items?: Items | null, unitId?: string, factionSlug?: string, detachments?: Detachment[], leaderTargets?: Array<{ uid: string, name: string }>, units?: RosterEntry[] }} OverlayContext */
+/** @typedef {{ def?: RosterUnit | null, entry?: EntryLike | null, items?: Items | null, unitId?: string, factionSlug?: string, detachments?: Detachment[], leaderTargets?: Array<{ uid: string, name: string }>, units?: RosterEntry[], defOf?: (id: string) => RosterUnit | null | undefined }} OverlayContext */
 
 // Name matching between two independently-generated datasets: wargear item names live in
 // src/data/roster/items.js (interned from appdata's `wargear_item`), weapon rows live in

@@ -200,6 +200,7 @@
           :opts="opts"
           :points="u.c.points"
           :role="u.c.role"
+          :copies="u.c.copies"
         />
       </div>
     </template>

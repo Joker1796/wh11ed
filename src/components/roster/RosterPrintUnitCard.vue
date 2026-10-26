@@ -48,6 +48,8 @@ const props = defineProps({
   // This entry's own price, or null when prices are not being printed.
   points: { type: Number, default: null },
   role: { type: String, default: '' },
+  // How many entries of the list print exactly this card (RosterPrintSheet folds them into one).
+  copies: { type: Number, default: 1 },
 })
 
 const { locale } = useLocale()
@@ -77,6 +79,7 @@ const notes = computed(() => (props.opts.modifiers ? statNotes.value : []))
 const tags = computed(() => {
   const l = labels.value
   const out = []
+  if (props.copies > 1) out.push(`×${props.copies}`)
   if (props.role) out.push(props.role)
   const ctx = view.value?.context
   if (ctx?.warlord) out.push(l.rosterWarlord)

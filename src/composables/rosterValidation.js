@@ -475,7 +475,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     const type = target ? leadTypeFor(def, u, defOf(target.id), detachments, armySids) : null
     if (!type) {
       add('leaderTargetInvalid', 'warn', { uid: u.uid, params: { target: (target && nameOf(target.uid)) || '—' } })
-    } else if (type === 'join' && !joinLedBy(def, target, units, defOf, u.uid)) {
+    } else if (type === 'join' && target && !joinLedBy(def, target, units, defOf, u.uid)) {
       // Joined to a unit its character has since left: the rule allows the join only while a
       // character it names leads that unit ("…one other unit … that is being led by a Cryptek").
       const by = [...new Set((def?.joins?.by || []).map((id) => defOf(id)?.name || id))]
