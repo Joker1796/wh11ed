@@ -23,9 +23,9 @@
 import { computed, ref, watch } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
-import { overlaySheet, enhKey, detKey, findEnhancementProse, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
+import { overlaySheet, enhKey, detKey, findEnhancementProse, wargearConditions } from './rosterModifiers.js'
 import { loadKeywordVocabulary, ruleAppliesTo, unitKeywordsOf } from './ruleTargets.js'
-import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, attachedEnhKeys, armyRuleMatches, armyRuleSection, attachmentOf } from './rosterStatMods.js'
+import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, armyRuleMatches, armyRuleSection, attachmentContext } from './rosterStatMods.js'
 import { abilityStatusesOf } from './abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
 import { unitDoctrines } from './doctrineRules.js'
@@ -302,25 +302,16 @@ export function useRosterUnitCard(props) {
     if (!entry) return []
     // A unit that joined a led unit is told apart by its roster definition (`joins`): this card's
     // own is ctx.def, the others' come from ctx.defOf where the caller has one.
-    const isJoiner = (u) => !!(u.uid === entry.uid ? props.ctx?.def : props.ctx?.defOf?.(u.id))?.joins
-    const at = attachmentOf(entry, units, isJoiner)
+    /** @param {import('./roster.types.js').RosterEntry} u */
+    const defOf = (u) => (u.uid === entry.uid ? props.ctx?.def : props.ctx?.defOf?.(u.id))
     return datasheetEntriesFor(usableModifierEntries.value, {
       unitId: props.unitId,
-      // What this entry is actually carrying — a Storm Shield's 4+ invulnerable is not a fact about
-      // the datasheet, it is a fact about the model that took the shield.
-      itemNames: loadoutItemNames(props.ctx?.def, entry, props.ctx?.items),
-      leaderUnitIds: at.leaders.map((u) => u.id),
-      ledUnitId: at.ledUnitId,
-      coLeaderUnitIds: at.coLeaderUnitIds,
-      joinedUnitIds: at.joinedUnitIds,
-      // An enhancement aura worn by an attached Leader covers this unit with no distance to judge
-      // (22.01 — the model is standing in it), so it arrives here rather than as a chip.
-      leaderEnhNames: at.leaders.reduce((set, u) => {
-        if (u.enh) set.add(u.enh)
-        return set
-      }, new Set()),
-      // …and what every other member of this Attached unit carries, for an Upgrade's "This unit…".
-      attachedEnhKeys: attachedEnhKeys(entry, units, (u) => u.enh || null),
+      ...attachmentContext(/** @type {import('./roster.types.js').RosterEntry} */ (entry), units, {
+        defOf,
+        sheetOf: (id) => datasheets.value.find((d) => d.id === id),
+        items: props.ctx?.items,
+        detachments: props.ctx?.detachments,
+      }),
       // Auras the player marked on this unit, from the same store the list's chips write to — the
       // ones 22.01 makes certain (the bearer's own unit, the unit it is attached to) are not in it.
       auraOn: activeAuraIds.value,

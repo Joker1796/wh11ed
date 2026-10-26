@@ -19,8 +19,8 @@
 // Scope comes from ruleTargets.js, never from the record — see the generator's header for why.
 
 import { ruleScopes, scopesMisread, scopeHits } from './ruleTargets.js'
-import { enhKey, detKey, itemKey, loadoutItemCopies, weaponRowClaimer } from './rosterModifiers.js'
-import { modelsPerMini } from './rosterEngine.js'
+import { enhKey, detKey, itemKey, loadoutItemCopies, weaponRowClaimer, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
+import { modelsPerMini, mandatoryEnhancementFor } from './rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from '../data/rosterModifiers/conditions.js'
 import { dominates } from './abilityDominance.js'
@@ -333,9 +333,12 @@ function noteOf(entry, effect, applied, via = null, live = true) {
 // `unit-leading` is the one condition a RECORD can prove by itself: an effect that arrived on this
 // card `from: 'led'` is here only because a Leader carrying it is attached to this unit, so asking
 // the roster again — against the bodyguard entry, which leads nobody — would answer no and gate off
-// a rule that plainly applies. Everything else is answered by `active` alone.
+// a rule that plainly applies. The other thing a record carries is `proves`: what the loadout of the
+// unit it came FROM shows (datasheetEntriesFor's `partGear`) — "while this unit contains a Tempestor
+// Prime" is about the Command Squad that leads the Scions, and the Scions' own list entry has no
+// Tempestor Prime to show (a player's report, 2026-10-26). Everything else is answered by `active`.
 /** @param {string} id @param {IdSet} active @param {ModEntry | null} entry */
-const proven = (id, active, entry) => !!active?.has(id) || (id === 'unit-leading' && (entry?.from === 'led' || entry?.from === 'co'))
+const proven = (id, active, entry) => !!active?.has(id) || !!entry?.proves?.has(id) || (id === 'unit-leading' && (entry?.from === 'led' || entry?.from === 'co'))
 
 // Does the game say every condition on this effect holds? An effect with no `cond` at all is
 // unreviewed markup, and is treated as unproven — never as unconditional.
@@ -762,6 +765,8 @@ export function attachedUnitKeywords(entry, units, keywordsOf) {
 // id of the unit this entry leads, `ctx.coLeaderUnitIds` the OTHER Characters attached to that same
 // unit (a Leader and a Support share one Attached unit). All three come from the roster, which
 // records the attachment — there is nothing to infer and nothing to ask the player.
+// `ctx.partGear` maps each of those attached datasheet ids to the conditions its own loadout proves
+// (rosterModifiers' wargearConditions); a record from that part carries it as `proves`.
 // Our army-rule name against the record's, apostrophes and case aside. Containment either way:
 // a merged name covers the record it was merged from, and a record named for the whole rule still
 // matches when our name is the longer one.
@@ -811,10 +816,10 @@ export function attachedEnhKeys(entry, units, enhOf) {
 
 /**
  * @param {ModEntry[] | null | undefined} records
- * @param {{ unitId?: string, leaderUnitIds?: string[], ledUnitId?: string | null, coLeaderUnitIds?: string[], itemNames?: Set<string> | null, leaderItemNames?: Map<string, Set<string>> | null, leaderEnhNames?: Set<string> | null, attachedEnhKeys?: Set<string> | null, auraOn?: Set<string> | null, detIds?: Set<string> | null }} [opts]
+ * @param {{ unitId?: string, leaderUnitIds?: string[], ledUnitId?: string | null, coLeaderUnitIds?: string[], joinedUnitIds?: string[], itemNames?: Set<string> | null, leaderItemNames?: Set<string> | null, partGear?: Map<string, Set<string>> | null, leaderEnhNames?: Set<string> | null, attachedEnhKeys?: Set<string> | null, auraOn?: Set<string> | null, detIds?: Set<string> | null }} [opts]
  * @returns {ModEntry[]}
  */
-export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], joinedUnitIds = [], itemNames = null, leaderItemNames = null, leaderEnhNames = null, attachedEnhKeys = null, auraOn = null, detIds = null } = {}) {
+export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], joinedUnitIds = [], itemNames = null, leaderItemNames = null, partGear = null, leaderEnhNames = null, attachedEnhKeys = null, auraOn = null, detIds = null } = {}) {
   const out = []
   for (const rec of records || []) {
     // A DETACHMENT RULE's aura radiates from a keyword, not from an entry ("friendly IMPERIAL
@@ -904,7 +909,11 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
     const owner = at === -1 ? null : rec.name.slice(0, at)
     const name = at === -1 ? rec.name : rec.name.slice(at + 2)
     /** @param {ModifierEffect[]} effects @param {string} from */
-    const push = (effects, from) => { if (effects.length) out.push({ ...rec, body: '', effects, name, owner, from }) }
+    const push = (effects, from) => {
+      if (!effects.length) return
+      const proves = from === 'led' || from === 'co' ? partGear?.get(ref.unit) : null
+      out.push({ ...rec, body: '', effects, name, owner, from, ...(proves?.size ? { proves } : {}) })
+    }
     // An AURA (`target: 'aura'`) reaches whole units rather than one card, so it travels with the
     // keyword gate its prose named (Core Rules 22.01 wording: "a friendly ADEPTA SORORITAS unit
     // within 6" of this model") — without it a Rhino would collect the buff meant for the Sisters.
@@ -1519,9 +1528,11 @@ function enhBearer(body, minis, def, perMini) {
 // takes its rules for "that CRYPTEK model" (`joinedUnitIds`). `isJoiner` is the caller's (it holds
 // the roster's definitions).
 /**
- * @param {{ uid?: string, leaderOf?: string | null }} entry
- * @param {Array<{ uid?: string, id?: string, leaderOf?: string | null }>} units
- * @param {(u: { id?: string }) => boolean} isJoiner
+ * @template {{ uid?: string, id?: string, leaderOf?: string | null }} T
+ * @param {T} entry
+ * @param {T[]} units
+ * @param {(u: T) => boolean} isJoiner
+ * @returns {{ leaders: T[], ledUnitId: string | null, coLeaderUnitIds: string[], joinedUnitIds: string[] }}
  */
 export function attachmentOf(entry, units, isJoiner) {
   const list = units || []
@@ -1533,7 +1544,57 @@ export function attachmentOf(entry, units, isJoiner) {
   return {
     leaders: list.filter((u) => u.leaderOf === entry.uid),
     ledUnitId: entry.leaderOf ? list.find((u) => u.uid === entry.leaderOf)?.id || null : null,
-    coLeaderUnitIds: mates.filter((u) => !isJoiner(u)).map((u) => u.id),
-    joinedUnitIds: mates.filter(isJoiner).map((u) => u.id),
+    coLeaderUnitIds: /** @type {string[]} */ (mates.filter((u) => !isJoiner(u)).map((u) => u.id)),
+    joinedUnitIds: /** @type {string[]} */ (mates.filter(isJoiner).map((u) => u.id)),
+  }
+}
+
+// Everything datasheetEntriesFor() needs to know about the Attached unit an entry stands in, read
+// in ONE place. The unit card and the roster screen used to assemble it each on their own, and the
+// card lost two facts on the way: what the attached Leaders carry (a Kustom Force Field reached the
+// Boyz row in the list, not the card behind it) and what their models prove (a Tempestor Prime in
+// the Command Squad — a player's report, 2026-10-26). `defOf` names any entry's roster definition
+// (the caller's own for an edited entry), `sheetOf` its printed datasheet, `items` the item table.
+/**
+ * @param {RosterEntry} entry
+ * @param {RosterEntry[] | null | undefined} units
+ * @param {{ defOf: (u: RosterEntry) => any, sheetOf: (id: string) => any, items: any, detachments?: any }} ctx
+ */
+export function attachmentContext(entry, units, { defOf, sheetOf, items, detachments }) {
+  const list = units || []
+  const at = attachmentOf(entry, list, (u) => !!defOf(u)?.joins)
+  /** @param {RosterEntry} u */
+  const enhOf = (u) => u.enh || mandatoryEnhancementFor(defOf(u), detachments)?.name || null
+  const leaderItemNames = new Set()
+  const leaderEnhNames = new Set()
+  for (const u of at.leaders) {
+    for (const n of loadoutItemNames(defOf(u), u, items) || []) leaderItemNames.add(n)
+    const n = enhOf(u)
+    if (n) leaderEnhNames.add(n)
+  }
+  // What each OTHER part's models prove, by datasheet id — the parts whose records reach this card
+  // as `led` (its Leaders) or `co` (the Characters beside it in the unit it leads).
+  const coLeaders = entry.leaderOf ? list.filter((u) => u.leaderOf === entry.leaderOf && u.uid !== entry.uid) : []
+  /** @type {Map<string, Set<string>>} */
+  const partGear = new Map()
+  for (const u of [...at.leaders, ...coLeaders]) {
+    const gear = wargearConditions(defOf(u), u, items, sheetOf(u.id))
+    if (gear.size) partGear.set(u.id, new Set([...(partGear.get(u.id) || []), ...gear]))
+  }
+  return {
+    leaderUnitIds: at.leaders.map((u) => u.id),
+    ledUnitId: at.ledUnitId,
+    coLeaderUnitIds: at.coLeaderUnitIds,
+    joinedUnitIds: at.joinedUnitIds,
+    // What this entry is actually carrying — a Storm Shield's 4+ invulnerable is not a fact about
+    // the datasheet, it is a fact about the model that took the shield.
+    itemNames: loadoutItemNames(defOf(entry), entry, items),
+    // What the attached Leaders are carrying, and which enhancements they wear: an enhancement aura
+    // covers the unit its bearer joined with no distance to judge (22.01).
+    leaderItemNames,
+    leaderEnhNames,
+    partGear,
+    // …and what every other member of this Attached unit carries, for an Upgrade's "This unit…".
+    attachedEnhKeys: attachedEnhKeys(entry, list, enhOf),
   }
 }
