@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import { detectFormat, matchFaction as matchFactionIn, matchRoster, parseList as parseListWith, resolveDetachmentLine } from './rosterImport.js'
-import { factionGroups } from '../data/factionsIndex.js'
+import { factionGroups } from '../../data/factionsIndex.js'
 
 // The importer reads a list's faction against the app's directory, which the app passes in; these
 // tests read every list against the real one.
 const parseList = (text, format = null) => parseListWith(text, format, factionGroups)
 const matchFaction = (name) => matchFactionIn(name, factionGroups)
-import rosterCore from '../data/roster/core.js'
-import { optionItems, optionLabel } from '../core/roster/rosterEngine.js'
+import rosterCore from '../../data/roster/core.js'
+import { optionItems, optionLabel } from './rosterEngine.js'
 
 // A real export from the Warhammer 40,000 app, abridged: the shapes that matter are all here — an
 // attached block, a single-model character, a multi-profile squad, a uniform multi-model unit, an
@@ -215,8 +215,8 @@ describe('matchRoster — an attachment stated as a line', () => {
   // two is the leader whichever way round it was written.
   it('makes the character the leader, whichever side carried the line', async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/world-eaters.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/world-eaters.js'),
+      import('../../data/roster/items.js'),
     ])
     const ctx = { faction, core: rosterCore, items: items.items }
     const forward = matchRoster(parseList(WTC_COMPACT), ctx).payload
@@ -339,7 +339,7 @@ Prosecutor Squad (50 points)
 • 5x Prosecutors
 `
   it('attaches each to the unit above it, an allied one included', async () => {
-    const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
+    const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
     const ctx = { faction: await loadRosterFaction('adeptus-custodes', { allies: true }), core: rosterCore, items: rosterItems.items }
     const { payload, report } = matchRoster(parseList(LIST), ctx)
     expect(report.missing).toEqual([])
@@ -497,14 +497,14 @@ describe('matchRoster — listhammer against our own data', () => {
   let ctx
   beforeAll(async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/orks.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/orks.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction, core: rosterCore, items: items.items }
   })
 
   it('prices every unit of the detailed export exactly as the site did', async () => {
-    const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
+    const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
     const cur = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items }
     const { report } = matchRoster(parseList(LH_CURRENT), cur)
     expect(report.missing).toEqual([])
@@ -525,7 +525,7 @@ describe('matchRoster — listhammer against our own data', () => {
   // "1x Ammo Runt" — Codex: Orks turned Ammo Runts into a token ability, so no Orks datasheet
   // carries an attached extra as wargear any more.)
   it('does not count a unit’s wargear line as a model', async () => {
-    const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
+    const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
     const cur = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items }
     const { report } = matchRoster(parseList(LH_CURRENT), cur)
     const guard = report.units.find((u) => u.name === 'Custodian Guard Sodality')
@@ -537,7 +537,7 @@ describe('matchRoster — listhammer against our own data', () => {
   // (Upgrade)"); the
   // app leaves it off and listhammer prints it. All three have to land on the same enhancement.
   it('matches an enhancement through the kind tag, whichever side carries it', async () => {
-    const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
+    const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
     const cur = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items }
     const { report, payload } = matchRoster(parseList(LH_CURRENT), cur)
     expect(report.units.find((u) => u.name === 'Contemptor‑Achillus Dreadnought').enh).toEqual({ name: 'Augury Uplink (one per army)', ok: true })
@@ -612,8 +612,8 @@ Magnus the Red (455 points)
   // them into one pick charged for one of the two.
   it('spends a repeated weapon on a second group before merging it into the first', async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/thousand-sons.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/thousand-sons.js'),
+      import('../../data/roster/items.js'),
     ])
     const list = `Coven
 
@@ -650,8 +650,8 @@ describe('matchRoster — a bundle half that several groups share', () => {
   let ctx
   beforeAll(async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction: await loadRosterFaction('imperial-agents'), core: rosterCore, items: items.items }
   })
@@ -692,8 +692,8 @@ Deathwatch Kill Team (190 points)
 describe('matchRoster — an option that grants two of a weapon', () => {
   it('reads two of them as one pick, not two', async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     const faction = await loadRosterFaction('emperors-children')
     const text = `Fiends (2000 points)
@@ -719,8 +719,8 @@ Maulerfiend (120 points)
 describe('matchRoster — a weapon two groups both grant', () => {
   it('spills the copies the best-fitting option cannot hold into the other group', async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/world-eaters.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/world-eaters.js'),
+      import('../../data/roster/items.js'),
     ])
     const text = `Engines (2000 points)
 
@@ -741,8 +741,8 @@ Forgefiend (155 points)
 
   it('leaves the second group alone when its own weapons are still listed', async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/world-eaters.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/world-eaters.js'),
+      import('../../data/roster/items.js'),
     ])
     const text = `Engines (2000 points)
 
@@ -764,8 +764,8 @@ Forgefiend (145 points)
 describe('matchRoster — a bundled wargear option', () => {
   it('takes the swap from either half of the bundle, once, for the right number of models', async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/necrons.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/necrons.js'),
+      import('../../data/roster/items.js'),
     ])
     const list = `Mono Ctan (160 points)
 
@@ -869,8 +869,8 @@ describe('matchRoster — the flat body, against our own data', () => {
   let ctx
   beforeAll(async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/world-eaters.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/world-eaters.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction, core: rosterCore, items: items.items }
   })
@@ -899,8 +899,8 @@ describe('matchRoster — the flat body, against our own data', () => {
   // models 110pts), so the fold is not cosmetic.
   it('folds the plural when a datasheet is named for its models', async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/aeldari.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/aeldari.js'),
+      import('../../data/roster/items.js'),
     ])
     const list = `Rangers only
 
@@ -1010,8 +1010,8 @@ describe('matchRoster — listhammer.info, plain-text mode', () => {
   let ctx
   beforeAll(async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction: await loadRosterFaction('chaos-knights', { allies: true }), core: rosterCore, items: items.items }
   })
@@ -1117,8 +1117,8 @@ describe('matchRoster — listhammer.info, labelled header between two rows of +
   let out
   beforeAll(async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/world-eaters.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/world-eaters.js'),
+      import('../../data/roster/items.js'),
     ])
     out = matchRoster(parseList(LH_FENCED), { faction, core: rosterCore, items: items.items })
   })
@@ -1195,8 +1195,8 @@ describe('matchRoster — the battle size of a list that does not name one', () 
   let ctx
   beforeAll(async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/world-eaters.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/world-eaters.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction, core: rosterCore, items: items.items }
   })
@@ -1222,8 +1222,8 @@ describe('matchRoster — a real list against our own data', () => {
   let out
   beforeAll(async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/world-eaters.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/world-eaters.js'),
+      import('../../data/roster/items.js'),
     ])
     out = matchRoster(parseList(GW), { faction, core: rosterCore, items: items.items })
   })
@@ -1309,8 +1309,8 @@ describe('round trip — export then import', () => {
   let faction, items
   beforeAll(async () => {
     const [{ default: f }, { default: i }] = await Promise.all([
-      import('../data/roster/world-eaters.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/world-eaters.js'),
+      import('../../data/roster/items.js'),
     ])
     faction = f
     items = i.items
@@ -1392,8 +1392,8 @@ describe('matchRoster — an allied unit', () => {
   let ctx
   beforeAll(async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction: await loadRosterFaction('adeptus-custodes', { allies: true }), core: rosterCore, items: items.items }
   })
@@ -1411,8 +1411,8 @@ describe('matchRoster — an allied unit', () => {
   // "Ministorum Priest" means its own — the ally is only reached when the army has nothing by
   // that name.
   it('prefers the army’s own datasheet over an ally of the same name', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: items } = await import('../../data/roster/items.js')
     const faction = await loadRosterFaction('astra-militarum', { allies: true })
     const text = `Priests (2000 points)\n\nAstra Militarum\nStrike Force (2000 points)\n\nCHARACTERS\n\nMinistorum Priest (35 points)\n  • 1x Laspistol`
     const { payload } = matchRoster(parseList(text), { faction, core: rosterCore, items: items.items })
@@ -1553,8 +1553,8 @@ describe('parseList — a WTC header over a listhammer body', () => {
 describe('matchRoster — a WTC header over a listhammer body', () => {
   it('places every unit at its stated points, attachments and all', async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     const faction = await loadRosterFaction('blood-angels')
     const { report, payload } = matchRoster(parseList(WTC_GW_BODY), { faction, core: rosterCore, items: items.items })
@@ -1573,7 +1573,7 @@ describe('matchRoster — a WTC header over a listhammer body', () => {
   // Blood Angels — but since Codex: Space Marines, app data 963 and MFM v1.5, every Chapter pays
   // the Codex price for every one of them, so `detachmentDp` has no example left to pin.)
   it('finds a Codex detachment in a Chapter army', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     const ba = await loadRosterFaction('blood-angels')
     const stormlance = ba.detachments.find((d) => d.name === 'Stormlance Task Force')
     expect(stormlance).toBeTruthy()
@@ -1590,8 +1590,8 @@ describe('matchRoster — a WTC header over a listhammer body', () => {
 
 describe('matchRoster — an ally in the WTC format', () => {
   it('places it and lands on the stated total', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: items } = await import('../../data/roster/items.js')
     const faction = await loadRosterFaction('imperial-knights', { allies: true })
     const { report, payload } = matchRoster(parseList(WTC_ALLY), { faction, core: rosterCore, items: items.items })
     expect(report.missing).toEqual([])
@@ -1617,8 +1617,8 @@ describe('matchRoster — an ally in the WTC format', () => {
   // could take, so they are passed over instead of reported at a reader who could do nothing
   // about them.
   it('passes over a profile no list can buy, without counting or reporting it', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: items } = await import('../../data/roster/items.js')
     const faction = await loadRosterFaction('imperial-knights', { allies: true })
     expect(faction.noBuild).toEqual(['Sir Hekhtur'])
     const { report } = matchRoster(parseList(WTC_ALLY), { faction, core: rosterCore, items: items.items })
@@ -1689,8 +1689,8 @@ describe('matchRoster — a title that prices itself several lines down', () => 
   let ctx
   beforeAll(async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction: await loadRosterFaction('adeptus-mechanicus', { allies: true }), core: rosterCore, items: items.items }
   })
@@ -1721,7 +1721,7 @@ describe('matchRoster — a title that prices itself several lines down', () => 
   // the only way an allied leader can join anything in the army it was lent to.
   it('attaches an allied leader to a host unit it can join by keyword', async () => {
     const { payload } = matchRoster(parseList(POEM), ctx)
-    const { validateRoster } = await import('../core/roster/rosterValidation.js')
+    const { validateRoster } = await import('./rosterValidation.js')
     const draxus = payload.units.find((u) => u.id === 'imperial-agents:inquisitor-draxus')
     const vanguard = payload.units.find((u) => u.id === 'skitarii-vanguard')
     expect(draxus.leaderOf).toBe(vanguard.uid)
@@ -1736,8 +1736,8 @@ describe('matchRoster — a title that prices itself several lines down', () => 
 // the scatter laser's group too put two picks in a group that allows one.
 describe('matchRoster — two picks that share a group', () => {
   it('spends a fresh group before a second option of one already used', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: items } = await import('../../data/roster/items.js')
     const faction = await loadRosterFaction('aeldari')
     const text = `Falcons (2000 points)\n\nAeldari\nStrike Force (2000 points)\n\nOTHER DATASHEETS\n\nFalcon (130 Points)\n• 1x Bright lance\n• 1x Pulse laser\n• 1x Shuriken cannon\n• 1x Wraithbone hull`
     const { payload, report } = matchRoster(parseList(text), { faction, core: rosterCore, items: items.items })
@@ -1803,8 +1803,8 @@ describe('matchRoster — a squad that swaps in pairs', () => {
   let ctx
   beforeAll(async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction: await loadRosterFaction('deathwatch', { allies: true }), core: rosterCore, items: items.items }
   })
@@ -1838,7 +1838,7 @@ describe('matchRoster — a squad that swaps in pairs', () => {
     const { payload } = matchRoster(parseList(DW), ctx)
     const captain = payload.units.find((u) => u.id === 'captain-in-gravis-armour')
     expect(captain.wg).toHaveLength(1)
-    const { validateRoster } = await import('../core/roster/rosterValidation.js')
+    const { validateRoster } = await import('./rosterValidation.js')
     const issues = validateRoster(payload, { faction: ctx.faction, core: rosterCore }).issues
     expect(issues.filter((i) => i.uid === captain.uid && i.code === 'overWargearLimit')).toEqual([])
   })
@@ -1849,7 +1849,7 @@ describe('matchRoster — a squad that swaps in pairs', () => {
   // Chapter Ancient with two Honour Guard is the fourth — under the default one (a Champion and
   // two Guard) the Ancient's profile has no model at all. Written against the 963 datasheet.
   it('picks the bracket whose composition the list fits', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     const sm = await loadRosterFaction('space-marines')
     const text = `Victrix (2000 points)
 
@@ -1884,7 +1884,7 @@ Victrix Honour Guard (135 points)
   it('keeps a Watch Master the detachment does not actually bar', async () => {
     const text = DW.replace('OTHER DATASHEETS', 'OTHER DATASHEETS\n\nWatch Master (95 points)\n• 1x Vigil spear\n')
     const { payload } = matchRoster(parseList(text), ctx)
-    const { validateRoster } = await import('../core/roster/rosterValidation.js')
+    const { validateRoster } = await import('./rosterValidation.js')
     expect(payload.units.some((u) => u.id === 'watch-master')).toBe(true)
     const codes = validateRoster(payload, { faction: ctx.faction, core: rosterCore }).issues.map((i) => i.code)
     expect(codes).not.toContain('unitExcluded')
@@ -1919,8 +1919,8 @@ Exported from listhammer.info: https://listhammer.info/list/3d9af12ee8fe7f4043`
 
 describe('matchRoster — an attached block that never says "Leader"', () => {
   it('attaches the character above the bodyguard anyway', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: items } = await import('../../data/roster/items.js')
     const faction = await loadRosterFaction('tyranids')
     const { payload, report } = matchRoster(parseList(UNLABELLED), { faction, core: rosterCore, items: items.items })
     const tyrant = payload.units.find((u) => u.id === 'hive-tyrant')
@@ -1971,8 +1971,8 @@ Pyrovores (100 points)
 3x Flamespurt`
 
   it('counts the repeat once, and says so', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: items } = await import('../../data/roster/items.js')
     const faction = await loadRosterFaction('tyranids')
     const parsed = parseList(TWICE)
     expect(parsed.repeated).toBe(1)
@@ -1988,8 +1988,8 @@ Pyrovores (100 points)
   // The same shape, arithmetically: a list whose entries add up to its OWN stated total holds two
   // real units, and folding one away would quietly make it 170 points lighter.
   it('leaves a list alone when its own total counts both', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: items } = await import('../../data/roster/items.js')
     const faction = await loadRosterFaction('tyranids')
     const parsed = parseList(TWICE.replace('(745 points)', `(${195 + 170 + 280 + 170 + 100} points)`))
     expect(parsed.repeated).toBeUndefined()
@@ -2043,8 +2043,8 @@ Chosen (135 Points)
 ◦ 4x Bolt pistol`
 
   it('keeps one entry and both of its attachments', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: items } = await import('../../data/roster/items.js')
     const faction = await loadRosterFaction('chaos-space-marines')
     const parsed = parseList(CHAIN)
     expect(parsed.repeated).toBe(1)
@@ -2136,9 +2136,9 @@ Purifier Squad (130 points)
 4x Storm bolter`
 
   it('accepts the two weapons the instruction allows', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
-    const { validateRoster } = await import('../core/roster/rosterValidation.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: items } = await import('../../data/roster/items.js')
+    const { validateRoster } = await import('./rosterValidation.js')
     const faction = await loadRosterFaction('grey-knights')
     const { report, payload } = matchRoster(parseList(GK), { faction, core: rosterCore, items: items.items })
     const gm = report.units.find((u) => u.name === 'Grand Master in Nemesis Dreadknight')
@@ -2153,8 +2153,8 @@ Purifier Squad (130 points)
   // The title of that list is a quote with "--" and "..." in it, and a stray "Forwarded" line the
   // sender's messenger added lands where nothing can place it — reported, never swallowed.
   it('reads a title full of punctuation, and names a line that is not part of the list', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: items } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: items } = await import('../../data/roster/items.js')
     const faction = await loadRosterFaction('grey-knights')
     const text = GK.replace('Purifier Squad (130 points)', 'Forwarded\nPurifier Squad (130 points)')
     const parsed = parseList(text)
@@ -2215,8 +2215,8 @@ describe('matchRoster — a list that writes the plural its own way', () => {
   let ctx
   beforeAll(async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction: await loadRosterFaction('tyranids'), core: rosterCore, items: items.items }
   })
@@ -2309,8 +2309,8 @@ describe('matchRoster — a WTC list that indexes what a character joined', () =
   let ctx
   beforeAll(async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction: await loadRosterFaction('orks'), core: rosterCore, items: items.items }
   })
@@ -2377,8 +2377,8 @@ describe('matchRoster — a WTC list that states an attachment by its rule', () 
   let ctx
   beforeAll(async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction: await loadRosterFaction('astra-militarum'), core: rosterCore, items: items.items }
   })
@@ -2438,8 +2438,8 @@ Exported from listhammer.info: https://listhammer.info/list/6963ea8beb47907297`
 describe('matchRoster — a bundle of three written as a series', () => {
   it('reads "A, B and C" as the one option it names', async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     const ctx = { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: items.items }
     const { report, payload } = matchRoster(parseList(CUSTODES), ctx)
@@ -2533,8 +2533,8 @@ describe('matchRoster — a swap that only shows as a count', () => {
   let ctx
   beforeAll(async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/tau-empire.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/tau-empire.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction, core: rosterCore, items: items.items }
   })
@@ -2588,8 +2588,8 @@ describe('matchRoster — a loadout the export names twice', () => {
   let ctx
   beforeAll(async () => {
     const [{ default: rosterCore }, { loadRosterFaction, rosterItems }] = await Promise.all([
-      import('../data/roster/core.js'),
-      import('../data/roster/index.js'),
+      import('../../data/roster/core.js'),
+      import('../../data/roster/index.js'),
     ])
     ctx = { faction: await loadRosterFaction('space-marines'), core: rosterCore, items: rosterItems.items }
   })
@@ -2710,8 +2710,8 @@ describe('matchRoster — a tag the player added to a unit name', () => {
   let ctx
   beforeAll(async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/tau-empire.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/tau-empire.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction, core: rosterCore, items: items.items }
   })
@@ -2806,8 +2806,8 @@ describe('matchRoster — a weapon a bundle grants only one of', () => {
   let ctx
   beforeAll(async () => {
     const [{ default: faction }, { default: items }] = await Promise.all([
-      import('../data/roster/chaos-space-marines.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/chaos-space-marines.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction, core: rosterCore, items: items.items }
   })
@@ -2846,13 +2846,13 @@ ${weapons}`
 describe('matchRoster — the listhammer corpus, 2026-09-19', () => {
   const ctxFor = async (slug) => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     return { faction: await loadRosterFaction(slug, { allies: true }), core: rosterCore, items: items.items }
   }
   const codesOf = async (payload, ctx) => {
-    const { validateRoster } = await import('../core/roster/rosterValidation.js')
+    const { validateRoster } = await import('./rosterValidation.js')
     return validateRoster(payload, { faction: ctx.faction, core: rosterCore, items: ctx.items }).issues.filter((i) => i.level === 'error').map((i) => i.code)
   }
   const gw = (faction, body) => `List (2000 points)\n\n${faction}\nStrike Force (2000 points)\n\nOTHER DATASHEETS\n\n${body}\n\nExported with App Version: v2.6.0 (1), Data Version: v946`
@@ -2953,7 +2953,7 @@ One of these losers actually has a missile launcher. -TO edited
 1x Meltagun
 1x Plasma gun`)
     const { payload } = matchRoster(parseList(text), ctx)
-    const texts = (await import('../data/roster/items.js')).default.texts
+    const texts = (await import('../../data/roster/items.js')).default.texts
     const def = ctx.faction.units.find((u) => u.id === 'raptors')
     const gi = def.gear.findIndex((g) => /^Up to 2 Raptors/.test(texts[g.t]))
     expect(payload.units[0].wg.map(([g, , n]) => [g, n])).toEqual([[gi, 1], [gi, 1]])
@@ -3048,8 +3048,8 @@ describe('matchRoster — an option offered to several profiles', () => {
   let ctx
   beforeAll(async () => {
     const [{ loadRosterFaction }, { default: items }] = await Promise.all([
-      import('../data/roster/index.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/index.js'),
+      import('../../data/roster/items.js'),
     ])
     ctx = { faction: await loadRosterFaction('tau-empire'), core: rosterCore, items: items.items }
   })
@@ -3132,8 +3132,8 @@ describe('matchRoster — an option offered to several profiles', () => {
 describe('matchRoster — weapon counts that differ from the list', () => {
   it('names a unit whose fielded loadout is not what the list prints', async () => {
     const [{ default: faction }, { default: items }, { buildRosterText }] = await Promise.all([
-      import('../data/roster/blood-angels.js'),
-      import('../data/roster/items.js'),
+      import('../../data/roster/blood-angels.js'),
+      import('../../data/roster/items.js'),
       import('./rosterExport.js'),
     ])
     const ctx = { faction, core: rosterCore, items: items.items }

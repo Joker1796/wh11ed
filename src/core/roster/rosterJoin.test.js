@@ -1,12 +1,12 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import { loadRosterFaction, rosterCore, rosterItems } from '../data/roster/index.js'
-import { leaderTargetsFor, leadTypeFor } from '../core/roster/rosterEngine.js'
-import { validateRoster } from '../core/roster/rosterValidation.js'
+import { loadRosterFaction, rosterCore, rosterItems } from '../../data/roster/index.js'
+import { leaderTargetsFor, leadTypeFor } from './rosterEngine.js'
+import { validateRoster } from './rosterValidation.js'
 import { buildRosterText } from './rosterExport.js'
 import { parseList, matchRoster } from './rosterImport.js'
-import { factionGroups } from '../data/factionsIndex.js'
-import { attachmentOf, datasheetEntriesFor } from './rosterStatMods.js'
-import { loadRosterModifiersFor } from '../data/rosterModifiers/index.js'
+import { factionGroups } from '../../data/factionsIndex.js'
+import { attachmentOf, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
+import { loadRosterModifiersFor } from '../../data/rosterModifiers/index.js'
 
 // A unit that JOINS a unit already led (owner, 2026-10-25): "At the start of the Declare Battle
 // Formations step, this unit can join one other unit from your army that is being led by a Cryptek

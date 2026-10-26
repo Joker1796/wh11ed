@@ -14,7 +14,7 @@
 // the version we hold is a bug here, one in an older list is last month's MFM. Ignore the split and
 // the noise buries the signal (604 lists: 217 "broken", of which 3 actually were).
 import { readFileSync } from 'node:fs'
-import { detectFormat, matchFaction, matchRoster, parseList } from '../src/composables/rosterImport.js'
+import { detectFormat, matchFaction, matchRoster, parseList } from '../src/core/roster/rosterImport.js'
 import { validateRoster } from '../src/core/roster/rosterValidation.js'
 import core from '../src/data/roster/core.js'
 import { factionGroups } from '../src/data/factionsIndex.js'

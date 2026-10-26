@@ -13,7 +13,7 @@
 // vite-node, not node: this imports the app's own modules, which are ESM with Vite's resolution.
 import { readFileSync } from 'node:fs'
 import { basename } from 'node:path'
-import { detectFormat, matchFaction, matchRoster, parseList } from '../src/composables/rosterImport.js'
+import { detectFormat, matchFaction, matchRoster, parseList } from '../src/core/roster/rosterImport.js'
 import { encodeRoster } from '../src/composables/rosterShare.js'
 import core from '../src/data/roster/core.js'
 import { factionGroups } from '../src/data/factionsIndex.js'

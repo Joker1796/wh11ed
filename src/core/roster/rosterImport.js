@@ -28,23 +28,23 @@
 // POINTS ARE NEVER TRUSTED FROM THE TEXT. They are recomputed from our own MFM data; the stated
 // figure rides along only so the difference can be shown. A list exported against last month's
 // points is not a bug in the import.
-import { DISPOSITION_NAMES } from '../core/roster/dispositions.js'
-import { foldChars } from '../core/shared/foldName.js'
+import { DISPOSITION_NAMES } from './dispositions.js'
+import { foldChars } from '../shared/foldName.js'
 import { fieldedTotals } from './rosterExport.js'
-import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, pmGroups, swapRoom, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from '../core/roster/rosterEngine.js'
+import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, pmGroups, swapRoom, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from './rosterEngine.js'
 
-/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('../core/shared/roster.types.js').FactionGroup} FactionGroup */
-/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('../core/shared/roster.types.js').RosterFaction} RosterFaction */
-/** @typedef {import('../core/shared/roster.types.js').BattleSize} BattleSize */
-/** @typedef {import('../core/shared/roster.types.js').GearLine} GearLine */
-/** @typedef {import('../core/shared/roster.types.js').ModelLine} ModelLine */
-/** @typedef {import('../core/shared/roster.types.js').ParsedUnit} ParsedUnit */
-/** @typedef {import('../core/shared/roster.types.js').ParsedList} ParsedList */
-/** @typedef {import('../core/shared/roster.types.js').ImportUnitLine} ImportUnitLine */
-/** @typedef {import('../core/shared/roster.types.js').ImportReport} ImportReport */
-/** @typedef {import('../core/shared/roster.types.js').ImportPayload} ImportPayload */
+/** @typedef {import('../shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../shared/roster.types.js').FactionGroup} FactionGroup */
+/** @typedef {import('../shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../shared/roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('../shared/roster.types.js').BattleSize} BattleSize */
+/** @typedef {import('../shared/roster.types.js').GearLine} GearLine */
+/** @typedef {import('../shared/roster.types.js').ModelLine} ModelLine */
+/** @typedef {import('../shared/roster.types.js').ParsedUnit} ParsedUnit */
+/** @typedef {import('../shared/roster.types.js').ParsedList} ParsedList */
+/** @typedef {import('../shared/roster.types.js').ImportUnitLine} ImportUnitLine */
+/** @typedef {import('../shared/roster.types.js').ImportReport} ImportReport */
+/** @typedef {import('../shared/roster.types.js').ImportPayload} ImportPayload */
 /** What the WTC parser builds: a list whose header always has room for enhancements. @typedef {ParsedList & { enhancements: NonNullable<ParsedList['enhancements']> }} WtcList */
 /** A line of a GW unit body as read, before gwBody decides what it is. @typedef {{ indent: number, bullet: boolean, sub: boolean, n: number, name: string }} BodyLine */
 /** Where an option can be written: group, option, profile, and whether the group counts models. @typedef {{ gi: number, oi: number, m: number, stepper: boolean }} OptionRef */
@@ -971,9 +971,9 @@ const fitsBracket = (def, models) => models != null
 function sizeIndexFor(def, models, perMini = null) {
   const sizes = def?.sizes || []
   const n = models || 0   // read only when the list gave a count
-  /** @param {import('../core/shared/roster.types.js').SizeBracket} s */
+  /** @param {import('../shared/roster.types.js').SizeBracket} s */
   const inRange = (s) => n >= (s.per?.[0] ?? 1) && n <= (s.per?.[1] ?? s.per?.[0] ?? 1)
-  /** @param {import('../core/shared/roster.types.js').SizeBracket} s */
+  /** @param {import('../shared/roster.types.js').SizeBracket} s */
   const admits = (s) => !perMini?.size || !s.comp?.length || s.comp.every(([mi, a, b]) => {
     const n = perMini.get(mi) || 0
     return b == null ? n === a : n >= a && n <= b
@@ -1078,13 +1078,13 @@ function stepperCount(pick) {
 /**
  * @param {RosterUnit} def
  * @param {RosterEntry} entry
- * @param {import('../core/shared/roster.types.js').WargearPick[]} wg
+ * @param {import('../shared/roster.types.js').WargearPick[]} wg
  * @param {(gi: number, oi: number) => boolean} movable
- * @returns {import('../core/shared/roster.types.js').WargearPick[]}
+ * @returns {import('../shared/roster.types.js').WargearPick[]}
  */
 function spillPools(def, entry, wg, movable) {
   if (!def.pools?.length) return wg
-  /** @type {import('../core/shared/roster.types.js').WargearPick[]} */
+  /** @type {import('../shared/roster.types.js').WargearPick[]} */
   let out = wg.map((p) => [p[0], p[1], p[2] ?? 1])
   const at = () => ({ ...entry, wg: out })
   /** @param {number} gi */
@@ -1433,7 +1433,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       }
       // The rules about one model across groups (`pm`): one more of this option must still deal out.
       if (oi != null && def.pm && (pmGroups(def.pm.add).includes(gi) || pmGroups(def.pm.base).includes(gi)) && room > 0) {
-        /** @type {import('../core/shared/roster.types.js').WargearPick[]} */
+        /** @type {import('../shared/roster.types.js').WargearPick[]} */
         const wg = [...picks.values()].map((p) => [p.gi, p.oi, p.stepper ? stepperCount(p) : p.n])
         const at = wg.find(([g, o]) => g === gi && o === oi)
         if (at) at[2] = (at[2] || 0) + 1
@@ -1575,7 +1575,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       // and his power weapon is the trade of the torturer's tool the hexrifle came with (a WTC-compact
       // line names neither profile; 2026-10-14). Only a preference — a list the stock rule refuses
       // either way still lands somewhere and the validator says so.
-      /** @type {import('../core/shared/roster.types.js').WargearPick[]} */
+      /** @type {import('../shared/roster.types.js').WargearPick[]} */
       const made = []
       for (const p of picks.values()) made.push([p.gi, p.oi, p.stepper ? stepperCount(p) : p.n])
       const sofar = { ...entry, wg: made }
@@ -1705,7 +1705,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       line.gear.picked.push(w.name)
     }
     if (picks.size) {
-      /** @type {import('../core/shared/roster.types.js').WargearPick[]} */
+      /** @type {import('../shared/roster.types.js').WargearPick[]} */
       const wg = []
       for (const p of picks.values()) wg.push([p.gi, p.oi, p.stepper ? stepperCount(p) : p.n])
       // A pick the list placed under no profile went to the Sergeant's copy first; what his one

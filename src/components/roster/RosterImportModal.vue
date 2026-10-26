@@ -176,7 +176,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, SCHEMA_VERSION } from '../../composables/useRosters.js'
-import { detectFormat, matchFaction, matchRoster, parseList } from '../../composables/rosterImport.js'
+import { detectFormat, matchFaction, matchRoster, parseList } from '../../core/roster/rosterImport.js'
 import rosterCore from '../../data/roster/core.js'
 // The light index (names + slugs), not the tracker's faction module: this modal is imported by the
 // roster list, which stays out of the heavy datasets.

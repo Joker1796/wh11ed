@@ -54,7 +54,9 @@ export default [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      globals: { ...globals.es2025 },
+      // …plus the text codecs: the WHATWG Encoding API is in every JS host the core could run in —
+      // a browser, Node, a worker — unlike `window` (the importer repairs mis-decoded text with it).
+      globals: { ...globals.es2025, TextDecoder: 'readonly', TextEncoder: 'readonly' },
     },
     rules: {
       'no-restricted-imports': ['error', {

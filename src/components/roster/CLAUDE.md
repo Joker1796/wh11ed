@@ -480,7 +480,7 @@ leading this unit" rules never applied (found by the 2.10.5 card sweep).
   their mandatory enhancements and what their models prove). A joined unit leads nobody; the Characters leading its unit lead
   it (their "models in that unit" reach it), and its rules for "that CRYPTEK model" (Bound
   Creation, `target: 'leader'`) reach those Characters (`joinedUnitIds`, from `'joined'`).
-- Gate: `src/composables/rosterJoin.test.js`.
+- Gate: `src/core/roster/rosterJoin.test.js`.
 
 ### Who can lead this unit — the builder's four views
 

@@ -215,7 +215,7 @@ async function useLink() {
 async function fromText(raw) {
   const l = labels.value
   const [{ detectFormat, matchFaction, matchRoster, parseList }, { loadRosterFaction, rosterItems }, { default: rosterCore }] = await Promise.all([
-    import('../../composables/rosterImport.js'), import('../../data/roster/index.js'), import('../../data/roster/core.js'),
+    import('../../core/roster/rosterImport.js'), import('../../data/roster/index.js'), import('../../data/roster/core.js'),
   ])
   const parsed = parseList(raw, detectFormat(raw), factionGroups)
   if (!parsed?.units?.length) return { error: l.rosterImportUnknown }

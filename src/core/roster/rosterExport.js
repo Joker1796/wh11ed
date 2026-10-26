@@ -35,14 +35,14 @@ import {
   allegFor, bucketOf, chapterOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
   copiesHeld, copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
   miniName, modelCount, rosterDetachments, hasKeyword,
-} from '../core/roster/rosterEngine.js'
+} from './rosterEngine.js'
 
-/** @typedef {import('../core/shared/roster.types.js').Roster} Roster */
-/** @typedef {import('../core/shared/roster.types.js').RosterFaction} RosterFaction */
-/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('../core/shared/roster.types.js').Detachment} Detachment */
-/** @typedef {import('../core/shared/roster.types.js').BattleSize} BattleSize */
+/** @typedef {import('../shared/roster.types.js').Roster} Roster */
+/** @typedef {import('../shared/roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('../shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../shared/roster.types.js').Detachment} Detachment */
+/** @typedef {import('../shared/roster.types.js').BattleSize} BattleSize */
 /** One profile's share of a unit's loadout, as the export prints it. @typedef {{ name: string, models: number, items: Array<{ name: string, n: number }> }} GearOut */
 /**
  * One roster entry, resolved for printing.
@@ -63,7 +63,7 @@ import {
  */
 /** The whole list, resolved once for every format. @typedef {ReturnType<typeof resolve>} Resolved */
 /** What the export needs besides the roster; `factionGroups` is the app's faction directory (src/data/factionsIndex.js), for the alliance a faction keyword line opens with. @typedef {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string> | null, factionGroups?: FactionGroup[] | null }} ExportContext */
-/** @typedef {import('../core/shared/roster.types.js').FactionGroup} FactionGroup */
+/** @typedef {import('../shared/roster.types.js').FactionGroup} FactionGroup */
 
 export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact', 'simple', 'rus']
 
