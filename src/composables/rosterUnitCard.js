@@ -23,11 +23,11 @@
 import { computed, ref, shallowRef, watch } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
-import { overlaySheet, enhKey, detKey, findEnhancementProse, wargearConditions } from './rosterModifiers.js'
-import { ruleAppliesTo, unitKeywordsOf } from './ruleTargets.js'
-import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, armyRuleMatches, armyRuleSection, attachmentContext } from './rosterStatMods.js'
+import { overlaySheet, enhKey, detKey, findEnhancementProse, wargearConditions } from '../core/rules/rosterModifiers.js'
+import { ruleAppliesTo, unitKeywordsOf } from '../core/rules/ruleTargets.js'
+import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, armyRuleMatches, armyRuleSection, attachmentContext } from '../core/rules/rosterStatMods.js'
 import { abilityStatusesOf } from '../core/rules/abilityStatus.js'
-import { rosterConditions } from './rosterGameContext.js'
+import { rosterConditions } from '../core/rules/rosterGameContext.js'
 import { unitDoctrines } from '../core/rules/doctrineRules.js'
 import { foldName } from '../core/shared/foldName.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
@@ -37,8 +37,8 @@ import { useCombatPatrolBox } from './useCombatPatrolBox.js'
 import { localizeSheet } from '../data/datasheets/ru/index.js'
 import { useDatasheetsRu } from './useDatasheetsRu.js'
 
-/** @typedef {import('../data/data.types.js').Datasheet} Datasheet */
-/** @typedef {import('../data/data.types.js').FactionRules} FactionRules */
+/** @typedef {import('../core/shared/data.types.js').Datasheet} Datasheet */
+/** @typedef {import('../core/shared/data.types.js').FactionRules} FactionRules */
 /** @typedef {import('../core/shared/roster.types.js').ModifierRecord} ModifierRecord */
 /** @typedef {import('../core/shared/roster.types.js').CondSwitch} CondSwitch */
 /** A note under the stats, as applyStatMods writes it. @typedef {ReturnType<typeof applyStatMods>['notes'][number]} StatNote */
@@ -47,7 +47,7 @@ import { useDatasheetsRu } from './useDatasheetsRu.js'
  * @typedef {object} UnitCardProps
  * @property {string} unitId
  * @property {string} factionSlug
- * @property {import('./rosterModifiers.js').OverlayContext | null} [ctx]
+ * @property {import('../core/rules/rosterModifiers.js').OverlayContext | null} [ctx]
  * @property {import('../core/shared/roster.types.js').CardGameCtx | null} [gameCtx]
  */
 

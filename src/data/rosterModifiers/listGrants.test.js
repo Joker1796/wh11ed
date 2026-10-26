@@ -5,7 +5,7 @@
 import { describe, it, expect } from 'vitest'
 import records from './adeptus-mechanicus.js'
 import { adeptusMechanicus } from '../factions/adeptus-mechanicus.js'
-import { applyStatMods, resolveModifierEntries } from '../../composables/rosterStatMods.js'
+import { applyStatMods, resolveModifierEntries } from '../../core/rules/rosterStatMods.js'
 
 const facEn = adeptusMechanicus.en
 const sheet = (name) => ({ name, profiles: [{ name, m: '6"', t: '4', sv: '2+', w: '4', ld: '6+', oc: '1' }], ranged: [], melee: [] })

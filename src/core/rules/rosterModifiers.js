@@ -15,20 +15,20 @@
 // an attributed note instead — the same "mark it, don't fake it" treatment DatasheetCard already
 // gives rule-granted keywords via its `grantedKeywords` prop.
 
-import { copiesHeld, wargearGroupCap, wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegFor, allegKeyword, allegItems, grantedKeywordsFor, detKey } from '../core/roster/rosterEngine.js'
-import { conditions } from '../core/rules/conditions.js'
-import { foldName } from '../core/shared/foldName.js'
+import { copiesHeld, wargearGroupCap, wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegFor, allegKeyword, allegItems, grantedKeywordsFor, detKey } from '../roster/rosterEngine.js'
+import { conditions } from './conditions.js'
+import { foldName } from '../shared/foldName.js'
 // Rule-granted keywords moved to rosterEngine.js, which needs them to answer whether a unit can
 // carry an enhancement; re-exported here because this is where every caller already imports them.
-export { grantedKeywordsFor, detKey } from '../core/roster/rosterEngine.js'
+export { grantedKeywordsFor, detKey } from '../roster/rosterEngine.js'
 
-/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('../core/shared/roster.types.js').Detachment} Detachment */
-/** @typedef {import('../core/shared/roster.types.js').ItemId} ItemId */
-/** @typedef {import('../core/shared/roster.types.js').WeaponRow} WeaponRow */
-/** @typedef {import('../core/shared/roster.types.js').PrintedSheet} PrintedSheet */
-/** @typedef {import('../core/shared/roster.types.js').ModifierRecord} ModifierRecord */
+/** @typedef {import('../shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../shared/roster.types.js').Detachment} Detachment */
+/** @typedef {import('../shared/roster.types.js').ItemId} ItemId */
+/** @typedef {import('../shared/roster.types.js').WeaponRow} WeaponRow */
+/** @typedef {import('../shared/roster.types.js').PrintedSheet} PrintedSheet */
+/** @typedef {import('../shared/roster.types.js').ModifierRecord} ModifierRecord */
 /** @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {Record<number, string>} Items */
 /** One copy of an item: the profile holding it (`m`, null for a unit-wide group) and on how many of its models (`n`, null when unknown). @typedef {{ m: number | null, n: number | null }} Slot */

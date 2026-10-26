@@ -8,13 +8,13 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { modelsPerMini, wargearGroupCap, enhEligible } from '../core/roster/rosterEngine.js'
-import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
-import { loadRosterModifiersFor } from '../data/rosterModifiers/index.js'
-import { loadDatasheets } from '../data/datasheets/index.js'
+import { modelsPerMini, wargearGroupCap, enhEligible } from '../roster/rosterEngine.js'
+import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
+import { loadRosterModifiersFor } from '../../data/rosterModifiers/index.js'
+import { loadDatasheets } from '../../data/datasheets/index.js'
 import { overlaySheet, loadoutItemNames, loadoutItemCopies, itemKey } from './rosterModifiers.js'
 import { applyStatMods, datasheetEntriesFor, gateStratagems, splitBearers, resolveModifierEntries } from './rosterStatMods.js'
-import { loadFactionWithCodex } from './rosterFactionRules.js'
+import { loadFactionWithCodex } from '../../composables/rosterFactionRules.js'
 
 const items = rosterItems.items
 const HERE = path.dirname(fileURLToPath(import.meta.url))
@@ -169,7 +169,7 @@ describe('splitBearers — copies from a unit-wide group', () => {
   // up to the group's cap that the unit's models can hold, at each size — placed, not left a note.
   it('places every bearer rule at every count a unit can hold', async () => {
     const lost = []
-    const slugs = fs.readdirSync(path.join(HERE, '../data/roster')).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js'].includes(f) && !f.endsWith('.test.js')).map((f) => f.replace(/\.js$/, ''))
+    const slugs = fs.readdirSync(path.join(HERE, '../../data/roster')).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js'].includes(f) && !f.endsWith('.test.js')).map((f) => f.replace(/\.js$/, ''))
     for (const slug of slugs) {
       const fac = await loadRosterFaction(slug)
       const sheets = await loadDatasheets(slug)
@@ -267,7 +267,7 @@ describe('splitBearers — an enhancement on a unit of several models', () => {
   it('places every enhancement on one model of every unit of several that can take it', async () => {
     const loose = []
     let seen = 0
-    const slugs = fs.readdirSync(path.join(HERE, '../data/roster')).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js'].includes(f) && !f.endsWith('.test.js')).map((f) => f.replace(/\.js$/, ''))
+    const slugs = fs.readdirSync(path.join(HERE, '../../data/roster')).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js'].includes(f) && !f.endsWith('.test.js')).map((f) => f.replace(/\.js$/, ''))
     for (const slug of slugs) {
       const fac = await loadRosterFaction(slug)
       const multi = fac.units.filter((u) => u.flags?.char && Math.max(...(u.sizes || []).map((sz) => sz.per?.[1] ?? 1)) > 1)

@@ -1434,9 +1434,9 @@ describe('applyStatMods — an attached unit is judged by all of its keywords', 
 describe('Experimental Prototype Cadre on a Commander-led Crisis team (shipped data)', () => {
   it('gives the Crisis Battlesuits +6" while led and not otherwise', async () => {
     const { unitKeywordsOf } = await import('./ruleTargets.js')
-    const sheets = (await import('../data/datasheets/tau-empire.js')).default
-    const facEn = (await import('../data/factions/tau-empire.js')).tauEmpire.en
-    const records = (await import('../data/rosterModifiers/tau-empire.js')).default.entries
+    const sheets = (await import('../../data/datasheets/tau-empire.js')).default
+    const facEn = (await import('../../data/factions/tau-empire.js')).tauEmpire.en
+    const records = (await import('../../data/rosterModifiers/tau-empire.js')).default.entries
     const crisis = sheets.find((s) => s.id === 'crisis-fireknife-battlesuits')
     const commander = sheets.find((s) => s.id === 'commander-in-coldstar-battlesuit')
     const entries = resolveModifierEntries(records.filter((r) => r.name === 'Superior Craftsmanship'), facEn, ['Experimental Prototype Cadre'], null)
@@ -1487,10 +1487,10 @@ describe('mul', () => {
 // records were `never`, so none of the four ever changed the card (2026-10-20).
 describe('a Legends sheet\'s own Daemonic Allegiance', () => {
   it('is a pick of the list, and its Creature of … answers from that pick', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     const { rosterConditions } = await import('./rosterGameContext.js')
-    const sheets = (await import('../data/datasheets/chaos-daemons.js')).default
-    const records = (await import('../data/rosterModifiers/chaos-daemons.js')).default.entries
+    const sheets = (await import('../../data/datasheets/chaos-daemons.js')).default
+    const records = (await import('../../data/rosterModifiers/chaos-daemons.js')).default.entries
     const fac = await loadRosterFaction('chaos-daemons')
     for (const id of ['furies', 'giant-chaos-spawn', 'spined-chaos-beast']) {
       const def = fac.units.find((u) => u.id === id)
@@ -1513,10 +1513,10 @@ describe('a Legends sheet\'s own Daemonic Allegiance', () => {
 // joins the faction's rules as `cp:<box id>` (rosterFactionRules), the id the records point at.
 describe('a Combat Patrol box\'s own rules', () => {
   it('reach the box\'s cards, and its stratagems pair with the CP tab\'s deck', async () => {
-    const { loadFactionWithCodex } = await import('./rosterFactionRules.js')
-    const { loadArmyStrats } = await import('./gameStratagems.js')
-    const { recordFor } = await import('./stratagemPlay.js')
-    const records = (await import('../data/rosterModifiers/necrons.js')).default.entries.filter((r) => r.reviewed)
+    const { loadFactionWithCodex } = await import('../../composables/rosterFactionRules.js')
+    const { loadArmyStrats } = await import('../../composables/gameStratagems.js')
+    const { recordFor } = await import('../../composables/stratagemPlay.js')
+    const records = (await import('../../data/rosterModifiers/necrons.js')).default.entries.filter((r) => r.reviewed)
     const { en } = await loadFactionWithCodex('necrons', 'en', 'necrons')
     const box = en.detachments.find((d) => d.id === 'cp:necrons')
     expect(box?.rule?.body).toBeTruthy()
@@ -1559,8 +1559,8 @@ describe('incoming attack modifiers', () => {
 describe('an enhancement written for the bearer AND the unit he leads', () => {
   it('reaches the bearer once', async () => {
     const fs = await import('node:fs')
-    const { loadFactionWithCodex } = await import('./rosterFactionRules.js')
-    const { loadRosterModifiersFor, usableEntries } = await import('../data/rosterModifiers/index.js')
+    const { loadFactionWithCodex } = await import('../../composables/rosterFactionRules.js')
+    const { loadRosterModifiersFor, usableEntries } = await import('../../data/rosterModifiers/index.js')
     const slugs = fs.readdirSync('src/data/factions').filter((f) => /^[a-z-]+\.js$/.test(f) && f !== 'index.js').map((f) => f.slice(0, -3))
     const key = (e) => JSON.stringify({ ...e, target: undefined })
     let twins = 0

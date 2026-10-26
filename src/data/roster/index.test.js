@@ -11,7 +11,7 @@ import { loadRosterFaction } from './index.js'
 import { enhEligible, enhOptionsFor, allyGroupsFor, allySourceOf, allyBars, mustBeWarlord, settleSupremeWarlord, leadTypeFor, hostSlotTaken, optionItems, optionLabel, unitWargearPoints, unitPoints, modelsPerMini, defaultLoadoutLines, wargearGroupCap, wargearGroupLive, bucketOf, grantedKeywordsFor, swapRoom } from '../../core/roster/rosterEngine.js'
 import { duplicateLimit, validateRoster } from '../../core/roster/rosterValidation.js'
 import conditionalKeywords from '../conditionalKeywords.json'
-import { loadoutItemCounts } from '../../composables/rosterModifiers.js'
+import { loadoutItemCounts } from '../../core/rules/rosterModifiers.js'
 import { PACK_ERRATA } from '../../../scripts/lib/pack-roster.mjs'
 import { KEEP_RE } from '../../../scripts/lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from '../../../scripts/lib/character-grants.mjs'
@@ -948,7 +948,7 @@ describe('wargear names are unambiguous within a unit', () => {
   // A row that differs in SPELLING ("Close combat weapon" against the item's "Close-combat weapon")
   // is not a glyph gap and stays on the conservative side, unclaimed.
   it('claims every weapon row that is an item name in different glyphs', async () => {
-    const { weaponRowClaimer } = await import('../../composables/rosterModifiers.js')
+    const { weaponRowClaimer } = await import('../../core/rules/rosterModifiers.js')
     const { loadDatasheets } = await import('../datasheets/index.js')
     const level = (s) => (s || '').toLowerCase().normalize('NFKD')
       .replace(/\p{M}/gu, '').replace(/[\p{P}\p{S}]/gu, '-').replace(/\s+/g, ' ').trim()
@@ -976,7 +976,7 @@ describe('wargear names are unambiguous within a unit', () => {
   // carbine"). Unclaimed, the row stayed on every Crisis team, drones taken or not (player report
   // e6093db4, 2026-10-03); items.js `stands` names the weapon an item stands for.
   it('hides a drone\'s weapon when the drone is not taken', async () => {
-    const { weaponRowClaimer, overlaySheet } = await import('../../composables/rosterModifiers.js')
+    const { weaponRowClaimer, overlaySheet } = await import('../../core/rules/rosterModifiers.js')
     const { loadDatasheets } = await import('../datasheets/index.js')
     const [fac, sheets] = await Promise.all([loadRosterFaction('tau-empire'), loadDatasheets('tau-empire')])
     const def = fac.units.find((u) => u.id === 'crisis-sunforge-battlesuits')
@@ -1005,7 +1005,7 @@ describe('a second copy of a melee weapon is a second row', () => {
   const APPDATA_CONTRADICTS = new Set(['chaos-space-marines/cultist-mob-with-firearms'])
 
   it('never counts a melee row on more models than the unit has', async () => {
-    const { overlaySheet } = await import('../../composables/rosterModifiers.js')
+    const { overlaySheet } = await import('../../core/rules/rosterModifiers.js')
     const { loadDatasheets } = await import('../datasheets/index.js')
     const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\p{Pd}/gu, '-').trim()
     const bad = []
@@ -2352,7 +2352,7 @@ describe('an option offered to several profiles', () => {
 describe('an allegiance record reaches only its own group', () => {
   it("does not give a Soul Grinder the Daemon Prince's Khorne", async () => {
     const { loadRosterModifiers } = await import('../rosterModifiers/index.js')
-    const { resolveModifierEntries, allegianceChoiceOf } = await import('../../composables/rosterStatMods.js')
+    const { resolveModifierEntries, allegianceChoiceOf } = await import('../../core/rules/rosterStatMods.js')
     const mods = await loadRosterModifiers('chaos-daemons')
     const daemons = factions.find((f) => f.slug === 'chaos-daemons').data
     const facEn = { armyRule: null, detachments: [] }

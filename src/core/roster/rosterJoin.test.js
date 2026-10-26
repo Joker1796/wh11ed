@@ -5,7 +5,7 @@ import { validateRoster } from './rosterValidation.js'
 import { buildRosterText } from './rosterExport.js'
 import { parseList, matchRoster } from './rosterImport.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { attachmentOf, datasheetEntriesFor } from '../../composables/rosterStatMods.js'
+import { attachmentOf, datasheetEntriesFor } from '../rules/rosterStatMods.js'
 import { loadRosterModifiersFor } from '../../data/rosterModifiers/index.js'
 
 // A unit that JOINS a unit already led (owner, 2026-10-25): "At the start of the Declare Battle

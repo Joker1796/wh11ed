@@ -9,7 +9,7 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { ruleScopes, scopesMisread, unitKeywordsOf } from './ruleTargets.js'
-import { unitKeywordVocabulary } from '../data/unitKeywordVocabulary.js'
+import { unitKeywordVocabulary } from '../../data/unitKeywordVocabulary.js'
 
 // Empty since 2026-10-19: the six rules that sat here (Repolarised Augurs, Omnissian Unguents,
 // Supporting Ordnance, Soul-Tally Offerings, Balefire Boon, Unholy Fortitude) aimed at keywords their
@@ -17,7 +17,7 @@ import { unitKeywordVocabulary } from '../data/unitKeywordVocabulary.js'
 // rules reach exactly their units. A new rule of that kind fails here — grant its keyword there.
 const KNOWN = []
 
-const DATA = path.resolve(import.meta.dirname, '../data')
+const DATA = path.resolve(import.meta.dirname, '../../data')
 
 describe('rule targets across every faction', () => {
   it('distrusts only the rules listed, by name', async () => {
@@ -25,13 +25,13 @@ describe('rule targets across every faction', () => {
     for (const file of fs.readdirSync(path.join(DATA, 'factions')).filter((f) => f.endsWith('.js'))) {
       const slug = file.slice(0, -3)
       if (!fs.existsSync(path.join(DATA, 'datasheets', file))) continue
-      const ds = await import(`../data/datasheets/${slug}.js`)
+      const ds = await import(`../../data/datasheets/${slug}.js`)
       let sheets = ds.default
       if (ds.sharedUnitIds?.length) {
-        const sm = (await import('../data/datasheets/space-marines.js')).default
+        const sm = (await import('../../data/datasheets/space-marines.js')).default
         sheets = [...sheets, ...sm.filter((u) => ds.sharedUnitIds.includes(u.id))]
       }
-      const mod = await import(`../data/factions/${slug}.js`)
+      const mod = await import(`../../data/factions/${slug}.js`)
       const fac = Object.values(mod).find((x) => x?.en)?.en || mod.default
       if (!fac?.detachments) continue
       const sets = sheets.map(unitKeywordsOf)

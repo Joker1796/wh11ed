@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { loadRosterFaction } from '../data/roster/index.js'
+import { loadRosterFaction } from '../../data/roster/index.js'
 import { overlaySheet, loadoutItemIds, loadoutItemCounts, grantedKeywordsFor, entryContext, ruleSourcesFor, enhKey, detKey, findEnhancementProse, wargearConditions } from './rosterModifiers.js'
 
 // Interned wargear names, same shape as src/data/roster/items.js's `items` map.
@@ -667,7 +667,7 @@ describe('overlaySheet — rule sources', () => {
 // faction file: each repeated name, asked for with one of its detachments as the list's own,
 // resolves to that detachment's text, never a neighbour's.
 describe('findEnhancementProse', () => {
-  const files = import.meta.glob('../data/factions/*.js', { eager: true })
+  const files = import.meta.glob('../../data/factions/*.js', { eager: true })
   const factions = Object.entries(files).map(([path, mod]) => [path, Object.values(mod).find((v) => v?.en)?.en]).filter(([, f]) => f)
 
   it('reads every faction file', () => { expect(factions.length).toBeGreaterThan(25) })
@@ -724,7 +724,7 @@ describe('overlaySheet — a weapon the enhancement gives', () => {
 // list as the Shieldline's platform is (`gear.mini`).
 describe('wargearConditions — a model the unit contains', () => {
   it('Militarum Tempestus Command Squad: with its Tempestor Prime', async () => {
-    const { loadRosterFaction, rosterItems } = await import('../data/roster/index.js')
+    const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
     const def = (await loadRosterFaction('astra-militarum')).units.find((u) => u.id === 'militarum-tempestus-command-squad')
     expect(wargearConditions(def, { size: 0 }, rosterItems.items, { melee: [] }).has('contains-tempestor-prime')).toBe(true)
   })

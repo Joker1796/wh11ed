@@ -3,8 +3,8 @@
 // number of their own, or whose number hangs on the target, were never offered).
 import { describe, it, expect } from 'vitest'
 import { loadRosterModifiersFor, usableEntries } from '../data/rosterModifiers/index.js'
-import { resolveModifierEntries, datasheetEntriesFor } from './rosterStatMods.js'
-import { switchesFor } from './rosterGameContext.js'
+import { resolveModifierEntries, datasheetEntriesFor } from '../core/rules/rosterStatMods.js'
+import { switchesFor } from '../core/rules/rosterGameContext.js'
 import { loadFactionWithCodex } from './rosterFactionRules.js'
 
 async function switches(slug, detachment, scope) {

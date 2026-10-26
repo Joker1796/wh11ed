@@ -7,8 +7,8 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { activeUses, usesFor, attachedUids, stampOf } from './rosterGameContext.js'
-import { applyStatMods } from './rosterStatMods.js'
+import { activeUses, usesFor, attachedUids, stampOf } from '../core/rules/rosterGameContext.js'
+import { applyStatMods } from '../core/rules/rosterStatMods.js'
 
 const clock = (round, phase = 'fight', turn = 0) => ({ round, turn, phase, mine: true, tracked: true })
 const finestHour = {

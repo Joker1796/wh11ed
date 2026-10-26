@@ -73,7 +73,7 @@ import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
-import { findEnhancementProse } from '../../composables/rosterModifiers.js'
+import { findEnhancementProse } from '../../core/rules/rosterModifiers.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({

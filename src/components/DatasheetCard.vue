@@ -1061,7 +1061,7 @@ const props = defineProps({
   // On a retired unit's page (the faction's Legendary Proxies): the "Proxy" badge, this its title.
   proxy: { type: String, default: '' },
   // Cells the roster's modifier layer rewrote, as `profile:<stat>:<i>` / `ranged:<stat>:<row>` /
-  // `melee:<stat>:<row>` keys (src/composables/rosterStatMods.js), and the notes explaining them.
+  // `melee:<stat>:<row>` keys (src/core/rules/rosterStatMods.js), and the notes explaining them.
   // A note with `applied: false` is a CONDITIONAL modifier: its number was deliberately left
   // printed, and the note is the only thing that says the value can change. One with both
   // `applied` and `via` is a conditional whose condition the live game proved — applied, but

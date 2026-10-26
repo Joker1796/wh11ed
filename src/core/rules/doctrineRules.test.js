@@ -4,7 +4,7 @@
 // reader does not understand fails it, so the next codex's wording cannot slip past as "nothing".
 import { describe, it, expect } from 'vitest'
 import { readDoctrineRule, unitDoctrines } from './doctrineRules.js'
-import { activeConditions, switchesFor, stampOf } from '../../composables/rosterGameContext.js'
+import { activeConditions, switchesFor, stampOf } from './rosterGameContext.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadFaction } from '../../data/factions/index.js'
 

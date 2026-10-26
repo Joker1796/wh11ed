@@ -22,7 +22,7 @@ export { localizeSheet } from './localize.js'
  * @param {string} slug
  * @param {{ cp?: string | null }} [opts] `cp` — a Combat Patrol box fielded as a list: its sheets'
  *   translation joins the faction's (combatPatrolSheets.js), as loadDatasheets adds its sheets.
- * @returns {Promise<import('../../data.types.js').DatasheetsRuModule | null>}
+ * @returns {Promise<import('../../../core/shared/data.types.js').DatasheetsRuModule | null>}
  */
 export async function loadDatasheetsRu(slug, { cp = null } = {}) {
   const mod = await loadFactionRu(slug)

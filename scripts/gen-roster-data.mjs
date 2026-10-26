@@ -37,7 +37,7 @@ import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { readEnhancementWeapons } from './lib/enhancement-weapons.mjs'
 import { enhEligible } from '../src/core/roster/rosterEnhEligible.js'
 import { optionItems } from '../src/core/roster/rosterEngine.js'
-import { unitKeywordsOf } from '../src/composables/ruleTargets.js'
+import { unitKeywordsOf } from '../src/core/rules/ruleTargets.js'
 import { foldChars, foldName } from '../src/core/shared/foldName.js'
 
 const T = path.join(APPDATA, 'tables')

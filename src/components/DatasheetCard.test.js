@@ -190,7 +190,7 @@ describe('DatasheetCard — weapon row markup the phone layout depends on', () =
 
   it('prints the roster overlay\'s weapon count beside the name, inside the name element', () => {
     // `qty` reaches the card only on a sheet the roster overlay has been through
-    // (src/composables/rosterModifiers.js) — the printed datasheet says how many in its loadout
+    // (src/core/rules/rosterModifiers.js) — the printed datasheet says how many in its loadout
     // sentence, which the roster card hides. It belongs INSIDE .wname-text: on a phone that
     // element is the whole first line of the weapon's card, and a sibling would wrap to its own.
     const w = mount(DatasheetCard, { props: { sheet: { ...sheet, ranged: [{ ...sheet.ranged[0], qty: 2 }] } } })

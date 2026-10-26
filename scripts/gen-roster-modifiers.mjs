@@ -19,7 +19,7 @@
 //   ver   the appdata data_version the record was last reviewed against, for the report.
 //
 // What a record does NOT carry is a scope. Which units a rule bears on is already computed at
-// render time by src/composables/ruleTargets.js (Tier B's keyword layer) from that same prose —
+// render time by src/core/rules/ruleTargets.js (Tier B's keyword layer) from that same prose —
 // storing it again here would be a second copy free to drift from the first. An effect may name
 // a `scope` INDEX into ruleScopes(), which is how an effect binds to one statement of a
 // multi-part rule (Necrons' Cold Fervour gives +2 S to DESTROYER CULT in its first bullet and to
@@ -49,7 +49,7 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion, invertSourceIds, table } from './lib/sync-common.mjs'
-import { ruleScopes } from '../src/composables/ruleTargets.js'
+import { ruleScopes } from '../src/core/rules/ruleTargets.js'
 import { foldName } from '../src/core/shared/foldName.js'
 import { appliesWhileOf } from '../src/data/rosterModifiers/appliesWhile.js'
 import { flattenGrantLists } from './lib/grant-lists.mjs'
@@ -350,7 +350,7 @@ function wargearSources(bundle, dsBySid) {
   return out
 }
 
-// Same key as `norm` in src/composables/rosterModifiers.js — `datasheetEntriesFor` asks
+// Same key as `norm` in src/core/rules/rosterModifiers.js — `datasheetEntriesFor` asks
 // `loadoutItemNames(...).has(ref.item)`, so a fold added on one side must be added on the other.
 const normItemName = foldName
 

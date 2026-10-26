@@ -3018,7 +3018,7 @@ not the mounted wrapper's own `.text()`/`.find()` — the teleported content liv
 wrapper's DOM subtree. See `RosterUnitRulesModal.test.js` or
 `src/components/tracker/modals.test.js` for the pattern.
 
-## Modifier overlay (`src/composables/rosterModifiers.js`)
+## Modifier overlay (`src/core/rules/rosterModifiers.js`)
 
 `RosterUnitRulesModal` renders the sheet a roster ENTRY fields, not the printed one, via
 `overlaySheet(sheet, ctx)` — a pure function alongside the other `roster*.js` composables.
@@ -3152,7 +3152,7 @@ genuinely don't have one. The card takes the openable names in `linkedFactionRul
 them against the comma-separated parts of `sheet.faction` apostrophe-insensitively ("Martial
 Ka’tah" vs "Martial Ka'tah"); unmatched parts stay plain text.
 
-Detachment rules are gated by **`src/composables/ruleTargets.js`** — the keyword layer.
+Detachment rules are gated by **`src/core/rules/ruleTargets.js`** — the keyword layer.
 A rule almost always names its own target ("Speed Freeks units from your army…", "friendly
 ADEPTUS CUSTODES TERMINATOR models"), so the gate is read from the same string that renders and
 can never drift from it, which a generated sidecar eventually would. **Always fed the ENGLISH
@@ -3233,7 +3233,7 @@ loadout with no ranged weapon at all, and every gun on their card is an option n
 ### Tier C — the numbers themselves
 
 `src/data/rosterModifiers/<slug>.js` (generated skeletons + hand-read `effects`) →
-`src/composables/rosterStatMods.js` (pure) → `DatasheetCard`'s `statMarks`/`statNotes` props.
+`src/core/rules/rosterStatMods.js` (pure) → `DatasheetCard`'s `statMarks`/`statNotes` props.
 
 **An unconditional modifier rewrites the printed value and marks it with `*`; a conditional one
 never touches the number and is annotated instead.** That asymmetry is the whole point: most 40k
@@ -3270,7 +3270,7 @@ this unit contains a Tempestor Prime" is the Command Squad's model, and the Scio
 has none — gated against the Scions' own loadout it never held. `attachmentContext` reads each
 attached part's `wargearConditions` into `partGear`, and a `led`/`co` record carries its part's as
 `proves`, which `proven()` accepts beside `active`. Two records today: Tempestus Command Squad →
-Scions, Quartermaster Cadre's Medi-packs → Krieg. Gate: `src/composables/rosterLedGear.test.js`.
+Scions, Quartermaster Cadre's Medi-packs → Krieg. Gate: `src/core/rules/rosterLedGear.test.js`.
 
 **"The bearer only" gets a row of its own (2026-10-01).** An item that changes the model carrying
 it — a Storm Shield's +1 W, a Mistshield's 4+ invulnerable, Shieldvanes' Save and Move, a
@@ -4075,7 +4075,7 @@ at all. Three files, one idea:
   Channelled Force, Hagiomnifex's five abilities are things only the player knows, which is exactly
   what a switch is for. Marking one `never` (as the first review pass did) leaves the card showing a
   note it could have applied.
-- **`src/composables/rosterGameContext.js`** — the answers. Each id is answered from exactly ONE
+- **`src/core/rules/rosterGameContext.js`** — the answers. Each id is answered from exactly ONE
   source: `auto` (the tracker already knows — a called Waaagh! from the Ork toggle spec, the active
   Doctrina Imperative from the Adeptus Mechanicus selection spec), `roster` (the list already says
   so — a Leader's attachment), or a switch the player flips. **Every auto reader checks the faction

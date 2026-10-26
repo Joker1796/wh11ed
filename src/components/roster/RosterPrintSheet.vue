@@ -74,7 +74,7 @@ import {
   shownModelCount,
 } from '../../core/roster/rosterEngine.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
-import { enhKey } from '../../composables/rosterModifiers.js'
+import { enhKey } from '../../core/rules/rosterModifiers.js'
 import { PHASE_ORDER, phaseLabel } from '../../core/rules/stratagemPhases.js'
 import { MM_PX, paginatePrint, printPageHeightPx, printPageWidthMm } from '../../data/rosterPrintOptions.js'
 

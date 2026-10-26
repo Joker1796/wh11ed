@@ -14,7 +14,7 @@ import { loadDatasheetsRu } from '../data/datasheets/ru/index.js'
  */
 export function useDatasheetsRu(slugOf, cpOf = () => null) {
   const { locale } = useLocale()
-  /** @type {import('vue').Ref<import('../data/data.types.js').DatasheetsRuModule | null>} */
+  /** @type {import('vue').Ref<import('../core/shared/data.types.js').DatasheetsRuModule | null>} */
   const ruModule = ref(null)
   watch(
     [slugOf, locale, cpOf],

@@ -64,7 +64,7 @@ describe('the English ability name survives translation', () => {
 
 describe('weapon names identify a weapon', () => {
   // A roster card matches each weapon row to a wargear item BY NAME to trim the table to the
-  // entry's loadout and to stamp the quantity on it (src/composables/rosterModifiers.js). Both
+  // entry's loadout and to stamp the quantity on it (src/core/rules/rosterModifiers.js). Both
   // readings assume a name identifies ONE weapon on a given datasheet — a second row with the
   // same name and a different statline would be silently merged into the first row's count.
   // The roster half of this invariant is asserted in src/data/roster/index.test.js.

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
-import { loadRosterModifiersFor, usableEntries } from '../data/rosterModifiers/index.js'
+import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
+import { loadRosterModifiersFor, usableEntries } from '../../data/rosterModifiers/index.js'
 import { attachmentContext, datasheetEntriesFor, applyStatMods } from './rosterStatMods.js'
 
 // "While this unit contains a Tempestor Prime, ranged weapons equipped by models in this unit have

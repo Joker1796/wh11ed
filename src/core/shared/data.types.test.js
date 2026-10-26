@@ -5,11 +5,12 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { typedefProps, inlineKeys } from '../../scripts/lib/typedef-keys.mjs'
+import { typedefProps, inlineKeys } from '../../../scripts/lib/typedef-keys.mjs'
 
 const HERE = path.dirname(fileURLToPath(import.meta.url))
+const DATA = path.join(HERE, '../../data')
 const TYPES = fs.readFileSync(path.join(HERE, 'data.types.js'), 'utf8')
-const ROSTER_TYPES = fs.readFileSync(path.join(HERE, '../core/shared/roster.types.js'), 'utf8')
+const ROSTER_TYPES = fs.readFileSync(path.join(HERE, './roster.types.js'), 'utf8')
 const defs = new Map([...typedefProps(ROSTER_TYPES), ...typedefProps(TYPES)])
 // One-line typedefs of an inline object type: `@typedef {{ name: string, text: string }} NamedText`.
 for (const m of TYPES.matchAll(/@typedef \{(\{.*?\})\} (\w+)/g)) defs.set(m[2], new Map(inlineKeys(m[1]).map((k) => [k, ''])))
@@ -18,8 +19,8 @@ const keysOf = (name) => [...(defs.get(name)?.keys() || [])]
 const inline = (owner, prop) => inlineKeys(defs.get(owner)?.get(prop) || '')
 
 const jsFiles = (dir) => fs.readdirSync(dir).filter((f) => f.endsWith('.js') && f !== 'index.js' && !f.endsWith('.test.js'))
-const sheetFiles = await Promise.all(jsFiles(path.join(HERE, 'datasheets')).map(async (f) => ({ f, mod: await import(path.join(HERE, 'datasheets', f)) })))
-const ruleFiles = await Promise.all(jsFiles(path.join(HERE, 'factions')).map(async (f) => ({ f, mod: await import(path.join(HERE, 'factions', f)) })))
+const sheetFiles = await Promise.all(jsFiles(path.join(DATA, 'datasheets')).map(async (f) => ({ f, mod: await import(path.join(DATA, 'datasheets', f)) })))
+const ruleFiles = await Promise.all(jsFiles(path.join(DATA, 'factions')).map(async (f) => ({ f, mod: await import(path.join(DATA, 'factions', f)) })))
 
 function* shaped() {
   for (const { f, mod } of sheetFiles) {

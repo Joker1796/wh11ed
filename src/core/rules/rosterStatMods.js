@@ -20,21 +20,21 @@
 
 import { ruleScopes, scopesMisread, scopeHits } from './ruleTargets.js'
 import { enhKey, detKey, itemKey, loadoutItemCopies, weaponRowClaimer, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
-import { modelsPerMini, mandatoryEnhancementFor } from '../core/roster/rosterEngine.js'
-import { phasesOf, phaseSidesOf } from '../core/rules/stratagemPhases.js'
-import { conditions } from '../core/rules/conditions.js'
-import { dominates } from '../core/rules/abilityDominance.js'
-import { foldName } from '../core/shared/foldName.js'
+import { modelsPerMini, mandatoryEnhancementFor } from '../roster/rosterEngine.js'
+import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
+import { conditions } from './conditions.js'
+import { dominates } from './abilityDominance.js'
+import { foldName } from '../shared/foldName.js'
 
-/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('../core/shared/roster.types.js').PrintedSheet} PrintedSheet */
-/** @typedef {import('../core/shared/roster.types.js').ModEntry} ModEntry */
-/** @typedef {import('../core/shared/roster.types.js').ModifierEffect} ModifierEffect */
+/** @typedef {import('../shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../shared/roster.types.js').PrintedSheet} PrintedSheet */
+/** @typedef {import('../shared/roster.types.js').ModEntry} ModEntry */
+/** @typedef {import('../shared/roster.types.js').ModifierEffect} ModifierEffect */
 /** @typedef {Set<string> | null | undefined} IdSet */
-/** @typedef {import('../core/shared/roster.types.js').RuleScope} RuleScope */
+/** @typedef {import('../shared/roster.types.js').RuleScope} RuleScope */
 /** @typedef {import('./ruleTargets.js').UnitKeywords} UnitKeywords */
-/** @typedef {import('../data/data.types.js').DatasheetProfile} DatasheetProfile */
+/** @typedef {import('../shared/data.types.js').DatasheetProfile} DatasheetProfile */
 /** Every datasheet's keywords in the faction — for the "extraction matched nobody" escape. @typedef {string[][] | null | undefined} KeywordSets */
 /** Every keyword any unit in the game carries (ruleTargets' scopesMisread). @typedef {string[] | null | undefined} Vocabulary */
 
@@ -1059,7 +1059,7 @@ const effectKey = (e) => JSON.stringify({ ...e, target: undefined })
 
 /**
  * @param {ModEntry[] | null | undefined} records
- * @param {import('../data/data.types.js').FactionRules | null | undefined} facEn the faction's English rules bundle
+ * @param {import('../shared/data.types.js').FactionRules | null | undefined} facEn the faction's English rules bundle
  * @param {Array<string | { name?: string } | null | undefined> | null | undefined} detachmentNames
  * @param {string | null | undefined} enhancementName
  * @param {{ g?: string, gid?: string, opt?: string } | null | undefined} alleg the entry's allegiance group and pick (allegianceChoiceOf)

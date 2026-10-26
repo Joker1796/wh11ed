@@ -7,7 +7,7 @@
 // which of a card's modifier records IS a deck stratagem, and why a unit cannot be picked as the
 // target right now. The writes are the store's (useTracker's playStratagem / unplayOnUnit).
 import { normName } from './gameStratagems.js'
-import { stratagemsBlocked, stampOf } from './rosterGameContext.js'
+import { stratagemsBlocked, stampOf } from '../core/rules/rosterGameContext.js'
 
 // 'own' — aimed at a unit of the player's own army (almost every one: "One unit from your army",
 // "That CHARACTER unit"); 'enemy' — at the opponent's ("One enemy unit"); null — at no unit

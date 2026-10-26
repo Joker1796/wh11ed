@@ -3,7 +3,7 @@ import { capsKeywordsIn, capsNamesOf, isScannedSource } from './capsKeywords.js'
 import { capsKeywords } from '../data/capsKeywords.js'
 import { unitKeywordVocabulary } from '../data/unitKeywordVocabulary.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
-import { unitKeywordsOf } from '../composables/ruleTargets.js'
+import { unitKeywordsOf } from '../core/rules/ruleTargets.js'
 import { combatPatrol } from '../data/combatPatrol.js'
 import { foldName } from '../core/shared/foldName.js'
 

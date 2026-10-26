@@ -55,7 +55,7 @@
 //
 // Always run this on the ENGLISH body. Keywords stay English by project convention but the prose
 // around them is translated, so the patterns below only match the EN text.
-import { foldChars, foldName } from '../core/shared/foldName.js'
+import { foldChars, foldName } from '../shared/foldName.js'
 
 // A keyword phrase: one or more capitalised words. Matches both the ALL-CAPS spelling and the
 // Title Case one — the faction files use whichever the source PDF used.
@@ -193,7 +193,7 @@ function depluralise(phrase) {
 // statements does, and each statement's exclusions bind only to its own targets.
 /**
  * @param {string | null | undefined} body
- * @returns {Array<import('../core/shared/roster.types.js').RuleScope> | null}
+ * @returns {Array<import('../shared/roster.types.js').RuleScope> | null}
  */
 export function ruleScopes(body) {
   // Read folded: appdata types "GRAV‑ASSAULT" with U+2011, which KW_WORD's "-" does not take, so
@@ -310,7 +310,7 @@ export function unitKeywordsOf(sheet) {
 // MILITARUM INFANTRY — one that reaches nobody here rather than an extraction to distrust. Without
 // it, distrust.
 /**
- * @param {import('../core/shared/roster.types.js').RuleScope[]} scopes
+ * @param {import('../shared/roster.types.js').RuleScope[]} scopes
  * @param {string[][]} keywordSets
  * @param {string[] | null} [vocabulary]
  */
@@ -348,7 +348,7 @@ export function ruleAppliesTo(body, unitKeywords, factionKeywordSets, vocabulary
 // is a unit standing alone, where the two sets are one; a scope stored before the noun was read
 // (no `models` field) is judged as it always was, on the card's own keywords.
 /** @typedef {string[] | { own: string[], unit: string[] }} UnitKeywords */
-/** @param {import('../core/shared/roster.types.js').RuleScope} sc @param {UnitKeywords} keywords */
+/** @param {import('../shared/roster.types.js').RuleScope} sc @param {UnitKeywords} keywords */
 export function scopeHits(sc, keywords) {
   const own = Array.isArray(keywords) ? keywords : keywords.own
   const unit = Array.isArray(keywords) ? keywords : keywords.unit

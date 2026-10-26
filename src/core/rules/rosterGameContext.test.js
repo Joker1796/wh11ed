@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest'
 import { activeConditions, switchesFor, isAuto, stampOf, stratagemsBlocked, groupRaisesOf, groupLimitsFor } from './rosterGameContext.js'
-import { clockOf } from './gameClock.js'
+import { clockOf } from '../../composables/gameClock.js'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
-import { loadDatasheets } from '../data/datasheets/index.js'
+import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
+import { loadDatasheets } from '../../data/datasheets/index.js'
 import { itemKey, loadoutItemNames } from './rosterModifiers.js'
-import { conditions } from '../core/rules/conditions.js'
+import { conditions } from './conditions.js'
 
 const player = (ctx, army, factionSlug = null) => ({ ctx, army, factionSlug })
 
@@ -95,7 +95,7 @@ describe('activeConditions', () => {
 
   // …and no OTHER datasheet may grow that wording without this being revisited.
   it('finds no other datasheet that states riled up unconditionally', async () => {
-    const ds = (await import('../data/datasheets/orks.js')).default
+    const ds = (await import('../../data/datasheets/orks.js')).default
     const flat = []
     for (const u of ds) {
       const texts = [
@@ -432,7 +432,7 @@ describe('clock-answered conditions', () => {
 // ── Alternatives (2026-08-22) ─────────────────────────────────────────────────────────────────
 describe('mutually exclusive switches', () => {
   it('groups the ids the rules call alternatives, and leaves the rest alone', async () => {
-    const { conditions } = await import('../core/rules/conditions.js')
+    const { conditions } = await import('./conditions.js')
     expect(conditions['order-take-aim'].group).toBe('order')
     expect(conditions['order-fix-bayonets'].group).toBe('order')
     expect(conditions['order-take-cover'].group).toBe('order')
@@ -800,7 +800,7 @@ describe('groupLimitsFor — a unit a Leader lets hold two Orders', () => {
   // The class: every rule in the data that lets a unit hold several Orders is read, so a new wording
   // fails here instead of leaving that unit at one.
   it('reads every "affected by … Orders" rule in the datasheets', async () => {
-    const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), '../data/datasheets')
+    const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), '../../data/datasheets')
     const unread = []
     let found = 0
     for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.js') && f !== 'index.js' && !f.endsWith('.test.js'))) {

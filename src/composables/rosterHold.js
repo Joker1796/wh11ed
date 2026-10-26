@@ -13,7 +13,7 @@
 // "who holds what" back to swaps, and rosterHold.test.js walks every distribution of every group
 // this applies to through the engine and back.
 import { optionItems, modelsPerMini, swapRoom, swapRoomByItem } from '../core/roster/rosterEngine.js'
-import { loadoutItemCopies, sumKnown } from './rosterModifiers.js'
+import { loadoutItemCopies, sumKnown } from '../core/rules/rosterModifiers.js'
 
 /** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */

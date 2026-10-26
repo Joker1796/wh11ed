@@ -30,7 +30,7 @@ import rosterCore from '../data/roster/core.js'
 import { rosterItems } from '../data/roster/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
 import { loadRosterModifiersFor } from '../data/rosterModifiers/index.js'
-import { idleMeleeCopies } from './rosterModifiers.js'
+import { idleMeleeCopies } from '../core/rules/rosterModifiers.js'
 
 // `roster` — a ref/computed of the roster object (may read null while it loads, or before the
 // wizard has one). `factionData` — a ref/computed of the compact faction bundle from
