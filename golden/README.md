@@ -11,12 +11,19 @@ of all six export formats, and every unit's card as `useRosterUnitCard` resolves
 modifiers, the notes, granted keywords and core abilities, ability states, the rules that reach it).
 Long prose is reduced to a hash; cards identical across detachments are stored once.
 
+**`variants.golden.js`** adds what those plain lists never ask: each enhancement worn by the first unit
+that may carry it, every unit with the first option of each wargear group taken, and every unit in
+a game where every condition holds and every stratagem, picked option and once-per-battle rule is
+spent (`gameCtx` with all condition ids and all record sids). Its baseline was recorded from the core
+split's step 7 (`78fa3c26`), not the commit before the refactor: its harness needs the split's own
+API, and it was added to hold the steps that come after.
+
 **The snapshots are not in git** (`golden/__snapshots__/`, ~77 MB for 30 factions). They are a local
 baseline: any GW data update rewrites thousands of cards, so as a standing gate they would be
 re-accepted blind. The harness is deterministic, so a baseline is rebuilt from any commit:
 
 ```bash
-git switch --detach <base commit>   # the commit before the refactor
+git switch --detach <base commit>   # the commit before the refactor (78fa3c26 or later for variants)
 npm run golden:baseline             # writes golden/__snapshots__/ (~8 min, one worker)
 git switch -                        # back to the work
 npm run golden                      # compare; a mismatch names the faction and shows the diff

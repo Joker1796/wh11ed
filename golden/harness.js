@@ -28,7 +28,7 @@ export { rosterPoints }
 
 // The card of one entry, through the composable both card screens read.
 const Probe = defineComponent({
-  props: { unitId: { type: String, required: true }, factionSlug: { type: String, required: true }, ctx: { type: Object, default: null } },
+  props: { unitId: { type: String, required: true }, factionSlug: { type: String, required: true }, ctx: { type: Object, default: null }, gameCtx: { type: Object, default: null } },
   setup(props, { expose }) {
     const card = useRosterUnitCard(props)
     expose({ card })
@@ -47,9 +47,9 @@ async function hasProse(slug) {
   return prose.get(slug)
 }
 
-export async function cardOf(unitId, factionSlug, ctx) {
+export async function cardOf(unitId, factionSlug, ctx, gameCtx = null) {
   const needsProse = await hasProse(factionSlug)
-  const w = mount(Probe, { props: { unitId, factionSlug, ctx } })
+  const w = mount(Probe, { props: { unitId, factionSlug, ctx, gameCtx } })
   const c = w.vm.card
   // The card's own readiness, not a guess at how many ticks loading takes: the first mount of a
   // faction imports its files cold, and a snapshot taken early would be empty only sometimes.
