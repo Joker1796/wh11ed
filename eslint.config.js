@@ -54,8 +54,9 @@ export default [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      // …plus the text codecs: the WHATWG Encoding API is in every JS host the core could run in —
-      // a browser, Node, a worker — unlike `window` (the importer repairs mis-decoded text with it).
+      // …plus the WHATWG text codecs, which every JS host the core could run in has — a browser,
+      // Node, a worker — unlike `window` (the importer repairs mis-decoded text with them). Another
+      // host global goes here AND into src/core/hostGlobals.d.ts, which tsconfig.core.json reads.
       globals: { ...globals.es2025, TextDecoder: 'readonly', TextEncoder: 'readonly' },
     },
     rules: {
@@ -64,8 +65,15 @@ export default [
           { group: ['vue', 'vue-router', 'virtual:*'], message: 'The core does not know about Vue: return plain values and let a composable wrap them.' },
           { group: ['**/data/**'], message: 'The core takes data as arguments; the app loads it and passes it in.' },
           { group: ['**/composables/**', '**/components/**', '**/views/**', '**/router/**', '**/i18n/**', '**/utils/**', '**/directives/**'], message: 'The core sits below the app: move what it needs into src/core, or pass it in.' },
+          { group: ['**/*.json'], message: 'A table is data: the app loads it and passes it in.' },
         ],
       }],
+      // What a restricted import cannot see: a bundler's own reach into files (`import.meta.glob`,
+      // `import.meta.env`) and the host through the back door (`globalThis.localStorage`).
+      'no-restricted-syntax': ['error',
+        { selector: "MetaProperty[meta.name='import']", message: 'import.meta is the bundler: the core takes what it needs as arguments.' },
+        { selector: "Identifier[name='globalThis']", message: 'The core does not reach the host: pass in what it needs.' },
+      ],
     },
   },
 

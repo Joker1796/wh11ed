@@ -1,0 +1,13 @@
+{
+  // The rules core alone (src/core/CLAUDE.md), checked against the language and nothing else: no DOM,
+  // no Vite. A `window`, a `localStorage` or an `import.meta.glob` in the core is a type error here even
+  // where the linter's globals would miss it (`globalThis.localStorage`). Run by `npm run typecheck`
+  // after tsconfig.json, which checks the same files with the app's environment.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    "types": []
+  },
+  "include": ["src/core/**/*.js", "src/core/hostGlobals.d.ts"],
+  "exclude": ["src/core/**/*.test.js"]
+}
