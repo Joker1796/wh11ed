@@ -5257,6 +5257,24 @@ export default {
           "name": "Da Gobshot Thunderbuss",
           "pts": 20,
           "type": "miniature",
+          "weapons": {
+            "melee": [],
+            "ranged": [
+              {
+                "name": "Da Gobshot Thunderbuss",
+                "tags": [
+                  "LETHAL HITS: non-MONSTER/VEHICLE",
+                  "RAPID FIRE 6"
+                ],
+                "range": "24\"",
+                "a": "6",
+                "bs": "4+",
+                "s": "7",
+                "ap": "-2",
+                "d": "2"
+              }
+            ]
+          },
           "req": [
             {
               "kw": [
@@ -5798,6 +5816,26 @@ export default {
           "name": "Da Krunch",
           "pts": 10,
           "type": "miniature",
+          "weapons": {
+            "melee": [],
+            "ranged": [
+              {
+                "name": "Da Krunch",
+                "tags": [
+                  "BLAST 3",
+                  "HAZARDOUS",
+                  "LETHAL HITS",
+                  "PSYCHIC"
+                ],
+                "range": "24\"",
+                "a": "3",
+                "bs": "4+",
+                "s": "5",
+                "ap": "-1",
+                "d": "1"
+              }
+            ]
+          },
           "req": [
             {
               "fac": [
@@ -5813,6 +5851,25 @@ export default {
           "name": "'Eadbanger",
           "pts": 15,
           "type": "miniature",
+          "weapons": {
+            "melee": [],
+            "ranged": [
+              {
+                "name": "'Eadbanger",
+                "tags": [
+                  "HAZARDOUS",
+                  "PRECISION",
+                  "PSYCHIC"
+                ],
+                "range": "24\"",
+                "a": "2",
+                "bs": "4+",
+                "s": "6",
+                "ap": "-3",
+                "d": "3"
+              }
+            ]
+          },
           "req": [
             {
               "fac": [

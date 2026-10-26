@@ -34,6 +34,7 @@ import { equippedCondition } from './lib/equippedCondition.mjs'
 import { spawnPhrases } from './lib/spawnPhrases.mjs'
 import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
+import { readEnhancementWeapons } from './lib/enhancement-weapons.mjs'
 import { enhEligible } from '../src/core/roster/rosterEnhEligible.js'
 import { unitKeywordsOf } from '../src/composables/ruleTargets.js'
 import { foldChars, foldName } from '../src/core/shared/foldName.js'
@@ -218,6 +219,11 @@ const condBattlelineDs = new Set()
   const battlelineKwIds = new Set(table('keyword').filter((k) => norm(enOf(k).name) === 'battleline').map((k) => k.id))
   for (const c of table('conditional_keyword')) if (battlelineKwIds.has(c.keywordId) && c.datasheetId) condBattlelineDs.add(c.datasheetId)
 }
+
+// The weapons an enhancement gives its bearer, by appdata enhancement id (lib/enhancement-weapons.mjs):
+// written onto the enhancement as `weapons`, which the unit card adds to the bearer's table.
+const { byEnhancement: enhWeapons } = await readEnhancementWeapons()
+const enhWeaponsPlaced = new Set()
 
 // enhancements grouped by detachment (+ eligibility groups / excluded keywords).
 const kwName = new Map(table('keyword').map((k) => [k.id, enOf(k).name]))
@@ -3078,6 +3084,8 @@ const ONE_PER_ARMY = /\(one per army\)/i
 function buildEnhancement(e, nameToDsId, idMap) {
   const name = enOf(e).name
   const enh = { name, pts: e.basePointsCost, type: e.enhancementType }
+  const weapons = enhWeapons.get(e.id)
+  if (weapons) { enh.weapons = weapons; enhWeaponsPlaced.add(e.id) }
   if (e.cannotBeWarlord) enh.notWarlord = 1
   if (!e.isIncludedInEnhancementLimit) enh.uncounted = 1
   if (e.isEquipableByEpicHero) enh.epicOk = 1
@@ -4183,6 +4191,8 @@ for (const l of ally.self) console.log(`    a rule allying the army to itself, t
 for (const l of ally.ratio) console.log(`    BATTLELINE ratio (non-BATTLELINE ≤ BATTLELINE per keyword) — ${l}`)
 for (const l of ally.missing.slice(0, 10)) console.log(`    unresolved allied datasheet — ${l}`)
 console.log(`  keyword grants: ${report.grantsPlaced} written onto their units`)
+console.log(`  enhancement weapons: ${enhWeaponsPlaced.size} of ${enhWeapons.size} enhancements that give one`)
+if (enhWeaponsPlaced.size !== enhWeapons.size) { console.log(`    ✗ an enhancement with a weapon is in no roster file: ${[...enhWeapons.keys()].filter((id) => !enhWeaponsPlaced.has(id)).join(', ')}`); process.exitCode = 1 }
 if (report.grantsUnplaced.length) { console.log(`    ✗ a grant names a unit no faction file holds (conditionalKeywords.json stale?): ${report.grantsUnplaced.join('; ')}`); process.exitCode = 1 }
 console.log(`  spawns: ${report.spawns.length} unit(s) an ability brings into the game — ${report.spawns.join('; ')}`)
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)

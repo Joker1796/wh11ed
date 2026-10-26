@@ -11429,6 +11429,20 @@ export default {
           "name": "Imperium’s Sword",
           "pts": 20,
           "type": "miniature",
+          "weapons": {
+            "melee": [
+              {
+                "name": "Imperium’s Sword",
+                "tags": [],
+                "a": "6",
+                "ws": "2+",
+                "s": "7",
+                "ap": "-3",
+                "d": "3"
+              }
+            ],
+            "ranged": []
+          },
           "req": [
             {
               "fac": [

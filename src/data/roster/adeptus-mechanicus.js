@@ -3867,6 +3867,24 @@ export default {
           "name": "TL-4ø9",
           "pts": 30,
           "type": "miniature",
+          "weapons": {
+            "melee": [],
+            "ranged": [
+              {
+                "name": "TL-4ø9",
+                "tags": [
+                  "DEVASTATING WOUNDS",
+                  "HAZARDOUS"
+                ],
+                "range": "24\"",
+                "a": "3",
+                "bs": "2+",
+                "s": "11",
+                "ap": "-2",
+                "d": "D3+2"
+              }
+            ]
+          },
           "req": [
             {
               "fac": [

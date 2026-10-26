@@ -18,7 +18,6 @@
 import { copiesHeld, wargearGroupCap, wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegFor, allegKeyword, allegItems, grantedKeywordsFor, detKey } from '../core/roster/rosterEngine.js'
 import { conditions } from '../core/rules/conditions.js'
 import rosterItemsData from '../data/roster/items.js'
-import ENH_WEAPONS from '../data/enhancementWeapons.js'
 import { foldName } from '../core/shared/foldName.js'
 // Rule-granted keywords moved to rosterEngine.js, which needs them to answer whether a unit can
 // carry an enhancement; re-exported here because this is where every caller already imports them.
@@ -72,9 +71,6 @@ function rowMatchesItem(row, item) {
 // offer. Returns normalised-name → ids, because a name can legitimately intern to more than one
 // id (the same weapon published under two appdata uuids) and a row claimed by any of them must
 // answer to all of them.
-/** An enhancement's weapons, by enhKey. @type {Record<string, { melee: WeaponRow[], ranged: WeaponRow[] }>} */
-const ENH_WEAPON_ROWS = ENH_WEAPONS
-
 /** @type {Record<string, string[]>} */
 const STANDS = rosterItemsData.stands || {}
 
@@ -736,20 +732,22 @@ function allegGrant(def, entry, detachments) {
 // The weapons the entry's enhancement gives it ("This model has the following weapon:") join its
 // own table, marked as the enhancement's (`enh`, DatasheetCard's tag) — at the bottom of the card,
 // in the enhancement's plate, a player forgot the bearer had them at all (2026-10-08). The rows
-// come from appdata's own profile (scripts/gen-enhancement-weapons.mjs).
+// come from appdata's own profile, written onto the enhancement (`weapons`, gen-roster-data).
 /**
  * @param {PrintedSheet} sheet
  * @param {EntryLike | null | undefined} entry
+ * @param {Detachment[] | null | undefined} detachments
  * @returns {PrintedSheet}
  */
-function withEnhancementWeapons(sheet, entry) {
-  const given = entry?.enh && ENH_WEAPON_ROWS[enhKey(entry.enh)]
+function withEnhancementWeapons(sheet, entry, detachments) {
+  const enh = entry?.enh
+  const given = enh ? findEnhancement(detachments, enh, entry?.enhDet)?.weapons : null
   if (!given || !(given.melee.length || given.ranged.length)) return sheet
   const out = { ...sheet }
   /** @type {Array<'ranged' | 'melee'>} */
   const kinds = ['ranged', 'melee']
   for (const kind of kinds) {
-    if (given[kind].length) out[kind] = [...(sheet[kind] || []), ...given[kind].map((w) => ({ ...w, enh: entry.enh }))]
+    if (given[kind].length) out[kind] = [...(sheet[kind] || []), ...given[kind].map((w) => ({ ...w, enh }))]
   }
   return out
 }
@@ -761,10 +759,11 @@ function withEnhancementWeapons(sheet, entry) {
  * @param {RosterUnit | null | undefined} def
  * @param {EntryLike | null | undefined} entry
  * @param {Items | null | undefined} items
+ * @param {Detachment[] | null} [detachments] where the entry's enhancement and its weapons are found
  * @returns {PrintedSheet}
  */
-function overlayWeapons(sheet, def, entry, items) {
-  return withEnhancementWeapons(filterWeapons(sheet, def, entry, items), entry)
+function overlayWeapons(sheet, def, entry, items, detachments = null) {
+  return withEnhancementWeapons(filterWeapons(sheet, def, entry, items), entry, detachments)
 }
 
 /**
@@ -776,7 +775,7 @@ export function overlaySheet(sheet, ctx) {
   if (!sheet) return { sheet, grantedKeywords: [], context: null, ruleSources: [], notes: [] }
   const { def, entry, items, detachments } = ctx || {}
   return {
-    sheet: overlayWeapons(sheet, def, entry, items),
+    sheet: overlayWeapons(sheet, def, entry, items, detachments),
     // …plus the keyword the entry chose for itself. The sidecar can't carry these: which mark a
     // unit took is a per-list decision, not a property of the datasheet (which is exactly why
     // gen-conditional-keywords.mjs skips appdata's 274 allegiance rows).

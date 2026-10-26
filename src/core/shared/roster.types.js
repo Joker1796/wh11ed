@@ -169,6 +169,7 @@
  * @property {1} [nonCharOk] a non-CHARACTER may take it
  * @property {1} [notWarlord] not on the Warlord
  * @property {1} [uncounted] does not count against the army's enhancement limit
+ * @property {{ melee: WeaponRow[], ranged: WeaponRow[] }} [weapons] the weapons it gives its bearer (appdata's enhancement_wargear_item_profile), added to the bearer's card
  * @property {string[]} [exclKw] keywords that bar it
  * @property {string[]} [needs] an ability or an item the bearer must have (appdata's enhancement_datasheet_ability / _required_wargear_item); matched against the unit's `has`
  * @property {Array<{ ds?: string, kw?: string[], fac?: string[] }>} [req] who may take it — any one group

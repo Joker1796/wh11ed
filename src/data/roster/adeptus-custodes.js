@@ -2518,6 +2518,25 @@ export default {
           "name": "Auriferous Orb",
           "pts": 20,
           "type": "miniature",
+          "weapons": {
+            "melee": [],
+            "ranged": [
+              {
+                "name": "Auriferous Orb",
+                "tags": [
+                  "ANTI-non-MONSTER/VEHICLE 2+",
+                  "BLINDING LIGHT",
+                  "DEVASTATING WOUNDS"
+                ],
+                "range": "12\"",
+                "a": "3",
+                "bs": "2+",
+                "s": "1",
+                "ap": "0",
+                "d": "1"
+              }
+            ]
+          },
           "req": [
             {
               "fac": [
@@ -2630,6 +2649,22 @@ export default {
           "name": "Emperor’s Light",
           "pts": 15,
           "type": "miniature",
+          "weapons": {
+            "melee": [
+              {
+                "name": "Emperor’s Light",
+                "tags": [
+                  "EXTRA ATTACKS"
+                ],
+                "a": "3",
+                "ws": "2+",
+                "s": "5",
+                "ap": "-2",
+                "d": "2"
+              }
+            ],
+            "ranged": []
+          },
           "req": [
             {
               "fac": [

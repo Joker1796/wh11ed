@@ -2045,6 +2045,20 @@ export default {
           "name": "The Thief of Secrets",
           "pts": 10,
           "type": "miniature",
+          "weapons": {
+            "melee": [
+              {
+                "name": "The Thief of Secrets",
+                "tags": [],
+                "a": "6",
+                "ws": "2+",
+                "s": "6",
+                "ap": "-3",
+                "d": "2"
+              }
+            ],
+            "ranged": []
+          },
           "req": [
             {
               "kw": [

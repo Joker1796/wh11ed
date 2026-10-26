@@ -705,13 +705,18 @@ describe('overlaySheet — a weapon the enhancement gives', () => {
   // Imperium's Sword: "This model has the following weapon:" — its row joins the bearer's own melee
   // table, marked as the enhancement's (a player's report, 2026-10-08).
   const sheet = { name: 'Chaplain in Terminator Armour', melee: [{ name: 'Crozius Arcanum', a: '5', ws: '2+', s: '6', ap: '-1', d: '2' }] }
-  it('adds the row for the bearer, and only for the bearer', () => {
-    const withSword = overlaySheet(sheet, { entry: { enh: 'Imperium’s Sword' } }).sheet
+  // The rows ride on the enhancement in the roster data (`weapons`), found in the list's detachments.
+  it('adds the row for the bearer, and only for the bearer', async () => {
+    const sm = await loadRosterFaction('space-marines')
+    const detachments = sm.detachments.filter((d) => d.enhancements?.some((e) => e.name === 'Imperium’s Sword' || e.name === 'Furious Assault (Upgrade)'))
+    const withSword = overlaySheet(sheet, { entry: { enh: 'Imperium’s Sword' }, detachments }).sheet
     const row = withSword.melee.find((w) => w.name === 'Imperium’s Sword')
     expect(row).toMatchObject({ a: '6', ws: '2+', s: '7', ap: '-3', d: '3', enh: 'Imperium’s Sword' })
     expect(withSword.melee[0].name).toBe('Crozius Arcanum')
-    expect(overlaySheet(sheet, { entry: { enh: 'Furious Assault (Upgrade)' } }).sheet).toBe(sheet)
-    expect(overlaySheet(sheet, { entry: {} }).sheet).toBe(sheet)
+    expect(overlaySheet(sheet, { entry: { enh: 'Furious Assault (Upgrade)' }, detachments }).sheet).toBe(sheet)
+    expect(overlaySheet(sheet, { entry: {}, detachments }).sheet).toBe(sheet)
+    // …and nothing without the list's detachments to find it in.
+    expect(overlaySheet(sheet, { entry: { enh: 'Imperium’s Sword' } }).sheet).toBe(sheet)
   })
 })
 
