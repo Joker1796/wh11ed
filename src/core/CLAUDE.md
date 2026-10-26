@@ -26,14 +26,23 @@ ships.
 | Folder | What lives there |
 |---|---|
 | `roster/` | building and checking a list: the engine, validation, limits, enhancement eligibility, export and import, Combat Patrol rosters |
-| `rules/` | reading rules and applying them: modifier records onto a card, who a rule targets, doctrines, ability states, the game context a list is read in, stratagem phases, weapon tags and multi-profile weapons |
-| `game/` | a game: scoring, mission timing, the CP ledger, the action log, unit status, strict rules |
+| `rules/` | reading rules and applying them: modifier records onto a card, who a rule targets, doctrines, ability states, the game context a list is read in, stratagem phases, weapon tags and multi-profile weapons; `unitRules.js` — one unit's rules worked out the one way |
+| `game/` | a game: whose turn it is and the clock (`clock.js`), scoring, a mission card's rules (`missionCards.js`), mission timing, the CP ledger, the action log, unit status, strict rules |
 | `shared/` | what all of them use: `foldName`, the roster/modifier types |
 
 What is NOT core, though it is pure: helpers that exist for a screen (column chunks, anchors, the
 segmented slider, plurals, colours, the HTML sanitizer, label formatting, the battle-size chips, the
 rows under a unit in a list, how a swap group is drawn, the wargear "i" lookup) stay in the app. The test is
 the question "is this a rule of the game, or a way of showing one?".
+
+## One unit, one way
+
+A unit's numbers are read on its card (`src/composables/rosterUnitCard.js`) and on its row in the
+roster screen (`RosterViewView`). Both call `rules/unitRules.js` — the keywords its records grant,
+the stratagems it can be the target of, the stat pass — and differ only in where their game state
+comes from. Until 2026-10-26 each assembled the sequence itself, and the rows had drifted (they left
+out the keywords the list's detachments grant). A third reader of a unit's numbers calls the same
+two functions.
 
 ## How data reaches the core
 
@@ -48,6 +57,15 @@ Two ways, and nothing else:
   (`GameClock`, built by the app in `src/composables/gameClock.js` because two of its answers are
   tracker settings), a mission card (`cardBlocksOf`). The app's loaders live with the data
   (`src/data/datasheets/index.js`'s `loadKeywordVocabulary`).
+
+**The rule for choosing between the two** (owner, 2026-10-26): a fact about ONE entity goes on that
+entity; a reference table shared by many goes in as an argument. One exception stands, on purpose and
+for now: `stands` is a fact about an ITEM (a Gun Drone is the twin pulse carbine for any unit that
+takes it), but each unit carries the entries for its own items, written by the same generator
+function that writes items.js's table, so the two cannot drift. It moves into the item table when
+the core takes one `RuleSet` — the items with their `stands`, the keyword vocabulary, the faction
+directory, later the condition dictionary — the first step of the rule-bundles stage (hub journal
+`2026-10-19-core-split`). Do not add a second such copy; take the table instead.
 
 What the core OWNS outright is the vocabulary of the game itself, not a version of its rules: the
 condition dictionary (`rules/conditions.js`), the five Force Dispositions (`roster/dispositions.js`),
