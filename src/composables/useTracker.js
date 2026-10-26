@@ -30,6 +30,7 @@ import { statusRecord, setupReserves } from '../core/game/unitStatus.js'
 import { TRACKER_GEN } from '../core/game/trackerGen.js'
 import { pushAct, pushValueAct, pushUndo, ledgerEvent, discardEvent, COALESCE_MS } from '../core/game/actionLog.js'
 import { isStrict, isLatest, canClockBack } from '../core/game/strictRules.js'
+import { cardBlocksOf, canBeFixed, numericVp, orSiblingKeys } from '../core/game/missionCards.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -176,48 +177,10 @@ export function missionBySlug(slug, role, locale = 'en') {
     : missions.en.primary.find(x => x.slug === slug) || null
   return locale === 'ru' ? localize(m, role) : m
 }
-// Which battle rounds a block can score in, by its (English) heading.
-const BLOCK_ROUNDS = {
-  'Any Battle Round': [1, 2, 3, 4, 5],
-  'First Battle Round': [1],
-  'First & Second Battle Round': [1, 2],
-  'Second Battle Round Onwards': [2, 3, 4, 5],
-  'Second & Third Battle Round': [2, 3],
-  'Second to Fourth Battle Round': [2, 3, 4],
-  'Fourth Battle Round Onwards': [4, 5],
-  'Fifth Battle Round': [5],
-  'End of Battle': [5],
-}
-export function blockRounds(headingEn) {
-  return BLOCK_ROUNDS[headingEn] || [1, 2, 3, 4, 5]
-}
-
-// Every block of a mission, annotated for the scoring UI; a block that cannot score in `round` is
-// marked `offRound`. The scoring dialogs show the whole card and grey those (a player's report,
-// 2026-10-20: in round 1 the "Second Battle Round Onwards" half of a primary was simply missing —
-// shown, never hidden, like a locked row). Round-gating and the per-each flag are derived from the
-// ENGLISH mission (heading/text); display heading/when/text come from the localized mission.
-// Keeps picks keyed by bi:ri.
+// The card itself, annotated for the scoring UI (core/game/missionCards' cardBlocksOf): found here,
+// in English for its rules and in `locale` for its words.
 export function cardBlocks(slug, role, round, locale = 'en') {
-  const enM = missionBySlug(slug, role)
-  if (!enM) return []
-  const locM = missionBySlug(slug, role, locale)
-  const out = []
-  enM.blocks.forEach((b, bi) => {
-    // A Combat Patrol mission names its rounds (appdata's periods); a Chapter Approved card's
-    // are read off its heading.
-    const offRound = !(b.rounds || blockRounds(b.heading)).includes(round)
-    const lb = (locM && locM.blocks[bi]) || b
-    out.push({
-      bi, kind: b.kind, heading: lb.heading, when: lb.when, offRound,
-      rows: b.rows.map((er, ri) => ({
-        ri, vp: er.vp, modifier: er.modifier,
-        text: lb.rows && lb.rows[ri] ? lb.rows[ri].text : er.text,
-        perEach: /^(For each|Each time)/i.test(er.text),
-      })),
-    })
-  })
-  return out
+  return cardBlocksOf(missionBySlug(slug, role), missionBySlug(slug, role, locale), round)
 }
 
 // The blocks of a mission that can be scored in `round` — what the end-of-turn check, the phase
@@ -230,16 +193,8 @@ export function secondaryPool(role) {
   // 18 distinct secondary missions for the given role.
   return missions.en.secondary.filter(m => m.role === role)
 }
-export function numericVp(v) {
-  // vp is a number, or a '+N' string for cumulative bonuses.
-  if (typeof v === 'number') return v
-  const n = parseInt(String(v).replace('+', ''), 10)
-  return Number.isFinite(n) ? n : 0
-}
 export function fixedPool(role) {
-  // Only missions that actually have a Fixed scoring option can be taken as Fixed
-  // (A Grievous Blow, Assassination, Bring it Down, Engage on All Fronts).
-  return secondaryPool(role).filter(m => m.blocks.some(b => b.kind === 'fixed'))
+  return secondaryPool(role).filter(canBeFixed)
 }
 
 // Primary mission a player scores = the card for (their disposition vs opponent's) — the matrix
@@ -272,31 +227,6 @@ export function primaryOf(p, opponent, settings = {}) {
   return derivePrimary(p.disposition, opponent.disposition, settings)
 }
 
-// "or"-linked rows in a block are mutually-exclusive BRACKETS (e.g. control 1 / 2 / 3+
-// objectives) — only one may be scored. Given a row, returns the pick keys of its
-// sibling rows that selecting it should clear. Per-tally rows ("For each…/Each time…")
-// are independent alternatives (a model is one bracket or the other, but both tally
-// over the game), so they're never excluded and never exclude others.
-function isPerEachText(text) {
-  return /^(For each|Each time)/i.test(text || '')
-}
-function orSiblingKeys(mission, blockIdx, rowIdx) {
-  const block = mission && mission.blocks && mission.blocks[blockIdx]
-  if (!block) return []
-  const rows = block.rows
-  const row = rows[rowIdx]
-  if (!row || isPerEachText(row.text)) return []
-  let start = rowIdx
-  while (start > 0 && rows[start].modifier === 'or') start--
-  let end = start
-  while (end + 1 < rows.length && rows[end + 1].modifier === 'or') end++
-  const keys = []
-  for (let r = start; r <= end; r++) {
-    if (r === rowIdx || isPerEachText(rows[r].text)) continue
-    keys.push(`${blockIdx}:${r}`)
-  }
-  return keys
-}
 
 function load(key, fallback) {
   try {

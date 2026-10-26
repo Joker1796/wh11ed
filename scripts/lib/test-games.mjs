@@ -20,6 +20,7 @@
 //   oppFirst — the opponent takes the first turn (the game puts them at index 0, you on the right);
 //            about half the set, crossed with the VP/BP half.
 import { TEST_ROSTERS, buildTestRoster } from './test-rosters.mjs'
+import { numericVp } from '../../src/core/game/missionCards.js'
 import { loadRosterFaction, rosterItems } from '../../src/data/roster/index.js'
 import { rosterSnapshot } from '../../src/composables/rosterGameLink.js'
 import { detachmentsFor, detachmentInfo } from '../../src/composables/trackerFactions.js'
@@ -152,8 +153,8 @@ async function playTo(mod, t, tick, g, [R, T, P]) {
   t.beginGame()
   await tick()
   const firstRow = (blocks) => {
-    const b = blocks.find((x) => x.rows.some((r) => mod.numericVp(r.vp) > 0))
-    const r = b?.rows.find((x) => mod.numericVp(x.vp) > 0)
+    const b = blocks.find((x) => x.rows.some((r) => numericVp(r.vp) > 0))
+    const r = b?.rows.find((x) => numericVp(x.vp) > 0)
     return r ? [b.bi, r.ri] : null
   }
   for (;;) {

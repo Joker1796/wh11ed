@@ -1,4 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
+import { numericVp } from '../core/game/missionCards.js'
 import { getMissions } from '../data/missions.js'
 
 // Scoring-mutation coverage for the tracker store: primary row picks ("or" brackets,
@@ -52,7 +53,7 @@ function findPerEachRow(list) {
     for (let bi = 0; bi < m.blocks.length; bi++) {
       const rows = m.blocks[bi].rows
       for (let ri = 0; ri < rows.length; ri++) {
-        if (perEach(rows[ri].text) && mod.numericVp(rows[ri].vp) >= 2) return { m, bi, ri, vp: mod.numericVp(rows[ri].vp) }
+        if (perEach(rows[ri].text) && numericVp(rows[ri].vp) >= 2) return { m, bi, ri, vp: numericVp(rows[ri].vp) }
       }
     }
   }
@@ -79,7 +80,7 @@ describe('setPrimaryRow / primaryRowCount', () => {
     const pl = tracker.current.value.players[0]
     const m = mod.missionBySlug(pl.primarySlug)
     const bi = 0, ri = 0
-    const rowVp = mod.numericVp(m.blocks[bi].rows[ri].vp)
+    const rowVp = numericVp(m.blocks[bi].rows[ri].vp)
     tracker.setPrimaryRow(0, 0, bi, ri, 2)
     expect(tracker.primaryRowCount(0, 0, bi, ri)).toBe(2)
     expect(pl.rounds[0].primary).toBe(Math.min(2 * rowVp, mod.PRIMARY_ROUND_CAP))
@@ -90,7 +91,7 @@ describe('setPrimaryRow / primaryRowCount', () => {
     tracker.beginGame()
     const pl = tracker.current.value.players[0]
     const m = mod.missionBySlug(pl.primarySlug)
-    const rowVp = mod.numericVp(m.blocks[0].rows[0].vp)
+    const rowVp = numericVp(m.blocks[0].rows[0].vp)
     const count = Math.ceil((mod.PRIMARY_ROUND_CAP + 5) / rowVp)
     tracker.setPrimaryRow(0, 0, 0, 0, count)
     expect(pl.rounds[0].primary).toBe(mod.PRIMARY_ROUND_CAP)
@@ -118,7 +119,7 @@ describe('setPrimaryRow / primaryRowCount', () => {
     expect(tracker.primaryRowCount(0, 0, bi, riB)).toBe(1)
     expect(tracker.primaryRowCount(0, 0, bi, riA)).toBe(0) // cleared
     expect(tracker.current.value.players[0].rounds[0].primary).toBe(
-      Math.min(mod.numericVp(m.blocks[bi].rows[riB].vp), mod.PRIMARY_ROUND_CAP)
+      Math.min(numericVp(m.blocks[bi].rows[riB].vp), mod.PRIMARY_ROUND_CAP)
     )
   })
 })
@@ -215,7 +216,7 @@ describe('scoreSecondaryRow / secondaryCardVp / secondaryRowCount', () => {
     expect(tracker.secondaryRowCount(0, m.slug, bi, riA)).toBe(0)
     expect(tracker.secondaryRowCount(0, m.slug, bi, riB)).toBe(1)
     expect(tracker.secondaryCardVp(0, m.slug)).toBe(
-      Math.min(mod.numericVp(m.blocks[bi].rows[riB].vp), 5)
+      Math.min(numericVp(m.blocks[bi].rows[riB].vp), 5)
     )
   })
 

@@ -26,6 +26,7 @@
 //   sometimes pre-sums these into mutually-exclusive flat tiers (4vp if W≥4, 3vp otherwise).
 //   Check the arithmetic (base + bonus) before treating this as a mismatch.
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
+import { blockRounds } from '../src/core/game/missionCards.js'
 import { plainText, extraCostText } from './sync-faction-text.mjs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -233,7 +234,6 @@ function diffRoundGating(label, whMission, appMission, blockRoundsFn) {
 
 async function checkMissions() {
   const mod = await loadModule(path.join(ROOT, 'src/data/missions.js'))
-  const trackerMod = await loadModule(path.join(ROOT, 'src/composables/useTracker.js'))
 
   console.log('\n=== primary missions ===')
   const whPrimary = mod.missions.en.primary
@@ -241,7 +241,7 @@ async function checkMissions() {
   const appByName = byNormName(core.primaryMissions, (m) => m.name)
   for (const m of whPrimary) {
     const app = appByName.get(norm(m.name))
-    if (app) primaryLines.push(...diffMissionContent('primary mission', m, app), ...diffRoundGating('primary mission', m, app, trackerMod.blockRounds))
+    if (app) primaryLines.push(...diffMissionContent('primary mission', m, app), ...diffRoundGating('primary mission', m, app, blockRounds))
   }
   if (!primaryLines.length) console.log('  no structural differences found')
   else primaryLines.forEach((l) => console.log(l))

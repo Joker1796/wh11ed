@@ -1,10 +1,11 @@
 import { describe, it, expect } from 'vitest'
+import { blockRounds, numericVp } from '../core/game/missionCards.js'
 import { missions } from '../data/missions.js'
 import {
   BATTLE_SIZES, DISPOSITIONS, MIRROR_MISSIONS, battleOf, battleName, byCount,
   dispositionName,
-  primaryFor, derivePrimary, missionBySlug, scorableBlocks, cardBlocks, blockRounds,
-  secondaryPool, fixedPool, numericVp, sideName,
+  primaryFor, derivePrimary, missionBySlug, scorableBlocks, cardBlocks,
+  secondaryPool, fixedPool, sideName,
 } from './useTracker.js'
 import { FACTIONS, FACTION_GROUPS, detachmentsFor, detachmentInfo } from './trackerFactions.js'
 

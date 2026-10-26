@@ -1,4 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
+import { numericVp } from '../core/game/missionCards.js'
 
 // The store is a module singleton (shared refs + localStorage). Reset the module and
 // storage before each test so cases stay isolated.
@@ -29,7 +30,7 @@ function setupGame(over = {}) {
 // open in round 2, and a test that scores it would then fail by chance.
 function takeScorablePair(pi) {
   const pl = tracker.current.value.players[pi]
-  const scorable = (slug) => mod.scorableBlocks(slug, pl.role, 1).some((b) => b.kind === 'tactical' && b.rows.some((r) => mod.numericVp(r.vp) > 0))
+  const scorable = (slug) => mod.scorableBlocks(slug, pl.role, 1).some((b) => b.kind === 'tactical' && b.rows.some((r) => numericVp(r.vp) > 0))
   const a = pl.secondary.deck.find(scorable)
   const b = pl.secondary.deck.find((x) => x !== a)
   tracker.takeChosenSecondaries(pi, [a, b])
@@ -1103,8 +1104,8 @@ describe('achieved secondaries leave the hand at the end of each turn', () => {
   // A row whose VP is a plain number, so a tick scores it.
   function scorableRow(pi, slug) {
     const blocks = mod.scorableBlocks(slug, tracker.current.value.players[pi].role, tracker.current.value.currentRound)
-    const b = blocks.find(x => x.kind === 'tactical' && x.rows.some(r => mod.numericVp(r.vp) > 0))
-    return [b.bi, b.rows.findIndex(r => mod.numericVp(r.vp) > 0)]
+    const b = blocks.find(x => x.kind === 'tactical' && x.rows.some(r => numericVp(r.vp) > 0))
+    return [b.bi, b.rows.findIndex(r => numericVp(r.vp) > 0)]
   }
 
   it('sets an achieved card aside when its turn ends, and Undo turn puts it back', () => {
@@ -1390,8 +1391,8 @@ describe('the clock settles when another phone moves it', () => {
     const pl0 = () => tracker.current.value.players[0]
     const [a] = takeScorablePair(0)
     const blocks = mod.scorableBlocks(a, pl0().role, 1)
-    const b = blocks.find((x) => x.kind === 'tactical' && x.rows.some((r) => mod.numericVp(r.vp) > 0))
-    tracker.scoreSecondaryRow(0, a, b.bi, b.rows.findIndex((r) => mod.numericVp(r.vp) > 0), 1)
+    const b = blocks.find((x) => x.kind === 'tactical' && x.rows.some((r) => numericVp(r.vp) > 0))
+    tracker.scoreSecondaryRow(0, a, b.bi, b.rows.findIndex((r) => numericVp(r.vp) > 0), 1)
     // The other phone ends the turn: only the shared slice (the clock) arrives here.
     const remote = sliceGame({ ...JSON.parse(JSON.stringify(tracker.current.value)), currentTurn: 1 }).shared
     tracker.applyRemote('shared', remote)
