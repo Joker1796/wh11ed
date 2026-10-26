@@ -28,13 +28,13 @@ export const changelog = [
       { h: 'Roster builder' },
       '**[Tempestus Scions](/factions/astra-militarum/datasheets/tempestus-scions) led by a [Militarum Tempestus Command Squad](/factions/astra-militarum/datasheets/militarum-tempestus-command-squad) have [SUSTAINED HITS 1] on their ranged weapons.** The Tempestor Prime is in the Command Squad, and the card did not see him. Krieg units led by a Quartermaster Cadre with Medicae Servitors get Medi-packs the same way.',
       '**What an attached Leader carries reaches the card of the unit it leads.** For example, a Big Mek’s Kustom Force Field gives the Meganobz card its 4+ invulnerable save. Before, only the row in the list showed it.',
-      '**Identical units are printed as one card marked “×2”.** A unit in an attached unit always gets its own card.',
+      '**When you print a roster, identical units share one unit card marked “×2”.** A unit in an attached unit always gets a card of its own.',
     ],
     ru: [
       { h: 'Конструктор ростеров' },
       '**[Tempestus Scions](/factions/astra-militarum/datasheets/tempestus-scions) под [Militarum Tempestus Command Squad](/factions/astra-militarum/datasheets/militarum-tempestus-command-squad) получают [SUSTAINED HITS 1] на дальнобойное оружие.** Tempestor Prime стоит в Command Squad, и карточка его не видела. Отряды Krieg под Quartermaster Cadre с Medicae Servitors так же получают Medi-packs.',
       '**Снаряжение присоединённого лидера видно на карточке отряда, который он ведёт.** Например, Kustom Force Field у Big Mek даёт карточке Meganobz 4+ InSv. Раньше это было видно только в строке списка.',
-      '**Одинаковые юниты печатаются одной карточкой с пометкой «×2».** Юнит в присоединённом отряде всегда получает свою карточку.',
+      '**При печати ростера одинаковые юниты получают одну общую карточку с пометкой «×2».** Юнит в присоединённом отряде всегда печатается на своей карточке.',
     ],
   },
   {
