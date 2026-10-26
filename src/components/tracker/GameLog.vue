@@ -124,7 +124,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide, missionBySlug } from '../../composables/useTracker.js'
 import { buildGameLog } from '../../core/game/gameLog.js'
-import { conditions } from '../../data/rosterModifiers/conditions.js'
+import { conditions } from '../../core/rules/conditions.js'
 import { grandTotal, primaryTotal, secondaryTotal } from '../../core/game/gameScoring.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
 

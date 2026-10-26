@@ -16,7 +16,7 @@
 // gives rule-granted keywords via its `grantedKeywords` prop.
 
 import { copiesHeld, wargearGroupCap, wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegFor, allegKeyword, allegItems, grantedKeywordsFor, detKey } from './rosterEngine.js'
-import { conditions } from '../data/rosterModifiers/conditions.js'
+import { conditions } from '../core/rules/conditions.js'
 import rosterItemsData from '../data/roster/items.js'
 import ENH_WEAPONS from '../data/enhancementWeapons.js'
 import { foldName } from '../core/shared/foldName.js'

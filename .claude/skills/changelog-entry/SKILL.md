@@ -114,7 +114,7 @@ Space Marines и другие ордены. Его правила по-преж�
   - улучшение — `/factions/<slug>#enh-<det.id>-<slugify(имя)>`;
   - стратагема — `/factions/<slug>#strat-<det.id>-<slugify(имя)>`.
 
-  `slugify` — `src/data/slugify.js`, `det.id` — из `src/data/factions/<slug>.js`.
+  `slugify` — `src/core/shared/slugify.js`, `det.id` — из `src/data/factions/<slug>.js`.
 - Не ссылки: keywords (TECH-PRIEST), оружие, названия детачментов внутри фразы про правило
   («War-form Mantles в Lords of the Forge» — ссылка на War-form Mantles), Combat Patrol-правила без
   страницы фракции.

@@ -2,7 +2,7 @@
 // itself shows — a condition from the roster's conditions table, a real ability set, a real aura,
 // a core stratagem — and demos.test.js holds each to the data, so a help never shows something the
 // app would not.
-import { conditions } from '../../../data/rosterModifiers/conditions.js'
+import { conditions } from '../../../core/rules/conditions.js'
 
 // ── Live modifiers: one unit's plates, printed and as a list reads them ──────────────────────
 // Plates in RosterStatPlates' shape: { label, value, inv?, mod? }.

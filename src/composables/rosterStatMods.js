@@ -22,7 +22,7 @@ import { ruleScopes, scopesMisread, scopeHits } from './ruleTargets.js'
 import { enhKey, detKey, itemKey, loadoutItemCopies, weaponRowClaimer, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
 import { modelsPerMini, mandatoryEnhancementFor } from './rosterEngine.js'
 import { phasesOf, phaseSidesOf } from '../core/rules/stratagemPhases.js'
-import { conditions } from '../data/rosterModifiers/conditions.js'
+import { conditions } from '../core/rules/conditions.js'
 import { dominates } from '../core/rules/abilityDominance.js'
 import { foldName } from '../core/shared/foldName.js'
 

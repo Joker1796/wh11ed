@@ -6,7 +6,7 @@ import { mfmFactions } from '../data/mfmFactions.js'
 import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
 import { factionGroups } from '../data/factionsIndex.js'
 import chapterDetachments from '../data/chapterDetachments.js'
-import { detKey } from '../data/slugify.js'
+import { detKey } from '../core/shared/slugify.js'
 
 export const FACTIONS = mfmFactions.en.map(f => ({ slug: f.slug, name: f.name }))
 

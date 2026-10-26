@@ -1144,7 +1144,7 @@ and appdata state fresh; a data model can change between now and when this is ne
     2026-10-07, fixed in 2.7.18). When a sweep finds a mismatch CLASS, grep the runtime for the same
     comparison, and leave a test that walks the real data through the real lookup
     (`trackerFactions.test.js` asks the MFM for every detachment the builder offers). Detachment
-    names from two sources meet through `detKey()` (`src/data/slugify.js`).
+    names from two sources meet through `detKey()` (`src/core/shared/slugify.js`).
 79. **Audit the reading, not the report.** The generator's own report said every wargear
     instruction was read (0 unparsed, 0 unresolved), and still a sweep that compared each group's
     TEXT with its STRUCTURE (2026-10-07) found: "replace one of their macro-scalpels" read as no swap

@@ -20,7 +20,7 @@ describe('help demos', () => {
 describe('help demos — the chips, the stratagems, the phases', async () => {
   const { CHIP_DEMOS, CP_DEMO, PHASE_RULES_DEMO } = await import('./demos.js')
   it('labels every chip as the game does', async () => {
-    const { conditions } = await import('../../../data/rosterModifiers/conditions.js')
+    const { conditions } = await import('../../../core/rules/conditions.js')
     for (const sw of [...CHIP_DEMOS['unit-states'].switches, ...CHIP_DEMOS['battle-shock'].switches, ...CHIP_DEMOS['army-states'].switches]) {
       expect(conditions[sw.id]?.label, sw.id).toEqual(sw.label)
     }

@@ -33,7 +33,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { join } from 'node:path'
 import { phasesOf, phaseSidesOf, phaseMomentsOf } from '../src/core/rules/stratagemPhases.js'
 import { lockedToExactUnit } from '../src/core/roster/rosterEnhEligible.js'
-import { slugify } from '../src/data/slugify.js'
+import { slugify } from '../src/core/shared/slugify.js'
 import { foldName } from '../src/core/shared/foldName.js'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
 import { itemKey, loadoutItemNames } from './rosterModifiers.js'
-import { conditions } from '../data/rosterModifiers/conditions.js'
+import { conditions } from '../core/rules/conditions.js'
 
 const player = (ctx, army, factionSlug = null) => ({ ctx, army, factionSlug })
 
@@ -431,7 +431,7 @@ describe('clock-answered conditions', () => {
 // ── Alternatives (2026-08-22) ─────────────────────────────────────────────────────────────────
 describe('mutually exclusive switches', () => {
   it('groups the ids the rules call alternatives, and leaves the rest alone', async () => {
-    const { conditions } = await import('../data/rosterModifiers/conditions.js')
+    const { conditions } = await import('../core/rules/conditions.js')
     expect(conditions['order-take-aim'].group).toBe('order')
     expect(conditions['order-fix-bayonets'].group).toBe('order')
     expect(conditions['order-take-cover'].group).toBe('order')

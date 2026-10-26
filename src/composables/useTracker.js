@@ -18,7 +18,7 @@ import {
 } from '../core/game/gameScoring.js'
 import { BATTLE_PHASES, usableThisTurn, usableInSlot } from '../core/rules/stratagemPhases.js'
 import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
-import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
+import { conditions, groupLimitOf } from '../core/rules/conditions.js'
 import { membersOf, memberAt } from './rosterGameLink.js'
 import { applySlice, LOCAL_SETTING_KEYS } from './gameSlices.js'
 import { tracks } from '../data/trackerOptions.js'

@@ -20,7 +20,7 @@
 import { writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { ROOT, loadModule } from './lib/sync-common.mjs'
-import { slugify } from '../src/data/slugify.js'
+import { slugify } from '../src/core/shared/slugify.js'
 import { extractSubheadings } from '../src/data/extractSubheadings.js'
 import { h4AnchorId } from '../src/composables/anchors.js'
 

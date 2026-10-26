@@ -486,7 +486,7 @@
 // ── A game, as the live-rules layer reads it (rosterGameContext.js) ───────────────────────────
 
 /**
- * One entry of the condition vocabulary (src/data/rosterModifiers/conditions.js) — a state of the
+ * One entry of the condition vocabulary (src/core/rules/conditions.js) — a state of the
  * game a modifier can wait on. `scope` says who answers it; `rounds` / `phase` + `side` are the
  * clock's half, `gear` the loadout a `wargear-*` id asks for, `negates` the state an ordinary one
  * is the opposite of.

@@ -14,7 +14,7 @@
 //     read as the only way a unit gets there.
 //
 // The state is therefore NOT tracked here. It is the `riled-up` condition in
-// src/data/rosterModifiers/conditions.js at `scope: 'unit'`, which the tracker surfaces as a
+// src/core/rules/conditions.js at `scope: 'unit'`, which the tracker surfaces as a
 // per-entry switch on each unit's row and card — so one mob can be riled up while the next is not,
 // whichever rule did it. This card only answers "have we spent the War Cry yet".
 //

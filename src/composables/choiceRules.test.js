@@ -9,7 +9,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { loadFaction } from '../data/factions/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
-import { conditions } from '../data/rosterModifiers/conditions.js'
+import { conditions } from '../core/rules/conditions.js'
 import { SM_FAMILY } from '../data/smChapters.js'
 
 const here = path.dirname(fileURLToPath(import.meta.url))

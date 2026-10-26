@@ -21,7 +21,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { ROOT, APPDATA, SLUG_MAP, SM_SUPPLEMENT_BUNDLES, norm, looseName, appdataToParagraphs, loadJson, loadModule, table, nameOfEn, combatPatrolNames } from './lib/sync-common.mjs'
-import { slugify } from '../src/data/slugify.js'
+import { slugify } from '../src/core/shared/slugify.js'
 
 const slug = process.argv[2]
 const WRITE = process.argv.includes('--write')

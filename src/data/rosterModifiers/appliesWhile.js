@@ -19,7 +19,7 @@
 // A Bodyguard named by keyword maps to the one condition whose `bodyguard` lists exactly those
 // keywords (conditions.js). None does → `?<words>`, which is no condition: the gate then fails
 // naming the words, and the vocabulary gets the condition it lacks.
-import { conditions } from './conditions.js'
+import { conditions } from '../../core/rules/conditions.js'
 import { foldName } from '../../core/shared/foldName.js'
 
 const ONLY = /^[^.]*\bonly\.\s*/i

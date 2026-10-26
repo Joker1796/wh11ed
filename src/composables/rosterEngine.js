@@ -1,7 +1,7 @@
 // @ts-check
 // Pure roster maths — no Vue, no store. Shared by the editor (live points, unit grouping) and,
 // later, the validation engine. Everything here takes plain data so it's trivially testable.
-import { detKey } from '../data/slugify.js'
+import { detKey } from '../core/shared/slugify.js'
 import conditionalKeywords from '../data/conditionalKeywords.json'
 import { hasKeyword, enhEligible, lockedToExactUnit } from '../core/roster/rosterEnhEligible.js'
 import { foldName } from '../core/shared/foldName.js'
@@ -1031,7 +1031,7 @@ export function grantedKeywords(def, entry, detachments, factionSlug) {
 // is active". Nothing new is generated for this.
 
 // The sidecar keys detachments by their wh11ed id, the roster refers to them by their appdata
-// display name, so matching goes through detKey() (src/data/slugify.js), not slugify() alone:
+// display name, so matching goes through detKey() (src/core/shared/slugify.js), not slugify() alone:
 // appdata spells "Dëlve Assault Shift" with a diaeresis, which slugify() drops to
 // `d-lve-assault-shift` (24 of 25 gated grants matched without it). Re-exported so the modal
 // matches the roster's detachment names to the faction file's the way grantedKeywordsFor does.

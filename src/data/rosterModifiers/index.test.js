@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { usableEntries } from './index.js'
-import { conditions, SENTINELS, isSentinel, isAnswerable } from './conditions.js'
+import { conditions, SENTINELS, isSentinel, isAnswerable } from '../../core/rules/conditions.js'
 import { coreModifiers } from './coreRules.js'
 import { appliesWhileOf } from './appliesWhile.js'
 import { foldName } from '../../core/shared/foldName.js'

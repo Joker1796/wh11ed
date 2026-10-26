@@ -102,7 +102,7 @@ export const WHOLE_GROUPS = new Set(['combat-doctrine'])
 // own. Until 2026-09-22 `unit-not-battle-shocked` was a plain per-unit switch nobody flipped,
 // so the Mandulian Reliquary's +3 OC never reached the card (a player's report). A negation
 // keeps the scope of the state it negates and answers from that state's source.
-/** @type {Record<string, import('../../core/shared/roster.types.js').Condition>} */
+/** @type {Record<string, import('../shared/roster.types.js').Condition>} */
 export const conditions = {
   // ── Army state ──────────────────────────────────────────────────────────────────────────
   // Codex: Orks replaced "the Waaagh! is active for your army" with a per-unit state: the War Cry

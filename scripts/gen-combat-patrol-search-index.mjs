@@ -18,7 +18,7 @@ import path from 'node:path'
 import { ROOT } from './lib/sync-common.mjs'
 import { combatPatrol } from '../src/data/combatPatrol.js'
 import { cpMissionOfBox } from '../src/data/combatPatrolMissions.js'
-import { slugify } from '../src/data/slugify.js'
+import { slugify } from '../src/core/shared/slugify.js'
 import { extractSubheadings } from '../src/data/extractSubheadings.js'
 import { h4AnchorId } from '../src/composables/anchors.js'
 

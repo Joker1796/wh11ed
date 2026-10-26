@@ -561,7 +561,7 @@ export async function readExisting(slug) {
 }
 
 // A record's skeleton. `effects`/`when`/`cond` are the human's to fill in (see
-// src/data/rosterModifiers/conditions.js for the `cond` vocabulary); everything else is bookkeeping
+// src/core/rules/conditions.js for the `cond` vocabulary); everything else is bookkeeping
 // this script owns and rewrites freely.
 function skeleton(src, ver) {
   return {

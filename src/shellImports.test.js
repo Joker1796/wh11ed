@@ -17,7 +17,7 @@ const NOT_IN_SHELL = [
   'data/missions.js',
   'data/missionsRu.js',
   'data/eventCompanion.js',
-  'data/rosterModifiers/conditions.js',
+  'core/rules/conditions.js',
   'data/changelog.js',
   'data/datasheets/ru/localize.js',
   'data/datasheetRenames.json',

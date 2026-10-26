@@ -31,7 +31,7 @@ describe('foldName', () => {
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..')
 const ALLOWED = {
   // URL slugs: apostrophes dropped, every other non-letter becomes "-" anyway.
-  'src/data/slugify.js': 'slug',
+  'src/core/shared/slugify.js': 'slug',
   'scripts/gen-faction-legends.mjs': 'slug',
   'scripts/gen-conditional-keywords.mjs': 'slug',
   'scripts/gen-combat-patrol-missions.mjs': 'slug',

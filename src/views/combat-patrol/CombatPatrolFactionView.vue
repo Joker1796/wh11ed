@@ -275,7 +275,7 @@ import { useRenderInline } from '../../composables/useRenderInline.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { combatPatrolIndex } from '../../data/combatPatrolIndex.js'
-import { slugify } from '../../data/slugify.js'
+import { slugify } from '../../core/shared/slugify.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const route = useRoute()

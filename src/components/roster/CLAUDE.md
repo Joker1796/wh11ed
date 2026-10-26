@@ -4012,7 +4012,7 @@ Tier C rewrites a printed number only when the modifier is unconditional. Opened
 can also rewrite one whose condition the game PROVES — which is the reason to open a list mid-battle
 at all. Three files, one idea:
 
-- **`src/data/rosterModifiers/conditions.js`** — the vocabulary. Every conditional effect carries
+- **`src/core/rules/conditions.js`** — the vocabulary. Every conditional effect carries
   `cond`, a list of condition ids that must all hold, hand-assigned in the same review pass that
   wrote `effects` (161 distinct `when` wordings; there is no grammar to parse, but the STATES a game
   can be in are enumerable). Each id declares its `scope` — who answers it — and its `duration`.

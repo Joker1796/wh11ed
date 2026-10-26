@@ -2,7 +2,7 @@
 // What is true RIGHT NOW, at the table — the half of a conditional modifier the data cannot know.
 // Pure: no Vue, no store (the game object is passed in), same discipline as rosterEngine.js.
 //
-// Each condition id (src/data/rosterModifiers/conditions.js) is answered from exactly ONE source,
+// Each condition id (src/core/rules/conditions.js) is answered from exactly ONE source,
 // never a mixture:
 //   auto    the tracker already knows, because the player told it elsewhere (a called Waaagh!)
 //   roster  the army list already says so (a Leader is attached to a unit)
@@ -25,7 +25,7 @@
 // values are recognised and read as rounds. Erring towards clearing EARLY is deliberate either
 // way: a switch that has gone stale would silently rewrite a number.
 
-import { conditions, groupLimitOf, WHOLE_GROUPS } from '../data/rosterModifiers/conditions.js'
+import { conditions, groupLimitOf, WHOLE_GROUPS } from '../core/rules/conditions.js'
 import { SM_FAMILY } from '../data/smChapters.js'
 import { tracks } from '../data/trackerOptions.js'
 import { BATTLE_PHASES, usableInSlot } from '../core/rules/stratagemPhases.js'
