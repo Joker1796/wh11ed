@@ -3260,7 +3260,12 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "stands": {
+        "388": [
+          "The Fire Axe"
+        ]
+      }
     },
     {
       "id": "guardian-defenders",
@@ -9043,7 +9048,12 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "stands": {
+        "524": [
+          "Kha-vir, the Sword of Sorrows"
+        ]
+      }
     }
   ],
   "detachments": [

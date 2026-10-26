@@ -506,7 +506,12 @@ export default {
           "id": "sir-hekhtur",
           "name": "Sir Hekhtur"
         }
-      ]
+      ],
+      "stands": {
+        "1707": [
+          "Chainbreaker multi-laser"
+        ]
+      }
     },
     {
       "id": "cerastus-knight-acheron",
@@ -1493,7 +1498,12 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "stands": {
+        "1732": [
+          "Chainbreaker multi-laser"
+        ]
+      }
     },
     {
       "id": "knight-valiant",

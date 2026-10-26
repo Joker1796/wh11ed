@@ -2204,7 +2204,12 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "stands": {
+        "1891": [
+          "Blade tail"
+        ]
+      }
     },
     {
       "id": "nemesor-zahndrekh",
@@ -2395,7 +2400,12 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "stands": {
+        "1896": [
+          "Tesla spheres"
+        ]
+      }
     },
     {
       "id": "ophydian-destroyers",
@@ -3260,7 +3270,12 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "stands": {
+        "1914": [
+          "Tesla spheres"
+        ]
+      }
     },
     {
       "id": "the-silent-king",
@@ -3341,7 +3356,12 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "stands": {
+        "1921": [
+          "Scythe of Dust"
+        ]
+      }
     },
     {
       "id": "tomb-blades",

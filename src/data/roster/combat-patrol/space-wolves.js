@@ -234,7 +234,12 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "stands": {
+        "3760": [
+          "Feral Claws"
+        ]
+      }
     },
     {
       "id": "fyrri-askar",

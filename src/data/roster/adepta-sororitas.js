@@ -2274,7 +2274,12 @@ export default {
             71
           ]
         }
-      ]
+      ],
+      "stands": {
+        "74": [
+          "Twin penitent flail"
+        ]
+      }
     },
     {
       "id": "morvenn-vahl",
@@ -2705,7 +2710,12 @@ export default {
             86
           ]
         }
-      ]
+      ],
+      "stands": {
+        "90": [
+          "Twin penitent flail"
+        ]
+      }
     },
     {
       "id": "repentia-squad",

@@ -147,6 +147,7 @@
  * @property {{ n?: number, minModels?: number, noDup?: 1, oneKw?: string }} [hosts] a bodyguard that holds more than one Leader
  * @property {AllegianceChoice} [alleg]
  * @property {1} [condBattleline] can be Battleline under some detachment
+ * @property {Record<string, string[]>} [stands] the weapon row an item of its stands for, by item id, when the item's one profile bears another name (a Gun Drone is the twin pulse carbine)
  * @property {KeywordGrant[]} [grants] keywords its army's or a detachment's rule grants it (conditionalKeywords.json, written on by gen-roster-data)
  * @property {Array<{ id: string, name: string }>} [crew]
  * @property {Array<{ id: string, name: string, rule: string }>} [spawns] units an ability of this one brings into the game (rosterCompanionRows.js)

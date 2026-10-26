@@ -17,7 +17,6 @@
 
 import { copiesHeld, wargearGroupCap, wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegFor, allegKeyword, allegItems, grantedKeywordsFor, detKey } from '../core/roster/rosterEngine.js'
 import { conditions } from '../core/rules/conditions.js'
-import rosterItemsData from '../data/roster/items.js'
 import { foldName } from '../core/shared/foldName.js'
 // Rule-granted keywords moved to rosterEngine.js, which needs them to answer whether a unit can
 // carry an enhancement; re-exported here because this is where every caller already imports them.
@@ -71,9 +70,6 @@ function rowMatchesItem(row, item) {
 // offer. Returns normalised-name → ids, because a name can legitimately intern to more than one
 // id (the same weapon published under two appdata uuids) and a row claimed by any of them must
 // answer to all of them.
-/** @type {Record<string, string[]>} */
-const STANDS = rosterItemsData.stands || {}
-
 /**
  * @param {RosterUnit | null | undefined} def
  * @param {Items | null | undefined} items
@@ -94,8 +90,8 @@ function itemNameIndex(def, items) {
     if (!n) return
     put(n, id)
     // …and the weapon the item stands for, when its one profile bears another name (a Gun Drone
-    // is the twin pulse carbine): the row is the item's, and leaves with it (items.js `stands`).
-    for (const w of STANDS[n] || []) put(norm(w), id)
+    // is the twin pulse carbine): the row is the item's, and leaves with it (the unit's `stands`).
+    for (const w of def?.stands?.[id] || []) put(norm(w), id)
   }
   for (const [, list] of def?.defaults || []) for (const [id] of list) add(id)
   for (const g of def?.gear || []) for (const o of g.o || []) for (const [id] of optionItems(o)) add(id)

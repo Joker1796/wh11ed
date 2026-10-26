@@ -2040,7 +2040,12 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "stands": {
+        "3097": [
+          "Scream-Killer talons"
+        ]
+      }
     },
     {
       "id": "scythed-hierodule",

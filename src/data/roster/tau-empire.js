@@ -436,7 +436,12 @@ export default {
             "0": 1
           }
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "broadside-battlesuits",
@@ -699,7 +704,15 @@ export default {
             5
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ],
+        "2841": [
+          "Missile pod"
+        ]
+      }
     },
     {
       "id": "cadre-fireblade",
@@ -776,7 +789,12 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "commander-farsight",
@@ -1084,7 +1102,12 @@ export default {
           ],
           "k": 1
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "commander-in-crisis-battlesuit",
@@ -1307,7 +1330,12 @@ export default {
           ],
           "k": 1
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "commander-in-enforcer-battlesuit",
@@ -1537,7 +1565,12 @@ export default {
           ],
           "k": 1
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "commander-shadowsun",
@@ -1940,6 +1973,11 @@ export default {
           0,
           3
         ]
+      },
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
       }
     },
     {
@@ -2159,7 +2197,12 @@ export default {
             5
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "crisis-starscythe-battlesuits",
@@ -2378,7 +2421,12 @@ export default {
             5
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "crisis-sunforge-battlesuits",
@@ -2509,7 +2557,12 @@ export default {
             1
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "darkstrider",
@@ -2788,7 +2841,12 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "firesight-team",
@@ -4330,7 +4388,15 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ],
+        "2923": [
+          "Drone burst cannon"
+        ]
+      }
     },
     {
       "id": "piranhas",
@@ -4734,7 +4800,12 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2841": [
+          "Missile pod"
+        ]
+      }
     },
     {
       "id": "shaso-ralai",
@@ -5032,7 +5103,12 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "stormsurge",
@@ -5254,7 +5330,12 @@ export default {
             2946
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "sun-shark-bomber",
@@ -5585,7 +5666,12 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "stands": {
+        "2951": [
+          "Twin pulse blaster"
+        ]
+      }
     },
     {
       "id": "tidewall-droneport",
@@ -6206,7 +6292,12 @@ export default {
             ]
           ]
         }
-      ]
+      ],
+      "stands": {
+        "2832": [
+          "Twin pulse carbine"
+        ]
+      }
     },
     {
       "id": "yvahra-battlesuit",

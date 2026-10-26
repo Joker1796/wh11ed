@@ -2469,7 +2469,12 @@ export default {
             1453
           ]
         }
-      ]
+      ],
+      "stands": {
+        "1453": [
+          "Maco-scalpel"
+        ]
+      }
     },
     {
       "id": "tantalus",

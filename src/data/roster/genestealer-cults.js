@@ -394,7 +394,12 @@ export default {
             1515
           ]
         }
-      ]
+      ],
+      "stands": {
+        "1518": [
+          "Leader’s cult weapons"
+        ]
+      }
     },
     {
       "id": "acolyte-hybrids-with-hand-flamers",
@@ -546,7 +551,12 @@ export default {
             1515
           ]
         }
-      ]
+      ],
+      "stands": {
+        "1518": [
+          "Leader’s cult weapons"
+        ]
+      }
     },
     {
       "id": "acolyte-iconward",

@@ -401,7 +401,12 @@ export default {
             ]
           ]
         ]
-      ]
+      ],
+      "stands": {
+        "1570": [
+          "Omnissiah power axe"
+        ]
+      }
     },
     {
       "id": "brotherhood-terminator-squad",

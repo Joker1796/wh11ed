@@ -36,6 +36,7 @@ import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
 import { readEnhancementWeapons } from './lib/enhancement-weapons.mjs'
 import { enhEligible } from '../src/core/roster/rosterEnhEligible.js'
+import { optionItems } from '../src/core/roster/rosterEngine.js'
 import { unitKeywordsOf } from '../src/composables/ruleTargets.js'
 import { foldChars, foldName } from '../src/core/shared/foldName.js'
 
@@ -3483,12 +3484,11 @@ async function packUnitsFor(slug, units) {
   return out
 }
 
-function genItems() {
-  const items = {}
-  for (const [uuid, id] of itemIds) items[id] = wgItemName.get(uuid) || packItemNames.get(uuid) || ''
-  const texts = {}
-  for (const [s, id] of textIds) texts[id] = s
-  // Keyed by the item's name (folded), not its id: what reads it matches a sheet's rows by name.
+// The weapon an item STANDS FOR on a sheet, when its one profile bears another name (a Gun Drone is
+// the twin pulse carbine), keyed by the item's name (folded): what reads it matches a sheet's rows by
+// name. Over every item interned so far.
+function standsByName() {
+  /** @type {Record<string, string[]>} */
   const stands = {}
   for (const [uuid] of itemIds) {
     const name = wgItemName.get(uuid)
@@ -3499,7 +3499,34 @@ function genItems() {
     if (!stands[k]) stands[k] = []
     if (!stands[k].includes(profiles[0])) stands[k].push(profiles[0])
   }
-  const data = { items, texts, stands }
+  return stands
+}
+
+// …and the same, written onto each unit for the items it can field (`stands`, by item id) — so the
+// rules core reads it off the unit like every other fact about it (2026-10-26, the core split). The
+// app's info lookup still reads the whole table from items.js.
+function itemStands(units) {
+  const byName = standsByName()
+  const nameOf = new Map([...itemIds].map(([uuid, id]) => [id, wgItemName.get(uuid) || packItemNames.get(uuid) || '']))
+  for (const u of units) {
+    const ids = new Set()
+    for (const [, list] of u.defaults || []) for (const [id] of list) ids.add(id)
+    for (const g of u.gear || []) for (const o of g.o || []) for (const [id] of optionItems(o)) ids.add(id)
+    const own = {}
+    for (const id of [...ids].sort((a, b) => a - b)) {
+      const w = byName[norm(nameOf.get(id) || '')]
+      if (w) own[id] = w
+    }
+    if (Object.keys(own).length) u.stands = own
+  }
+}
+
+function genItems() {
+  const items = {}
+  for (const [uuid, id] of itemIds) items[id] = wgItemName.get(uuid) || packItemNames.get(uuid) || ''
+  const texts = {}
+  for (const [s, id] of textIds) texts[id] = s
+  const data = { items, texts, stands: standsByName() }
   writeOut('items.js', `${HEAD}// Shared wargear item names + group instruction texts, interned across all factions.\nexport default ${stableJson(data)}\n`)
 }
 
@@ -4132,6 +4159,7 @@ async function genCombatPatrol() {
     for (const l of [...report.upgradeLimit.unexplained]) if (!auditBefore.has(l)) report.upgradeLimit.unexplained.delete(l)
     report.cp.boxes++
     report.cp.units += units.length
+    itemStands(units)
     writeOut(`combat-patrol/${box.id}.js`, `${HEAD}export default ${stableJson({ box: box.id, slug: box.slug, units, detachment })}\n`)
   }
 }
@@ -4163,6 +4191,7 @@ for (const { slug, data } of built) {
 await mirrorPackBodyguards()
 await readJoins()
 keywordGrants()
+for (const { data } of built) itemStands(data.units)
 for (const { slug, data } of built) writeOut(`${slug}.js`, `${HEAD}export default ${stableJson(data)}\n`)
 await genCombatPatrol()
 genItems() // after all factions — the intern dicts are complete
