@@ -49,9 +49,9 @@ export function recomputeCp(pl) {
 
 // Every entry carries when it was made (`t`, ms): the game log is read by battle round and turn,
 // and within one turn it is this that puts the latest act on top (gameLog.js).
-/** @param {TrackerPlayer} pl @param {CpEntry} entry */
-export function addEntry(pl, entry) {
-  if (entry.t == null) entry.t = Date.now()
+/** @param {TrackerPlayer} pl @param {CpEntry} entry @param {number} [now] when it was made — the system clock unless the caller says */
+export function addEntry(pl, entry, now = Date.now()) {
+  if (entry.t == null) entry.t = now
   ledger(pl).push(entry)
   recomputeCp(pl)
   return entry

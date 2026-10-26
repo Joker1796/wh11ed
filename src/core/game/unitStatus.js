@@ -35,11 +35,12 @@ export function unitStatusOf(player, uid) {
  * @param {UnitStatusRecord | null | undefined} prev
  * @param {string} status
  * @param {{ round?: number, turn?: number, name?: string } | null | undefined} clock
+ * @param {number} [now] when it happened — the system clock unless the caller says
  */
-export function statusRecord(prev, status, clock) {
+export function statusRecord(prev, status, clock, now = Date.now()) {
   const { round = 0, turn = 0, name = '' } = clock || {}
   if (!UNIT_STATUSES.includes(status)) return prev || null
-  const rec = { s: status, round, turn, t: Date.now(), ...(name ? { name } : {}) }
+  const rec = { s: status, round, turn, t: now, ...(name ? { name } : {}) }
   if (status !== 'table') return rec
   return prev?.s === 'reserve' && round > 0 ? rec : null
 }

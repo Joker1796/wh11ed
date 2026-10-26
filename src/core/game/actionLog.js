@@ -40,11 +40,11 @@ function holderActs(holder) {
   return holder.acts
 }
 
-/** @param {ActHolder | null | undefined} holder @param {ActInput} act */
-export function pushAct(holder, act) {
+/** @param {ActHolder | null | undefined} holder @param {ActInput} act @param {number} [now] when it was done — the system clock unless the caller says */
+export function pushAct(holder, act, now = Date.now()) {
   if (!holder) return null
   /** @type {GameAct} */
-  const entry = { t: Date.now(), ...act }
+  const entry = { t: now, ...act }
   for (const k of ['label', 'optLabel', 'item']) if (k in entry) entry[k] = compactLabel(entry[k])
   const acts = holderActs(holder)
   acts.push(entry)
@@ -55,12 +55,11 @@ export function pushAct(holder, act) {
 // The act was a value set by a stepper (`key` names which): one tapped again within COALESCE_MS
 // moves the last act's `to` instead of adding another — and a value stepped back to where it
 // started leaves no act at all.
-/** @param {ActHolder | null | undefined} holder @param {ActInput} act @param {string} key */
-export function pushValueAct(holder, act, key) {
+/** @param {ActHolder | null | undefined} holder @param {ActInput} act @param {string} key @param {number} [now] */
+export function pushValueAct(holder, act, key, now = Date.now()) {
   if (!holder) return null
   const acts = holderActs(holder)
   const last = acts.at(-1)
-  const now = Date.now()
   if (last && last.type === act.type && last.key === key && last.round === act.round && now - last.t < COALESCE_MS) {
     last.to = act.to
     last.t = now
@@ -68,7 +67,7 @@ export function pushValueAct(holder, act, key) {
     return last
   }
   if (act.to === act.from) return null
-  return pushAct(holder, { ...act, key })
+  return pushAct(holder, { ...act, key }, now)
 }
 
 // A label in both languages kept as one string where the two agree (a stratagem's name, an English
