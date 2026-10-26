@@ -1297,6 +1297,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "null-maiden-vigil"
+        }
       ]
     },
     {

@@ -3339,6 +3339,12 @@ export default {
             2891
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "kroot-hunting-pack"
+        }
       ]
     },
     {

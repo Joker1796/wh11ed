@@ -1111,6 +1111,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Recon Augury",
+          "det": "cohort-acquisitus"
+        }
       ]
     },
     {
@@ -1215,6 +1221,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Recon Augury",
+          "det": "cohort-acquisitus"
+        }
       ]
     },
     {
@@ -1577,6 +1589,12 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Recon Augury",
+          "det": "cohort-acquisitus"
+        }
       ]
     },
     {
@@ -1712,6 +1730,12 @@ export default {
           "rep": [
             268
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Recon Augury",
+          "det": "cohort-acquisitus"
         }
       ]
     },
@@ -2007,6 +2031,12 @@ export default {
             0,
             1
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Recon Augury",
+          "det": "cohort-acquisitus"
         }
       ]
     },
@@ -2378,6 +2408,12 @@ export default {
               4
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Recon Augury",
+          "det": "cohort-acquisitus"
         }
       ]
     },

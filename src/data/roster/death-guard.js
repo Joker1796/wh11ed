@@ -1774,6 +1774,12 @@ export default {
             1274
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Contagion Engines",
+          "det": "contagion-engines"
+        }
       ]
     },
     {
@@ -1821,6 +1827,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Contagion Engines",
+          "det": "contagion-engines"
+        }
       ]
     },
     {
@@ -2102,6 +2114,12 @@ export default {
             ]
           ],
           "item": 1100
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Contagion Engines",
+          "det": "contagion-engines"
         }
       ]
     },
@@ -2533,6 +2551,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Contagion Engines",
+          "det": "contagion-engines"
+        }
       ]
     },
     {
@@ -3377,6 +3401,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "shamblerot-vectorium"
+        }
       ]
     },
     {

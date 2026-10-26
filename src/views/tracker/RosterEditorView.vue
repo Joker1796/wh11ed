@@ -401,7 +401,7 @@ const paneTab = ref(tab.value)
 const shown = (key) => tab.value === key && paneTab.value === key
 const rulesOpen = ref(false)
 // The list for the rules sheet, so each enhancement says who wears it or could (EnhancementList).
-const rulesList = computed(() => ({ units: roster.value.units || [], defOf, detachments: curDetachments.value, factionSlug: roster.value.faction }))
+const rulesList = computed(() => ({ units: roster.value.units || [], defOf, detachments: curDetachments.value }))
 
 // The one media query this screen asks: three columns with the settings on a line above them, or
 // the tabs and two panes it has always had. 1200px is where a third column stops squeezing the

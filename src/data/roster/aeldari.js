@@ -6418,6 +6418,16 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "ghosts-of-the-webway"
+        },
+        {
+          "kw": "Battleline",
+          "det": "serpents-brood"
+        }
       ]
     },
     {
@@ -7613,6 +7623,12 @@ export default {
             375
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "windrider-host"
+        }
       ]
     },
     {
@@ -7675,6 +7691,12 @@ export default {
             477
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "spirit-conclave"
+        }
       ]
     },
     {
@@ -7731,6 +7753,12 @@ export default {
           "rep": [
             480
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "spirit-conclave"
         }
       ]
     },

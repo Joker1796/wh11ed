@@ -466,6 +466,12 @@ export default {
             0
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "delve-assault-shift"
+        }
       ]
     },
     {

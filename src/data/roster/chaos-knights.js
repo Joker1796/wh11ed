@@ -1133,6 +1133,12 @@ export default {
             960
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "houndpack-lance"
+        }
       ]
     },
     {
@@ -1207,6 +1213,12 @@ export default {
           "rep": [
             960
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "houndpack-lance"
         }
       ]
     },
@@ -1283,6 +1295,12 @@ export default {
             960
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "houndpack-lance"
+        }
       ]
     },
     {
@@ -1357,6 +1375,12 @@ export default {
           "rep": [
             960
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "houndpack-lance"
         }
       ]
     },
@@ -1516,6 +1540,12 @@ export default {
             1017
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "houndpack-lance"
+        }
       ]
     },
     {
@@ -1616,6 +1646,12 @@ export default {
           "rep": [
             1015
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "houndpack-lance"
         }
       ]
     }

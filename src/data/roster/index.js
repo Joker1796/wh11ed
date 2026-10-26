@@ -84,7 +84,8 @@ async function loadFactionData(slug, { allies = false } = {}) {
   const idSet = new Set(data.sharedUnitIds || [])
   const shared = (sm?.units || [])
     .filter((u) => idSet.has(u.id))
-    .map((u) => ({ ...repriced(u, data.unitPoints?.[u.id]), shared: 1 }))
+    // …carrying the keywords THIS army's rules grant them, not the Space Marines' (sharedGrants).
+    .map(({ grants: _codexGrants, ...u }) => ({ ...repriced(u, data.unitPoints?.[u.id]), shared: 1, ...(data.sharedGrants?.[u.id] && { grants: data.sharedGrants[u.id] }) }))
   const units = [...data.units, ...shared, ...extra].sort((a, b) => a.name.localeCompare(b.name))
   // …and the Codex detachments this Chapter may field, which live in space-marines.js for the
   // same reason its shared units do. A different Detachment Points cost for this Chapter comes

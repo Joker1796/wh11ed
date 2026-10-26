@@ -124,7 +124,10 @@ the static page doesn't model). appdata datasheet/detachment UUIDs are translate
 **inverting `sourceIds.json`**, so it stays automatic across bumps: regenerate and new grants land
 themselves. Shape: `{ "<slug>": { "<unit-id>": [{ "kw": "Deathwing" }, { "kw": "Battleline", "det":
 "company-of-hunters" }] } }` (no `det` = unconditional on that faction). Already-printed / off-page
-grants are dropped at generation (render de-dupes too).
+grants are dropped at generation (render de-dupes too). **The roster builder reads them off its own units**: `gen-roster-data`
+writes each unit's grants onto it in `src/data/roster/<slug>.js` (`grants`; a Chapter's folded Codex
+units as `sharedGrants`), so after `npm run condkeywords` re-run `npm run roster:data` — its `--check`
+fails until the two agree, and a grant naming a unit no roster file holds fails the generator.
 
 **Legends prose (`src/data/factionLegends.json`)** — a generated **sidecar** carrying the two rule
 sections of a "Legends: <Faction>" publication that are not datasheets: the "Warhammer Legends"

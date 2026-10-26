@@ -150,10 +150,11 @@
     </div>
 
     <!-- Rules preview — clicking a row (not the add button) opens the unit's full card. -->
-    <!-- Detachments only, no entry: this previews a unit that isn't in the roster yet, so there's
-         no loadout to reflect — the printed sheet, showing every option, is what's wanted while
-         deciding whether to add it. The roster's detachments DO already apply though (a unit can
-         gain Battleline from one), so those go in. -->
+    <!-- Its definition and the detachments, no entry: this previews a unit that isn't in the roster
+         yet, so there's no loadout to reflect — the printed sheet, showing every option, is what's
+         wanted while deciding whether to add it. The roster's detachments DO already apply though (a
+         unit can gain Battleline from one: the definition carries its `grants`), and so do the units
+         its abilities bring in. -->
     <RosterUnitRulesModal
       v-if="previewId && previewSlug"
       :unit-id="previewUnitId"
@@ -211,10 +212,6 @@ const props = defineProps({
   // Show the shield that opens the list's rules (the caller owns the dialog: `open-rules`).
   rulesButton: { type: Boolean, default: false },
 })
-// One object for the preview's context, not a literal in the template: a literal is a new object on
-// every render of this list, and the search box's typing placeholder re-renders it per letter — the
-// open card under it recomputed its whole sheet each time (2026-10-20).
-const previewCtx = computed(() => ({ detachments: props.detachments }))
 const emit = defineEmits(['add', 'open-rules'])
 
 // Groups start collapsed (same pattern as StratagemsView's per-phase accordions) — the list
@@ -368,10 +365,7 @@ function countOf(id) {
 // The duplicate cap for this unit (Infinity when no battle size is resolvable, i.e. nothing to
 // cap against), and whether checkLegality is on AND that cap is already reached.
 function capOf(u) {
-  const src = allySourceOf(u.id)
-  const granted = props.factionSlug
-    ? grantedKeywordsFor(src?.[1] || u.id, src?.[0] || props.factionSlug, props.detachments).map((g) => g.kw)
-    : null
+  const granted = props.factionSlug ? grantedKeywordsFor(u, props.detachments).map((g) => g.kw) : null
   return duplicateLimit(u, props.battle, granted)
 }
 // Every unit's cap, worked out once when the units, the battle size or the detachments change. Read
@@ -414,6 +408,10 @@ function minPoints(u) {
 }
 
 const previewId = ref(null)
+// One object for the preview's context, not a literal in the template: a literal is a new object on
+// every render of this list, and the search box's typing placeholder re-renders it per letter — the
+// open card under it recomputed its whole sheet each time (2026-10-20).
+const previewCtx = computed(() => ({ def: props.units.find((u) => u.id === previewId.value) || null, detachments: props.detachments }))
 // An allied unit's rules live in ITS faction's data, not in the army's (Draxus is an Imperial
 // Agents datasheet in a Custodes list) — the namespaced id says which.
 const previewSrc = computed(() => allySourceOf(previewId.value))

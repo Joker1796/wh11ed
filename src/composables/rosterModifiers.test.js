@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+import { loadRosterFaction } from '../data/roster/index.js'
 import { overlaySheet, loadoutItemIds, loadoutItemCounts, grantedKeywordsFor, entryContext, ruleSourcesFor, enhKey, detKey, findEnhancementProse, wargearConditions } from './rosterModifiers.js'
 
 // Interned wargear names, same shape as src/data/roster/items.js's `items` map.
@@ -432,50 +433,56 @@ describe('overlaySheet — weapon filtering', () => {
   })
 })
 
-// Real sidecar data (src/data/conditionalKeywords.json) — these grants are the ones the faction
-// pages already render, so a fixture would only test the fixture.
+// Real data: the grants gen-roster-data writes onto each unit from src/data/conditionalKeywords.json
+// — the ones the faction pages already render, so a fixture would only test the fixture. Loaded the
+// way the app loads a faction, so a Chapter's borrowed unit carries the Chapter's grants.
+const unitOf = async (slug, id) => (await loadRosterFaction(slug)).units.find((u) => u.id === id)
+
 describe('grantedKeywordsFor', () => {
-  it('gives nothing without a matching faction/unit', () => {
-    expect(grantedKeywordsFor('troupe', 'orks', ['War Horde'])).toEqual([])
-    expect(grantedKeywordsFor('bannernob', 'orks', ['War Horde'])).toEqual([])
-    expect(grantedKeywordsFor(undefined, undefined, undefined)).toEqual([])
+  it('gives nothing to a unit no rule grants anything, or to no unit', async () => {
+    expect(grantedKeywordsFor(await unitOf('orks', 'boyz'), ['War Horde'])).toEqual([])
+    expect(grantedKeywordsFor(undefined, undefined)).toEqual([])
   })
 
-  it('gates a detachment grant on the roster actually fielding that detachment', () => {
-    expect(grantedKeywordsFor('troupe', 'aeldari', ['Warhost'])).toEqual([])
-    expect(grantedKeywordsFor('troupe', 'aeldari', ['Ghosts of the Webway']))
+  it('gates a detachment grant on the roster actually fielding that detachment', async () => {
+    const troupe = await unitOf('aeldari', 'troupe')
+    expect(grantedKeywordsFor(troupe, ['Warhost'])).toEqual([])
+    expect(grantedKeywordsFor(troupe, ['Ghosts of the Webway']))
       .toEqual([{ kw: 'Battleline', detName: 'Ghosts of the Webway', extra: false }])
   })
 
-  it('matches a detachment name whose slug needs a diacritic stripped', () => {
+  it('matches a detachment name whose slug needs a diacritic stripped', async () => {
     // Leagues of Votann's "Dëlve Assault Shift" — the shared slugify() alone drops the ë and
-    // silently fails to match the `delve-assault-shift` id this sidecar is keyed by.
-    expect(grantedKeywordsFor('cthonian-beserks', 'leagues-of-votann', ['Dëlve Assault Shift']))
+    // silently fails to match the `delve-assault-shift` id a grant names.
+    expect(grantedKeywordsFor(await unitOf('leagues-of-votann', 'cthonian-beserks'), ['Dëlve Assault Shift']))
       .toEqual([{ kw: 'Battleline', detName: 'Dëlve Assault Shift', extra: false }])
   })
 
-  it('matches a name carrying a typographic apostrophe', () => {
-    expect(grantedKeywordsFor('troupe', 'aeldari', ['Serpent’s Brood']))
+  it('matches a name carrying a typographic apostrophe', async () => {
+    expect(grantedKeywordsFor(await unitOf('aeldari', 'troupe'), ['Serpent’s Brood']))
       .toEqual([{ kw: 'Battleline', detName: 'Serpent’s Brood', extra: false }])
   })
 
-  it('carries the `extra` flag for a grant with a further un-modelled condition', () => {
-    expect(grantedKeywordsFor('tempestus-scions', 'astra-militarum', ['Bridgehead Strike']))
+  it('carries the `extra` flag for a grant with a further un-modelled condition', async () => {
+    expect(grantedKeywordsFor(await unitOf('astra-militarum', 'tempestus-scions'), ['Bridgehead Strike']))
       .toEqual([{ kw: 'Battleline', detName: 'Bridgehead Strike', extra: true }])
   })
 
-  it('applies an army-wide grant regardless of detachment, with no detachment to footnote', () => {
-    expect(grantedKeywordsFor('terminator-squad', 'dark-angels', []))
+  it("applies an army-wide grant regardless of detachment — on a Chapter's borrowed Codex unit too", async () => {
+    // Terminator Squad is a Space Marines sheet the Dark Angels fold in; The Unforgiven makes it
+    // Deathwing — the Chapter's grant, which the loader puts on the Chapter's copy.
+    expect(grantedKeywordsFor(await unitOf('dark-angels', 'terminator-squad'), []))
       .toEqual([{ kw: 'Deathwing', detName: null, extra: false }])
+    expect(grantedKeywordsFor(await unitOf('space-marines', 'terminator-squad'), [])).toEqual([])
   })
 
-  it('accepts detachment objects as well as bare names', () => {
-    expect(grantedKeywordsFor('troupe', 'aeldari', [{ name: 'Ghosts of the Webway', sid: 'x' }]))
+  it('accepts detachment objects as well as bare names', async () => {
+    expect(grantedKeywordsFor(await unitOf('aeldari', 'troupe'), [{ name: 'Ghosts of the Webway', sid: 'x' }]))
       .toEqual([{ kw: 'Battleline', detName: 'Ghosts of the Webway', extra: false }])
   })
 
-  it('reports a keyword once even when two fielded detachments both grant it', () => {
-    expect(grantedKeywordsFor('troupe', 'aeldari', ['Ghosts of the Webway', 'Serpent’s Brood']))
+  it('reports a keyword once even when two fielded detachments both grant it', async () => {
+    expect(grantedKeywordsFor(await unitOf('aeldari', 'troupe'), ['Ghosts of the Webway', 'Serpent’s Brood']))
       .toHaveLength(1)
   })
 })
@@ -499,14 +506,9 @@ describe('overlaySheet — wargear abilities follow the loadout', () => {
 })
 
 describe('overlaySheet — granted keywords', () => {
-  it('surfaces them alongside the sheet', () => {
-    const out = overlaySheet(sheet, { unitId: 'troupe', factionSlug: 'aeldari', detachments: ['Ghosts of the Webway'] })
+  it('surfaces the ones the unit carries alongside the sheet', async () => {
+    const out = overlaySheet(sheet, { def: await unitOf('aeldari', 'troupe'), detachments: ['Ghosts of the Webway'] })
     expect(out.grantedKeywords).toEqual([{ kw: 'Battleline', detName: 'Ghosts of the Webway', extra: false }])
-  })
-
-  it('falls back to the def id when no explicit unitId is given', () => {
-    const out = overlaySheet(sheet, { def: { id: 'troupe' }, factionSlug: 'aeldari', detachments: ['Ghosts of the Webway'] })
-    expect(out.grantedKeywords).toHaveLength(1)
   })
 
   it('always returns an array, even with no sheet or no context', () => {

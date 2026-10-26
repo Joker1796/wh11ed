@@ -101,7 +101,7 @@ export function useRosterDerived(roster, factionData) {
     if (!def) return true
     // Battleline the army's Detachments grant doubles the cap — the same question sectionsOf and
     // validateRoster ask, so the copy button can never disagree with the warning list.
-    const granted = grantedKeywordsFor(allySourceOf(def.id)?.[1] || def.id, slugFor(def.id), curDetachments.value).map((g) => g.kw)
+    const granted = grantedKeywordsFor(def, curDetachments.value).map((g) => g.kw)
     const cap = effBattle.value?.dupLimit != null ? duplicateLimit(def, effBattle.value, granted) : Infinity
     return (dupCounts.value.get(capKeyOf(def)) || 0) >= cap
   }

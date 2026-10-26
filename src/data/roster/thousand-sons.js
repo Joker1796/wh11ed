@@ -2923,6 +2923,16 @@ export default {
             3
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "servants-of-change"
+        },
+        {
+          "kw": "Battleline",
+          "det": "warpmeld-pact"
+        }
       ]
     }
   ],

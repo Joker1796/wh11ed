@@ -2024,11 +2024,12 @@ describe('an enhancement whose keyword a detachment grants', () => {
     const helbrute = dg.units.find((u) => u.id === 'helbrute')
     const crawler = dg.units.find((u) => u.id === 'plagueburst-crawler')
     const upgrade = 'Parasitic Woe\u2011reaper (Upgrade)'
-    const eligible = (def) => enhOptionsFor(def, [det], [], null, 'death-guard').filter((o) => o.eligible).map((o) => o.name)
+    const eligible = (def) => enhOptionsFor(def, [det], [], null).filter((o) => o.eligible).map((o) => o.name)
     expect(eligible(helbrute)).toContain(upgrade)
     expect(eligible(crawler)).not.toContain(upgrade)
-    // and without the faction to look the grant up in, the printed sheet is all there is
-    expect(enhOptionsFor(helbrute, [det], [], null).filter((o) => o.eligible).map((o) => o.name)).not.toContain(upgrade)
+    // …and it is the grant the unit carries that does it: without it, the printed sheet is all there is
+    const { grants: _grants, ...printedOnly } = helbrute
+    expect(eligible(printedOnly)).not.toContain(upgrade)
   })
 })
 

@@ -118,6 +118,8 @@
  * @property {1} [supreme] SUPREME COMMANDER
  */
 
+/** A keyword a rule grants a unit: `det` (a detachment's wh11ed id) when only that detachment does, `extra` when it is printed apart from the unit's own keywords. @typedef {{ kw: string, det?: string, extra?: boolean }} KeywordGrant */
+
 /**
  * One datasheet as the roster builder knows it. `id` is namespaced `<slug>:<id>` for an ally.
  * @typedef {object} RosterUnit
@@ -143,6 +145,7 @@
  * @property {{ n?: number, minModels?: number, noDup?: 1, oneKw?: string }} [hosts] a bodyguard that holds more than one Leader
  * @property {AllegianceChoice} [alleg]
  * @property {1} [condBattleline] can be Battleline under some detachment
+ * @property {KeywordGrant[]} [grants] keywords its army's or a detachment's rule grants it (conditionalKeywords.json, written on by gen-roster-data)
  * @property {Array<{ id: string, name: string }>} [crew]
  * @property {Array<{ id: string, name: string, rule: string }>} [spawns] units an ability of this one brings into the game (rosterCompanionRows.js)
  * @property {{ add: number | number[], base?: number | number[], slots: number, one?: ItemId[], ranged?: [number, ItemId[]] }} [pm] per-model rules across groups (a slot names a group or all its copies)
@@ -217,6 +220,7 @@
  * @property {string[]} [sharedDetachments]
  * @property {Record<string, string>} [sharedDetachmentFrom]
  * @property {Record<string, Record<string, number>>} [unitPoints] a Chapter's own price for a folded datasheet
+ * @property {Record<string, KeywordGrant[]>} [sharedGrants] the keywords this Chapter's rules grant a folded datasheet
  * @property {Record<string, number>} [detachmentDp] a Chapter's own dp for a folded detachment
  * @property {string[]} [noBuild] datasheets with no roster entry, and why not is in the generator
  */

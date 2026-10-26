@@ -1808,7 +1808,7 @@ const { rulesFaction, detachmentLookup } = useRosterFactionRules(() => roster.va
 })
 
 // The list, for the Rules tab's enhancements to say who wears each (EnhancementList).
-const rulesList = computed(() => ({ units: roster.value?.units || [], defOf, detachments: curDetachments.value, factionSlug: roster.value?.faction }))
+const rulesList = computed(() => ({ units: roster.value?.units || [], defOf, detachments: curDetachments.value }))
 const selectedDetachmentRules = computed(() =>
   (roster.value?.detachments || [])
     .map((name) => detachmentLookup.value.get(normName(name)))

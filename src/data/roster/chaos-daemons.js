@@ -157,6 +157,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -506,6 +512,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -579,6 +591,12 @@ export default {
           "rep": [
             862
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
         }
       ]
     },
@@ -768,6 +786,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -826,6 +850,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -1181,6 +1211,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -1241,6 +1277,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -1612,6 +1654,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -1819,6 +1867,12 @@ export default {
           "rep": [
             889
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
         }
       ]
     },
@@ -2046,6 +2100,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -2233,6 +2293,12 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -2301,6 +2367,12 @@ export default {
               914
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
         }
       ]
     },
@@ -2924,6 +2996,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -2976,6 +3054,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -3500,6 +3584,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -3602,6 +3692,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -3824,6 +3920,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -4089,6 +4191,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {
@@ -4140,6 +4248,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Shadow Legion",
+          "det": "shadow-legion"
+        }
       ]
     },
     {

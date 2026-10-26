@@ -98,7 +98,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // and so does the section a unit is filed under (rosterEngine's sectionsOf).
   /** @param {RosterUnit | undefined} def */
   const grantedBattleline = (def) =>
-    faction?.slug ? grantedKeywordsFor(def?.id, faction.slug, detachments).map((g) => g.kw) : null
+    faction ? grantedKeywordsFor(def, detachments).map((g) => g.kw) : null
 
   const points = rosterPoints(units, defOf, detachments)
   // A list with its checks switched off, or archived, is priced but never judged — not one issue,
@@ -441,7 +441,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     // Hammer), and a detachment rule can hand a Kill Rig WAGON; either is exactly what lets the unit
     // carry the enhancement. Reading only `def` here made the editor offer Honoured Fallen to a
     // Telemon Dreadnought and the validator call the same list illegal.
-    const granted = grantedKeywords(def, u, detachments, faction?.slug)
+    const granted = grantedKeywords(def, u, detachments)
     if (!e || (def && !enhEligible(e, def, granted))) add('enhIneligible', 'error', { uid: u.uid, params: { enh: u.enh } })
   }
 
@@ -620,7 +620,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
         const withKw = list.filter((u) => hasKeyword(defOf(u.id), kw))
         const line = withKw.filter((u) => {
           const def = defOf(u.id)
-          return hasKeyword(def, 'Battleline') || isBattlelineNow(def, faction?.slug ? grantedKeywordsFor(def?.id, faction.slug, detachments).map((x) => x.kw) : null)
+          return hasKeyword(def, 'Battleline') || isBattlelineNow(def, faction ? grantedKeywordsFor(def, detachments).map((x) => x.kw) : null)
         }).length
         const other = withKw.length - line
         if (other > line) add('allyRatio', 'error', { params: { group: g.name, kw, count: other, limit: line } })

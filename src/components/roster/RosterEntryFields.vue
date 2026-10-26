@@ -69,7 +69,7 @@ const canWarlord = computed(() => !!def.value && !bars.value?.warlord && canBeWa
 ))
 const enhOptions = computed(() => {
   if (!def.value) return []
-  const opts = enhOptionsFor(def.value, props.detachments, props.units, props.entry.uid, props.armySlug)
+  const opts = enhOptionsFor(def.value, props.detachments, props.units, props.entry.uid)
   return bars.value?.enh ? opts.map((o) => ({ ...o, eligible: false })) : opts
 })
 const leaderTargets = computed(() => (def.value

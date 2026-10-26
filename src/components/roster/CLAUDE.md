@@ -980,13 +980,16 @@ directory; still part of this feature:
   **Every question it asks about a unit must be asked the way the EDITOR asks it** — about the
   ENTRY, not the printed datasheet. `enhIneligible` reads `enhEligible(e, def, granted)` with the
   keywords the entry has but its datasheet does not print, and both it and `enhOptionsFor` get them
-  from one helper, **`grantedKeywords(def, entry, detachments, factionSlug)`** in `rosterEngine.js`,
+  from one helper, **`grantedKeywords(def, entry, detachments)`** in `rosterEngine.js`,
   so the two cannot answer differently. It merges the two sources:
   - the keyword an **allegiance upgrade** handed the entry — without it the editor offered Honoured
     Fallen to a Telemon Dreadnought and this file called the same list illegal;
   - the keyword a **detachment rule** grants a named datasheet (`conditionalKeywords.json`, the same
     sidecar the datasheet page reads, gated here on the roster's own detachments — added
-    2026-08-24). Rollin' Deff makes a Battlewagon, a Hunta Rig and a Kill Rig **WAGON**, and "Wagon
+    2026-08-24). Since 2026-10-26 the roster's units carry it themselves as `grants`: gen-roster-data
+    writes it on, a Chapter's borrowed Codex units get the Chapter's (`sharedGrants`, put on by the
+    loader), and `grantedKeywordsFor(def, detachments)` reads it off the unit — no faction slug, no
+    table inside the engine. Rollin' Deff makes a Battlewagon, a Hunta Rig and a Kill Rig **WAGON**, and "Wagon
     unit only" is what Boarding Ramps asks for. No Ork datasheet PRINTS that keyword, so every
     upgrade in that detachment was ineligible for every unit in the game — 129 unit×enhancement
     pairs across 5 factions were, including Chaos Daemons' whole Shadow Legion (its four

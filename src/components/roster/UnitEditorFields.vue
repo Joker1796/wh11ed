@@ -604,7 +604,6 @@ const props = defineProps({
 // The cards' contexts as objects of their own, not template literals (a new object per render —
 // see RosterUnitBrowser's previewCtx).
 const sheetCtx = computed(() => ({ def: props.def, entry: props.entry, items: props.items, detachments: props.detachments, leaderTargets: props.leaderTargets, units: props.units, defOf: props.defOf }))
-const previewCtx = computed(() => ({ detachments: props.detachments }))
 // What a joining unit needs before it can join anything: a unit its rule's character leads, or a
 // unit of the kind it names.
 const joinHint = computed(() => {
@@ -625,6 +624,8 @@ const labels = computed(() => ui[locale.value])
 const foldOpen = ref({})
 // The row whose datasheet is open, or null.
 const sheetPreview = ref(null)
+// The previewed unit's definition too: it carries the keywords the detachments grant it (`grants`).
+const previewCtx = computed(() => ({ def: (sheetPreview.value && props.defOf?.(sheetPreview.value.id)) || null, detachments: props.detachments }))
 const addLists = computed(() => {
   const l = labels.value
   return [

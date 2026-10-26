@@ -402,7 +402,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [], split: [], joined: [], openProfiles: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cp: { boxes: 0, units: 0, missing: [], unmatched: [] }, cond: {}, spawns: [], spawnUnread: [], maxModels: [] }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [], stockRemnant: [], addOrSwap: [] }, limit: { limited: 0, counted: 0, bundled: 0, ambiguous: 0, unmatched: 0, fromProse: 0, fromProseScaled: 0, fromProseConditional: [], perModelEach: [], perModelBudget: [], scaledDrift: [], perCopy: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [], split: [] }, keep: { resolved: 0, unresolved: [] }, staticDefaults: 0, paidDefault: { units: 0, odd: [], names: [], optionOnly: [] }, wargearMfm: { priced: 0, differs: new Set(), unmatched: [], noUnit: [] }, sharedDets: 0, notEntitled: [], leadKw: { resolved: 0, unresolved: [] }, proseAttach: [], proseAttachAdded: 0, packAttach: [], packAttachAdded: 0, mirror: { rules: 0, added: [], unread: [] }, hosts: { read: [], unread: [] }, comp: { units: 0, brackets: 0, rejected: [], split: [], joined: [], openProfiles: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() }, defaultsMerged: [], textCount: [], dnu: [], allies: { groups: 0, units: 0, empty: [], missing: [], narrowed: [], ratio: [], self: [] }, pack: { ...emptyPackReport(), dropped: [] }, upgradeLimit: { fixed: new Set(), retire: new Set(), unexplained: new Set() }, cp: { boxes: 0, units: 0, missing: [], unmatched: [] }, cond: {}, spawns: [], spawnUnread: [], maxModels: [], grantsPlaced: 0, grantsUnplaced: [] }
 
 // …and two datasheets whose attachment appdata states in PROSE and in no table at all. The Ogryn
 // Bodyguard and Nork Deddog "must join one COMMAND SQUAD unit from your army" (their Loyal
@@ -3589,7 +3589,8 @@ async function loadFactionData(slug, { allies = false } = {}) {
   const idSet = new Set(data.sharedUnitIds || [])
   const shared = (sm?.units || [])
     .filter((u) => idSet.has(u.id))
-    .map((u) => ({ ...repriced(u, data.unitPoints?.[u.id]), shared: 1 }))
+    // …carrying the keywords THIS army's rules grant them, not the Space Marines' (sharedGrants).
+    .map(({ grants: _codexGrants, ...u }) => ({ ...repriced(u, data.unitPoints?.[u.id]), shared: 1, ...(data.sharedGrants?.[u.id] && { grants: data.sharedGrants[u.id] }) }))
   const units = [...data.units, ...shared, ...extra].sort((a, b) => a.name.localeCompare(b.name))
   // …and the Codex detachments this Chapter may field, which live in space-marines.js for the
   // same reason its shared units do. A different Detachment Points cost for this Chapter comes
@@ -3861,6 +3862,29 @@ async function mirrorPackBodyguards() {
 // we cannot read fails the run.
 const JOIN_RE = /this (?:unit|model) can join one (other unit|(.+?) unit) from your army(?: that is being led by an? ([^(.]+?)(?: models?)?)?\s*(?:\(|\.)/i
 const LED_BY_RE = /^This unit can be led by an? ([A-Z][A-Z' -]+)\./
+// The keywords a unit GAINS from its army's or a detachment's rule (src/data/conditionalKeywords.json,
+// `npm run condkeywords`), written onto the unit it describes as `grants` — so the rules core reads
+// them off the unit like every other fact about it, instead of looking them up in a table of its own
+// (2026-10-26, the core split). A Chapter's units borrowed from space-marines.js gain the CHAPTER's
+// (Deathwing under The Unforgiven), so those go in the Chapter's file as `sharedGrants` and the loader
+// puts them on its copy. An allied unit carries its own faction's: every one of them is gated on that
+// faction's detachment, which only that faction fields.
+function keywordGrants() {
+  const all = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/conditionalKeywords.json'), 'utf8'))
+  let placed = 0
+  for (const { slug, data } of built) {
+    const grants = all[slug] || {}
+    const own = new Set(data.units.map((u) => u.id))
+    for (const u of data.units) if (grants[u.id]?.length) { u.grants = grants[u.id]; placed++ }
+    const shared = Object.fromEntries((data.sharedUnitIds || []).filter((id) => !own.has(id) && grants[id]?.length).map((id) => [id, grants[id]]))
+    if (Object.keys(shared).length) { data.sharedGrants = shared; placed += Object.keys(shared).length }
+    for (const id of Object.keys(grants)) {
+      if (!own.has(id) && !shared[id]) report.grantsUnplaced.push(`${slug}: ${id}`)
+    }
+  }
+  report.grantsPlaced = placed
+}
+
 async function readJoins() {
   report.joins = { read: [], unread: [], ledBy: [] }
   for (const { slug, data } of built) {
@@ -4130,6 +4154,7 @@ for (const { slug, data } of built) {
 // file, which is built before it.
 await mirrorPackBodyguards()
 await readJoins()
+keywordGrants()
 for (const { slug, data } of built) writeOut(`${slug}.js`, `${HEAD}export default ${stableJson(data)}\n`)
 await genCombatPatrol()
 genItems() // after all factions — the intern dicts are complete
@@ -4157,6 +4182,8 @@ for (const l of ally.narrowed) console.log(`    two rules for one group, kept th
 for (const l of ally.self) console.log(`    a rule allying the army to itself, through a parent keyword (skipped) — ${l}`)
 for (const l of ally.ratio) console.log(`    BATTLELINE ratio (non-BATTLELINE ≤ BATTLELINE per keyword) — ${l}`)
 for (const l of ally.missing.slice(0, 10)) console.log(`    unresolved allied datasheet — ${l}`)
+console.log(`  keyword grants: ${report.grantsPlaced} written onto their units`)
+if (report.grantsUnplaced.length) { console.log(`    ✗ a grant names a unit no faction file holds (conditionalKeywords.json stale?): ${report.grantsUnplaced.join('; ')}`); process.exitCode = 1 }
 console.log(`  spawns: ${report.spawns.length} unit(s) an ability brings into the game — ${report.spawns.join('; ')}`)
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)
 if (report.noPoints.length) console.log(`  dropped (no points/composition): ${report.noPoints.join(', ')}`)

@@ -774,7 +774,7 @@ function overlayWeapons(sheet, def, entry, items) {
  */
 export function overlaySheet(sheet, ctx) {
   if (!sheet) return { sheet, grantedKeywords: [], context: null, ruleSources: [], notes: [] }
-  const { def, entry, items, unitId, factionSlug, detachments } = ctx || {}
+  const { def, entry, items, detachments } = ctx || {}
   return {
     sheet: overlayWeapons(sheet, def, entry, items),
     // …plus the keyword the entry chose for itself. The sidecar can't carry these: which mark a
@@ -791,7 +791,7 @@ export function overlaySheet(sheet, ctx) {
     // is 43). `alleg` carries the group's own title so the footnote can say where it came from —
     // a mark is the reader's choice for THIS model, not something the faction hands out.
     grantedKeywords: [
-      ...grantedKeywordsFor(unitId || def?.id, factionSlug, detachments),
+      ...grantedKeywordsFor(def, detachments),
       ...allegGrant(def, entry, detachments),
     ],
     context: entryContext(ctx),

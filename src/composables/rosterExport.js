@@ -275,7 +275,7 @@ function resolve(roster, { faction, core, items } = {}) {
       name: def.name,
       // Same gated question the screens ask: a Detachment's Battleline grant decides the section
       // this unit is exported under, not the datasheet's "could be Battleline" flag.
-      bucket: bucketOf(def, faction?.slug ? grantedKeywordsFor(entry.id, faction.slug, detachments).map((g) => g.kw) : null),
+      bucket: bucketOf(def, faction ? grantedKeywordsFor(def, detachments).map((g) => g.kw) : null),
       ally: allyIds.has(entry.id),
       pts: unitPoints(def, entry, copy, detachments),
       models: modelCount(def, entry),

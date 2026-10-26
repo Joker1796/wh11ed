@@ -222,6 +222,12 @@ export default {
             1701
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "spearhead-at-arms"
+        }
       ]
     },
     {
@@ -367,6 +373,12 @@ export default {
             1017
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "spearhead-at-arms"
+        }
       ]
     },
     {
@@ -428,6 +440,12 @@ export default {
           "rep": [
             1701
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "spearhead-at-arms"
         }
       ]
     },

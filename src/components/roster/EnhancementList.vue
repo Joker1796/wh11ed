@@ -71,7 +71,7 @@ import { vSafeHtml } from '../../directives/safeHtml.js'
 const props = defineProps({
   // The rules bundle's enhancements (name, nameRu, points, body).
   enhancements: { type: Array, required: true },
-  // The list, to say who wears each one: { units, defOf, detachments (roster data), factionSlug }.
+  // The list, to say who wears each one: { units, defOf, detachments (roster data) }.
   // Without it the texts alone.
   list: { type: Object, default: null },
 })

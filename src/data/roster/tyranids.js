@@ -1342,6 +1342,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Burrower",
+          "det": "subterranean-assault"
+        }
       ]
     },
     {
@@ -2613,6 +2619,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Burrower",
+          "det": "subterranean-assault"
+        }
       ]
     },
     {
@@ -2762,6 +2774,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "warrior-bioform-onslaught"
+        }
       ]
     },
     {
@@ -2979,6 +2997,12 @@ export default {
               2
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "warrior-bioform-onslaught"
         }
       ]
     },

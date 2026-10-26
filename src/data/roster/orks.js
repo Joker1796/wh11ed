@@ -2077,6 +2077,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "runt-swarm"
+        }
       ]
     },
     {
@@ -4282,6 +4288,12 @@ export default {
             2167
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "taktikal-brigade"
+        }
       ]
     },
     {
@@ -4555,6 +4567,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "kult-of-speed"
+        }
       ]
     },
     {

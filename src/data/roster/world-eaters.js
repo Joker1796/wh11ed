@@ -1765,6 +1765,12 @@ export default {
             3170
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "cult-of-blood"
+        }
       ]
     },
     {
@@ -2096,6 +2102,12 @@ export default {
               2
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "cult-of-blood"
         }
       ]
     },

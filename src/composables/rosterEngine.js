@@ -2,14 +2,10 @@
 // Pure roster maths — no Vue, no store. Shared by the editor (live points, unit grouping) and,
 // later, the validation engine. Everything here takes plain data so it's trivially testable.
 import { detKey } from '../core/shared/slugify.js'
-import conditionalKeywords from '../data/conditionalKeywords.json'
 import { hasKeyword, enhEligible, lockedToExactUnit } from '../core/roster/rosterEnhEligible.js'
 import { foldName } from '../core/shared/foldName.js'
 
 export { hasKeyword, enhEligible }
-
-/** conditionalKeywords.json: faction → datasheet → the keywords it gains (`det`: only in that detachment). @type {Record<string, Record<string, Array<{ kw: string, det?: string, extra?: boolean }>>>} */
-const KEYWORD_GRANTS = conditionalKeywords
 
 /** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
@@ -1012,25 +1008,24 @@ export function canBeWarlord(def, detachments, granted = []) {
  * @param {RosterUnit | null | undefined} def
  * @param {EntryLike | null | undefined} entry
  * @param {Detachment[] | null | undefined} detachments
- * @param {string | undefined} factionSlug
  * @returns {string[]}
  */
-export function grantedKeywords(def, entry, detachments, factionSlug) {
+export function grantedKeywords(def, entry, detachments) {
   const alleg = allegKeyword(def, entry, detachments)
   return [
-    ...grantedKeywordsFor(def?.id, factionSlug, detachments).map((g) => g.kw),
+    ...grantedKeywordsFor(def, detachments).map((g) => g.kw),
     ...(alleg ? [alleg] : []),
   ]
 }
 
 // ── Rule-granted keywords ────────────────────────────────────────────────────────────────────
-// src/data/conditionalKeywords.json already lists the keywords a unit GAINS from an army or
-// detachment rule (see the root CLAUDE.md); FactionDatasheetView gates them on the detachment
-// picked in useFactionChoice. Here the gate is the roster's own selected detachments instead —
-// same sidecar, same DatasheetCard `grantedKeywords` prop, different source of "which detachment
-// is active". Nothing new is generated for this.
+// src/data/conditionalKeywords.json lists the keywords a unit GAINS from an army or detachment rule
+// (see the root CLAUDE.md); FactionDatasheetView gates them on the detachment picked in
+// useFactionChoice. The roster's units carry their own as `grants` (gen-roster-data writes them on,
+// a Chapter's borrowed units get the Chapter's), and here the gate is the roster's own selected
+// detachments — same sidecar, same DatasheetCard `grantedKeywords` prop.
 
-// The sidecar keys detachments by their wh11ed id, the roster refers to them by their appdata
+// A grant names its detachment by wh11ed id, the roster refers to them by their appdata
 // display name, so matching goes through detKey() (src/core/shared/slugify.js), not slugify() alone:
 // appdata spells "Dëlve Assault Shift" with a diaeresis, which slugify() drops to
 // `d-lve-assault-shift` (24 of 25 gated grants matched without it). Re-exported so the modal
@@ -1041,14 +1036,12 @@ export { detKey }
 // (`curDetachments`) or the bare name strings a roster stores — being permissive here is what
 // keeps a call site from silently wiring the wrong one.
 /**
- * @param {string | undefined} unitId
- * @param {string | undefined} factionSlug
+ * @param {RosterUnit | null | undefined} def
  * @param {Array<Detachment | string> | null | undefined} detachments
  * @returns {Array<{ kw: string, detName: string | null, extra: boolean }>}
  */
-export function grantedKeywordsFor(unitId, factionSlug, detachments) {
-  if (!factionSlug || !unitId) return []
-  const grants = KEYWORD_GRANTS[factionSlug]?.[unitId]
+export function grantedKeywordsFor(def, detachments) {
+  const grants = def?.grants
   if (!grants?.length) return []
   /** @type {Map<string, string>} detKey -> display name, for the footnote */
   const picked = new Map()
@@ -1286,10 +1279,10 @@ export function findEnhancement(detachments, name, det = null) {
 const looseName = foldName
 /**
  * @param {string} name
- * @param {{ units?: RosterEntry[], defOf?: DefOf, detachments?: Detachment[], factionSlug?: string }} [opts]
+ * @param {{ units?: RosterEntry[], defOf?: DefOf, detachments?: Detachment[] }} [opts]
  * @returns {{ taken: string[], can: string[] } | null}
  */
-export function enhancementBearers(name, { units = [], defOf, detachments = [], factionSlug } = {}) {
+export function enhancementBearers(name, { units = [], defOf, detachments = [] } = {}) {
   let enh = null
   for (const d of detachments) {
     enh = d?.enhancements?.find((x) => looseName(x.name) === looseName(name)) || null
@@ -1301,7 +1294,7 @@ export function enhancementBearers(name, { units = [], defOf, detachments = [], 
   for (const u of units) {
     const def = defOf(u.id)
     if (!def) continue
-    const fits = enhEligible(enh, def, grantedKeywords(def, u, detachments, factionSlug))
+    const fits = enhEligible(enh, def, grantedKeywords(def, u, detachments))
     if (u.enh === enh.name || (enh.mandatory && fits)) taken.push(def.name)
     // One enhancement a unit: one already wearing another is not a candidate.
     else if (fits && !enh.mandatory && !u.enh) can.push(def.name)
@@ -1337,14 +1330,13 @@ export function enhancementBearers(name, { units = [], defOf, detachments = [], 
  * @param {Detachment[] | null | undefined} detachments
  * @param {RosterEntry[] | null | undefined} units
  * @param {string | null | undefined} excludeUid
- * @param {string | undefined} factionSlug
  * @returns {Array<{ name: string, pts: number, eligible: boolean, used: boolean, mandatory: boolean }>}
  */
-export function enhOptionsFor(def, detachments, units, excludeUid, factionSlug) {
+export function enhOptionsFor(def, detachments, units, excludeUid) {
   // An allegiance upgrade can hand a vehicle CHARACTER, and that is what makes it able to carry an
   // enhancement at all — so eligibility is asked about the ENTRY, not just the printed sheet.
   const entry = (units || []).find((u) => u.uid === excludeUid)
-  const granted = grantedKeywords(def, entry, detachments, factionSlug)
+  const granted = grantedKeywords(def, entry, detachments)
   if (!detachments?.length || !def) return []
   // One option per detachment's enhancement — a name two selected detachments both print is two
   // options, each saying whose (`det`, and `dup` so the editor names the detachment beside it).
@@ -3103,9 +3095,9 @@ export function sectionsOf(items, { faction, detachments = [], defOf, keepLocked
     if (!def) continue
     const groups = all.filter((g) => (g.ids || []).includes(id))
     const mine = groups.find((g) => activeKeys.has(g.key)) || groups[0]
-    // The faction slug is what conditionalKeywords.json is keyed by; without it the grant cannot
-    // be looked up and bucketOf falls back to the ungated flag.
-    const granted = faction?.slug ? grantedKeywordsFor(id, faction.slug, detachments).map((g) => g.kw) : null
+    // With no faction to place the list in, what its rules grant is not known, and bucketOf falls
+    // back to the ungated flag.
+    const granted = faction ? grantedKeywordsFor(def, detachments).map((g) => g.kw) : null
     const list = mine ? byKey.get(mine.key) : roles.get(bucketOf(def, granted))
     if (!list) continue
     list.push(it)

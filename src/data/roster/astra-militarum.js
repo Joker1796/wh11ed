@@ -456,6 +456,12 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -631,6 +637,12 @@ export default {
               38
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
         }
       ]
     },
@@ -2514,6 +2526,12 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -3017,6 +3035,12 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -3066,6 +3090,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -3176,6 +3206,12 @@ export default {
               533
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
         }
       ]
     },
@@ -3295,6 +3331,12 @@ export default {
               38
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
         }
       ]
     },
@@ -3462,6 +3504,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -4729,6 +4777,12 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -5659,6 +5713,12 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -5747,6 +5807,12 @@ export default {
             633
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -5818,6 +5884,12 @@ export default {
               533
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
         }
       ]
     },
@@ -11134,6 +11206,12 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -11206,6 +11284,12 @@ export default {
               38
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
         }
       ]
     },
@@ -11305,6 +11389,12 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -11347,6 +11437,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -11656,6 +11752,12 @@ export default {
               38
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
         }
       ]
     },
@@ -12377,6 +12479,12 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
+        }
       ]
     },
     {
@@ -12469,6 +12577,12 @@ export default {
               38
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
         }
       ]
     },
@@ -12982,6 +13096,13 @@ export default {
             640
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "bridgehead-strike",
+          "extra": true
+        }
       ]
     },
     {
@@ -13050,6 +13171,12 @@ export default {
               533
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Armoured Skirmisher",
+          "det": "armoured-infantry"
         }
       ]
     },

@@ -1692,7 +1692,7 @@ describe('conditional Battleline is the army\'s answer', () => {
     expect(warbikers.kws).not.toContain('Battleline') // …but does not print it
 
     const det = (name) => [orks.detachments.find((d) => d.name === name)].filter(Boolean)
-    const grantedIn = (name) => grantedKeywordsFor('warbikers', 'orks', det(name)).map((g) => g.kw)
+    const grantedIn = (name) => grantedKeywordsFor(warbikers, det(name)).map((g) => g.kw)
     expect(det('Kult of Speed')).toHaveLength(1)
 
     expect(duplicateLimit(warbikers, 3, grantedIn('Blitz Brigade'))).toBe(3)

@@ -2336,5 +2336,161 @@ export default {
   ],
   "sharedDetachmentFrom": {
     "Deathwatch Support": "deathwatch"
+  },
+  "sharedGrants": {
+    "ancient-in-terminator-armour": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "ballistus-dreadnought": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "bladeguard-ancient": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "bladeguard-veteran-squad": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "brutalis-dreadnought": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "captain-in-terminator-armour": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "captain-on-bike": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "chaplain-in-terminator-armour": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "chaplain-on-bike": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "dreadnought": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "invader-atvs": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "land-raider": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "land-raider-crusader": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "land-raider-redeemer": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "land-speeder": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "librarian-in-terminator-armour": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "outrider-squad": [
+      {
+        "kw": "Battleline",
+        "det": "darkflight-pursuit"
+      },
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "redemptor-dreadnought": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "repulsor": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "repulsor-executioner": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "sternguard-veteran-squad": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "storm-speeder-hailstrike": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "storm-speeder-hammerstrike": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "storm-speeder-thunderstrike": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "stormhawk-interceptor": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "stormraven-gunship": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "stormtalon-gunship": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "terminator-assault-squad": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "terminator-squad": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "vanguard-veteran-squad-with-jump-packs": [
+      {
+        "kw": "Deathwing"
+      }
+    ]
   }
 }

@@ -279,6 +279,12 @@ export default {
             3326
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
@@ -666,7 +672,17 @@ export default {
         ],
         "det": "Pactbound Zealots",
         "req": 1
-      }
+      },
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
+      ]
     },
     {
       "id": "chaos-land-raider",
@@ -765,6 +781,16 @@ export default {
               1035
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
         }
       ]
     },
@@ -1978,6 +2004,16 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
@@ -2096,6 +2132,16 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
@@ -2192,6 +2238,16 @@ export default {
               1035
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
         }
       ]
     },
@@ -2674,7 +2730,17 @@ export default {
         ],
         "det": "Pactbound Zealots",
         "req": 1
-      }
+      },
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
+      ]
     },
     {
       "id": "chaos-vindicator",
@@ -2768,6 +2834,16 @@ export default {
               1035
             ]
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
         }
       ]
     },
@@ -4178,7 +4254,13 @@ export default {
         ],
         "det": "Pactbound Zealots",
         "req": 1
-      }
+      },
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
+      ]
     },
     {
       "id": "defiler",
@@ -4335,6 +4417,12 @@ export default {
             1068
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
@@ -4399,7 +4487,17 @@ export default {
         ],
         "det": "Pactbound Zealots",
         "req": 1
-      }
+      },
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
+      ]
     },
     {
       "id": "exalted-champion",
@@ -4927,6 +5025,12 @@ export default {
             1085
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
@@ -5046,6 +5150,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
@@ -5100,6 +5210,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
@@ -5476,6 +5592,16 @@ export default {
             ]
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
@@ -5556,6 +5682,12 @@ export default {
           "rep": [
             1084
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
         }
       ]
     },
@@ -5644,7 +5776,17 @@ export default {
         ],
         "det": "Pactbound Zealots",
         "req": 1
-      }
+      },
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
+      ]
     },
     {
       "id": "hell-talon",
@@ -5730,7 +5872,17 @@ export default {
         ],
         "det": "Pactbound Zealots",
         "req": 1
-      }
+      },
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
+      ]
     },
     {
       "id": "heretic-astartes-daemon-prince",
@@ -6058,7 +6210,17 @@ export default {
         ],
         "det": "Pactbound Zealots",
         "req": 1
-      }
+      },
+      "grants": [
+        {
+          "kw": "Daemon",
+          "det": "cult-of-the-arkifane"
+        },
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
+      ]
     },
     {
       "id": "khorne-lord-of-skulls",
@@ -6141,6 +6303,12 @@ export default {
           "rep": [
             1108
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
         }
       ]
     },
@@ -6298,6 +6466,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
@@ -6772,6 +6946,12 @@ export default {
           "rep": [
             1121
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
         }
       ]
     },
@@ -7342,6 +7522,12 @@ export default {
           "rep": [
             1137
           ]
+        }
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
         }
       ]
     },
@@ -10181,6 +10367,12 @@ export default {
             536
           ]
         }
+      ],
+      "grants": [
+        {
+          "kw": "Battleline",
+          "det": "chaos-cult"
+        }
       ]
     },
     {
@@ -10231,6 +10423,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
@@ -10301,6 +10499,12 @@ export default {
             ]
           ]
         ]
+      ],
+      "grants": [
+        {
+          "kw": "Soul Forge",
+          "det": "cult-of-the-arkifane"
+        }
       ]
     },
     {
