@@ -1,6 +1,6 @@
 import rosterItemsData from '../data/roster/items.js'
 import { foldName } from '../core/shared/foldName.js'
-import { weaponBase } from '../core/roster/weaponGroups.js'
+import { weaponBase } from '../core/rules/weaponGroups.js'
 
 // What a wargear option's info button looks up on a datasheet: the item's name, the way the
 // sheet's rows are named. The two are written apart — items.js from appdata's wargear_item names,

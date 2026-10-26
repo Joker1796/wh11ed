@@ -25,13 +25,14 @@ ships.
 
 | Folder | What lives there |
 |---|---|
-| `roster/` | building and checking a list: the engine, validation, limits, enhancement eligibility, export and import, wargear, Combat Patrol rosters |
-| `rules/` | reading rules and applying them: modifier records onto a card, who a rule targets, doctrines, ability states, the game context a list is read in, stratagem phases, weapon tags |
+| `roster/` | building and checking a list: the engine, validation, limits, enhancement eligibility, export and import, Combat Patrol rosters |
+| `rules/` | reading rules and applying them: modifier records onto a card, who a rule targets, doctrines, ability states, the game context a list is read in, stratagem phases, weapon tags and multi-profile weapons |
 | `game/` | a game: scoring, mission timing, the CP ledger, the action log, unit status, strict rules |
 | `shared/` | what all of them use: `foldName`, the roster/modifier types |
 
 What is NOT core, though it is pure: helpers that exist for a screen (column chunks, anchors, the
-segmented slider, plurals, colours, the HTML sanitizer, label formatting) stay in the app. The test is
+segmented slider, plurals, colours, the HTML sanitizer, label formatting, the battle-size chips, the
+rows under a unit in a list, how a swap group is drawn, the wargear "i" lookup) stay in the app. The test is
 the question "is this a rule of the game, or a way of showing one?".
 
 ## Moving code in

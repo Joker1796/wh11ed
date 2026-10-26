@@ -157,7 +157,7 @@ import { loadDatasheets } from '../../data/datasheets/index.js'
 import { useCombatPatrolBox } from '../../composables/useCombatPatrolBox.js'
 import { localizeSheet } from '../../data/datasheets/ru/index.js'
 import { useDatasheetsRu } from '../../composables/useDatasheetsRu.js'
-import { withGroupPos } from '../../core/roster/weaponGroups.js'
+import { withGroupPos } from '../../core/rules/weaponGroups.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
 import { ABILITY_LISTS, abilityKey, infoKeys, sheetHas, weaponKey } from '../../composables/wargearInfo.js'
 

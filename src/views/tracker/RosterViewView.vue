@@ -672,7 +672,7 @@ import { useRosterFactionData, useRosterFactionRules } from '../../composables/u
 import { rosterNameFit } from '../../utils/rosterNameFit.js'
 import { APP_VERSION } from '../../buildInfo.js'
 import { useTour, useTourShow } from '../../composables/useTour.js'
-import { companionRows } from '../../core/roster/rosterCompanionRows.js'
+import { companionRows } from '../../composables/rosterCompanionRows.js'
 
 const props = defineProps({
   // The rosters desk (RosterDeskView) shows a saved roster beside the list, by id; the routes

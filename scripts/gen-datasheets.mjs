@@ -19,7 +19,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { ROOT, APPDATA, norm, currentWargearRules, appdataToMarkup, appdataToParagraphs, loadJson, loadModule, table, nameOfEn, combatPatrolNames } from './lib/sync-common.mjs'
 import { slugify } from '../src/core/shared/slugify.js'
-import { separateProfileWeapons } from '../src/core/roster/weaponGroups.js'
+import { separateProfileWeapons } from '../src/core/rules/weaponGroups.js'
 import { loadAppdataBundle } from './lib/appdata-exceptions.mjs'
 import { MODEL_BASES, baseOf } from './lib/model-bases.mjs'
 
