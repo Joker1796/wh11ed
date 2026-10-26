@@ -41,3 +41,6 @@ seo-html/
 # The stand's seed page (npm run stand:seed) — built from the data of the day, never committed.
 public/_seed.json
 public/_seed.html
+
+# The golden master's snapshots (golden/README.md): a local baseline, rebuilt from a commit on demand.
+golden/__snapshots__/

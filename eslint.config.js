@@ -44,7 +44,7 @@ export default [
     // Tests import describe/it/expect from 'vitest' explicitly (all 87 of them), so no test
     // globals are declared here on purpose — an accidental reliance on vitest's `globals: true`
     // should surface as `no-undef` rather than pass silently.
-    files: ['src/**/*.test.js', 'scripts/**/*.test.js'],
+    files: ['src/**/*.test.js', 'scripts/**/*.test.js', 'golden/**/*.js'],
     languageOptions: { globals: { ...globals.node } },
   },
 
