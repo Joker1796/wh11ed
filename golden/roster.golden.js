@@ -6,6 +6,7 @@ import core from '../src/data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../src/data/roster/index.js'
 import { validateRoster } from '../src/composables/rosterValidation.js'
 import { buildRosterText, EXPORT_FORMATS } from '../src/composables/rosterExport.js'
+import { detectFormat, matchRoster, parseList } from '../src/composables/rosterImport.js'
 import { everyUnitRoster, rosterPoints, cardOf, plain, hash, stringify } from './harness.js'
 
 const items = rosterItems.items
@@ -43,6 +44,12 @@ describe('golden: every unit of a faction, per detachment', () => {
           issues: validateRoster(roster, ctx).issues,
           // A line each, so a changed line reads as one in the diff rather than as a new hash.
           text: Object.fromEntries(EXPORT_FORMATS.map((f) => [f, buildRosterText(roster, ctx, f).split('\n')])),
+          // …and what the importer makes of the formats it reads back.
+          reimport: Object.fromEntries(['gw', 'wtc'].map((f) => {
+            const text = buildRosterText(roster, ctx, f)
+            const { payload, report } = matchRoster(parseList(text, detectFormat(text)), ctx)
+            return [f, { units: payload.units.map(({ uid, ...u }) => u), report }]
+          })),
           cards,
         })
       }
