@@ -1,3 +1,4 @@
+// @ts-check
 // Group stratagems by the game phase(s) their `when` timing falls in. GW always names the
 // phase in the timing line ("Your Shooting phase", "End of your opponent's Charge phase",
 // "Battle-shock step of your Command phase", "Any phase, just after…"), so the phases are
@@ -14,6 +15,7 @@ const NAMED_PHASES = ['command', 'movement', 'shooting', 'charge', 'fight']
 // clock the stratagem filter can't line up with would be useless to both.
 export const BATTLE_PHASES = NAMED_PHASES
 
+/** @type {Record<string, string>} */
 const PHASE_LABEL_KEYS = {
   command: 'phaseCommand',
   movement: 'phaseMovement',
@@ -23,6 +25,10 @@ const PHASE_LABEL_KEYS = {
   any: 'phaseAny',
 }
 
+/**
+ * @param {string} key a PHASE_ORDER id
+ * @param {Record<string, string>} labels the interface strings (ui.js)
+ */
 export function phaseLabel(key, labels) {
   return labels[PHASE_LABEL_KEYS[key]] || key
 }
@@ -50,6 +56,7 @@ const AS_IF_RE = new RegExp(
   `\\bas (?:if|though) it (?:were|was) (?:your opponent['\u2019]s |your |the )?(?:${NAMED_PHASES.join('|')}) phase\\b`,
   'gi',
 )
+/** @param {string} text */
 function withoutComparisons(text) { return text.replace(AS_IF_RE, '') }
 
 // WHOSE phase, per phase the timing names. `phasesOf` deliberately stays as it is: the stratagem
@@ -97,7 +104,9 @@ const MOMENT_RE = new RegExp(
   `(?:\\b(at the start|at the end|start|end) of\\s+)?(?:(?:the|your opponent['\u2019]s|your|each|the next|your next|your opponent['\u2019]s next)\\s+)?\\b(${NAMED_PHASES.join('|')})(?: phase\\b| or (?=(?:the |your )?(?:${NAMED_PHASES.join('|')})\\b))`,
   'gi',
 )
+/** @param {string | null | undefined} englishText */
 export function phaseMomentsOf(englishText) {
+  /** @type {Record<string, string | null>} */
   const seen = {}
   if (!englishText) return {}
   let carry = null
@@ -121,6 +130,12 @@ export function phaseMomentsOf(englishText) {
 // Can this stratagem be used in the slot the game is standing on? `mine` is whether the turn
 // belongs to the player whose roster is open. A stratagem with no detectable phase, or one that
 // works in any phase, is always offered — the timing line is still printed on the card.
+/**
+ * @param {string[] | null | undefined} phases the stratagem's phasesOf
+ * @param {Record<string, string> | null | undefined} sides its phaseSidesOf
+ * @param {string} phase
+ * @param {boolean} mine
+ */
 export function usableInSlot(phases, sides, phase, mine) {
   if (!phases?.length || phases.includes('any')) return true
   if (!phases.includes(phase)) return false
@@ -131,6 +146,11 @@ export function usableInSlot(phases, sides, phase, mine) {
 // Whether a stratagem can be played at all in this TURN by a side that is (`mine`) or is not on
 // turn — in any of its phases, the phase aside. "Your opponent's Shooting phase" is never the
 // mover's; "your Command phase" never the other side's. No phase known: any turn.
+/**
+ * @param {string[] | null | undefined} phases
+ * @param {Record<string, string> | null | undefined} sides
+ * @param {boolean} mine
+ */
 export function usableThisTurn(phases, sides, mine) {
   if (!phases?.length || phases.includes('any')) return true
   return phases.some((p) => { const side = sides?.[p] || 'both'; return side === 'both' || (side === 'own') === mine })
@@ -140,6 +160,12 @@ export function usableThisTurn(phases, sides, mine) {
 // Stratagems grouped by phase, in PHASE_ORDER; a stratagem spanning several phases (its `_phases`)
 // appears under each. `first` puts that phase's group at the top (the tracker's live phase).
 // Shared by the Stratagems page and the tracker's CP tab (StratPhaseGroups.vue draws the groups).
+/**
+ * @template {{ _phases?: string[] }} T
+ * @param {T[]} strats
+ * @param {string | null} [first]
+ * @returns {Array<{ key: string, strats: T[] }>}
+ */
 export function groupByPhase(strats, first = null) {
   const by = new Map()
   for (const s of strats) {

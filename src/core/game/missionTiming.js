@@ -1,3 +1,4 @@
+// @ts-check
 // When a mission's condition is scored — read from the mission itself, never guessed.
 //
 // Every scoring block of a primary or secondary card carries its moment in English in `when`
@@ -20,6 +21,15 @@
 // "(or the end of your turn in the fifth battle round)": in round 5 the moment can also come at
 // the end of the round itself, whoever's turn closes it.
 
+/** @typedef {import('./missionCards.js').MissionBlock} MissionBlock */
+/** @typedef {import('./missionCards.js').Mission} Mission */
+/** @typedef {import('../shared/roster.types.js').LiveGame} LiveGame */
+/** One of the moments above, and its round-5 fallback. @typedef {{ at: string, fallback?: 'r5' }} ScoringMoment */
+/** A block as the scoring rows hold it (missionCards' cardBlocksOf): its index on the card, its kind. @typedef {{ bi: number, kind?: string, offRound?: boolean }} ScoringBlock */
+/** useTracker's scorableBlocks, bound to the locale. @typedef {(slug: string, role: string | null | undefined, round: number) => ScoringBlock[]} Scorable */
+/** The ENGLISH card. @typedef {(slug: string, role: string | null | undefined) => Mission | null | undefined} MissionEn */
+
+/** @type {Record<string, ScoringMoment>} */
 const WHEN = {
   'End of your turn': { at: 'your-turn' },
   'End of your Command phase': { at: 'your-command' },
@@ -32,10 +42,11 @@ const WHEN = {
 }
 
 // The moment of one ENGLISH block ({ heading, when }), or null for a phrasing not in the table.
+/** @param {MissionBlock | null | undefined} block @returns {ScoringMoment | null} */
 export function scoringMoment(block) {
   if (!block) return null
   if (block.heading === 'End of Battle' && !block.when) return { at: 'end-battle' }
-  return WHEN[block.when] || null
+  return (block.when && WHEN[block.when]) || null
 }
 
 // In which turns of a round a condition with this moment is scored — the turn indices (0 is the
@@ -45,6 +56,7 @@ export function scoringMoment(block) {
 //   'opp-turn' — the opponent's, and with the "… or the end of the fifth battle round" fallback
 //                also the turn that closes round 5;
 //   'end-battle' — the battle's last turn.
+/** @param {ScoringMoment | null} moment @param {number} pi @param {number} round @returns {number[] | null} */
 export function momentTurns(moment, pi, round) {
   if (!moment) return null
   switch (moment.at) {
@@ -64,6 +76,7 @@ export function momentTurns(moment, pi, round) {
 //   ctx = { pi, round, turn } — the owner, and the round and turn being scored (the live ones, or
 //   a past turn opened for correction).
 // Returns null when the condition is open, else the turn it is scored in — the one to open.
+/** @param {ScoringMoment | null} moment @param {{ pi: number, round: number, turn: number }} ctx */
 export function lockedTurn(moment, ctx) {
   const turns = momentTurns(moment, ctx.pi, ctx.round)
   return !turns || turns.includes(ctx.turn) ? null : turns[0]
@@ -71,12 +84,20 @@ export function lockedTurn(moment, ctx) {
 
 // lockedTurn for one block of a card in a game — what the scoring rows ask. `enBlock` is the
 // ENGLISH block (the localized one's `when` is Russian); `round` and `turn` are the ones on screen.
+/**
+ * @param {LiveGame} game
+ * @param {number} pi
+ * @param {number} round
+ * @param {number} turn
+ * @param {MissionBlock | null | undefined} enBlock
+ */
 export function blockLocked(game, pi, round, turn, enBlock) {
   return lockedTurn(scoringMoment(enBlock), { pi, round, turn })
 }
 
 // Has this turn begun — may it be opened for correction? A turn of a past round, or of the live
 // round up to the one being played.
+/** @param {LiveGame} game @param {number} round @param {number} turn */
 export function turnReached(game, round, turn) {
   return round < game.currentRound || (round === game.currentRound && turn <= (game.currentTurn === 1 ? 1 : 0))
 }
@@ -84,6 +105,14 @@ export function turnReached(game, round, turn) {
 // The turn to open for a card's locked conditions — the first one, of the card's blocks for the
 // round on screen, scored in another turn that has begun — or null. `enBlockOf(bi)` reads the
 // ENGLISH block; `blocks` are the ones the dialog draws (cardBlocks, `offRound` ones skipped).
+/**
+ * @param {LiveGame} game
+ * @param {number} pi
+ * @param {number} round
+ * @param {number} turn
+ * @param {ScoringBlock[]} blocks
+ * @param {(bi: number) => MissionBlock | null | undefined} enBlockOf
+ */
 export function fixTurnOf(game, pi, round, turn, blocks, enBlockOf) {
   for (const b of blocks) {
     if (b.offRound) continue
@@ -107,13 +136,27 @@ export function fixTurnOf(game, pi, round, turn, blocks, enBlockOf) {
 //   the cards marked for the end of the turn): not in the check, or one card would pay twice — its
 //   VP and the CP (a player's report, 2026-10-20).
 // Returns [{ pi, slug | null (the primary), blocks }], each with only the blocks that score now.
+/**
+ * @param {LiveGame | null | undefined} game
+ * @param {Scorable} scorable
+ * @param {MissionEn} missionEn
+ * @param {{ pi: number, slug: string } | Array<{ pi: number, slug: string }> | null} [discarding]
+ */
 export function turnEndChecks(game, scorable, missionEn, discarding = null) {
-  const leaving = [].concat(discarding || [])
+  /** @type {Array<{ pi: number, slug: string }>} */
+  const leaving = [discarding || []].flat()
   if (!game || game.phase !== 'playing') return []
   const R = game.currentRound
   const T = game.currentTurn === 1 ? 1 : 0
   const last = R === 5 && T === 1
+  /** @type {Array<{ pi: number, slug: string | null, blocks: ScoringBlock[] }>} */
   const out = []
+  /**
+   * @param {number} pi
+   * @param {string} slug
+   * @param {string | null | undefined} role
+   * @param {(m: ScoringMoment | null) => boolean} keep
+   */
   const pick = (pi, slug, role, keep) => {
     const pl = game.players[pi]
     const en = missionEn(slug, role)
@@ -125,6 +168,7 @@ export function turnEndChecks(game, scorable, missionEn, discarding = null) {
   }
   game.players.forEach((pl, pi) => {
     const opp = pi !== T
+    /** @param {ScoringMoment | null} m */
     const due = (m) => {
       if (!m) return false
       if (m.at === 'end-battle') return last
@@ -147,6 +191,13 @@ export function turnEndChecks(game, scorable, missionEn, discarding = null) {
 // Command phase is a moment of its own; "while this card is active" has none and is left out.
 // Returns [{ at: 'command-end' | 'turn-end', slug | null (the primary), name }], once per card
 // and moment.
+/**
+ * @param {LiveGame | null | undefined} game
+ * @param {number} pi
+ * @param {Scorable} scorable
+ * @param {MissionEn} missionEn
+ * @param {(slug: string, role: string | null | undefined) => string} missionName
+ */
 export function cardMoments(game, pi, scorable, missionEn, missionName) {
   if (!game || game.phase !== 'playing') return []
   const pl = game.players?.[pi]
@@ -155,6 +206,7 @@ export function cardMoments(game, pi, scorable, missionEn, missionName) {
   const T = game.currentTurn === 1 ? 1 : 0
   const opp = pi !== T
   const last = R === 5 && T === 1
+  /** @param {ScoringMoment | null} m */
   const stepOf = (m) => {
     if (!m) return null
     if (m.at === 'your-command') return opp ? null : 'command-end'
@@ -164,7 +216,9 @@ export function cardMoments(game, pi, scorable, missionEn, missionName) {
     if (m.at === 'any-turn') return 'turn-end'
     return null
   }
+  /** @type {Array<{ at: string, slug: string | null, name: string }>} */
   const out = []
+  /** @param {string} slug @param {string | null | undefined} role */
   const pick = (slug, role) => {
     const en = missionEn(slug, role)
     const at = new Set()

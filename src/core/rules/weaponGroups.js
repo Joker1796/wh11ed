@@ -1,8 +1,11 @@
+// @ts-check
+/** @typedef {import('../shared/roster.types.js').WeaponRow} WeaponRow */
 // Multi-profile weapons are stored as adjacent rows sharing a base name with a spaced-dash
 // suffix ("Scythe of the Nightbringer – strike" / "– sweep"). The data is inconsistent about
 // the dash — some entries use an en-dash "–", others a plain hyphen "-" (e.g. Ghazghkull's
 // "Gork's Klaw - strike") — so split on a SPACED dash of any kind (hyphen / en / em). The
 // surrounding spaces keep AP values like "-3" (a separate field anyway) from ever matching.
+/** @param {string | undefined} name */
 export function weaponBase(name) {
   return (name || '').split(/ [-–—] /)[0].trim()
 }
@@ -14,6 +17,7 @@ export function weaponBase(name) {
 // says so in its loadout; gen-datasheets reads the names from there into `separateProfiles`, and
 // datasheets/separateProfiles.test.js holds every sheet to it.
 const SEPARATE = /(?:^|\n)This model[’']s (.+?) weapon has \w+ separate (?:ranged |melee )?weapon profiles/g
+/** @param {string | undefined} loadout */
 export function separateProfileWeapons(loadout) {
   return [...(loadout || '').matchAll(SEPARATE)].map((m) => m[1])
 }
@@ -21,10 +25,13 @@ export function separateProfileWeapons(loadout) {
 /**
  * Rows with their place in a multi-profile group. `separate`: the weapons whose profiles are all
  * fired (a sheet's `separateProfiles`) — each of their rows stands alone, under its full name.
+ * @param {WeaponRow[] | undefined} list
+ * @param {string[]} [separate]
  */
 export function withGroupPos(list, separate = []) {
   const rows = list || []
   const apart = new Set(separate)
+  /** @param {WeaponRow} w */
   const baseOf = (w) => (apart.has(weaponBase(w.name)) ? w.name : weaponBase(w.name))
   return rows.map((w, i) => {
     const base = baseOf(w)

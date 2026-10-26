@@ -1,3 +1,4 @@
+// @ts-check
 import { foldChars } from '../shared/foldName.js'
 
 // A weapon tag, or a core ability named with its number, as printed → the ability it is an
@@ -9,6 +10,7 @@ import { foldChars } from '../shared/foldName.js'
 // two agree on what a tag IS. Until 2026-10-16 the tap matched the tag's START against the core
 // list instead, with no word boundary: [PSYCHIC ASSASSIN] (the Culexus Assassin's own ability)
 // opened [PSYCHIC] (a player's report).
+/** @param {string} tag */
 export function baseTag(tag) {
   let t = foldChars(tag).toUpperCase().trim()
   t = t.split(':')[0].trim()
@@ -18,6 +20,7 @@ export function baseTag(tag) {
 }
 
 // Letters only, so "C'TAN POWER" meets "C’tan Powers" and [PLASMA WARHEAD] meets "Plasma Warhead".
+/** @param {string} s */
 export const foldTag = (s) => foldChars(s).toUpperCase().replace(/[^A-Z']+/g, ' ').trim()
 
 /**

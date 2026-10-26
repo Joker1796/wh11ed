@@ -1,3 +1,4 @@
+// @ts-check
 // Strict rules — a game agreed at the table to be played by the book (owner, 2026-10-19,
 // `settings.strictRules`, off by default). Without it the tracker lets a player put things right
 // any way they like; with it, what the rules forbid is refused, and a mistake is put right only
@@ -25,13 +26,19 @@
 // mark); two taps by a hand are further apart than this.
 export const SAME_ACT_MS = 1000
 
+/** @typedef {import('../shared/roster.types.js').TrackerGame} TrackerGame */
+/** @typedef {import('../shared/roster.types.js').TrackerPlayer} TrackerPlayer */
+
+/** @param {TrackerGame | null | undefined} g */
 export function isStrict(g) {
   return !!g?.settings?.strictRules
 }
 
 // When this side last did something.
+/** @param {TrackerPlayer | null | undefined} pl */
 export function sideNewest(pl) {
   let t = 0
+  /** @param {unknown} x */
   const at = (x) => { if (typeof x === 'number' && x > t) t = x }
   for (const e of pl?.cpLog || []) if (e.kind !== 'core') at(e.t)
   for (const r of pl?.rounds || []) at(r?.t)
@@ -39,7 +46,11 @@ export function sideNewest(pl) {
   const s = pl?.secondary
   if (s) {
     for (const e of s.scored || []) at(e.t)
-    for (const d of s.discarded || []) if (d?.auto == null) at(d?.t)
+    // A card stored as its bare slug (an older game) carries no time.
+    for (const d of s.discarded || []) {
+      const card = typeof d === 'string' ? null : d
+      if (card?.auto == null) at(card?.t)
+    }
     for (const v of Object.values(s.drawnAt || {})) at(v)
     for (const e of s.returned || []) at(e.t)
     for (const e of s.whenDrawn || []) at(e.t)
@@ -49,6 +60,7 @@ export function sideNewest(pl) {
 
 // Is the act stamped `t` still this side's last? The clock moving since (`g.clockAt`) closes it
 // too: an ended turn is a step taken after it.
+/** @param {TrackerGame | null | undefined} g @param {number} pi @param {unknown} t */
 export function isLatest(g, pi, t) {
   if (typeof t !== 'number') return false
   const newest = Math.max(sideNewest(g?.players?.[pi]), g?.clockAt || 0)
@@ -57,8 +69,10 @@ export function isLatest(g, pi, t) {
 
 // May the clock go back? One step, and only while nobody has done anything since it last moved.
 // A game from before `clockAt` was kept says yes: there is nothing to read it from.
+/** @param {TrackerGame | null | undefined} g */
 export function canClockBack(g) {
-  if (!g?.clockAt) return true
+  const clockAt = g?.clockAt
+  if (!clockAt) return true
   if (g.clockBack) return false
-  return (g.players || []).every((pl) => sideNewest(pl) <= g.clockAt + SAME_ACT_MS)
+  return (g.players || []).every((pl) => sideNewest(pl) <= clockAt + SAME_ACT_MS)
 }

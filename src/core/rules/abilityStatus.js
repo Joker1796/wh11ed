@@ -1,3 +1,5 @@
+// @ts-check
+/** @typedef {import('../shared/data.types.js').Datasheet} Datasheet */
 // Which of a DATASHEET's own abilities the roster can already answer for.
 //
 // Tier C (src/data/rosterModifiers/) reads faction RULES — army rules, detachment rules,
@@ -32,6 +34,7 @@ const PRECONDITIONS = [
 // The precondition an ENGLISH ability text is gated on, or null. English on purpose: the RU
 // overlay translates the prose, and a translated sentence is not something to pattern-match —
 // the same discipline ruleTargets.js follows.
+/** @param {string | undefined} text */
 export function abilityPrecondition(text) {
   if (!text) return null
   for (const p of PRECONDITIONS) if (p.re.test(text)) return p.id
@@ -44,6 +47,13 @@ export function abilityPrecondition(text) {
 //   led      true when some other entry is attached to THIS one
 // Returns null for an ability with no precondition — the card shows nothing, which is the
 // pre-existing behaviour for every ability on every sheet.
+/** @typedef {{ leading?: string | boolean | null, led?: boolean }} AbilityCtx */
+/** @typedef {{ id: string, on: boolean, subject: string | null }} AbilityStatus */
+/**
+ * @param {string | undefined} text
+ * @param {AbilityCtx | null | undefined} ctx
+ * @returns {AbilityStatus | null}
+ */
 export function abilityStatusOf(text, ctx) {
   const id = abilityPrecondition(text)
   if (!id) return null
@@ -54,9 +64,16 @@ export function abilityStatusOf(text, ctx) {
 // The same, for a whole sheet: a map from ENGLISH ability name to its status, ready to hand to
 // DatasheetCard (which keys on `nameEn || name`, so it works in both locales). Only abilities that
 // HAVE a precondition appear.
+/**
+ * @param {Datasheet | null | undefined} sheetEn
+ * @param {AbilityCtx | null | undefined} ctx
+ */
 export function abilityStatusesOf(sheetEn, ctx) {
+  /** @type {Record<string, AbilityStatus>} */
   const out = {}
-  for (const key of ['abilities', 'wargearAbilities', 'specialAbilities']) {
+  /** @type {Array<'abilities' | 'wargearAbilities' | 'specialAbilities'>} */
+  const lists = ['abilities', 'wargearAbilities', 'specialAbilities']
+  for (const key of lists) {
     for (const a of sheetEn?.[key] || []) {
       const st = abilityStatusOf(a.text, ctx)
       if (st) out[a.name] = st

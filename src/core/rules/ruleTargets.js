@@ -1,3 +1,4 @@
+// @ts-check
 // Which of YOUR units a rule's own text says it affects — the keyword layer that lets the roster
 // overlay show a unit only the detachment/army rules that actually bear on it. Pure, no Vue.
 //
@@ -126,6 +127,7 @@ const STOP = new Set(['The', 'This', 'That', 'These', 'Those', 'Each', 'While', 
   // units") — each read as part of a target nobody carries until 2026-10-15.
   'Two', 'Three', 'Four', 'Five', 'Six', 'Attached', 'Empower'])
 
+/** @param {string} w */
 const isStop = (w) => STOP.has(w) || STOP.has(w[0] + w.slice(1).toLowerCase())
 
 // One statement of the rule: a paragraph, a `### ` sub-rule section, or a `▪ ` bullet. Bullets
@@ -133,6 +135,7 @@ const isStop = (w) => STOP.has(w) || STOP.has(w[0] + w.slice(1).toLowerCase())
 // targeting DESTROYER CULT and the second every other NECRONS model, and its exclusion belongs to
 // the second alone. Treating the body as one statement would let that exclusion cancel the first
 // bullet's own target and hide the rule from the very units it names.
+/** @param {string | null | undefined} body */
 function passages(body) {
   return (body || '')
     .replace(/\*\*/g, '')
@@ -153,7 +156,12 @@ function passages(body) {
 
 // Keyword phrases the excluding-clause names, plus their singular forms: rules write "excluding
 // MONSTERS and VEHICLES" while the datasheet carries MONSTER and VEHICLE.
+/**
+ * @param {string} passage
+ * @param {Set<string>} [models] collects the phrases excluded as MODELS
+ */
 function excludesIn(passage, models = new Set()) {
+  /** @type {Set<string>} */
   const out = new Set()
   EXCLUDE.lastIndex = 0
   let m
@@ -177,6 +185,7 @@ function excludesIn(passage, models = new Set()) {
   return [...out]
 }
 
+/** @param {string} phrase */
 function depluralise(phrase) {
   return phrase.split(/\s+/).map((w) => {
     if (/heroes$/i.test(w)) return w.slice(0, -3)
@@ -233,6 +242,7 @@ export function ruleScopes(body) {
 // inside one phrase — "Infantry / Mounted Thousand Sons Psyker" is (INFANTRY or MOUNTED) THOUSAND
 // SONS PSYKER, not INFANTRY-anything — so the words the last branch carries beyond the others are a
 // shared tail and go onto every branch (2026-09-19; the plain "CRONOS/TALOS" form is unchanged).
+/** @param {string} run */
 function alternatives(run) {
   const parts = run.split(/\s*\/\s*|,\s*|\s+(?:or|and)\s+/)
   if (parts.length < 2 || !/\S \/ \S/.test(run)) return parts
@@ -245,6 +255,7 @@ function alternatives(run) {
 
 // Every target a rule names, flattened — the readable summary of ruleScopes(), and what the
 // tests assert against.
+/** @param {string | null | undefined} body */
 export function ruleTargets(body) {
   const scopes = ruleScopes(body)
   return scopes && [...new Set(scopes.flatMap((s) => s.targets))]
@@ -253,12 +264,17 @@ export function ruleTargets(body) {
 const norm = foldName
 // A keyword as a target is read without "the": the extraction drops it as a stop word, so "AGENTS OF
 // THE IMPERIUM units" arrives as AGENTS OF IMPERIUM and matched no Agent at all (2026-10-15).
+/** @param {string} s */
 const bare = (s) => norm(s).replace(/\bthe\b/g, ' ').replace(/\s+/g, ' ').trim()
 
 // A target phrase is a CONJUNCTION of keywords written as one run — "Adeptus Custodes Terminator"
 // means the ADEPTUS CUSTODES faction keyword AND the TERMINATOR keyword — so cover the phrase with
 // the unit's own keywords, longest first (a shorter keyword must not claim a run a longer one
 // also starts).
+/**
+ * @param {string[] | null | undefined} keywords
+ * @param {string} target
+ */
 export function keywordsMatchTarget(keywords, target) {
   // Both sides in the singular: rules name a unit in the singular ("Vyper units from your army",
   // "War Walker units") while the datasheet's keyword is the plural the box is sold under (VYPERS,
@@ -353,6 +369,7 @@ export function scopeHits(sc, keywords) {
   const own = Array.isArray(keywords) ? keywords : keywords.own
   const unit = Array.isArray(keywords) ? keywords : keywords.unit
   const legacy = !sc.models
+  /** @param {string} phrase @param {string[] | undefined} models */
   const setFor = (phrase, models) => (legacy || models?.includes(phrase) ? own : unit)
   return sc.targets.some((t) => keywordsMatchTarget(setFor(t, sc.models), t))
     && !sc.excludes.some((x) => keywordsMatchTarget(setFor(x, sc.modelExcludes), x))

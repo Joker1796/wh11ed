@@ -1,3 +1,4 @@
+// @ts-check
 // Command points as a ledger, not a number.
 //
 // A player's CP used to be one number with a stepper. Mikhail's prototype (2026-09) keeps where
@@ -25,8 +26,12 @@
 //
 // Everything here is pure over a player object; useTracker.js wraps it for the live game.
 
+/** @typedef {import('../shared/roster.types.js').TrackerPlayer} TrackerPlayer */
+/** @typedef {import('../shared/roster.types.js').CpEntry} CpEntry */
+
 export const CP_BONUS_PER_ROUND = 1
 
+/** @param {TrackerPlayer} pl @returns {CpEntry[]} */
 export function ledger(pl) {
   if (!Array.isArray(pl.cpLog)) {
     pl.cpBase = pl.cp || 0
@@ -35,6 +40,7 @@ export function ledger(pl) {
   return pl.cpLog
 }
 
+/** @param {TrackerPlayer} pl */
 export function recomputeCp(pl) {
   const sum = (pl.cpLog || []).reduce((s, e) => s + (e.amount || 0), 0)
   pl.cp = Math.max(0, (pl.cpBase || 0) + sum)
@@ -43,6 +49,7 @@ export function recomputeCp(pl) {
 
 // Every entry carries when it was made (`t`, ms): the game log is read by battle round and turn,
 // and within one turn it is this that puts the latest act on top (gameLog.js).
+/** @param {TrackerPlayer} pl @param {CpEntry} entry */
 export function addEntry(pl, entry) {
   if (entry.t == null) entry.t = Date.now()
   ledger(pl).push(entry)
@@ -50,6 +57,7 @@ export function addEntry(pl, entry) {
   return entry
 }
 
+/** @param {TrackerPlayer} pl @param {(e: CpEntry) => boolean} pred */
 export function removeEntries(pl, pred) {
   const log = ledger(pl)
   const keep = log.filter(e => !pred(e))
@@ -60,11 +68,13 @@ export function removeEntries(pl, pred) {
 }
 
 // The round's bonus entry, if one was gained — the cap is one.
+/** @param {TrackerPlayer} pl @param {number} round */
 export function bonusIn(pl, round) {
   return (pl.cpLog || []).find(e => e.kind === 'bonus' && e.round === round) || null
 }
 
 // The stepper's value set by hand: the difference goes in as an 'adjust' entry.
+/** @param {TrackerPlayer} pl @param {number} value @param {number} round @param {number} turn */
 export function adjustTo(pl, value, round, turn) {
   ledger(pl)
   const delta = Math.max(0, value) - recomputeCp(pl)
@@ -72,11 +82,13 @@ export function adjustTo(pl, value, round, turn) {
 }
 
 // Clock positions compare as round, then turn.
+/** @param {number} r1 @param {number} t1 @param {number} r2 @param {number} t2 */
 export function clockBefore(r1, t1, r2, t2) {
   return r1 < r2 || (r1 === r2 && t1 < t2)
 }
 
 // What the ledger spent and on what, oldest first — the stats page's list.
+/** @param {TrackerPlayer} pl */
 export function spends(pl) {
   return (pl.cpLog || []).filter(e => e.kind === 'spend')
 }

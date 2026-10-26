@@ -9,15 +9,20 @@
 import { enhEligible } from './rosterEnhEligible.js'
 import { foldName } from '../shared/foldName.js'
 
+/** @typedef {import('../shared/roster.types.js').CombatPatrolBox} CombatPatrolBox */
+/** @typedef {import('../shared/roster.types.js').RosterUnit} RosterUnit */
+/** A box's one detachment, with the units it fixes. @typedef {import('../shared/roster.types.js').Detachment & { linkedUnits?: Array<{ unit: string, count?: number, warlord?: 1 }> }} CombatPatrolDetachment */
+
 /**
  * @param {{ id: string, slug: string, boxName: string }} box the box (combatPatrol.js)
- * @param {{ units: Array<{ id: string }>, detachments: Array<any> }} faction loadRosterFaction(slug, { cp: box.id })
+ * @param {{ units: RosterUnit[], detachments: CombatPatrolDetachment[] }} faction loadRosterFaction(slug, { cp: box.id })
  * @param {string | null | undefined} enhName the enhancement chosen, by name
  * @param {() => string} newUid
  */
 export function combatPatrolRoster(box, faction, enhName, newUid) {
   const det = faction?.detachments?.[0]
   if (!det?.linkedUnits?.length) return null
+  /** @param {string} id */
   const defOf = (id) => faction.units.find((u) => u.id === id)
   /** @type {Array<{ uid: string, id: string, size: number, warlord?: boolean, enh?: string }>} */
   const units = []
@@ -28,6 +33,7 @@ export function combatPatrolRoster(box, faction, enhName, newUid) {
   }
   // The box page names an Upgrade plainly ("Goldenwrath"), the list data as appdata does
   // ("Goldenwrath (Upgrade)"): matched without the tag, stored as the list data names it.
+  /** @param {unknown} n */
   const key = (n) => foldName(String(n || '').replace(/\s*\(upgrade\)\s*$/i, ''))
   const enh = (det.enhancements || []).find((e) => key(e.name) === key(enhName))
   const bearer = enh && units.find((u) => enhEligible(enh, defOf(u.id)))
@@ -35,7 +41,10 @@ export function combatPatrolRoster(box, faction, enhName, newUid) {
   return { name: box.boxName, faction: box.slug, cp: box.id, detachments: [det.name], disposition: null, units }
 }
 
-/** The enhancement GW gives a box unless the player picks the other: the one flagged default. */
+/**
+ * The enhancement GW gives a box unless the player picks the other: the one flagged default.
+ * @param {CombatPatrolBox | null | undefined} box
+ */
 export function defaultCombatPatrolEnhancement(box) {
   return (box?.enhancements || []).find((e) => e.isDefault)?.name || box?.enhancements?.[0]?.name || null
 }

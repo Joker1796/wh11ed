@@ -35,6 +35,32 @@ segmented slider, plurals, colours, the HTML sanitizer, label formatting, the ba
 rows under a unit in a list, how a swap group is drawn, the wargear "i" lookup) stay in the app. The test is
 the question "is this a rule of the game, or a way of showing one?".
 
+## How data reaches the core
+
+Two ways, and nothing else:
+
+- **On the thing it describes**, written there by the generator. A unit carries the keywords its rules
+  grant it (`grants`, a Chapter's borrowed Codex units the Chapter's `sharedGrants`) and what its items
+  stand for (`stands`); an enhancement carries the weapons it gives (`weapons`). `gen-roster-data`
+  writes them, and its `--check` holds them to their sources.
+- **As an argument.** The keyword vocabulary (`vocabulary` — ruleTargets' `scopesMisread` and the
+  rosterStatMods gates), the faction directory for import and export (`factionGroups`), the game clock
+  (`GameClock`, built by the app in `src/composables/gameClock.js` because two of its answers are
+  tracker settings), a mission card (`cardBlocksOf`). The app's loaders live with the data
+  (`src/data/datasheets/index.js`'s `loadKeywordVocabulary`).
+
+What the core OWNS outright is the vocabulary of the game itself, not a version of its rules: the
+condition dictionary (`rules/conditions.js`), the five Force Dispositions (`roster/dispositions.js`),
+which factions are Chapters of the Codex (`shared/smChapters.js`), slugs (`shared/slugify.js`), and the
+shape of the data it reads (`shared/roster.types.js`, `shared/data.types.js`). Data may import these;
+the core never imports data.
+
+## Types
+
+Every module here starts with `// @ts-check` and is listed in `tsconfig.json`'s `include`
+(`strictNullChecks` + `noImplicitAny`); `typeChecked.test.js` fails on one that is not. No JSDoc
+casts — `src/composables/typecheckCasts.test.js` — a value that may be missing is guarded in code.
+
 ## Moving code in
 
 - `git mv` the file, so its history follows it; fix the imports; no re-export left behind at the old

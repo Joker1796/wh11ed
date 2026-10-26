@@ -1,3 +1,4 @@
+// @ts-check
 // The vocabulary of game-state conditions a Tier C effect can be gated on — the machine-readable
 // half of an effect's `when` prose, hand-assigned in the same review pass (see the `cond` field in
 // each faction's records, and src/components/roster/CLAUDE.md → "Live rules" for what it serves).
@@ -55,6 +56,7 @@ export const SENTINELS = {
 // which is what nearly every group means; the exceptions are rules that let you pick a fixed
 // handful ("either select one from the list below, or randomly determine two"). The limit lives
 // here rather than on each member so the six ids of a set cannot disagree about their own size.
+/** @type {Record<string, number>} */
 export const GROUP_LIMITS = {
   // Creations of Bile — "either select one from the list below, or randomly determine two".
   augmentation: 2,
@@ -70,6 +72,7 @@ export const GROUP_LIMITS = {
 // keyed by the option's own record (`ref.set` / `ref.pickLimit`, stored in `ctx.picks`), the same
 // way a spent stratagem is. See rosterGameContext's pickSwitchesFor.
 
+/** @param {string | null | undefined} group */
 export const groupLimitOf = (group) => (group ? GROUP_LIMITS[group] || 1 : 0)
 
 // `WHOLE_GROUPS` — groups a card shows in full once any member is shown, even the members no
@@ -601,6 +604,7 @@ export const conditions = {
   'rounds-3-5': { scope: 'clock', rounds: [3, 4, 5], duration: 'round', label: { en: 'Battle rounds 3–5', ru: 'Раунды 3–5' } },
 }
 
+/** @param {string} id */
 export const isSentinel = (id) => Object.hasOwn(SENTINELS, id)
 
 // True when every condition on the effect is one the app can actually answer. A sentinel or an
@@ -609,6 +613,10 @@ export const isSentinel = (id) => Object.hasOwn(SENTINELS, id)
 // A `clock` condition depends on the GAME, not on the data — a battle round is always known, but
 // a phase only in a game keeping them — so `phases` says which kind of game is asking. The live
 // answer is rosterGameContext's; this is the static view of the same question.
+/**
+ * @param {string[] | null | undefined} cond
+ * @param {{ phases?: boolean }} [opts]
+ */
 export function isAnswerable(cond, { phases = false } = {}) {
   if (!Array.isArray(cond) || !cond.length) return false
   return cond.every((id) => {

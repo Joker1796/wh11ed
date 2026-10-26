@@ -1,3 +1,4 @@
+// @ts-check
 import { foldChars } from '../shared/foldName.js'
 
 // A weapon ability written with what it applies to — "[LETHAL HITS: NON-MONSTER/VEHICLE]",
@@ -13,6 +14,11 @@ import { foldChars } from '../shared/foldName.js'
 
 // → { base, keywords, negated, anti? } or null for a tag that carries no target keywords. Read
 // folded, so "ANTI‑VEHICLE" typed with U+2011 is ANTI- too (proseReaders.test.js).
+/** @typedef {{ base: string, keywords: string[], negated: boolean, anti?: string }} ParsedWeaponTag */
+/**
+ * @param {string} tag
+ * @returns {ParsedWeaponTag | null}
+ */
 export function parseWeaponTag(tag) {
   const t = foldChars(tag).replace(/^\[|\]$/g, '').trim().toUpperCase()
   const anti = t.match(/^ANTI-(NON-)?(.+?)\s+(\d\+)$/)
@@ -22,11 +28,14 @@ export function parseWeaponTag(tag) {
   return null
 }
 
+/** @param {string[]} kws @param {string} word */
 const join = (kws, word) => (kws.length < 2 ? kws[0] : `${kws.slice(0, -1).join(', ')} ${word} ${kws.at(-1)}`)
+/** @param {string[]} kws @param {string} first @param {string} word */
 const neither = (kws, first, word) => (kws.length < 2 ? kws[0] : `${first} ${kws.slice(0, -1).join(', ')} ${word} ${kws.at(-1)}`)
 
 // What this tag does, one paragraph ahead of the ability's own text. Keywords stay in capitals,
 // which the renderer bolds (useRenderInline's auto-bold), in both languages.
+/** @param {ParsedWeaponTag | null} parsed @param {string} locale */
 export function weaponTagNote(parsed, locale) {
   if (!parsed) return ''
   const { keywords: k, negated, anti } = parsed

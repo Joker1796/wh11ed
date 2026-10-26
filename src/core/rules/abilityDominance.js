@@ -1,3 +1,4 @@
+// @ts-check
 // Two instances of one ability are not cumulative, "regardless of any numbers or keywords included
 // in them" — the player picks one (24.02). Where one instance is at least as good as the other in
 // every way, that pick is no pick at all, and a card showing both reads as if both apply: a granted
@@ -21,7 +22,17 @@ import { foldName } from '../shared/foldName.js'
 
 const NUMBERED = /^(.*?)\s+(\d+)(\+|")?$/
 
-/** "MONSTER/VEHICLE" → { neg: false, set }, "non-VEHICLE" → { neg: true, set }, "(vs A and B)" → { vs, set }, other "(…)" → opaque */
+/**
+ * A rule's reach, as reach() reads it: a list of targets (`neg` for a "non-" list), a "(vs …)" set of
+ * attacks, or an opaque bracket that compares only with itself.
+ * @typedef {{ opaque: string, vs?: undefined, neg?: undefined, set?: undefined } | { opaque?: undefined, vs?: boolean, neg: boolean, set: Set<string> }} Reach
+ */
+
+/**
+ * "MONSTER/VEHICLE" → { neg: false, set }, "non-VEHICLE" → { neg: true, set }, "(vs A and B)" → { vs, set }, other "(…)" → opaque
+ * @param {string | null} q
+ * @returns {Reach | null}
+ */
 function reach(q) {
   if (q == null) return null
   const t = foldName(q)
@@ -32,11 +43,18 @@ function reach(q) {
   return { neg, set: new Set((neg ? t.slice(4) : t).split('/').map((x) => x.trim()).filter(Boolean)) }
 }
 
-/** Does reach `a` include every target of reach `b`? null is "every target". */
+/** @param {Reach} r */
+const opaqueOf = (r) => ('opaque' in r ? r.opaque : null)
+
+/**
+ * Does reach `a` include every target of reach `b`? null is "every target".
+ * @param {Reach | null} a
+ * @param {Reach | null} b
+ */
 function covers(a, b) {
   if (!a) return true
   if (!b) return false
-  if (a.opaque || b.opaque) return a.opaque === b.opaque
+  if ('opaque' in a || 'opaque' in b) return opaqueOf(a) === opaqueOf(b)
   if (!!a.vs !== !!b.vs) return false
   if (a.neg !== b.neg) return false
   const [small, big] = a.neg ? [a.set, b.set] : [b.set, a.set]
@@ -61,7 +79,11 @@ function parse(ability) {
   return { base: foldName(dice ? dice[1] : s), n: null, dice: !!dice, lowerBetter: false, name: foldName(s), reach: reach(qual) }
 }
 
-/** Is `a` at least as good as `b` in every way, so that `b` says nothing `a` does not? */
+/**
+ * Is `a` at least as good as `b` in every way, so that `b` says nothing `a` does not?
+ * @param {unknown} a
+ * @param {unknown} b
+ */
 export function dominates(a, b) {
   const pa = parse(a)
   const pb = parse(b)

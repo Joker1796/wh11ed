@@ -1,3 +1,4 @@
+// @ts-check
 // A fact about how the game's factions are built, not a version of their rules — so it lives in the
 // core, beside the condition vocabulary (the Combat Doctrines readers in rosterGameContext ask it).
 // The five Space Marine Chapters with a Codex Supplement of their own. Each is its own faction slug

@@ -1,3 +1,4 @@
+// @ts-check
 // One spelling for a name, so the same unit, weapon or rule from two sources compares equal.
 //
 // GW's data spells one name several ways, and not consistently even within a source: appdata

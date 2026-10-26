@@ -1,3 +1,4 @@
+// @ts-check
 // The game's log — the whole history of what was done (owner, 2026-10-19).
 //
 // Most of it is READ from what the game already holds: the CP ledger (cpLedger.js — Core CP,
@@ -29,14 +30,21 @@
 
 import { ledgerEvent, discardEvent, ACT_KIND } from './actionLog.js'
 
+/** @typedef {import('../shared/roster.types.js').TrackerGame} TrackerGame */
+/** @typedef {import('../shared/roster.types.js').GameLogEvent} GameLogEvent */
+
 // An undo finds the entry it took back by what that entry says. Only a RECORDED act can still be
 // there to find (a unit switch, an army rule's call); an entry read from the game state — a spend,
 // a score — is gone once taken back, and a twin still standing (two identical uses, one taken back)
 // must not be mistaken for it.
+/** @param {Record<string, any>} e */
 const sig = (e) => JSON.stringify([e.type, e.t ?? null, e.round ?? null, e.slug ?? null, e.name ?? null, e.amount ?? null, e.vp ?? null, e.uid ?? null, e.id ?? null, e.opt ?? null])
+/** @param {Record<string, any>} e @returns {string} */
 const kindOf = (e) => (e.type === 'undo' ? kindOf(e.of || {}) : e.kind || ACT_KIND[e.type] || 'cp')
 
+/** @param {TrackerGame | null | undefined} game */
 export function buildGameLog(game) {
+  /** @type {GameLogEvent[]} */
   const out = []
   if (!game?.players) return out
   game.players.forEach((pl, pi) => {
@@ -78,6 +86,7 @@ export function buildGameLog(game) {
   // rather than grouped by kind (the CP corrections a player made last showed under the cards they
   // drew first). Acts of one moment (a take's two cards), or a game saved before the stamps, fall
   // back to turn (unknown last within a round), then side.
+  /** @param {number | null | undefined} x */
   const tu = (x) => (x == null ? 2 : x)
   return out.sort((a, b) => (b.round || 0) - (a.round || 0)
     || (a.t != null && b.t != null && a.t !== b.t ? b.t - a.t : tu(b.turn) - tu(a.turn) || a.pi - b.pi))
@@ -86,6 +95,7 @@ export function buildGameLog(game) {
 // Every undo strikes the entry it took back: the act still in the log, or, when the game no longer
 // holds it (a stratagem's spend, a score since corrected), the copy the undo carries, put back where
 // it was.
+/** @param {GameLogEvent[]} out */
 function markUndone(out) {
   const open = new Map()
   for (const e of out) {

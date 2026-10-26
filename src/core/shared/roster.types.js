@@ -120,6 +120,12 @@
 
 /** The faction directory the importer reads names against and the exporter takes an alliance from (src/data/factionsIndex.js's `factionGroups`). @typedef {{ id: string, factions: Array<{ slug: string, name: string }> }} FactionGroup */
 
+/**
+ * One Combat Patrol box (src/data/combatPatrol.js, `<locale>.factions[]`) — the parts the core reads:
+ * `id` the box's URL key, `slug` its faction's, `rule` the detachment rule the box is named by.
+ * @typedef {{ id: string, slug: string, boxName: string, rule?: { name: string }, enhancements?: Array<{ name: string, isDefault?: boolean }> }} CombatPatrolBox
+ */
+
 /** A keyword a rule grants a unit: `det` (a detachment's wh11ed id) when only that detachment does, `extra` when it is printed apart from the unit's own keywords. @typedef {{ kw: string, det?: string, extra?: boolean }} KeywordGrant */
 
 /**
@@ -618,5 +624,85 @@
  * An aura that could reach a unit (rosterStatMods' `aurasReaching`), as the chip strip takes it.
  * @typedef {{ sid: string, source: string, name: string, nameRu?: string, info?: { name: string, text: string } | null }} AuraReach
  */
+
+// ── A game, as the tracker keeps it (src/core/game/) ───────────────────────────────────────────
+// Only the parts the core reads; the store (useTracker.js) writes more. The shape of the whole
+// saved game: src/components/tracker/CLAUDE.md, "State".
+
+/**
+ * One entry of a side's CP ledger (cpLedger.js), `amount` signed. `turn` is absent on entries
+ * written before the clock kept turns; `t` is stamped by addEntry.
+ * @typedef {object} CpEntry
+ * @property {'core' | 'bonus' | 'spend' | 'adjust'} kind
+ * @property {number} amount
+ * @property {number} round
+ * @property {number | null} [turn]
+ * @property {number} [t] epoch ms
+ * @property {string} [source] 'manual' / 'discard' for a bonus, 'redraw' / 'strat' / 'manual' for a spend
+ * @property {string} [ref] the card's slug or the stratagem's key
+ * @property {string} [name]
+ * @property {{ uid: string, name: string, mi?: number, sid?: string, opp?: boolean }} [target] the unit a stratagem was played on
+ */
+
+/** A secondary scored in a round, `picks` by `bi:ri`. @typedef {{ slug: string, round: number, vp: number, picks?: Record<string, number>, t?: number }} ScoredSecondary */
+
+/**
+ * A card that left the hand (`secondary.discarded`): `auto` the turn whose end set it aside, `cp`
+ * the end-of-turn discard's bonus. An older game holds a bare slug instead (read as `d.slug ?? d`).
+ * @typedef {{ slug: string, round?: number, auto?: number | null, cp?: boolean, t?: number }} DiscardedCard
+ */
+
+/**
+ * A side's secondary missions.
+ * @typedef {object} SecondaryState
+ * @property {string[]} [deck]
+ * @property {string[]} [hand]
+ * @property {Record<string, number>} [drawn] the round each card in play became active
+ * @property {Record<string, number>} [drawnAt] when it was drawn, epoch ms
+ * @property {Record<string, string>} [source] how it came in
+ * @property {Array<DiscardedCard | string>} [discarded]
+ * @property {ScoredSecondary[]} [scored]
+ * @property {Array<{ slug: string, round: number, t: number, drawnRound: number, drawnAt?: number, source?: string }>} [returned] put back in the deck by hand
+ * @property {Array<{ slug: string, round: number, mode: string, t: number }>} [whenDrawn] discarded or shuffled back by its own WHEN DRAWN rule
+ */
+
+/** One battle round of a side: the primary's VP, its picks by `bi:ri`, when it was last scored. @typedef {{ primary: number, picks?: Record<string, number>, t?: number }} RoundScore */
+
+/** Where a unit of an attached list is (unitStatus.js). @typedef {'table' | 'reserve' | 'destroyed'} UnitPlace */
+
+/** A unit's place on record, with when it got there. @typedef {{ s: UnitPlace, round: number, turn: number, t: number, name?: string }} UnitStatusRecord */
+
+/**
+ * An act as a caller hands it to actionLog's pushAct — `{ round, turn, type, … }`; the rest of
+ * the fields are the act type's own (gameLog.js's header lists them), so the record stays open.
+ * @typedef {{ type: string, round?: number, turn?: number | null, pi?: number, key?: string, of?: Record<string, any> } & Record<string, any>} ActInput
+ */
+
+/** An act the game keeps (`acts`), stamped when it was written. @typedef {ActInput & { t: number }} GameAct */
+
+/**
+ * One line of the game's log (gameLog.js) — read from the game or a recorded act; the fields
+ * past these are its type's own.
+ * @typedef {{ type: string, kind: string, pi: number, round?: number | null, turn?: number | null, t?: number, undone?: boolean, act?: boolean } & Record<string, any>} GameLogEvent
+ */
+
+/**
+ * A side of a tracked game (`players[i]`; a member of a doubles team carries the same army fields).
+ * @typedef {GamePlayer & {
+ *   isYou?: boolean, name?: string, role?: string | null, secondaryMode?: 'tactical' | 'fixed',
+ *   battleReady?: boolean, primarySlug?: string | null, cp?: number, cpBase?: number, cpLog?: CpEntry[],
+ *   rounds?: RoundScore[], secondary?: SecondaryState, unitStatus?: Record<string, UnitStatusRecord>, acts?: GameAct[]
+ * }} TrackerPlayer
+ */
+
+/**
+ * A tracked game, live or from the history. `players[0]` is the first-turn player.
+ * @typedef {GameState & {
+ *   phase?: 'setup' | 'playing' | 'finished', players?: TrackerPlayer[], acts?: GameAct[],
+ *   clockAt?: number, clockBack?: boolean, trackerGen?: number, concededBy?: number, endReason?: string | null
+ * }} TrackerGame
+ */
+
+/** A game in play: its clock and both sides are always there. @typedef {TrackerGame & { currentRound: number, players: TrackerPlayer[] }} LiveGame */
 
 export {}

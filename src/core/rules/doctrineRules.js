@@ -38,7 +38,8 @@
 
 import { foldChars } from '../shared/foldName.js'
 
-const NAMES = /** @type {Doctrine[]} */ (['assault', 'devastator', 'tactical'])
+/** @type {Doctrine[]} */
+const NAMES = ['assault', 'devastator', 'tactical']
 export const doctrineCond = (/** @type {Doctrine} */ d) => `doctrine-${d}`
 
 // The text the reader sees, without the markup: a gloss token keeps its label, emphasis goes, and

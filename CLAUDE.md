@@ -24,7 +24,7 @@ account**; signing in only syncs lists and history between devices.
 The audience is players at a table — someone looking a rule up mid-game, usually on a phone, often
 on bad reception. That shapes most of the decisions below.
 
-**Four things to know before changing anything:**
+**Five things to know before changing anything:**
 
 - **The centre of gravity is data, not code.** The bulk of the repo, and the bulk of the risk, is
   the bilingual rule data in `src/data/`. The characteristic bug here isn't a logic error — it's an
@@ -39,6 +39,11 @@ on bad reception. That shapes most of the decisions below.
   heavy data files, `index.html` uploaded with `cp` and not `sync`. Before "fixing" something that
   looks wrong, search this file for it: the reason is usually written down, along with what broke
   last time.
+- **The rules are a core of plain functions, apart from the data and the app** (`src/core/`, since
+  2026-10-26). Building and checking a list, applying rules to a unit's card, scoring a game — all
+  there, with no Vue, no browser and no import from `src/data`: the app loads the data and passes it
+  in. A gate holds the line (eslint + `src/core/boundary.test.js`). Read `src/core/CLAUDE.md` before
+  adding rule logic anywhere else.
 - **The linter is a gate, not a style opinion.** `npm run lint` (ESLint + `eslint-plugin-vue`,
   config in `eslint.config.js`, a step in `ci.yml`) reports nothing on a clean tree, so anything
   it says is new. It formats the templates too (one attribute per line, plugin indentation) — so
@@ -58,6 +63,7 @@ Read the one for the directory you're touching:
 
 | Where | What it covers |
 |---|---|
+| `src/core/CLAUDE.md` | the rules core: what belongs there, the one rule (nothing imported from outside it), layout, how code moves in |
 | `src/data/CLAUDE.md` | bilingual conventions, generated sidecars, the data gates, RU search aliases, `/help` content |
 | `src/components/CLAUDE.md` | motion, shared UI primitives, modal chrome, square corners, what the phone demands |
 | `src/components/core/CLAUDE.md` | Core Rules (one page, seven chapters) |

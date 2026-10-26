@@ -1,3 +1,4 @@
+// @ts-check
 // The acts the game keeps for its log (gameLog.js) that its own state cannot tell — owner,
 // 2026-10-19: "the log is the whole history of actions".
 //
@@ -21,19 +22,28 @@
 // Writing in a row to the same counter within this many ms reads as one change, not five.
 export const COALESCE_MS = 60_000
 
+/** @typedef {import('../shared/roster.types.js').ActInput} ActInput */
+/** @typedef {import('../shared/roster.types.js').GameAct} GameAct */
+/** @typedef {import('../shared/roster.types.js').CpEntry} CpEntry */
+/** @typedef {import('../shared/roster.types.js').DiscardedCard} DiscardedCard */
+/** What keeps acts: a side, or the game itself. @typedef {{ acts?: GameAct[] }} ActHolder */
+
 // The most acts one holder keeps — a fuse, not a budget. A side travels in one slice of a shared
 // game, capped at 256 KB by the API (maxPartySliceBytes; 32 KB until 2026-10-19), and an act
 // weighs ~100–150 bytes; a busy game measured ~60 a side. Past the fuse the OLDEST go: the log
 // loses its start rather than the game losing its sync.
 export const MAX_ACTS = 1000
 
+/** @param {ActHolder} holder */
 function holderActs(holder) {
   if (!Array.isArray(holder.acts)) holder.acts = []
   return holder.acts
 }
 
+/** @param {ActHolder | null | undefined} holder @param {ActInput} act */
 export function pushAct(holder, act) {
   if (!holder) return null
+  /** @type {GameAct} */
   const entry = { t: Date.now(), ...act }
   for (const k of ['label', 'optLabel', 'item']) if (k in entry) entry[k] = compactLabel(entry[k])
   const acts = holderActs(holder)
@@ -45,6 +55,7 @@ export function pushAct(holder, act) {
 // The act was a value set by a stepper (`key` names which): one tapped again within COALESCE_MS
 // moves the last act's `to` instead of adding another — and a value stepped back to where it
 // started leaves no act at all.
+/** @param {ActHolder | null | undefined} holder @param {ActInput} act @param {string} key */
 export function pushValueAct(holder, act, key) {
   if (!holder) return null
   const acts = holderActs(holder)
@@ -62,6 +73,7 @@ export function pushValueAct(holder, act, key) {
 
 // A label in both languages kept as one string where the two agree (a stratagem's name, an English
 // game term) — most of them, and the log is carried by every save and every sync.
+/** @param {string | { en?: string, ru?: string } | null | undefined} x */
 export function compactLabel(x) {
   if (!x || typeof x !== 'object') return x ?? null
   return !x.ru || x.ru === x.en ? (x.en ?? '') : { en: x.en, ru: x.ru }
@@ -69,6 +81,12 @@ export function compactLabel(x) {
 
 // `of` was taken back. Its `t` stays as it was: that is what places the struck entry in the log.
 // `extra` — what the undo itself carries besides: the side a battle act concerns (`pi`).
+/**
+ * @param {ActHolder | null | undefined} holder
+ * @param {Record<string, any> | null | undefined} of the entry as the log tells it (gameLog.js)
+ * @param {{ round: number, turn: number }} clock
+ * @param {Record<string, any>} [extra]
+ */
 export function pushUndo(holder, of, clock, extra = {}) {
   if (!holder || !of) return null
   return pushAct(holder, { type: 'undo', round: clock.round, turn: clock.turn, ...extra, of: strip(of) })
@@ -77,7 +95,9 @@ export function pushUndo(holder, of, clock, extra = {}) {
 // The fields an undone entry needs to be told again — without the bookkeeping, and without what
 // its type already says (the filter it is under, ACT_KIND) or the log never shows (a ledger ref).
 const DROP = new Set(['pi', 'undone', 'act', 'kind', 'source', 'ref', 'key'])
+/** @param {Record<string, any>} e */
 function strip(e) {
+  /** @type {Record<string, any>} */
   const out = {}
   for (const [k, v] of Object.entries(e)) if (v !== undefined && !DROP.has(k)) out[k] = v
   return out
@@ -86,6 +106,7 @@ function strip(e) {
 // ── The derived entries, built one way for the log and for an undo of them ──
 
 // A CP ledger entry (cpLedger.js) as the log tells it.
+/** @param {CpEntry} e */
 export function ledgerEvent(e) {
   // A point spent from the balance's "−" (no stratagem to spend through) is a CP line, not a stratagem.
   const manual = e.kind === 'spend' && e.source === 'manual'
@@ -99,13 +120,18 @@ export function ledgerEvent(e) {
 
 // A card that left the hand (`secondary.discarded`) as the log tells it: replaced for 1CP, discarded
 // at the end of the turn for CP, achieved, or set aside by hand.
+/** @param {DiscardedCard | string} d @param {Set<string | undefined> | null} [redrawn] the slugs replaced for 1CP */
 export function discardEvent(d, redrawn) {
-  const slug = d.slug ?? d
-  const type = redrawn?.has(slug) ? 'redraw' : d.cp ? 'discard' : d.auto != null ? 'achieved' : 'setAside'
-  return { round: d.round ?? null, turn: d.auto ?? null, kind: 'cards', type, slug, ...(type === 'discard' ? { cp: true } : {}), t: d.t }
+  // A game from before the record kept more than the slug stores the slug alone.
+  /** @type {Partial<DiscardedCard>} */
+  const card = typeof d === 'string' ? { slug: d } : d
+  const slug = card.slug
+  const type = redrawn?.has(slug) ? 'redraw' : card.cp ? 'discard' : card.auto != null ? 'achieved' : 'setAside'
+  return { round: card.round ?? null, turn: card.auto ?? null, kind: 'cards', type, slug, ...(type === 'discard' ? { cp: true } : {}), t: card.t }
 }
 
 // What a kind of act is filed under in the log.
+/** @type {Record<string, string>} */
 export const ACT_KIND = {
   primary: 'points', scored: 'points', fix: 'points', core: 'cp', bonus: 'cp', adjust: 'cp', strat: 'strat',
   drawn: 'cards', returned: 'cards', whenDrawn: 'cards', setAside: 'cards', achieved: 'cards', discard: 'cards', redraw: 'cards',
