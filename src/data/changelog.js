@@ -33,6 +33,8 @@ export const changelog = [
       '**When you print a roster, identical units share one unit card marked “×2”.** A unit in an attached unit always gets a card of its own.',
       { h: 'Tracker' },
       '**After the roll for the first turn, the Army tab shows each player their own army.** Before, if the second player won the roll, the army rule, the detachment rules and the list stayed with the other player.',
+      { h: 'Answers to bug reports' },
+      'Do Wulfen with [Wolf-Touched](/factions/space-wolves#enh-saga-of-the-beastslayer-wolf-touched) stay at 9” M? I could not reproduce it. When the character with Wolf-Touched is attached to [Wulfen](/factions/space-wolves/datasheets/wulfen) in your list, they have 11”. If it keeps happening for you, please send a bug report with more details.',
     ],
     ru: [
       { h: 'Конструктор ростеров' },
@@ -43,6 +45,8 @@ export const changelog = [
       '**При печати ростера одинаковые юниты получают одну общую карточку с пометкой «×2».** Юнит в присоединённом отряде всегда печатается на своей карточке.',
       { h: 'Трекер' },
       '**После броска за первый ход вкладка «Армия» показывает каждому игроку его армию.** Раньше, если бросок выигрывал второй игрок, правило армии, правила детачментов и ростер оставались у соперника.',
+      { h: 'Ответы на баг-репорты' },
+      'Wulfen с [Wolf-Touched](/factions/space-wolves#enh-saga-of-the-beastslayer-wolf-touched) остаются на 9” M? Я не смог это воспроизвести. Если персонаж с Wolf-Touched прикреплён к [Wulfen](/factions/space-wolves/datasheets/wulfen) в списке, у них 11”. Если у вас это повторяется, напишите, пожалуйста, подробнее в отчёте об ошибке.',
     ],
   },
   {

@@ -77,7 +77,7 @@ export const SECTION_KINDS = {
   rules: { icon: 'wi wi-army', words: ['Checking against the GW app', 'Сверка с приложением GW', 'Datasheets', 'Датащиты', 'Units', 'Юниты', 'Core Rules', 'Базовые правила', 'Deathwatch Support'] },
   roster: { icon: 'wi wi-rosters', words: ['Roster builder', 'Конструктор ростеров', 'Roster in a game', 'Ростер в партии'] },
   tracker: { icon: 'wi wi-tracker', words: ['Tracker', 'Трекер', 'Beta of the new game tracker', 'Бета нового трекера партии'] },
-  answers: { icon: 'wi wi-faq', words: ['Answers to your questions', 'Ответы на вопросы'] },
+  answers: { icon: 'wi wi-faq', words: ['Answers to your questions', 'Ответы на вопросы', 'Answers to bug reports', 'Ответы на баг-репорты'] },
   errors: { icon: 'wi wi-warning', words: ['Probable GW mistakes', 'Вероятные ошибки GW'] },
   thanks: { icon: 'wi wi-support', words: ['Thank you', 'Спасибо'] },
   report: { icon: 'wi wi-bug', words: ['Bug reports', 'Баг-репорты'] },
