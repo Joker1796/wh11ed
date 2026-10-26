@@ -302,11 +302,11 @@ export function useRosterUnitCard(props) {
     if (!entry) return []
     // A unit that joined a led unit is told apart by its roster definition (`joins`): this card's
     // own is ctx.def, the others' come from ctx.defOf where the caller has one.
-    /** @param {import('./roster.types.js').RosterEntry} u */
-    const defOf = (u) => (u.uid === entry.uid ? props.ctx?.def : props.ctx?.defOf?.(u.id))
+    /** @param {Partial<import('./roster.types.js').RosterEntry>} u */
+    const defOf = (u) => (u.uid === entry.uid ? props.ctx?.def : u.id ? props.ctx?.defOf?.(u.id) : null)
     return datasheetEntriesFor(usableModifierEntries.value, {
       unitId: props.unitId,
-      ...attachmentContext(/** @type {import('./roster.types.js').RosterEntry} */ (entry), units, {
+      ...attachmentContext(entry, units, {
         defOf,
         sheetOf: (id) => datasheets.value.find((d) => d.id === id),
         items: props.ctx?.items,

@@ -12,7 +12,7 @@ import { modelsPerMini, wargearGroupCap, enhEligible } from './rosterEngine.js'
 import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
 import { loadRosterModifiersFor } from '../data/rosterModifiers/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
-import { overlaySheet, loadoutItemNames, itemKey } from './rosterModifiers.js'
+import { overlaySheet, loadoutItemNames, loadoutItemCopies, itemKey } from './rosterModifiers.js'
 import { applyStatMods, datasheetEntriesFor, gateStratagems, splitBearers, resolveModifierEntries } from './rosterStatMods.js'
 import { loadFactionWithCodex } from './rosterFactionRules.js'
 
@@ -121,6 +121,17 @@ describe('splitBearers — T\'au Shield Drones', () => {
     const rows = res.sheet.profiles.map((p) => [row(p), Number(p.w)])
     expect(rows).toEqual([['Strike Team ×9', rows[0][1]], ['Strike Team · Shield Drone ×1', rows[0][1] + 1]])
   })
+
+  // Both drones are the Shas'ui's, and he shares the printed row with the Fire Warriors: the second
+  // copy is his too, not a Fire Warrior's (a player's report, 2026-10-26: W 2 on two models).
+  it('stacks two drones on the one Shas\'ui of a Strike, Breacher or Pathfinder Team', async () => {
+    for (const unitId of ['strike-team', 'breacher-team', 'pathfinder-team']) {
+      const rows = (await card('tau-empire', unitId, 0, [['Shield Drone', 2]])).sheet.profiles.map((p) => [row(p), Number(p.w)])
+      const base = rows[0][1]
+      expect(rows.map(([, w]) => w), unitId).toEqual([base, base + 2])
+      expect(rows[1][0], unitId).toMatch(/Shield Drone ×2 ×1$/)
+    }
+  })
 })
 
 // The same drone on a Legends sheet from a Faction Pack (gen-roster-modifiers' packSources): until
@@ -182,6 +193,28 @@ describe('splitBearers — copies from a unit-wide group', () => {
               const entries = gateStratagems(datasheetEntriesFor([rec], { unitId: def.id, itemNames: loadoutItemNames(def, entry, items) }), [], [], new Set())
               const placed = splitBearers(sheet, entries, def, entry, items)
               if (!placed.entries.some((e) => e.effects.some((x) => x.rows && !x.ruledOut))) lost.push(`${slug} ${def.id} ${rec.ref.item} ×${n} in ${models}`)
+              // …and placed on the right models: copies picked for one model (`g.m`) stay on that
+              // model's count — two Shield Drones of the one Shas'ui are one model with two, not two
+              // models with one (a player's report, 2026-10-26: the check above only asked "placed?").
+              if (g.m == null) continue
+              const mine = perMini.get(g.m) ?? 0
+              const base = rec.effects.find((x) => x.on === 'profile' && x.op === 'add' && typeof x.value === 'number')
+              if (!base) continue
+              let held = 0
+              let bearers = 0
+              for (const e of placed.entries) for (const x of e.effects) {
+                if (x.on !== 'profile' || !x.rows?.profiles || x.cond) continue
+                for (const i of x.rows.profiles) {
+                  const m = placed.sheet.profiles[i]?.qty ?? mine
+                  bearers += m
+                  held += m * (Number(x.value) / base.value)
+                }
+              }
+              // The copies the loadout holds — a count past what the group lets this model take is
+              // trimmed by the list itself (two Storm Shields on one Sergeant).
+              const copies = [...(loadoutItemCopies(def, entry) || [])].filter(([id]) => itemKey(items[id]) === rec.ref.item)
+                .flatMap(([, slots]) => slots).reduce((a, sl) => a + (sl.n ?? 0), 0)
+              if (held !== copies || bearers > mine) lost.push(`${slug} ${def.id} ${rec.ref.item} ×${n} on ${mine}: ${held} of ${copies} copies on ${bearers} models`)
             }
           }
         }

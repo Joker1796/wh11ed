@@ -1251,25 +1251,37 @@ export function splitBearers(sheet, entries, def, entry, items) {
     if (!slots.length) return null
     /** @type {Map<number, number[]>} */
     const out = new Map()
-    /** @param {number} p @param {number} n */
-    const add = (p, n) => {
-      const layers = out.get(p) || []
-      // A copy goes on the models already holding the most copies that still have room for one.
+    // A copy goes on the models already holding the most copies that still have room for one — of
+    // the MINI it was picked for, not of the printed row: a Strike Team's Shas'ui and Fire Warriors
+    // share one "Strike Team" profile, and the Shas'ui's second Shield Drone is his, not a Fire
+    // Warrior's (a player's report, 2026-10-26: two drones printed W 2 on two models, not W 3 on one).
+    /** @param {number[]} layers @param {number} models @param {number} n */
+    const stack = (layers, models, n) => {
       let left = n
       for (let k = 0; left > 0; k++) {
-        const room = (k === 0 ? modelsOf.get(p) ?? 0 : layers[k - 1]) - (layers[k] || 0)
+        const room = (k === 0 ? models : layers[k - 1]) - (layers[k] || 0)
         const take = Math.min(left, room)
         if (take > 0) { layers[k] = (layers[k] || 0) + take; left -= take }
         if (k > layers.length) return false
       }
-      out.set(p, layers)
       return true
     }
+    /** @type {Map<number, number[]>} mini index → layers */
+    const ofMini = new Map()
     let loose = 0
     for (const s of slots) {
       if (s.m == null) { loose += s.n; continue }
-      const p = profileOf(s.m)
-      if (p == null || !add(p, s.n)) return null
+      const layers = ofMini.get(s.m) || []
+      if (profileOf(s.m) == null || !stack(layers, perMini.get(s.m) ?? 0, s.n)) return null
+      ofMini.set(s.m, layers)
+    }
+    // …and the minis' layers add up into their profile's: a model with two copies is one in both.
+    for (const [m, layers] of ofMini) {
+      const p = profileOf(m)
+      if (p == null) continue
+      const into = out.get(p) || []
+      layers.forEach((n, k) => { into[k] = (into[k] || 0) + n })
+      out.set(p, into)
     }
     // Copies from a unit-wide group belong to no profile: first copies go out in the datasheet's
     // own order (the first to the Sergeant), then second copies the same way, and so on. Counted
@@ -1544,8 +1556,8 @@ export function attachmentOf(entry, units, isJoiner) {
   return {
     leaders: list.filter((u) => u.leaderOf === entry.uid),
     ledUnitId: entry.leaderOf ? list.find((u) => u.uid === entry.leaderOf)?.id || null : null,
-    coLeaderUnitIds: /** @type {string[]} */ (mates.filter((u) => !isJoiner(u)).map((u) => u.id)),
-    joinedUnitIds: /** @type {string[]} */ (mates.filter(isJoiner).map((u) => u.id)),
+    coLeaderUnitIds: mates.filter((u) => !isJoiner(u)).flatMap((u) => (u.id ? [u.id] : [])),
+    joinedUnitIds: mates.filter(isJoiner).flatMap((u) => (u.id ? [u.id] : [])),
   }
 }
 
@@ -1556,14 +1568,14 @@ export function attachmentOf(entry, units, isJoiner) {
 // the Command Squad — a player's report, 2026-10-26). `defOf` names any entry's roster definition
 // (the caller's own for an edited entry), `sheetOf` its printed datasheet, `items` the item table.
 /**
- * @param {RosterEntry} entry
+ * @param {Partial<RosterEntry>} entry
  * @param {RosterEntry[] | null | undefined} units
- * @param {{ defOf: (u: RosterEntry) => any, sheetOf: (id: string) => any, items: any, detachments?: any }} ctx
+ * @param {{ defOf: (u: Partial<RosterEntry>) => any, sheetOf: (id: string) => any, items: any, detachments?: any }} ctx
  */
 export function attachmentContext(entry, units, { defOf, sheetOf, items, detachments }) {
   const list = units || []
   const at = attachmentOf(entry, list, (u) => !!defOf(u)?.joins)
-  /** @param {RosterEntry} u */
+  /** @param {Partial<RosterEntry>} u */
   const enhOf = (u) => u.enh || mandatoryEnhancementFor(defOf(u), detachments)?.name || null
   const leaderItemNames = new Set()
   const leaderEnhNames = new Set()
@@ -1578,11 +1590,12 @@ export function attachmentContext(entry, units, { defOf, sheetOf, items, detachm
   /** @type {Map<string, Set<string>>} */
   const partGear = new Map()
   for (const u of [...at.leaders, ...coLeaders]) {
+    if (!u.id) continue
     const gear = wargearConditions(defOf(u), u, items, sheetOf(u.id))
     if (gear.size) partGear.set(u.id, new Set([...(partGear.get(u.id) || []), ...gear]))
   }
   return {
-    leaderUnitIds: at.leaders.map((u) => u.id),
+    leaderUnitIds: at.leaders.flatMap((u) => (u.id ? [u.id] : [])),
     ledUnitId: at.ledUnitId,
     coLeaderUnitIds: at.coLeaderUnitIds,
     joinedUnitIds: at.joinedUnitIds,

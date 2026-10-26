@@ -3330,6 +3330,14 @@ Terminator among them. A mini fielding no model needs no profile (Proteus Kill T
 Veterans have no row of their own), and profile names are compared plural-blind. Gate:
 `splitBearers.test.js` → "places every bearer rule at every count a unit can hold".
 
+**Copies picked for one model stack on THAT model's count** (2026-10-26, a player's report). A
+Strike Team's Shas'ui and Fire Warriors share one printed row, and the Shas'ui's second Shield Drone
+was stacked against the row's ten models — W 2 on two models instead of W 3 on the one. `bearersOf`
+now lays each mini's copies out on that mini's own models first and only then adds the layers into
+its profile. The gate above had asked only "placed?"; it now also counts the copies placed and the
+models they land on against what the loadout holds — red on the old code in 26 cases (Strike,
+Breacher and Pathfinder Teams, Broadsides, every Crisis team).
+
 **A lesson from the same day:** the candidate heuristic had no pattern for `has a Move
 characteristic of 7"` — a SET rather than a delta, and the wording nearly every wargear rule uses.
 68 records were invisible for that reason alone, including the one that started the hunt (a
