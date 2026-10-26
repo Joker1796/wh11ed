@@ -3,7 +3,7 @@
 // later, the validation engine. Everything here takes plain data so it's trivially testable.
 import { detKey } from '../data/slugify.js'
 import conditionalKeywords from '../data/conditionalKeywords.json'
-import { hasKeyword, enhEligible, lockedToExactUnit } from './rosterEnhEligible.js'
+import { hasKeyword, enhEligible, lockedToExactUnit } from '../core/roster/rosterEnhEligible.js'
 import { foldName } from '../core/shared/foldName.js'
 
 export { hasKeyword, enhEligible }

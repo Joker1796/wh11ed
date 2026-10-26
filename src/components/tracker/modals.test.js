@@ -5,7 +5,7 @@ import ScoreHelpModal from './ScoreHelpModal.vue'
 import TwistPickerModal from './TwistPickerModal.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import ScoringModal from './ScoringModal.vue'
-import { BP_TABLE } from '../../composables/gameScoring.js'
+import { BP_TABLE } from '../../core/game/gameScoring.js'
 
 // BaseModal renders via <Teleport to="body">, so its content lands outside the mounted
 // wrapper's own (detached) root — assert against `body` instead of `w`. Clear it between

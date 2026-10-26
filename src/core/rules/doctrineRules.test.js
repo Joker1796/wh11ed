@@ -4,9 +4,9 @@
 // reader does not understand fails it, so the next codex's wording cannot slip past as "nothing".
 import { describe, it, expect } from 'vitest'
 import { readDoctrineRule, unitDoctrines } from './doctrineRules.js'
-import { activeConditions, switchesFor, stampOf } from './rosterGameContext.js'
-import { loadDatasheets } from '../data/datasheets/index.js'
-import { loadFaction } from '../data/factions/index.js'
+import { activeConditions, switchesFor, stampOf } from '../../composables/rosterGameContext.js'
+import { loadDatasheets } from '../../data/datasheets/index.js'
+import { loadFaction } from '../../data/factions/index.js'
 
 // The wordings as our data carries them (gloss tokens and emphasis included).
 const CODEX_ADEPT = 'The **[gloss:sm-combat-doctrine:assault doctrine]**, **devastator doctrine** and **tactical doctrine** are active for this unit.'

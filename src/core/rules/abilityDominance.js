@@ -17,7 +17,7 @@
 //     mortal wounds)") is a set of attacks it works against, in any order: "(vs Psychic Attacks and
 //     mortal wounds)" is "(vs mortal wounds and Psychic Attacks)" and covers "(vs mortal wounds)".
 //     Any other bracket is a narrowing that compares only with itself.
-import { foldName } from '../core/shared/foldName.js'
+import { foldName } from '../shared/foldName.js'
 
 const NUMBERED = /^(.*?)\s+(\d+)(\+|")?$/
 

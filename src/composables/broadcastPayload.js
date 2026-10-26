@@ -16,7 +16,7 @@ import {
   primaryTotal,
   roundBreakdown,
   secondaryTotal,
-} from './gameScoring.js'
+} from '../core/game/gameScoring.js'
 import { missionBySlug, dispositionName } from './useTracker.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { tracks } from '../data/trackerOptions.js'

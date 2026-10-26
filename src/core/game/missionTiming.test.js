@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { missions } from '../data/missions.js'
+import { missions } from '../../data/missions.js'
 import { scoringMoment, lockedTurn, turnReached, turnEndChecks, cardMoments } from './missionTiming.js'
 
 // The gate: every scoring block of every card has a known moment. A new phrasing in the data

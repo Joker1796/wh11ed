@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { useLocale } from './useLocale.js'
-import { parseWeaponTag, weaponTagNote } from './weaponTagQualifier.js'
-import { baseTag } from '../utils/weaponTag.js'
+import { parseWeaponTag, weaponTagNote } from '../core/rules/weaponTagQualifier.js'
+import { baseTag } from '../core/rules/weaponTag.js'
 
 const visible = ref(false)
 const activeKeyword = ref(null)

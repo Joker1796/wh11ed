@@ -142,7 +142,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { vSafeHtml } from '../directives/safeHtml.js'
 import { useKeywordPopover } from '../composables/useKeywordPopover.js'
-import { sheetRuleForTag } from '../utils/weaponTag.js'
+import { sheetRuleForTag } from '../core/rules/weaponTag.js'
 
 // `rows` — useDatasheetParts' rangedRows / meleeRows, the profile groups already placed; `isMarked`
 // — its question of which cells the roster's modifier layer rewrote, by table, stat and row.

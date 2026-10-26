@@ -7,7 +7,7 @@
 // roster/unit ids are preserved so leaderOf references stay valid after import.
 
 import { SCHEMA_VERSION } from './useRosters.js'
-import { LIMIT_KEYS } from './rosterLimit.js'
+import { LIMIT_KEYS } from '../core/roster/rosterLimit.js'
 
 // `cp`: a Combat Patrol box fielded as a list (the tracker builds one for a Combat Patrol game).
 const PICK = ['name', 'faction', 'cp', 'detachments', 'disposition', 'chapter', ...LIMIT_KEYS, 'notes', 'units']

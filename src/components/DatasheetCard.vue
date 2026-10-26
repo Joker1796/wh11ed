@@ -1076,7 +1076,7 @@ const props = defineProps({
   // table it is a screen of names between the abilities and what is in force (owner, 2026-10-07).
   hideLeader: { type: Boolean, default: false },
   // Whether an ability's own precondition holds right now, keyed by ENGLISH ability name (see
-  // src/composables/abilityStatus.js). Only the abilities that HAVE one appear, so a plain
+  // src/core/rules/abilityStatus.js). Only the abilities that HAVE one appear, so a plain
   // datasheet — and every caller outside the roster — passes nothing and renders as before.
   abilityStates: { type: Object, default: null },
   // The condition switches each ability's own modifier records are gated on, keyed by ENGLISH

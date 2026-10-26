@@ -36,7 +36,7 @@
  * @property {boolean} select        an ordinary "select one doctrine for this unit" — a switch
  */
 
-import { foldChars } from '../core/shared/foldName.js'
+import { foldChars } from '../shared/foldName.js'
 
 const NAMES = /** @type {Doctrine[]} */ (['assault', 'devastator', 'tactical'])
 export const doctrineCond = (/** @type {Doctrine} */ d) => `doctrine-${d}`

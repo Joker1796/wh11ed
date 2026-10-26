@@ -1,4 +1,4 @@
-import { foldChars } from '../core/shared/foldName.js'
+import { foldChars } from '../shared/foldName.js'
 
 // A weapon ability written with what it applies to — "[LETHAL HITS: NON-MONSTER/VEHICLE]",
 // "[ANTI-MONSTER/VEHICLE 3+]" — read into its parts, so the popover can say what THIS tag does

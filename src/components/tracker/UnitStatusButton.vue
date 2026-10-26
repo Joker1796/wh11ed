@@ -67,7 +67,7 @@ import { computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { UNIT_STATUSES } from '../../composables/unitStatus.js'
+import { UNIT_STATUSES } from '../../core/game/unitStatus.js'
 
 defineProps({
   status: { type: String, default: 'table' },

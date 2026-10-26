@@ -13,7 +13,7 @@
 // one dynamic import, no rule text at all. Tapping a line goes to where the text already lives.
 //
 // HOW THE PHASE IS READ. Off the ENGLISH prose, by `phasesOf`/`phaseSidesOf` from
-// src/composables/stratagemPhases.js — the same pair the stratagem "usable now" filter uses, so
+// src/core/rules/stratagemPhases.js — the same pair the stratagem "usable now" filter uses, so
 // the two can never disagree about what "your Shooting phase" means. Entries store exactly the
 // shape `usableInSlot(phases, sides, phase, mine)` takes, so the consumer does no conversion.
 // English only, per the project rule that logic reads `en` (a RU translation may word the timing
@@ -31,8 +31,8 @@
 import { existsSync, writeFileSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { join } from 'node:path'
-import { phasesOf, phaseSidesOf, phaseMomentsOf } from '../src/composables/stratagemPhases.js'
-import { lockedToExactUnit } from '../src/composables/rosterEnhEligible.js'
+import { phasesOf, phaseSidesOf, phaseMomentsOf } from '../src/core/rules/stratagemPhases.js'
+import { lockedToExactUnit } from '../src/core/roster/rosterEnhEligible.js'
 import { slugify } from '../src/data/slugify.js'
 import { foldName } from '../src/core/shared/foldName.js'
 

@@ -147,7 +147,7 @@ import ConfirmModal from '../../components/ConfirmModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useParty } from '../../composables/useParty.js'
-import { SITE_GENS, TRACKER_GEN, siteOfGen } from '../../composables/trackerGen.js'
+import { SITE_GENS, TRACKER_GEN, siteOfGen } from '../../core/game/trackerGen.js'
 import { useTracker } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 

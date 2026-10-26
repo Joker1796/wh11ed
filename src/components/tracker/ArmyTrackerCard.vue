@@ -570,7 +570,7 @@ import { useTracker, memberAt, membersOf, isYouSide, battleOf } from '../../comp
 import { useLocale } from '../../composables/useLocale.js'
 import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { selectionBudget } from '../../data/armyTrackers/selectionBudget.js'
-import { combatPatrolBoxIn } from '../../composables/combatPatrolBox.js'
+import { combatPatrolBoxIn } from '../../core/roster/combatPatrolBox.js'
 import { ui } from '../../i18n/ui.js'
 import { provideSideScope } from '../../composables/modalScope.js'
 import { useStableKeys, pinLeaving } from '../../composables/stableKeys.js'

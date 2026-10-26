@@ -110,7 +110,7 @@ import { useTracker, sideName, isYouSide, membersOf } from '../../composables/us
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
 import FactionEmblem from '../FactionEmblem.vue'
-import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf, battlePoints as battlePointsOf } from '../../composables/gameScoring.js'
+import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf, battlePoints as battlePointsOf } from '../../core/game/gameScoring.js'
 import { tracks } from '../../data/trackerOptions.js'
 
 // `game` prop drives a finished/history game; defaults to the active game from the store.

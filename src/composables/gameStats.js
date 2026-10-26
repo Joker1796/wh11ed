@@ -19,7 +19,7 @@ import {
   secondaryInRound,
   secondaryTotal,
   youIndex,
-} from './gameScoring.js'
+} from '../core/game/gameScoring.js'
 // youIndex moved to gameScoring.js (the concede logic needs it there); kept exported from here
 // for the readers that already import it from this module.
 export { youIndex }

@@ -12,7 +12,7 @@ import { computed, ref, watch, watchEffect } from 'vue'
 import { useRosters } from './useRosters.js'
 import { useRosterDerived } from './useRosterDerived.js'
 import { summaryOf } from './rosterSummary.js'
-import { LIMIT_KEYS } from './rosterLimit.js'
+import { LIMIT_KEYS } from '../core/roster/rosterLimit.js'
 import { useRosterFactionData } from './useRosterFactionData.js'
 
 export function useRosterEditing(rosterId) {

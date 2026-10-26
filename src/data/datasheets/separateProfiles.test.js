@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { separateProfileWeapons, weaponBase, withGroupPos } from '../../utils/weaponGroups.js'
+import { separateProfileWeapons, weaponBase, withGroupPos } from '../../core/roster/weaponGroups.js'
 
 // A weapon whose profiles are all fired is drawn as separate rows, not as one "pick a profile" group
 // (weaponGroups.js). A player found Nazdreg's Kustom Blasta X drawn as a pick-one weapon, 2026-10-18:

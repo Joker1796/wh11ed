@@ -35,7 +35,7 @@ import HelpDemoFrame from './HelpDemoFrame.vue'
 import TurnBar from '../TurnBar.vue'
 import { ui } from '../../../i18n/ui.js'
 import { useLocale } from '../../../composables/useLocale.js'
-import { BATTLE_PHASES } from '../../../composables/stratagemPhases.js'
+import { BATTLE_PHASES } from '../../../core/rules/stratagemPhases.js'
 import { PHASES_DEMO } from './demos.js'
 
 const { locale } = useLocale()

@@ -16,9 +16,9 @@
 //   _detId   — the detachment's id (detachment stratagems), what the modifier records point at
 import { mergeSections } from './useBilingualMerge.js'
 import { membersOf } from './rosterGameLink.js'
-import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
+import { phasesOf, phaseSidesOf } from '../core/rules/stratagemPhases.js'
 import { detachmentSources } from '../data/detachmentSources.js'
-import { combatPatrolBoxIn } from './combatPatrolBox.js'
+import { combatPatrolBoxIn } from '../core/roster/combatPatrolBox.js'
 import { foldName } from '../core/shared/foldName.js'
 
 // A stratagem's own usage limits, from its ENGLISH restrictions. Only limits on USING the

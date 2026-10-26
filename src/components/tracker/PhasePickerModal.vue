@@ -48,7 +48,7 @@ import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { BATTLE_PHASES, phaseLabel } from '../../composables/stratagemPhases.js'
+import { BATTLE_PHASES, phaseLabel } from '../../core/rules/stratagemPhases.js'
 
 const props = defineProps({
   // Player names in turn order — players[0] is always the first-turn player (useTracker).

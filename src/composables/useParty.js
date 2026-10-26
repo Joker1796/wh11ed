@@ -3,7 +3,7 @@ import { useAuth } from './useAuth.js'
 import { useTracker } from './useTracker.js'
 import { sliceGame, assembleGame, stableJson, sideOfSlice, SLICE_NAMES } from './gameSlices.js'
 import { API_BASE_URL } from '../config.js'
-import { TRACKER_GEN } from './trackerGen.js'
+import { TRACKER_GEN } from '../core/game/trackerGen.js'
 import { localTrackSeed } from '../data/trackerOptions.js'
 
 // One game on several phones. The host — the only one who needs an account — shares the game in

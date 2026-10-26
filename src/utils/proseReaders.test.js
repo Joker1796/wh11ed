@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { foldChars } from '../core/shared/foldName.js'
 import { ruleScopes } from '../composables/ruleTargets.js'
 import { stratagemTargetScopes } from '../composables/rosterStatMods.js'
-import { parseWeaponTag } from '../composables/weaponTagQualifier.js'
+import { parseWeaponTag } from '../core/rules/weaponTagQualifier.js'
 import { isWeaponTagText } from '../composables/useRenderInline.js'
 import { factionKeywordPatterns, factionKeywordsAt } from './factionKeywordMarkup.js'
 import { factionUnitKeywords, factionKeywordNames } from '../data/factionUnitKeywords.js'
@@ -15,7 +15,7 @@ import { spawnPhrases } from '../../scripts/lib/spawnPhrases.mjs'
 import { unitLinkPatterns, unitLinksAt } from './unitLinkMarkup.js'
 import { spawnUnits } from '../data/factionUnitKeywords.js'
 import { appliesWhileOf } from '../data/rosterModifiers/appliesWhile.js'
-import { readDoctrineRule } from '../composables/doctrineRules.js'
+import { readDoctrineRule } from '../core/rules/doctrineRules.js'
 
 // foldName.test.js holds every NAME matcher to one fold. This holds every READER of rule prose to
 // it: a regex over raw text whose word class knows only "-" reads nothing where appdata typed

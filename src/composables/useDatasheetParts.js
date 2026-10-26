@@ -6,7 +6,7 @@
 import { computed } from 'vue'
 import { printedCoreOf, extraCoreOf, keywordGroupsOf, extraKeywordsOf, keywordNotesOf } from './datasheetParts.js'
 import { groupModNotes, possibleModNotes } from './rosterModNotes.js'
-import { withGroupPos } from '../utils/weaponGroups.js'
+import { withGroupPos } from '../core/roster/weaponGroups.js'
 
 // `props`: the card's own — sheet, grantedCore, grantedKeywords, statMarks, statNotes.
 // `showPossible`: a getter; whether the modifiers that might apply are listed under the live ones.

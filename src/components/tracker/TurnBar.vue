@@ -157,7 +157,7 @@
 import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { phaseLabel } from '../../composables/stratagemPhases.js'
+import { phaseLabel } from '../../core/rules/stratagemPhases.js'
 
 defineProps({
   // Start waits for a choice THIS phone makes before the battle (the first turn's roll, its own

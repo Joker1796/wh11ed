@@ -222,7 +222,7 @@ describe('history: archive & resume', () => {
     expect(tracker.history.value.find(x => x.id === id)).toBeUndefined()
   })
   it('a game started or resumed here is this tracker’s (trackerGen.js)', async () => {
-    const { TRACKER_GEN } = await import('./trackerGen.js')
+    const { TRACKER_GEN } = await import('../core/game/trackerGen.js')
     tracker.newGame(setupGame())
     expect(tracker.current.value.trackerGen).toBe(TRACKER_GEN)
     tracker.beginGame()
@@ -1488,7 +1488,7 @@ describe('spending CP by hand', () => {
     const before = pl.cp
     tracker.spendCpByHand(0)
     expect(pl.cp).toBe(before - 1)
-    const { buildGameLog } = await import('./gameLog.js')
+    const { buildGameLog } = await import('../core/game/gameLog.js')
     const line = buildGameLog(tracker.current.value).find((e) => e.type === 'spend')
     expect(line).toMatchObject({ kind: 'cp', amount: -1, pi: 0 })
     tracker.setCp(0, pl.cp + 3)

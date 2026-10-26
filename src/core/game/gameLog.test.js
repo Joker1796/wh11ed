@@ -12,7 +12,7 @@ beforeEach(async () => {
   vi.setSystemTime(1000)
   localStorage.clear()
   vi.resetModules()
-  mod = await import('./useTracker.js')
+  mod = await import('../../composables/useTracker.js')
   tracker = mod.useTracker()
   tracker.newGame({
     settings: { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', scoreMode: 'vp', twist: null, twistMission: null },

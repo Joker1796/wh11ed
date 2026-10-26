@@ -180,7 +180,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { UNLIMITED_BATTLE, effectiveBattle } from '../../composables/rosterEngine.js'
-import { limitOf } from '../../composables/rosterLimit.js'
+import { limitOf } from '../../core/roster/rosterLimit.js'
 import rosterCore from '../../data/roster/core.js'
 import { factsOf as factsOfBattle } from '../../composables/battleLimitFacts.js'
 

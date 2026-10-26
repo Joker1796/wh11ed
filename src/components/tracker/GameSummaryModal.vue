@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { endReasonFor } from '../../composables/gameScoring.js'
+import { endReasonFor } from '../../core/game/gameScoring.js'
 import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import GameRosterLinks from './GameRosterLinks.vue'
@@ -53,7 +53,7 @@ import ArmyRuleSummary from './ArmyRuleSummary.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
-import { playableHere } from '../../composables/trackerGen.js'
+import { playableHere } from '../../core/game/trackerGen.js'
 
 const props = defineProps({
   game: { type: Object, required: true },

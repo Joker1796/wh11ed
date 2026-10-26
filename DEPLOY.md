@@ -209,6 +209,6 @@ The site is an installable PWA via **`vite-plugin-pwa`** (Workbox `generateSW`),
 релиз, потом бета ещё раз — с бампом.
 `BUMP=none`: бета не поднимает версию, ничего не коммитит и не двигает `main`; архив чейнджлога не
 трогает. `VITE_BETA=1` даёт noindex, `robots.txt` с `Disallow: /`, имя приложения «WH Rules Beta»
-и плашку беты. Партии сайта и беты не смешиваются: поколение трекера (`src/composables/trackerGen.js`,
+и плашку беты. Партии сайта и беты не смешиваются: поколение трекера (`src/core/game/trackerGen.js`,
 сервер — `tracker_version` в `wh11ed-api`). В `ALLOWED_ORIGINS` API должен быть
 `https://beta.wh-rules.ru` — иначе бета не достучится до API и вход не вернёт на неё.

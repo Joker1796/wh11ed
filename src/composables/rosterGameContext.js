@@ -28,7 +28,7 @@
 import { conditions, groupLimitOf, WHOLE_GROUPS } from '../data/rosterModifiers/conditions.js'
 import { SM_FAMILY } from '../data/smChapters.js'
 import { tracks } from '../data/trackerOptions.js'
-import { BATTLE_PHASES, usableInSlot } from './stratagemPhases.js'
+import { BATTLE_PHASES, usableInSlot } from '../core/rules/stratagemPhases.js'
 import { unitKeywordsOf } from './ruleTargets.js'
 import { foldName } from '../core/shared/foldName.js'
 

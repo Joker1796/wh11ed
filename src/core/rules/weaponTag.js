@@ -1,4 +1,4 @@
-import { foldChars } from '../core/shared/foldName.js'
+import { foldChars } from '../shared/foldName.js'
 
 // A weapon tag, or a core ability named with its number, as printed → the ability it is an
 // instance of. Numbers, dice, `X+`, a distance and a `: KEYWORD` scope are parameters of one

@@ -158,7 +158,7 @@ import { useRoute } from 'vue-router'
 import { API_BASE_URL } from '../config.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
-import { phaseLabel } from '../composables/stratagemPhases.js'
+import { phaseLabel } from '../core/rules/stratagemPhases.js'
 
 // The OBS overlay: a bare page (route meta `bare` strips the app chrome, the unscoped style
 // below makes the page ground transparent) polling the public broadcast endpoint. It renders

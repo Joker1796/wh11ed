@@ -181,7 +181,7 @@ import { ref, computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { sideName, isYouSide } from '../../composables/useTracker.js'
-import { spends } from '../../composables/cpLedger.js'
+import { spends } from '../../core/game/cpLedger.js'
 import CollapseTransition from '../CollapseTransition.vue'
 import {
   useTracker, ROUND_COUNT, PRIMARY_GAME_CAP, SECONDARY_GAME_CAP, BATTLE_READY_VP,
@@ -196,7 +196,7 @@ import {
   roundBreakdown,
   secondaryTotal as secondaryTotalOf,
   secondaryRounds,
-} from '../../composables/gameScoring.js'
+} from '../../core/game/gameScoring.js'
 import { tracks } from '../../data/trackerOptions.js'
 
 // `game` prop drives a finished/history game; defaults to the active game from the store.

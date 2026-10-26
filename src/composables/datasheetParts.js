@@ -5,7 +5,7 @@
 // keywords need a footnote, how the faction keywords get bolded inside rule text — decided once,
 // here, whatever the card is drawn on.
 
-import { dominates } from './abilityDominance.js'
+import { dominates } from '../core/rules/abilityDominance.js'
 
 // The Core line is a comma-separated list ("Deep Strike, Leader") — split for rendering each
 // ability as its own keyword.

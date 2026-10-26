@@ -75,7 +75,7 @@ import {
 } from '../../composables/rosterEngine.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { enhKey } from '../../composables/rosterModifiers.js'
-import { PHASE_ORDER, phaseLabel } from '../../composables/stratagemPhases.js'
+import { PHASE_ORDER, phaseLabel } from '../../core/rules/stratagemPhases.js'
 import { MM_PX, paginatePrint, printPageHeightPx, printPageWidthMm } from '../../data/rosterPrintOptions.js'
 
 const props = defineProps({

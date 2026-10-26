@@ -11,7 +11,7 @@ beforeEach(async () => {
   vi.resetModules()
   vi.useFakeTimers()
   vi.setSystemTime(1_000_000)
-  mod = await import('./useTracker.js')
+  mod = await import('../../composables/useTracker.js')
   tracker = mod.useTracker()
   D0 = mod.DISPOSITIONS[0].id
   D1 = mod.DISPOSITIONS[1].id

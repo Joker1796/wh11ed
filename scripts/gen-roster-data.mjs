@@ -34,7 +34,7 @@ import { equippedCondition } from './lib/equippedCondition.mjs'
 import { spawnPhrases } from './lib/spawnPhrases.mjs'
 import { KEEP_RE } from './lib/keepClause.mjs'
 import { CHARACTER_GRANTS } from './lib/character-grants.mjs'
-import { enhEligible } from '../src/composables/rosterEnhEligible.js'
+import { enhEligible } from '../src/core/roster/rosterEnhEligible.js'
 import { unitKeywordsOf } from '../src/composables/ruleTargets.js'
 import { foldChars, foldName } from '../src/core/shared/foldName.js'
 

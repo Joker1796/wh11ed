@@ -24,7 +24,7 @@ export async function run() {
   const fails = []
 
   // ── The pack's limits ──
-  const scoring = fs.readFileSync(path.join(ROOT, 'src/composables/gameScoring.js'), 'utf8')
+  const scoring = fs.readFileSync(path.join(ROOT, 'src/core/game/gameScoring.js'), 'utf8')
   const tracker = fs.readFileSync(path.join(ROOT, 'src/composables/useTracker.js'), 'utf8')
   const num = (src, name) => Number(src.match(new RegExp(`export const ${name} = (\\d+)`))?.[1])
   const pack = packs.find((p) => !/combat patrol/i.test(p.localisations?.en?.name || ''))

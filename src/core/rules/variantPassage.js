@@ -7,7 +7,7 @@
 // paragraphs (Vows, Imperatives, Hyper-adaptations), and a bullet that names it (`▪ [LETHAL HITS].`
 // `▪ __Or:__ [SUSTAINED HITS 1].`). A label found in neither gets nothing — the heading's "i" is
 // still there — rather than a passage guessed at.
-import { foldName } from '../core/shared/foldName.js'
+import { foldName } from '../shared/foldName.js'
 
 /** Markup off, the gloss token reduced to its visible label, brackets and quotes dropped. @param {unknown} s */
 const plain = (s) => foldName(String(s ?? '')

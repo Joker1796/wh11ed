@@ -7,7 +7,7 @@
 // unit the enhancement names ("'Ardmob Warboss model only", an Upgrade on a vehicle), read from the
 // enhancement's own eligibility.
 import { enhEligible } from './rosterEnhEligible.js'
-import { foldName } from '../core/shared/foldName.js'
+import { foldName } from '../shared/foldName.js'
 
 /**
  * @param {{ id: string, slug: string, boxName: string }} box the box (combatPatrol.js)

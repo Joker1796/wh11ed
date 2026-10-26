@@ -15,7 +15,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, norm, table, nameOfEn, groupBy } from './lib/sync-common.mjs'
-import { baseTag } from '../src/utils/weaponTag.js'
+import { baseTag } from '../src/core/rules/weaponTag.js'
 
 const enhancements = new Map(table('enhancement.json').map((e) => [e.id, e]))
 const profiles = new Map(table('wargear_item_profile.json').map((p) => [p.id, p]))

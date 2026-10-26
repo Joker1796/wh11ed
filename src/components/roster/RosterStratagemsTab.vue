@@ -71,7 +71,7 @@ import StratFilterBar from '../StratFilterBar.vue'
 import StratPhaseGroups from '../StratPhaseGroups.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { groupByPhase, usableInSlot } from '../../composables/stratagemPhases.js'
+import { groupByPhase, usableInSlot } from '../../core/rules/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
 

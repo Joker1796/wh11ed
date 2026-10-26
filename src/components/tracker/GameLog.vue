@@ -123,9 +123,9 @@ import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide, missionBySlug } from '../../composables/useTracker.js'
-import { buildGameLog } from '../../composables/gameLog.js'
+import { buildGameLog } from '../../core/game/gameLog.js'
 import { conditions } from '../../data/rosterModifiers/conditions.js'
-import { grandTotal, primaryTotal, secondaryTotal } from '../../composables/gameScoring.js'
+import { grandTotal, primaryTotal, secondaryTotal } from '../../core/game/gameScoring.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
 
 // The Log tab: the game told back, newest first, grouped by round — read from the game itself

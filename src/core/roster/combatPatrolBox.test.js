@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { combatPatrol } from '../data/combatPatrol.js'
+import { combatPatrol } from '../../data/combatPatrol.js'
 import { combatPatrolBoxOf, combatPatrolBoxIn, combatPatrolBoxesOf } from './combatPatrolBox.js'
-import { loadArmyStrats, loadArmyRules } from './gameStratagems.js'
+import { loadArmyStrats, loadArmyRules } from '../../composables/gameStratagems.js'
 
 const boxes = combatPatrol.en.factions
 const multi = Object.entries(Object.groupBy(boxes, (b) => b.slug)).filter(([, v]) => v.length > 1)

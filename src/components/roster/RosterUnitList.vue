@@ -307,7 +307,7 @@ import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import { useFlipMove } from '../../composables/useFlipMove.js'
 import { useUnitSheetWarmup } from '../../composables/useUnitSheetWarmup.js'
 import { motionMs } from '../../composables/motionToken.js'
-import { companionRows } from '../../composables/rosterCompanionRows.js'
+import { companionRows } from '../../core/roster/rosterCompanionRows.js'
 import { BLOCK_NAME_MAX, blockNumbers, groupLabel, blockRootUid, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
 
 const props = defineProps({

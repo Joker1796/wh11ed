@@ -2,9 +2,9 @@
 // real data: every box's units as many times as the box holds them, its Warlord, the enhancement
 // on the unit it names, and every unit resolvable to a card (its sheet in combatPatrol.js).
 import { describe, it, expect } from 'vitest'
-import { combatPatrol } from '../data/combatPatrol.js'
-import { loadRosterFaction } from '../data/roster/index.js'
-import { loadDatasheets } from '../data/datasheets/index.js'
+import { combatPatrol } from '../../data/combatPatrol.js'
+import { loadRosterFaction } from '../../data/roster/index.js'
+import { loadDatasheets } from '../../data/datasheets/index.js'
 import { combatPatrolRoster, defaultCombatPatrolEnhancement } from './combatPatrolRoster.js'
 
 let n = 0

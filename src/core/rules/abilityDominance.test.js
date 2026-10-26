@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { dominates } from './abilityDominance.js'
-import { extraCoreOf, printedCoreOf } from './datasheetParts.js'
+import { extraCoreOf, printedCoreOf } from '../../composables/datasheetParts.js'
 
 describe('dominates — one instance at least as good as another (24.02)', () => {
   it.each([

@@ -15,20 +15,20 @@ import {
   grandTotal as grandTotalOf,
   leader as leaderOf,
   youIndex,
-} from './gameScoring.js'
-import { BATTLE_PHASES, usableThisTurn, usableInSlot } from './stratagemPhases.js'
+} from '../core/game/gameScoring.js'
+import { BATTLE_PHASES, usableThisTurn, usableInSlot } from '../core/rules/stratagemPhases.js'
 import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
 import { conditions, groupLimitOf } from '../data/rosterModifiers/conditions.js'
 import { membersOf, memberAt } from './rosterGameLink.js'
 import { applySlice, LOCAL_SETTING_KEYS } from './gameSlices.js'
 import { tracks } from '../data/trackerOptions.js'
-import { ledger, addEntry, removeEntries, clockBefore, adjustTo, bonusIn } from './cpLedger.js'
+import { ledger, addEntry, removeEntries, clockBefore, adjustTo, bonusIn } from '../core/game/cpLedger.js'
 import { clockOf, stampOf } from './rosterGameContext.js'
 import { SM_FAMILY } from '../data/smChapters.js'
-import { statusRecord, setupReserves } from './unitStatus.js'
-import { TRACKER_GEN } from './trackerGen.js'
-import { pushAct, pushValueAct, pushUndo, ledgerEvent, discardEvent, COALESCE_MS } from './actionLog.js'
-import { isStrict, isLatest, canClockBack } from './strictRules.js'
+import { statusRecord, setupReserves } from '../core/game/unitStatus.js'
+import { TRACKER_GEN } from '../core/game/trackerGen.js'
+import { pushAct, pushValueAct, pushUndo, ledgerEvent, discardEvent, COALESCE_MS } from '../core/game/actionLog.js'
+import { isStrict, isLatest, canClockBack } from '../core/game/strictRules.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -104,7 +104,7 @@ export {
   TACTICAL_SECONDARY_CAP,
   SECONDARY_GAME_CAP,
   BATTLE_READY_VP,
-} from './gameScoring.js'
+} from '../core/game/gameScoring.js'
 
 // ── Doubles (Warhammer Doubles Event Companion v1.1) ──────────────────────────────────────────
 // settings.gameType: 'singles' (default, absent on every game saved before this) | 'doubles'.

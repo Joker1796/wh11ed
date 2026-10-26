@@ -41,7 +41,7 @@ import BaseModal from '../BaseModal.vue'
 import HelpText from './HelpText.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { BP_TABLE } from '../../composables/gameScoring.js'
+import { BP_TABLE } from '../../core/game/gameScoring.js'
 
 const ScoreDemo = defineAsyncComponent(() => import('./help/ScoreDemo.vue'))
 

@@ -433,7 +433,7 @@ Faction Pack Legends and the enhancement grants are in — and the page and the 
 disagree. A Detachment-gated lead carries `{ in: [...] }` or `{ out: [...] }`; the CSM pairs that
 state one attachment twice (inside D, outside D) cancel out. An enhancement's grant is a row of its
 own ("A Character with the Abhuman Detail enhancement (Grizzled Company)"), carrying `by` — the
-characters that may take it, asked of `enhEligible` itself (`src/composables/rosterEnhEligible.js`,
+characters that may take it, asked of `enhEligible` itself (`src/core/roster/rosterEnhEligible.js`,
 a module without imports so the Node generator can load it) — and its "Character" opens them as a
 list, the way a faction keyword in rule prose does (`openUnitList` in useFactionKeywordUnits). A keyword attachment —
 the Inquisitors' "Imperium Battleline Infantry" — is NOT listed: it stays text on the leader's own
@@ -2715,7 +2715,7 @@ appdata's `detachment_unique_keyword`; not the core rules). The mapping dropped 
 builder showed no tags and let a clashing pair (Assault + Devastator Brethren, both DOCTRINES) be
 picked, leaving only `validateRoster`'s `detachmentTagClash` to object afterwards.
 
-**The limit travels as one value** (`src/composables/rosterLimit.js`: `LIMIT_KEYS`, `limitOf`,
+**The limit travels as one value** (`src/core/roster/rosterLimit.js`: `LIMIT_KEYS`, `limitOf`,
 `applyLimit`). `battleSize`, `customPoints` and `customLimits` go between the picker, the two forms,
 the wizard's draft, the editor, Cancel's baseline and the share/snapshot payload as one object —
 a fourth key is added in `LIMIT_KEYS` and nowhere else. Its own module, not rosterEngine, because
@@ -3909,7 +3909,7 @@ edit pencil). Deliberately not a second copy of the screen: this is where the li
 pulls the mission/event datasets (~280 KB of source) and the ordinary roster route must not carry
 them. Entry point: the chip under each player's detachments in `RoundTracker.vue`.
 
-### What a printed ability is doing (`src/composables/abilityStatus.js`)
+### What a printed ability is doing (`src/core/rules/abilityStatus.js`)
 
 Tier C reads faction RULES; a datasheet's own abilities are in no dataset at all, so on a card they
 are prose and nothing else — no statement of whether they are doing anything. Most of them could not
@@ -4264,7 +4264,7 @@ the use does not answer what they also ask (a target, a choice, one shot of one 
 doctrine count on the unit, and what about the rules that add one?"). The army's pick of the round
 reaches every unit (SOFT_AUTO), and its chip on a card now says "The army's pick" instead of looking
 like a switch that does nothing. What the unit's RULES say is read from the sentences by
-`src/composables/doctrineRules.js` — the texts of every model in the attached unit (abilities, an
+`src/core/rules/doctrineRules.js` — the texts of every model in the attached unit (abilities, an
 ability set's options, wargear, the enhancement's prose) and the fielded detachment rules, gated by
 the keyword they name:
 - always active, all three (Calgar's and Guilliman's Codex Adept, Logan Grimnar): proven, room for three;

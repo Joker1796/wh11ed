@@ -14,7 +14,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { baseTag, sheetRuleForTag } from '../../src/utils/weaponTag.js'
+import { baseTag, sheetRuleForTag } from '../../src/core/rules/weaponTag.js'
 import { foldChars } from '../../src/core/shared/foldName.js'
 
 const imp = (p) => import(pathToFileURL(p).href)

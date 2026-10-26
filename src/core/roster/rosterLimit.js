@@ -6,7 +6,7 @@
 // back, removing a key the value no longer carries rather than leaving it undefined.
 // A module of its own, not rosterEngine: the share payload (rosterShare.js) needs the keys, and the
 // bug-report dialog carries that payload — it must not drag the engine along.
-/** @typedef {import('../core/shared/roster.types.js').Roster} Roster */
+/** @typedef {import('../shared/roster.types.js').Roster} Roster */
 /** A roster's battle-size settings, alone. @typedef {Pick<Partial<Roster>, 'battleSize' | 'customPoints' | 'customLimits'>} RosterLimit */
 
 /** @type {Array<keyof RosterLimit>} */

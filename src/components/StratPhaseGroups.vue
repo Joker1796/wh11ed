@@ -44,7 +44,7 @@ import ChevronIcon from './ChevronIcon.vue'
 import CollapseTransition from './CollapseTransition.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
-import { phaseLabel } from '../composables/stratagemPhases.js'
+import { phaseLabel } from '../core/rules/stratagemPhases.js'
 
 // `groups` — groupByPhase() (a group may bring its own `label`, and its own `count` when what it
 // holds is not stratagems — the tracker's Turn tab; `inert` draws it muted and shut, a head with

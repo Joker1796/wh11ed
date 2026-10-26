@@ -7,14 +7,14 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { baseTag, sheetRuleForTag } from './weaponTag.js'
-import { lookup } from '../composables/useKeywordPopover.js'
-import { coreAbilities } from '../data/reference.js'
-import { eventCompanion } from '../data/eventCompanion.js'
-import { loadDatasheets } from '../data/datasheets/index.js'
-import { loadDatasheetsRu, localizeSheet } from '../data/datasheets/ru/index.js'
+import { lookup } from '../../composables/useKeywordPopover.js'
+import { coreAbilities } from '../../data/reference.js'
+import { eventCompanion } from '../../data/eventCompanion.js'
+import { loadDatasheets } from '../../data/datasheets/index.js'
+import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 
 const data = { coreAbilities, eventCompanion }
-const DS = path.join(import.meta.dirname, '../data/datasheets')
+const DS = path.join(import.meta.dirname, '../../data/datasheets')
 const slugs = fs.readdirSync(DS).filter((f) => f.endsWith('.js') && f !== 'index.js' && !f.endsWith('.test.js')).map((f) => f.slice(0, -3))
 const rulesOf = (s) => ['wargearAbilities', 'abilities', 'specialAbilities'].flatMap((k) => s[k] || [])
 

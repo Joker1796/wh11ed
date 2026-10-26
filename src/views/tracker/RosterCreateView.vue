@@ -349,7 +349,7 @@ import { rosterItems } from '../../data/roster/index.js'
 import { useRosterFactionData } from '../../composables/useRosterFactionData.js'
 import { ROSTER_NOTES_MAX } from '../../composables/rosterEngine.js'
 import { SETUP_CODES, issueText } from '../../composables/rosterValidation.js'
-import { LIMIT_KEYS, limitOf } from '../../composables/rosterLimit.js'
+import { LIMIT_KEYS, limitOf } from '../../core/roster/rosterLimit.js'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import { useTour } from '../../composables/useTour.js'
 

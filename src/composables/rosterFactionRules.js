@@ -9,7 +9,7 @@
 //
 // NEVER import src/data/factions/* statically from a view. The bundle is 30-60 KB per faction and
 // this is the reason every caller here is dynamic — see wh11ed/CLAUDE.md.
-import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
+import { phasesOf, phaseSidesOf } from '../core/rules/stratagemPhases.js'
 import { detachmentSources } from '../data/detachmentSources.js'
 import { foldName } from '../core/shared/foldName.js'
 

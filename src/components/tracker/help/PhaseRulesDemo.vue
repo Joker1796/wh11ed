@@ -20,7 +20,7 @@ import DemoTabs from './DemoTabs.vue'
 import PhaseRules from '../PhaseRules.vue'
 import { ui } from '../../../i18n/ui.js'
 import { useLocale } from '../../../composables/useLocale.js'
-import { BATTLE_PHASES, phaseLabel } from '../../../composables/stratagemPhases.js'
+import { BATTLE_PHASES, phaseLabel } from '../../../core/rules/stratagemPhases.js'
 import { PHASE_STEPS, stepOfMoment } from '../../../composables/usePhaseRules.js'
 import { PHASE_RULES_DEMO } from './demos.js'
 

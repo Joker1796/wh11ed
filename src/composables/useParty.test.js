@@ -400,7 +400,7 @@ describe('the other tracker', () => {
   it('a join says which tracker this is, and a refusal says which one the host plays', async () => {
     fetchMock.mockResolvedValueOnce(answer(409, { error: 'tracker_version', gen: 2 }))
     const res = await party.join({ code: '123456' })
-    expect(lastRequest().body).toEqual({ code: '123456', gen: (await import('./trackerGen.js')).TRACKER_GEN })
+    expect(lastRequest().body).toEqual({ code: '123456', gen: (await import('../core/game/trackerGen.js')).TRACKER_GEN })
     expect(res).toEqual({ error: 'tracker_version', gen: 2 })
   })
 })

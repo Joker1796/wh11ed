@@ -6,7 +6,7 @@
 import { combatPatrolMissionsData as data } from './combatPatrolMissionsData.js'
 import { combatPatrolMissionsRu as ru } from './combatPatrolMissionsRu.js'
 import { overlayMission } from './missionOverlay.js'
-import { combatPatrolBoxOf } from '../composables/combatPatrolBox.js'
+import { combatPatrolBoxOf } from '../core/roster/combatPatrolBox.js'
 
 export const CP_MISSION_PREFIX = 'cp-'
 export const isCpMissionSlug = (slug) => typeof slug === 'string' && slug.startsWith(CP_MISSION_PREFIX)

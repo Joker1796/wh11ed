@@ -29,7 +29,7 @@ import { useRoute } from 'vue-router'
 import TopBanner from './TopBanner.vue'
 import { useLocale } from '../composables/useLocale.js'
 import { ui } from '../i18n/ui.js'
-import { siteOfGen } from '../composables/trackerGen.js'
+import { siteOfGen } from '../core/game/trackerGen.js'
 import { getItem, setItem } from '../composables/safeStorage.js'
 
 const route = useRoute()
