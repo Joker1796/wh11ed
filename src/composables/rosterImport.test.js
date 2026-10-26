@@ -1,5 +1,11 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import { detectFormat, matchFaction, matchRoster, parseList, resolveDetachmentLine } from './rosterImport.js'
+import { detectFormat, matchFaction as matchFactionIn, matchRoster, parseList as parseListWith, resolveDetachmentLine } from './rosterImport.js'
+import { factionGroups } from '../data/factionsIndex.js'
+
+// The importer reads a list's faction against the app's directory, which the app passes in; these
+// tests read every list against the real one.
+const parseList = (text, format = null) => parseListWith(text, format, factionGroups)
+const matchFaction = (name) => matchFactionIn(name, factionGroups)
 import rosterCore from '../data/roster/core.js'
 import { optionItems, optionLabel } from '../core/roster/rosterEngine.js'
 

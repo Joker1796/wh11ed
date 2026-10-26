@@ -4,6 +4,7 @@ import { leaderTargetsFor, leadTypeFor } from '../core/roster/rosterEngine.js'
 import { validateRoster } from '../core/roster/rosterValidation.js'
 import { buildRosterText } from './rosterExport.js'
 import { parseList, matchRoster } from './rosterImport.js'
+import { factionGroups } from '../data/factionsIndex.js'
 import { attachmentOf, datasheetEntriesFor } from './rosterStatMods.js'
 import { loadRosterModifiersFor } from '../data/rosterModifiers/index.js'
 
@@ -72,9 +73,9 @@ describe('a unit that joins a unit already led', () => {
 
   it('exports as a Retinue in its attached unit and imports back joined', () => {
     const roster = list('necrons', [E('w', 'necron-warriors'), E('t', 'technomancer', { leaderOf: 'w' }), E('c', 'cryptothralls', { leaderOf: 'w' })], ['Annihilation Legion'])
-    const text = buildRosterText(roster, { faction: necrons, core: rosterCore, items, version: { app: 'test', data: 1 } }, 'gw')
+    const text = buildRosterText(roster, { faction: necrons, core: rosterCore, items, factionGroups, version: { app: 'test', data: 1 } }, 'gw')
     expect(text).toContain('Attached as: Retinue')
-    const back = matchRoster(parseList(text), { faction: necrons, core: rosterCore, items }).payload.units
+    const back = matchRoster(parseList(text, null, factionGroups), { faction: necrons, core: rosterCore, items }).payload.units
     const host = back.find((u) => u.id === 'necron-warriors')
     expect(back.find((u) => u.id === 'cryptothralls').leaderOf).toBe(host.uid)
     expect(back.find((u) => u.id === 'technomancer').leaderOf).toBe(host.uid)

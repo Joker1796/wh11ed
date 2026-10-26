@@ -16,6 +16,7 @@ import { basename } from 'node:path'
 import { detectFormat, matchFaction, matchRoster, parseList } from '../src/composables/rosterImport.js'
 import { encodeRoster } from '../src/composables/rosterShare.js'
 import core from '../src/data/roster/core.js'
+import { factionGroups } from '../src/data/factionsIndex.js'
 import { loadRosterFaction, rosterItems } from '../src/data/roster/index.js'
 
 const args = process.argv.slice(2)
@@ -31,8 +32,8 @@ if (!files.length) {
 let bad = 0
 for (const file of files) {
   const text = readFileSync(file, 'utf8')
-  const parsed = parseList(text, detectFormat(text))
-  const slug = parsed?.units?.length ? matchFaction(parsed.faction) : null
+  const parsed = parseList(text, detectFormat(text), factionGroups)
+  const slug = parsed?.units?.length ? matchFaction(parsed.faction, factionGroups) : null
   if (!slug) { console.log(`✗ ${file}: not a list the importer can read`); bad++; continue }
   const faction = await loadRosterFaction(slug, { allies: true })
   const { payload, report } = matchRoster(parsed, { faction, core, items: rosterItems.items })

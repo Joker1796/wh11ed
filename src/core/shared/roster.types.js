@@ -118,6 +118,8 @@
  * @property {1} [supreme] SUPREME COMMANDER
  */
 
+/** The faction directory the importer reads names against and the exporter takes an alliance from (src/data/factionsIndex.js's `factionGroups`). @typedef {{ id: string, factions: Array<{ slug: string, name: string }> }} FactionGroup */
+
 /** A keyword a rule grants a unit: `det` (a detachment's wh11ed id) when only that detachment does, `extra` when it is printed apart from the unit's own keywords. @typedef {{ kw: string, det?: string, extra?: boolean }} KeywordGrant */
 
 /**

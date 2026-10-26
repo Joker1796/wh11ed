@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { buildRosterText, EXPORT_FORMATS } from './rosterExport.js'
+import { factionGroups } from '../data/factionsIndex.js'
 import { optionLabel } from '../core/roster/rosterEngine.js'
 
 const core = { battleSizes: [{ id: 'strike-force', name: 'Strike Force', points: 2000, dp: 3, enhLimit: 4, dupLimit: 3 }] }
@@ -41,7 +42,7 @@ const roster = {
     { uid: 'd', id: 'rhino', size: 0 },
   ],
 }
-const ctx = { faction, core, items, version: { app: '1.2.3', data: 925 } }
+const ctx = { faction, core, items, factionGroups, version: { app: '1.2.3', data: 925 } }
 const build = (fmt) => buildRosterText(roster, ctx, fmt)
 
 describe('buildRosterText — the GW app’s own 11th-edition shape', () => {
@@ -364,7 +365,7 @@ describe('rus — the Russian tournament format', () => {
       { uid: 'i', id: 'impulsor', size: 0 },
       { uid: 'e', id: 'eradicator-squad-with-melta-rifles', size: 0, wg: [eradMelta] },
     ] }
-    const ctxRus = { faction: sm, core: coreData, items: itemsData.items, who: { player: 'Ivan', hin: '933' } }
+    const ctxRus = { faction: sm, core: coreData, items: itemsData.items, factionGroups, who: { player: 'Ivan', hin: '933' } }
     const text = buildRosterText(roster, ctxRus, 'rus')
     const lines = text.split('\n')
     expect(lines[0]).toBe('+'.repeat(47))
@@ -412,9 +413,9 @@ describe('the WTC faction line', () => {
     const faction = await loadRosterFaction(slug)
     const roster = { name: 'L', faction: slug, detachments: [], battleSize: 'strike-force', units: [] }
     for (const fmt of ['wtc', 'rus']) {
-      const text = buildRosterText(roster, { faction, core, items }, fmt)
+      const text = buildRosterText(roster, { faction, core, items, factionGroups }, fmt)
       expect(text).toContain(`+ FACTION KEYWORD: ${line}\n`)
-      expect(matchFaction(parseList(text).faction)).toBe(slug)
+      expect(matchFaction(parseList(text, null, factionGroups).faction, factionGroups)).toBe(slug)
     }
   })
 })
@@ -433,7 +434,7 @@ describe('the Chapter on the faction line', () => {
     const faction = await loadRosterFaction('space-marines')
     expect(rosterChapters(faction)).toEqual(['Imperial Fists', 'Iron Hands', 'Raven Guard', 'Salamanders', 'Ultramarines', 'White Scars'])
     const base = { name: 'L', faction: 'space-marines', detachments: [], battleSize: 'strike-force', units: [] }
-    const text = (r, fmt = 'rus') => buildRosterText(r, { faction, core, items }, fmt)
+    const text = (r, fmt = 'rus') => buildRosterText(r, { faction, core, items, factionGroups }, fmt)
 
     expect(line(text(base))).toBe('Imperium - Adeptus Astartes')
     const declared = { ...base, chapter: 'Salamanders' }
@@ -453,7 +454,7 @@ describe('the Chapter on the faction line', () => {
     expect(chapterOf({ ...both, chapter: 'Ultramarines' }, faction)).toBe('Ultramarines')
     expect(chapterOf({ ...both, chapter: 'White Scars' }, faction)).toBe(null)
 
-    const parsed = parseList(text(declared, 'wtc'))
+    const parsed = parseList(text(declared, 'wtc'), null, factionGroups)
     expect(matchRoster(parsed, { faction, core, items }).payload.chapter).toBe('Salamanders')
   })
 })

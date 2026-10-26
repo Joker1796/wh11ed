@@ -17,6 +17,7 @@ import { readFileSync } from 'node:fs'
 import { detectFormat, matchFaction, matchRoster, parseList } from '../src/composables/rosterImport.js'
 import { validateRoster } from '../src/core/roster/rosterValidation.js'
 import core from '../src/data/roster/core.js'
+import { factionGroups } from '../src/data/factionsIndex.js'
 import { loadRosterFaction, rosterItems } from '../src/data/roster/index.js'
 import { APP_DATA_VERSION } from '../src/data/appDataVersion.js'
 
@@ -49,10 +50,10 @@ for (const { label, text } of lists) {
   const notes = []
   let mismatch = false
   try {
-    const parsed = parseList(text, detectFormat(text))
+    const parsed = parseList(text, detectFormat(text), factionGroups)
     if (!parsed?.units?.length) notes.push('not a list we can read')
     else {
-      const slug = matchFaction(parsed.faction)
+      const slug = matchFaction(parsed.faction, factionGroups)
       if (!slug) notes.push(`no faction in ${JSON.stringify(parsed.faction)}`)
       else {
         const f = await faction(slug)

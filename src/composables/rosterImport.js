@@ -28,13 +28,13 @@
 // POINTS ARE NEVER TRUSTED FROM THE TEXT. They are recomputed from our own MFM data; the stated
 // figure rides along only so the difference can be shown. A list exported against last month's
 // points is not a bug in the import.
-import { factionGroups } from '../data/factionsIndex.js'
-import { DISPOSITION_NAMES } from '../data/dispositionColors.js'
+import { DISPOSITION_NAMES } from '../core/roster/dispositions.js'
 import { foldChars } from '../core/shared/foldName.js'
 import { fieldedTotals } from './rosterExport.js'
 import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, pmGroups, swapRoom, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from '../core/roster/rosterEngine.js'
 
 /** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../core/shared/roster.types.js').FactionGroup} FactionGroup */
 /** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
 /** @typedef {import('../core/shared/roster.types.js').RosterFaction} RosterFaction */
 /** @typedef {import('../core/shared/roster.types.js').BattleSize} BattleSize */
@@ -137,8 +137,8 @@ function repairMojibake(text) {
 // Exactly one of our own faction names — used to tell a list titled after its author from a list
 // whose header line is the faction itself. Deliberately strict, unlike matchFaction's fallback
 // pass: a loose match here would eat the title of a list called "Orks go fast".
-/** @param {string} t */
-const isFactionName = (t) => factionGroups.some((g) => g.factions.some((f) => norm(f.name) === norm(t)))
+/** @param {string} t @param {FactionGroup[]} factionGroups */
+const isFactionName = (t, factionGroups) => factionGroups.some((g) => g.factions.some((f) => norm(f.name) === norm(t)))
 
 // ── format detection ─────────────────────────────────────────────────────────────────────────
 
@@ -276,8 +276,8 @@ function foldRepeatedAttachments(out) {
   out.repeated = dupes.length
 }
 
-/** @param {string} text @returns {ParsedList} */
-function parseGw(text) {
+/** @param {string} text @param {FactionGroup[]} factionGroups @returns {ParsedList} */
+function parseGw(text, factionGroups) {
   /** @type {ParsedList} */
   const out = { format: 'gw', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [] }
   /** @type {ParsedUnit | null} */
@@ -356,7 +356,7 @@ function parseGw(text) {
       // allied units come with the ally's own datasheets, which is a matter for the faction data,
       // not for this line.
       if (key === 'faction' || key === 'factions' || key === 'factions used') {
-        labelledFaction = val.split(',').map((f) => f.trim()).find((f) => matchFaction(f)) || val
+        labelledFaction = val.split(',').map((f) => f.trim()).find((f) => matchFaction(f, factionGroups)) || val
         labelled = true
         continue
       }
@@ -451,7 +451,7 @@ function parseGw(text) {
     // header of some lists, and without this the name took the faction's place and the import
     // failed with "unknown faction: Bootcamp 11th die Zweite". A first line that IS one of our
     // faction names is the faction, though, so a paste that starts at that line still works.
-    if (!seenHeader && !isFactionName(t)) { out.name = t; titles.push(t); seenHeader = true; continue }
+    if (!seenHeader && !isFactionName(t, factionGroups)) { out.name = t; titles.push(t); seenHeader = true; continue }
     // The disposition written as a bare line of its own — the app's export and listhammer's
     // detailed mode both do this ("Take and Hold" under the detachment line), with no label to say
     // what it is. A line that IS a disposition's name is not a title and not a faction. The first
@@ -459,7 +459,7 @@ function parseGw(text) {
     // more than one, and then says nothing).
     const fd = dispositionNamed(t)
     if (seenHeader && fd) { if (!out.disposition) out.disposition = fd; continue }
-    if (isFactionName(t)) inHeader = false          // the title is over once the army is named
+    if (isFactionName(t, factionGroups)) inHeader = false          // the title is over once the army is named
     plains.push(t)
   }
   flush()
@@ -473,15 +473,15 @@ function parseGw(text) {
   // Angels") and the Chapter is the army: taking the first gave a Dark Angels list the Space
   // Marines data, which has no Azrael, no Deathwing Knights and neither of its detachments.
   foldRepeatedAttachments(out)
-  const answers = plains.filter(isFactionName)
-  const loose = plains.filter((t) => matchFaction(t))
+  const answers = plains.filter((t) => isFactionName(t, factionGroups))
+  const loose = plains.filter((t) => matchFaction(t, factionGroups))
   // Then the TITLE, before the blind fallback below it. A list called "Big Mek Marian - Orks", or
   // one whose only header line is "Thousand Sons - Priority Assets - Grand Coven (2000 Points)",
   // names its army in the one place it was ever going to — and having read those lines as the
   // title, nothing else in the file says which army it is. By our own NAMES only, part by part:
   // the looser reading turned a Custodes list titled "Orks Orks Orks" into an Orks one, where
   // asking the reader which faction it is was the honest answer and the one they got before.
-  const titled = titles.flatMap((t) => t.split(/ - /)).map((t) => t.trim()).find(isFactionName) || ''
+  const titled = titles.flatMap((t) => t.split(/ - /)).map((t) => t.trim()).find((t) => isFactionName(t, factionGroups)) || ''
   out.faction = labelledFaction || answers[answers.length - 1] || loose[loose.length - 1] || titled || plains[0] || ''
   return out
 }
@@ -625,8 +625,8 @@ function wtcHeader(lines, out) {
   return i
 }
 
-/** @param {string} text @returns {ParsedList} */
-function parseWtc(text) {
+/** @param {string} text @param {FactionGroup[]} factionGroups @returns {ParsedList} */
+function parseWtc(text, factionGroups) {
   const lines = (text || '').split(/\r?\n/).map((l) => l.replace(/\u00a0/g, ' '))
   /** @type {WtcList} */
   const out = { format: 'wtc', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [], enhancements: [], warlord: null }
@@ -650,7 +650,7 @@ function parseWtc(text) {
   const appGrammar = /^\W*Attached as:/im.test(body) || /\u25e6/.test(body)
   const headings = /^attached units?( \d+)?$/im.test(body) || SECTIONS.test(body)
   if (appGrammar || (headings && !wtcShaped)) {
-    const gw = parseGw(body)
+    const gw = parseGw(body, factionGroups)
     out.units = gw.units
     out.name = out.name || gw.name
     if (!out.stated) out.stated = gw.stated
@@ -778,17 +778,20 @@ function fromHeader(out) {
   return out
 }
 
+// `factionGroups` is the app's faction directory (src/data/factionsIndex.js): the names a list's
+// header line is read against.
 /**
  * @param {string | null | undefined} text
- * @param {ParsedList['format'] | null} [format]
+ * @param {ParsedList['format'] | null} format
+ * @param {FactionGroup[]} factionGroups
  * @returns {ParsedList | null}
  */
-export function parseList(text, format = null) {
+export function parseList(text, format, factionGroups) {
   const t = repairMojibake(text)
   const f = format || detectFormat(t)
-  if (f === 'wtc') return parseWtc(t)
+  if (f === 'wtc') return parseWtc(t, factionGroups)
   if (f === 'listhammer-compact') return parseListhammerCompact(t)
-  if (f === 'gw') return parseGw(t)
+  if (f === 'gw') return parseGw(t, factionGroups)
   return null
 }
 
@@ -817,8 +820,8 @@ const KEYWORD_FACTIONS = new Map([[norm('Legiones Daemonica'), 'chaos-daemons']]
 
 // The faction the list names, as one of ours. WTC writes the alliance in front ("Xenos - Aeldari"),
 // which parseWtc has already stripped.
-/** @param {string | null | undefined} name @returns {string | null} a faction slug */
-export function matchFaction(name) {
+/** @param {string | null | undefined} name @param {FactionGroup[]} factionGroups the faction directory @returns {string | null} a faction slug */
+export function matchFaction(name, factionGroups) {
   const want = norm(name)
   if (!want) return null
   // An export can name SEVERAL, most specific first: "Factions Used: Raven Guard, Adeptus Astartes"

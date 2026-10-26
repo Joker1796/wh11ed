@@ -7,6 +7,7 @@ import { loadRosterFaction, rosterItems } from '../src/data/roster/index.js'
 import { validateRoster } from '../src/core/roster/rosterValidation.js'
 import { buildRosterText, EXPORT_FORMATS } from '../src/composables/rosterExport.js'
 import { detectFormat, matchRoster, parseList } from '../src/composables/rosterImport.js'
+import { factionGroups } from '../src/data/factionsIndex.js'
 import { everyUnitRoster, rosterPoints, cardOf, plain, hash, stringify } from './harness.js'
 
 const items = rosterItems.items
@@ -32,7 +33,7 @@ describe('golden: every unit of a faction, per detachment', () => {
       const out = {}
       for (const det of faction.detachments) {
         const roster = everyUnitRoster({ ...faction, slug }, det.name, items)
-        const ctx = { faction, core, items }
+        const ctx = { faction, core, items, factionGroups }
         const dets = faction.detachments.filter((d) => d.name === det.name)
         const cards = {}
         for (const entry of roster.units) {
@@ -47,7 +48,7 @@ describe('golden: every unit of a faction, per detachment', () => {
           // …and what the importer makes of the formats it reads back.
           reimport: Object.fromEntries(['gw', 'wtc'].map((f) => {
             const text = buildRosterText(roster, ctx, f)
-            const { payload, report } = matchRoster(parseList(text, detectFormat(text)), ctx)
+            const { payload, report } = matchRoster(parseList(text, detectFormat(text), factionGroups), ctx)
             return [f, { units: payload.units.map(({ uid, ...u }) => u), report }]
           })),
           cards,

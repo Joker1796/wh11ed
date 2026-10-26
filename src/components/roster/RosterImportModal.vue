@@ -211,9 +211,9 @@ async function read() {
   busy.value = true
   error.value = ''
   try {
-    const parsed = parseList(text.value, detectFormat(text.value))
+    const parsed = parseList(text.value, detectFormat(text.value), factionGroups)
     if (!parsed?.units?.length) { error.value = labels.value.rosterImportUnknown; return }
-    const slug = matchFaction(parsed.faction) || pickedFaction.value
+    const slug = matchFaction(parsed.faction, factionGroups) || pickedFaction.value
     if (!slug) {
       // No faction in the text (the short listhammer export) — or one we don't know. Either way the
       // reader can say which it is; only an unrecognised NAME is worth an error line.

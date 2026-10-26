@@ -43,6 +43,7 @@ import { useRosters } from '../../composables/useRosters.js'
 import { decodeRoster } from '../../composables/rosterShare.js'
 import { usesAllies } from '../../core/roster/rosterEngine.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
+import { factionGroups } from '../../data/factionsIndex.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 
@@ -71,7 +72,7 @@ onMounted(async () => {
 // whose loadout they can't see. The dictionary is already in this chunk (index.js re-exports it).
 const preview = computed(() =>
   payload.value
-    ? buildRosterText(payload.value, { faction: faction.value, core: rosterCore, items: rosterItems.items })
+    ? buildRosterText(payload.value, { faction: faction.value, core: rosterCore, items: rosterItems.items, factionGroups })
     : '')
 
 function save() {

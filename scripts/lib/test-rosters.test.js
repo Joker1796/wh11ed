@@ -5,6 +5,7 @@ import { loadRosterFaction, rosterItems } from '../../src/data/roster/index.js'
 import { validateRoster } from '../../src/core/roster/rosterValidation.js'
 import { buildRosterText } from '../../src/composables/rosterExport.js'
 import { detectFormat, matchRoster, parseList } from '../../src/composables/rosterImport.js'
+import { factionGroups } from '../../src/data/factionsIndex.js'
 import { rosterPoints } from '../../src/core/roster/rosterEngine.js'
 
 // Each test roster is held to what it is FOR (see test-rosters.mjs): a renamed unit, a retired
@@ -35,10 +36,10 @@ describe('test rosters survive export → import', () => {
     for (const spec of TEST_ROSTERS.filter((x) => !x.expect.errors)) {
       it(`${spec.key} (${format})`, async () => {
         const faction = await loadRosterFaction(spec.faction, { allies: true })
-        const ctx = { faction, core, items: rosterItems.items }
+        const ctx = { faction, core, items: rosterItems.items, factionGroups }
         const roster = buildTestRoster(spec, ctx)
         const text = buildRosterText(roster, ctx, format)
-        const { payload, report } = matchRoster(parseList(text, detectFormat(text)), ctx)
+        const { payload, report } = matchRoster(parseList(text, detectFormat(text), factionGroups), ctx)
         expect(report.missing).toEqual([])
         expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
         expect(report.detachments.matched.sort()).toEqual([...roster.detachments].sort())

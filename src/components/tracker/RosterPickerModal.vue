@@ -217,9 +217,9 @@ async function fromText(raw) {
   const [{ detectFormat, matchFaction, matchRoster, parseList }, { loadRosterFaction, rosterItems }, { default: rosterCore }] = await Promise.all([
     import('../../composables/rosterImport.js'), import('../../data/roster/index.js'), import('../../data/roster/core.js'),
   ])
-  const parsed = parseList(raw, detectFormat(raw))
+  const parsed = parseList(raw, detectFormat(raw), factionGroups)
   if (!parsed?.units?.length) return { error: l.rosterImportUnknown }
-  const slug = matchFaction(parsed.faction) || props.faction
+  const slug = matchFaction(parsed.faction, factionGroups) || props.faction
   if (!slug) return { error: l.rosterImportNoFaction.replace('{n}', parsed.faction || '—') }
   if (props.faction && slug !== props.faction) return { error: l.trackerRosterWrongFaction }
   const faction = await loadRosterFaction(slug, { allies: true })

@@ -62,8 +62,8 @@ import {
  * @property {GearOut[]} gear
  */
 /** The whole list, resolved once for every format. @typedef {ReturnType<typeof resolve>} Resolved */
-/** What the export needs besides the roster. @typedef {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string> | null }} ExportContext */
-import { factionGroups } from '../data/factionsIndex.js'
+/** What the export needs besides the roster; `factionGroups` is the app's faction directory (src/data/factionsIndex.js), for the alliance a faction keyword line opens with. @typedef {{ faction?: RosterFaction | null, core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string> | null, factionGroups?: FactionGroup[] | null }} ExportContext */
+/** @typedef {import('../core/shared/roster.types.js').FactionGroup} FactionGroup */
 
 export const EXPORT_FORMATS = ['gw', 'wtc', 'wtc-compact', 'compact', 'simple', 'rus']
 
@@ -80,7 +80,7 @@ const ALLIANCE = { astartes: 'Imperium', imperium: 'Imperium', chaos: 'Chaos', x
 /** @param {Resolved} m */
 function factionKeywordLine(m) {
   const slug = m.roster?.faction
-  const group = factionGroups.find((g) => g.factions.some((f) => f.slug === slug))
+  const group = (m.factionGroups || []).find((g) => g.factions.some((f) => f.slug === slug))
   const name = m.faction?.name || ''
   const parts = [group ? ALLIANCE[group.id] : undefined]
   if (group?.id === 'astartes' && slug !== 'space-marines') parts.push('Adeptus Astartes')
@@ -243,7 +243,7 @@ function enhancementOf(def, entry, detachments) {
  * @param {Partial<Roster> | null | undefined} roster
  * @param {ExportContext} [ctx]
  */
-function resolve(roster, { faction, core, items } = {}) {
+function resolve(roster, { faction, core, items, factionGroups } = {}) {
   const defMap = new Map((faction?.units || []).map((u) => [u.id, u]))
   /** @param {string} id */
   const defOf = (id) => defMap.get(id)
@@ -317,7 +317,7 @@ function resolve(roster, { faction, core, items } = {}) {
 
   // The army's own Force Disposition — the declared one where its detachments disagree, and never
   // a list of every candidate: an army list states the card it plays, not the ones it could have.
-  return { rows, loose, attached, detachments, battle, total, sizeName, faction, roster, items, disposition: dispositionOf(roster, detachments), chapter: chapterOf(roster, faction) }
+  return { rows, loose, attached, detachments, battle, total, sizeName, faction, roster, items, factionGroups, disposition: dispositionOf(roster, detachments), chapter: chapterOf(roster, faction) }
 }
 
 // ── GW app, 11th edition ─────────────────────────────────────────────────────────────────────

@@ -89,6 +89,7 @@ import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { buildRosterText, EXPORT_FORMATS } from '../../composables/rosterExport.js'
+import { factionGroups } from '../../data/factionsIndex.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { encodeRoster, shareUrl } from '../../composables/rosterShare.js'
 import { APP_VERSION } from '../../buildInfo.js'
@@ -125,7 +126,7 @@ watch([player, hin], ([p, h]) => {
 
 const text = computed(() => buildRosterText(
   props.roster,
-  { faction: props.faction, core: props.core, items: props.items, version, who: { player: player.value, hin: hin.value } },
+  { faction: props.faction, core: props.core, items: props.items, factionGroups, version, who: { player: player.value, hin: hin.value } },
   format.value,
 ))
 

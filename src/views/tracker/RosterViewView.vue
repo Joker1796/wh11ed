@@ -648,6 +648,7 @@ import StratPlayModal from '../../components/tracker/StratPlayModal.vue'
 import rosterCore from '../../data/roster/core.js'
 import { rosterItems } from '../../data/roster/index.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
+import { factionGroups } from '../../data/factionsIndex.js'
 import { playRoster } from '../../composables/playRoster.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
@@ -1752,7 +1753,7 @@ function playThisList() {
 async function copyWholeList() {
   const text = buildRosterText(
     roster.value,
-    { faction: factionData.value, core: rosterCore, items: rosterItems.items, version: { app: APP_VERSION, data: APP_DATA_VERSION } },
+    { faction: factionData.value, core: rosterCore, items: rosterItems.items, factionGroups, version: { app: APP_VERSION, data: APP_DATA_VERSION } },
     'gw',
   )
   try {
