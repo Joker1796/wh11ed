@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { loadRosterFaction } from '../../data/roster/index.js'
-import { overlaySheet, loadoutItemIds, loadoutItemCounts, grantedKeywordsFor, entryContext, ruleSourcesFor, enhKey, detKey, findEnhancementProse, wargearConditions } from './rosterModifiers.js'
+import { overlaySheet, loadoutItemIds, loadoutItemCounts, entryContext, ruleSourcesFor, enhKey, findEnhancementProse, wargearConditions } from './rosterModifiers.js'
+import { grantedKeywordsFor } from '../roster/rosterEngine.js'
+import { detKey } from '../shared/slugify.js'
 
 // Interned wargear names, same shape as src/data/roster/items.js's `items` map.
 const items = { 1: 'Boltgun', 2: 'Bolt pistol', 3: 'Meltagun', 4: 'Chainsword', 5: 'Power weapon', 6: 'Plasma pistol' }

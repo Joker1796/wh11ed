@@ -4,7 +4,8 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { rosterDetachments, hasKeyword, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, joinLedBy, joinsClash, leadTypeFor, armySidsOf, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, wargearPoolOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
+import { rosterDetachments, isBattlelineNow, grantedKeywordsFor, hostLimitsFor, joinsAlongside, joinLedBy, joinsClash, leadTypeFor, armySidsOf, allyGroupsFor, allyGroupsOf, allySourceOf, allyBars, mustBeWarlord, canBeWarlord, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, wargearGroupCap, wargearGroupFallbackCap, wargearGroupLive, wargearGroupSpent, wargearExclOver, wargearXpmOver, wargearPoolOver, exactPicksOwed, perModelFits, optionItems, optionLabel, swapOverdraft, allegFor, allegKeyword, grantedKeywords, dispositionCandidates, dispositionOf, dpLimitFor, legalityOn, sharedKeywordClash, isSupportUnit } from './rosterEngine.js'
+import { hasKeyword, enhEligible } from './rosterEnhEligible.js'
 
 /** @typedef {import('../shared/roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('../shared/roster.types.js').RosterEntry} RosterEntry */

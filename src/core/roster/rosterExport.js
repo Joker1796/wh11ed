@@ -31,11 +31,8 @@
 // model; we hold the roster bundle. Where a datasheet records its `defaults` we print the whole
 // fielded loadout with swaps applied (the same modelsPerMini/swapsByMini accounting the editor
 // shows on screen); where it does not, we fall back to listing only what the player CHANGED.
-import {
-  allegFor, bucketOf, chapterOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
-  copiesHeld, copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
-  miniName, modelCount, rosterDetachments, hasKeyword,
-} from './rosterEngine.js'
+import { allegFor, bucketOf, chapterOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini, copiesHeld, copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName, miniName, modelCount, rosterDetachments } from './rosterEngine.js'
+import { hasKeyword } from './rosterEnhEligible.js'
 
 /** @typedef {import('../shared/roster.types.js').Roster} Roster */
 /** @typedef {import('../shared/roster.types.js').RosterFaction} RosterFaction */

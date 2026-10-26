@@ -15,12 +15,10 @@
 // an attributed note instead — the same "mark it, don't fake it" treatment DatasheetCard already
 // gives rule-granted keywords via its `grantedKeywords` prop.
 
-import { copiesHeld, wargearGroupCap, wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegFor, allegKeyword, allegItems, grantedKeywordsFor, detKey } from '../roster/rosterEngine.js'
+import { copiesHeld, wargearGroupCap, wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegFor, allegKeyword, allegItems, grantedKeywordsFor } from '../roster/rosterEngine.js'
+import { detKey } from '../shared/slugify.js'
 import { conditions } from './conditions.js'
 import { foldName } from '../shared/foldName.js'
-// Rule-granted keywords moved to rosterEngine.js, which needs them to answer whether a unit can
-// carry an enhancement; re-exported here because this is where every caller already imports them.
-export { grantedKeywordsFor, detKey } from '../roster/rosterEngine.js'
 
 /** @typedef {import('../shared/roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('../shared/roster.types.js').RosterEntry} RosterEntry */

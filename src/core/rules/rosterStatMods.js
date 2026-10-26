@@ -19,7 +19,8 @@
 // Scope comes from ruleTargets.js, never from the record — see the generator's header for why.
 
 import { ruleScopes, scopesMisread, scopeHits } from './ruleTargets.js'
-import { enhKey, detKey, itemKey, loadoutItemCopies, weaponRowClaimer, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
+import { enhKey, itemKey, loadoutItemCopies, weaponRowClaimer, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
+import { detKey } from '../shared/slugify.js'
 import { modelsPerMini, mandatoryEnhancementFor } from '../roster/rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from './conditions.js'

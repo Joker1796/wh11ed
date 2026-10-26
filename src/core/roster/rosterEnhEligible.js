@@ -1,8 +1,7 @@
 // @ts-check
-// Who may carry an enhancement — read by the roster builder (through rosterEngine.js, which
-// re-exports these) and by gen-roster-data.mjs for a datasheet's "Led by" rows. A module of its
-// own, importing only plain modules, so the Node generator can load it: rosterEngine.js pulls a
-// JSON file in, and plain Node will not import that.
+// Who may carry an enhancement — read by the roster engine, the validator and gen-roster-data.mjs
+// (a datasheet's "Led by" rows). A module of its own because the generator needs only this, not the
+// whole engine.
 
 import { foldName } from '../shared/foldName.js'
 /** @typedef {import('../shared/roster.types.js').RosterUnit} RosterUnit */

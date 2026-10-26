@@ -371,7 +371,8 @@ import { useRenderInline } from '../../composables/useRenderInline.js'
 // resolved once, here, and shared with the print sheet. This component adds the live game around
 // it: the chips, what they open, and what may not be spent right now.
 import { useRosterUnitCard } from '../../composables/rosterUnitCard.js'
-import { enhKey, detKey } from '../../core/rules/rosterModifiers.js'
+import { enhKey } from '../../core/rules/rosterModifiers.js'
+import { detKey } from '../../core/shared/slugify.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({

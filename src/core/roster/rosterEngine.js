@@ -5,7 +5,6 @@ import { detKey } from '../shared/slugify.js'
 import { hasKeyword, enhEligible, lockedToExactUnit } from './rosterEnhEligible.js'
 import { foldName } from '../shared/foldName.js'
 
-export { hasKeyword, enhEligible }
 
 /** @typedef {import('../shared/roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('../shared/roster.types.js').RosterEntry} RosterEntry */
@@ -998,7 +997,8 @@ export function canBeWarlord(def, detachments, granted = []) {
 // Every keyword an ENTRY has that its datasheet does not print — the two sources together, because
 // both can be the thing that lets a unit carry an enhancement and a caller that asks only one gets
 // a different answer from the caller that asks the other:
-//   • a detachment rule grants it to a named datasheet (conditionalKeywords.json) — Rollin' Deff
+//   • a detachment rule grants it to a named datasheet (the unit's `grants`, from
+//     conditionalKeywords.json) — Rollin' Deff
 //     makes a Battlewagon, a Hunta Rig and a Kill Rig WAGON, which is what "Wagon unit only"
 //     enhancements like Boarding Ramps ask for. No Ork datasheet PRINTS that keyword, so without
 //     this every one of that detachment's upgrades was ineligible for every unit in the game, and a
@@ -1028,9 +1028,8 @@ export function grantedKeywords(def, entry, detachments) {
 // A grant names its detachment by wh11ed id, the roster refers to them by their appdata
 // display name, so matching goes through detKey() (src/core/shared/slugify.js), not slugify() alone:
 // appdata spells "Dëlve Assault Shift" with a diaeresis, which slugify() drops to
-// `d-lve-assault-shift` (24 of 25 gated grants matched without it). Re-exported so the modal
-// matches the roster's detachment names to the faction file's the way grantedKeywordsFor does.
-export { detKey }
+// `d-lve-assault-shift` (24 of 25 gated grants matched without it). The modal matches the roster's
+// detachment names to the faction file's the same way, with the same detKey.
 
 // `detachments` accepts either the resolved detachment objects the editor/browser pass around
 // (`curDetachments`) or the bare name strings a roster stores — being permissive here is what
@@ -1070,8 +1069,8 @@ export function grantedKeywordsFor(def, detachments) {
 //
 // The generated `condBattleline` flag says only that a datasheet CAN be Battleline — it carries no
 // detachment — so reading it as the answer handed 29 units a permanent ×2 in armies whose
-// detachment grants nothing (reported for Orks: six Warbikers in a Blitz Brigade list). The gate
-// that knows WHICH detachment grants it is conditionalKeywords.json, the same sidecar
+// detachment grants nothing (reported for Orks: six Warbikers in a Blitz Brigade list). What knows
+// WHICH detachment grants it is the unit's `grants` (from conditionalKeywords.json), the same
 // `grantedKeywords` already runs enhancement and Warlord eligibility through — so this asks it,
 // and the flag survives only as the fallback for a caller that has no detachments to check.
 /**
