@@ -2219,7 +2219,7 @@ screen it appears on is already themed that way (`FactionAccentScope`'s recipe, 
 `--accent` by the editor's, the wizard's and `FactionLayout`'s roots). The single exception is the datasheet page's header, where the buttons sit ON the
 faction-coloured hero and stay white like the rest of `.ds-btn`. Three components carried the icon
 (`RosterUnitRow`, `UnitEditorFields`, `RosterUnitRulesModal`) and a fourth carried a bare `'★'` in
-text — `rosterEngine`'s `entrySummary`, the read-only view's summary line, where a lone symbol on
+text — `rosterText`'s `entrySummary`, the read-only view's summary line, where a lone symbol on
 its own row said nothing to anyone. That one now takes the Warlord noun as a fifth argument, the
 same way it already takes the model and upgrade nouns, and prints the word.
 

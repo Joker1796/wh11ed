@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue'
-import { issueText } from '../core/roster/rosterValidation.js'
+import { issueText } from './rosterText.js'
 
 // Saving a list whose Force Disposition is not declared asks first (owner, 2026-09-29). It is a
 // warning, not an error — the builder never blocks — but it is the one the list itself does not

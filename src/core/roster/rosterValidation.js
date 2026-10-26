@@ -643,16 +643,3 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   const errorCount = issues.filter((i) => i.level === 'error').length
   return { points, issues, errorCount }
 }
-
-// An issue in words: its `issue_<code>` template from ui.js (handed in — this module has no
-// locale) with the params filled in. The issues dialog and the save-time disposition prompt read it.
-/**
- * @param {RosterIssue} iss
- * @param {Record<string, string>} labels
- * @returns {string}
- */
-export function issueText(iss, labels) {
-  const tpl = labels[`issue_${iss.code}`] || iss.code
-  const p = iss.params || {}
-  return tpl.replace(/\{(\w+)\}/g, (_, k) => String(p[k] ?? ''))
-}

@@ -2032,37 +2032,6 @@ export function duplicateUnitEntry(units, entryUid, newUid) {
   return copy
 }
 
-// A one-line summary of an entry's current size/upgrades/enhancement for its list row (the
-// read-only view's). Every noun is passed in (not imported) so this stays a pure, Vue-free
-// module; callers pass their current locale's
-// `rosterModelsLabel`/`rosterUpgradesLabel`/`rosterWarlord`.
-//
-// The Warlord used to be a bare '★' here. The star now means "I own this model" elsewhere in the
-// app (useCollection.js), and a lone symbol on its own line was never decodable anyway — the word
-// is both unambiguous and free of the glyph-coverage roulette a flag character would bring.
-/**
- * @param {EntryLike} e
- * @param {RosterUnit | null | undefined} def
- * @param {string | ((n: number) => string)} modelsLabel
- * @param {string | ((n: number) => string)} upgradesLabel
- * @param {string} [warlordLabel]
- * @returns {string}
- */
-export function entrySummary(e, def, modelsLabel, upgradesLabel, warlordLabel = '') {
-  const size = sizeOf(def, e)
-  if (!def || !size) return ''
-  const n = modelCount(def, e)
-  const parts = []
-  if (e.warlord && warlordLabel) parts.push(warlordLabel)
-  // A label may be a function of the count (the caller's plural forms: «2 улучшения», not «2 улучшений»).
-  /** @param {number} k @param {string | ((n: number) => string)} l */
-  const count = (k, l) => (typeof l === 'function' ? l(k) : `${k} ${l}`)
-  if (size.per[1] > 1) parts.push(count(n, modelsLabel))
-  if (e.wg?.length) parts.push(count(e.wg.length, upgradesLabel))
-  if (e.enh) parts.push(e.enh)
-  return parts.join(' · ')
-}
-
 // An entry's default (unmodified) loadout, one line per mini in the datasheet's composition —
 // e.g. [{ mini: 'Sergeant', items: 'Bolt rifle' }, { mini: '', items: 'Close combat weapon, Tesla carbine ×10' }].
 // `mini` is blank when the datasheet only has one mini (nothing to disambiguate).

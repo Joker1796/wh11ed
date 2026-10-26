@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { leadTypeFor, dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, wargearPoolCap, wargearPoolOver, wargearPoolRoom, wargearPoolTakenBy, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, sharedKeywordClash, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, sectionsOfUnits, entrySummary } from './rosterEngine.js'
+import { leadTypeFor, dpLimitFor, ENTRY_NOTE_MAX, orderedByName, setNote, addUnitEntry, duplicateUnitEntry, takeUnitEntry, restoreUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, defaultWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementBearers, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, wargearGroupLive, wargearGroupBlocker, wargearPoolCap, wargearPoolOver, wargearPoolRoom, wargearPoolTakenBy, blockNumbers, blockRootUid, hostBlockTotal, defaultLoadoutLines, modelsPerMini, swapsByMini, swapRoom, swapOverdraft, fitWargear, overdrawnGroups, pickMiniFor, dispositionCandidates, dispositionOf, allegFor, allegKeyword, allegItems, allegSpent, sharedKeywordClash, capKeyOf, allySourceOf, usesAllies, allyGroupsFor, sectionsOf, sectionsOfUnits } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -2030,22 +2030,6 @@ describe('an enhancement whose keyword a detachment grants', () => {
     // …and it is the grant the unit carries that does it: without it, the printed sheet is all there is
     const { grants: _grants, ...printedOnly } = helbrute
     expect(eligible(printedOnly)).not.toContain(upgrade)
-  })
-})
-
-describe('entrySummary', () => {
-  // The Warlord's mark on the read-only view's rows. It was a bare '★' until 2026-08-28, when the
-  // star was given to "I own this model" (useCollection.js) — and a lone symbol on its own line
-  // said less than the word does anyway.
-  it('names the Warlord in the caller\u2019s locale, ahead of the size and the upgrades', () => {
-    const e = { uid: 'u1', id: 'intercessor-squad', size: 1, warlord: true, wg: [[0, 0, 1]] }
-    expect(entrySummary(e, intercessor, 'моделей', 'улучшений', 'Варлорд'))
-      .toBe('Варлорд · 6 моделей · 1 улучшений')
-  })
-
-  it('says nothing about a unit that is not the Warlord', () => {
-    const e = { uid: 'u1', id: 'captain', size: 0 }
-    expect(entrySummary(e, captain, 'models', 'upgrades', 'Warlord')).toBe('')
   })
 })
 
