@@ -23,6 +23,8 @@ export default [
     // at build time (see vite.config.js / vitest.config.js) — without it `no-undef` flags the
     // footer and the export header.
     files: ['src/**/*.{js,vue}'],
+    // The core has a block of its own below: globals add up across blocks and cannot be taken away.
+    ignores: ['src/core/**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -41,11 +43,42 @@ export default [
   },
 
   {
+    // The rules core (src/core/CLAUDE.md): the rules of the game as plain functions. No browser —
+    // only the language's own globals, so a `window` or `localStorage` here is `no-undef` — and none
+    // of what sits above it: Vue, the app's composables, components and screens, nor the data, which
+    // reaches the core as arguments. src/core/boundary.test.js holds the same line for dynamic
+    // `import()`, which this rule does not see.
+    files: ['src/core/**/*.js'],
+    // Its tests are the app's tests: they load real data to feed the core, in jsdom.
+    ignores: ['src/core/**/*.test.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: { ...globals.es2025 },
+    },
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [
+          { group: ['vue', 'vue-router', 'virtual:*'], message: 'The core does not know about Vue: return plain values and let a composable wrap them.' },
+          { group: ['**/data/**'], message: 'The core takes data as arguments; the app loads it and passes it in.' },
+          { group: ['**/composables/**', '**/components/**', '**/views/**', '**/router/**', '**/i18n/**', '**/utils/**', '**/directives/**'], message: 'The core sits below the app: move what it needs into src/core, or pass it in.' },
+        ],
+      }],
+    },
+  },
+
+  {
     // Tests import describe/it/expect from 'vitest' explicitly (all 87 of them), so no test
     // globals are declared here on purpose — an accidental reliance on vitest's `globals: true`
     // should surface as `no-undef` rather than pass silently.
     files: ['src/**/*.test.js', 'scripts/**/*.test.js', 'golden/**/*.js'],
     languageOptions: { globals: { ...globals.node } },
+  },
+
+  {
+    // The core's tests lost the SPA block's browser globals with the core itself (see above).
+    files: ['src/core/**/*.test.js'],
+    languageOptions: { ecmaVersion: 'latest', sourceType: 'module', globals: { ...globals.browser } },
   },
 
   {
