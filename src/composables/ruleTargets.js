@@ -300,42 +300,40 @@ export function unitKeywordsOf(sheet) {
   ]
 }
 
-// Every keyword any unit in the game can carry (src/data/unitKeywordVocabulary.js, generated with
-// the datasheet index): loaded with the roster screens, which is what makes a rule naming another
-// faction's units — Chaos Knights' DAMNED, Brood Brothers' ASTRA MILITARUM INFANTRY — a rule that
-// reaches nobody here rather than an extraction to distrust.
-/** @type {string[] | null} */
-let known = null
-export async function loadKeywordVocabulary() {
-  if (!known) known = (await import('../data/unitKeywordVocabulary.js')).unitKeywordVocabulary
-  return known
-}
-/** Tests only. @param {string[] | null} list */
-export function _setKeywordVocabulary(list) { known = list }
 
 // Escape 3, the one definition (rule blocks AND modifier gates read it): the extraction found
 // targets, but no unit of the faction carries any of them. That is a misread only when a target
 // is not made of real keywords at all; one that names real keywords nobody here carries (another
-// faction's units) reaches nobody, honestly. Without the vocabulary loaded, distrust as before.
-/** @param {import('../core/shared/roster.types.js').RuleScope[]} scopes @param {string[][]} keywordSets */
-export function scopesMisread(scopes, keywordSets) {
+// faction's units) reaches nobody, honestly. `vocabulary` is every keyword any unit in the game can
+// carry (src/data/unitKeywordVocabulary.js — the app loads it with the roster screens): it is what
+// makes a rule naming another faction's units — Chaos Knights' DAMNED, Brood Brothers' ASTRA
+// MILITARUM INFANTRY — one that reaches nobody here rather than an extraction to distrust. Without
+// it, distrust.
+/**
+ * @param {import('../core/shared/roster.types.js').RuleScope[]} scopes
+ * @param {string[][]} keywordSets
+ * @param {string[] | null} [vocabulary]
+ */
+export function scopesMisread(scopes, keywordSets, vocabulary = null) {
   if (keywordSets.some((kws) => scopes.some((sc) => scopeHits(sc, kws)))) return false
-  if (!known) return true
-  return scopes.some((sc) => sc.targets.some((t) => !keywordsMatchTarget(known, t)))
+  if (!vocabulary) return true
+  return scopes.some((sc) => sc.targets.some((t) => !keywordsMatchTarget(vocabulary, t)))
 }
 
 // Does this rule bear on this unit? `unitKeywords` is unitKeywordsOf() plus whatever the roster
 // grants it; `factionKeywordSets` is unitKeywordsOf() of every unit in the faction, used only for
-// escape 3 — pass it whenever you have it, and omit it to skip that guard.
+// escape 3 — pass it whenever you have it, and omit it to skip that guard; `vocabulary` as for
+// scopesMisread.
 /**
  * @param {string | null | undefined} body
  * @param {UnitKeywords} unitKeywords
  * @param {string[][] | null} [factionKeywordSets]
+ * @param {string[] | null} [vocabulary]
  */
-export function ruleAppliesTo(body, unitKeywords, factionKeywordSets) {
+export function ruleAppliesTo(body, unitKeywords, factionKeywordSets, vocabulary = null) {
   const scopes = ruleScopes(body)
   if (!scopes) return true
-  if (factionKeywordSets?.length && scopesMisread(scopes, factionKeywordSets)) return true
+  if (factionKeywordSets?.length && scopesMisread(scopes, factionKeywordSets, vocabulary)) return true
   return scopes.some((sc) => scopeHits(sc, unitKeywords))
 }
 

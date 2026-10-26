@@ -18,6 +18,16 @@ export async function sharedIdsFor(slug) {
   return mod.sharedUnitIds?.length ? mod.sharedUnitIds : null
 }
 
+// Every keyword any unit in the game can carry (../unitKeywordVocabulary.js, generated with the
+// datasheet index) — what the rules core reads a rule's targets against (ruleTargets' scopesMisread).
+// Loaded with the roster screens, once.
+/** @type {string[] | null} */
+let vocabulary = null
+export async function loadKeywordVocabulary() {
+  if (!vocabulary) vocabulary = (await import('../unitKeywordVocabulary.js')).unitKeywordVocabulary
+  return vocabulary
+}
+
 // `cp` — a Combat Patrol box fielded as a list (a roster's `cp`): its sheets come along, from
 // combatPatrol.js (combatPatrolSheets.js). Only the roster screens ask; a faction page never does.
 /** @param {string} slug @param {{ cp?: string | null }} [opts] */

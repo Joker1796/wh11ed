@@ -36,6 +36,7 @@ import { foldName } from '../core/shared/foldName.js'
 /** @typedef {import('./ruleTargets.js').UnitKeywords} UnitKeywords */
 /** @typedef {import('../data/data.types.js').DatasheetProfile} DatasheetProfile */
 /** Every datasheet's keywords in the faction — for the "extraction matched nobody" escape. @typedef {string[][] | null | undefined} KeywordSets */
+/** Every keyword any unit in the game carries (ruleTargets' scopesMisread). @typedef {string[] | null | undefined} Vocabulary */
 
 // Which model profiles / weapon rows an effect addresses.
 /** @type {Record<string, Array<'ranged' | 'melee'>>} */
@@ -108,8 +109,9 @@ export function idleOnRow(ability, tags, table) {
  * @param {string} kind
  * @param {KeywordSets} factionKeywordSets
  * @param {boolean} [strict] a detachment rule's aura: an unreadable gate reaches nobody
+ * @param {Vocabulary} [vocabulary]
  */
-function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, strict = false) {
+function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, strict = false, vocabulary = null) {
   // An effect that names whom it reaches itself (`reach`) — a Bondsman ability goes to "one friendly
   // ARMIGER model", in a rule the generator's prose reader cannot gate — is gated by that alone.
   if (effect.reach?.length) return scopeHits({ targets: effect.reach, excludes: [] }, keywords)
@@ -132,7 +134,7 @@ function effectApplies(effect, scopes, keywords, kind, factionKeywordSets, stric
   // there would hand every Knight a buff meant for allies that are not in the game. Reaching nobody
   // is the honest answer. (With the keyword vocabulary loaded, scopesMisread says so itself: a
   // target made of real keywords that nobody here carries is not a misread.)
-  if (!strict && factionKeywordSets?.length && scopesMisread(scopes, factionKeywordSets)) return true
+  if (!strict && factionKeywordSets?.length && scopesMisread(scopes, factionKeywordSets, vocabulary)) return true
   if (effect.scope == null) return scopes.some((sc) => scopeHits(sc, keywords))
   const sc = scopes[effect.scope]
   return sc ? scopeHits(sc, keywords) : false
@@ -391,8 +393,9 @@ function effectLive(entry, effect, active, chosen) {
  * @param {KeywordSets} factionKeywordSets
  * @param {IdSet} [active] conditions proven true
  * @param {IdSet} [chosen] stratagems and set rules the player switched on
+ * @param {Vocabulary} [vocabulary]
  */
-export function applyStatMods(sheet, entries, keywords, factionKeywordSets, active = null, chosen = null) {
+export function applyStatMods(sheet, entries, keywords, factionKeywordSets, active = null, chosen = null, vocabulary = null) {
   if (!sheet || !entries?.length) return { sheet, notes: [], marks: [], keywords: [], core: [] }
 
   /** @type {PrintedSheet | null} */
@@ -448,7 +451,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
     const replaced = new Set()
     for (const eff of effects) {
       if (eff.alt == null || eff.ruledOut) continue
-      if (!effectApplies(eff, scopes, keywords, entry.kind, factionKeywordSets, strict)) continue
+      if (!effectApplies(eff, scopes, keywords, entry.kind, factionKeywordSets, strict, vocabulary)) continue
       if (gated(eff) && !effectLive(entry, eff, active, chosen)) continue
       replaced.add(eff.alt)
     }
@@ -460,7 +463,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       // grants a move, a Vow, a Hyper-adaptation): it exists to be a switch (switchesFor), and the
       // card has nothing to change or footnote for it.
       if (effect.op === 'state') continue
-      if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, strict)) continue
+      if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, strict, vocabulary)) continue
 
       // Conditional and unproven: never touch the number, just say what would change and when.
       // A STRATAGEM is its own condition: it was spent on this unit or it was not, and `chosen`
@@ -600,15 +603,16 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
  * @param {KeywordSets} factionKeywordSets
  * @param {IdSet} [active]
  * @param {IdSet} [chosen]
+ * @param {Vocabulary} [vocabulary]
  */
-export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, active = null, chosen = null) {
+export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, active = null, chosen = null, vocabulary = null) {
   const out = []
   for (const entry of entries || []) {
     const scopes = entry.scopes || (SCOPELESS.has(entry.kind) ? null : ruleScopes(entry.body))
     for (const effect of entry.effects || []) {
       if (effect.op !== 'grant' || effect.stat !== 'keyword') continue
       if ((effect.when || byChoice(entry) || effect.once) && !effectLive(entry, effect, active, chosen)) continue
-      if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, !!entry.scopes && entry.kind === 'detachmentRule')) continue
+      if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets, !!entry.scopes && entry.kind === 'detachmentRule', vocabulary)) continue
       out.push({ kw: String(effect.value), source: entry.name, det: entry.det })
     }
   }
@@ -671,12 +675,13 @@ export function stratagemTargetScopes(st) {
  *   ("One DEATH GUARD Attached unit", "Your NECRONS WARLORD") is the record's `appliesWhile`
  * @param {boolean} [listKnows] false for a preview with no roster entry: a rule's own `appliesWhile`
  *   is then unanswered rather than unmet
+ * @param {Vocabulary} [vocabulary]
  * @returns {ModEntry[]}
  */
-export function gateStratagems(entries, keywords, factionKeywordSets, active = null, listKnows = true) {
+export function gateStratagems(entries, keywords, factionKeywordSets, active = null, listKnows = true, vocabulary = null) {
   const kept = (entries || []).filter((e) => {
     const held = (e.appliesWhile || []).every((id) => !!active?.has(id))
-    if (e.kind === 'stratagem') return effectApplies({}, e.targetScopes, keywords, e.kind, factionKeywordSets) && held
+    if (e.kind === 'stratagem') return effectApplies({}, e.targetScopes, keywords, e.kind, factionKeywordSets, false, vocabulary) && held
     // Any other rule in force only inside an attached unit (Command Protocols, a Leader-only
     // enhancement) leaves the card's effects as well as its "in effect" list — it stood under
     // "possible modifiers" on a Monolith and a lone Nekrosor (acceptance, 2026-10-18). A preview
@@ -972,11 +977,11 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
 // `rosterUnits` is the list as the caller holds it: `{ uid, id, name }` per entry.
 /**
  * @param {ModEntry[] | null | undefined} records
- * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, keywords?: UnitKeywords, factionKeywordSets?: KeywordSets, active?: IdSet, chosen?: IdSet, leaderEnhNames?: Set<string> | null, detIds?: Set<string> | null }} [opts]
+ * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, keywords?: UnitKeywords, factionKeywordSets?: KeywordSets, vocabulary?: Vocabulary, active?: IdSet, chosen?: IdSet, leaderEnhNames?: Set<string> | null, detIds?: Set<string> | null }} [opts]
  */
 export function aurasReaching(records, {
   unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,
-  keywords = [], factionKeywordSets = null, active = null, chosen = null, leaderEnhNames = null,
+  keywords = [], factionKeywordSets = null, vocabulary = null, active = null, chosen = null, leaderEnhNames = null,
   detIds = null,
 } = {}) {
   const out = []
@@ -1004,7 +1009,7 @@ export function aurasReaching(records, {
     // playing must never offer a switch.
     if (ref.kind === 'detachmentRule') {
       if (!detIds?.has(ref.det)) continue
-      if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets, true))) continue
+      if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets, true, vocabulary))) continue
       out.push({ sid: rec.sid, source: rec.det, sourceUid: null, unit: null, name: rec.name, det: ref.det })
       continue
     }
@@ -1014,7 +1019,7 @@ export function aurasReaching(records, {
     // than by unit id.
     if (ref.kind === 'enhancement') {
       if (leaderEnhNames?.has(rec.name) && !picked) continue
-      if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
+      if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets, false, vocabulary))) continue
       for (const u of rosterUnits) {
         if (!u.enh || enhKey(u.enh) !== enhKey(rec.name) || u.uid === entryUid) continue
         out.push({ sid: rec.sid, source: u.name || u.id, sourceUid: u.uid, unit: u.id, name: rec.name })
@@ -1024,7 +1029,7 @@ export function aurasReaching(records, {
     if (automatic.has(ref.unit) && !picked) continue
     // The same fail-open escapes the apply pass uses, so a chip is offered exactly when the
     // modifier behind it would land.
-    if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets))) continue
+    if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets, false, vocabulary))) continue
     for (const u of rosterUnits) {
       if (u.id !== ref.unit || u.uid === entryUid) continue
       const at = rec.name.indexOf(': ')

@@ -651,10 +651,10 @@ import { buildRosterText } from '../../core/roster/rosterExport.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { playRoster } from '../../composables/playRoster.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
-import { loadDatasheets } from '../../data/datasheets/index.js'
+import { loadDatasheets, loadKeywordVocabulary } from '../../data/datasheets/index.js'
 import { provideCombatPatrolBox } from '../../composables/useCombatPatrolBox.js'
 import RosterStatPlates from '../../components/roster/RosterStatPlates.vue'
-import { loadKeywordVocabulary, unitKeywordsOf } from '../../composables/ruleTargets.js'
+import { unitKeywordsOf } from '../../composables/ruleTargets.js'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, entrySummary, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../core/roster/rosterEngine.js'
 import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachmentContext } from '../../composables/rosterStatMods.js'
@@ -894,6 +894,9 @@ useKeywordContext(() => ({ faction: roster.value?.faction, unitIds: roster.value
 // is enough — the plates are numbers/pips, not translated text — RosterUnitRulesModal does its
 // own separate RU-localized fetch for the modal content.
 const fullSheets = ref(new Map())
+// Every keyword in the game, for the rule gates (ruleTargets' scopesMisread) — loaded with the sheets,
+// not deep-reactive: a few thousand strings, replaced whole.
+const keywordVocabulary = shallowRef(null)
 // Keyed by the id the ROSTER uses, which for an allied unit is namespaced: its datasheet lives in
 // its own faction's file (Draxus is an Imperial Agents sheet), and without this every ally row
 // would quietly lose its statline plates and its live rules.
@@ -901,8 +904,9 @@ const allySlugs = computed(() => [...new Set((roster.value?.units || []).map((u)
 watch([() => roster.value?.faction, allySlugs, () => roster.value?.cp], async ([slug, srcs, cp]) => {
   if (!slug) { fullSheets.value = new Map(); return }
   // The keyword vocabulary rides along: the rule gates read it as soon as the sheets land.
-  const [, ...lists] = await Promise.all([loadKeywordVocabulary(), loadDatasheets(slug, { cp }), ...srcs.map((s) => loadDatasheets(s))])
+  const [vocab, ...lists] = await Promise.all([loadKeywordVocabulary(), loadDatasheets(slug, { cp }), ...srcs.map((s) => loadDatasheets(s))])
   if (roster.value?.faction !== slug) return
+  keywordVocabulary.value = vocab
   const m = new Map()
   for (const d of lists[0] || []) m.set(d.id, d)
   srcs.forEach((src, i) => { for (const d of lists[i + 1] || []) m.set(`${src}:${d.id}`, d) })
@@ -1246,10 +1250,10 @@ function modContextFor(entry) {
   const attached = attachedUnitKeywords(entry, sourceUnits.value, (id) => {
     return unitKeywordsOf(fullSheets.value.get(id))
   })
-  const own = [...printed, ...grantedKeywordsFrom(resolved, { own: printed, unit: [...printed, ...attached] }, factionKeywordSets.value, active, chosen).map((g) => g.kw)]
+  const own = [...printed, ...grantedKeywordsFrom(resolved, { own: printed, unit: [...printed, ...attached] }, factionKeywordSets.value, active, chosen, keywordVocabulary.value).map((g) => g.kw)]
   const kws = { own, unit: [...own, ...attached] }
   // …and then the stratagems this unit could never be picked as the target of come off the list.
-  return { resolved: gateStratagems(resolved, kws, factionKeywordSets.value, active), kws, active, chosen }
+  return { resolved: gateStratagems(resolved, kws, factionKeywordSets.value, active, true, keywordVocabulary.value), kws, active, chosen }
 }
 
 // ONE context per entry for the whole screen. Four readers want it — the stat plates, the
@@ -1293,7 +1297,7 @@ function statModsFor(entry, sheet) {
   if (!ctx) return { sheet, marks: [] }
   // The same placement the card makes, so a Sergeant with a Storm Shield reads W 4* on both.
   const placed = splitBearers(sheet, ctx.resolved, defOf(entry.id), entry, rosterItems.items)
-  return applyStatMods(placed.sheet, placed.entries, ctx.kws, factionKeywordSets.value, ctx.active, ctx.chosen)
+  return applyStatMods(placed.sheet, placed.entries, ctx.kws, factionKeywordSets.value, ctx.active, ctx.chosen, keywordVocabulary.value)
 }
 
 // ── What WOULD apply (out of game only) ─────────────────────────────────────────────────────
@@ -1375,6 +1379,7 @@ const auraSwitchCache = computed(() => {
       // An aura naming units reaches an attached unit by the keywords of any of its halves (19.03).
       keywords: { own: unitKeywordsOf(sheet), unit: [...unitKeywordsOf(sheet), ...attachedUnitKeywords(e, sourceUnits.value, (id) => unitKeywordsOf(fullSheets.value.get(id)))] },
       factionKeywordSets: factionKeywordSets.value,
+      vocabulary: keywordVocabulary.value,
       // …and only the auras whose own rule is running: an unselected relic changes nothing.
       active: activeFor(e),
       chosen: chosenFor(e, resolvedFor(e)),

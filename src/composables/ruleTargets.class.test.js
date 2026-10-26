@@ -8,7 +8,7 @@
 import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
-import { ruleScopes, scopesMisread, unitKeywordsOf, _setKeywordVocabulary } from './ruleTargets.js'
+import { ruleScopes, scopesMisread, unitKeywordsOf } from './ruleTargets.js'
 import { unitKeywordVocabulary } from '../data/unitKeywordVocabulary.js'
 
 // Empty since 2026-10-19: the six rules that sat here (Repolarised Augurs, Omnissian Unguents,
@@ -21,7 +21,6 @@ const DATA = path.resolve(import.meta.dirname, '../data')
 
 describe('rule targets across every faction', () => {
   it('distrusts only the rules listed, by name', async () => {
-    _setKeywordVocabulary(unitKeywordVocabulary)
     const misread = []
     for (const file of fs.readdirSync(path.join(DATA, 'factions')).filter((f) => f.endsWith('.js'))) {
       const slug = file.slice(0, -3)
@@ -45,10 +44,9 @@ describe('rule targets across every faction', () => {
       }
       for (const [name, text] of texts) {
         const scopes = ruleScopes(text)
-        if (scopes && scopesMisread(scopes, sets)) misread.push(`${slug} · ${name}`)
+        if (scopes && scopesMisread(scopes, sets, unitKeywordVocabulary)) misread.push(`${slug} · ${name}`)
       }
     }
-    _setKeywordVocabulary(null)
     expect(misread.sort()).toEqual([...KNOWN].sort())
   }, 60000)
 })

@@ -20,11 +20,11 @@
 // Everything loads lazily and per faction: the datasheets, the hand-authored faction bundle (army
 // rule / detachment rules / enhancement prose) and the numeric modifier layer, each guarded so a
 // faction switched mid-flight cannot land on the wrong card.
-import { computed, ref, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from './useLocale.js'
 import { overlaySheet, enhKey, detKey, findEnhancementProse, wargearConditions } from './rosterModifiers.js'
-import { loadKeywordVocabulary, ruleAppliesTo, unitKeywordsOf } from './ruleTargets.js'
+import { ruleAppliesTo, unitKeywordsOf } from './ruleTargets.js'
 import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, armyRuleMatches, armyRuleSection, attachmentContext } from './rosterStatMods.js'
 import { abilityStatusesOf } from '../core/rules/abilityStatus.js'
 import { rosterConditions } from './rosterGameContext.js'
@@ -32,7 +32,7 @@ import { unitDoctrines } from '../core/rules/doctrineRules.js'
 import { foldName } from '../core/shared/foldName.js'
 import { coreModifiers } from '../data/rosterModifiers/coreRules.js'
 import { conditions } from '../core/rules/conditions.js'
-import { loadDatasheets } from '../data/datasheets/index.js'
+import { loadDatasheets, loadKeywordVocabulary } from '../data/datasheets/index.js'
 import { useCombatPatrolBox } from './useCombatPatrolBox.js'
 import { localizeSheet } from '../data/datasheets/ru/index.js'
 import { useDatasheetsRu } from './useDatasheetsRu.js'
@@ -58,6 +58,10 @@ export function useRosterUnitCard(props) {
 
   /** @type {import('vue').Ref<Datasheet[]>} */
   const datasheets = ref([])
+  // Every keyword in the game, for the rule gates (ruleTargets' scopesMisread). Not deep-reactive:
+  // a few thousand strings, replaced whole.
+  /** @type {import('vue').ShallowRef<string[] | null>} */
+  const keywordVocabulary = shallowRef(null)
   const loaded = ref(false)
   // A Combat Patrol box's units have their sheets in combatPatrol.js (useCombatPatrolBox).
   const cpBox = useCombatPatrolBox()
@@ -67,9 +71,10 @@ export function useRosterUnitCard(props) {
       datasheets.value = []
       loaded.value = false
       if (!slug) return
-      // The vocabulary first: the rule gates read it as soon as the sheets land (ruleTargets.js).
-      const [list] = await Promise.all([loadDatasheets(slug, { cp }), loadKeywordVocabulary()])
+      // The vocabulary with them: the rule gates read it as soon as the sheets land (ruleTargets.js).
+      const [list, vocab] = await Promise.all([loadDatasheets(slug, { cp }), loadKeywordVocabulary()])
       if (props.factionSlug !== slug || cpBox.value !== cp) return
+      keywordVocabulary.value = vocab
       if (list) datasheets.value = list
       loaded.value = true
     },
@@ -200,7 +205,7 @@ export function useRosterUnitCard(props) {
   const modifierGrantedKeywords = computed(() => {
     const printed = datasheets.value.find((d) => d.id === props.unitId)
     const base = [...unitKeywordsOf(printed), ...view.value.grantedKeywords.map((g) => g.kw)]
-    return grantedKeywordsFrom(resolvedModifiers.value, { own: base, unit: [...base, ...attachedKeywords.value] }, factionKeywordSets.value, activeConds.value, activeStratIds.value)
+    return grantedKeywordsFrom(resolvedModifiers.value, { own: base, unit: [...base, ...attachedKeywords.value] }, factionKeywordSets.value, activeConds.value, activeStratIds.value, keywordVocabulary.value)
   })
 
   const unitKeywords = computed(() => {
@@ -277,7 +282,7 @@ export function useRosterUnitCard(props) {
   // renders still shows the localised text.
   /** @param {string | null | undefined} enBody */
   function applies(enBody) {
-    return ruleAppliesTo(enBody, keywordView.value, factionKeywordSets.value)
+    return ruleAppliesTo(enBody, keywordView.value, factionKeywordSets.value, keywordVocabulary.value)
   }
 
   // Resolve each usable record to the ENGLISH rule prose it was read from, dropping anything this
@@ -403,6 +408,7 @@ export function useRosterUnitCard(props) {
     factionKeywordSets.value,
     activeConds.value,
     !!props.ctx?.entry,
+    keywordVocabulary.value,
   ))
 
   const statMods = computed(() => {
@@ -416,6 +422,7 @@ export function useRosterUnitCard(props) {
       factionKeywordSets.value,
       activeConds.value,
       activeStratIds.value,
+      keywordVocabulary.value,
     )
   })
 
