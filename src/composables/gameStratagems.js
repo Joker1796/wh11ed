@@ -78,7 +78,7 @@ export async function loadCoreStratagems(loc, { combatPatrol = false } = {}) {
 
 // The Chapters share the Codex Space Marines detachments (Gladius Task Force, etc.), which live only
 // in the space-marines faction data — fall back to it for detachments not in the Chapter's file.
-// The set itself is data/smChapters.js, shared with the tracker and the roster.
+// The set itself is core/shared/smChapters.js, shared with the tracker and the roster.
 
 // Detachment names come from the MFM dataset (tracker) but stratagems from the faction rules
 // data; the two occasionally disagree on apostrophe glyph / letter case, so match loosely.

@@ -29,7 +29,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { ROOT, SLUG_MAP, appdataToMarkup, loadWh11edDatasheets, nameOfEn, norm, table } from './lib/sync-common.mjs'
-import { SM_CHAPTERS } from '../src/data/smChapters.js'
+import { SM_CHAPTERS } from '../src/core/shared/smChapters.js'
 
 const OUT = path.join(ROOT, 'src/data/factionLegends.json')
 

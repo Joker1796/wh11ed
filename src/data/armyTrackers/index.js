@@ -22,7 +22,7 @@ import deathGuard from './death-guard.js'
 import worldEaters from './world-eaters.js'
 import thousandSons from './thousand-sons.js'
 import spaceMarines from './space-marines.js'
-import { SM_CHAPTERS } from '../smChapters.js'
+import { SM_CHAPTERS } from '../../core/shared/smChapters.js'
 import { foldName } from '../../core/shared/foldName.js'
 
 // Registry — add a faction by dropping its spec here.

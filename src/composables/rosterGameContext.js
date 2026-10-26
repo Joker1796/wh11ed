@@ -26,8 +26,7 @@
 // way: a switch that has gone stale would silently rewrite a number.
 
 import { conditions, groupLimitOf, WHOLE_GROUPS } from '../core/rules/conditions.js'
-import { SM_FAMILY } from '../data/smChapters.js'
-import { tracks } from '../data/trackerOptions.js'
+import { SM_FAMILY } from '../core/shared/smChapters.js'
 import { BATTLE_PHASES, usableInSlot } from '../core/rules/stratagemPhases.js'
 import { unitKeywordsOf } from './ruleTargets.js'
 import { foldName } from '../core/shared/foldName.js'
@@ -49,27 +48,9 @@ import { foldName } from '../core/shared/foldName.js'
 /** A clock, or the bare round number a game saved before the clock existed stores. @typedef {GameClock | number | null | undefined} ClockLike */
 
 // ── The clock ─────────────────────────────────────────────────────────────────────────────────
-// What the game is standing on, from the point of view of ONE player: which battle round, whose
-// turn it is (`mine`), which phase, and whether the game is keeping phases at all. Built once by
-// the caller and passed down, rather than each function digging into the game object.
-/**
- * @param {GameState | null | undefined} game
- * @param {number} [pi] the player whose side the clock is read from
- * @returns {GameClock}
- */
-export function clockOf(game, pi = 0) {
-  const tracked = tracks(game?.settings, 'trackPhases')
-  return {
-    round: game?.currentRound || 1,
-    turn: game?.currentTurn === 1 ? 1 : 0,
-    phase: game?.currentPhase || BATTLE_PHASES[0],
-    mine: (game?.currentTurn === 1 ? 1 : 0) === pi,
-    tracked,
-    // Whether this game keeps Battle-shock (trackerOptions' battle-shock row): off, the state is
-    // not consulted at all — no stratagem blocked, no rule switched by it.
-    shock: tracks(game?.settings, 'trackBattleShock'),
-  }
-}
+// What the game is standing on, from the point of view of ONE player (`GameClock`): built once by the
+// app from the game and its tracker settings (src/composables/gameClock.js) and passed down, rather
+// than each function digging into the game object.
 // Battle-shock's own two conditions, answered by the battle-shock row rather than the unit states'.
 const SHOCK_IDS = new Set(['unit-battle-shocked', 'unit-not-battle-shocked'])
 /** @param {string} id */

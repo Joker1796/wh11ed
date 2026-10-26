@@ -72,7 +72,7 @@ export async function loadStratTargets(game, pi, strat) {
     import('../data/roster/index.js'),
     import('../data/rosterModifiers/index.js'),
     import('../core/roster/rosterEngine.js'),
-    import('./rosterGameContext.js'),
+    import('./gameClock.js'),
   ])
   const clock = clockOf(game, at)
   const doubles = game.settings?.gameType === 'doubles'

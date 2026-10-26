@@ -19,6 +19,7 @@
   },
   "include": [
     "src/core/shared/roster.types.js",
+    "src/composables/gameClock.js",
     "src/data/data.types.js",
     "src/core/roster/rosterEngine.js",
     "src/core/roster/rosterEnhEligible.js",

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { activeConditions, switchesFor, isAuto, clockOf, stampOf, stratagemsBlocked, groupRaisesOf, groupLimitsFor } from './rosterGameContext.js'
+import { activeConditions, switchesFor, isAuto, stampOf, stratagemsBlocked, groupRaisesOf, groupLimitsFor } from './rosterGameContext.js'
+import { clockOf } from './gameClock.js'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'

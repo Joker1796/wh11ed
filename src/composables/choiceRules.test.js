@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 import { loadFaction } from '../data/factions/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
 import { conditions } from '../core/rules/conditions.js'
-import { SM_FAMILY } from '../data/smChapters.js'
+import { SM_FAMILY } from '../core/shared/smChapters.js'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const CHOICE = /select one of the following|select one of the (?:abilities|options|effects|results)|choose one of the following|one of the following (?:abilities|effects)|from the list below|__Or:__|select one (?:\w+ ){0,3}below/i

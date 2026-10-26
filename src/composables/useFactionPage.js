@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router'
 import { loadFaction } from '../data/factions/index.js'
 import { deepOverlay, loadFactionRu } from '../data/factions/ru/index.js'
 import { useLocale } from './useLocale.js'
-import { SM_FAMILY } from '../data/smChapters.js'
+import { SM_FAMILY } from '../core/shared/smChapters.js'
 
 // Shared by the faction pages (rules — army rule + detachments — and datasheets):
 // resolves the localized faction object for the current /factions/:slug route.

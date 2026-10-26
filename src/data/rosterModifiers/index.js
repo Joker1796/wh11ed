@@ -11,7 +11,7 @@
 // conditions.js is the shared `cond` vocabulary, coreRules.js the rulebook's own modifiers and
 // appliesWhile.js the reader of a whole rule's condition —
 // none is a faction, so all three are excluded and the glob keeps meaning "one entry per faction".
-import { SM_CHAPTERS } from '../smChapters.js'
+import { SM_CHAPTERS } from '../../core/shared/smChapters.js'
 import { borrowedFrom, detachmentSources } from '../detachmentSources.js'
 
 const loaders = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./appliesWhile.js', '!./*.test.js'], { import: 'default' })
