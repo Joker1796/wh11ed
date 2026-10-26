@@ -12,7 +12,7 @@
 // validation, export and the game card read it as before; holdWg is the one translation from
 // "who holds what" back to swaps, and rosterHold.test.js walks every distribution of every group
 // this applies to through the engine and back.
-import { optionItems, modelsPerMini, swapRoom, swapRoomByItem } from './rosterEngine.js'
+import { optionItems, modelsPerMini, swapRoom, swapRoomByItem } from '../core/roster/rosterEngine.js'
 import { loadoutItemCopies, sumKnown } from './rosterModifiers.js'
 
 /** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */

@@ -24,8 +24,8 @@ import {
   rosterDetachments,
   allyBars, allySourceOf, capKeyOf, effectiveBattle, grantedKeywordsFor, leadTo, leadsFor, armySidsOf, legalityOn, rosterPoints,
   sectionsOf, sectionsOfUnits, unitPoints,
-} from './rosterEngine.js'
-import { duplicateCounts, duplicateLimit, validateRoster } from './rosterValidation.js'
+} from '../core/roster/rosterEngine.js'
+import { duplicateCounts, duplicateLimit, validateRoster } from '../core/roster/rosterValidation.js'
 import rosterCore from '../data/roster/core.js'
 import { rosterItems } from '../data/roster/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'

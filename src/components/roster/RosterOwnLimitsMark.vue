@@ -39,7 +39,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
-import { effectiveBattle } from '../../composables/rosterEngine.js'
+import { effectiveBattle } from '../../core/roster/rosterEngine.js'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import rosterCore from '../../data/roster/core.js'
 

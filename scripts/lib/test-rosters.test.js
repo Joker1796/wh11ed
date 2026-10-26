@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { TEST_ROSTERS, buildTestRoster } from './test-rosters.mjs'
 import core from '../../src/data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../src/data/roster/index.js'
-import { validateRoster } from '../../src/composables/rosterValidation.js'
+import { validateRoster } from '../../src/core/roster/rosterValidation.js'
 import { buildRosterText } from '../../src/composables/rosterExport.js'
 import { detectFormat, matchRoster, parseList } from '../../src/composables/rosterImport.js'
-import { rosterPoints } from '../../src/composables/rosterEngine.js'
+import { rosterPoints } from '../../src/core/roster/rosterEngine.js'
 
 // Each test roster is held to what it is FOR (see test-rosters.mjs): a renamed unit, a retired
 // detachment or an option that changed its label fails here, not in front of the owner.

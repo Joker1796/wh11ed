@@ -1,7 +1,7 @@
 // A list held to its own limits, said in words where the tracker can only print text — the lobby's
 // side summary, the waiting screen. The mark itself (RosterOwnLimitsMark) is the same fact as a
 // button; both read battleLimitFacts.js's `ownLimitsLines`, the one wording.
-import { effectiveBattle } from './rosterEngine.js'
+import { effectiveBattle } from '../core/roster/rosterEngine.js'
 import { ownLimitsLines } from './battleLimitFacts.js'
 import rosterCore from '../data/roster/core.js'
 

@@ -41,7 +41,7 @@ import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { issueText } from '../../composables/rosterValidation.js'
+import { issueText } from '../../core/roster/rosterValidation.js'
 
 const props = defineProps({
   issues: { type: Array, default: () => [] },

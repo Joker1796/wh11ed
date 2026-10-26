@@ -68,7 +68,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { mandatoryEnhancementFor, shownModelCount, wargearNames } from '../../composables/rosterEngine.js'
+import { mandatoryEnhancementFor, shownModelCount, wargearNames } from '../../core/roster/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },

@@ -159,7 +159,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { normName } from '../../composables/rosterFactionRules.js'
 import { useRosterFactionData, useRosterFactionRules } from '../../composables/useRosterFactionData.js'
-import { usesAllies } from '../../composables/rosterEngine.js'
+import { usesAllies } from '../../core/roster/rosterEngine.js'
 import { isStandaloneDisplay } from '../../composables/standalone.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import {

@@ -572,7 +572,7 @@ import ConfirmModal from '../ConfirmModal.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { ENTRY_NOTE_MAX, sizeOf, modelCount, allySourceOf, allegFor, allegSpent, defaultWargearPoints, fixedLoadoutLines, fitWargear, modelsPerMini, setNote } from '../../composables/rosterEngine.js'
+import { ENTRY_NOTE_MAX, sizeOf, modelCount, allySourceOf, allegFor, allegSpent, defaultWargearPoints, fixedLoadoutLines, fitWargear, modelsPerMini, setNote } from '../../core/roster/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },

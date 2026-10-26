@@ -300,7 +300,7 @@ import { toneVars } from '../../utils/tone.js'
 import { dispositionColor } from '../../data/dispositionColors.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { ROSTER_NOTES_MAX, UNLIMITED_BATTLE } from '../../composables/rosterEngine.js'
+import { ROSTER_NOTES_MAX, UNLIMITED_BATTLE } from '../../core/roster/rosterEngine.js'
 import RosterBattleSizeField from './RosterBattleSizeField.vue'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 

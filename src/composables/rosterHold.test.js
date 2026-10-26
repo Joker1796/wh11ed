@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { holdGroup, holdCounts, holdWg, stockByItem, stockLeft } from './rosterHold.js'
-import { defaultLoadoutLines, fixedLoadoutLines, modelsPerMini, overdrawnGroups, swapOverdraft, unitWargearPoints, wargearGroupFallbackCap } from './rosterEngine.js'
+import { defaultLoadoutLines, fixedLoadoutLines, modelsPerMini, overdrawnGroups, swapOverdraft, unitWargearPoints, wargearGroupFallbackCap } from '../core/roster/rosterEngine.js'
 import shared from '../data/roster/items.js'
 
 const dir = path.resolve(__dirname, '../data/roster')

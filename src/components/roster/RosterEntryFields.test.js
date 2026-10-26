@@ -7,7 +7,7 @@ import necrons from '../../data/roster/necrons.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { loadRosterFaction } from '../../data/roster/index.js'
 import { useCollection } from '../../composables/useCollection.js'
-import { nextCopyMinPoints } from '../../composables/rosterEngine.js'
+import { nextCopyMinPoints } from '../../core/roster/rosterEngine.js'
 
 // Real data: Necron Warriors can be led by three Legends characters (Lord, Nemesor Zahndrekh,
 // Vargard Obyron) beside the Codex ones — the case the catalogue's "Hide Legends units" is for.
@@ -173,7 +173,7 @@ describe('RosterEntryFields — "Can lead"', () => {
 // Marines list both (a player's report, 2026-10-13) and validateRoster then called the list illegal.
 describe('RosterEntryFields — an ally', () => {
   it('is offered neither the Warlord nor an enhancement, as validateRoster asks it', async () => {
-    const { allyBars } = await import('../../composables/rosterEngine.js')
+    const { allyBars } = await import('../../core/roster/rosterEngine.js')
     const csm = await loadRosterFaction('chaos-space-marines', { allies: true })
     const det = csm.detachments.find((d) => d.enhancements?.length && !d.lend)
     const units = [{ uid: 'cc', id: 'chaos-daemons:changecaster', size: 0 }]

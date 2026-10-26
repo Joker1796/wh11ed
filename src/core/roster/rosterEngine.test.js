@@ -570,7 +570,7 @@ describe('leaderSourcesFor', () => {
   // Against real data: a Necron Warriors squad takes a Technomancer (Support) and an Overlord
   // (Leader); a Character takes no one.
   it('reads the real Necrons attachments from the squad end', async () => {
-    const { default: necrons } = await import('../data/roster/necrons.js')
+    const { default: necrons } = await import('../../data/roster/necrons.js')
     const byId = (id) => necrons.units.find((u) => u.id === id)
     const units = [{ uid: 'sq', id: 'necron-warriors' }, { uid: 'tm', id: 'technomancer' }, { uid: 'ov', id: 'overlord' }, { uid: 'im', id: 'immortals' }]
     const names = (uid) => leaderSourcesFor(uid, units, byId).map((x) => `${x.name}:${x.type}`)
@@ -652,7 +652,7 @@ describe('leaderCandidatesFor', () => {
   // Against real data: the Intercessor Squad's own table, and a borrowed (MIRROR_ATTACH) one —
   // Victrix Honour Guard takes "a CAPTAIN or CHAPTER MASTER unit" that could lead Intercessors.
   it('reads the real Space Marines attachments, mirrored ones included', async () => {
-    const { default: sm } = await import('../data/roster/space-marines.js')
+    const { default: sm } = await import('../../data/roster/space-marines.js')
     const byId = (id) => sm.units.find((u) => u.id === id)
     const names = (id) => leaderCandidatesFor('x', [{ uid: 'x', id }], sm.units, byId).map((c) => `${c.name}:${c.type}`)
     expect(names('intercessor-squad')).toEqual(expect.arrayContaining(['Captain:leader', 'Apothecary:support', 'Marneus Calgar:leader']))
@@ -704,7 +704,7 @@ describe('leaderHostsFor', () => {
 
   // Against real data: a Captain names Intercessors, an Apothecary does not name Victrix.
   it('reads the real Space Marines attachments', async () => {
-    const { default: sm } = await import('../data/roster/space-marines.js')
+    const { default: sm } = await import('../../data/roster/space-marines.js')
     const byId = (id) => sm.units.find((u) => u.id === id)
     const names = (id) => leaderHostsFor('x', [{ uid: 'x', id }], sm.units, byId).map((h) => `${h.name}:${h.type}`)
     expect(names('captain')).toEqual(expect.arrayContaining(['Intercessor Squad:leader']))
@@ -764,7 +764,7 @@ describe('leaderTargetsFor', () => {
 // because the point is that the generated file no longer carries that lock.
 describe('enhEligible — attach-granting enhancements (regression)', () => {
   it('offers Murdermind to a Cryptek and not to the Destroyers it lets the bearer join', async () => {
-    const rf = await import('../data/roster/necrons.js')
+    const rf = await import('../../data/roster/necrons.js')
     const enh = rf.default.detachments.flatMap((d) => d.enhancements || []).find((e) => e.name === 'Murdermind')
     const unit = (id) => rf.default.units.find((u) => u.id === id)
     expect(enh.lockDs).toBeUndefined()
@@ -777,7 +777,7 @@ describe('enhEligible — attach-granting enhancements (regression)', () => {
   it("offers Kaptin's Hat to the Warboss and not to the Kommandos", async () => {
     // Was Slippery Git until Codex: Orks retired it; Kaptin's Hat asks for the same shape of
     // requirement ("BIG MEK/WARBOSS INFANTRY model only") on the same pair of units.
-    const rf = await import('../data/roster/orks.js')
+    const rf = await import('../../data/roster/orks.js')
     const enh = rf.default.detachments.flatMap((d) => d.enhancements || []).find((e) => e.name === "Kaptin's Hat")
     const unit = (id) => rf.default.units.find((u) => u.id === id)
     expect(enhEligible(enh, unit('warboss'))).toBe(true)
@@ -803,12 +803,12 @@ describe('enhEligible — a requirement group naming one datasheet (ds)', () => 
     expect(enhEligible(enh, { ...haem, name: 'Succubus' })).toBe(false)
   })
   it('real data: Pact of Cursed Pinions on the Chaos Lord with Jump Pack alone', async () => {
-    const rf = (await import('../data/roster/chaos-space-marines.js')).default
+    const rf = (await import('../../data/roster/chaos-space-marines.js')).default
     const enh = rf.detachments.flatMap((d) => d.enhancements || []).find((e) => e.name === 'Pact of Cursed Pinions')
     expect(rf.units.filter((u) => enhEligible(enh, u)).map((u) => u.name)).toEqual(['Chaos Lord with Jump Pack'])
   })
   it('real data: an Ork upgrade goes on its own unit, not on every unit of the codex', async () => {
-    const rf = (await import('../data/roster/orks.js')).default
+    const rf = (await import('../../data/roster/orks.js')).default
     const enh = rf.detachments.flatMap((d) => d.enhancements || []).find((e) => e.name === 'Wimp-kickaz (Upgrade)')
     expect(rf.units.filter((u) => enhEligible(enh, u)).map((u) => u.name)).toEqual(['Nobz'])
   })
@@ -851,7 +851,7 @@ describe('enhancement-granted attaches', () => {
   })
 
   it('widens it for a real Cryptek taking Murdermind', async () => {
-    const rf = await import('../data/roster/necrons.js')
+    const rf = await import('../../data/roster/necrons.js')
     const det = rf.default.detachments.find((d) => (d.enhancements || []).some((e) => e.name === 'Murdermind'))
     const def = rf.default.units.find((u) => u.id === 'chronomancer')
     const list = [{ uid: 'a', id: 'chronomancer', enh: 'Murdermind' }, { uid: 'b', id: 'skorpekh-destroyers' }]
@@ -1068,8 +1068,8 @@ describe('option items', () => {
 
 describe('the real Wracks bundle', () => {
   const load = async () => {
-    const rf = await import('../data/roster/drukhari.js')
-    const items = (await import('../data/roster/items.js')).default.items
+    const rf = await import('../../data/roster/drukhari.js')
+    const items = (await import('../../data/roster/items.js')).default.items
     const wracks = rf.default.units.find((u) => u.id === 'wracks')
     const copies = wracks.gear.map((g, gi) => [g, gi]).filter(([g]) => g.o.length === 4)
     return { wracks, items, copies }
@@ -1195,7 +1195,7 @@ describe('wargearGroupCap', () => {
 
 describe('the real Kasrkin cap', () => {
   it('allows four special weapons, at most two of a kind', async () => {
-    const rf = await import('../data/roster/astra-militarum.js')
+    const rf = await import('../../data/roster/astra-militarum.js')
     const kasrkin = rf.default.units.find((u) => u.name === 'Kasrkin')
     const gi = kasrkin.gear.findIndex((g) => g.o.length > 3 && g.lim)
     expect(wargearGroupCap(kasrkin, { size: 0 }, gi)).toEqual({ limit: 4, dup: 2 })
@@ -1207,8 +1207,8 @@ describe('the real Kasrkin cap', () => {
 // of each, and no second pair at 10 models because the "additional" group drew as a one-of).
 describe('the real conditional caps', () => {
   const capOf = async (file, name, pick, entry) => {
-    const rf = await import(`../data/roster/${file}.js`)
-    const texts = (await import('../data/roster/items.js')).default.texts
+    const rf = await import(`../../data/roster/${file}.js`)
+    const texts = (await import('../../data/roster/items.js')).default.texts
     const unit = rf.default.units.find((u) => u.name === name)
     const gi = unit.gear.findIndex((g) => pick.test(texts[g.t]))
     // A profile's copy of a unit-wide instruction keeps the allowance on the pool it shares.
@@ -1486,8 +1486,8 @@ const unitItemId = (def, items, name) => {
 // weapon, five combi-weapons and paired accursed weapons — seven combi-bolters given up on five.
 describe('the real CSM Terminators, shrunk under their picks', () => {
   it('trims the excess, latest picks first, and marks what is over until then', async () => {
-    const rf = await import('../data/roster/chaos-space-marines.js')
-    const items = (await import('../data/roster/items.js')).default.items
+    const rf = await import('../../data/roster/chaos-space-marines.js')
+    const items = (await import('../../data/roster/items.js')).default.items
     const terms = rf.default.units.find((u) => u.id === 'chaos-terminator-squad')
     // The Terminators' own copy of each unit-wide swap (the Champion has his, `m` 0).
     const gi = (t) => terms.gear.findIndex((g) => g.m === 1 && g.o.some((o) => o[0] === t))
@@ -1509,7 +1509,7 @@ describe('the real CSM Terminators, shrunk under their picks', () => {
   })
 
   it('brings a group back under its own ceiling', async () => {
-    const rf = await import('../data/roster/chaos-space-marines.js')
+    const rf = await import('../../data/roster/chaos-space-marines.js')
     const terms = rf.default.units.find((u) => u.id === 'chaos-terminator-squad')
     const heavy = terms.gear.findIndex((g) => g.m === 1 && g.o.length === 2)
     // Two heavy weapons are allowed at ten, one at five.
@@ -1521,8 +1521,8 @@ describe('the real CSM Terminators, shrunk under their picks', () => {
 // whether four Raptors could take two pistols and still trade all four chainswords (they cannot).
 describe('the real Raptors lock', () => {
   it('leaves two chainswords to trade after two plasma pistols', async () => {
-    const rf = await import('../data/roster/chaos-space-marines.js')
-    const items = (await import('../data/roster/items.js')).default.items
+    const rf = await import('../../data/roster/chaos-space-marines.js')
+    const items = (await import('../../data/roster/items.js')).default.items
     const raptors = rf.default.units.find((u) => u.id === 'raptors')
     const plasma = raptors.gear.findIndex((g) => g.m === 1 && g.keep)
     const heavyMelee = raptors.gear.findIndex((g) => g.m === 1 && g.o[0][0] === unitItemId(raptors, items, 'Heavy melee weapon'))
@@ -2018,7 +2018,7 @@ describe('an enhancement whose keyword a detachment grants', () => {
   // Space Marines (app data 963) retired that detachment too. Death Guard's Contagion Engines
   // grants CONTAGION ENGINES the same way, and the Helbrute does not print it.
   it("offers Contagion Engines' upgrades to the Helbrute it made a Contagion Engine", async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     const dg = await loadRosterFaction('death-guard')
     const det = dg.detachments.find((d) => d.name === 'Contagion Engines')
     const helbrute = dg.units.find((u) => u.id === 'helbrute')
@@ -2095,8 +2095,8 @@ describe('dpLimitFor', () => {
 // Legends instructions ran their whole list into the heading (2026-10-07).
 describe('splitInstruction — every marked list in the data', () => {
   it('leaves no list marker inside a head', async () => {
-    const { default: rosterItemsData } = await import('../data/roster/items.js')
-    const { default: ru } = await import('../data/roster/ru/texts.js')
+    const { default: rosterItemsData } = await import('../../data/roster/items.js')
+    const { default: ru } = await import('../../data/roster/ru/texts.js')
     const bad = []
     for (const [id, t] of [...Object.entries(rosterItemsData.texts), ...Object.entries(ru)]) {
       if (/[◦•■▪▫]/.test(splitInstruction(t).head)) bad.push(id)
@@ -2155,7 +2155,7 @@ describe('one option\'s own duplicate cap', () => {
 // condFor). With every boltgun gone through the other four, the icon must have no one to go to.
 describe('a condition on an item several groups replace', () => {
   it('closes once every model gave that item up, whichever groups took it', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     const dg = await loadRosterFaction('death-guard')
     const def = dg.units.find((u) => u.id === 'plague-marines')
     const icon = def.gear.findIndex((g) => g.o.length === 1 && g.keep?.length && !g.rep?.length)

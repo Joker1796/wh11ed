@@ -45,7 +45,7 @@ import AdaptivePicker from '../AdaptivePicker.vue'
 import DetachmentPickerList from './DetachmentPickerList.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { dpLimitFor } from '../../composables/rosterEngine.js'
+import { dpLimitFor } from '../../core/roster/rosterEngine.js'
 
 const props = defineProps({
   detachments: { type: Array, required: true },

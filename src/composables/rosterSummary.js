@@ -23,8 +23,8 @@
 // freezing prices at build time (2026-09-30). Remembering a list's price for a fixed tournament
 // ruleset is a separate, deliberate feature — not this cache (hub journal, paused).
 
-import { rosterDetachments, rosterPoints, usesAllies } from './rosterEngine.js'
-import { validateRoster } from './rosterValidation.js'
+import { rosterDetachments, rosterPoints, usesAllies } from '../core/roster/rosterEngine.js'
+import { validateRoster } from '../core/roster/rosterValidation.js'
 import rosterCore from '../data/roster/core.js'
 import { loadRosterFaction } from '../data/roster/index.js'
 import { APP_VERSION } from '../buildInfo.js'

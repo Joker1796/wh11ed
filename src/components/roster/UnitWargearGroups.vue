@@ -389,7 +389,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadedRosterTextsRu, loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { sameStockSets, modelCount, modelsPerMini, overdrawnGroups, optionItems, optionLabel, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom, wargearPoolOf, wargearPoolCap, wargearPoolRoom, wargearPoolTakenBy, wargearGroupNeedsModels } from '../../composables/rosterEngine.js'
+import { sameStockSets, modelCount, modelsPerMini, overdrawnGroups, optionItems, optionLabel, splitInstruction, swapRoom, wargearGroupBlocker, perModelRoom, wargearExclRoom, wargearGroupCap, wargearGroupFallbackCap, wargearGroupSpent, exactPicksOwed, wargearGroupAlwaysOne, wargearXpmRoom, wargearPoolOf, wargearPoolCap, wargearPoolRoom, wargearPoolTakenBy, wargearGroupNeedsModels } from '../../core/roster/rosterEngine.js'
 import { holdCounts, holdGroup, holdWg, stockByItem, stockLeft } from '../../composables/rosterHold.js'
 import { TYPE_FROM } from './typeableCount.js'
 

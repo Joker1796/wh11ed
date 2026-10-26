@@ -71,7 +71,7 @@ export async function loadStratTargets(game, pi, strat) {
     import('./rosterGameLink.js'),
     import('../data/roster/index.js'),
     import('../data/rosterModifiers/index.js'),
-    import('./rosterEngine.js'),
+    import('../core/roster/rosterEngine.js'),
     import('./rosterGameContext.js'),
   ])
   const clock = clockOf(game, at)

@@ -5,7 +5,7 @@ import { loadRosterFaction, rosterItems } from '../data/roster/index.js'
 import { loadRosterModifiersFor } from '../data/rosterModifiers/index.js'
 import { loadDatasheets } from '../data/datasheets/index.js'
 import { idleMeleeCopies, overlaySheet } from './rosterModifiers.js'
-import { validateRoster, issueText } from './rosterValidation.js'
+import { validateRoster, issueText } from '../core/roster/rosterValidation.js'
 import rosterCore from '../data/roster/core.js'
 import { ui } from '../i18n/ui.js'
 

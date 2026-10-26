@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { buildRosterText, EXPORT_FORMATS } from './rosterExport.js'
-import { optionLabel } from './rosterEngine.js'
+import { optionLabel } from '../core/roster/rosterEngine.js'
 
 const core = { battleSizes: [{ id: 'strike-force', name: 'Strike Force', points: 2000, dp: 3, enhLimit: 4, dupLimit: 3 }] }
 const items = { 1: 'Bolt pistol', 2: 'Chainsword', 3: 'Bolt rifle', 5: 'Power fist', 9: 'Astartes chainsword' }
@@ -427,7 +427,7 @@ describe('the Chapter on the faction line', () => {
   it('comes from the list or the declaration, never from a Chapter the list contradicts', async () => {
     const { loadRosterFaction } = await import('../data/roster/index.js')
     const { parseList, matchRoster } = await import('./rosterImport.js')
-    const { chapterOf, chapterProof, rosterChapters } = await import('./rosterEngine.js')
+    const { chapterOf, chapterProof, rosterChapters } = await import('../core/roster/rosterEngine.js')
     const core = (await import('../data/roster/core.js')).default
     const items = (await import('../data/roster/items.js')).default.items
     const faction = await loadRosterFaction('space-marines')

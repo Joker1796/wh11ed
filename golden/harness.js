@@ -6,7 +6,7 @@ import { defineComponent, h } from 'vue'
 import { vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { useRosterUnitCard } from '../src/composables/rosterUnitCard.js'
-import { leaderTargetsFor, rosterPoints } from '../src/composables/rosterEngine.js'
+import { leaderTargetsFor, rosterPoints } from '../src/core/roster/rosterEngine.js'
 
 // Every unit once, at its default size, each Character on the first unit it may lead that nobody
 // leads yet. Deterministic: the faction's own unit order.

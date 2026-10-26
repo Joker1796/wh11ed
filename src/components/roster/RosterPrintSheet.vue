@@ -72,7 +72,7 @@ import {
   allySourceOf, chapterOf, dispositionOf, groupLabel, mandatoryEnhancementFor, wargearNames,
   leaderTargetsFor,
   shownModelCount,
-} from '../../composables/rosterEngine.js'
+} from '../../core/roster/rosterEngine.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { enhKey } from '../../composables/rosterModifiers.js'
 import { PHASE_ORDER, phaseLabel } from '../../core/rules/stratagemPhases.js'

@@ -308,7 +308,7 @@ import { useFlipMove } from '../../composables/useFlipMove.js'
 import { useUnitSheetWarmup } from '../../composables/useUnitSheetWarmup.js'
 import { motionMs } from '../../composables/motionToken.js'
 import { companionRows } from '../../composables/rosterCompanionRows.js'
-import { BLOCK_NAME_MAX, blockNumbers, groupLabel, blockRootUid, hostBlockTotal, setNote } from '../../composables/rosterEngine.js'
+import { BLOCK_NAME_MAX, blockNumbers, groupLabel, blockRootUid, hostBlockTotal, setNote } from '../../core/roster/rosterEngine.js'
 
 const props = defineProps({
   // rosterEngine's sectionsOf output, with `items` renamed `entries` by the caller.

@@ -246,7 +246,7 @@ import RosterChapterList from './RosterChapterList.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
-import { ROSTER_NOTES_MAX, UNLIMITED_BATTLE } from '../../composables/rosterEngine.js'
+import { ROSTER_NOTES_MAX, UNLIMITED_BATTLE } from '../../core/roster/rosterEngine.js'
 import RosterBattleSizeField from './RosterBattleSizeField.vue'
 
 defineProps({

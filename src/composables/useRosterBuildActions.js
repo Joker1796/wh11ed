@@ -17,7 +17,7 @@
 //                     of the wizard's
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { uid } from './useRosters.js'
-import { addUnitEntry, bucketOf, dispositionCandidates, dpLimitFor, duplicateUnitEntry, mustBeWarlord, settleSupremeWarlord, takeUnitEntry } from './rosterEngine.js'
+import { addUnitEntry, bucketOf, dispositionCandidates, dpLimitFor, duplicateUnitEntry, mustBeWarlord, settleSupremeWarlord, takeUnitEntry } from '../core/roster/rosterEngine.js'
 import { useTourWhile } from './useTour.js'
 import { useRosterUndo } from './useRosterUndo.js'
 

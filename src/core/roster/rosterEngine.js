@@ -1,32 +1,32 @@
 // @ts-check
 // Pure roster maths — no Vue, no store. Shared by the editor (live points, unit grouping) and,
 // later, the validation engine. Everything here takes plain data so it's trivially testable.
-import { detKey } from '../core/shared/slugify.js'
-import { hasKeyword, enhEligible, lockedToExactUnit } from '../core/roster/rosterEnhEligible.js'
-import { foldName } from '../core/shared/foldName.js'
+import { detKey } from '../shared/slugify.js'
+import { hasKeyword, enhEligible, lockedToExactUnit } from './rosterEnhEligible.js'
+import { foldName } from '../shared/foldName.js'
 
 export { hasKeyword, enhEligible }
 
-/** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
-/** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */
-/** @typedef {import('../core/shared/roster.types.js').Detachment} Detachment */
-/** @typedef {import('../core/shared/roster.types.js').RosterFaction} RosterFaction */
-/** @typedef {import('../core/shared/roster.types.js').Enhancement} Enhancement */
-/** @typedef {import('../core/shared/roster.types.js').GearOption} GearOption */
-/** @typedef {import('../core/shared/roster.types.js').GearCond} GearCond */
-/** @typedef {import('../core/shared/roster.types.js').WargearPick} WargearPick */
-/** @typedef {import('../core/shared/roster.types.js').AllyGroup} AllyGroup */
-/** @typedef {import('../core/shared/roster.types.js').AllegianceChoice} AllegianceChoice */
-/** @typedef {import('../core/shared/roster.types.js').LeadLink} LeadLink */
-/** @typedef {import('../core/shared/roster.types.js').Roster} Roster */
-/** @typedef {import('../core/shared/roster.types.js').BattleSize} BattleSize */
-/** @typedef {import('../core/shared/roster.types.js').DefOf} DefOf */
-/** @typedef {import('../core/shared/roster.types.js').ItemId} ItemId */
+/** @typedef {import('../shared/roster.types.js').RosterUnit} RosterUnit */
+/** @typedef {import('../shared/roster.types.js').RosterEntry} RosterEntry */
+/** @typedef {import('../shared/roster.types.js').Detachment} Detachment */
+/** @typedef {import('../shared/roster.types.js').RosterFaction} RosterFaction */
+/** @typedef {import('../shared/roster.types.js').Enhancement} Enhancement */
+/** @typedef {import('../shared/roster.types.js').GearOption} GearOption */
+/** @typedef {import('../shared/roster.types.js').GearCond} GearCond */
+/** @typedef {import('../shared/roster.types.js').WargearPick} WargearPick */
+/** @typedef {import('../shared/roster.types.js').AllyGroup} AllyGroup */
+/** @typedef {import('../shared/roster.types.js').AllegianceChoice} AllegianceChoice */
+/** @typedef {import('../shared/roster.types.js').LeadLink} LeadLink */
+/** @typedef {import('../shared/roster.types.js').Roster} Roster */
+/** @typedef {import('../shared/roster.types.js').BattleSize} BattleSize */
+/** @typedef {import('../shared/roster.types.js').DefOf} DefOf */
+/** @typedef {import('../shared/roster.types.js').ItemId} ItemId */
 /** An entry as the engine reads it — a saved one, or a partial one a caller builds to ask a question. @typedef {Partial<RosterEntry>} EntryLike */
 /** @typedef {NonNullable<RosterUnit['xpm']>[number]} XpmSet */
-/** @typedef {import('../core/shared/roster.types.js').GearGroup} GearGroup */
-/** @typedef {import('../core/shared/roster.types.js').GearPool} GearPool */
-/** @typedef {import('../core/shared/roster.types.js').SizeBracket} SizeBracket */
+/** @typedef {import('../shared/roster.types.js').GearGroup} GearGroup */
+/** @typedef {import('../shared/roster.types.js').GearPool} GearPool */
+/** @typedef {import('../shared/roster.types.js').SizeBracket} SizeBracket */
 /** What sectionsOf files: anything with a datasheet id, and for an attached block its uid and host. @typedef {{ id: string, uid?: string, leaderOf?: string | null }} SectionItem */
 /** @typedef {{ faction?: { slug?: string, allies?: AllyGroup[] } | null, detachments?: Detachment[], keepLocked?: boolean, pairAttached?: boolean }} SectionOpts */
 /**

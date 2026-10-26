@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import { detectFormat, matchFaction, matchRoster, parseList, resolveDetachmentLine } from './rosterImport.js'
 import rosterCore from '../data/roster/core.js'
-import { optionItems, optionLabel } from './rosterEngine.js'
+import { optionItems, optionLabel } from '../core/roster/rosterEngine.js'
 
 // A real export from the Warhammer 40,000 app, abridged: the shapes that matter are all here — an
 // attached block, a single-model character, a multi-profile squad, a uniform multi-model unit, an
@@ -1715,7 +1715,7 @@ describe('matchRoster — a title that prices itself several lines down', () => 
   // the only way an allied leader can join anything in the army it was lent to.
   it('attaches an allied leader to a host unit it can join by keyword', async () => {
     const { payload } = matchRoster(parseList(POEM), ctx)
-    const { validateRoster } = await import('./rosterValidation.js')
+    const { validateRoster } = await import('../core/roster/rosterValidation.js')
     const draxus = payload.units.find((u) => u.id === 'imperial-agents:inquisitor-draxus')
     const vanguard = payload.units.find((u) => u.id === 'skitarii-vanguard')
     expect(draxus.leaderOf).toBe(vanguard.uid)
@@ -1832,7 +1832,7 @@ describe('matchRoster — a squad that swaps in pairs', () => {
     const { payload } = matchRoster(parseList(DW), ctx)
     const captain = payload.units.find((u) => u.id === 'captain-in-gravis-armour')
     expect(captain.wg).toHaveLength(1)
-    const { validateRoster } = await import('./rosterValidation.js')
+    const { validateRoster } = await import('../core/roster/rosterValidation.js')
     const issues = validateRoster(payload, { faction: ctx.faction, core: rosterCore }).issues
     expect(issues.filter((i) => i.uid === captain.uid && i.code === 'overWargearLimit')).toEqual([])
   })
@@ -1878,7 +1878,7 @@ Victrix Honour Guard (135 points)
   it('keeps a Watch Master the detachment does not actually bar', async () => {
     const text = DW.replace('OTHER DATASHEETS', 'OTHER DATASHEETS\n\nWatch Master (95 points)\n• 1x Vigil spear\n')
     const { payload } = matchRoster(parseList(text), ctx)
-    const { validateRoster } = await import('./rosterValidation.js')
+    const { validateRoster } = await import('../core/roster/rosterValidation.js')
     expect(payload.units.some((u) => u.id === 'watch-master')).toBe(true)
     const codes = validateRoster(payload, { faction: ctx.faction, core: rosterCore }).issues.map((i) => i.code)
     expect(codes).not.toContain('unitExcluded')
@@ -2132,7 +2132,7 @@ Purifier Squad (130 points)
   it('accepts the two weapons the instruction allows', async () => {
     const { loadRosterFaction } = await import('../data/roster/index.js')
     const { default: items } = await import('../data/roster/items.js')
-    const { validateRoster } = await import('./rosterValidation.js')
+    const { validateRoster } = await import('../core/roster/rosterValidation.js')
     const faction = await loadRosterFaction('grey-knights')
     const { report, payload } = matchRoster(parseList(GK), { faction, core: rosterCore, items: items.items })
     const gm = report.units.find((u) => u.name === 'Grand Master in Nemesis Dreadknight')
@@ -2846,7 +2846,7 @@ describe('matchRoster — the listhammer corpus, 2026-09-19', () => {
     return { faction: await loadRosterFaction(slug, { allies: true }), core: rosterCore, items: items.items }
   }
   const codesOf = async (payload, ctx) => {
-    const { validateRoster } = await import('./rosterValidation.js')
+    const { validateRoster } = await import('../core/roster/rosterValidation.js')
     return validateRoster(payload, { faction: ctx.faction, core: rosterCore, items: ctx.items }).issues.filter((i) => i.level === 'error').map((i) => i.code)
   }
   const gw = (faction, body) => `List (2000 points)\n\n${faction}\nStrike Force (2000 points)\n\nOTHER DATASHEETS\n\n${body}\n\nExported with App Version: v2.6.0 (1), Data Version: v946`

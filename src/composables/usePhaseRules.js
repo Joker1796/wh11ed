@@ -19,7 +19,7 @@ import { useTracker, membersOf, sideName, isYouSide, scorableBlocks, missionBySl
 import { cardMoments } from '../core/game/missionTiming.js'
 import { tracks } from '../data/trackerOptions.js'
 import { usableInSlot, BATTLE_PHASES, phaseLabel } from '../core/rules/stratagemPhases.js'
-import { allySourceOf } from './rosterEngine.js'
+import { allySourceOf } from '../core/roster/rosterEngine.js'
 import { detachmentSources } from '../data/detachmentSources.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionChoice } from './useFactionChoice.js'

@@ -59,7 +59,7 @@ import { computed, ref } from 'vue'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { CUSTOM_LIMIT_KEYS, effectiveBattle } from '../../composables/rosterEngine.js'
+import { CUSTOM_LIMIT_KEYS, effectiveBattle } from '../../core/roster/rosterEngine.js'
 import rosterCore from '../../data/roster/core.js'
 
 const props = defineProps({

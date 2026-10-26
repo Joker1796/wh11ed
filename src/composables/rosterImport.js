@@ -32,7 +32,7 @@ import { factionGroups } from '../data/factionsIndex.js'
 import { DISPOSITION_NAMES } from '../data/dispositionColors.js'
 import { foldChars } from '../core/shared/foldName.js'
 import { fieldedTotals } from './rosterExport.js'
-import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, pmGroups, swapRoom, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from './rosterEngine.js'
+import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, perModelFits, pmGroups, swapRoom, unitPoints, wargearGroupCap, wargearGroupFallbackCap } from '../core/roster/rosterEngine.js'
 
 /** @typedef {import('../core/shared/roster.types.js').RosterUnit} RosterUnit */
 /** @typedef {import('../core/shared/roster.types.js').RosterEntry} RosterEntry */

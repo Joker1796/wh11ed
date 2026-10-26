@@ -15,7 +15,7 @@
 // the noise buries the signal (604 lists: 217 "broken", of which 3 actually were).
 import { readFileSync } from 'node:fs'
 import { detectFormat, matchFaction, matchRoster, parseList } from '../src/composables/rosterImport.js'
-import { validateRoster } from '../src/composables/rosterValidation.js'
+import { validateRoster } from '../src/core/roster/rosterValidation.js'
 import core from '../src/data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../src/data/roster/index.js'
 import { APP_DATA_VERSION } from '../src/data/appDataVersion.js'

@@ -34,7 +34,7 @@ import UnitEditorFields from './UnitEditorFields.vue'
 import {
   canBeWarlord, allegKeyword, enhOptionsFor, leaderTargetsFor, leaderSourcesFor, leaderCandidatesFor, leaderHostsFor, allySourceOf,
   nextCopyMinPoints, capKeyOf,
-} from '../../composables/rosterEngine.js'
+} from '../../core/roster/rosterEngine.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { useCollection } from '../../composables/useCollection.js'
 

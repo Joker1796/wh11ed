@@ -520,7 +520,7 @@ describe('validateRoster — an entry the data no longer knows', () => {
   // datasheet behind it threw there (`hasKeyword(undefined)`), and the list it was meant to explain
   // could not be validated at all. Found by the type check (strictNullChecks), 2026-10-12.
   it('still validates an army with allies when one entry has no datasheet', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     const sm = await loadRosterFaction('space-marines', { allies: true })
     const retinue = sm.units.find((u) => u.id.startsWith('imperial-agents:') && u.kws.includes('Retinue'))
     const r = roster({
@@ -746,7 +746,7 @@ describe('validateRoster — allies', () => {
 describe('validateRoster — a leader that does not take the slot', () => {
   let ctx, units
   beforeAll(async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     const faction = await loadRosterFaction('death-guard')
     ctx = { faction, core }
     units = (list) => ({
@@ -800,7 +800,7 @@ describe('validateRoster — a leader that does not take the slot', () => {
 describe('validateRoster — Legends that join beside a named character only', () => {
   let nec, csm
   beforeAll(async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     ;[nec, csm] = await Promise.all([loadRosterFaction('necrons'), loadRosterFaction('chaos-space-marines')])
   })
   const at = (id, uid, leaderOf, extra = {}) => ({ uid, id, size: 0, ...(leaderOf ? { leaderOf } : {}), ...extra })
@@ -830,7 +830,7 @@ describe('validateRoster — Legends that join beside a named character only', (
 describe('validateRoster — a bodyguard unit that holds two leaders', () => {
   let am, tau
   beforeAll(async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     ;[am, tau] = await Promise.all([loadRosterFaction('astra-militarum'), loadRosterFaction('tau-empire')])
   })
   const at = (id, uid, leaderOf, extra = {}) => ({ uid, id, size: 0, ...(leaderOf ? { leaderOf } : {}), ...extra })
@@ -900,7 +900,7 @@ describe('validateRoster — a bodyguard unit that holds two leaders', () => {
 describe('validateRoster — every issue says which unit it is about', () => {
   let faction
   beforeAll(async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     faction = await loadRosterFaction('astra-militarum')
   })
 
@@ -948,7 +948,7 @@ describe('validateRoster — every issue says which unit it is about', () => {
   // (namedNotEpic) until the 14 October update document gave it back (appdata-exceptions.mjs) —
   // now the Epic Hero cap of one, like any other.
   it('caps Kayvaan Shrike at one copy, as an Epic Hero', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     const sm = await loadRosterFaction('space-marines')
     const shrike = sm.units.find((u) => u.id === 'kayvaan-shrike')
     expect(shrike.flags.epic).toBe(1)
@@ -958,7 +958,7 @@ describe('validateRoster — every issue says which unit it is about', () => {
   // Every placeholder a message asks for has to be one the validator actually sends, in both
   // locales — a template naming a param nobody fills renders as a blank.
   it('asks for nothing the validator does not send', async () => {
-    const { ui } = await import('../i18n/ui.js')
+    const { ui } = await import('../../i18n/ui.js')
     const known = new Set(['unit', 'target', 'id', 'count', 'limit', 'over', 'spent', 'group',
       'names', 'name', 'tag', 'enh', 'dets', 'points', 'kw', 'kws', 'own', 'theirs', 'options', 'item'])
     for (const loc of ['en', 'ru']) {
@@ -981,7 +981,7 @@ describe('an enhancement whose keyword a detachment grants', () => {
   // — Codex: Orks retired the detachment and now prints Wagon — then on Space Marines' Fulguris
   // Task Force and SPEEDER, which Codex: Space Marines retired in app data 963.)
   it('accepts the upgrade on the unit that detachment made a Contagion Engine', async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
     const dg = await loadRosterFaction('death-guard')
     const codes = (id) => validateRoster(
       { faction: 'death-guard', detachments: ['Contagion Engines'], battleSize: 'strike-force', units: [{ uid: 'u1', id, size: 0, enh: 'Parasitic Woe\u2011reaper (Upgrade)' }] },
@@ -1003,8 +1003,8 @@ describe('a budget per model (Broadside Battlesuits)', () => {
   // system per suit — counted on that profile's own suits.
   let tau, def, vre, ui, oi
   beforeAll(async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: rosterItems } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: rosterItems } = await import('../../data/roster/items.js')
     tau = await loadRosterFaction('tau-empire')
     def = tau.units.find((u) => u.id === 'broadside-battlesuits')
     vre = def.gear.findIndex((g) => g.excl && g.m === 0)
@@ -1051,8 +1051,8 @@ describe('rules about one model across groups (Legends Crisis Battlesuits)', () 
   const g0 = (name) => def.gear[0].o.findIndex((o) => tau.items[o[0]] === name)
   const g1 = (name) => def.gear[1].o.findIndex((o) => tau.items[o[0]] === name)
   beforeAll(async () => {
-    const { loadRosterFaction } = await import('../data/roster/index.js')
-    const { default: rosterItems } = await import('../data/roster/items.js')
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { default: rosterItems } = await import('../../data/roster/items.js')
     tau = await loadRosterFaction('tau-empire')
     tau.items = rosterItems.items
     def = tau.units.find((u) => u.id === 'crisis-battlesuits')
@@ -1089,8 +1089,8 @@ describe('rules about one model across groups (Legends Crisis Battlesuits)', () 
 describe('exact-count wargear groups ("two different weapons")', () => {
   let sw, da
   beforeAll(async () => {
-    sw = (await import('../data/roster/space-wolves.js')).default
-    da = (await import('../data/roster/dark-angels.js')).default
+    sw = (await import('../../data/roster/space-wolves.js')).default
+    da = (await import('../../data/roster/dark-angels.js')).default
   })
   const issues = (fac, slug, name, wg) => {
     const id = fac.units.find((u) => u.name === name).id
@@ -1114,7 +1114,7 @@ describe('exact-count wargear groups ("two different weapons")', () => {
 // A model's limit across SEVERAL groups (`xpm`), read from the footnotes that state it — none of
 // these was enforced before an audit of every instruction (2026-10-07).
 describe('cross-group limits on one model', () => {
-  const load = async (slug) => (await import(`../data/roster/${slug}.js`)).default
+  const load = async (slug) => (await import(`../../data/roster/${slug}.js`)).default
   const issuesOf = (fac, slug, name, wg, size = 0, count) => {
     const id = fac.units.find((u) => u.name === name).id
     const unit = { uid: 'a', id, size, wg }
@@ -1127,7 +1127,7 @@ describe('cross-group limits on one model', () => {
     return g.o.findIndex((o) => itemsOf[Array.isArray(o[0]) ? o[0][0][0] : o[0]] === item)
   }
   let itemsOf
-  beforeAll(async () => { itemsOf = (await import('../data/roster/items.js')).default.items })
+  beforeAll(async () => { itemsOf = (await import('../../data/roster/items.js')).default.items })
 
   it('one chainsword per Knight Destrier, whichever arm', async () => {
     const ik = await load('imperial-knights')

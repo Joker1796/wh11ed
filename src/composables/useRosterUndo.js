@@ -1,5 +1,5 @@
 import { ref, onUnmounted } from 'vue'
-import { takeUnitEntry, restoreUnitEntry } from './rosterEngine.js'
+import { takeUnitEntry, restoreUnitEntry } from '../core/roster/rosterEngine.js'
 
 // One step back from the only irreversible thing the roster editor does. Building a list is a long
 // session of small picks, and the trash icon sits on the same tile as the row that opens them: a

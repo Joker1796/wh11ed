@@ -16,7 +16,7 @@
 //   `lead` is the key of the unit this one is attached to; `gear` picks an option by the label the
 //   editor shows ("Havoc heavy bolter", "Autopistol + Power weapon"), `nth` choosing among groups
 //   that offer the same label (0 = the first).
-import { optionLabel } from '../../src/composables/rosterEngine.js'
+import { optionLabel } from '../../src/core/roster/rosterEngine.js'
 
 export const TEST_ROSTERS = [
   {

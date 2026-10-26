@@ -64,7 +64,7 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
-import { enhancementBearers } from '../../composables/rosterEngine.js'
+import { enhancementBearers } from '../../core/roster/rosterEngine.js'
 import RuleExtras from '../RuleExtras.vue'
 import { vSafeHtml } from '../../directives/safeHtml.js'
 

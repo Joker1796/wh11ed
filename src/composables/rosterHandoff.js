@@ -6,7 +6,7 @@
 // register, so a pre-set faction/detachments isn't wiped).
 import { DISPOSITIONS, useTracker } from './useTracker.js'
 import { rosterSnapshot } from './rosterGameLink.js'
-import { UNLIMITED_BATTLE } from './rosterEngine.js'
+import { UNLIMITED_BATTLE } from '../core/roster/rosterEngine.js'
 import rosterCore from '../data/roster/core.js'
 
 /** @typedef {import('../core/shared/roster.types.js').Roster} Roster */

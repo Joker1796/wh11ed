@@ -20,9 +20,9 @@
   "include": [
     "src/core/shared/roster.types.js",
     "src/data/data.types.js",
-    "src/composables/rosterEngine.js",
+    "src/core/roster/rosterEngine.js",
     "src/core/roster/rosterEnhEligible.js",
-    "src/composables/rosterValidation.js",
+    "src/core/roster/rosterValidation.js",
     "src/composables/rosterModifiers.js",
     "src/composables/rosterExport.js",
     "src/composables/rosterStatMods.js",

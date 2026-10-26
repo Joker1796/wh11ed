@@ -16,7 +16,7 @@ function resetFilters() {
 // Every call of grantedKeywordsFor counted, the real one answering: the caps cost one look per unit
 // per change, not several per row per render.
 const granted = vi.hoisted(() => ({ calls: 0 }))
-vi.mock('../../composables/rosterEngine.js', async (importOriginal) => {
+vi.mock('../../core/roster/rosterEngine.js', async (importOriginal) => {
   const real = await importOriginal()
   return { ...real, grantedKeywordsFor: (...a) => { granted.calls++; return real.grantedKeywordsFor(...a) } }
 })

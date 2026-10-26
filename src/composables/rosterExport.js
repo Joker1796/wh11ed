@@ -35,7 +35,7 @@ import {
   allegFor, bucketOf, chapterOf, dispositionCandidates, dispositionOf, enhancementPoints, leadTypeFor, mandatoryEnhancementFor, modelsPerMini,
   copiesHeld, copiesLeft, optionItems, optionLabel, pickMiniFor, rosterPoints, swapsByMini, unitPoints, wargearGroupLive, effectiveBattle, grantedKeywordsFor, orderedByName,
   miniName, modelCount, rosterDetachments, hasKeyword,
-} from './rosterEngine.js'
+} from '../core/roster/rosterEngine.js'
 
 /** @typedef {import('../core/shared/roster.types.js').Roster} Roster */
 /** @typedef {import('../core/shared/roster.types.js').RosterFaction} RosterFaction */
