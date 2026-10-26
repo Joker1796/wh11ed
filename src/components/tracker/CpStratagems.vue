@@ -173,6 +173,7 @@ import { tracks } from '../../data/trackerOptions.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
 import { loadStratTargets } from '../../composables/stratagemPlay.js'
 import { provideSideScope } from '../../composables/modalScope.js'
+import { turnIndex } from '../../core/game/clock.js'
 
 // The stratagems in the CP tab: spend a side's CP on one, and take it back. Mounted only while
 // the CP tab is open, so the faction data (dynamically imported by gameStratagems.js) is fetched
@@ -199,7 +200,7 @@ provideSideScope(() => (current.value?.players?.[side.value] ? !isYouSide(curren
 const cpsEl = ref(null)
 useSwapFade(side, () => [...(cpsEl.value?.children || [])].filter((el) => !el.matches('.page-tabs')))
 watch(() => props.defaultSide, (v) => { if (!controlled.value) side.value = v })
-const turnIdx = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
+const turnIdx = computed(() => turnIndex(current.value))
 const sideOnTurn = computed(() => side.value === turnIdx.value)
 const sideTabs = computed(() => [0, 1].map((i) => ({
   key: i, label: props.names[i], active: side.value === i,
@@ -259,7 +260,7 @@ const shown = computed(() => [
 // the same usableInSlot the phase reminder and the roster screen use. The phase groups follow.
 const nowStrats = computed(() => {
   if (!phasesOn.value) return []
-  const mine = (current.value.currentTurn === 1 ? 1 : 0) === side.value
+  const mine = turnIndex(current.value) === side.value
   return shown.value.filter((s) => usableInSlot(s._phases, s._sides, livePhase.value, mine))
 })
 const groups = computed(() => [

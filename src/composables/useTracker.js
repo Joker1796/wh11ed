@@ -31,6 +31,7 @@ import { TRACKER_GEN } from '../core/game/trackerGen.js'
 import { pushAct, pushValueAct, pushUndo, ledgerEvent, discardEvent, COALESCE_MS } from '../core/game/actionLog.js'
 import { isStrict, isLatest, canClockBack } from '../core/game/strictRules.js'
 import { cardBlocksOf, canBeFixed, numericVp, orSiblingKeys } from '../core/game/missionCards.js'
+import { turnIndex } from '../core/game/clock.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -422,7 +423,7 @@ function settleSide(pi) {
   const pl = g.players[pi]
   if (!pl) return
   const R = g.currentRound
-  const T = g.currentTurn === 1 ? 1 : 0
+  const T = turnIndex(g)
   const clock = { round: R, turn: T }
   if (g.cpAuto) {
     ledger(pl)
@@ -503,7 +504,7 @@ function settleAll() {
 watch(
   () => {
     const g = current.value
-    return g ? `${g.id}|${g.phase}|${gameBegun(g)}|${g.currentRound}|${g.currentTurn === 1 ? 1 : 0}` : ''
+    return g ? `${g.id}|${g.phase}|${gameBegun(g)}|${g.currentRound}|${turnIndex(g)}` : ''
   },
   () => settleAll(),
   { flush: 'sync', immediate: true },
@@ -654,7 +655,7 @@ export function useTracker() {
   // Where the clock stands — every act the log records is placed by it.
   function clk() {
     const g = current.value
-    return { round: g.currentRound, turn: g.currentTurn === 1 ? 1 : 0 }
+    return { round: g.currentRound, turn: turnIndex(g) }
   }
 
   // ── Strict rules (strictRules.js): why an act is refused in a game played by the book ──
@@ -714,7 +715,7 @@ export function useTracker() {
   // moment that has passed is not ticked in a later turn). `turn` null: the live turn of `round`.
   function isCorrection(round, turn) {
     const g = current.value
-    return round < g.currentRound || (round === g.currentRound && turn != null && turn !== (g.currentTurn === 1 ? 1 : 0))
+    return round < g.currentRound || (round === g.currentRound && turn != null && turn !== turnIndex(g))
   }
   // A correction says so in the log (owner, 2026-10-21): when it was made, which turn it put
   // right and the VP before and after. Steppers and ticks within COALESCE_MS are one act.
@@ -784,7 +785,7 @@ export function useTracker() {
   function setCp(pi, value) {
     const g = current.value
     if (strictWhy('pencil', pi)) return
-    adjustTo(g.players[pi], value, g.currentRound, g.currentTurn === 1 ? 1 : 0)
+    adjustTo(g.players[pi], value, g.currentRound, turnIndex(g))
   }
 
   // The balance's "−" where stratagems are not paid for here (`stratSpendCp` off): a point spent,
@@ -805,7 +806,7 @@ export function useTracker() {
     const g = current.value
     if (!canGainBonus(pi)) return false
     addEntry(g.players[pi], {
-      kind: 'bonus', amount: 1, round: g.currentRound, turn: g.currentTurn === 1 ? 1 : 0, source,
+      kind: 'bonus', amount: 1, round: g.currentRound, turn: turnIndex(g), source,
       ...(ref ? { ref } : {}),
     })
     return true
@@ -825,7 +826,7 @@ export function useTracker() {
   function spendCp(pi, amount, source, ref, name) {
     const g = current.value
     return addEntry(g.players[pi], {
-      kind: 'spend', amount: -Math.max(0, amount), round: g.currentRound, turn: g.currentTurn === 1 ? 1 : 0,
+      kind: 'spend', amount: -Math.max(0, amount), round: g.currentRound, turn: turnIndex(g),
       source, ...(ref ? { ref } : {}), ...(name ? { name } : {}),
     })
   }
@@ -981,7 +982,7 @@ export function useTracker() {
     const g = current.value
     const pl = memberAt(g.players[pi], mi)
     if (!pl.unitStatus) pl.unitStatus = {}
-    const clock = { round: g.begun === false ? 0 : g.currentRound, turn: g.currentTurn === 1 ? 1 : 0, name }
+    const clock = { round: g.begun === false ? 0 : g.currentRound, turn: turnIndex(g), name }
     // Strict: a destroyed unit comes back only as the side's last act taken back.
     if (pl.unitStatus[uid]?.s === 'destroyed' && status !== 'destroyed' && strictUndoWhy('revive', pi, uid)) return
     // Moved during the battle — the reserves chosen at setup are the setup, not an act.
@@ -1381,7 +1382,7 @@ export function useTracker() {
     const g = current.value
     const pl = g?.players?.[pi]
     return !!pl && g.phase === 'playing' && gameBegun(g) && pl.secondaryMode === 'tactical'
-      && (g.currentTurn === 1 ? 1 : 0) === pi && !tookSecondaries(pi) && pl.secondary.deck.length > 0
+      && turnIndex(g) === pi && !tookSecondaries(pi) && pl.secondary.deck.length > 0
   }
   function markTook(pi, how) {
     const s = current.value.players[pi].secondary
@@ -1447,7 +1448,7 @@ export function useTracker() {
     const g = current.value
     if (!g || g.phase !== 'playing') return 'finished'
     const R = g.currentRound
-    const T = g.currentTurn === 1 ? 1 : 0
+    const T = turnIndex(g)
     // Whose turn it is decides half of it (owner, 2026-09-29): Fire Overwatch is the other side's
     // move, a Command-phase stratagem never is.
     const mine = T === pi
@@ -1537,7 +1538,7 @@ export function useTracker() {
     const g = current.value
     const pl = g?.players?.[pi]
     return !!pl && g.phase === 'playing' && pl.secondaryMode === 'tactical'
-      && (g.currentTurn === 1 ? 1 : 0) === pi && !pl.secondary.cpRedrawUsed
+      && turnIndex(g) === pi && !pl.secondary.cpRedrawUsed
       && (pl.cp || 0) >= 1 && pl.secondary.deck.length > 0
   }
   function cpRedraw(pi, slug, pick = null) {
@@ -1561,7 +1562,7 @@ export function useTracker() {
     const g = current.value
     const pl = g?.players?.[pi]
     return !!pl && g.phase === 'playing' && pl.secondaryMode === 'tactical'
-      && (g.currentTurn === 1 ? 1 : 0) === pi
+      && turnIndex(g) === pi
   }
   // The card leaves for the round's bonus CP (while it is free). A card that scored this turn is
   // achieved, not active: it leaves for its VP, not for CP. Returns whether it went.
@@ -1571,7 +1572,7 @@ export function useTracker() {
     if (!canEndTurnDiscard(pi) || !s.hand.includes(slug) || secondaryCardVp(pi, slug) > 0) return false
     const gained = gainBonusCp(pi, 'discard', slug)
     s.hand = s.hand.filter(x => x !== slug)
-    s.discarded.push({ slug, round: g.currentRound, auto: g.currentTurn === 1 ? 1 : 0, ...(gained ? { cp: true } : {}), t: Date.now() })
+    s.discarded.push({ slug, round: g.currentRound, auto: turnIndex(g), ...(gained ? { cp: true } : {}), t: Date.now() })
     return true
   }
   function endTurnDiscard(pi, slug) {
@@ -1603,7 +1604,7 @@ export function useTracker() {
   // set aside as achieved), and the marks go either way.
   function discardMarked() {
     const g = current.value
-    const pi = g.currentTurn === 1 ? 1 : 0
+    const pi = turnIndex(g)
     const s = g.players[pi]?.secondary
     if (!s?.eotMarked) return
     for (const slug of s.eotMarked) discardAtTurnEnd(pi, slug)
@@ -1634,7 +1635,7 @@ export function useTracker() {
 
   // Position within the battle round, 0..9 — two turns of five phases.
   function clockSlot(g) {
-    return (g?.currentTurn === 1 ? 1 : 0) * BATTLE_PHASES.length + phaseIndex(g)
+    return turnIndex(g) * BATTLE_PHASES.length + phaseIndex(g)
   }
 
   const SLOTS = BATTLE_PHASES.length * 2
@@ -1862,7 +1863,7 @@ export function useTracker() {
     if (!g) return
     const resumed = JSON.parse(JSON.stringify(g))
     resumed.phase = 'playing'
-    pushAct(resumed, { round: resumed.currentRound, turn: resumed.currentTurn === 1 ? 1 : 0, type: 'resume', pi: youIndex(resumed) })
+    pushAct(resumed, { round: resumed.currentRound, turn: turnIndex(resumed), type: 'resume', pi: youIndex(resumed) })
     // Played on here, it is this tracker's game from now on (trackerGen.js).
     resumed.trackerGen = TRACKER_GEN
     delete resumed.finishedAt

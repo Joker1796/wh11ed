@@ -112,6 +112,7 @@ import { toneVars } from '../../utils/tone.js'
 import FactionEmblem from '../FactionEmblem.vue'
 import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf, battlePoints as battlePointsOf } from '../../core/game/gameScoring.js'
 import { tracks } from '../../data/trackerOptions.js'
+import { turnIndex } from '../../core/game/clock.js'
 
 // `game` prop drives a finished/history game; defaults to the active game from the store.
 const props = defineProps({
@@ -143,7 +144,7 @@ const bp = computed(() => battlePointsOf(game.value))
 // Whose turn it is — a live game only; a result has no "now". players[0] is the first-turn
 // player, so the turn is a player index.
 // Nobody's before the roll for the first turn (PreBattle): the order is provisional until then.
-const turnIdx = computed(() => (props.finished || game.value?.firstTurnPending ? -1 : game.value?.currentTurn === 1 ? 1 : 0))
+const turnIdx = computed(() => (props.finished || game.value?.firstTurnPending ? -1 : turnIndex(game.value)))
 
 // The army under the name: one faction, or a doubles side's two. The light factionsIndex, never
 // the heavy tracker dataset.

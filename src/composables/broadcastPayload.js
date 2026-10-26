@@ -20,6 +20,7 @@ import {
 import { missionBySlug, dispositionName } from './useTracker.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { tracks } from '../data/trackerOptions.js'
+import { turnIndex } from '../core/game/clock.js'
 
 export const BROADCAST_VERSION = 1
 
@@ -107,7 +108,7 @@ export function broadcastPayload(game) {
     round: game.currentRound || 1,
     // Whose turn (an index into sides[]) and the battle phase — the latter only when this game
     // actually keeps the clock; an untracked game's stored phase is stale, not current.
-    turn: game.currentTurn === 1 ? 1 : 0,
+    turn: turnIndex(game),
     battlePhase: tracks(s, 'trackPhases') ? game.currentPhase || null : null,
     layout: s.layout === 'custom' ? s.customLayout?.label || s.customLayout?.id || 'custom' : s.layout || null,
     twist: s.twist || null,

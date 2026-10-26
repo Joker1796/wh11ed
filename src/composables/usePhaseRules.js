@@ -25,6 +25,7 @@ import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionChoice } from './useFactionChoice.js'
 import { useRefNavigation } from './useRefNavigation.js'
 import { foldName } from '../core/shared/foldName.js'
+import { turnIndex } from '../core/game/clock.js'
 
 // The steps of each phase in play order (Core Rules 08–12), and the step a rule that fires
 // "during" the phase is shown at — its main step. Start and End are the phase's own first and
@@ -62,7 +63,7 @@ export function usePhaseRules() {
   }, { immediate: true })
 
   const phase = computed(() => current.value?.currentPhase || BATTLE_PHASES[0])
-  const turn = computed(() => (current.value?.currentTurn === 1 ? 1 : 0))
+  const turn = computed(() => turnIndex(current.value))
   // A game keeping the clock asks about the phase it stands on; one that does not, about the whole
   // turn — each phase of it, in play order (owner, 2026-10-08: the same tab, the turn's analog).
   const byPhase = computed(() => tracks(current.value?.settings, 'trackPhases'))

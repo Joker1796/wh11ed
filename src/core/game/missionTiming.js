@@ -20,6 +20,7 @@
 // `fallback: 'r5'` — "… or the end of the fifth battle round (whichever comes first)" /
 // "(or the end of your turn in the fifth battle round)": in round 5 the moment can also come at
 // the end of the round itself, whoever's turn closes it.
+import { turnIndex } from './clock.js'
 
 /** @typedef {import('./missionCards.js').MissionBlock} MissionBlock */
 /** @typedef {import('./missionCards.js').Mission} Mission */
@@ -99,7 +100,7 @@ export function blockLocked(game, pi, round, turn, enBlock) {
 // round up to the one being played.
 /** @param {LiveGame} game @param {number} round @param {number} turn */
 export function turnReached(game, round, turn) {
-  return round < game.currentRound || (round === game.currentRound && turn <= (game.currentTurn === 1 ? 1 : 0))
+  return round < game.currentRound || (round === game.currentRound && turn <= turnIndex(game))
 }
 
 // The turn to open for a card's locked conditions — the first one, of the card's blocks for the
@@ -147,7 +148,7 @@ export function turnEndChecks(game, scorable, missionEn, discarding = null) {
   const leaving = [discarding || []].flat()
   if (!game || game.phase !== 'playing') return []
   const R = game.currentRound
-  const T = game.currentTurn === 1 ? 1 : 0
+  const T = turnIndex(game)
   const last = R === 5 && T === 1
   /** @type {Array<{ pi: number, slug: string | null, blocks: ScoringBlock[] }>} */
   const out = []
@@ -203,7 +204,7 @@ export function cardMoments(game, pi, scorable, missionEn, missionName) {
   const pl = game.players?.[pi]
   if (!pl) return []
   const R = game.currentRound
-  const T = game.currentTurn === 1 ? 1 : 0
+  const T = turnIndex(game)
   const opp = pi !== T
   const last = R === 5 && T === 1
   /** @param {ScoringMoment | null} m */

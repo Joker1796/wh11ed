@@ -675,6 +675,7 @@ import { rosterNameFit } from '../../utils/rosterNameFit.js'
 import { APP_VERSION } from '../../buildInfo.js'
 import { useTour, useTourShow } from '../../composables/useTour.js'
 import { companionRows } from '../../composables/rosterCompanionRows.js'
+import { turnIndex } from '../../core/game/clock.js'
 
 const props = defineProps({
   // The rosters desk (RosterDeskView) shows a saved roster beside the list, by id; the routes
@@ -1831,7 +1832,7 @@ const nowSlot = computed(() => {
   return {
     phase: g.currentPhase || 'command',
     // The turn is a player index (useTracker), so "mine" is whether it is this roster's owner's.
-    mine: (g.currentTurn === 1 ? 1 : 0) === gamePi.value,
+    mine: turnIndex(g) === gamePi.value,
   }
 })
 </script>

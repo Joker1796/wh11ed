@@ -247,6 +247,7 @@ import { blockLocked, fixTurnOf } from '../../core/game/missionTiming.js'
 import { whenDrawnAction } from '../../composables/whenDrawn.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { provideSideScope } from '../../composables/modalScope.js'
+import { turnIndex } from '../../core/game/clock.js'
 
 // `round`, `turn` — the turn on screen: the live one, or one already played being corrected (the
 // game screen's round steps; `open-turn` asks it to open another). `turnNames` — whose each turn
@@ -279,8 +280,8 @@ provideSideScope(() => !isYouSide(current.value?.players?.[props.pi], props.pi))
 const player = computed(() => current.value.players[props.pi])
 const mode = computed(() => player.value.secondaryMode)
 // The live turn — not a played one opened for correction, even in the live round.
-const shownTurn = computed(() => props.turn ?? (current.value.currentTurn === 1 ? 1 : 0))
-const live = computed(() => props.round === current.value.currentRound && shownTurn.value === (current.value.currentTurn === 1 ? 1 : 0))
+const shownTurn = computed(() => props.turn ?? turnIndex(current.value))
+const live = computed(() => props.round === current.value.currentRound && shownTurn.value === turnIndex(current.value))
 function inHand(slug) { return player.value.secondary.hand.includes(slug) }
 // A displayed card that isn't in the hand is a set-aside (discarded) one — handMissions
 // only ever pulls from hand ∪ discarded, so "not in hand" ⇒ set aside.
@@ -353,7 +354,7 @@ const takeOpen = ref(false)
 const canTake = computed(() => live.value && props.editable && canTakeSecondaries(props.pi))
 // Taken this turn by the side on turn: the dialog reopens on what came in.
 const takenNow = computed(() => live.value && mode.value === 'tactical'
-  && (current.value.currentTurn === 1 ? 1 : 0) === props.pi && !!tookSecondaries(props.pi))
+  && turnIndex(current.value) === props.pi && !!tookSecondaries(props.pi))
 watch(
   [() => canTake.value, () => props.editable, () => current.value.currentRound, () => current.value.currentTurn],
   () => {
@@ -379,7 +380,7 @@ const cpRedrawNote = computed(() => {
   const l = labels.value
   const s = player.value.secondary
   if (s.cpRedrawUsed) return l.trackerCpRedrawUsed
-  if ((current.value.currentTurn === 1 ? 1 : 0) !== props.pi) return l.trackerCpRedrawNotTurn
+  if (turnIndex(current.value) !== props.pi) return l.trackerCpRedrawNotTurn
   if ((player.value.cp || 0) < 1) return l.trackerCpRedrawNoCp
   return l.trackerCpRedrawNote
 })

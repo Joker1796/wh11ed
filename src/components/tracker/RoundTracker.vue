@@ -637,6 +637,7 @@ import { instantly } from '../../composables/useRefNavigation.js'
 import { useTracker, gameBegun, membersOf, sideLabel, isYouSide, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks, cardBlocks } from '../../composables/useTracker.js'
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
+import { turnIndex as turnOf } from '../../core/game/clock.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -758,7 +759,7 @@ const hasLists = computed(() => (current.value?.players || []).some((pl) => memb
 const stripPhase = computed(() => {
   if (!phasesOn.value) return null
   const g = current.value
-  const turn = g.currentTurn === 1 ? 1 : 0
+  const turn = turnOf(g)
   const at = turn * BATTLE_PHASES.length + Math.max(0, BATTLE_PHASES.indexOf(g.currentPhase || 'command'))
   // Each turn's phases in its side's colour: the first turn is players[0]'s (the players stand in
   // turn order), the second players[1]'s.
@@ -912,7 +913,7 @@ const pastWhy = computed(() => strictText(strictWhy('round', missionSide.value, 
 // Whose turn it is — players[0] is always the first-turn player, so the turn IS a player index
 // (useTracker). Declared before everything below that reads it during setup — the tab memory
 // asks for the tabs, whose counts ask for the side on screen — or it is read before it exists.
-const turnIndex = computed(() => (current.value.currentTurn === 1 ? 1 : 0))
+const turnIndex = computed(() => turnOf(current.value))
 const focusSide = computed(() => {
   const p = current.value.party
   return p && !p.revoked && !p.ended && (p.side === 0 || p.side === 1) ? p.side : turnIndex.value
@@ -953,7 +954,7 @@ const sideRuleCount = computed(() => phaseSides.value.find((s) => s.pi === viewS
 // phase reminder switched off) falls back to the missions too. The side picked on the score cards
 // comes back with it: "Units" on the opponent's army led back to this phone's own (Misha, 2026-10-10).
 const TAB_KEY = 'wh11ed-tracker-tab'
-const clockKey = () => `${current.value.id}|${current.value.currentRound}|${current.value.currentTurn === 1 ? 1 : 0}`
+const clockKey = () => `${current.value.id}|${current.value.currentRound}|${turnOf(current.value)}`
 try {
   const saved = JSON.parse(getItem(TAB_KEY) || 'null')
   if (saved?.at === clockKey() && tabs.value.some((t) => t.id === saved.tab)) {
@@ -1098,7 +1099,7 @@ function bonusSource(i) {
 // they are not in the check (turnEndChecks' `discarding`): one card would pay twice — VP and CP.
 const turnChecks = computed(() => {
   const g = current.value
-  const pi = g?.currentTurn === 1 ? 1 : 0
+  const pi = turnOf(g)
   return turnEndChecks(
     g,
     (slug, role, round) => scorableBlocks(slug, role, round, locale.value),
