@@ -656,9 +656,10 @@ import { provideCombatPatrolBox } from '../../composables/useCombatPatrolBox.js'
 import RosterStatPlates from '../../components/roster/RosterStatPlates.vue'
 import { unitKeywordsOf } from '../../core/rules/ruleTargets.js'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
-import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies } from '../../core/roster/rosterEngine.js'
+import { allySourceOf, effectiveBattle, blockNumbers, legalityOn, dispositionCandidates, dispositionOf, groupLabel, hostBlockTotal, leaderTargetsFor, mandatoryEnhancementFor, usesAllies, grantedKeywords } from '../../core/roster/rosterEngine.js'
 import { entrySummary } from '../../composables/rosterText.js'
-import { applyStatMods, splitBearers, grantedKeywordsFrom, resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachmentContext } from '../../core/rules/rosterStatMods.js'
+import { resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, aurasReaching, attachedUnitKeywords, attachmentContext } from '../../core/rules/rosterStatMods.js'
+import { unitRules, unitStatMods } from '../../core/rules/unitRules.js'
 import { itemKey, loadoutItemNames, findEnhancementProse, wargearConditions } from '../../core/rules/rosterModifiers.js'
 import { detKey } from '../../core/shared/slugify.js'
 import { unitDoctrines } from '../../core/rules/doctrineRules.js'
@@ -1161,21 +1162,26 @@ const factionKeywordSets = computed(() =>
   [...fullSheets.value.values()].map(unitKeywordsOf))
 
 // The modifier records that bear on one entry — shared by the plates and by the switch rows, so
-// a switch can never appear for a rule the card itself doesn't consider.
-function resolvedFor(entry) {
-  if (!entry || !modifierRecords.value.length || !factionEn.value) return []
+// a switch can never appear for a rule the card itself doesn't consider. In the three groups the
+// rules take them in (core/rules/unitRules.js), and `resolvedFor` flat in that same order.
+function recordsFor(entry) {
+  if (!entry || !modifierRecords.value.length || !factionEn.value) return null
   const def = defOf(entry.id)
   const enh = entry.enh || mandatoryEnhancementFor(def, curDetachments.value)?.name || null
   const alleg = allegianceChoiceOf(def, entry)
-  return [
+  return {
     // The rulebook's own modifiers apply to every unit of every faction — a Battle-shocked unit's
     // OC is '-' whoever it belongs to — so they are added here rather than resolved per faction.
-    ...coreModifiers,
-    ...resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg),
+    core: coreModifiers,
     // A datasheet ability can modify the unit it is attached to, so this entry's records include
     // the abilities of whoever leads it and of whoever it leads — the roster records both.
-    ...datasheetEntriesFor(modifierRecords.value, attachmentCtxOf(entry)),
-  ]
+    attached: datasheetEntriesFor(modifierRecords.value, attachmentCtxOf(entry)),
+    faction: resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg),
+  }
+}
+function resolvedFor(entry) {
+  const r = recordsFor(entry)
+  return r ? [...r.core, ...r.attached, ...r.faction] : []
 }
 
 // The entries whose rules still reach the rest of their Attached unit. Core Rules 19.04 (and
@@ -1225,39 +1231,41 @@ function chosenFor(entry, resolved) {
   ])
 }
 
+// What every rule of this list is read against (core/rules/unitRules.js) — not before the keyword
+// vocabulary is in, which arrives with the sheets.
+const ruleWorld = computed(() => (keywordVocabulary.value ? { factionKeywordSets: factionKeywordSets.value, vocabulary: keywordVocabulary.value } : null))
+
 // Everything one entry's modifiers are judged with: the records that bear on it, the keyword set
-// they are judged against, and the game state that proves them. One function because the card and
-// the CHIPS have to agree — a stratagem this unit cannot be the target of must be missing from
-// both, and two places working it out separately is how they come to differ.
+// they are judged against, and the game state that proves them — worked out by the same function
+// the unit's card uses (unitRules), so a plate on this row and the card behind it cannot disagree.
+// What differs is only where the game state comes from: here, this screen's own game.
 function modContextFor(entry) {
-  const resolved = resolvedFor(entry)
-  if (!resolved.length) return null
+  const records = recordsFor(entry)
+  if (!records || !ruleWorld.value) return null
   const sheet = fullSheets.value.get(entry?.id)
   // …plus what the entry's own loadout proves (a pair of macro-scalpels, the Shieldline's platform,
   // a Tempestor Prime in the squad), as the card behind the row adds it (rosterUnitCard's
   // gearConds): without it a plate and its card disagreed on a Tidewall Shieldline's W 15.
   const gear = wargearConditions(defOf(entry.id), entry, rosterItems.items, sheet)
   const active = gear.size ? new Set([...activeFor(entry), ...gear]) : activeFor(entry)
-  const printed = unitKeywordsOf(sheet)
-  // A granted keyword decides which rules bear on the unit at all, so it has to be resolved BEFORE
-  // the apply pass gates on the keyword set — the same order RosterUnitRulesModal uses. Skipping it
-  // here would let a plate on this row and the card behind it disagree, which is the one thing this
-  // shared implementation exists to prevent.
   // A spent stratagem rewrites the row in the list as well as the card behind it — same records,
-  // same clock, so the plate and the card can never disagree. Resolved BEFORE the keyword grants,
-  // since a stratagem can hand out a keyword (Daemonic Possession's DAEMON) that decides which
-  // other rules bear on the unit at all.
-  const chosen = chosenFor(entry, resolved)
-  // Every gate below judges a rule naming UNITS against the whole ATTACHED unit's keywords and one
-  // naming MODELS against this card's own (Core Rules 19.03, ruleTargets' scopeHits) — which is
-  // why the attachment the roster records is read here rather than the card's keywords alone.
-  const attached = attachedUnitKeywords(entry, sourceUnits.value, (id) => {
-    return unitKeywordsOf(fullSheets.value.get(id))
-  })
-  const own = [...printed, ...grantedKeywordsFrom(resolved, { own: printed, unit: [...printed, ...attached] }, factionKeywordSets.value, active, chosen, keywordVocabulary.value).map((g) => g.kw)]
-  const kws = { own, unit: [...own, ...attached] }
-  // …and then the stratagems this unit could never be picked as the target of come off the list.
-  return { resolved: gateStratagems(resolved, kws, factionKeywordSets.value, active, true, keywordVocabulary.value), kws, active, chosen }
+  // same clock — and it can hand out a keyword (Daemonic Possession's DAEMON) that decides which
+  // other rules bear on the unit at all, so it is known before the rules are worked out.
+  const chosen = chosenFor(entry, [...records.core, ...records.attached, ...records.faction])
+  const input = {
+    records,
+    printed: unitKeywordsOf(sheet),
+    // What the list's detachments grant it (Darkflight Pursuit's RAVENWING, a Daemonic Allegiance):
+    // left out here until 2026-10-26, so a row missed what its card showed.
+    granted: grantedKeywords(defOf(entry.id), entry, curDetachments.value),
+    // Every gate judges a rule naming UNITS against the whole ATTACHED unit's keywords and one
+    // naming MODELS against this card's own (Core Rules 19.03, ruleTargets' scopeHits).
+    attached: attachedUnitKeywords(entry, sourceUnits.value, (id) => unitKeywordsOf(fullSheets.value.get(id))),
+    active,
+    chosen,
+  }
+  const rules = unitRules(ruleWorld.value, input)
+  return { resolved: rules.gated, kws: rules.keywords, active, chosen, rules, input }
 }
 
 // ONE context per entry for the whole screen. Four readers want it — the stat plates, the
@@ -1299,9 +1307,8 @@ function statModsFor(entry, sheet) {
   if (!modsOn.value) return { sheet, marks: [] }
   const ctx = ctxOf(entry)
   if (!ctx) return { sheet, marks: [] }
-  // The same placement the card makes, so a Sergeant with a Storm Shield reads W 4* on both.
-  const placed = splitBearers(sheet, ctx.resolved, defOf(entry.id), entry, rosterItems.items)
-  return applyStatMods(placed.sheet, placed.entries, ctx.kws, factionKeywordSets.value, ctx.active, ctx.chosen, keywordVocabulary.value)
+  // The same pass the card makes, so a Sergeant with a Storm Shield reads W 4* on both.
+  return unitStatMods(sheet, ctx.rules, ruleWorld.value, ctx.input, { def: defOf(entry.id), entry, items: rosterItems.items })
 }
 
 // ── What WOULD apply (out of game only) ─────────────────────────────────────────────────────

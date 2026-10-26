@@ -26,7 +26,8 @@ import { useLocale } from './useLocale.js'
 import { overlaySheet, enhKey, findEnhancementProse, wargearConditions } from '../core/rules/rosterModifiers.js'
 import { detKey } from '../core/shared/slugify.js'
 import { ruleAppliesTo, unitKeywordsOf } from '../core/rules/ruleTargets.js'
-import { applyStatMods, splitBearers, resolveModifierEntries, allegianceChoiceOf, grantedKeywordsFrom, datasheetEntriesFor, gateStratagems, attachedUnitKeywords, armyRuleMatches, armyRuleSection, attachmentContext } from '../core/rules/rosterStatMods.js'
+import { resolveModifierEntries, allegianceChoiceOf, datasheetEntriesFor, attachedUnitKeywords, armyRuleMatches, armyRuleSection, attachmentContext } from '../core/rules/rosterStatMods.js'
+import { unitRules, unitStatMods } from '../core/rules/unitRules.js'
 import { abilityStatusesOf } from '../core/rules/abilityStatus.js'
 import { rosterConditions } from '../core/rules/rosterGameContext.js'
 import { unitDoctrines } from '../core/rules/doctrineRules.js'
@@ -42,7 +43,7 @@ import { useDatasheetsRu } from './useDatasheetsRu.js'
 /** @typedef {import('../core/shared/data.types.js').FactionRules} FactionRules */
 /** @typedef {import('../core/shared/roster.types.js').ModifierRecord} ModifierRecord */
 /** @typedef {import('../core/shared/roster.types.js').CondSwitch} CondSwitch */
-/** A note under the stats, as applyStatMods writes it. @typedef {ReturnType<typeof applyStatMods>['notes'][number]} StatNote */
+/** A note under the stats, as applyStatMods writes it. @typedef {ReturnType<typeof import('../core/rules/rosterStatMods.js').applyStatMods>['notes'][number]} StatNote */
 /**
  * The calling component's props.
  * @typedef {object} UnitCardProps
@@ -199,26 +200,13 @@ export function useRosterUnitCard(props) {
   const factionKeywordSets = computed(() =>
     datasheets.value.map(unitKeywordsOf))
 
-  // The keywords printed on the sheet plus every one the roster grants it. Two sources, and the
-  // order matters: a granted keyword decides which RULES bear on the unit, so it has to be resolved
-  // before any gating — Necrons' Destroyer Ankh gives its bearer DESTROYER CULT, and only then does
-  // Cold Fervour's first bullet (+2 Strength to every DESTROYER CULT model) reach that Overlord.
-  const modifierGrantedKeywords = computed(() => {
-    const printed = datasheets.value.find((d) => d.id === props.unitId)
-    const base = [...unitKeywordsOf(printed), ...view.value.grantedKeywords.map((g) => g.kw)]
-    return grantedKeywordsFrom(resolvedModifiers.value, { own: base, unit: [...base, ...attachedKeywords.value] }, factionKeywordSets.value, activeConds.value, activeStratIds.value, keywordVocabulary.value)
-  })
+  // The keywords the unit's records grant it, and with them every one it has (unitRules, below).
+  const modifierGrantedKeywords = computed(() => rules.value?.fromRecords || [])
 
-  const unitKeywords = computed(() => {
-    const en = datasheets.value.find((d) => d.id === props.unitId)
-    // Keywords a detachment GRANTS count too — a unit made Battleline by the roster's detachment is
-    // targeted by a rule that says "BATTLELINE units from your army".
-    return [
-      ...unitKeywordsOf(en),
-      ...view.value.grantedKeywords.map((g) => g.kw),
-      ...modifierGrantedKeywords.value.map((g) => g.kw),
-    ]
-  })
+  const unitKeywords = computed(() => rules.value?.keywords.own || [
+    ...unitKeywordsOf(datasheets.value.find((d) => d.id === props.unitId)),
+    ...view.value.grantedKeywords.map((g) => g.kw),
+  ])
 
   // Everything the card should show as gained rather than printed: the structural sidecar's grants
   // (a detachment making a unit Battleline) and the modifier layer's own.
@@ -290,14 +278,16 @@ export function useRosterUnitCard(props) {
   // unit isn't carrying or isn't targeted by. `ref` is the wh11ed-side pointer the generator wrote
   // (see gen-roster-modifiers.mjs) — matching by id, not by name, so a GW rename can't silently
   // detach a modifier from its rule.
-  const resolvedModifiers = computed(() => [...coreModifiers, ...abilityModifiers.value, ...resolveModifierEntries(
+  const factionModifiers = computed(() => resolveModifierEntries(
     usableModifierEntries.value,
     rulesFactionEn.value,
     props.ctx?.detachments,
     view.value.context?.enhancement?.name,
     // The mark this entry chose — a Daemonic Allegiance record modifies only the model that took it.
     allegianceChoiceOf(props.ctx?.def, props.ctx?.entry),
-  )])
+  ))
+  // …in the order the rules take them (core/rules/unitRules.js): the Core Rules', the attached unit's, the faction's.
+  const resolvedModifiers = computed(() => [...coreModifiers, ...abilityModifiers.value, ...factionModifiers.value])
 
   // A datasheet ability can modify the unit it is ATTACHED to, so this card's records include the
   // abilities of whoever leads this entry and of whoever it leads. The roster records both
@@ -395,36 +385,28 @@ export function useRosterUnitCard(props) {
       return unitKeywordsOf(d)
     },
   ))
+  // One unit's rules, worked out the way the roster screen's rows work them out too (core/rules/
+  // unitRules.js): the keywords its records grant, the stratagems it can be the target of, the stat
+  // pass. Not before the vocabulary is in — without it the rules would be read differently.
+  const ruleWorld = computed(() => (keywordVocabulary.value ? { factionKeywordSets: factionKeywordSets.value, vocabulary: keywordVocabulary.value } : null))
+  const ruleInput = computed(() => ({
+    records: { core: coreModifiers, attached: abilityModifiers.value, faction: factionModifiers.value },
+    printed: unitKeywordsOf(datasheets.value.find((d) => d.id === props.unitId)),
+    granted: view.value.grantedKeywords.map((g) => g.kw),
+    attached: attachedKeywords.value,
+    active: activeConds.value,
+    chosen: activeStratIds.value,
+    listKnows: !!props.ctx?.entry,
+  }))
+  const rules = computed(() => (ruleWorld.value ? unitRules(ruleWorld.value, ruleInput.value) : null))
+
   // The two sets a rule's target is judged against (ruleTargets' scopeHits): the card's own for a
   // target written as models, the whole attached unit's for one written as units.
-  const keywordView = computed(() => ({ own: unitKeywords.value, unit: [...unitKeywords.value, ...attachedKeywords.value] }))
-
-  // …and the stratagems this unit cannot be the target of are dropped before anything reads them, so
-  // the card's notes and the chips it is handed can never disagree about which ones are on offer.
-  // After the keyword grants, never before: a stratagem naming DESTROYER CULT is on offer to the
-  // Overlord whose Destroyer Ankh granted him that keyword.
-  const gatedModifiers = computed(() => gateStratagems(
-    resolvedModifiers.value,
-    keywordView.value,
-    factionKeywordSets.value,
-    activeConds.value,
-    !!props.ctx?.entry,
-    keywordVocabulary.value,
-  ))
+  const keywordView = computed(() => rules.value?.keywords || { own: unitKeywords.value, unit: [...unitKeywords.value, ...attachedKeywords.value] })
 
   const statMods = computed(() => {
-    if (!gatedModifiers.value.length) return { sheet: view.value.sheet, notes: [], marks: [] }
-    // "The bearer only": the models that carry the item get a row of their own first.
-    const placed = splitBearers(view.value.sheet, gatedModifiers.value, props.ctx?.def, props.ctx?.entry, props.ctx?.items)
-    return applyStatMods(
-      placed.sheet,
-      placed.entries,
-      keywordView.value,
-      factionKeywordSets.value,
-      activeConds.value,
-      activeStratIds.value,
-      keywordVocabulary.value,
-    )
+    if (!rules.value || !ruleWorld.value) return { sheet: view.value.sheet, notes: [], marks: [] }
+    return unitStatMods(view.value.sheet, rules.value, ruleWorld.value, ruleInput.value, { def: props.ctx?.def, entry: props.ctx?.entry, items: props.ctx?.items })
   })
 
   const usableModifierEntries = computed(() => {

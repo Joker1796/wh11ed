@@ -47,6 +47,7 @@
     "src/composables/gameClock.js",
     "src/composables/rosterText.js",
     "src/core/game/clock.js",
+    "src/core/rules/unitRules.js",
     "src/core/shared/data.types.js",
     "src/core/roster/rosterEngine.js",
     "src/core/roster/rosterEnhEligible.js",
