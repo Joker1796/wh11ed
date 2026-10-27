@@ -8,14 +8,19 @@ describe('entrySummary', () => {
   // The Warlord's mark on the read-only view's rows. It was a bare '★' until 2026-08-28, when the
   // star was given to "I own this model" (useCollection.js) — and a lone symbol on its own line
   // said less than the word does anyway.
-  it('names the Warlord in the caller\u2019s locale, ahead of the size and the upgrades', () => {
-    const e = { uid: 'u1', id: 'intercessor-squad', size: 1, warlord: true, wg: [[0, 0, 1]] }
-    expect(entrySummary(e, intercessor, 'моделей', 'улучшений', 'Варлорд'))
-      .toBe('Варлорд · 6 моделей · 1 улучшений')
+  it('names the Warlord in the caller\u2019s locale, ahead of the size', () => {
+    const e = { uid: 'u1', id: 'intercessor-squad', size: 1, warlord: true }
+    expect(entrySummary(e, intercessor, 'моделей', 'Варлорд')).toBe('Варлорд · 6 моделей')
+  })
+
+  // A count of wargear picks read as an enhancement on a bodyguard's row (2026-10-27).
+  it('says nothing of the wargear picked', () => {
+    const e = { uid: 'u1', id: 'intercessor-squad', size: 1, wg: [[0, 0, 1]] }
+    expect(entrySummary(e, intercessor, 'моделей', 'Варлорд')).toBe('6 моделей')
   })
 
   it('says nothing about a unit that is not the Warlord', () => {
     const e = { uid: 'u1', id: 'captain', size: 0 }
-    expect(entrySummary(e, captain, 'models', 'upgrades', 'Warlord')).toBe('')
+    expect(entrySummary(e, captain, 'models', 'Warlord')).toBe('')
   })
 })

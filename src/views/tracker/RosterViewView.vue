@@ -608,7 +608,6 @@
 </template>
 
 <script setup>
-import { countLabel } from '../../utils/plural.js'
 import { modelsLabel } from '../../utils/copyTier.js'
 import ChevronIcon from '../../components/ChevronIcon.vue'
 import { computed, markRaw, onMounted, onUnmounted, ref, shallowRef, toRaw, watch } from 'vue'
@@ -1795,7 +1794,7 @@ async function copyWholeList() {
 const viewingSrc = computed(() => allySourceOf(viewingDef.value?.id))
 
 function summaryLine(e) {
-  return entrySummary(e, defOf(e.id), (n) => modelsLabel(n, locale.value), (n) => countLabel(n, labels.value.rosterUpgradesLabel), labels.value.rosterWarlord)
+  return entrySummary(e, defOf(e.id), (n) => modelsLabel(n, locale.value), labels.value.rosterWarlord)
 }
 
 // What a whole attached unit costs. Which SLOT the character fills is `attachRole` from

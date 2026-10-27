@@ -8,9 +8,12 @@ import { sizeOf, modelCount } from '../core/roster/rosterEngine.js'
 /** @typedef {import('../core/shared/roster.types.js').RosterIssue} RosterIssue */
 /** The entry a row is drawn for. @typedef {Partial<import('../core/shared/roster.types.js').RosterEntry>} EntryLike */
 
-// A one-line summary of an entry's current size/upgrades/enhancement for its list row (the
-// read-only view's). Every noun is passed in: callers pass their current locale's
-// `rosterModelsLabel`/`rosterUpgradesLabel`/`rosterWarlord`.
+// A one-line summary of an entry's size and enhancement for its list row (the read-only view's).
+// Every noun is passed in: callers pass their current locale's `rosterModelsLabel`/`rosterWarlord`.
+//
+// No count of wargear picks (until 2026-10-27, "1 улучшение"): it said nothing about what was
+// picked, and in Russian it read as an enhancement — on a bodyguard row, right under the leader
+// whose row named the real one (owner).
 //
 // The Warlord used to be a bare '★' here. The star now means "I own this model" elsewhere in the
 // app (useCollection.js), and a lone symbol on its own line was never decodable anyway — the word
@@ -19,11 +22,10 @@ import { sizeOf, modelCount } from '../core/roster/rosterEngine.js'
  * @param {EntryLike} e
  * @param {RosterUnit | null | undefined} def
  * @param {string | ((n: number) => string)} modelsLabel
- * @param {string | ((n: number) => string)} upgradesLabel
  * @param {string} [warlordLabel]
  * @returns {string}
  */
-export function entrySummary(e, def, modelsLabel, upgradesLabel, warlordLabel = '') {
+export function entrySummary(e, def, modelsLabel, warlordLabel = '') {
   const size = sizeOf(def, e)
   if (!def || !size) return ''
   const n = modelCount(def, e)
@@ -33,7 +35,6 @@ export function entrySummary(e, def, modelsLabel, upgradesLabel, warlordLabel = 
   /** @param {number} k @param {string | ((n: number) => string)} l */
   const count = (k, l) => (typeof l === 'function' ? l(k) : `${k} ${l}`)
   if (size.per[1] > 1) parts.push(count(n, modelsLabel))
-  if (e.wg?.length) parts.push(count(e.wg.length, upgradesLabel))
   if (e.enh) parts.push(e.enh)
   return parts.join(' · ')
 }
