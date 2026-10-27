@@ -22,10 +22,20 @@ function detectIosSafari() {
   return !isOtherBrowser
 }
 
+// An Android app's own browser — the Yandex app (`YaSearchApp`, a player's report 2e0b0999,
+// 2026-10-27), VK, Instagram, Facebook, any WebView (`; wv)`) — may fire `beforeinstallprompt` and
+// then do nothing on `prompt()`. An install button there is a button that lies: the player is told
+// to open the site in a real browser instead.
+export function detectInAppBrowser(ua = typeof navigator === 'undefined' ? '' : navigator.userAgent || '') {
+  return /Android/.test(ua) && /YaSearchApp|; wv\)|Instagram|FBA[NV]|VKClient/.test(ua)
+}
+
 const canInstall = ref(false)
 const isStandalone = ref(isStandaloneDisplay())
 // True only on iOS Safari and only when not already installed → show the hint.
 const iosInstall = ref(detectIosSafari() && !isStandalone.value)
+// True where installing has to happen from another browser → say so instead of a button.
+const installElsewhere = ref(detectInAppBrowser() && !isStandalone.value)
 
 let deferredPrompt = null
 
@@ -33,6 +43,7 @@ if (typeof window !== 'undefined') {
   window.addEventListener('beforeinstallprompt', (e) => {
     // Prevent the (suppressed) mini-infobar and stash the event for our button.
     e.preventDefault()
+    if (installElsewhere.value) return
     deferredPrompt = e
     canInstall.value = true
   })
@@ -43,18 +54,24 @@ if (typeof window !== 'undefined') {
     canInstall.value = false
     isStandalone.value = true
     iosInstall.value = false
+    installElsewhere.value = false
   })
 }
 
 export function useInstallPrompt() {
   async function promptInstall() {
     if (!deferredPrompt) return
-    deferredPrompt.prompt()
-    await deferredPrompt.userChoice
+    try {
+      await deferredPrompt.prompt()
+      await deferredPrompt.userChoice
+    } catch {
+      // A browser we do not know refused: the same advice as in a known one.
+      installElsewhere.value = true
+    }
     // The event is single-use — drop it and hide the button until it fires again.
     deferredPrompt = null
     canInstall.value = false
   }
 
-  return { canInstall, isStandalone, iosInstall, promptInstall }
+  return { canInstall, isStandalone, iosInstall, installElsewhere, promptInstall }
 }

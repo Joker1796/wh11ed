@@ -215,6 +215,14 @@
                 <i class="wi wi-install" />
                 <span>{{ labels.installApp }}</span>
               </button>
+              <!-- An app's own browser cannot install (useInstallPrompt.js): a line, not a control. -->
+              <p
+                v-else-if="installElsewhere"
+                class="settings-who"
+              >
+                <i class="wi wi-install" />
+                <span>{{ labels.installElsewhere }}</span>
+              </p>
               <!-- The rest of the app, on demand. The shell is ~1 MB and everything else is
                    fetched as it is opened (useOfflineWarmup.js) — so the reader who wants the whole
                    thing on a train has to be able to say so. Next to "Install app" because it is the
@@ -383,7 +391,7 @@ function toggleErrorReports() {
   errorReports.value = !errorReports.value
   setErrorReports(errorReports.value)
 }
-const { canInstall, isStandalone, iosInstall, promptInstall } = useInstallPrompt()
+const { canInstall, isStandalone, iosInstall, installElsewhere, promptInstall } = useInstallPrompt()
 const { isRulesRoute, isFactionRoute, isTrackerRoute, isRosterRoute } = useRouteSection()
 const isPatchesRoute = computed(() => stripLocale(route.path) === '/patches')
 const {

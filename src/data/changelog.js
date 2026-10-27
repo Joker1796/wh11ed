@@ -27,6 +27,7 @@ export const changelog = [
     en: [
       { h: 'Whole site' },
       '**I found a way to stop Yandex Browser from translating the English version of the site automatically.** The EN switch now works with automatic translation turned on.',
+      '**Inside another app’s browser the menu says where to install the app from.** Before, in the Yandex app the “Install app” button did nothing.',
       { h: 'Roster builder' },
       '**The roster builder checks who your army can include alongside whom, as the datasheets say.** Yvraine, The Visarch and The Yncarne cannot be in one army with an Epic Hero that is not Ynnari. Commander Farsight cannot be in one army with an Ethereal.',
       '**Some units are one per army.** These are Commissar Graves (mounted or on foot), Patriarch, Emperor’s Champion, Troupe Master, Death Jester and Shadowseer. In Ghosts of the Webway and Serpent’s Brood you can take up to three Troupe Masters, Death Jesters and Shadowseers.',
@@ -38,10 +39,12 @@ export const changelog = [
       '**Every hunter profile says what it hunts: “(vs MONSTER/VEHICLE)”.** The Chainfist, Thunder Hammer, Melta Rifle and Multi-melta of Dark Angels, Deathwatch and Space Wolves did not.',
       { h: 'Answers to bug reports' },
       'Does [Wolf-Touched](/factions/space-wolves#enh-saga-of-the-beastslayer-wolf-touched) give +2” M only to the character? No. The enhancement says “This unit has”, not “This model has”. By the rules (19.04) this applies to the whole attached unit. So [Wulfen](/factions/space-wolves/datasheets/wulfen) with this character move 11”.',
+      'The “Install app” button does nothing? The site is probably open inside another app, such as the Yandex app or VK. Such browsers cannot install apps. Open wh-rules.ru in Chrome or Yandex Browser and install the app from there.',
     ],
     ru: [
       { h: 'Весь сайт' },
       '**Я нашёл способ запретить Яндекс Браузеру автоматически переводить английскую версию сайта.** Переключатель EN теперь работает и при включённом автопереводе.',
+      '**Если сайт открыт внутри другого приложения, меню подсказывает, откуда установить приложение.** Раньше в приложении Яндекс кнопка «Установить приложение» ничего не делала.',
       { h: 'Конструктор ростеров' },
       '**Конструктор проверяет, кого можно взять в одну армию, как написано в датащитах.** Yvraine, The Visarch и The Yncarne нельзя взять вместе с Epic Hero без Ynnari. Commander Farsight нельзя взять вместе с Ethereal.',
       '**Некоторые юниты можно взять только по одному.** Это Commissar Graves (верхом или пешком), Patriarch, Emperor’s Champion, Troupe Master, Death Jester и Shadowseer. В Ghosts of the Webway и Serpent’s Brood можно взять до трёх Troupe Master, Death Jester и Shadowseer.',
@@ -53,6 +56,7 @@ export const changelog = [
       '**У каждого профиля hunter написано, против кого он: «(vs MONSTER/VEHICLE)».** У Chainfist, Thunder Hammer, Melta Rifle и Multi-melta у Dark Angels, Deathwatch и Space Wolves этого не было.',
       { h: 'Ответы на баг-репорты' },
       '[Wolf-Touched](/factions/space-wolves#enh-saga-of-the-beastslayer-wolf-touched) даёт +2” M только персонажу? Нет. В тексте улучшения написано «This unit has», а не «This model has». По правилам (19.04) такое действует на весь объединённый отряд. Поэтому [Wulfen](/factions/space-wolves/datasheets/wulfen) с этим персонажем двигаются на 11”.',
+      'Кнопка «Установить приложение» ничего не делает? Скорее всего, сайт открыт внутри другого приложения, например Яндекс или ВК. Такие браузеры не умеют устанавливать приложения. Откройте wh-rules.ru в Chrome или Яндекс Браузере и установите приложение оттуда.',
     ],
   },
   {
