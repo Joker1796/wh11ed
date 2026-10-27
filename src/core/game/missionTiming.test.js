@@ -86,6 +86,9 @@ describe('turnEndChecks / cardMoments', () => {
     prim: [{ heading: 'Any Battle Round', when: 'End of your turn' }, { heading: 'End of Battle', when: '' }],
     cmd: [{ heading: 'Any Battle Round', when: 'End of your Command phase' }],
     always: [{ heading: 'Any Battle Round', when: 'While this card is active', kind: 'tactical' }],
+    either: [{ heading: 'Any Battle Round', when: "End of either player's turn", kind: 'tactical' }],
+    cmdR5: [{ heading: 'Any Battle Round', when: 'End of your Command phase (or the end of your turn in the fifth battle round)', kind: 'tactical' }],
+    fixedOnly: [{ heading: 'Any Battle Round', when: 'End of your turn', kind: 'fixed' }],
   }
   const missionEn = (slug) => ({ blocks: MISSIONS[slug] })
   const scorable = (slug) => MISSIONS[slug].map((b, bi) => ({ ...b, bi, rows: [] }))
@@ -113,6 +116,38 @@ describe('turnEndChecks / cardMoments', () => {
     expect(brief(turnEndChecks(game(2, 0), scorable, missionEn, [{ pi: 0, slug: 'mine' }, { pi: 1, slug: 'beacon' }]))).toEqual(['0:primary:0'])
   })
 
+  // What npm run mutate showed no test held (2026-10-27).
+  it('asks about an either-player\'s-turn card at the end of every turn, for its owner', () => {
+    const g = (round, turn) => { const x = game(round, turn); x.players[1].secondary.hand = ['either']; return x }
+    expect(brief(turnEndChecks(g(2, 0), scorable, missionEn))).toContain('1:either:0')
+    expect(brief(turnEndChecks(g(2, 1), scorable, missionEn))).toContain('1:either:0')
+  })
+
+  it('asks about an end-of-Command-phase card at the end of the turn only in round five, the owner\'s turn', () => {
+    const g = (round, turn) => { const x = game(round, turn); x.players[0].secondary.hand = ['cmdR5']; return x }
+    expect(brief(turnEndChecks(g(5, 0), scorable, missionEn))).toContain('0:cmdR5:0')
+    expect(brief(turnEndChecks(g(4, 0), scorable, missionEn))).not.toContain('0:cmdR5:0')
+    expect(brief(turnEndChecks(g(5, 1), scorable, missionEn))).not.toContain('0:cmdR5:0')
+    // Without the fallback the end of the Command phase is its own moment, not the turn's end.
+    const plain = g(5, 0)
+    plain.players[0].secondary.hand = ['cmd']
+    expect(brief(turnEndChecks(plain, scorable, missionEn))).not.toContain('0:cmd:0')
+  })
+
+  it('leaves out a block of the other mode: a tactical player is not asked about a fixed block', () => {
+    const g = game(2, 0)
+    g.players[0].secondary.hand = ['fixedOnly']
+    expect(brief(turnEndChecks(g, scorable, missionEn))).not.toContain('0:fixedOnly:0')
+    g.players[0].secondaryMode = 'fixed'
+    expect(brief(turnEndChecks(g, scorable, missionEn))).toContain('0:fixedOnly:0')
+  })
+
+  it('asks nothing outside a game being played', () => {
+    expect(turnEndChecks(null, scorable, missionEn)).toEqual([])
+    expect(turnEndChecks({ ...game(2, 0), phase: 'setup' }, scorable, missionEn)).toEqual([])
+    expect(cardMoments({ ...game(2, 0), phase: 'finished' }, 0, scorable, missionEn, (s) => s)).toEqual([])
+  })
+
   it('adds the End of Battle and the fifth-round fallback on the turn that closes the battle', () => {
     expect(brief(turnEndChecks(game(5, 1), scorable, missionEn))).toEqual(['0:beacon:0', '0:primary:1', '1:beacon:0', '1:primary:0,1'])
   })
@@ -128,5 +163,13 @@ describe('turnEndChecks / cardMoments', () => {
     expect(moments(g, 1)).toEqual(['turn-end:beacon'])
     // the opponent's turn: the end-of-your-turn cards wait, the opponent's-turn one is due
     expect(moments(game(2, 1), 0)).toEqual(['turn-end:beacon'])
+  })
+
+  it('on the turn that closes the battle, the fifth-round fallback and End of Battle come due', () => {
+    // Round 5, second turn: player 1's own turn, so "end of your opponent's turn" is due only by
+    // the fallback, and the primary's End of Battle block too.
+    expect(moments(game(5, 1), 1)).toEqual(['turn-end:primary', 'turn-end:beacon'])
+    // The first turn of round five closes nothing.
+    expect(moments(game(5, 0), 1)).toEqual(['turn-end:beacon'])
   })
 })
