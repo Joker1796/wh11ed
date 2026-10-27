@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" translate="no">
+<html lang="en" translate="no" class="notranslate">
   <head>
     <meta charset="UTF-8" />
     <!-- No browser translation: the site is English and Russian by itself, and a browser that
          translated it on its own (Yandex Browser on Android, a player's report 2026-10-25) turned
          the English page Russian, so the EN switch seemed to do nothing. translate="no" is the
-         standard; the meta is what Google's translator reads. -->
+         standard; the meta is what Google's translator reads, and the `notranslate` class on
+         <html> and <body> is its other marker, which some other translators read too. Yandex
+         documents none of the three. -->
     <meta name="google" content="notranslate" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <!-- Legacy hash-URL shim: routing used to be hash-based (/#/path). Old bookmarks,
@@ -114,7 +116,7 @@
          imported in src/fonts.js, so they precache for full offline (no external CDN). Icons are
          the app's own drawings, inlined in the stylesheet (src/style.css, "App icons"). -->
   </head>
-  <body>
+  <body class="notranslate">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
