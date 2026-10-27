@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   PRIMARY_GAME_CAP, FIXED_SECONDARY_CAP, TACTICAL_SECONDARY_CAP, SECONDARY_GAME_CAP, SECONDARY_ROUND_CAP, BATTLE_READY_VP,
   primaryTotal, secondaryTotal, secondaryRounds, secondaryInRound, grandTotal, leader,
-  battlePointsFromVp, battlePoints, BP_TABLE, concededSide, endReasonFor,
+  battlePointsFromVp, battlePoints, BP_TABLE, concededSide, endReasonFor, roundBreakdown, youIndex,
 } from './gameScoring.js'
 
 // ---- minimal game-object builders ----------------------------------------------------
@@ -57,6 +57,14 @@ describe('secondaryTotal', () => {
     // 'a' capped 30→20, 'b' 8 → 28
     expect(secondaryTotal(g, 0)).toBe(28)
     expect(FIXED_SECONDARY_CAP).toBe(20)
+  })
+  it('fixed: a mission that reached 20 scores nothing after', () => {
+    const g = game({
+      secondaryMode: 'fixed',
+      secondary: { scored: [{ slug: 'a', round: 1, vp: 15 }, { slug: 'a', round: 2, vp: 5 }, { slug: 'a', round: 3, vp: 5 }] },
+    })
+    expect(secondaryRounds(g.players[0])).toEqual([15, 5, 0, 0, 0])
+    expect(secondaryTotal(g, 0)).toBe(20)
   })
   // Event Companion VP table: "45VP (up to 15VP per battle round)" — for both modes.
   it('caps a battle round at 15VP across all cards, and the curve says the same', () => {
@@ -141,6 +149,11 @@ describe('leader', () => {
 })
 
 describe('backward compatibility with partial/old game data', () => {
+  it('no game: no side conceded, no points, no leader', () => {
+    expect(concededSide(null)).toBe(-1)
+    expect(battlePoints(null)).toEqual([0, 0])
+    expect(leader(null)).toBe(-1)
+  })
   it('does not throw on missing players / rounds / secondary / settings', () => {
     expect(grandTotal({ players: [] }, 0)).toBe(0)
     expect(grandTotal({ players: [{}] }, 0)).toBe(0)
@@ -176,5 +189,34 @@ describe('concededSide', () => {
   it('is -1 for a game that was played out', () => {
     expect(concededSide(g({ endReason: 'played' }))).toBe(-1)
     expect(endReasonFor(g({ endReason: 'played' }))).toBe('played')
+  })
+})
+
+describe('roundBreakdown', () => {
+  it('puts each round\'s primary and capped secondary in its own row, with the running total', () => {
+    const g = game({
+      rounds: [10, 5, 0, 0, 0].map(v => ({ primary: v, picks: {} })),
+      secondary: { scored: [{ round: 1, vp: 3 }, { round: 2, vp: 8 }] },
+    })
+    expect(roundBreakdown(g, 0).slice(0, 3)).toEqual([
+      { round: 1, primary: 10, secondary: 3, vp: 13, cumulativeVp: 13 },
+      { round: 2, primary: 5, secondary: 5, vp: 10, cumulativeVp: 23 },
+      { round: 3, primary: 0, secondary: 0, vp: 0, cumulativeVp: 23 },
+    ])
+  })
+})
+
+describe('whose side', () => {
+  it('an old game without isYou belongs to the first player', () => {
+    expect(youIndex(game())).toBe(0)
+    expect(youIndex(game({}, { isYou: true }))).toBe(1)
+  })
+  it('a recorded side 1 is side 1, whatever the reason says', () => {
+    expect(concededSide(game({}, {}, { concededBy: 1 }))).toBe(1)
+  })
+  it('the opponent conceded on a phone that went second: side 0 conceded', () => {
+    const g = game({ isYou: false }, { isYou: true }, { endReason: 'opponent-concede' })
+    expect(concededSide(g)).toBe(0)
+    expect(leader(g)).toBe(1)
   })
 })

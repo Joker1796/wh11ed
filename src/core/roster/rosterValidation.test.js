@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import { validateRoster, duplicateLimit } from './rosterValidation.js'
+import { validateRoster, duplicateLimit, duplicateCounts } from './rosterValidation.js'
 import { fitWargear, perModelFits, perModelRoom, wargearExclOver, wargearExclRoom } from './rosterEngine.js'
 
 // ── Fixtures ──
@@ -40,6 +40,15 @@ function roster(over = {}) {
 }
 const U = (id, extra = {}) => ({ uid: `${id}-${Math.random().toString(36).slice(2, 6)}`, id, size: 0, ...extra })
 const codes = (r) => validateRoster(r, { faction, core }).issues.map((i) => i.code)
+
+describe('duplicateCounts', () => {
+  it('counts each unit once under its cap key, and skips an id the faction does not know', () => {
+    const defOf = (id) => faction.units.find((d) => d.id === id)
+    const counts = duplicateCounts([U('intercessor-squad'), U('intercessor-squad'), U('captain'), U('gone')], defOf)
+    expect([...counts.values()].sort()).toEqual([1, 2])
+    expect(duplicateCounts(undefined, defOf).size).toBe(0)
+  })
+})
 
 describe('duplicateLimit', () => {
   it('epic heroes are capped at 1; battleline/transport double; others use the base', () => {
@@ -240,6 +249,20 @@ describe('validateRoster — custom battle size + DP budget', () => {
     expect(codes(r)).toContain('overPoints')
     const r2 = { ...roster({ units }), battleSize: 'custom', customPoints: 1000 }
     expect(codes(r2)).not.toContain('overPoints')
+  })
+  // The limit is a limit, not a ceiling to stay under: a list of exactly 2000 points is legal.
+  it('a list exactly at the limit is legal, one point over says by how much', () => {
+    const units = [U('captain', { warlord: true }), ...Array.from({ length: 6 }, () => U('intercessor-squad'))] // 565
+    expect(codes({ ...roster({ units }), battleSize: 'custom', customPoints: 565 })).not.toContain('overPoints')
+    const over = validateRoster({ ...roster({ units }), battleSize: 'custom', customPoints: 564 }, { faction, core }).issues.find((i) => i.code === 'overPoints')
+    expect(over?.params).toEqual({ over: 1, limit: 564 })
+  })
+  it('detachments that spend exactly the DP budget are legal', () => {
+    const three = { sid: 'det-4', name: 'Three', dp: 3, enhancements: [] }
+    const f = { ...faction, detachments: [detachment, three] }
+    const r = roster({ units: [U('captain', { warlord: true })] })
+    r.detachments = ['Gladius', 'Three'] // 0 + 3 at Strike Force (3 DP)
+    expect(validateRoster(r, { faction: f, core }).issues.map((i) => i.code)).not.toContain('overDp')
   })
   it('flags exceeding the Detachment-Points budget', () => {
     const det2 = { sid: 'det-2', name: 'Pricey', dp: 4, enhancements: [] } // > Strike Force dp 3

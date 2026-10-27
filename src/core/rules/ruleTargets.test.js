@@ -129,6 +129,22 @@ describe('ruleScopes — exclusions and the wordings that hide targets', () => {
     expect(ruleAppliesTo(body, infantry, [monster, infantry])).toBe(true)
   })
 
+  // Aeldari: "**Asuryani** units (excluding **Epic Heroes**) … gain the **Ynnari** keyword" — until
+  // 2026-10-27 the exclusion read as "Epic Her" and the rule showed on Eldrad's card.
+  it('excludes Epic Heroes from a rule that excludes EPIC HEROES', () => {
+    const body = '▪ **Asuryani** units (excluding **Epic Heroes**) from your army gain the **Ynnari** keyword.'
+    const eldrad = ['Asuryani', 'Epic Hero', 'Character', 'Infantry']
+    const guardians = ['Asuryani', 'Infantry']
+    expect(ruleAppliesTo(body, eldrad, [eldrad, guardians])).toBe(false)
+    expect(ruleAppliesTo(body, guardians, [eldrad, guardians])).toBe(true)
+  })
+
+  it('reads each plural an exclusion can end in as the keyword it names', () => {
+    const [scope] = ruleScopes('Friendly Necrons units (excluding EPIC HEROES, FLIES, WITCHES, BEASTS and CULTUS units) gain 1.')
+    expect(scope.excludes).toEqual(expect.arrayContaining(['EPIC HERO', 'FLY', 'WITCH', 'BEAST', 'CULTUS']))
+    expect(scope.excludes).not.toContain('CULTU')
+  })
+
   it('ignores an exclusion that names no keyword', () => {
     // "excluding Battle-shocked units" is a game state, not a keyword — it must exclude nobody.
     const body = 'Friendly Orks units (excluding Battle-shocked units) have the Scouts 6" ability.'

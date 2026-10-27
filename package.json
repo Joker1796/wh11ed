@@ -11,6 +11,7 @@
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.core.json",
     "test:watch": "vitest",
     "golden": "vitest run -c vitest.golden.config.js --maxWorkers=2",
+    "mutate": "node scripts/mutate.mjs",
     "golden:baseline": "vitest run -c vitest.golden.config.js --maxWorkers=2 -u",
     "deploy": "bash deploy.sh",
     "images:webp": "node scripts/gen-webp.mjs && node scripts/gen-image-dims.mjs",

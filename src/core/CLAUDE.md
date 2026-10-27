@@ -87,3 +87,20 @@ casts — `src/composables/typecheckCasts.test.js` — a value that may be missi
   table of conditions), pass it as one argument — no service locator, no container.
 - Before and after every move: `npm test`, `npm run typecheck`, `npm run lint`, and the golden master
   (`npm run golden`, see `golden/README.md`) unchanged byte for byte.
+
+## Do the tests notice? (`npm run mutate`)
+
+A green suite says the tests pass, not that they would fail on a wrong answer. `npm run mutate --
+<file>` (`scripts/mutate.mjs`, unclebob/mutator cloned in the hub's `tools/`) breaks the file one spot
+at a time — `>=` → `>`, `??` → `||`, `1 - x` → `1 + x` — and lists every break the tests let through.
+First against the file's own tests, then the survivors against every test that imports it.
+
+Run it on a core file you change and on the file a bug report led to; not on every run — a file is
+minutes, all of the core hours. Read each survivor: a missing test (write it), a dead branch (delete
+it), or an equivalent mutant (`a > b` → `a >= b` right after `a === b` returned — leave it). The `?.`
+survivors are hidden by default: a null guard no test feeds a null.
+
+First run, 2026-10-27, `game/gameScoring.js`: 79 of 111 killed. Behind the rest, among others: no
+test of a fixed secondary that already hit its 20VP, none of `roundBreakdown`'s secondaries, none
+of an opponent's concede seen from the side that went second. Now 90; what survives is `?.` and
+equivalent mutants.
