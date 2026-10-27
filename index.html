@@ -6,8 +6,8 @@
          translated it on its own (Yandex Browser on Android, a player's report 2026-10-25) turned
          the English page Russian, so the EN switch seemed to do nothing. translate="no" is the
          standard; the meta is what Google's translator reads, and the `notranslate` class on
-         <html> and <body> is its other marker, which some other translators read too. Yandex
-         documents none of the three. -->
+         <html> and <body> is its other marker. Yandex documents none of the three, but the class is
+         what stopped it: translate="no" and the meta alone did not (checked on Android, 2026-10-27). -->
     <meta name="google" content="notranslate" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <!-- Legacy hash-URL shim: routing used to be hash-based (/#/path). Old bookmarks,
