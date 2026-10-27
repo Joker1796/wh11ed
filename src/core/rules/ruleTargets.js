@@ -188,8 +188,11 @@ function excludesIn(passage, models = new Set()) {
 /** @param {string} phrase */
 function depluralise(phrase) {
   return phrase.split(/\s+/).map((w) => {
-    if (/heroes$/i.test(w)) return w.slice(0, -3)
-    if (/ies$/i.test(w)) return `${w.slice(0, -3)}y`
+    // HEROES → HERO: until 2026-10-27 this cut three letters and read "(excluding EPIC HEROES)" as
+    // EPIC HER, which no unit carries, so the rule showed on the Epic Heroes it excludes (Ynnari,
+    // CSM's Infiltrators). Found by `npm run mutate`.
+    if (/heroes$/i.test(w)) return w.slice(0, -2)
+    if (/ies$/i.test(w)) return `${w.slice(0, -3)}${w.endsWith('S') ? 'Y' : 'y'}`
     if (/(ss|us|is)$/i.test(w)) return w
     if (/(s|x|z|ch|sh)es$/i.test(w)) return w.slice(0, -2)
     if (/s$/i.test(w)) return w.slice(0, -1)
