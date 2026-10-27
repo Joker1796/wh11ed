@@ -2047,6 +2047,7 @@ export const ui = {
       'vs attacks with an unmodified Damage characteristic of 1': 'против атак с немодифицированной характеристикой Damage 1',
       'vs attacks with a Damage characteristic of 1': 'против атак с характеристикой Damage 1',
       'vs attacks made by Battle-shocked models': 'против атак моделей в состоянии Battle-shocked',
+      'Szarekh model only': 'только модель Szarekh',
     },
     dsCore: 'Core',
     dsFaction: 'Faction',

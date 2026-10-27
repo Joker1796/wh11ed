@@ -45,6 +45,17 @@ export function coreAbilityText(ability, l = null) {
   return String(ability).replace(/\(([^)]*)\)$/, (m, q) => (dict[q] ? `(${dict[q]})` : m))
 }
 
+// The same ability split for the card's Core line: the name is the tag, the narrowing follows it
+// as plain text. In one tag, "Feel No Pain 5+ (против смертельных ран и Psychic Attacks)" ran off a
+// phone's card and, wrapped, made a two-line block of the frame (owner, 2026-10-27: the tag holds
+// the ability, its condition reads like the rule text it is). `cond` is translated as above.
+/** @param {string} ability @param {{ coreQualifiers?: Record<string, string> } | null} [l] @returns {{ name: string, cond: string }} */
+export function coreAbilityParts(ability, l = null) {
+  const m = String(ability).match(/^(.*?)\s*\(([^)]*)\)$/)
+  if (!m) return { name: String(ability), cond: '' }
+  return { name: m[1], cond: l?.coreQualifiers?.[m[2]] || m[2] }
+}
+
 // The faction line is a comma-separated list too ("Oath of Moment, Curse of the Wulfen").
 export function factionPartsOf(sheet) {
   return sheet?.faction ? sheet.faction.split(/,\s*/) : []

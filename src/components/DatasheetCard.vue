@@ -135,110 +135,6 @@
         :rules="ownRules"
       />
 
-      <!-- What the roster's modifier layer did to the numbers above (Tier C). Every rewritten value
-         carries a `*`; this is where the `*` is explained.
-         TWO sections, never one list: what is in force NOW ("Modifiers in play"), and — off the
-         table, where nothing can be in force — what WOULD change once the conditions are met
-         ("Possible modifiers", an accordion, closed). In a game the second one is not rendered at
-         all (`hidePossible`): a block that says "in play" must not list what is not, and the
-         conditions themselves stay one tap away on the rule blocks below, with their switches. -->
-      <template
-        v-for="sec in noteSections"
-        :key="sec.key"
-      >
-        <DsAccordion
-          :collapsible="sec.collapsible"
-          :start-open="false"
-        >
-          <template #header="{ open, toggle }">
-            <button
-              v-if="sec.collapsible"
-              type="button"
-              class="ds-mods-h ds-mods-btn"
-              :aria-expanded="open"
-              @click="toggle"
-            >
-              <span>{{ sec.label }}</span>
-              <ChevronIcon
-                class="ds-chev"
-                :turned="open"
-                from="right"
-                to="down"
-              />
-            </button>
-            <p
-              v-else
-              class="ds-mods-h"
-            >
-              {{ sec.label }}
-            </p>
-          </template>
-          <p
-            v-if="sec.hint"
-            class="ds-mods-hint"
-          >
-            {{ sec.hint }}
-          </p>
-          <ul class="ds-mods">
-            <!-- Grouped by WHERE the modifier came from, and each group says so: an army rule, a
-               detachment, an enhancement, an attached Leader's ability, this sheet's own ability.
-               Read in application order the list is four rules' worth of lines with nothing
-               separating them; the group heading is what tells a reader which of them they can do
-               anything about. -->
-            <template
-              v-for="g in sec.groups"
-              :key="g.key"
-            >
-              <li class="ds-mod-src-h">
-                {{ g.label }}
-              </li>
-              <li
-                v-for="(n, i) in g.notes"
-                :key="i"
-                class="ds-mod"
-                :class="{ 'ds-mod-when': !n.applied && !(n.roll && n.live), 'ds-mod-live': (n.applied || n.roll) && n.via }"
-              >
-                <span class="ds-mod-delta">{{ modDelta(n, labels) }}</span>
-                <!-- The rule behind the number. A note whose caller could resolve the prose carries
-                 `hasSource`, and then the name itself opens it in the same popover a core ability
-                 or the faction line uses — otherwise the reader has to go find "Experimental
-                 Augmentations" in another block of the same card. -->
-                <button
-                  v-if="n.hasSource"
-                  type="button"
-                  class="ds-mod-src ds-mod-srcbtn"
-                  data-kw-open
-                  @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
-                >
-                  {{ n.source }}<i class="wi wi-info" />
-                </button>
-                <span
-                  v-else
-                  class="ds-mod-src"
-                >{{ n.source }}</span>
-                <!-- `via` means the condition was PROVEN by the game in progress, so the number above
-                 was rewritten after all. The condition still shows — a value that is only true
-                 while something is switched on must never read as a printed one. -->
-                <span
-                  v-if="n.when"
-                  class="ds-mod-cond"
-                ><i
-                  v-if="n.via"
-                  class="wi wi-lightning"
-                /> {{ n.when[locale] || n.when.en }}</span>
-              </li>
-            </template>
-            <!-- Inside the list, above its closing rule: it explains the lines it follows, and
-               under the rule it read as a caption for the next block. -->
-            <li
-              v-if="sec.rollHint"
-              class="ds-mods-hint ds-mods-roll"
-            >
-              {{ sec.rollHint }}
-            </li>
-          </ul>
-        </DsAccordion>
-      </template>
 
       <!-- Abilities -->
       <div class="ds-abilities">
@@ -250,26 +146,38 @@
         >
           <strong>{{ labels.dsCore }}:</strong>
           <template
-            v-for="(c, i) in coreParts"
-            :key="c"
+            v-for="(c, i) in corePrinted"
+            :key="c.key"
           >
-            {{ i ? ', ' : ' ' }}<span class="keyword">{{ c }}</span>
+            {{ i ? ', ' : ' ' }}<span class="keyword">{{ c.name }}<sup
+              v-if="c.mark"
+              class="ds-mod-star ds-core-mark"
+              aria-hidden="true"
+            >{{ c.mark }}</sup></span>
           </template>
           <!-- Handed to this unit by a rule rather than printed on it (a Hospitaller's Feel No Pain,
              the Triumph's Icon aura): same line, same popover, and the `*` the whole card uses for
              a value the modifier layer put there. -->
           <template
-            v-for="(c, i) in extraCore"
+            v-for="(c, i) in coreGranted"
             :key="c.ability"
           >
             {{ (coreParts.length || i) ? ', ' : ' ' }}<span
               class="keyword ds-core-granted"
               :title="c.det ? `${c.source} · ${c.det}` : c.source"
-            >{{ coreAbilityText(c.ability, labels) }}<sup
+            >{{ c.name }}<sup
               class="ds-mod-star"
+              :class="{ 'ds-core-mark': c.mark }"
               aria-hidden="true"
-            >*</sup></span>
+            >{{ c.mark || '*' }}</sup></span>
           </template>
+        </p>
+        <p
+          v-for="c in coreNotes"
+          :key="c.mark"
+          class="ds-core-note"
+        >
+          {{ c.mark }} {{ c.cond }}
         </p>
         <!-- Faction ability line. A caller that HAS the army rule's text (the roster's unit modal)
            passes its name in `linkedFactionRules`; that part then renders as a `.keyword` and
@@ -297,6 +205,123 @@
             >{{ f }}</span>
           </template>
         </p>
+        <!-- What the roster's modifier layer did to the numbers (Tier C) — below the Core and Faction
+           lines, above the abilities (owner, 2026-10-27: those two lines belong with the stats).
+           Every rewritten value carries a `*`; this is where the `*` is explained.
+           TWO sections, never one list: what is in force NOW ("Modifiers in play"), and — off the
+           table, where nothing can be in force — what WOULD change once the conditions are met
+           ("Possible modifiers", an accordion, closed). In a game the second one is not rendered at
+           all (`hidePossible`): a block that says "in play" must not list what is not, and the
+           conditions themselves stay one tap away on the rule blocks below, with their switches. -->
+        <!-- Both sections are accordions in the abilities' idiom (owner, 2026-10-27: a caps line under
+           the weapon table dissolved into it): a band with the card's `*` before its title. "In play"
+           wears the faction's fill and starts open, as the abilities do; "possible" is the same plate
+           in grey with dashed lines, closed — it is not the unit's state. -->
+        <div
+          v-for="sec in noteSections"
+          :key="sec.key"
+          class="ds-ability-group ds-mods-group"
+          :class="{ 'ds-mods-possible': sec.collapsible }"
+        >
+          <DsAccordion
+            :collapsible="sec.collapsible || collapsible"
+            :start-open="!sec.collapsible"
+          >
+            <template #header="{ open, toggle }">
+              <button
+                v-if="sec.collapsible || collapsible"
+                type="button"
+                class="ds-mods-head ds-group-title ds-group-btn"
+                :aria-expanded="open"
+                @click="toggle"
+              >
+                <span class="ds-mods-title"><span
+                  class="ds-mods-star"
+                  aria-hidden="true"
+                >*</span>{{ sec.label }}</span>
+                <ChevronIcon
+                  class="ds-chev"
+                  :turned="open"
+                  from="right"
+                  to="down"
+                />
+              </button>
+              <p
+                v-else
+                class="ds-mods-head ds-group-title"
+              >
+                <span class="ds-mods-title"><span
+                  class="ds-mods-star"
+                  aria-hidden="true"
+                >*</span>{{ sec.label }}</span>
+              </p>
+            </template>
+            <p
+              v-if="sec.hint"
+              class="ds-mods-hint"
+            >
+              {{ sec.hint }}
+            </p>
+            <ul class="ds-mods">
+              <!-- Grouped by WHERE the modifier came from, and each group says so: an army rule, a
+                 detachment, an enhancement, an attached Leader's ability, this sheet's own ability.
+                 Read in application order the list is four rules' worth of lines with nothing
+                 separating them; the group heading is what tells a reader which of them they can do
+                 anything about. -->
+              <template
+                v-for="g in sec.groups"
+                :key="g.key"
+              >
+                <li class="ds-mod-src-h">
+                  {{ g.label }}
+                </li>
+                <li
+                  v-for="(n, i) in g.notes"
+                  :key="i"
+                  class="ds-mod"
+                  :class="{ 'ds-mod-when': !n.applied && !(n.roll && n.live), 'ds-mod-live': (n.applied || n.roll) && n.via }"
+                >
+                  <span class="ds-mod-delta">{{ modDelta(n, labels) }}</span>
+                  <!-- The rule behind the number. A note whose caller could resolve the prose carries
+                   `hasSource`, and then the name itself opens it in the same popover a core ability
+                   or the faction line uses — otherwise the reader has to go find "Experimental
+                   Augmentations" in another block of the same card. -->
+                  <button
+                    v-if="n.hasSource"
+                    type="button"
+                    class="ds-mod-src ds-mod-srcbtn"
+                    data-kw-open
+                    @click="$emit('mod-source-click', n, $event.currentTarget.getBoundingClientRect())"
+                  >
+                    {{ n.source }}<i class="wi wi-info" />
+                  </button>
+                  <span
+                    v-else
+                    class="ds-mod-src"
+                  >{{ n.source }}</span>
+                  <!-- `via` means the condition was PROVEN by the game in progress, so the number above
+                   was rewritten after all. The condition still shows — a value that is only true
+                   while something is switched on must never read as a printed one. -->
+                  <span
+                    v-if="n.when"
+                    class="ds-mod-cond"
+                  ><i
+                    v-if="n.via"
+                    class="wi wi-lightning"
+                  /> {{ n.when[locale] || n.when.en }}</span>
+                </li>
+              </template>
+              <!-- Inside the list, above its closing rule: it explains the lines it follows, and
+                 under the rule it read as a caption for the next block. -->
+              <li
+                v-if="sec.rollHint"
+                class="ds-mods-hint ds-mods-roll"
+              >
+                {{ sec.rollHint }}
+              </li>
+            </ul>
+          </DsAccordion>
+        </div>
         <!-- Every block below (Abilities, Wargear/Special Abilities, ability sets, named rules,
            Damaged) collapses into an accordion when shown in a modal (`collapsible`) — stats,
            weapons and keywords never do (see the sections above/below). DsAccordion is headless
@@ -1010,7 +1035,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { formatBaseSize } from '../utils/baseSize.js'
 import { modDelta } from '../composables/rosterModNotes.js'
-import { coreAbilityText, factionPartsOf, factionKwMarker, invNoteText, statCells } from '../composables/datasheetParts.js'
+import { coreAbilityParts, factionPartsOf, factionKwMarker, invNoteText, statCells } from '../composables/datasheetParts.js'
 import { useDatasheetParts } from '../composables/useDatasheetParts.js'
 import DsAccordion from './DsAccordion.vue'
 import DatasheetWeaponTable from './DatasheetWeaponTable.vue'
@@ -1118,6 +1143,20 @@ const {
   coreParts, extraCore, keywordGroups, extraKeywords, keywordNotes: extraKeywordNotes,
   rangedRows, meleeRows, isMarked, noteSections, profileRows,
 } = useDatasheetParts(props, labels, { showPossible: () => !props.hidePossible })
+// The Core line's abilities as tag + narrowing (coreAbilityParts): printed, then granted.
+// An ability that holds only against something carries a footnote mark — `*`, then `**` — and its
+// condition is the note under the line, in the tag's colour (owner, 2026-10-27: beside the tag it
+// read as a sentence of its own). A granted ability's `*` is that same mark when it has a condition.
+const coreLine = computed(() => {
+  let n = 0
+  const mark = (/** @type {{ name: string, cond: string }} */ p) => ({ ...p, mark: p.cond ? '*'.repeat(++n) : '' })
+  const printed = coreParts.value.map((c) => ({ key: c, ...mark(coreAbilityParts(c, labels.value)) }))
+  const granted = extraCore.value.map((c) => ({ ...c, ...mark(coreAbilityParts(c.ability, labels.value)) }))
+  return { printed, granted, notes: [...printed, ...granted].filter((c) => c.cond) }
+})
+const corePrinted = computed(() => coreLine.value.printed)
+const coreGranted = computed(() => coreLine.value.granted)
+const coreNotes = computed(() => coreLine.value.notes)
 
 // Only the faction-line part the caller can actually open should look clickable.
 const factionParts = computed(() => factionPartsOf(props.sheet))
@@ -1581,12 +1620,6 @@ function abilityStateLabel(st) {
    above is for what comes after the LAST weapons table (abilities/keywords/points), which still
    wants the fuller gap. */
 .ds-weapons:has(+ .ds-weapons) { margin-bottom: 0.05rem; }
-/* …and the same for a weapons table immediately followed by the modifier footnotes: they explain
-   the numbers in that table, so they have to read as attached to it. */
-.ds-weapons:has(+ .ds-mods-h) { margin-bottom: 0.3rem; }
-/* …but the pill variant carries a border, and 0.3rem from the weapon table's last row reads as
-   part of it. Only matters when there is nothing in play and "possible" follows the table alone. */
-.ds-weapons:has(+ .ds-mods-btn) { margin-bottom: 0.55rem; }
 
 /* Very narrow phones (≤480px): placed after the base .ds-card/.ds-cardhead/.ds-points/
    .ds-weapons rules above so it wins the cascade at equal specificity (a same-specificity
@@ -1719,36 +1752,6 @@ function abilityStateLabel(st) {
 }
 /* The dice-modifier note closes the list it explains, above its rule — not above it like the section hint. */
 .ds-mods-roll { margin: 0.3rem 0 0; }
-.ds-mods-h {
-  font-size: 0.62rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-  margin: 0 0 0.2rem;
-}
-/* The "possible modifiers" heading is also the accordion's handle, and unlike every other block on
-   this card it can stand alone: closed, the plate was the last thing rendered before the abilities,
-   so a bare accent caps line sat 0.2rem above "Core: Leader, Deep Strike" with nothing between them
-   and read as that block's heading. The separator it used to borrow lives on the list INSIDE the
-   accordion, which is exactly what is not there when it is shut.
-   So it takes the dashed pill RosterViewView's roster-wide version of this same block already
-   uses (`.rvp-head`) — quiet until hovered, and unmistakably its own thing rather than a heading
-   for what follows. Muted rather than accent on purpose: "in play" above it keeps the accent, and
-   what is merely possible should not shout louder than what is true. */
-.ds-mods-btn {
-  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-  width: 100%; padding: 0.35rem 0.55rem; background: none; font: inherit;
-  border: 1px dashed var(--border);
-  font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-  color: var(--text-muted); cursor: pointer; text-align: left;
-  margin: 0 0 0.4rem;
-  transition: border-color var(--motion-fast), color var(--motion-fast);
-}
-.ds-mods-btn:hover { border-color: var(--accent); color: var(--accent-ink); }
-/* Open, the list below closes the section with its own rule and margin; shut, the pill is the
-   section, and it needs that room itself or the abilities crowd it again. */
-.ds-mods-btn[aria-expanded="false"] { margin-bottom: 0.9rem; }
 .ds-mod { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem; color: var(--text-muted); }
 .ds-mod-delta { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
 .ds-mod-src { color: var(--text-primary); }
@@ -1788,6 +1791,11 @@ function abilityStateLabel(st) {
    sets its own colour, so it stays muted. */
 /* A core ability the layer added, marked like every other value it put on this card. */
 .ds-core-granted { border-style: dashed; }
+/* A core ability's condition, the footnote of its mark ("* против смертельных ран и Psychic
+   Attacks"), in the colour of the tags it belongs to. */
+.ds-core-note { margin: -0.15rem 0 0.3rem; font-size: 0.76rem; color: var(--link-accent); }
+/* …and the mark in the tag is the note's colour, so the two read as one pair. */
+.ds-mod-star.ds-core-mark { color: inherit; }
 /* Both hosts set their own `color` at a higher specificity than a bare class — `.ds-weapons td`
    and `.ds-stat-box` are class+element — so the mark has to match that or the value stays the
    default colour and only the asterisk shows. */
@@ -1896,6 +1904,19 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent-ink); }
 .ds-ability-group .ds-ability { margin: 0.45rem 0.7rem; }
 .ds-ability-group .ds-ability:first-of-type { margin-top: 0.5rem; }
 .ds-ability-group .ds-ability:last-child { margin-bottom: 0.5rem; }
+/* The modifier sections on the same plate: the list takes the plate's padding instead of its own
+   closing rule, and the `*` before the band's title is the mark the values above wear. */
+.ds-mods-group .ds-mods { margin: 0; padding: 0.45rem 0.7rem 0.5rem; border-bottom: none; }
+.ds-mods-group .ds-mods-hint { margin: 0.45rem 0.7rem 0; }
+.ds-mods-title { display: inline-flex; align-items: center; gap: 0.35rem; }
+.ds-mods-star { font-size: 1.6em; line-height: 0.6; font-weight: 700; transform: translateY(0.12em); }
+/* "Possible modifiers": the same accordion, not the unit's state — grey and dashed, no faction fill. */
+.ds-mods-possible { background: none; border: 1px dashed var(--border); }
+.ds-ability-group.ds-mods-possible > .ds-group-title {
+  background: color-mix(in srgb, var(--text-muted) 22%, transparent);
+  color: var(--text-primary);
+}
+.ds-mods-possible > .ds-group-title[aria-expanded="true"] { border-bottom: 1px dashed var(--border); }
 .ds-damaged {
   margin-top: 0.6rem;
   padding: 0.5rem 0.7rem;

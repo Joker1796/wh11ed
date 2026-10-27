@@ -746,7 +746,11 @@ tr:nth-child(even) td {
      makes this a tag. */
   font-family: var(--font-sans);
   letter-spacing: 0.03em;
-  white-space: nowrap;
+  /* Never wider than its line (2026-10-27: a granted "Feel No Pain 5+ (против смертельных ран и
+     Psychic Attacks)" ran off the card on a phone, `nowrap` held it in one line). An inline-block
+     is as wide as its text up to the line and no wider, so a tag that fits stays one line and moves
+     down whole, as before; only a tag longer than the whole line breaks inside its frame. */
+  max-width: 100%;
   cursor: pointer;
 }
 /* A unit keyword inside a pill ("[ANTI-VEHICLE 4+]", "[LETHAL HITS: NON-MONSTER/VEHICLE]") is part

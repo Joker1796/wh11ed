@@ -264,14 +264,14 @@ describe('DatasheetCard modifier notes', () => {
         ],
       },
     })
-    const heads = w.findAll('.ds-mods-h').map((n) => n.text())
+    const heads = w.findAll('.ds-mods-head').map((n) => n.text().replace(/^\*/, '').trim())
     expect(heads).toEqual(['Modifiers in play', 'Possible modifiers'])
     const lists = w.findAll('.ds-mods')
     expect(lists[0].text()).toContain('Cold Fervour')
     expect(lists[0].text()).not.toContain('Dark Pacts')
     expect(lists[1].text()).toContain('Dark Pacts')
     // …and the second one is the collapsing block, closed.
-    expect(w.find('.ds-mods-btn').attributes('aria-expanded')).toBe('false')
+    expect(w.find('.ds-mods-possible .ds-mods-head').attributes('aria-expanded')).toBe('false')
     // …and it says what it is: "Possible modifiers" over a list of deltas reads as more of the
     // block above unless something states that none of it is running.
     const hints = w.findAll('.ds-mods-hint')
@@ -294,10 +294,30 @@ describe('DatasheetCard modifier notes', () => {
     const abilities = w.findAll('.ds-group-btn').filter((b) => b.text().includes('Abilities'))
     expect(abilities).toHaveLength(1)
     expect(abilities[0].attributes('aria-expanded')).toBe('true')
-    expect(w.find('.ds-mods-btn').attributes('aria-expanded')).toBe('false')
+    expect(w.find('.ds-mods-possible .ds-mods-head').attributes('aria-expanded')).toBe('false')
     // …and it still folds away once it has been read.
     await abilities[0].trigger('click')
-    expect(w.find('.ds-group-btn').attributes('aria-expanded')).toBe('false')
+    expect(w.findAll('.ds-group-btn').find((b) => b.text().includes('Abilities')).attributes('aria-expanded')).toBe('false')
+  })
+
+  // "Modifiers in play" is an accordion like the abilities (2026-10-27): open as the card arrives,
+  // folding once read; "possible" is the grey dashed one, closed.
+  it('opens the modifiers in play and folds them on a tap', async () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        sheet: sheet(),
+        collapsible: true,
+        statNotes: [
+          note({ kind: 'detachmentRule', det: 'Cursed Legion', source: 'Cold Fervour' }),
+          note({ kind: 'armyRule', source: 'Dark Pacts', applied: false, live: false, when: { en: 'while a pact is invoked', ru: 'x' } }),
+        ],
+      },
+    })
+    const live = w.find('.ds-mods-group:not(.ds-mods-possible) .ds-mods-head')
+    expect(live.attributes('aria-expanded')).toBe('true')
+    await live.trigger('click')
+    expect(w.find('.ds-mods-group:not(.ds-mods-possible) .ds-mods-head').attributes('aria-expanded')).toBe('false')
+    expect(w.find('.ds-mods-possible .ds-mods-head').attributes('aria-expanded')).toBe('false')
   })
 
   // A core rule is the same for every army in every game, so against one roster it says nothing:
@@ -312,7 +332,7 @@ describe('DatasheetCard modifier notes', () => {
         ],
       },
     })
-    expect(w.findAll('.ds-mods-h').map((n) => n.text())).toEqual(['Modifiers in play'])
+    expect(w.findAll('.ds-mods-head').map((n) => n.text().replace(/^\*/, '').trim())).toEqual(['Modifiers in play'])
     expect(w.text()).not.toContain('Battle-shock')
   })
 
@@ -329,7 +349,7 @@ describe('DatasheetCard modifier notes', () => {
         ],
       },
     })
-    expect(w.findAll('.ds-mods-h').map((n) => n.text())).toEqual(['Modifiers in play'])
+    expect(w.findAll('.ds-mods-head').map((n) => n.text().replace(/^\*/, '').trim())).toEqual(['Modifiers in play'])
     expect(w.find('.ds-mods').text()).not.toContain('Battle-shock')
   })
 
