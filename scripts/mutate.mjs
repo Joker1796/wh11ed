@@ -23,7 +23,9 @@ import { basename, dirname, join, resolve } from 'node:path'
 
 const root = resolve(dirname(new URL(import.meta.url).pathname), '..')
 const tool = process.env.MUTATOR || resolve(root, '../tools/mutator/mutator')
-const WORKERS = '2' // the owner's machine runs other projects too
+// One mutant at a time, one test process, lowest priority: the owner's Mac runs other projects
+// too, and a slower run is always better than a loaded machine (owner, 2026-10-27).
+const WORKERS = '1'
 
 const args = process.argv.slice(2)
 const allSurvivors = args.includes('--all-survivors')
@@ -58,7 +60,7 @@ function ownTests(file) {
 function pass(file, testCommand, sinceLastRun) {
   const flags = ['--no-coverage', '--max-workers', WORKERS, '--test-command', testCommand]
   if (sinceLastRun) flags.unshift('--since-last-run')
-  const run = spawnSync(tool, [...flags, file], { cwd: root, encoding: 'utf8', maxBuffer: 64 << 20 })
+  const run = spawnSync('nice', ['-n', '19', tool, ...flags, file], { cwd: root, encoding: 'utf8', maxBuffer: 64 << 20 })
   const out = `${run.stdout}${run.stderr}`
   if (run.status === 2) {
     console.error(out)
