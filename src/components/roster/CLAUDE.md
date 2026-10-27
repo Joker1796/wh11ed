@@ -4438,7 +4438,7 @@ radiating entry through `ref.unit` — the datasheet the rule is printed on. An 
   bearer collects them only if the bearer matches the gate. 22.01 puts the model inside its own
   aura; it does not make a Captain part of the DEATH COMPANY, and Sanguinary Tear's +1 Strength
   must not land on the Captain wearing it;
-- `datasheetEntriesFor` covers the other two cards — `leaderEnhNames` (the unit the bearer joined,
+- `datasheetEntriesFor` covers the other two cards — `leaderEnhKeys` (the unit the bearer joined,
   certain by 22.01, no chip) and `auraOn` (anyone the player marked);
 - `aurasReaching` finds the source by `enhKey(u.enh) === enhKey(rec.name)` over the roster list, so
   `rosterUnits` now carries `enh` (chosen or mandatory, as everywhere else in this feature).
@@ -4465,7 +4465,7 @@ ability", "while the bearer is leading a unit, ranged weapons equipped by models
 [IGNORES COVER]": 19.04 gives an enhancement exactly one direction beyond the single model it is worn
 by, and this is it. Those effects carry `target: 'led'` — `resolveModifierEntries` still hands them
 to the BEARER (its `own` split is "everything that is not an aura"), and `datasheetEntriesFor` now
-hands the same effects to the unit he joined, keyed on `leaderEnhNames`. Until then they were `self`
+hands the same effects to the unit he joined, keyed on `leaderEnhKeys`. Until then they were `self`
 and stopped at the bearer's card, so a Captain's Seals of Reconquest gave nobody but the Captain his
 own 5+ invulnerable save. Two things decide the split when authoring one:
 - a sentence that names the BEARER ("add 1 to the bearer's Wounds characteristic") stays `self`,

@@ -822,10 +822,10 @@ export function attachedEnhKeys(entry, units, enhOf) {
 
 /**
  * @param {ModEntry[] | null | undefined} records
- * @param {{ unitId?: string, leaderUnitIds?: string[], ledUnitId?: string | null, coLeaderUnitIds?: string[], joinedUnitIds?: string[], itemNames?: Set<string> | null, leaderItemNames?: Set<string> | null, partGear?: Map<string, Set<string>> | null, leaderEnhNames?: Set<string> | null, attachedEnhKeys?: Set<string> | null, auraOn?: Set<string> | null, detIds?: Set<string> | null }} [opts]
+ * @param {{ unitId?: string, leaderUnitIds?: string[], ledUnitId?: string | null, coLeaderUnitIds?: string[], joinedUnitIds?: string[], itemNames?: Set<string> | null, leaderItemNames?: Set<string> | null, partGear?: Map<string, Set<string>> | null, leaderEnhKeys?: Set<string> | null, attachedEnhKeys?: Set<string> | null, auraOn?: Set<string> | null, detIds?: Set<string> | null }} [opts]
  * @returns {ModEntry[]}
  */
-export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], joinedUnitIds = [], itemNames = null, leaderItemNames = null, partGear = null, leaderEnhNames = null, attachedEnhKeys = null, auraOn = null, detIds = null } = {}) {
+export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], joinedUnitIds = [], itemNames = null, leaderItemNames = null, partGear = null, leaderEnhKeys = null, attachedEnhKeys = null, auraOn = null, detIds = null } = {}) {
   const out = []
   for (const rec of records || []) {
     // A DETACHMENT RULE's aura radiates from a keyword, not from an entry ("friendly IMPERIAL
@@ -851,7 +851,7 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       // BEARER's card gets it from resolveModifierEntries like any other enhancement line; here it
       // reaches the unit he joined, which is the card the wearer is not on.
       const led = (rec.effects || []).filter((e) => e.target === 'led')
-      if (led.length && leaderEnhNames?.has(rec.name)) out.push({ ...rec, body: '', effects: led, from: 'led' })
+      if (led.length && leaderEnhKeys?.has(enhKey(rec.name))) out.push({ ...rec, body: '', effects: led, from: 'led' })
       // "This unit…" — an Upgrade's own wording (`target: 'unit'`): every card of the Attached unit
       // its bearer is part of, whichever end of the attachment the bearer is (attachedEnhKeys).
       const whole = (rec.effects || []).filter((e) => e.target === 'unit')
@@ -859,7 +859,7 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       const aura = (rec.effects || []).filter((e) => e.target === 'aura')
       if (!aura.length) continue
       const scopes = rec.ref.scopes || null
-      if (leaderEnhNames?.has(rec.name)) out.push({ ...rec, body: '', effects: aura, from: 'led', scopes })
+      if (leaderEnhKeys?.has(enhKey(rec.name))) out.push({ ...rec, body: '', effects: aura, from: 'led', scopes })
       else if (auraOn?.has(rec.sid)) out.push({ ...rec, body: '', effects: aura, from: 'aura', scopes })
       continue
     }
@@ -978,11 +978,11 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
 // `rosterUnits` is the list as the caller holds it: `{ uid, id, name }` per entry.
 /**
  * @param {ModEntry[] | null | undefined} records
- * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, keywords?: UnitKeywords, factionKeywordSets?: KeywordSets, vocabulary?: Vocabulary, active?: IdSet, chosen?: IdSet, leaderEnhNames?: Set<string> | null, detIds?: Set<string> | null }} [opts]
+ * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, keywords?: UnitKeywords, factionKeywordSets?: KeywordSets, vocabulary?: Vocabulary, active?: IdSet, chosen?: IdSet, leaderEnhKeys?: Set<string> | null, detIds?: Set<string> | null }} [opts]
  */
 export function aurasReaching(records, {
   unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,
-  keywords = [], factionKeywordSets = null, vocabulary = null, active = null, chosen = null, leaderEnhNames = null,
+  keywords = [], factionKeywordSets = null, vocabulary = null, active = null, chosen = null, leaderEnhKeys = null,
   detIds = null,
 } = {}) {
   const out = []
@@ -1019,7 +1019,7 @@ export function aurasReaching(records, {
     // cases (the bearer itself, and the unit the bearer is attached to) are skipped by entry rather
     // than by unit id.
     if (ref.kind === 'enhancement') {
-      if (leaderEnhNames?.has(rec.name) && !picked) continue
+      if (leaderEnhKeys?.has(enhKey(rec.name)) && !picked) continue
       if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets, false, vocabulary))) continue
       for (const u of rosterUnits) {
         if (!u.enh || enhKey(u.enh) !== enhKey(rec.name) || u.uid === entryUid) continue
@@ -1584,11 +1584,11 @@ export function attachmentContext(entry, units, { defOf, sheetOf, items, detachm
   /** @param {Partial<RosterEntry>} u */
   const enhOf = (u) => u.enh || mandatoryEnhancementFor(defOf(u), detachments)?.name || null
   const leaderItemNames = new Set()
-  const leaderEnhNames = new Set()
+  const leaderEnhKeys = new Set()
   for (const u of at.leaders) {
     for (const n of loadoutItemNames(defOf(u), u, items) || []) leaderItemNames.add(n)
     const n = enhOf(u)
-    if (n) leaderEnhNames.add(n)
+    if (n) leaderEnhKeys.add(enhKey(n))
   }
   // What each OTHER part's models prove, by datasheet id — the parts whose records reach this card
   // as `led` (its Leaders) or `co` (the Characters beside it in the unit it leads).
@@ -1609,9 +1609,11 @@ export function attachmentContext(entry, units, { defOf, sheetOf, items, detachm
     // the datasheet, it is a fact about the model that took the shield.
     itemNames: loadoutItemNames(defOf(entry), entry, items),
     // What the attached Leaders are carrying, and which enhancements they wear: an enhancement aura
-    // covers the unit its bearer joined with no distance to judge (22.01).
+    // covers the unit its bearer joined with no distance to judge (22.01). As `enhKey`s, like every
+    // other end of the match: an exact comparison would drop the effect off the led unit the day a
+    // list and a record spell the name apart (an apostrophe, an "(Upgrade)").
     leaderItemNames,
-    leaderEnhNames,
+    leaderEnhKeys,
     partGear,
     // …and what every other member of this Attached unit carries, for an Upgrade's "This unit…".
     attachedEnhKeys: attachedEnhKeys(entry, list, enhOf),

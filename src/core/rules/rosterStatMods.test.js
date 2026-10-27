@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys } from './rosterStatMods.js'
+import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom, datasheetEntriesFor, aurasReaching, gateStratagems, attachedUnitKeywords, attachedEnhKeys, attachmentContext } from './rosterStatMods.js'
+import { enhKey } from './rosterModifiers.js'
 
 const sheet = () => ({
   name: 'Skorpekh Destroyers',
@@ -866,7 +867,7 @@ describe('datasheetEntriesFor — enhancement', () => {
   }
 
   it('reaches the unit its bearer joined', () => {
-    const out = datasheetEntriesFor([webwayAwl], { unitId: 'kabalite-warriors', leaderEnhNames: new Set(['Webway Awl']) })
+    const out = datasheetEntriesFor([webwayAwl], { unitId: 'kabalite-warriors', leaderEnhKeys: new Set([enhKey('Webway Awl')]) })
     expect(out).toHaveLength(1)
     expect(out[0].from).toBe('led')
     expect(out[0].effects[0].value).toBe('Deep Strike')
@@ -1208,14 +1209,14 @@ describe('an enhancement that is an aura', () => {
     ])
     expect(aurasReaching([relic], { ...ctx, keywords: ['Intercessor Squad', 'Adeptus Astartes'] })).toEqual([])
     // …and none at all for the unit the bearer is standing in: 22.01 answers that from the list.
-    expect(aurasReaching([relic], { ...ctx, leaderEnhNames: new Set(['Sanguinary Tear (Aura)']) })).toEqual([])
+    expect(aurasReaching([relic], { ...ctx, leaderEnhKeys: new Set([enhKey('Sanguinary Tear (Aura)')]) })).toEqual([])
   })
 
   it('lands once marked, and lands unasked on the unit the bearer joined', () => {
     const marked = datasheetEntriesFor([relic], { unitId: 'death-company-marines', auraOn: new Set(['tear']) })
     expect(marked.map((e) => e.from)).toEqual(['aura'])
     expect(applyStatMods(sheet(), marked, company, []).sheet.melee[0].s).toBe('5')
-    const led = datasheetEntriesFor([relic], { unitId: 'death-company-marines', leaderEnhNames: new Set(['Sanguinary Tear (Aura)']) })
+    const led = datasheetEntriesFor([relic], { unitId: 'death-company-marines', leaderEnhKeys: new Set([enhKey('Sanguinary Tear (Aura)')]) })
     expect(led.map((e) => e.from)).toEqual(['led'])
     expect(applyStatMods(sheet(), led, company, []).sheet.melee[0].s).toBe('5')
   })
@@ -1583,5 +1584,43 @@ describe('an enhancement written for the bearer AND the unit he leads', () => {
     }
     expect(twins).toBeGreaterThanOrEqual(20)
     expect(twice).toEqual([])
+  }, 60000)
+
+  // The other half: the unit he leads gets it, whichever way the list spells the enhancement — the
+  // bearer's own card matched by `enhKey` while the led unit's matched the name exactly (2026-10-27).
+  // First on a name spelled apart, then every enhancement record that reaches the led unit (`led` or
+  // `aura`) against every spelling its own faction's list offers — a Chapter's list is its own plus
+  // the Codex's. Across factions names collide (Hunter’s Eye is a Knight's and a Marine's), so
+  // the spellings are never pooled.
+  it('reaches the unit he leads when the list spells the name apart', () => {
+    const rec = { sid: 'h', kind: 'enhancement', name: "Hunter's Eye", ref: { kind: 'enhancement' }, effects: [{ on: 'weapon', stat: 'ability', op: 'grant', value: 'IGNORES COVER', target: 'led' }] }
+    const units = [{ uid: 'l', id: 'captain', size: 0, enh: 'Hunter’s Eye (Upgrade)', leaderOf: 'b' }, { uid: 'b', id: 'intercessor-squad', size: 0 }]
+    const ctx = attachmentContext(units[1], units, { defOf: () => ({}), sheetOf: () => null, items: {} })
+    expect(datasheetEntriesFor([rec], { unitId: 'intercessor-squad', ...ctx }).map((r) => r.from)).toEqual(['led'])
+  })
+  it('reaches the unit he leads, however the list spells it', async () => {
+    const fs = await import('node:fs')
+    const { loadRosterModifiersFor, usableEntries } = await import('../../data/rosterModifiers/index.js')
+    const slugs = fs.readdirSync('src/data/roster').filter((f) => /^[a-z-]+\.js$/.test(f) && f !== 'index.js').map((f) => f.slice(0, -3))
+    const { SM_CHAPTERS } = await import('../shared/smChapters.js')
+    /** @param {string} slug */
+    const namesOf = async (slug) => ((await import(`../../data/roster/${slug}.js`)).default.detachments || []).flatMap((d) => (d.enhancements || []).map((e) => e.name))
+    let checked = 0
+    const lost = []
+    for (const slug of slugs) {
+      const names = [...(await namesOf(slug)), ...(SM_CHAPTERS.has(slug) ? await namesOf('space-marines') : [])]
+      const records = usableEntries(await loadRosterModifiersFor(slug))
+      for (const rec of records) {
+        if (rec.ref?.kind !== 'enhancement' || !rec.effects.some((e) => e.target === 'led' || e.target === 'aura')) continue
+        for (const name of new Set(names.filter((n) => enhKey(n) === enhKey(rec.name)))) {
+          const units = [{ uid: 'l', id: 'leader', size: 0, enh: name, leaderOf: 'b' }, { uid: 'b', id: 'bodyguard', size: 0 }]
+          const ctx = attachmentContext(units[1], units, { defOf: () => ({}), sheetOf: () => null, items: {} })
+          checked++
+          if (!datasheetEntriesFor([rec], { unitId: 'bodyguard', ...ctx }).some((r) => r.from === 'led')) lost.push(`${slug}: ${rec.name} (list: ${name})`)
+        }
+      }
+    }
+    expect(checked).toBeGreaterThanOrEqual(150)
+    expect(lost).toEqual([])
   }, 60000)
 })
