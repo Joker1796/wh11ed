@@ -114,6 +114,7 @@
  * @property {1} [legends]
  * @property {1} [noEnh] can take no enhancement
  * @property {1} [noWarlord] cannot be the Warlord
+ * @property {1} [one] one per army, unless a detachment's `unitCaps` says otherwise ("you cannot include more than one")
  * @property {1} [nonCharWarlordOk] may be the Warlord without being a CHARACTER
  * @property {1} [supreme] SUPREME COMMANDER
  */
@@ -160,7 +161,8 @@
  * @property {{ add: number | number[], base?: number | number[], slots: number, one?: ItemId[], ranged?: [number, ItemId[]] }} [pm] per-model rules across groups (a slot names a group or all its copies)
  * @property {GearPool[]} [pools] one instruction's copies, a profile each, and the allowance they share
  * @property {Array<{ s: Array<[number] | [number, number]>, k?: number, item?: ItemId }>} [xpm] a model's limit across groups
- * @property {string} [charId] shares a duplicate cap with another datasheet (none today)
+ * @property {string} [charId] shares a duplicate cap with another datasheet ("only one COMMISSAR GRAVES or COMMISSAR GRAVES ON FOOT unit")
+ * @property {Array<{ kws: string[], except?: string[] }>} [excludes] units with any of `kws` (bar those with any of `except`) the army may not hold beside this one
  * @property {1} [shared] folded in from the Space Marines pool (index.js, at load)
  */
 
@@ -196,6 +198,7 @@
  * @property {string} [chapter] a Chapter-locked detachment's Chapter
  * @property {1} [lend] offered to other factions only (dropped at load)
  * @property {string[]} [excludedUnits] datasheet ids it locks out
+ * @property {Record<string, number>} [unitCaps] a one-per-army unit this detachment lets the army take more of, by id
  * @property {string[]} [grantedWarlord] datasheet ids it lets be the Warlord
  * @property {string[]} [mandWarlord] datasheet ids one of which must be the Warlord
  * @property {1} [shared] folded in from another bundle (index.js, at load)

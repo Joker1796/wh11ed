@@ -827,6 +827,13 @@ export default {
         "T’au Empire"
       ],
       "linked": 1,
+      "excludes": [
+        {
+          "kws": [
+            "Ethereal"
+          ]
+        }
+      ],
       "has": [
         "Deep Strike"
       ],

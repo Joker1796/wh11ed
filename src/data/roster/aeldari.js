@@ -2308,7 +2308,8 @@ export default {
       ],
       "flags": {
         "char": 1,
-        "noWarlord": 1
+        "noWarlord": 1,
+        "one": 1
       },
       "sizes": [
         {
@@ -4943,7 +4944,8 @@ export default {
       ],
       "flags": {
         "char": 1,
-        "noWarlord": 1
+        "noWarlord": 1,
+        "one": 1
       },
       "sizes": [
         {
@@ -6099,6 +6101,16 @@ export default {
         "Ynnari"
       ],
       "linked": 1,
+      "excludes": [
+        {
+          "kws": [
+            "Epic Hero"
+          ],
+          "except": [
+            "Ynnari"
+          ]
+        }
+      ],
       "leads": [
         {
           "to": "corsair-voidscarred",
@@ -6173,6 +6185,16 @@ export default {
         "Ynnari"
       ],
       "linked": 1,
+      "excludes": [
+        {
+          "kws": [
+            "Epic Hero"
+          ],
+          "except": [
+            "Ynnari"
+          ]
+        }
+      ],
       "has": [
         "Deep Strike"
       ],
@@ -6448,7 +6470,8 @@ export default {
       ],
       "flags": {
         "char": 1,
-        "noWarlord": 1
+        "noWarlord": 1,
+        "one": 1
       },
       "sizes": [
         {
@@ -9000,6 +9023,16 @@ export default {
         "Ynnari"
       ],
       "linked": 1,
+      "excludes": [
+        {
+          "kws": [
+            "Epic Hero"
+          ],
+          "except": [
+            "Ynnari"
+          ]
+        }
+      ],
       "leads": [
         {
           "to": "corsair-voidreavers",
@@ -9417,6 +9450,11 @@ export default {
       "fds": [
         "Disruption"
       ],
+      "unitCaps": {
+        "death-jester": 3,
+        "shadowseer": 3,
+        "troupe-master": 3
+      },
       "grantedWarlord": [
         "death-jester",
         "troupe-master",
@@ -9686,6 +9724,11 @@ export default {
       "fds": [
         "Purge the Foe"
       ],
+      "unitCaps": {
+        "death-jester": 3,
+        "shadowseer": 3,
+        "troupe-master": 3
+      },
       "grantedWarlord": [
         "death-jester",
         "troupe-master",

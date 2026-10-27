@@ -41,15 +41,20 @@ export function setupIssueCount(issues) {
 // (rosterEngine's grantedKeywordsFor). Battleline is the only one that matters here, and it is
 // what makes the difference between three Warbikers and six: pass it wherever the roster's
 // detachments are known. `null` keeps the pre-gate reading of the raw `condBattleline` flag.
+// `detachments` — the army's: a one-per-army unit (`flags.one`, "you cannot include more than one
+// of this model") takes the largest `unitCaps` one of them gives it (up to three Troupe Masters in
+// Ghosts of the Webway). Every caller passes them, so the add button and the issue never disagree.
 /**
  * @param {RosterUnit} def
  * @param {number | { dupLimit: number, lineLimit?: number }} limits
  * @param {string[] | null} [granted]
+ * @param {Detachment[]} [detachments]
  * @returns {number}
  */
-export function duplicateLimit(def, limits, granted = null) {
+export function duplicateLimit(def, limits, granted = null, detachments = []) {
   const dup = typeof limits === 'number' ? limits : limits.dupLimit
   const line = typeof limits === 'number' ? limits * 2 : (limits.lineLimit ?? dup * 2)
+  if (def.flags?.one) return Math.max(1, ...detachments.map((d) => d.unitCaps?.[def.id] || 0))
   if (def.flags?.epic) return 1
   if (hasKeyword(def, 'Battleline') || isBattlelineNow(def, granted) || hasKeyword(def, 'Dedicated Transport')) return line
   return dup
@@ -232,7 +237,7 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     for (const list of byKey.values()) {
       const def = defOf(list[0].id)
       if (!def) continue // byKey holds only entries with a datasheet
-      const limit = duplicateLimit(def, battle, grantedBattleline(def))
+      const limit = duplicateLimit(def, battle, grantedBattleline(def), detachments)
       if (list.length > limit) {
         add('overDuplicate', 'error', { uid: list[limit].uid, params: { count: list.length, limit } })
       }
@@ -631,6 +636,26 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
         const bars = allyBars(faction, u.id, detachments)
         if (u.warlord && bars?.warlord) add('allyWarlord', 'error', { uid: u.uid })
         if (u.enh && bars?.enh) add('allyEnh', 'error', { uid: u.uid, params: { enh: u.enh } })
+      }
+    }
+  }
+
+  // Units a datasheet says the army cannot hold beside it — "If your army includes YVRAINE, it
+  // cannot include any EPIC HERO units (excluding YNNARI units)", Commander Farsight and every
+  // ETHEREAL. Reported on the unit that is barred, naming the one that bars it; once per pair.
+  {
+    const barred = new Set()
+    const has = (/** @type {RosterUnit} */ d, /** @type {string} */ kw) => hasKeyword(d, kw) || (d.fkws || []).some((k) => k.toLowerCase() === kw.toLowerCase())
+    for (const u of units) {
+      const def = defOf(u.id)
+      for (const ex of def?.excludes || []) {
+        for (const v of units) {
+          const other = defOf(v.id)
+          if (v === u || !other || barred.has(`${u.uid}|${v.uid}`)) continue
+          if (!ex.kws.some((k) => has(other, k)) || (ex.except || []).some((k) => has(other, k))) continue
+          barred.add(`${u.uid}|${v.uid}`).add(`${v.uid}|${u.uid}`)
+          add('armyExcludes', 'error', { uid: v.uid, params: { other: nameOf(u.uid) || def?.name || u.id } })
+        }
       }
     }
   }

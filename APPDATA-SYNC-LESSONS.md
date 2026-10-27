@@ -1450,3 +1450,14 @@ and appdata state fresh; a data model can change between now and when this is ne
     nothing read a model's enhancement that speaks for "This unit" (13 codex relics: an Archon's
     [PRECISION], a Succubus's +1 T). The generator now reads all three, plus a "once per battle"
     rule whose effect stands bare. When a new edition's wording arrives, grep the checks' patterns.
+111. **A check that confirms the text is there is not a check that the rule holds.** The app's
+    `keyword_restriction_group` (one Patriarch, Farsight or Ethereals, one Commissar Graves of two
+    datasheets, Travelling Players with their two detachment overrides) was audited by
+    sync-roster-restrictions.mjs only for OUR TEXT saying it, so the builder let all of them through;
+    and the strictest one — Yvraine, The Visarch and The Yncarne bar every Epic Hero that is not
+    Ynnari — is in no table at all, only in the datasheets' prose. gen-roster-data.mjs now reads every
+    sentence about what an army may include (datasheet rules and abilities, detachment bullets) into
+    `excludes` / `flags.one` / `charId` / `unitCaps`, or matches it to a pattern that names its holder
+    and checks the holder is in the data; a sentence it cannot place, and a table row nothing read
+    lands on, fail `--check`. Found by a player's question in a chat (2026-10-27), after mutation
+    testing had shown the "(excluding EPIC HEROES)" exclusion was never read at all.

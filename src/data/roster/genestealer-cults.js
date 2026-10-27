@@ -1814,7 +1814,8 @@ export default {
       ],
       "flags": {
         "char": 1,
-        "supreme": 1
+        "supreme": 1,
+        "one": 1
       },
       "sizes": [
         {

@@ -493,7 +493,8 @@ export default {
         "Tacticus"
       ],
       "flags": {
-        "char": 1
+        "char": 1,
+        "one": 1
       },
       "sizes": [
         {

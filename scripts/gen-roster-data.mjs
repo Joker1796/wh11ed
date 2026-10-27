@@ -488,6 +488,145 @@ const hostsByDs = new Map()
   }
 }
 
+// ── Who an army may hold, written as a datasheet's own rule ──────────────────────────────────────
+// "If your army includes YVRAINE, it cannot include any EPIC HERO units (excluding YNNARI units)",
+// "You cannot include more than one Emperor's Champion unit in your army", "Your army can only
+// include one COMMISSAR GRAVES or COMMISSAR GRAVES ON FOOT unit". Until 2026-10-27 none of these
+// reached the roster check: the app's keyword_restriction_group table carries some of them,
+// sync-roster-restrictions.mjs only made sure our TEXT said them, and the builder let a list with
+// Yvraine and Asurmen, two Patriarchs or Farsight beside an Ethereal through as legal.
+//
+// The gate, so that a rule that changes in any of its three places is caught (owner, 2026-10-27):
+// every sentence of a datasheet rule or ability, and of a detachment's bullet, that speaks about
+// what an army may include is either READ into the data below or matches a COMPOSITION_HELD pattern
+// naming what already enforces it. A sentence that is neither — new, or reworded by GW —
+// fails `--check`. Every keyword_restriction_group row must also land on what was read (see the
+// cross-check after the factions are built).
+const COMPOSITION_RE = /cannot include|can only include|more than one|must be your warlord|cannot be your warlord/i
+// Sentences held elsewhere, each pattern a whole sentence (anchored, so a reworded rule falls out of
+// it) with what holds it in the data; the check after the build asserts the holder is there.
+const COMPOSITION_HELD = [
+  // Supreme Commander: miniature.isSupremeCommander → flags.supreme.
+  [/^If this (?:model|unit) is in your army, it must be your WARLORD\.$/i, 'supreme'],
+  // miniature.cannotBeWarlord → flags.noWarlord (the Exalted Flamer's also bars Enhancements).
+  [/^This model cannot be your WARLORD\.$/i, 'noWarlord'],
+  [/^This model cannot be your WARLORD and cannot be given Enhancements\.$/i, 'noWarlord'],
+  // The Officio Assassinorum swap: every Assassin is an EPIC HERO, one of each by the core limit.
+  [/^Your army cannot include duplicates of the same model \(i\.e\. after replacing a model with this rule, your army cannot have more than 1 [A-Z ]+ Assassin(?:, it cannot have more than 1 [A-Z ]+ ASSASSIN)+ and it cannot have more than 1 [A-Z ]+ ASSASSIN\)\.$/i, 'epic'],
+  // Joining a unit already led, one of a kind (rosterEngine's `joins`).
+  [/^At the start of the Declare Battle Formations step, this (?:unit|model) can join one .+? \(a unit cannot have more than one .+? joined to it(?: and cannot have both a .+? and a .+? unit joined to it)?\)\.$/i, 'joins'],
+  // The Loyal Protector must join a Command Squad (PROSE_ATTACH below).
+  [/^At the start of the Declare Battle Formations step, this model must join one COMMAND SQUAD unit from your army \(a COMMAND SQUAD cannot have more than one LOYAL PROTECTOR model joined to it\)\.$/i, 'leads'],
+  // A second Leader on Plague Marines, never two of the same one (flags.alongside, ALONGSIDE_RE).
+  [/even if one other Leader unit has already been attached to it \(you cannot attach more than one of the same Leader to the same unit\)/i, 'alongside'],
+  // Assigned Agents: a Retinue unit outside the Retinue limit, which the builder does not model.
+  [/^For each .+? unit you include in your army, you can include one .+? unit in your army that does not count towards the number of RETINUE units your army can include \(see Assigned Agents\)\.?$/i, 'none: the Retinue limit is not modelled'],
+  // Not about the army at all: a wargear option used once a turn (Harpy).
+  [/^You cannot select this option for more than one model per turn/i, 'none: a once-a-turn option'],
+]
+// A detachment's bullet, by detachment and exact text: what holds it.
+const COMPOSITION_DET_KNOWN = new Map([
+  // detachment_excluded_datasheet → det.excludedUnits.
+  ['Shadow Legion|When mustering your army, you cannot include any DAEMON PRINCE, DAEMON PRINCE WITH WINGS or EPIC HERO units (excluding BE’LAKOR), but you can include the following HERETIC ASTARTES units:', 'excludedUnits'],
+  // detachment_mandatory_warlord_miniature → det.mandWarlord.
+  ['Devoted of Ynnead|You must include YVRAINE and/or THE YNCARNE in your army, and one of those models must be your WARLORD.', 'mandWarlord'],
+  // restriction_group_detachment_limit (min 3) → the War Dogs' allegiance group min.
+  ['Houndpack Lance|Your army must include three or more WAR DOG units.', 'allegMin'],
+  // A points surcharge (the MFM price the roster already charges), not a composition rule.
+  ['Pantheon of Woe|If this causes your army to exceed the points limit for the battle you are playing, you cannot include that unit in your army.', 'none: the points limit'],
+])
+const compositionText = (s) => s.replace(/\*\*/g, '').replace(/<\/?k>/g, '').replace(/\s+/g, ' ').trim()
+const compositionSentences = (s) => compositionText(s).split(/\s*■\s*|(?<=\.)\s+(?=[A-Z])/).map((x) => x.trim()).filter((x) => COMPOSITION_RE.test(x))
+// dsId → { one, excludes, pair } as read; the sentences matched and not read land in `unread`.
+const compositionByDs = new Map()
+report.composition = { read: [], known: [], unread: [], unheld: [], tableUnmatched: [] }
+{
+  const kwCanon = new Map([...table('keyword'), ...table('faction_keyword')].map((k) => [norm(enOf(k).name || ''), enOf(k).name]))
+  const canon = (s) => kwCanon.get(norm(s)) || s.trim()
+  const textsByDs = new Map()
+  const push = (ds, text) => { if (!textsByDs.has(ds)) textsByDs.set(ds, []); textsByDs.get(ds).push(text) }
+  for (const r of table('datasheet_rule')) push(r.datasheetId, enOf(r).rules || '')
+  const abilityRules = new Map(table('datasheet_ability').map((a) => [a.id, enOf(a).rules || '']))
+  for (const r of table('datasheet_datasheet_ability')) push(r.datasheetId, abilityRules.get(r.datasheetAbilityId) || '')
+  const MUTEX = /^If your army includes (.+?), it cannot include any (.+?) units(?: \(excluding (.+?) units\))?\. If your army includes any .+?, it cannot include .+?\.$/i
+  const PAIR = /^Your army can only include one (.+?) or (.+?) unit\.$/i
+  const ONE = /^(?:Unless otherwise stated, )?you cannot include more than one (?:of this model|.+? (?:model|unit)) in your army\.$/i
+  for (const [ds, texts] of textsByDs) {
+    const name = enOf(dsById.get(ds) || {}).name || ds
+    for (const sentence of [...new Set(texts.flatMap(compositionSentences))]) {
+      const got = compositionByDs.get(ds) || {}
+      let m
+      const held = COMPOSITION_HELD.find(([re]) => re.test(sentence))
+      if (held) { report.composition.known.push({ ds, name, sentence, by: held[1] }); continue }
+      // The rule is written once per pair of sentences ("…, it cannot include any X. If your army
+      // includes any X, it cannot include …"), so the pair is matched whole and read once.
+      const whole = compositionText(texts.find((t) => compositionText(t).includes(sentence)) || '')
+      if ((m = whole.match(MUTEX))) {
+        if (!got.excludes) {
+          got.excludes = [{ kws: [canon(m[2])], ...(m[3] ? { except: [canon(m[3])] } : {}) }]
+          report.composition.read.push(`${name}: not with ${m[2]}${m[3] ? ` (bar ${m[3]})` : ''}`)
+        }
+      } else if ((m = sentence.match(PAIR))) {
+        got.pair = [m[1], m[2]]
+        report.composition.read.push(`${name}: one of ${m[1]} / ${m[2]}`)
+      } else if (ONE.test(sentence)) {
+        got.one = 1
+        report.composition.read.push(`${name}: one per army`)
+      } else {
+        report.composition.unread.push(`${name}: «${sentence}»`)
+        continue
+      }
+      compositionByDs.set(ds, got)
+    }
+  }
+  // A detachment's bullets: no reading, only the list above — each names the table that holds it.
+  const detOfDetail = new Map(table('detachment_detail').map((d) => [d.id, d.detachmentId]))
+  const detNameOf = new Map(table('detachment').map((d) => [d.id, enOf(d).name]))
+  for (const b of table('detachment_detail_bullet_point')) {
+    const det = detOfDetail.get(b.detachmentDetailId)
+    const dName = detNameOf.get(det) || det
+    for (const sentence of compositionSentences(enOf(b).text || '')) {
+      const key = `${dName}|${sentence}`
+      if (COMPOSITION_DET_KNOWN.has(key)) report.composition.known.push({ det, name: dName, sentence, by: COMPOSITION_DET_KNOWN.get(key) })
+      else report.composition.unread.push(`${dName} (detachment): «${sentence}»`)
+    }
+  }
+}
+// keyword_restriction_group: the app's own table of some of these rules. Read for the detachment
+// overrides of a one-per-army cap (`unitCaps`), and kept whole for the cross-check after the build.
+const compositionGroups = []
+const compositionDetCaps = new Map()
+{
+  const kwName = new Map(table('keyword').map((k) => [k.id, enOf(k).name]))
+  const fkName = new Map(table('faction_keyword').map((k) => [k.id, enOf(k).name]))
+  const kwsOf = new Map()
+  for (const r of table('keyword_restriction_group_keyword')) {
+    if (!kwsOf.has(r.keywordRestrictionGroupId)) kwsOf.set(r.keywordRestrictionGroupId, [])
+    kwsOf.get(r.keywordRestrictionGroupId).push(kwName.get(r.keywordId))
+  }
+  const detLimits = new Map()
+  for (const r of table('restriction_group_detachment_limit')) {
+    if (!detLimits.has(r.restrictionGroupId)) detLimits.set(r.restrictionGroupId, [])
+    detLimits.get(r.restrictionGroupId).push(r)
+  }
+  for (const g of table('keyword_restriction_group')) {
+    const kws = kwsOf.get(g.id) || []
+    const dets = detLimits.get(g.id) || []
+    compositionGroups.push({ id: g.id, kws, limit: g.limit, army: fkName.get(g.factionKeywordId), unless: fkName.get(g.excludedFactionKeywordId) || null, dets })
+    for (const d of dets) {
+      if (d.maxRosterLimit == null) continue
+      if (!compositionDetCaps.has(d.detachmentId)) compositionDetCaps.set(d.detachmentId, [])
+      compositionDetCaps.get(d.detachmentId).push({ kws, max: d.maxRosterLimit })
+    }
+  }
+}
+// The pair's two datasheets, by name, onto one slot named after the first.
+const compositionPairSlot = new Map()
+for (const { pair } of compositionByDs.values()) {
+  if (!pair) continue
+  for (const n of pair) compositionPairSlot.set(norm(n), slugify(pair[0]))
+}
+
 const MIRROR_ATTACH = []
 {
   const dsByName = new Map()
@@ -2211,6 +2350,13 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
   const fkws = (dsFactionKws.get(bd.id) || []).slice().sort()
   if (fkws.length) unit.fkws = fkws
   if (linkedId) unit.linked = 1
+  // Who the army may hold beside it (the composition block above): one per army, never with these.
+  const comp = compositionByDs.get(bd.id)
+  if (comp?.one) flags.one = 1
+  if (comp?.excludes) unit.excludes = comp.excludes
+  // "Only one X or Y unit": both datasheets share one duplicate-cap slot (rosterEngine's capKeyOf).
+  const pairSlot = compositionPairSlot.get(norm(bd.name))
+  if (pairSlot) unit.charId = pairSlot
   // A unit only one Chapter fields (Marneus Calgar — ULTRAMARINES): a list holding it is that
   // Chapter's, and the export's FACTION KEYWORD names it (rosterChapter in rosterEngine.js).
   const ch = chapterKeywordOf(bd.id)
@@ -3177,7 +3323,17 @@ function buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag, slug, { combat
   }
   const excl = (detExcluded.get(bdet.id) || []).map(exclId).filter(Boolean)
   if (excl.length) det.excludedUnits = excl
-  const linked = (detLinked.get(bdet.id) || []).map((r) => {
+  // "Unless otherwise stated, you cannot include more than one of this model" — and the detachments
+  // that state otherwise (Ghosts of the Webway, Serpent's Brood: up to three Troupe Masters…).
+  const caps = {}
+  for (const { kws, max } of compositionDetCaps.get(bdet.id) || []) {
+    for (const k of kws) {
+      const id = idMap.get(nameToDsId.get(normApost(k)))
+      if (id) caps[id] = max
+    }
+  }
+  if (Object.keys(caps).length) det.unitCaps = caps
+  const linked =(detLinked.get(bdet.id) || []).map((r) => {
     const l = { unit: idMap.get(r.datasheetId) || slugify(enOf(dsById.get(r.datasheetId)).name || ''), count: r.count }
     if (r.isWarlord) l.warlord = 1
     return l
@@ -4192,6 +4348,57 @@ await mirrorPackBodyguards()
 await readJoins()
 keywordGrants()
 for (const { data } of built) itemStands(data.units)
+
+// The composition gate's second half: what was taken on trust holds in the files just built, and
+// the app's own keyword_restriction_group lands on what was read. Either failing fails `--check`.
+{
+  const allUnits = built.flatMap(({ data }) => data.units || [])
+  const allDets = built.flatMap(({ data }) => data.detachments || [])
+  const unitsBySid = (sid) => allUnits.filter((u) => u.sid === sid)
+  // A row names a KEYWORD (Sicarius is Cato Sicarius' keyword); a datasheet name is its keyword too.
+  const unitsNamed = (n) => allUnits.filter((u) => norm(u.name) === norm(n) || (u.kws || []).some((k) => norm(k) === norm(n)))
+  // A row whose keyword no miniature in appdata carries, and the datasheet it means.
+  const TABLE_ALIAS = { Sicarius: 'Cato Sicarius' }
+  const named0 = unitsNamed
+  const unitsFor = (n) => named0(TABLE_ALIAS[n] || n)
+  const HOLDS = {
+    supreme: (us) => us.every((u) => u.flags?.supreme),
+    noWarlord: (us) => us.every((u) => u.flags?.noWarlord),
+    epic: (us) => us.every((u) => u.flags?.epic),
+    joins: (us) => us.every((u) => u.joins),
+    leads: (us) => us.every((u) => u.leads?.length),
+    alongside: (us) => us.every((u) => u.flags?.alongside),
+    excludedUnits: (ds) => ds.every((d) => d.excludedUnits?.length),
+    mandWarlord: (ds) => ds.every((d) => d.mandWarlord?.length),
+    allegMin: () => allUnits.some((u) => u.alleg?.min >= 3),
+  }
+  for (const k of report.composition.known) {
+    const on = k.ds ? unitsBySid(k.ds) : allDets.filter((d) => d.sid === k.det)
+    if (k.by.startsWith('none:')) continue
+    if (on.length && !HOLDS[k.by](on)) report.composition.unheld.push(`${k.name}: «${k.sentence}» — expected ${k.by}`)
+  }
+  for (const g of compositionGroups) {
+    const named = g.kws.map(unitsFor)
+    let ok
+    if (g.dets.some((d) => d.maxRosterLimit != null)) {
+      // A detachment lifting a one-per-army cap: the unit is capped, the detachment lifts it.
+      ok = named.every((us) => us.length && us.every((u) => u.flags?.one))
+        && g.dets.filter((d) => d.maxRosterLimit != null).every((d) => allDets.some((x) => x.sid === d.detachmentId && g.kws.some((k) => unitsFor(k).some((u) => x.unitCaps?.[u.id] === d.maxRosterLimit))))
+    } else if (g.dets.some((d) => d.minRosterLimit != null)) {
+      ok = allUnits.some((u) => u.alleg?.min === g.dets[0].minRosterLimit)
+    } else if (g.limit === 1 && g.kws.length === 1) {
+      ok = named[0].length > 0 && named[0].every((u) => u.flags?.one || u.flags?.epic)
+    } else if (g.limit === 1 && g.kws.length === 2) {
+      const [a, b] = named
+      ok = (a.length && b.length) && (a.some((u) => u.excludes?.some((e) => e.kws.some((k) => norm(k) === norm(g.kws[1]))))
+        || (a.every((u) => u.charId) && b.every((u) => u.charId === a[0].charId)))
+    } else if (g.limit === 0 && g.unless && g.kws.length === 2 && norm(g.kws[0]) === 'epic hero') {
+      // "Not in this army unless it is Ynnari": the datasheet is the other faction's (allied).
+      ok = named[1].length > 0 && named[1].every((u) => (u.fkws || []).includes(g.unless))
+    }
+    if (!ok) report.composition.tableUnmatched.push(`${g.army}: ${g.kws.join(' + ')} limit ${g.limit}${g.unless ? ` unless ${g.unless}` : ''}${g.dets.length ? ` (${g.dets.length} detachment row(s))` : ''}`)
+  }
+}
 for (const { slug, data } of built) writeOut(`${slug}.js`, `${HEAD}export default ${stableJson(data)}\n`)
 await genCombatPatrol()
 genItems() // after all factions — the intern dicts are complete
@@ -4223,6 +4430,15 @@ console.log(`  keyword grants: ${report.grantsPlaced} written onto their units`)
 console.log(`  enhancement weapons: ${enhWeaponsPlaced.size} of ${enhWeapons.size} enhancements that give one`)
 if (enhWeaponsPlaced.size !== enhWeapons.size) { console.log(`    ✗ an enhancement with a weapon is in no roster file: ${[...enhWeapons.keys()].filter((id) => !enhWeaponsPlaced.has(id)).join(', ')}`); process.exitCode = 1 }
 if (report.grantsUnplaced.length) { console.log(`    ✗ a grant names a unit no faction file holds (conditionalKeywords.json stale?): ${report.grantsUnplaced.join('; ')}`); process.exitCode = 1 }
+{
+  const c = report.composition
+  console.log(`  army composition: ${c.read.length} rule(s) read, ${c.known.length} held elsewhere`)
+  for (const l of c.read) console.log(`      - ${l}`)
+  const fail = (what, list) => { if (list.length) { console.log(`    ✗ ${what}:`); for (const l of list) console.log(`      ${l}`); process.exitCode = 1 } }
+  fail('a sentence about who an army may include, neither read nor matched by COMPOSITION_HELD (new, or reworded by GW — read it)', c.unread)
+  fail('a held sentence whose holder is not in the data', c.unheld)
+  fail('a keyword_restriction_group row nothing read lands on', c.tableUnmatched)
+}
 console.log(`  spawns: ${report.spawns.length} unit(s) an ability brings into the game — ${report.spawns.join('; ')}`)
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)
 if (report.noPoints.length) console.log(`  dropped (no points/composition): ${report.noPoints.join(', ')}`)

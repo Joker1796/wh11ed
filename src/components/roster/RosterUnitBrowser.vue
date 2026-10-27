@@ -366,7 +366,7 @@ function countOf(id) {
 // cap against), and whether checkLegality is on AND that cap is already reached.
 function capOf(u) {
   const granted = props.factionSlug ? grantedKeywordsFor(u, props.detachments).map((g) => g.kw) : null
-  return duplicateLimit(u, props.battle, granted)
+  return duplicateLimit(u, props.battle, granted, props.detachments)
 }
 // Every unit's cap, worked out once when the units, the battle size or the detachments change. Read
 // four times a row per render (the add button twice, the count, the over mark), it used to look up

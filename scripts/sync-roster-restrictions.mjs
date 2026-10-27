@@ -38,6 +38,11 @@
 // bridged via sourceIds' `ds:` map, since that map is keyed by wh11ed's own `id`, not appdata
 // name, and a plain name index is simpler here and matches sync-leader-units.mjs's own approach).
 //
+// 2026-10-27: "present in our text" turned out not to mean "enforced" — the builder ignored every
+// one of these rules. gen-roster-data.mjs now reads them into the roster data and fails `--check`
+// on a sentence or a table row it cannot place (APPDATA-SYNC-LESSONS.md lesson 111); this script
+// stays the check on the TEXT.
+//
 // Report only — nothing is written. Usage: node scripts/sync-roster-restrictions.mjs (also run as
 // part of `npm run sync`).
 

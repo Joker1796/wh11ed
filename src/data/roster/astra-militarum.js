@@ -3474,6 +3474,7 @@ export default {
         "Astra Militarum"
       ],
       "linked": 1,
+      "charId": "commissar-graves",
       "defaults": [
         [
           0,
@@ -3542,6 +3543,7 @@ export default {
         "Astra Militarum"
       ],
       "linked": 1,
+      "charId": "commissar-graves",
       "leads": [
         {
           "to": "cadian-shock-troops",

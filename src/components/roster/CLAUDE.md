@@ -4401,6 +4401,19 @@ they do.)
 **Not in `STATIC_ROUTES` and not in the sitemap** — a private route like `/tracker/game`;
 `gen-seo-routes.mjs` must not learn about it.
 
+## Who the army may hold beside whom (since 2026-10-27)
+
+Datasheets limit the army itself: "If your army includes YVRAINE, it cannot include any EPIC HERO
+units (excluding YNNARI units)", "you cannot include more than one of this model", "only one
+COMMISSAR GRAVES or COMMISSAR GRAVES ON FOOT unit". gen-roster-data.mjs reads them ("Who an army may
+hold") into the unit — `excludes` (validateRoster's `armyExcludes`, reported on the barred unit),
+`flags.one` (a cap of 1 in `duplicateLimit`, lifted by a detachment's `unitCaps`: three Travelling
+Players in Ghosts of the Webway / Serpent's Brood), `charId` for a rule spanning two datasheets.
+`duplicateLimit` takes the army's detachments in all three callers (validation, the add button, the
+copy button), so the button and the issue never disagree. The gate is the generator's `--check`: a
+sentence about what an army may include that is neither read nor matched to its holder, or an app
+`keyword_restriction_group` row nothing read lands on, fails it. Tests: `rosterComposition.test.js`.
+
 ## Known gaps
 
 The builder's transient tracking docs are gone — this file is the stable reference, and the
