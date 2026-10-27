@@ -12,7 +12,7 @@ import globals from 'globals'
 export default [
   {
     // dist/ and dev-dist/ are build output; public/ ships third-party assets we do not own.
-    ignores: ['dist/**', 'dev-dist/**', 'public/**'],
+    ignores: ['dist/**', 'dev-dist/**', 'public/**', 'target/**'],
   },
 
   js.configs.recommended,

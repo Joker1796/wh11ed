@@ -44,3 +44,7 @@ public/_seed.html
 
 # The golden master's snapshots (golden/README.md): a local baseline, rebuilt from a commit on demand.
 golden/__snapshots__/
+
+# `npm run mutate` (scripts/mutate.mjs): the tool's snapshot and its worker trees.
+/.metrics/
+/target/
