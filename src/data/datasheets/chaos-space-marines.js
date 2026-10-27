@@ -7752,7 +7752,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Fleshmetal weapons - clawed sweeps",
+        "name": "Fleshmetal weapons – clawed sweeps",
         "tags": [],
         "a": "6",
         "ws": "3+",
@@ -7761,7 +7761,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Fleshmetal weapons - rending strikes",
+        "name": "Fleshmetal weapons – rending strikes",
         "tags": [],
         "a": "4",
         "ws": "3+",
@@ -7770,7 +7770,7 @@ export default [
         "d": "3"
       },
       {
-        "name": "Fleshmetal weapons - thunderous blows",
+        "name": "Fleshmetal weapons – thunderous blows",
         "tags": [],
         "a": "2",
         "ws": "3+",

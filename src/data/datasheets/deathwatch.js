@@ -376,7 +376,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Chainfist – hunter",
+        "name": "Chainfist – hunter (vs MONSTER/VEHICLE)",
         "tags": [],
         "a": "3",
         "ws": "3+",
@@ -1539,7 +1539,7 @@ export default [
         "d": "D3+2"
       },
       {
-        "name": "Multi-melta – hunter",
+        "name": "Multi-melta – hunter (vs MONSTER/VEHICLE)",
         "tags": [
           "MELTA 3"
         ],
@@ -1577,7 +1577,7 @@ export default [
         "d": "D3+2"
       },
       {
-        "name": "Melta Rifle – hunter",
+        "name": "Melta Rifle – hunter (vs MONSTER/VEHICLE)",
         "tags": [
           "MELTA 2"
         ],

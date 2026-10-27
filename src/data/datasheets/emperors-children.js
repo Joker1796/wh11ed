@@ -1317,7 +1317,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma pistol - standard",
+        "name": "Plasma pistol – standard",
         "tags": [
           "PISTOL"
         ],
@@ -1329,7 +1329,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma pistol - supercharge",
+        "name": "Plasma pistol – supercharge",
         "tags": [
           "HAZARDOUS",
           "PISTOL"
@@ -1602,7 +1602,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma pistol - standard",
+        "name": "Plasma pistol – standard",
         "tags": [
           "PISTOL"
         ],
@@ -1614,7 +1614,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma pistol - supercharge",
+        "name": "Plasma pistol – supercharge",
         "tags": [
           "HAZARDOUS",
           "PISTOL"
@@ -2526,7 +2526,7 @@ export default [
         "d": "D6"
       },
       {
-        "name": "Plasma gun - standard",
+        "name": "Plasma gun – standard",
         "tags": [
           "PRECISION",
           "RAPID FIRE 1"
@@ -2539,7 +2539,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma gun - supercharge",
+        "name": "Plasma gun – supercharge",
         "tags": [
           "HAZARDOUS",
           "PRECISION",
@@ -2553,7 +2553,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Plasma pistol - standard",
+        "name": "Plasma pistol – standard",
         "tags": [
           "PISTOL",
           "PRECISION"
@@ -2566,7 +2566,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma pistol - supercharge",
+        "name": "Plasma pistol – supercharge",
         "tags": [
           "HAZARDOUS",
           "PISTOL",

@@ -5960,7 +5960,7 @@ export default [
         "d": "D6"
       },
       {
-        "name": "Plasma pistol - standard",
+        "name": "Plasma pistol – standard",
         "tags": [
           "PISTOL"
         ],
@@ -5972,7 +5972,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Plasma pistol - supercharge",
+        "name": "Plasma pistol – supercharge",
         "tags": [
           "PISTOL",
           "HAZARDOUS"

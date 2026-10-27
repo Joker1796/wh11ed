@@ -1080,7 +1080,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Chainfist – hunter",
+        "name": "Chainfist – hunter (vs MONSTER/VEHICLE)",
         "tags": [],
         "a": "3",
         "ws": "3+",

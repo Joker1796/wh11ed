@@ -5489,7 +5489,7 @@ export default [
         "d": "3"
       },
       {
-        "name": "Thunder Hammer – hunter",
+        "name": "Thunder Hammer – hunter (vs MONSTER/VEHICLE)",
         "tags": [
           "DEVASTATING WOUNDS"
         ],

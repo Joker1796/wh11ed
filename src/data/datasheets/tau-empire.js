@@ -5344,16 +5344,6 @@ export default [
         "d": "3"
       },
       {
-        "name": "Missile pod",
-        "tags": [],
-        "range": "30\"",
-        "a": "2",
-        "bs": "5+",
-        "s": "7",
-        "ap": "-1",
-        "d": "2"
-      },
-      {
         "name": "Ion accelerator – overcharge",
         "tags": [
           "HAZARDOUS"
@@ -5364,6 +5354,16 @@ export default [
         "s": "10",
         "ap": "-3",
         "d": "4"
+      },
+      {
+        "name": "Missile pod",
+        "tags": [],
+        "range": "30\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "7",
+        "ap": "-1",
+        "d": "2"
       },
       {
         "name": "Twin fusion blaster",

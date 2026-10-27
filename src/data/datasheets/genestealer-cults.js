@@ -790,7 +790,7 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Psionic Cascade - witchfire",
+        "name": "Psionic Cascade – witchfire",
         "tags": [
           "IGNORES COVER",
           "PSYCHIC"
@@ -803,7 +803,7 @@ export default [
         "d": "D6+1"
       },
       {
-        "name": "Psionic Cascade - focused witchfire",
+        "name": "Psionic Cascade – focused witchfire",
         "tags": [
           "HAZARDOUS",
           "IGNORES COVER",
