@@ -25,10 +25,14 @@ export const changelog = [
     version: '2.10.7',
     date: '2026-10-27',
     en: [
+      { h: 'Whole site' },
+      '**Yandex Browser no longer translates the English version of the site into Russian by itself.** The EN switch now works with automatic translation turned on.',
       { h: 'Answers to bug reports' },
       'Does [Wolf-Touched](/factions/space-wolves#enh-saga-of-the-beastslayer-wolf-touched) give +2” M only to the character? No. The enhancement says “This unit has”, not “This model has”. By the rules (19.04) this applies to the whole attached unit. So [Wulfen](/factions/space-wolves/datasheets/wulfen) with this character move 11”.',
     ],
     ru: [
+      { h: 'Весь сайт' },
+      '**Яндекс Браузер больше не переводит английскую версию сайта на русский сам.** Переключатель EN теперь работает и при включённом автопереводе.',
       { h: 'Ответы на баг-репорты' },
       '[Wolf-Touched](/factions/space-wolves#enh-saga-of-the-beastslayer-wolf-touched) даёт +2” M только персонажу? Нет. В тексте улучшения написано «This unit has», а не «This model has». По правилам (19.04) такое действует на весь объединённый отряд. Поэтому [Wulfen](/factions/space-wolves/datasheets/wulfen) с этим персонажем двигаются на 11”.',
     ],
