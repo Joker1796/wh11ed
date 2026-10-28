@@ -9,9 +9,10 @@
 // both under- and over-report (see APPDATA-SYNC-LESSONS.md #29).
 //
 // appdata's Event Companion publication has FOUR editions, each its own rule_section:
-// the main Warhammer Event Companion, Teams, Doubles and Dominatus. wh11ed implements
-// three of them; Dominatus is out of scope (a product decision, not a bug) and is only
-// inventoried (container count), never diffed line-by-line.
+// the main Warhammer Event Companion, Teams, Doubles and Dominatus. Three are diffed below;
+// Dominatus (since 2026-10-28) is a delta chapter on its own page (src/data/dominatus.js
+// `event`) and is only inventoried here (container count) — its PDF version is what
+// `npm run companions` gates on.
 //
 // DOUBLES IS A DELTA CHAPTER, and is checked accordingly (see syncDoubles). Its companion
 // restates all 14 steps, but three of them are word-for-word the main sequence and the rest
@@ -421,11 +422,11 @@ function syncDoubles(en) {
   console.log(`  ${swapChecked} condensed step(s) confirmed as the main rule with player→team; ${allowSeen.size} allowed by name.`)
 }
 
-// ── Dominatus inventory only (out of scope — not implemented in wh11ed) ─────────────
+// ── Dominatus inventory only (a delta chapter on /dominatus, gated by its PDF version) ──
 function inventoryOnly(label, ruleSectionId) {
   const entries = containerEntries(ruleSectionId).filter((e) => e.text)
-  console.log(`\n=== Event Companion · ${label} (NOT implemented in wh11ed — inventory only) ===`)
-  console.log(`  ${entries.length} appdata containers with text, out of scope by product decision.`)
+  console.log(`\n=== Event Companion · ${label} (delta chapter on /dominatus — inventory only) ===`)
+  console.log(`  ${entries.length} appdata containers with text; the chapter carries what an event changes.`)
 }
 
 // ── run ──────────────────────────────────────────────────────────────────────────────

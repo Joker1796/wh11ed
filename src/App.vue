@@ -42,7 +42,7 @@
 
     <main
       class="main-content"
-      :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isFactionPageRoute || isCombatPatrolPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk || isGameRosterDesk, 'main-content--browse': isRosterBrowseDesk || isGameRosterDesk, 'main-content--fill': isFactionUnitsDesk }"
+      :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isDominatusRoute || isFactionPageRoute || isCombatPatrolPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk || isGameRosterDesk, 'main-content--browse': isRosterBrowseDesk || isGameRosterDesk, 'main-content--fill': isFactionUnitsDesk }"
     >
       <RouterView v-slot="{ Component }">
         <Transition
@@ -124,7 +124,7 @@
       :show-resume-game="showResumeGame"
       :resume-draft-id="resumeDraftId"
     />
-    <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolPageRoute" />
+    <BackToTopButton v-if="isCoreRoute || isEventRoute || isDominatusRoute || isCombatPatrolPageRoute" />
     <UpdateToast v-if="!holdReloads && workerOn" />
     <OfflineWarmupToast v-if="!isBare && appUpdate.phase === 'idle'" />
     <UpdatePlate v-if="!isBare" />
@@ -261,7 +261,7 @@ const pageFaction = computed(() => (appPath.value.startsWith('/factions/') ? rou
 const { navigateTo } = useRefNavigation()
 
 const {
-  isLanding, isEventRoute, isCoreRoute,
+  isLanding, isEventRoute, isDominatusRoute, isCoreRoute,
   isTrackerRoute, isTrackerGameRoute, isGameRosterRoute,
 } = useRouteSection()
 

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { missions } from '../../data/missions.js'
+import { getDominatus } from '../../data/dominatus.js'
 import { scoringMoment, lockedTurn, turnReached, turnEndChecks, cardMoments } from './missionTiming.js'
 
 // The gate: every scoring block of every card has a known moment. A new phrasing in the data
@@ -7,7 +8,8 @@ import { scoringMoment, lockedTurn, turnReached, turnEndChecks, cardMoments } fr
 describe('missionTiming — the data', () => {
   it('knows the moment of every scoring block of every primary and secondary card', () => {
     const unknown = []
-    for (const m of [...missions.en.primary, ...missions.en.secondary]) {
+    const agendas = getDominatus('en').agendas.map((a) => ({ slug: `dom-${a.slug}`, blocks: a.primary.blocks }))
+    for (const m of [...missions.en.primary, ...missions.en.secondary, ...agendas]) {
       m.blocks.forEach((b, bi) => {
         if (!scoringMoment(b)) unknown.push(`${m.slug}#${bi}: ${b.heading} | ${b.when}`)
       })
@@ -57,6 +59,15 @@ describe('missionTiming — lockedTurn', () => {
     expect(at(opp, 1, 1, 5)).toBe(0)
     expect(at(oppR5, 1, 1, 4)).toBe(0)
     expect(at(oppR5, 0, 0, 5)).toBe(1)
+  })
+
+  it('scores "End of the battle round" on the turn that closes the round, whoever owns the card', () => {
+    const roundEnd = scoringMoment({ heading: 'Any Battle Round', when: 'End of the battle round' })
+    expect(roundEnd).toEqual({ at: 'round-end' })
+    expect(at(roundEnd, 0, 0)).toBe(1)
+    expect(at(roundEnd, 0, 1)).toBe(null)
+    expect(at(roundEnd, 1, 0)).toBe(1)
+    expect(at(roundEnd, 1, 1)).toBe(null)
   })
 
   it('scores End of Battle on the battle\'s last turn only', () => {

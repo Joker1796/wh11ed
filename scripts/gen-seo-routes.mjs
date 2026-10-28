@@ -44,6 +44,7 @@ const STATIC_ROUTES = [
   // still work; they just aren't advertised any more.
   '/core-rules',
   '/event-companion',
+  '/dominatus',
   '/rules',
   '/tracker',
   '/roster',

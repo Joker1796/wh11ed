@@ -68,6 +68,7 @@ Read the one for the directory you're touching:
 | `src/components/CLAUDE.md` | motion, shared UI primitives, modal chrome, square corners, what the phone demands |
 | `src/components/core/CLAUDE.md` | Core Rules (one page, seven chapters) |
 | `src/components/event/CLAUDE.md` | Event Companion |
+| `src/components/dominatus/CLAUDE.md` | Dominatus — the campaign deck's page and its tracker mode |
 | `src/components/tracker/CLAUDE.md` | Game Tracker |
 | `src/components/tracker/stats/CLAUDE.md` | Statistics — the battle-record page |
 | `src/components/roster/CLAUDE.md` | Roster Builder |

@@ -44,7 +44,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { activeSectionId } from '../composables/useActiveSection.js'
 import { useRouteSection } from '../composables/useRouteSection.js'
-import { CORE_PATH, EVENT_PATH } from '../router/nav.js'
+import { CORE_PATH, EVENT_PATH, DOMINATUS_PATH } from '../router/nav.js'
 import { useNavGroups } from '../composables/useNavGroups.js'
 import { ui } from '../i18n/ui.js'
 
@@ -62,7 +62,7 @@ const { navigateTo } = useRefNavigation()
 const {
   isLanding, isLinksRoute, isRulesLandingRoute, isCombatPatrolRoute,
   isFactionRoute,
-  isEventRoute, isTrackerRoute, isStratagemsRoute, isRosterRoute,
+  isEventRoute, isDominatusRoute, isTrackerRoute, isStratagemsRoute, isRosterRoute,
 } = useRouteSection()
 
 const labels = computed(() => ui[locale.value])
@@ -98,6 +98,8 @@ const coreGroups = useNavGroups('core')
 const eventGroups = useNavGroups('event')
 const coreSubNavItems = computed(() => chapterItems(coreGroups))
 const eventSubNavItems = computed(() => chapterItems(eventGroups))
+const dominatusGroups = useNavGroups('dominatus')
+const dominatusSubNavItems = computed(() => chapterItems(dominatusGroups))
 
 // A chapter tab stays lit for any of its sections, so the highlight tracks reading position
 // rather than the last click. Shared by Core Rules and Event Companion — both write the same
@@ -110,7 +112,8 @@ function isChapterActive(item) {
 }
 
 function goToChapterAnchor(anchor) {
-  navigateTo({ route: isEventRoute.value ? EVENT_PATH : CORE_PATH, anchor })
+  const route = isEventRoute.value ? EVENT_PATH : isDominatusRoute.value ? DOMINATUS_PATH : CORE_PATH
+  navigateTo({ route, anchor })
 }
 
 const trackerSubNavItems = computed(() => {
@@ -131,6 +134,7 @@ const subNavItems = computed(() => {
   // Game Tracker / Current Game tabs in view (desktop has no "Back to game" bar).
   if (isTrackerRoute.value || isStratagemsRoute.value) return trackerSubNavItems.value
   if (isEventRoute.value) return eventSubNavItems.value
+  if (isDominatusRoute.value) return dominatusSubNavItems.value
   return coreSubNavItems.value
 })
 </script>

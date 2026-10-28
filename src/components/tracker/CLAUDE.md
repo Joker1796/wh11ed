@@ -828,6 +828,13 @@ stratagem played there switches the card. The army rule is the faction's own rec
 the same rule, sometimes pre-errata). Gates: `rosterModifiers/index.test.js` → "Combat Patrol box
 records", `stratagemPlay.test.js`'s pairing sweep.
 
+## Dominatus (since 2026-10-28)
+
+`settings.dominatus` plays a battle of the narrative campaign: each player's Primary is the Agenda
+their Alliance's Briefing gives them (`dom-<agenda>`, served like Combat Patrol's `cp-`), unless
+they decline it. Setup step 2, pre-battle step 7 (Upgrades), the missions tab (war zone rules,
+Agenda Achieved). The deck loads on demand. Everything else: `src/components/dominatus/CLAUDE.md`.
+
 ## Scoring
 
 **Scoring** is by *condition*, not free entry: each mission block row is scored via `ScoringModal.vue` (a count stepper for "For each…" rows, a checkbox otherwise); `picks` store per-row counts keyed `blockIdx:rowIdx`, and VP = Σ count·rowVP. Caps: primary **15/round** — an **End of Battle** row on top, outside it (Event Companion FAQ; `setPrimaryRow`), **45/game**; fixed secondary **20** each; secondary **15/round** across the cards and **45** total (`secondaryRounds` in `gameScoring.js`); Battle Ready **+10**. `scorableBlocks(slug, role, round, locale)` round-gates blocks by their English heading (`BLOCK_ROUNDS`) — e.g. "Second Battle Round Onwards"/"End of Battle" aren't scorable in round 1 — for the callers that ask what scores NOW (end-of-turn check, phase reminder, draw preview); the scoring dialogs (primary, secondary) read `cardBlocks`, the whole card with the other rounds' blocks marked `offRound` and greyed by `ScoreRows` under "Not this round" (a player's report, 2026-10-20: in round 1 the primary's second half was simply missing; `scorableBlocks` is `cardBlocks` filtered) — and derives the per-each flag from the **English** text (display text is localized). Lookup/logic always read `missions.en` (slug/VP/structure are language-agnostic); `missionBySlug(slug, role, locale)` overlays `missionsRu.js` text for display only. **`or` brackets are mutually exclusive:** setting one bracket row clears the competing rows in its group (`orSiblingKeys` in `setPrimaryRow`/`scoreSecondaryRow`); per-tally "For each…/Each time…" `or` rows stay independent (and don't show the "Or" label).

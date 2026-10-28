@@ -20,6 +20,13 @@ export const rulesLanding = {
         desc: 'The matched-play tournament rules — the 25 primary and 18 secondary missions, terrain layouts and the mission matrix, pairings and FAQs.',
       },
       {
+        key: 'dominatus',
+        label: 'Dominatus',
+        path: '/dominatus',
+        tags: ['Campaign', 'Agendas', 'Upgrades'],
+        desc: 'The Armageddon narrative campaign deck — three Alliances, Locations and war zone rules, Briefings and Agendas in place of Primary Missions, Battle Honours, Skills and Relics.',
+      },
+      {
         key: 'combat-patrol',
         label: 'Combat Patrol',
         path: '/combat-patrol',
@@ -44,6 +51,13 @@ export const rulesLanding = {
         path: '/event-companion',
         tags: ['Миссии', 'Террейн', 'Паринги', 'Командные'],
         desc: 'Турнирные правила matched play — 25 основных и 18 вторичных миссий, раскладки террейна и матрица миссий, паринги и FAQ.',
+      },
+      {
+        key: 'dominatus',
+        label: 'Dominatus',
+        path: '/dominatus',
+        tags: ['Кампания', 'Agenda', 'Upgrade'],
+        desc: 'Колода нарративной кампании на Армагеддоне — три альянса, локации и правила зоны боевых действий, Briefing и Agenda вместо Primary Mission, Battle Honour, Battle Skill и Relic.',
       },
       {
         key: 'combat-patrol',

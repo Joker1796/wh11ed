@@ -13,7 +13,7 @@
     "dominatus": {
       "version": "1.1",
       "file": "eng_22-07_warhammer_40,000_warhammer_dominatus_event_companion-qltehqtely-atbn2qffac.pdf",
-      "implemented": false
+      "implemented": true
     },
     "main": {
       "version": "1.3",

@@ -98,7 +98,7 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { stripLocale } from '../router/locale.js'
-import { CORE_PATH, EVENT_PATH } from '../router/nav.js'
+import { CORE_PATH, EVENT_PATH, DOMINATUS_PATH } from '../router/nav.js'
 import { useNavGroups } from '../composables/useNavGroups.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
@@ -118,6 +118,7 @@ const labels = computed(() => ui[locale.value])
 
 const localizedGroups = useNavGroups('core')
 const localizedEventGroups = useNavGroups('event')
+const localizedDominatusGroups = useNavGroups('dominatus')
 const localizedTrackerGroups = useNavGroups('tracker')
 const localizedRosterGroups = useNavGroups('roster')
 const localizedCombatPatrolGroups = useNavGroups('combatPatrol')
@@ -156,6 +157,7 @@ const navSections = computed(() => {
   return [
     { key: 'core',          label: l.navCoreRules,      groups: localizedGroups.value },
     { key: 'event',         label: l.navEventCompanion, groups: localizedEventGroups.value },
+    { key: 'dominatus',     label: l.navDominatus,      groups: localizedDominatusGroups.value },
     { key: 'combat-patrol', label: l.cpHeading,         groups: localizedCpGroups.value },
     { key: 'roster',        label: l.navRoster,         groups: localizedRosterGroups.value },
     { key: 'factions',      label: l.navFactions,       groups: localizedFactionGroups.value },
@@ -172,6 +174,7 @@ const currentSection = computed(() => {
   const p = stripLocale(route.path)
   if (under(p, CORE_PATH)) return 'core'
   if (under(p, EVENT_PATH)) return 'event'
+  if (under(p, DOMINATUS_PATH)) return 'dominatus'
   if (under(p, COMBAT_PATROL_PATH)) return 'combat-patrol'
   if (under(p, '/tracker') || p === '/stratagems') return 'tracker'
   if (under(p, '/roster')) return 'roster'

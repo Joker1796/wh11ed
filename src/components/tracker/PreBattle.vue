@@ -116,6 +116,27 @@
         <p class="pb-text">
           {{ labels.pbFormations }}
         </p>
+        <!-- Dominatus: the Upgrade cards each side gives to its units, up to 3 (4 at Titangrave). -->
+        <div
+          v-if="dominatus"
+          class="pb-dom"
+        >
+          <div
+            v-for="(p, i) in players"
+            :key="i"
+            class="pb-dom-side"
+            :class="sideTone(i)"
+          >
+            <span
+              class="pb-player"
+              :style="sideColor(i)"
+            >{{ name(i) }}</span>
+            <DomUpgradesEditor
+              :pi="i"
+              :editable="canEdit(i)"
+            />
+          </div>
+        </div>
       </li>
       <li class="pb-step">
         <strong class="pb-name"><span class="pb-n">8</span>{{ labels.pbStepDeploy }}</strong>
@@ -204,6 +225,7 @@
 import { computed, ref } from 'vue'
 import ExpandTransition from '../ExpandTransition.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
+import DomUpgradesEditor from '../dominatus/DomUpgradesEditor.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, sideName, isYouSide, battleOf, fixedPool, missionBySlug } from '../../composables/useTracker.js'
@@ -220,6 +242,7 @@ const { active: shared, isHost, canEdit, reseat } = useParty()
 
 const players = computed(() => current.value.players)
 const combatPatrol = computed(() => !!current.value.settings?.combatPatrol)
+const dominatus = computed(() => !!current.value.settings?.dominatus)
 const name = (i) => sideName(players.value[i], i, labels.value)
 const roleIdx = (role) => players.value.findIndex((p) => p.role === role)
 // A side's own colour (the game screen's --side-you / --side-opponent), for its name in a step.
@@ -302,6 +325,8 @@ function roll(i) {
   .pb-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem 2rem; }
 }
 .pb-step { min-width: 0; }
+.pb-dom { display: grid; gap: 0.6rem; margin-top: 0.4rem; }
+.pb-dom-side { display: grid; gap: 0.3rem; }
 .pb-name { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
 /* The step's number in the score board's figures (its display face), a size up, in the text's own
    colour (owner, 2026-10-25). Over 18px, so weight 500 is allowed (npm run a11y's face check). */

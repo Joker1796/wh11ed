@@ -4,6 +4,7 @@ import { CUR_KEY, gameInPlay, isValidGame } from './gameInPlay.js'
 import { missions, primaryFor } from '../data/missions.js'
 import { overlayMission } from '../data/missionOverlay.js'
 import { isCpMissionSlug, cpMissionBySlug, cpMissionSlugFor } from '../data/combatPatrolMissions.js'
+import { isDomMissionSlug, domMissionBySlug, domMissionSlugFor, loadDominatusDeck } from './dominatusMissions.js'
 import { missionsRu } from '../data/missionsRu.js'
 import { eventCompanion } from '../data/eventCompanion.js'
 import {
@@ -173,6 +174,8 @@ function localize(m, role) {
 export function missionBySlug(slug, role, locale = 'en') {
   // A Combat Patrol box's own mission (`cp-<box id>`) — a primary, with its own RU overlay.
   if (!role && isCpMissionSlug(slug)) return cpMissionBySlug(slug, locale)
+  // A Dominatus Agenda (`dom-<agenda>`): its Primary Mission, with the deck's RU overlay.
+  if (!role && isDomMissionSlug(slug)) return domMissionBySlug(slug, locale)
   const m = role
     ? missions.en.secondary.find(x => x.slug === slug && x.role === role) || null
     : missions.en.primary.find(x => x.slug === slug) || null
@@ -224,6 +227,12 @@ export function primaryOf(p, opponent, settings = {}) {
   if (settings.combatPatrol) {
     const slug = cpMissionSlugFor(p)
     return slug ? cpMissionBySlug(slug) : null
+  }
+  // Dominatus: the Agenda the player's Briefing gives them replaces the mission deck's Primary —
+  // unless they declined Agendas this battle, and then they score the deck's card as usual.
+  if (settings.dominatus && !p.declineAgenda) {
+    const slug = domMissionSlugFor(p, opponent, settings.dominatus)
+    return slug ? domMissionBySlug(slug) : null
   }
   return derivePrimary(p.disposition, opponent.disposition, settings)
 }
@@ -296,6 +305,8 @@ function saveNow() {
 watch(current, () => { pendingCurrent = true; scheduleSave() }, { deep: true })
 // The shell's "a game is on" flag (gameInPlay.js) follows the store from the moment it loads.
 watch(() => current.value?.phase, (phase) => { gameInPlay.value = phase === 'playing' }, { immediate: true })
+// A Dominatus game reads its Agendas and Location from the deck, which comes on demand.
+watch(() => !!current.value?.settings?.dominatus, (on) => { if (on) loadDominatusDeck() }, { immediate: true })
 watch(history, () => { pendingHistory = true; scheduleSave() }, { deep: true })
 watch(setupDraft, () => { pendingSetupDraft = true; scheduleSave() }, { deep: true })
 
@@ -385,6 +396,12 @@ function makePlayer(p, opponent, settings, isYou = false) {
         }
       : {}),
     primarySlug: primary ? primary.slug : null,
+    // Dominatus (settings.dominatus): the Alliance, whether this player declined Agendas this
+    // battle, the Upgrades given to units in Declare Battle Formations, and the Agenda Achieved
+    // cards the battle earned (told at Determine Victor).
+    ...(settings.dominatus
+      ? { alliance: p.alliance || null, declineAgenda: !!p.declineAgenda, upgrades: [], agendaAchieved: 0 }
+      : {}),
     cp: 0,
     cpBase: 0,
     cpLog: [],                                 // the CP ledger — cpLedger.js
@@ -786,6 +803,23 @@ export function useTracker() {
     const g = current.value
     if (strictWhy('pencil', pi)) return
     adjustTo(g.players[pi], value, g.currentRound, turnIndex(g))
+  }
+
+  // ── Dominatus: what a battle of the campaign leaves a player with ──
+  // Agenda Achieved cards are the players' to judge at Determine Victor (the conditions read the
+  // table, not the score): 0–1, or 0–2 for a phase 3 Agenda, whose card offers one more.
+  function setAgendaAchieved(pi, n) {
+    const pl = current.value?.players[pi]
+    if (!pl) return
+    const card = isDomMissionSlug(pl.primarySlug) ? domMissionBySlug(pl.primarySlug) : null
+    const max = !card ? 0 : card.achieved.more ? 2 : 1
+    pl.agendaAchieved = Math.max(0, Math.min(max, Math.floor(Number(n) || 0)))
+  }
+  // The Upgrades given to units this battle: [{ slug, unit }] — `unit` a name as the table says it.
+  function setUpgrades(pi, list) {
+    const pl = current.value?.players[pi]
+    if (!pl) return
+    pl.upgrades = (list || []).filter((u) => u && u.slug).map((u) => ({ slug: u.slug, unit: String(u.unit || '') }))
   }
 
   // The balance's "−" where stratagems are not paid for here (`stratSpendCp` off): a point spent,
@@ -1926,7 +1960,7 @@ export function useTracker() {
 
   return {
     current, history, setupDraft,
-    startLobby, closeLobby, newGame, updateSetup, setRoundPrimary, setCp, spendCpByHand, setArmyCounter, setArmySelection, toggleArmyMulti,
+    startLobby, closeLobby, newGame, updateSetup, setRoundPrimary, setCp, spendCpByHand, setAgendaAchieved, setUpgrades, setArmyCounter, setArmySelection, toggleArmyMulti,
     setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
     setArmyCondition, setUnitCondition, setUnitStratagem, setUnitUse, setUnitAura, setUnitPick,
     resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,

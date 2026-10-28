@@ -118,6 +118,13 @@ const ROUTES = {
       ru: 'Warhammer 40,000 Event Companion одной страницей: предбоевая последовательность миссии, все основные и вторичные миссии плюс твисты, раскладки террейна и матрица миссий, паринги и ранжирование, командные ивенты и формат Doubles, эррата и FAQ для турниров.',
     },
   },
+  '/dominatus': {
+    title: { en: 'Dominatus', ru: 'Dominatus' },
+    description: {
+      en: 'Dominatus, the Warhammer 40,000 narrative campaign deck for Armageddon: campaign rules, the nine Locations and their war zone rules, every Briefing matrix and Agenda with its Primary Mission, all Battle Honours, Battle Skills and Relics, and the Dominatus Event Companion.',
+      ru: 'Dominatus — колода нарративной кампании Warhammer 40,000 на Армагеддоне: правила кампании, девять локаций и правила зоны боевых действий, все матрицы Briefing и Agenda с их Primary Mission, все Battle Honour, Battle Skill и Relic, а также Dominatus Event Companion.',
+    },
+  },
   '/tracker': {
     title: { en: 'Game Tracker', ru: 'Трекер игры' },
     description: {

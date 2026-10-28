@@ -16,6 +16,7 @@
 //   'opp-turn'     — the end of the owner's OPPONENT's turn
 //   'any-turn'     — the end of either player's turn
 //   'active'       — any time while the card is active
+//   'round-end'    — the end of the battle round: the turn that closes it (a Dominatus Agenda's)
 //   'end-battle'   — the end of the battle (fifth round only, by its heading)
 // `fallback: 'r5'` — "… or the end of the fifth battle round (whichever comes first)" /
 // "(or the end of your turn in the fifth battle round)": in round 5 the moment can also come at
@@ -39,6 +40,7 @@ const WHEN = {
   "End of your opponent's turn or the end of the fifth battle round (whichever comes first)": { at: 'opp-turn', fallback: 'r5' },
   'End of a turn': { at: 'any-turn' },
   "End of either player's turn": { at: 'any-turn' },
+  'End of the battle round': { at: 'round-end' },
   'While this card is active': { at: 'active' },
 }
 
@@ -64,6 +66,7 @@ export function momentTurns(moment, pi, round) {
     case 'your-command':
     case 'your-turn': return [pi]
     case 'opp-turn': return moment.fallback === 'r5' && round === 5 ? [1 - pi, 1] : [1 - pi]
+    case 'round-end':
     case 'end-battle': return [1]
   }
   return null
@@ -173,6 +176,7 @@ export function turnEndChecks(game, scorable, missionEn, discarding = null) {
     const due = (m) => {
       if (!m) return false
       if (m.at === 'end-battle') return last
+      if (m.at === 'round-end') return T === 1
       if (m.at === 'opp-turn') return opp || (last && m.fallback === 'r5')
       if (m.at === 'your-turn') return !opp
       if (m.at === 'any-turn') return true
@@ -212,6 +216,7 @@ export function cardMoments(game, pi, scorable, missionEn, missionName) {
     if (!m) return null
     if (m.at === 'your-command') return opp ? null : 'command-end'
     if (m.at === 'end-battle') return last ? 'turn-end' : null
+    if (m.at === 'round-end') return T === 1 ? 'turn-end' : null
     if (m.at === 'opp-turn') return opp || (last && m.fallback === 'r5') ? 'turn-end' : null
     if (m.at === 'your-turn') return opp ? null : 'turn-end'
     if (m.at === 'any-turn') return 'turn-end'

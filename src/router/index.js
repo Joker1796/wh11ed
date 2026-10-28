@@ -5,7 +5,7 @@ import { prefetchFor } from './prefetch.js'
 import LandingView from '../views/LandingView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
 import { LOCALE_SEGMENT, localePath, stripLocale } from './locale.js'
-import { CORE_PATH, CORE_CHAPTER_ANCHORS, EVENT_PATH, EVENT_CHAPTER_ANCHORS, LAST_ROUTE_KEY, SKIP_RESTORE } from './nav.js'
+import { CORE_PATH, CORE_CHAPTER_ANCHORS, EVENT_PATH, EVENT_CHAPTER_ANCHORS, DOMINATUS_PATH, LAST_ROUTE_KEY, SKIP_RESTORE } from './nav.js'
 
 // The nav tables and path constants live in nav.js; re-exported for the tests and anyone reading
 // the router as the map of the site. The app itself imports them from nav.js — see there why.
@@ -17,6 +17,7 @@ import { locale as activeLocale, readStoredLocale, setLocale } from '../composab
 // stays eager.
 const CoreRulesView     = () => import('../views/CoreRulesView.vue')
 const EventCompanionView = () => import('../views/EventCompanionView.vue')
+const DominatusView     = () => import('../views/DominatusView.vue')
 const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 const PartyJoinView     = () => import('../views/tracker/PartyJoinView.vue')
@@ -101,6 +102,7 @@ const localeRoutes = [
       redirect: { path: CORE_PATH, hash: '#' + anchor },
     })),
     { path: EVENT_PATH, component: EventCompanionView, meta: { section: 'event' } },
+    { path: DOMINATUS_PATH, component: DominatusView, meta: { section: 'dominatus' } },
     // The six former chapter routes. They stay valid forever — old bookmarks, shared
     // links and the stale SEO keys still in the bucket all land on the right chapter.
     ...Object.entries(EVENT_CHAPTER_ANCHORS).map(([path, anchor]) => ({

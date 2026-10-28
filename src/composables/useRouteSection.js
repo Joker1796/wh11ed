@@ -16,6 +16,8 @@ export function useRouteSection() {
   // A specific faction's pages (/factions/:slug...) get their own subnav; the /factions list doesn't.
   const isFactionDetailRoute = computed(() => isFactionRoute.value && !!route.params.slug)
   const isEventRoute = computed(() => route.meta.section === 'event')
+  // Dominatus — the campaign deck's own one-page book (/dominatus), a sibling of the Event Companion.
+  const isDominatusRoute = computed(() => route.meta.section === 'dominatus')
   const isCombatPatrolRoute = computed(() => route.meta.section === 'combat-patrol')
   // The one combined per-faction page (/combat-patrol/:slug) is a long scroll (rule + army rule +
   // stratagems + enhancements + datasheets) — same "Back to top" FAB as the Core Rules pages.
@@ -39,7 +41,7 @@ export function useRouteSection() {
   // The "Rules" umbrella (navbar dropdown / bottom-nav button) is active on its own landing
   // page and on any of the 3 sections it groups — Core Rules, Event Companion, Combat Patrol.
   const isRulesRoute = computed(() =>
-    isRulesLandingRoute.value || isCoreRoute.value || isEventRoute.value || isCombatPatrolRoute.value
+    isRulesLandingRoute.value || isCoreRoute.value || isEventRoute.value || isDominatusRoute.value || isCombatPatrolRoute.value
   )
 
   return {
@@ -48,6 +50,7 @@ export function useRouteSection() {
     isFactionRoute,
     isFactionDetailRoute,
     isEventRoute,
+    isDominatusRoute,
     isCombatPatrolRoute,
     isCombatPatrolFactionRoute,
     isRulesLandingRoute,

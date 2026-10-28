@@ -274,6 +274,22 @@
           <RuleBody :body="activeTwist.body" />
         </div>
       </details>
+      <!-- Dominatus: the Location's war zone rules apply to the whole battle. -->
+      <details
+        v-if="domLocation"
+        class="twist-card"
+      >
+        <summary><span class="tc-label">{{ labels.trackerDomWarZone }}</span> {{ domLocation.name }}</summary>
+        <div class="twist-card-body">
+          <template
+            v-for="w in domLocation.warZone"
+            :key="w.name"
+          >
+            <strong class="dom-wz">{{ w.name }}</strong>
+            <RuleBody :body="w.body" />
+          </template>
+        </div>
+      </details>
 
       <!-- Correcting a turn already played: a banner says so, and the way back is on it. -->
       <div
@@ -342,6 +358,12 @@
                    "/ 15" then, a figure past it would read as an error. -->
               <span class="mc-vp">{{ current.players[i].rounds[shownRound - 1].primary }}{{ current.players[i].rounds[shownRound - 1].primary > PRIMARY_ROUND_CAP ? '' : ` / ${PRIMARY_ROUND_CAP}` }} VP</span>
             </button>
+            <!-- Dominatus: the Agenda Achieved cards this battle earns, under the Agenda it is. -->
+            <DomAgendaRow
+              v-if="isDomMissionSlug(current.players[i].primarySlug)"
+              :pi="i"
+              :editable="canEdit(i)"
+            />
             <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no
                  card to tick. The missions themselves are not optional — see trackerOptions.js. -->
             <div
@@ -638,6 +660,8 @@ import { useTracker, gameBegun, membersOf, sideLabel, isYouSide, ROUND_COUNT, PR
 import { useBroadcast } from '../../composables/useBroadcast.js'
 import { useParty } from '../../composables/useParty.js'
 import { turnIndex as turnOf } from '../../core/game/clock.js'
+import { isDomMissionSlug, domLocation as domLocationOf } from '../../composables/dominatusMissions.js'
+import DomAgendaRow from '../dominatus/DomAgendaRow.vue'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -1155,6 +1179,10 @@ function onPickPhase(turn, phase) {
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored
 // World / Scrambled Communications) is already baked into each player's primarySlug.
+const domLocation = computed(() => {
+  const slug = current.value?.settings?.dominatus?.location
+  return slug ? domLocationOf(slug, locale.value) : null
+})
 const activeTwist = computed(() => {
   const id = current.value?.settings?.twist
   if (!id) return null
@@ -1224,6 +1252,7 @@ function onEndBattle(reason) {
   color: var(--accent-ink);
   margin-right: 0.35rem;
 }
+.dom-wz { display: block; margin-top: 0.4rem; }
 .twist-card-body {
   padding: 0 0.75rem 0.6rem;
   font-size: 0.85rem;

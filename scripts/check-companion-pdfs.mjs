@@ -14,9 +14,11 @@
 // A new PDF dropped into ../sources with a higher VERSION fails the gate until someone reads its
 // WHAT'S NEW and re-records it with --write. That is the point: the failure IS the reminder.
 //
-// Dominatus is recorded as deliberately not implemented (it only adapts the separate Dominatus
-// deck, whose contents GW ships nowhere — appdata's mission_pack_location* tables are empty), so
-// it is version-tracked and nothing more. If that ever changes, the version bump will say so.
+// Dominatus was recorded as deliberately not implemented until 2026-10-28: it only adapts the
+// separate Dominatus deck, whose contents GW ships nowhere (appdata's mission_pack_location*
+// tables are empty). The deck was then transcribed from the owner's own copy (src/data/dominatus.js)
+// and this companion carried as a delta chapter on /dominatus (`event`); it is version-tracked, and
+// a new version fails here like the other three.
 //
 // Requires `pdftotext` (poppler). Without it, or without the PDFs, the gate says what it could
 // not check instead of passing quietly.

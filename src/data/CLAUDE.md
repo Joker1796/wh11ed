@@ -375,8 +375,9 @@ September even though `sync-core` printed it on every run — one finding among 
   (checked by publicationId and ruleContainerId — zero rows), which is why the four answers added
   on 2026-08-26 were missing until a player-driven audit found them. A republished PDF fails the
   gate and prints GW's own WHAT'S NEW; `--write` re-records it once the change has landed.
-  Dominatus is tracked here as deliberately unimplemented — it only adapts the separate Dominatus
-  deck, whose contents GW ships nowhere (appdata's `mission_pack_location*` tables are empty).
+  Dominatus was tracked here as deliberately unimplemented until 2026-10-28; the deck has since
+  been transcribed from the owner's copy (`src/components/dominatus/CLAUDE.md`) and its companion
+  is a delta chapter on `/dominatus`, version-gated here like the rest.
 
 - **`npm run exceptions`** (`scripts/check-appdata-exceptions.mjs`) — every place we knowingly
   print something appdata does not, listed once in `scripts/lib/appdata-exceptions.mjs` with a

@@ -1,0 +1,68 @@
+/* The Dominatus page's card chrome, shared by its chapter components (scoped styles do not cross
+   a component boundary). Loaded by DominatusView only, so it rides in that route's CSS. */
+.dgroup { margin-bottom: 1.75rem; }
+.dgroup-label {
+  font-family: var(--font-display);
+  font-size: 1.32rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.85rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+/* Multicol like .strat-grid: each card keeps its own height. */
+.dgrid { column-width: 320px; column-gap: 1rem; }
+.dgrid > * { break-inside: avoid; margin-bottom: 1rem; }
+
+.dcard {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 0.85rem 0.95rem 0.95rem;
+}
+.dcard-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.6rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.dcard-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.dcard-sub {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.dname-ru {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: none;
+  color: var(--text-muted);
+}
+.dcard-head > .dname-ru { flex-basis: 100%; order: 3; }
+.dbody { font-size: 0.9rem; line-height: 1.5; }
+.dbody > p:first-child { margin-top: 0; }
+.dbody > p:last-child { margin-bottom: 0; }
+
+.dfilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  margin-bottom: 1.4rem;
+}
+.dispo-icon { width: 22px; height: 22px; object-fit: contain; flex: none; }

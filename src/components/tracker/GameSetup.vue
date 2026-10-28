@@ -714,8 +714,88 @@
            last step, as it was until 2026-08-25, it rewrote a card the player had already read
            and moved on from. Not offered for Combat Patrol (the box's own rules don't mention it
            either way; keeping this simple, matching how basic-box play works). -->
+      <!-- Dominatus: a battle of the narrative campaign. Its Agenda replaces the Primary below
+           (primaryOf), so — like the twist — it is asked before the cards it decides. The phase's
+           Location brings war zone rules every battle of the phase is fought under. -->
       <div
-        v-if="!guest && !settings.combatPatrol"
+        v-if="!guest && !settings.combatPatrol && !isDoubles"
+        class="settings dom-block"
+      >
+        <h3 class="block-head">
+          {{ labels.trackerDomHeading }}
+        </h3>
+        <label class="check">
+          <input
+            type="checkbox"
+            :checked="!!settings.dominatus"
+            @change="setDominatus($event.target.checked)"
+          >
+          <span>{{ labels.trackerDomToggle }}</span>
+        </label>
+        <ExpandTransition>
+          <div
+            v-if="settings.dominatus"
+            class="dom-fields"
+          >
+            <div class="field">
+              <span>{{ labels.trackerDomPhase }}</span>
+              <div class="seg">
+                <button
+                  v-for="n in [1, 2, 3]"
+                  :key="n"
+                  :class="{ on: settings.dominatus.phase === n }"
+                  @click="setDomPhase(n)"
+                >
+                  {{ ['I', 'II', 'III'][n - 1] }}
+                </button>
+              </div>
+            </div>
+            <div class="field">
+              <span>{{ labels.trackerDomLocation }}</span>
+              <div class="filter-chips">
+                <button
+                  v-for="l in domLocations"
+                  :key="l.slug"
+                  class="filter-chip"
+                  :class="{ on: settings.dominatus.location === l.slug }"
+                  @click="settings.dominatus.location = l.slug"
+                >
+                  {{ l.roll }} · {{ l.name }}
+                </button>
+                <button
+                  class="filter-chip"
+                  data-press
+                  @click="rollDomLocation"
+                >
+                  {{ labels.trackerDomRoll }}
+                </button>
+              </div>
+            </div>
+            <ExpandTransition>
+              <details
+                v-if="domLocation"
+                class="twist-chosen"
+              >
+                <summary>{{ labels.trackerDomWarZone }}</summary>
+                <div class="twist-chosen-body">
+                  <template
+                    v-for="w in domLocation.warZone"
+                    :key="w.name"
+                  >
+                    <h4 class="dom-rule">
+                      {{ w.name }}
+                    </h4>
+                    <RuleBody :body="w.body" />
+                  </template>
+                </div>
+              </details>
+            </ExpandTransition>
+          </div>
+        </ExpandTransition>
+      </div>
+
+      <div
+        v-if="!guest && !settings.combatPatrol && !settings.dominatus"
         class="settings twist-block"
         data-tour="setup-twist"
       >
@@ -886,6 +966,35 @@
                 class="det-empty"
               >{{ labels.trackerPickDetachmentFirst }}</p>
             </label>
+            <!-- Dominatus: the Alliance picks the Briefing the two dispositions are read on. -->
+            <ExpandTransition>
+              <div
+                v-if="settings.dominatus"
+                class="dom-side"
+                :inert="editable(i) ? undefined : true"
+              >
+                <div class="field">
+                  <span>{{ labels.trackerDomAlliance }}</span>
+                  <div class="seg seg-fill">
+                    <button
+                      v-for="a in domAllianceList"
+                      :key="a.id"
+                      :class="{ on: p.alliance === a.id }"
+                      @click="p.alliance = a.id"
+                    >
+                      {{ a.name }}
+                    </button>
+                  </div>
+                </div>
+                <label class="check">
+                  <input
+                    v-model="p.declineAgenda"
+                    type="checkbox"
+                  >
+                  <span>{{ labels.trackerDomDecline }}</span>
+                </label>
+              </div>
+            </ExpandTransition>
           </template>
 
           <!-- The primary is derived from BOTH dispositions, so in a lobby it is missing until
@@ -922,7 +1031,12 @@
                   :show-lore="false"
                   collapsible
                   :default-open="false"
-                />
+                >
+                  <DomAgendaAchieved
+                    v-if="primaryCards[i].achieved"
+                    :achieved="primaryCards[i].achieved"
+                  />
+                </MissionCard>
               </div>
             </div>
           </ExpandTransition>
@@ -1416,6 +1530,8 @@ import { useTracker, DISPOSITIONS, BATTLE_SIZES, CUSTOM_BATTLE, CUSTOM_RANGES, b
 import { FACTIONS, detachmentsFor, detachmentInfo, mfmDetachmentNames } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import { combatPatrolRoster, defaultCombatPatrolEnhancement } from '../../core/roster/combatPatrolRoster.js'
+import { domAlliances, domLocationsOf, domLocation as domLocationOf, loadDominatusDeck } from '../../composables/dominatusMissions.js'
+import DomAgendaAchieved from '../dominatus/DomAgendaAchieved.vue'
 import { loadRosterFaction } from '../../data/roster/index.js'
 import RosterPickerModal from './RosterPickerModal.vue'
 import { useRosters, uid as newRosterUid } from '../../composables/useRosters.js'
@@ -1484,11 +1600,13 @@ function defaultPlayer(role, name = '') {
   return {
     name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical',
     fixedSecondaries: [], battleReady: false, rosterId: null, roster: null,
+    // Dominatus fields — inert outside a Dominatus battle (makePlayer ignores them there).
+    alliance: null, declineAgenda: false,
     // Doubles fields — inert in singles (makePlayer ignores them there).
     teamName: '', forceType: null, members: [defaultMember(), defaultMember()],
   }
 }
-const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: null, layout: 'A', customLayout: null, battleSize: 'strikeForce', custom: lastCustom ? { ...lastCustom } : null, combatPatrol: false, gameType: 'singles', dpPerPlayer: null, twist: null, twistMission: null, scoreMode: lastScoreMode, strictRules: lastStrict }
+const defaultSettings = { ...defaultTrackSettings(lastS), firstTurn: null, layout: 'A', customLayout: null, battleSize: 'strikeForce', custom: lastCustom ? { ...lastCustom } : null, combatPatrol: false, dominatus: null, gameType: 'singles', dpPerPlayer: null, twist: null, twistMission: null, scoreMode: lastScoreMode, strictRules: lastStrict }
 
 // WHERE THE FORM'S STATE LIVES. Normally in this component: a draft, persisted so it survives a
 // reload. Once the setup is SHARED it lives in the game itself (`current`, phase 'setup') — and
@@ -1901,6 +2019,29 @@ function onPickTwist(id) { setTwist(id); twistPickerOpen.value = false }
 function onRandomTwist() { randomTwist(); twistPickerOpen.value = false }
 function onNoTwist() { setTwist(null); twistPickerOpen.value = false }
 
+// Dominatus (`settings.dominatus = { phase, location }`). No twist with it: the Agenda IS the
+// Primary, and a twist that swaps or replaces Primaries has nothing to act on.
+const domAllianceList = computed(() => domAlliances(locale.value))
+const domLocations = computed(() => (settings.dominatus ? domLocationsOf(settings.dominatus.phase, locale.value) : []))
+const domLocation = computed(() => (settings.dominatus?.location ? domLocationOf(settings.dominatus.location, locale.value) : null))
+// The deck comes on demand (dominatusMissions.js): fetched once the mode is on — a restored draft
+// included — so the Alliances, Locations and Agenda previews are there to pick from.
+watch(() => !!settings.dominatus, (on) => { if (on) loadDominatusDeck() }, { immediate: true })
+function setDominatus(on) {
+  settings.dominatus = on ? { phase: 1, location: null } : null
+  if (on) { settings.twist = null; settings.twistMission = null }
+}
+function setDomPhase(n) {
+  if (!settings.dominatus || settings.dominatus.phase === n) return
+  settings.dominatus = { phase: n, location: null }
+}
+// The Warmaster's D6: 1–2, 3–4, 5–6 pick the phase's first, second, third Location.
+function rollDomLocation() {
+  const roll = 1 + Math.floor(Math.random() * 6)
+  const l = domLocations.value[Math.ceil(roll / 2) - 1]
+  if (l) settings.dominatus.location = l.slug
+}
+
 const stepLabel = computed(() => [
   labels.value.trackerStepArmies, labels.value.trackerStepMission,
   labels.value.trackerStepBattlefield, labels.value.trackerStepDeploy,
@@ -2210,6 +2351,8 @@ const canArmies = computed(() =>
 function missionOkFor(p) {
   // Combat Patrol: the box is the mission — no disposition to choose.
   if (settings.combatPatrol) return !!p.factionSlug
+  // Dominatus: the Briefing to read is the Alliance's.
+  if (settings.dominatus && !p.alliance) return false
   return !!p.disposition
 }
 // Both sides, deliberately: the primary mission IS the pair of dispositions, and the layouts on
@@ -2422,7 +2565,8 @@ function cancel() {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--stack-gap);
 }
-.twist-block { margin-bottom: var(--stack-gap); }
+.twist-block,
+.dom-block { margin-bottom: var(--stack-gap); }
 .player-card,
 .settings {
   /* --pc-pad drives the padding AND the negative margin the mission preview uses to bleed
@@ -2451,8 +2595,19 @@ function cancel() {
   row-gap: 0.6rem;
   align-items: center;
 }
-.twist-block > .block-head { margin: 0; }
-.twist-block > :not(.block-head) { grid-column: 2; }
+.twist-block > .block-head,
+.dom-block > .block-head { margin: 0; }
+.twist-block > :not(.block-head),
+.dom-block > :not(.block-head) { grid-column: 2; }
+.dom-fields { display: grid; gap: 0.6rem; margin-top: 0.5rem; }
+.dom-side { display: grid; gap: 0.5rem; margin-top: 0.6rem; }
+.dom-rule {
+  margin: 0.5rem 0 0.1rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}
 .twist-block > .twist-chosen,
 .twist-block > .twist-mission { margin-top: 0; }
 @media (max-width: 560px) {

@@ -46,6 +46,10 @@
           {{ mission.lore }}
         </p>
 
+        <!-- What a card carries above its scoring (a Dominatus Agenda's Agenda Achieved conditions);
+             nothing for an ordinary mission card. -->
+        <slot />
+
         <MissionBriefing :briefing="mission.briefing" />
 
         <div

@@ -274,6 +274,28 @@ export const eventGroupsRu = [
   { label: 'Эррата и FAQ',              path: EVENT_PATH, hash: '#ec-chapter-faq', sections: [] },
 ]
 
+// Dominatus — the narrative campaign deck, one page of its own (src/views/DominatusView.vue),
+// built like the Event Companion: chapters as anchors on one path.
+export const DOMINATUS_PATH = '/dominatus'
+
+export const dominatusGroups = [
+  { label: 'Campaign Rules', path: DOMINATUS_PATH, hash: '#dom-chapter-rules', sections: [] },
+  { label: 'Locations',      path: DOMINATUS_PATH, hash: '#dom-chapter-locations', sections: [] },
+  { label: 'Briefings',      path: DOMINATUS_PATH, hash: '#dom-chapter-briefings', sections: [] },
+  { label: 'Agendas',        path: DOMINATUS_PATH, hash: '#dom-chapter-agendas', sections: [] },
+  { label: 'Upgrades',       path: DOMINATUS_PATH, hash: '#dom-chapter-upgrades', sections: [] },
+  { label: 'Events',         path: DOMINATUS_PATH, hash: '#dom-chapter-event', sections: [] },
+]
+
+export const dominatusGroupsRu = [
+  { label: 'Правила кампании', path: DOMINATUS_PATH, hash: '#dom-chapter-rules', sections: [] },
+  { label: 'Локации',          path: DOMINATUS_PATH, hash: '#dom-chapter-locations', sections: [] },
+  { label: 'Briefing',         path: DOMINATUS_PATH, hash: '#dom-chapter-briefings', sections: [] },
+  { label: 'Agenda',           path: DOMINATUS_PATH, hash: '#dom-chapter-agendas', sections: [] },
+  { label: 'Upgrade',          path: DOMINATUS_PATH, hash: '#dom-chapter-upgrades', sections: [] },
+  { label: 'Турниры',          path: DOMINATUS_PATH, hash: '#dom-chapter-event', sections: [] },
+]
+
 // Game Tracker — third top-level section. Two routes (home + active game), no anchors.
 export const trackerGroups = [
   { label: 'Game Tracker', path: '/tracker',      sections: [] },

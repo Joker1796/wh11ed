@@ -5,6 +5,7 @@ import { useLocale } from './useLocale.js'
 import {
   navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu,
   rosterGroups, rosterGroupsRu, factionGroups, factionGroupsRu, combatPatrolGroups, combatPatrolGroupsRu,
+  dominatusGroups, dominatusGroupsRu,
 } from '../router/nav.js'
 
 const LISTS = {
@@ -14,6 +15,7 @@ const LISTS = {
   roster: [rosterGroups, rosterGroupsRu],
   faction: [factionGroups, factionGroupsRu],
   combatPatrol: [combatPatrolGroups, combatPatrolGroupsRu],
+  dominatus: [dominatusGroups, dominatusGroupsRu],
 }
 
 export function useNavGroups(book) {
