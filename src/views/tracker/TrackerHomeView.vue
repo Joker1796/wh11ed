@@ -96,6 +96,15 @@
         >
           <i class="wi wi-stats" /> <span class="cta-stats-text">{{ labels.statsLink }}</span>
         </RouterLink>
+        <!-- Dominatus campaigns: shown once this device knows one (a link opened, or one started
+             from the Dominatus page) — a door most players never need is not on everyone's screen. -->
+        <RouterLink
+          v-if="knownCampaigns"
+          to="/tracker/campaigns"
+          class="btn-ghost"
+        >
+          {{ labels.campHomeLink }}
+        </RouterLink>
       </div>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
            auto-uploads games as they finish, so cloud backup stays current on its own. And no
@@ -283,6 +292,7 @@ import { battlePointsFromVp, concededSide, grandTotal, youIndex as youIdx } from
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, membersOf, isYouSide, battleName } from '../../composables/useTracker.js'
+import { hasKnownCampaigns } from '../../composables/useCampaigns.js'
 import { fileFinishedGame } from '../../composables/fileFinishedGame.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
@@ -298,6 +308,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
 const { current, history, setupDraft, putAwayCurrent, resumeFromHistory, deleteHistory } = useTracker()
+const knownCampaigns = hasKnownCampaigns()
 // Only the host of a shared game needs an account, and this is the button that makes one.
 const { init: initParty } = useParty()
 // A finished game nobody filed (a reload on its finished screen, the app reopened here) goes to

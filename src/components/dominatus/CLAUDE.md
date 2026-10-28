@@ -59,7 +59,29 @@ tracker or roster screens load; `shellImports.test.js` keeps it out of the app s
 `missionTiming.js` learned one moment for this deck: **"End of the battle round"** (`round-end`, the
 turn that closes the round). Before that it read as "any turn" without a word.
 
-## Not yet
+## The campaign (`/tracker/campaigns`)
 
-The campaign itself — Alliances of players across games, Honour/Skill/Relic hands, Location
-control, ascendancy, Narrative Points — is stage 3 (shared through an account, `wh11ed-api`).
+A campaign is an **append-only event log** on the server (`wh11ed-api` `/campaigns`, README
+"Dominatus campaigns") folded on every device by `src/core/dominatus/campaign.js` — players and
+their Alliances, battles (pending until the Warmaster counts them), the rewards they owe (draws of
+Battle Honours / Skills / Relics, the Location bonuses that ask something), the end of each phase
+(Take Control with its tie-breaks, the first-take bonus, Ascendancy, Narrative Points, Relic
+draws, the discard). Owner decisions, 2026-10-28: players enter their own battles, the Warmaster
+counts them; reading needs only the view link; cards are drawn by the app or at the table (a
+campaign setting); the end of a phase is computed and shown before it is done, the Warmaster rules
+on a tie nothing breaks.
+
+- The fold is the authority on rights the server cannot judge: a member speaks only for the player
+  they registered (`m-<memberId>`), a battle they fought, a reward of their own. A refused event
+  stays in the log and is listed (`rejected`) for the Warmaster.
+- The app's draw is client-side randomness (friends at a table, not an anti-cheat); the fold checks
+  that the card kept was among those drawn, was in the pile, and is not already held.
+- Device side: `src/composables/useCampaigns.js` (the campaigns this device knows, with its
+  credential for each — the account for the owner, a member token from `?join=`, the view token
+  from `?t=`), pages `src/views/tracker/Campaign(s)View.vue`, blocks in `campaign/`. A finished
+  Dominatus game is sent from its screen (`CampSendGame`, battle id `g-<game id>` so it counts once).
+- Gates: `src/core/dominatus/campaign.test.js`, `src/composables/useCampaigns.test.js`.
+
+Booklet readings worth knowing: Agenda Achieved cards gained in a phase are kept into the next
+and discarded at ITS end (step V "from previous phases"); the Event Companion's variant (Relics and
+Discard at the next phase's first battle) is not modelled — the Warmaster's `adjust` covers it.

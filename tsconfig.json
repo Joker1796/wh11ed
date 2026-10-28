@@ -19,6 +19,7 @@
   },
   "include": [
     "src/core/dominatus/briefing.js",
+    "src/core/dominatus/campaign.js",
     "src/core/game/actionLog.js",
     "src/core/game/cpLedger.js",
     "src/core/game/gameLog.js",

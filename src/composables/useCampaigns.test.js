@@ -1,0 +1,57 @@
+// The device side of a Dominatus campaign: a link joins (member) or watches (viewer), the log is
+// fetched after the last seq it has and folded by the core, the links carry the right tokens.
+import { beforeEach, describe, it, expect, vi } from 'vitest'
+
+let mod
+const log = []
+beforeEach(async () => {
+  localStorage.clear()
+  vi.resetModules()
+  log.length = 0
+  vi.stubGlobal('fetch', vi.fn(async (url, opts = {}) => {
+    const u = new URL(url)
+    log.push({ path: u.pathname + u.search, headers: opts.headers || {} })
+    if (u.pathname.endsWith('/join')) return new Response(JSON.stringify({ memberId: 'm1', memberToken: 'T'.repeat(43), viewToken: 'V'.repeat(22) }), { status: 201 })
+    if (u.pathname.endsWith('/events') && opts.method !== 'POST') {
+      const since = Number(u.searchParams.get('since'))
+      const all = [
+        { seq: 1, author: 'owner', type: 'created', payload: { name: 'Armageddon', draw: 'app' } },
+        { seq: 2, author: 'owner', type: 'player', payload: { id: 'ann', name: 'Ann', alliance: 'liberators' } },
+        { seq: 3, author: 'm1', type: 'player', payload: { id: 'm-m1', name: 'Ben', alliance: 'oppressors' } },
+      ].filter((e) => e.seq > since)
+      if (!all.length) return new Response(null, { status: 204 })
+      return new Response(JSON.stringify({ campaign: { campaignId: 'c1', name: 'Armageddon', seq: 3 }, you: { role: 'member', memberId: 'm1' }, events: all }), { status: 200 })
+    }
+    return new Response('{}', { status: 500 })
+  }))
+  mod = await import('./useCampaigns.js')
+  await (await import('./dominatusMissions.js')).loadDominatusDeck()
+})
+
+describe('campaigns on this device', () => {
+  it('joins by the invite, reads the log with the member token and folds it', async () => {
+    const c = mod.useCampaigns()
+    await c.joinCampaign('c1', 'J'.repeat(22))
+    const entry = c.byId('c1')
+    expect(entry).toMatchObject({ role: 'member', memberId: 'm1', seq: 3 })
+    expect(log[1].headers['X-Campaign-Member']).toBe('T'.repeat(43))
+    const state = c.stateOf('c1')
+    expect(state.players.map((p) => p.name)).toEqual(['Ann', 'Ben'])
+    expect(c.myPlayer(entry, state).name).toBe('Ben')
+    expect(JSON.parse(localStorage.getItem('wh11ed-campaigns'))[0].seq).toBe(3)
+  })
+
+  it('asks only for what is after the last seq, and a 204 changes nothing', async () => {
+    const c = mod.useCampaigns()
+    await c.joinCampaign('c1', 'J'.repeat(22))
+    await c.syncCampaign('c1')
+    expect(log.at(-1).path).toBe('/campaigns/c1/events?since=3')
+    expect(c.byId('c1').events).toHaveLength(3)
+  })
+
+  it('hands out the links with their tokens, in the reader\'s path', () => {
+    const c = mod.useCampaigns()
+    const links = c.linksOf({ id: 'c1', viewToken: 'v', joinToken: 'j' }, 'https://wh-rules.ru', '/ru')
+    expect(links).toEqual({ view: 'https://wh-rules.ru/ru/tracker/campaigns/c1?t=v', join: 'https://wh-rules.ru/ru/tracker/campaigns/c1?join=j' })
+  })
+})

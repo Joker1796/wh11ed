@@ -26,6 +26,8 @@ const EmailVerifyView   = () => import('../views/account/EmailVerifyView.vue')
 const PasswordResetView = () => import('../views/account/PasswordResetView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 const TrackerStatsView  = () => import('../views/tracker/TrackerStatsView.vue')
+const CampaignsView     = () => import('../views/tracker/CampaignsView.vue')
+const CampaignView      = () => import('../views/tracker/CampaignView.vue')
 // The list and a saved roster's page are one screen on a wide window (RosterDeskView), and the
 // same two pages as before on a phone.
 const RosterDeskView    = () => import('../views/tracker/RosterDeskView.vue')
@@ -139,6 +141,10 @@ const localeRoutes = [
     // Your battle record, read out of the same history. Private like /tracker/game: it is a view
     // of this device's games, so it is neither in STATIC_ROUTES nor in the sitemap.
     { path: '/tracker/stats', component: TrackerStatsView, meta: { section: 'tracker' } },
+    // Dominatus campaigns (src/components/dominatus/CLAUDE.md): the device's list, and one campaign —
+    // also what an invite (`?join=`) or a view link (`?t=`) opens.
+    { path: '/tracker/campaigns', component: CampaignsView, meta: { section: 'tracker' } },
+    { path: '/tracker/campaigns/:id', component: CampaignView, meta: { section: 'tracker' } },
     // The same list, read out of a FINISHED game — the snapshot is what makes that possible at all.
     // On a wide screen the game's own desk: every list of it, and units compared across them.
     { path: '/tracker/history/:gid/roster/:pi/:mi?', component: GameHistoryDesk, meta: { section: 'tracker' } },

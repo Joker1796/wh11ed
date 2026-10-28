@@ -46,6 +46,10 @@
       <ScoreBoard :finished="true" />
       <ScoreBreakdown />
       <ArmyRuleSummary />
+      <CampSendGame
+        v-if="current.settings?.dominatus"
+        :game="current"
+      />
       <!-- A shared game reopens only from the host's phone (the server refuses everyone else);
            a guest sees the button disabled with the reason. "Back to tracker" archives the game
            on this phone either way — for a guest that is how the game becomes theirs to keep. -->
@@ -93,6 +97,7 @@ const GameSetup = defineAsyncComponent({
 import RoundTracker from '../../components/tracker/RoundTracker.vue'
 import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
 import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'
+import CampSendGame from '../../components/dominatus/campaign/CampSendGame.vue'
 import ArmyRuleSummary from '../../components/tracker/ArmyRuleSummary.vue'
 import LobbyWait from '../../components/tracker/LobbyWait.vue'
 import { ui } from '../../i18n/ui.js'
