@@ -1584,6 +1584,25 @@ select {
   background-color: var(--bg-secondary); border: 1px solid var(--border); cursor: pointer;
 }
 
+/* ── Form input ────────────────────────────────────────────────────────────
+   A text field or native select inside a form, in the surface every tracker field wears — the
+   Dominatus campaign's name and player fields, its battle and reward pickers, an upgrade's unit
+   (2026-10-28: an input with no class drew the browser's white box in the dark theme). Longhands
+   for the select's sake (see Native select). */
+.form-input {
+  min-width: 0;
+  padding-block: 0.5rem;
+  padding-left: 0.6rem;
+  border: 1px solid var(--border);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+input.form-input { padding-right: 0.6rem; }
+.form-input::placeholder { color: var(--text-muted); }
+.form-input:focus-visible { outline: 2px solid var(--accent); outline-offset: -1px; }
+.form-input:disabled { opacity: 0.6; }
+
 /* ── Picker trigger ────────────────────────────────────────────────────────
    The app's own dropdown button: what is picked, a quiet caps label before it, a chevron — opening
    an AdaptivePicker (a dropdown on a desk, a modal on a phone). The faction page's chapter and

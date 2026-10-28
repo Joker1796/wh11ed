@@ -46,7 +46,10 @@
             :key="kind"
             class="camp-pair"
           >
-            <select v-model="swap[r.id + kind + 'out']">
+            <select
+              v-model="swap[r.id + kind + 'out']"
+              class="form-input"
+            >
               <option :value="null">
                 {{ kind === 'honour' ? labels.domHonours : labels.domSkills }}: —
               </option>
@@ -60,6 +63,7 @@
             </select>
             <select
               v-model="swap[r.id + kind + 'in']"
+              class="form-input"
               :disabled="!swap[r.id + kind + 'out']"
             >
               <option :value="null">
@@ -114,7 +118,10 @@
             v-else
             class="camp-row"
           >
-            <select v-model="kept[r.id]">
+            <select
+              v-model="kept[r.id]"
+              class="form-input"
+            >
               <option
                 :value="undefined"
                 disabled

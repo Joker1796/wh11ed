@@ -1,4 +1,4 @@
-/* The campaign page's blocks (src/components/dominatus/campaign), loaded by CampaignView only. */
+/* The campaign pages' blocks (src/components/dominatus/campaign), loaded by CampaignView and CampaignsView. */
 .camp-block {
   border: 1px solid var(--border);
   background: var(--bg-card);
@@ -40,3 +40,5 @@
 .camp-results { margin: 0.6rem 0 0; padding-left: 1.1rem; font-size: 0.85rem; }
 .camp-link + .camp-link { margin-top: 0.5rem; }
 .camp-reward + .camp-reward { padding-top: 0.45rem; border-top: 1px dashed var(--border); }
+/* The device's role in a campaign: in the list and on the campaign's own header. */
+.camp-role { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }

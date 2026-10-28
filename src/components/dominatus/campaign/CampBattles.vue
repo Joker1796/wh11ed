@@ -51,6 +51,7 @@
         <div class="camp-pair">
           <select
             v-model="a"
+            class="form-input"
             :aria-label="labels.campSideA"
           >
             <option
@@ -69,6 +70,7 @@
           </select>
           <select
             v-model="b"
+            class="form-input"
             :aria-label="labels.campSideB"
           >
             <option

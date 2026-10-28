@@ -7,7 +7,10 @@
     <div class="csend-body">
       <label class="field">
         <span>{{ labels.campSendPick }}</span>
-        <select v-model="cid">
+        <select
+          v-model="cid"
+          class="form-input"
+        >
           <option
             v-for="c in options"
             :key="c.id"
@@ -23,7 +26,10 @@
         class="field"
       >
         <span>{{ labels.campSideOf.replace('{name}', p.name || `#${i + 1}`) }}</span>
-        <select v-model="pick[i]">
+        <select
+          v-model="pick[i]"
+          class="form-input"
+        >
           <option
             :value="null"
             disabled

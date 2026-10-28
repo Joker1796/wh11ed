@@ -6,6 +6,7 @@
       class="dupe-row"
     >
       <select
+        class="form-input"
         :value="u.slug"
         :disabled="!editable"
         :aria-label="labels.trackerDomUpgrade"
@@ -27,6 +28,7 @@
         </optgroup>
       </select>
       <input
+        class="form-input"
         :value="u.unit"
         type="text"
         :disabled="!editable"

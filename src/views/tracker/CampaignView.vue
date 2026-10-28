@@ -91,7 +91,7 @@
 // page is open (a campaign moves at the pace of games, not of turns); every change is an event
 // appended and read back. `?join=` (an invite) and `?t=` (a view link) are taken once and dropped
 // from the address, so a shared screenshot of the address bar hands out nothing.
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import CampStandings from '../../components/dominatus/campaign/CampStandings.vue'
@@ -103,6 +103,7 @@ import CampShare from '../../components/dominatus/campaign/CampShare.vue'
 import { provideCampaignView } from '../../components/dominatus/campaign/useCampaignView.js'
 import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns } from '../../composables/useCampaigns.js'
+import { useAuth } from '../../composables/useAuth.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -110,7 +111,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const route = useRoute()
 const router = useRouter()
-const { byId, joinCampaign, watchCampaign, syncCampaign, appendEvent, deleteCampaign, forgetCampaign, stateOf, myPlayer } = useCampaigns()
+const { byId, refreshOwned, joinCampaign, watchCampaign, syncCampaign, appendEvent, deleteCampaign, forgetCampaign, stateOf, myPlayer } = useCampaigns()
+const { status, ensureSession } = useAuth()
 
 const id = computed(() => route.params.id)
 const entry = computed(() => byId(id.value))
@@ -134,6 +136,9 @@ provideCampaignView({ entry, state, isOwner, mine, act })
 let timer = null
 onMounted(async () => {
   try {
+    // The Warmaster's reads ride the session, which a page opened from the address bar does not
+    // have yet: asked without it, the server answers not_found.
+    await ensureSession()
     const { join, t } = route.query
     if (typeof join === 'string') await joinCampaign(id.value, join)
     else if (typeof t === 'string') await watchCampaign(id.value, t)
@@ -147,6 +152,17 @@ onMounted(async () => {
   timer = setInterval(() => { if (byId(id.value) && document.visibilityState === 'visible') syncCampaign(id.value).catch(() => {}) }, 20_000)
 })
 onUnmounted(() => clearInterval(timer))
+// The Warmaster opening their campaign on a device that has not seen it: the account knows it,
+// once the session is back.
+watch(status, async (s) => {
+  if (s !== 'authed' || byId(id.value)) return
+  try {
+    await refreshOwned()
+    if (byId(id.value)) await syncCampaign(id.value)
+  } catch {
+    // the page already says what it can
+  }
+}, { immediate: true })
 
 async function remove() {
   confirmDelete.value = false
@@ -168,7 +184,6 @@ function forget() {
 .camp-hero { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.75rem; border-bottom: 2px solid var(--accent); margin-bottom: 1rem; }
 .camp-hero .back { flex-basis: 100%; }
 .camp-hero h1 { margin: 0; font-family: var(--font-display); font-size: 2.1rem; font-weight: 400; }
-.camp-role { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
 .camp-error { color: var(--danger); font-size: 0.85rem; }
 .camp-foot { display: flex; justify-content: flex-end; margin: 1rem 0 2rem; }
 </style>

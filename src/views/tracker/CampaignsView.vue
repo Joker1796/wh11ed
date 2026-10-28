@@ -17,6 +17,7 @@
     >
       <input
         v-model.trim="name"
+        class="form-input"
         type="text"
         maxlength="80"
         :placeholder="labels.campName"
@@ -86,8 +87,9 @@
 // Dominatus campaigns this device knows: the account's own (the Warmaster's), the ones joined by
 // an invite link, the ones watched by a view link. A new one needs an account — it is the
 // Warmaster's to run; joining and watching need none.
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns } from '../../composables/useCampaigns.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { ui } from '../../i18n/ui.js'
@@ -103,7 +105,8 @@ const draw = ref('app')
 const busy = ref(false)
 const error = ref('')
 
-onMounted(() => { refreshOwned().catch(() => {}) })
+// The session comes back after the page does (a refresh on load), so ask once it is there.
+watch(status, (s) => { if (s === 'authed') refreshOwned().catch(() => {}) }, { immediate: true })
 
 async function create() {
   busy.value = true
@@ -133,5 +136,4 @@ async function create() {
   padding: 0.6rem 0.75rem; border: 1px solid var(--border); background: var(--bg-card);
   color: var(--text-primary); text-decoration: none;
 }
-.camp-role { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
 </style>

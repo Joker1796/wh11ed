@@ -34,6 +34,7 @@
     >
       <input
         v-model.trim="name"
+        class="form-input"
         type="text"
         maxlength="40"
         :placeholder="labels.campPlayerName"
