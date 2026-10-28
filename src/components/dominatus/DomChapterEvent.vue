@@ -10,7 +10,9 @@
     {{ deck.event.intro }}
   </p>
 
-  <EventProseBlocks :blocks="deck.event.blocks" />
+  <div class="dom-prose">
+    <EventProseBlocks :blocks="deck.event.blocks" />
+  </div>
 </template>
 
 <script setup>

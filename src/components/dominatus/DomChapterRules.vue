@@ -18,7 +18,9 @@
     </RouterLink>
   </p>
 
-  <EventProseBlocks :blocks="deck.rules.blocks" />
+  <div class="dom-prose">
+    <EventProseBlocks :blocks="deck.rules.blocks" />
+  </div>
 </template>
 
 <script setup>
