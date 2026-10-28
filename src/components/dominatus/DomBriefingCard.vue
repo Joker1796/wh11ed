@@ -4,10 +4,10 @@
     class="dcard"
   >
     <header class="dcard-head">
+      <!-- The Alliance is the group heading above the card. -->
       <h3 class="dcard-name">
-        {{ allianceName(briefing.alliance) }}
+        {{ phaseLabel(briefing.phase) }}
       </h3>
-      <span class="dcard-sub">{{ phaseLabel(briefing.phase) }}</span>
     </header>
 
     <div class="bmatrix">
@@ -76,7 +76,7 @@ import { useDominatus, useAgendaFilter } from './useDominatus.js'
 const props = defineProps({
   briefing: { type: Object, required: true },
 })
-const { labels, allianceName, phaseLabel, agendaBySlug, dispo } = useDominatus()
+const { labels, phaseLabel, agendaBySlug, dispo } = useDominatus()
 const filter = useAgendaFilter()
 
 async function openAgenda(slug) {

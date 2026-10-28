@@ -21,6 +21,7 @@
 
   <section
     v-for="g in groups"
+    :id="`dom-up-${g.key}`"
     :key="g.key"
     class="dgroup"
   >
@@ -43,7 +44,7 @@
 import { ref, computed } from 'vue'
 import DomUpgradeCard from './DomUpgradeCard.vue'
 import { PHASES } from '../../data/dominatus.js'
-import { useDominatus } from './useDominatus.js'
+import { useDominatus, resetFilterOnJump } from './useDominatus.js'
 
 const KINDS = [
   { id: 'all', label: 'filterAll' },
@@ -53,6 +54,7 @@ const KINDS = [
 ]
 const { labels, deck, allianceName, phaseLabel } = useDominatus()
 const kind = ref('all')
+resetFilterOnJump('dom-up-', () => { kind.value = 'all' })
 
 const groups = computed(() => {
   const l = labels.value

@@ -279,21 +279,115 @@ export const eventGroupsRu = [
 export const DOMINATUS_PATH = '/dominatus'
 
 export const dominatusGroups = [
-  { label: 'Campaign Rules', path: DOMINATUS_PATH, hash: '#dom-chapter-rules', sections: [] },
-  { label: 'Locations',      path: DOMINATUS_PATH, hash: '#dom-chapter-locations', sections: [] },
-  { label: 'Briefings',      path: DOMINATUS_PATH, hash: '#dom-chapter-briefings', sections: [] },
-  { label: 'Agendas',        path: DOMINATUS_PATH, hash: '#dom-chapter-agendas', sections: [] },
-  { label: 'Upgrades',       path: DOMINATUS_PATH, hash: '#dom-chapter-upgrades', sections: [] },
-  { label: 'Events',         path: DOMINATUS_PATH, hash: '#dom-chapter-event', sections: [] },
+  {
+    label: 'Campaign Rules', path: DOMINATUS_PATH, hash: '#dom-chapter-rules',
+    sections: [
+      { id: 'dom-campaigns', label: 'Armageddon Campaigns' },
+      { id: 'dom-deck', label: 'The Deck' },
+      { id: 'dom-preparing', label: 'Preparing the Campaign' },
+      { id: 'dom-start-phase', label: 'Start Campaign Phase' },
+      { id: 'dom-play-battles', label: 'Play Battles' },
+      { id: 'dom-end-phase', label: 'End of Campaign Phase' },
+      { id: 'dom-modifying', label: 'Modifying Dominatus' },
+    ],
+  },
+  {
+    label: 'Locations', path: DOMINATUS_PATH, hash: '#dom-chapter-locations',
+    sections: [
+      { id: 'dom-loc-1', label: 'Phase I' },
+      { id: 'dom-loc-2', label: 'Phase II' },
+      { id: 'dom-loc-3', label: 'Phase III' },
+    ],
+  },
+  {
+    label: 'Briefings', path: DOMINATUS_PATH, hash: '#dom-chapter-briefings',
+    sections: [
+      { id: 'dom-brief-liberators', label: 'Liberators' },
+      { id: 'dom-brief-oppressors', label: 'Oppressors' },
+      { id: 'dom-brief-raiders', label: 'Raiders' },
+    ],
+  },
+  {
+    label: 'Agendas', path: DOMINATUS_PATH, hash: '#dom-chapter-agendas',
+    sections: [
+      { id: 'dom-agendas-liberators', label: 'Liberators' },
+      { id: 'dom-agendas-oppressors', label: 'Oppressors' },
+      { id: 'dom-agendas-raiders', label: 'Raiders' },
+    ],
+  },
+  {
+    label: 'Upgrades', path: DOMINATUS_PATH, hash: '#dom-chapter-upgrades',
+    sections: [
+      { id: 'dom-up-h1', label: 'Battle Honours' },
+      { id: 'dom-up-s', label: 'Battle Skills' },
+      { id: 'dom-up-r-liberators', label: 'Relics' },
+    ],
+  },
+  {
+    label: 'Events', path: DOMINATUS_PATH, hash: '#dom-chapter-event',
+    sections: [
+      { id: 'dom-ev-guidance', label: 'Event Guidance' },
+      { id: 'dom-ev-cp', label: 'Generating Command Points' },
+      { id: 'dom-ev-sequence', label: 'Event Mission Sequence' },
+      { id: 'dom-ev-pairings', label: 'Pairings' },
+    ],
+  },
 ]
 
 export const dominatusGroupsRu = [
-  { label: 'Правила кампании', path: DOMINATUS_PATH, hash: '#dom-chapter-rules', sections: [] },
-  { label: 'Локации',          path: DOMINATUS_PATH, hash: '#dom-chapter-locations', sections: [] },
-  { label: 'Briefing',         path: DOMINATUS_PATH, hash: '#dom-chapter-briefings', sections: [] },
-  { label: 'Agenda',           path: DOMINATUS_PATH, hash: '#dom-chapter-agendas', sections: [] },
-  { label: 'Upgrade',          path: DOMINATUS_PATH, hash: '#dom-chapter-upgrades', sections: [] },
-  { label: 'Турниры',          path: DOMINATUS_PATH, hash: '#dom-chapter-event', sections: [] },
+  {
+    label: 'Правила кампании', path: DOMINATUS_PATH, hash: '#dom-chapter-rules',
+    sections: [
+      { id: 'dom-campaigns', label: 'Кампании на Армагеддоне' },
+      { id: 'dom-deck', label: 'Колода' },
+      { id: 'dom-preparing', label: 'Подготовка кампании' },
+      { id: 'dom-start-phase', label: 'Начало фазы кампании' },
+      { id: 'dom-play-battles', label: 'Битвы' },
+      { id: 'dom-end-phase', label: 'Конец фазы кампании' },
+      { id: 'dom-modifying', label: 'Изменение правил' },
+    ],
+  },
+  {
+    label: 'Локации', path: DOMINATUS_PATH, hash: '#dom-chapter-locations',
+    sections: [
+      { id: 'dom-loc-1', label: 'Фаза I' },
+      { id: 'dom-loc-2', label: 'Фаза II' },
+      { id: 'dom-loc-3', label: 'Фаза III' },
+    ],
+  },
+  {
+    label: 'Briefing', path: DOMINATUS_PATH, hash: '#dom-chapter-briefings',
+    sections: [
+      { id: 'dom-brief-liberators', label: 'Liberators' },
+      { id: 'dom-brief-oppressors', label: 'Oppressors' },
+      { id: 'dom-brief-raiders', label: 'Raiders' },
+    ],
+  },
+  {
+    label: 'Agenda', path: DOMINATUS_PATH, hash: '#dom-chapter-agendas',
+    sections: [
+      { id: 'dom-agendas-liberators', label: 'Liberators' },
+      { id: 'dom-agendas-oppressors', label: 'Oppressors' },
+      { id: 'dom-agendas-raiders', label: 'Raiders' },
+    ],
+  },
+  {
+    label: 'Upgrade', path: DOMINATUS_PATH, hash: '#dom-chapter-upgrades',
+    sections: [
+      { id: 'dom-up-h1', label: 'Battle Honour' },
+      { id: 'dom-up-s', label: 'Battle Skill' },
+      { id: 'dom-up-r-liberators', label: 'Relic' },
+    ],
+  },
+  {
+    label: 'Турниры', path: DOMINATUS_PATH, hash: '#dom-chapter-event',
+    sections: [
+      { id: 'dom-ev-guidance', label: 'Рекомендации' },
+      { id: 'dom-ev-cp', label: 'Командные очки' },
+      { id: 'dom-ev-sequence', label: 'Последовательность миссии' },
+      { id: 'dom-ev-pairings', label: 'Паринги' },
+    ],
+  },
 ]
 
 // Game Tracker — third top-level section. Two routes (home + active game), no anchors.

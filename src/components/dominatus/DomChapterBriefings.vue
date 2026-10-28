@@ -25,21 +25,33 @@
     </div>
   </div>
 
-  <div class="dgrid">
-    <DomBriefingCard
-      v-for="b in shown"
-      :key="`${b.alliance}-${b.phase}`"
-      :briefing="b"
-    />
-  </div>
+  <section
+    v-for="a in shownAlliances"
+    :id="`dom-brief-${a.id}`"
+    :key="a.id"
+    class="dgroup"
+  >
+    <h3 class="dgroup-label">
+      {{ a.name }}
+    </h3>
+    <div class="dgrid">
+      <DomBriefingCard
+        v-for="b in deck.briefings.filter((x) => x.alliance === a.id)"
+        :key="`${b.alliance}-${b.phase}`"
+        :briefing="b"
+      />
+    </div>
+  </section>
 </template>
 
 <script setup>
+// The nine Briefing cards, one group per Alliance (the contents link to each).
 import { ref, computed } from 'vue'
 import DomBriefingCard from './DomBriefingCard.vue'
-import { useDominatus } from './useDominatus.js'
+import { useDominatus, resetFilterOnJump } from './useDominatus.js'
 
 const { labels, deck } = useDominatus()
 const alliance = ref('all')
-const shown = computed(() => deck.value.briefings.filter((b) => alliance.value === 'all' || b.alliance === alliance.value))
+resetFilterOnJump('dom-brief-', () => { alliance.value = 'all' })
+const shownAlliances = computed(() => deck.value.alliances.filter((a) => alliance.value === 'all' || a.id === alliance.value))
 </script>

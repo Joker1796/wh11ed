@@ -8,6 +8,7 @@
 
   <section
     v-for="p in PHASES"
+    :id="`dom-loc-${p}`"
     :key="p"
     class="dgroup"
   >

@@ -43,20 +43,30 @@
     </div>
   </div>
 
-  <TransitionGroup
-    name="sift"
-    tag="div"
-    class="dgrid"
+  <section
+    v-for="g in groups"
+    :id="`dom-agendas-${g.id}`"
+    :key="g.id"
+    class="dgroup"
   >
-    <MissionCard
-      v-for="a in shown"
-      :key="a.slug"
-      :mission="a"
-      :subtitle="`${allianceName(a.alliance)} · ${phaseLabel(a.phase)}`"
+    <h3 class="dgroup-label">
+      {{ g.name }}
+    </h3>
+    <TransitionGroup
+      name="sift"
+      tag="div"
+      class="dgrid"
     >
-      <DomAgendaAchieved :achieved="a.achieved" />
-    </MissionCard>
-  </TransitionGroup>
+      <MissionCard
+        v-for="a in g.items"
+        :key="a.slug"
+        :mission="a"
+        :subtitle="phaseLabel(a.phase)"
+      >
+        <DomAgendaAchieved :achieved="a.achieved" />
+      </MissionCard>
+    </TransitionGroup>
+  </section>
 </template>
 
 <script setup>
@@ -66,13 +76,20 @@ import { computed } from 'vue'
 import MissionCard from '../event/MissionCard.vue'
 import DomAgendaAchieved from './DomAgendaAchieved.vue'
 import { PHASES } from '../../data/dominatus.js'
-import { useDominatus, useAgendaFilter } from './useDominatus.js'
+import { useDominatus, useAgendaFilter, resetFilterOnJump } from './useDominatus.js'
 
-const { labels, deck, allianceName, phaseLabel } = useDominatus()
+const { labels, deck, phaseLabel } = useDominatus()
 const filter = useAgendaFilter()
+resetFilterOnJump('dom-agendas-', () => { filter.alliance = 'all'; filter.phase = 0 })
 
-const shown = computed(() => deck.value.agendas
-  .filter((a) => filter.alliance === 'all' || a.alliance === filter.alliance)
-  .filter((a) => !filter.phase || a.phase === filter.phase)
-  .map((a) => ({ ...a, briefing: a.primary.briefing, blocks: a.primary.blocks })))
+// One group per Alliance (the contents link to each), its cards narrowed by the phase chips.
+const groups = computed(() => deck.value.alliances
+  .filter((al) => filter.alliance === 'all' || al.id === filter.alliance)
+  .map((al) => ({
+    id: al.id,
+    name: al.name,
+    items: deck.value.agendas
+      .filter((a) => a.alliance === al.id && (!filter.phase || a.phase === filter.phase))
+      .map((a) => ({ ...a, briefing: a.primary.briefing, blocks: a.primary.blocks })),
+  })))
 </script>
