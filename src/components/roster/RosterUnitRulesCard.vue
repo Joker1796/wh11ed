@@ -11,6 +11,7 @@
       </h2>
       <div class="ruc-ctls">
         <RosterOwnedStar
+          v-if="ownable"
           :faction-slug="factionSlug"
           :unit-id="unitId"
           :name="view.sheet.name"
@@ -430,6 +431,9 @@ const props = defineProps({
   // '' — no compare control; 'off' / 'on' — the control, and whether a second pick is awaited.
   compare: { type: String, default: '' },
   closable: { type: Boolean, default: false },
+  // The "I own this" star. Not on a finished game's desk (owner, 2026-10-29): half its cards are
+  // the opponent's army, and the collection is kept on the faction pages and in the builder.
+  ownable: { type: Boolean, default: true },
 })
 defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick', 'toggle-use', 'compare', 'close'])
 

@@ -1266,6 +1266,8 @@ export const ui = {
     trackerTabPreBattle: 'Before the battle',
     trackerTabPreBattleShort: 'Pre-battle',
     trackerTabStats: 'Stats',
+    // A finished game's desk: the round-by-round score and the army rules' tallies, in a dialog.
+    trackerGameStats: 'Game stats',
     trackerTabArmies: 'Army',
     trackerEditSetup: 'Setup',
     trackerEditSetupTitle: 'Edit setup',
@@ -2989,6 +2991,7 @@ export const ui = {
     trackerTabPreBattle: 'Перед битвой',
     trackerTabPreBattleShort: 'До боя',
     trackerTabStats: 'Статистика',
+    trackerGameStats: 'Статистика партии',
     trackerTabArmies: 'Армия',
     trackerEditSetup: 'Настройки',
     trackerEditSetupTitle: 'Изменить настройки',

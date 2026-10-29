@@ -28,6 +28,14 @@
         :game="game"
         :finished="true"
       />
+      <button
+        type="button"
+        class="btn-ghost ghd-stats-btn"
+        aria-haspopup="dialog"
+        @click="statsOpen = true"
+      >
+        {{ labels.trackerGameStats }}
+      </button>
     </aside>
 
     <div class="ghd-list">
@@ -46,6 +54,14 @@
           :game="game"
           :active="activeKey"
         />
+        <button
+          type="button"
+          class="btn-ghost ghd-stats-btn"
+          aria-haspopup="dialog"
+          @click="statsOpen = true"
+        >
+          {{ labels.trackerGameStats }}
+        </button>
       </div>
       <!-- Every list opened once stays built (v-show): a card of it may stand beside another's. -->
       <RosterViewView
@@ -73,6 +89,7 @@
         :key="c.key"
         v-bind="c.card"
         inline
+        :ownable="false"
         :compare="shown.length === 1 ? (comparing ? 'on' : 'off') : ''"
         :closable="shown.length === 2"
         @compare="toggleCompare"
@@ -85,6 +102,25 @@
         {{ comparing ? labels.dsComparePick : labels.rosterPickUnit }}
       </p>
     </aside>
+
+    <!-- The rest of the history page (TrackerHistoryView): how the score was made, round by round. -->
+    <BaseModal
+      v-if="statsOpen && game"
+      :title="labels.trackerGameStats"
+      :subtitle="formatDate(game.finishedAt || game.createdAt)"
+      max-width="760px"
+      max-height="88dvh"
+      @close="statsOpen = false"
+    >
+      <div class="modal-body ghd-stats">
+        <!-- Opened for the breakdown, so not folded behind its own header. -->
+        <ScoreBreakdown
+          :game="game"
+          expanded
+        />
+        <ArmyRuleSummary :game="game" />
+      </div>
+    </BaseModal>
   </div>
   <RosterViewView v-else />
 </template>
@@ -111,6 +147,9 @@ import RosterViewView from './RosterViewView.vue'
 import GameRosterLinks from '../../components/tracker/GameRosterLinks.vue'
 import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
 import RosterUnitRulesCard from '../../components/roster/RosterUnitRulesCard.vue'
+import BaseModal from '../../components/BaseModal.vue'
+import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'
+import ArmyRuleSummary from '../../components/tracker/ArmyRuleSummary.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
@@ -133,6 +172,7 @@ const pi = computed(() => (route.params.pi != null ? Number(route.params.pi) : 0
 const mi = computed(() => (route.params.mi != null && route.params.mi !== '' ? Number(route.params.mi) : null))
 const activeKey = computed(() => `${pi.value}:${mi.value ?? ''}`)
 const backTo = computed(() => `/tracker?game=${gid.value}`)
+const statsOpen = ref(false)
 
 // The tracker's store is imported when needed, as RosterViewView does: it carries the mission
 // datasets the roster routes must not.
@@ -221,6 +261,9 @@ watch([wide, folded, () => !!game.value], () => nextTick(measure))
   border-left: 1px solid var(--border);
 }
 .ghd-cards--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+.ghd-stats-btn { width: 100%; justify-content: center; margin-top: 0.75rem; }
+.ghd-strip .ghd-stats-btn { width: auto; margin: 0 0 0.6rem; }
+.ghd-stats { padding: 0.9rem; }
 .ghd-note {
   margin: 0;
   padding: 2rem 1rem;
