@@ -4,7 +4,7 @@ import core from '../../src/data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../src/data/roster/index.js'
 import { validateRoster } from '../../src/core/roster/rosterValidation.js'
 import { buildRosterText, EXPORT_FORMATS } from '../../src/core/roster/rosterExport.js'
-import { detectFormat, matchRoster, parseList } from '../../src/core/roster/rosterImport.js'
+import { detectFormat, factionCandidates, matchFaction, matchRoster, parseList, pickFaction } from '../../src/core/roster/rosterImport.js'
 import { factionGroups } from '../../src/data/factionsIndex.js'
 import { rosterPoints } from '../../src/core/roster/rosterEngine.js'
 
@@ -42,7 +42,13 @@ describe('test rosters survive export → import', () => {
         const ctx = { faction, core, items: rosterItems.items, factionGroups }
         const roster = buildTestRoster(spec, ctx)
         const text = buildRosterText(roster, ctx, format)
-        const { payload, report } = matchRoster(parseList(text, detectFormat(text), factionGroups), ctx)
+        const parsed = parseList(text, detectFormat(text), factionGroups)
+        // The army comes back too, as the import window finds it: by name, or — for a name several
+        // factions go by — by the list (2026-10-29: every Chaos Space Marines export asked).
+        const among = factionCandidates(parsed.faction)
+        const bundles = await Promise.all(among.map(async (slug) => ({ slug, faction: await loadRosterFaction(slug) })))
+        expect(matchFaction(parsed.faction, factionGroups) || pickFaction(parsed, bundles, ctx)).toBe(spec.faction)
+        const { payload, report } = matchRoster(parsed, ctx)
         expect(report.missing).toEqual([])
         expect(report.units.flatMap((u) => u.gear.missing)).toEqual([])
         expect(report.detachments.matched.sort()).toEqual([...roster.detachments].sort())

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import { detectFormat, matchFaction as matchFactionIn, matchRoster, parseList as parseListWith, resolveDetachmentLine } from './rosterImport.js'
+import { detectFormat, factionCandidates, matchFaction as matchFactionIn, matchRoster, parseList as parseListWith, pickFaction, resolveDetachmentLine } from './rosterImport.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 
 // The importer reads a list's faction against the app's directory, which the app passes in; these
@@ -2798,6 +2798,43 @@ describe('matchFaction — the ways an export names an army', () => {
   })
 })
 
+// "Heretic Astartes" is the name our data gives Chaos Space Marines and what real lists print over
+// any of the legions: matchFaction does not answer it, the list's own detachments and units do.
+describe('pickFaction — a name several factions go by', () => {
+  const legions = ['chaos-space-marines', 'world-eaters', 'death-guard', 'thousand-sons', 'emperors-children']
+  let bundles, ctx
+  beforeAll(async () => {
+    const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+    bundles = await Promise.all(legions.map(async (slug) => ({ slug, faction: await loadRosterFaction(slug) })))
+    ctx = { core: rosterCore, items: rosterItems.items }
+  })
+  const list = (detachment, ...units) => parseList(`Test (1000 points)\n\nHeretic Astartes\nIncursion (1000 points)\n${detachment ? `${detachment} (1 Detachment Points)` : ''}\n\nOTHER DATASHEETS\n\n${units.map((u) => `${u} (100 points)`).join('\n\n')}\n`)
+
+  it('names the legions, as a part of a chain too', () => {
+    expect(factionCandidates('Heretic Astartes')).toEqual(legions)
+    expect(factionCandidates('Chaos - Heretic Astartes')).toEqual(legions)
+    expect(factionCandidates('Chaos Space Marines')).toEqual([])
+  })
+
+  it('takes the army whose detachment the list names', () => {
+    expect(pickFaction(list('Veterans of the Long War', 'Chaos Rhino'), bundles, ctx)).toBe('chaos-space-marines')
+    const we = bundles.find((b) => b.slug === 'world-eaters').faction.detachments[0].name
+    expect(pickFaction(list(we, 'Chaos Rhino'), bundles, ctx)).toBe('world-eaters')
+  })
+
+  it('takes the army whose datasheets the list names, with no detachment to go by', () => {
+    expect(pickFaction(list('', 'Havocs', 'Legionaries'), bundles, ctx)).toBe('chaos-space-marines')
+    expect(pickFaction(list('', 'Khorne Berzerkers'), bundles, ctx)).toBe('world-eaters')
+  })
+
+  it('asks when the list is any legion\'s', () => {
+    const shared = bundles.map((b) => new Set(b.faction.units.map((u) => u.name)))
+    const everyones = [...shared[0]].find((n) => shared.every((s) => s.has(n)))
+    expect(everyones).toBeTruthy()
+    expect(pickFaction(list('', everyones), bundles, ctx)).toBe(null)
+  })
+})
+
 describe('parseList — the faction a list only states in its title', () => {
   const body = `\nStrike Force (2000 points)\n\nCHARACTERS\n\nWarpsmith (100 points)\n• 1x Exalted power axe`
 
@@ -3155,5 +3192,34 @@ describe('matchRoster — weapon counts that differ from the list', () => {
     expect(reportOf([[0, 0, 4], [1, 2, 1], [2, 0, 1]]).check).toEqual(expect.arrayContaining(['Astartes chainsword', 'Bolt pistol']))
     // the same picks without the chain come back whole and say nothing
     expect(reportOf([[0, 0, 3], [1, 2, 1]]).check).toBeUndefined()
+  })
+})
+
+// War Organ's list prints no model count, so a size is named by its price alone — and a price can
+// fit two of them. The first is taken, never the default the price does not name (an eleven-model
+// Neurogaunts at 45 for a line saying 90), and the unit is marked for the reader to check.
+describe('a size named only by a price several sizes share', () => {
+  let ctxOf
+  beforeAll(async () => {
+    const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+    ctxOf = async (slug) => ({ faction: await loadRosterFaction(slug, { allies: true }), core: rosterCore, items: rosterItems.items })
+  })
+  const simple = (faction, line) => parseList(`Test (500 points)\n\n${faction}\n\n${line}\n`, 'simple')
+
+  it('takes the first bracket the price names, and says so', async () => {
+    for (const [slug, faction, line, pts] of [
+      ['tyranids', 'Tyranids', 'Neurogaunts (90 points)', 90],
+      ['imperial-agents', 'Agents of the Imperium', 'Inquisitorial Agents (100 points)', 100],
+    ]) {
+      const { report } = matchRoster(simple(faction, line), await ctxOf(slug))
+      expect(report.units[0].points.computed).toBe(pts)
+      expect(report.units[0].sizeGuess).toBe(true)
+    }
+  })
+
+  it('leaves a price one bracket names alone', async () => {
+    const { report } = matchRoster(simple('Tyranids', 'Neurogaunts (45 points)'), await ctxOf('tyranids'))
+    expect(report.units[0].points.computed).toBe(45)
+    expect(report.units[0].sizeGuess).toBeUndefined()
   })
 })

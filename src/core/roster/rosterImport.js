@@ -973,6 +973,46 @@ const KEYWORD_FACTIONS = new Map([
   [norm('Adeptus Titanicus'), 'titan-legions'],
   [norm('Titanicus Traitoris'), 'chaos-titan-legions'],
 ])
+// …and the one that is several. "Heretic Astartes" is what our data, and so every export of ours,
+// names Chaos Space Marines by, and what real lists print over any of the legions. matchFaction
+// answers nothing for it; the list itself usually does — its detachment or its units are one
+// army's (pickFaction) — and when it does not, the reader chooses among these, not among all 30.
+const SHARED_FACTION_NAMES = new Map([
+  [norm('Heretic Astartes'), ['chaos-space-marines', 'world-eaters', 'death-guard', 'thousand-sons', 'emperors-children']],
+])
+
+// The factions a name may mean when it is one several armies go by; empty for any other name.
+// Each part of a chain or a comma list is asked, as matchFaction asks it.
+/** @param {string | null | undefined} name @returns {string[]} faction slugs */
+export function factionCandidates(name) {
+  const want = norm(name)
+  if (!want) return []
+  for (const w of [want, ...want.split(/,| - /).map((s) => s.trim())]) {
+    const slugs = SHARED_FACTION_NAMES.get(w)
+    if (slugs) return slugs
+  }
+  return []
+}
+
+// Which of several candidate armies a list is, read off the list: the one whose detachments it
+// names, else the one whose datasheets it names more of. Only an answer no other candidate ties —
+// a list of Chaos Rhinos is any legion's, and the reader is asked rather than handed a guess.
+/**
+ * @param {ParsedList} parsed
+ * @param {Array<{ slug: string, faction: RosterFaction }>} bundles each candidate's roster bundle
+ * @param {{ core?: { battleSizes?: BattleSize[] } | null, items?: Record<number, string> }} [ctx]
+ * @returns {string | null} a faction slug
+ */
+export function pickFaction(parsed, bundles, { core, items } = {}) {
+  const scored = bundles.map(({ slug, faction }) => {
+    const { report } = matchRoster(parsed, { faction, core, items })
+    return { slug, dets: report.detachments.matched.length, units: report.units.length }
+  }).sort((a, b) => b.dets - a.dets || b.units - a.units)
+  const [best, next] = scored
+  if (!best || (!best.dets && !best.units)) return null
+  if (next && next.dets === best.dets && next.units === best.units) return null
+  return best.slug
+}
 
 // The faction the list names, as one of ours. WTC writes the alliance in front ("Xenos - Aeldari"),
 // which parseWtc has already stripped.
@@ -1114,6 +1154,9 @@ const fitsBracket = (def, models) => models != null
 // unit, or a format that omits the count), the one bracket priced at what the list says the unit
 // cost (`pts`, the extra a later copy pays allowed for) — else the datasheet's own default.
 // War Organ's simple list prints no count at all, and its ten-model squads came back as five.
+// A price several brackets share (Neurogaunts 12-21 and 22, both 90) takes the first of them: the
+// default it fell back to until 2026-10-29 was the eleven-model bracket at 45, a list lighter than
+// the one pasted. The report marks such a unit (`sizeGuess`) for the reader to check.
 // `perMini` is what the list says about the SPLIT between profiles, when it says anything. Two
 // brackets can hold the same number of models and differ only in how they may be divided: an
 // Indomitor Kill Team is either ten Heavy Intercessors (`comp` [[0,10],[1,0],[2,0]]) or three to
@@ -1143,12 +1186,20 @@ function sizeIndexFor(def, models, perMini = null, pts = 0) {
     const hit = sizes.findIndex(inRange)
     if (hit >= 0) return hit
   }
-  if (!models && pts && sizes.length > 1) {
-    const priced = sizes.flatMap((s, i) => (s.pts === pts || s.pts + (def.step?.pts || 0) === pts ? [i] : []))
-    if (priced.length === 1) return priced[0]
+  if (!models) {
+    const priced = pricedSizes(def, pts)
+    if (priced.length) return priced[0]
   }
   const def0 = sizes.findIndex((s) => s.default)
   return def0 >= 0 ? def0 : 0
+}
+
+// The size brackets a unit line's price names — as a first copy, or as a later one paying the step.
+/** @param {RosterUnit} def @param {number} [pts] @returns {number[]} */
+function pricedSizes(def, pts = 0) {
+  const sizes = def?.sizes || []
+  if (!pts || sizes.length < 2) return []
+  return sizes.flatMap((s, i) => (s.pts === pts || s.pts + (def.step?.pts || 0) === pts ? [i] : []))
 }
 
 // Turn a parsed list into a roster payload plus a report of everything that did not land.
@@ -1438,13 +1489,18 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
         // GW app naming a group of models by what they carry) ends it: past it, nobody's again.
         // Only where an option is offered to several profiles (`pools`) — the one place the answer
         // changes where a pick lands; elsewhere it would only change how bundles are scored.
+        // Written on a copy of the line, never on the parsed list: the import window reads one list
+        // against several factions (pickFaction), and one faction's reading must not become the next one's.
         if (def.pools?.length) {
           let cur = null
+          /** @type {Map<ModelLine, string>} */
+          const profileOf = new Map()
           for (const l of lines) {
             if (real.includes(l)) cur = l.name
             else if (!held.has(norm(l.name))) cur = null
-            else if (cur && l.mini == null) l.mini = cur
+            else if (cur && l.mini == null) profileOf.set(l, cur)
           }
+          weapons = weapons.map((w) => (profileOf.has(w) ? { ...w, mini: profileOf.get(w) } : w))
         }
       }
       // A body with structure already SAID which lines are models, and the parser counted them. So
@@ -1485,6 +1541,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       if (mi != null) perMini.set(mi, (perMini.get(mi) || 0) + (l.n || 1))
     }
     const size = sizeIndexFor(def, models, perMini, pu.pts)
+    const sizeGuess = !models && pricedSizes(def, pu.pts).length > 1
     const bracket = def.sizes?.[size]
     /** @type {RosterEntry} */
     const entry = { uid: `i${payload.units.length + 1}`, id: def.id, size }
@@ -1494,6 +1551,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
 
     /** @type {ImportUnitLine} */
     const line = { name: def.name, id: def.id, models: models || null, gear: { picked: [], missing: [] }, enh: null, points: { stated: pu.pts, computed: 0 } }
+    if (sizeGuess) line.sizeGuess = true
 
     // Wargear: only what DEVIATES from the printed loadout is a pick. Everything the datasheet
     // already comes with is in the text too, and must not be read as a choice.
