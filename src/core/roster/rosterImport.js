@@ -153,7 +153,13 @@ function dispositionNamed(t) {
 /** @param {string | null | undefined} text @returns {ParsedList['format'] | null} */
 export function detectFormat(text) {
   const t = repairMojibake(text)
+  // Our own Russian tournament export first: it has WTC's header, and only its HIN field and its
+  // unit lines say otherwise. Not PLAYER NAME — a team event's WTC list carries that too (23 of
+  // them in the listhammer corpus came out unreadable when it decided, 2026-10-29).
+  if (/^\+ HIN:/m.test(t) || (/^\+ FACTION KEYWORD:/m.test(t) && /^[A-Z]{2}\d+: .+ \(\d+ pts\)$/m.test(t))) return 'rus'
   if (/^\s*\++\s*$/m.test(t) && /^\+ (FACTION KEYWORD|TOTAL ARMY POINTS):/m.test(t)) return 'wtc'
+  if (SIMPLE_HEAD.test(t.trim().split(/\r?\n/)[0] || '')) return 'simple'
+  if (COMPACT_HEAD.test(t.trim().split(/\r?\n/)[0] || '') && /^•\s*.+ — \d+ pts/m.test(t)) return 'compact'
   if (isCompactList(t)) return 'listhammer-compact'
   if (/^attached units?( \d+)?$/im.test(t) || /^Exported with App Version:/m.test(t) || SECTIONS.test(t)) return 'gw'
   // Last resort: any line that prices something. Not just the first — a list's own title line is
@@ -590,6 +596,16 @@ function wtcHeader(lines, out) {
 
     // `& …` continues the ENHANCEMENT list above it.
     const enh = /^&/.test(t) ? content : (content.match(/^ENHANCEMENT:\s*(.*)$/i) || [])[1]
+    // A Russian tournament's list says "-" for none, and names each by the unit's reference first,
+    // all on one line: "CH1: Imperium’s Sword, CH2: Artificer Armour".
+    if (enh === '-') continue
+    if (enh && new RegExp(`^${REF}:\\s`).test(enh)) {
+      for (const one of enh.split(new RegExp(`,\\s*(?=${REF}:\\s)`))) {
+        const [, onRef, name] = one.match(new RegExp(`^(${REF}):\\s*(.*)$`)) || []
+        if (name?.trim()) out.enhancements.push({ name: name.trim(), onRef, onName: null })
+      }
+      continue
+    }
     if (enh) {
       const on = enh.match(new RegExp(`^(.*?)\\s*\\(on\\s+(${REF})?\\s*:?\\s*(.*)\\)$`, 'i'))
       out.enhancements.push(on
@@ -617,10 +633,15 @@ function wtcHeader(lines, out) {
       out.detachments = det[1].replace(/\s*\([^)]*\)/g, '').split(/,\s*/).map((d) => d.trim()).filter(Boolean)
       continue
     }
+    // The Russian tournament's own fields. Its disposition has a line of its own, one value.
+    const army = content.match(/^ARMY NAME:\s*(.*)$/i)
+    if (army) { out.name = army[1].trim(); continue }
+    const fd = content.match(/^FORCE DISPOSITION:\s*(.*)$/i)
+    if (fd) { if (fd[1].trim()) out.disposition = fd[1].trim(); continue }
     const pts = content.match(new RegExp(`^TOTAL ARMY POINTS:\\s*(\\d+)`, 'i'))
     if (pts) { out.stated = +pts[1]; continue }
     const wl = content.match(new RegExp(`^WARLORD:\\s*(${REF})?\\s*:?\\s*(.*)$`, 'i'))
-    if (wl) { out.warlord = { ref: wl[1] || null, name: wl[2]?.trim() || '' }; continue }
+    if (wl) { if (wl[2]?.trim() !== '-') out.warlord = { ref: wl[1] || null, name: wl[2]?.trim() || '' }; continue }
   }
   return i
 }
@@ -778,6 +799,127 @@ function fromHeader(out) {
   return out
 }
 
+// ── Our own exports read back ────────────────────────────────────────────────────────────────
+//
+// Every format the export writes, the import reads (owner, 2026-10-29, after a player exported his
+// list for a Russian tournament, pasted it into the import and got two units of five). GW and WTC
+// were read already; these three were not, and the round trip in test-rosters.test.js holds all
+// six to it.
+
+// The Russian tournament's list (rosterExport's rusText): the `+` header WTC also has, then
+// "Attached Unit N:" blocks and the rest, each unit "CH1: (10) Name: swaps, Enhancement, Warlord
+// (110 pts)". Its `+ FACTION KEYWORD` line is WTC's, so the body is what tells the two apart.
+const RUS_UNIT = new RegExp(`^(${REF}): (?:\\((\\d+)\\) )?(.+?) \\((\\d+) ?${PTS}\\)$`, 'i')
+
+/** @param {string} text @returns {ParsedList} */
+function parseRus(text) {
+  const lines = (text || '').split(/\r?\n/).map((l) => l.replace(/\u00a0/g, ' '))
+  /** @type {WtcList} */
+  const out = { format: 'rus', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [], enhancements: [], warlord: null }
+  const start = wtcHeader(lines, out)
+  const enhNames = new Set(out.enhancements.map((e) => norm(e.name)))
+  /** @type {string | null} */
+  let group = null
+  for (const raw of lines.slice(start)) {
+    const t = raw.trim()
+    // A blank line ends an attached block: the export writes one before every block and group.
+    if (!t) { group = null; continue }
+    const att = t.match(/^attached unit (\d+):?$/i)
+    if (att) { group = `g${att[1]}`; continue }
+    const m = t.match(RUS_UNIT)
+    if (!m) continue
+    const [, ref, n, body, pts] = m
+    const cut = body.indexOf(': ')
+    /** @type {ParsedUnit} */
+    const unit = { name: (cut === -1 ? body : body.slice(0, cut)).trim(), pts: +pts, ref, group, role: null, warlord: false, enh: null, alleg: null, attachedAs: null, models: n ? +n : null, weapons: [] }
+    // The tail mixes the allegiance, the swaps, the enhancement and the Warlord. The last two are
+    // named in the header as well, so they are told apart by that; the allegiance is left among the
+    // weapons, where matchRoster recognises it by what the datasheet offers.
+    for (const g of wtcGear(cut === -1 ? '' : body.slice(cut + 2))) {
+      if (/^warlord$/i.test(g.name)) unit.warlord = true
+      else if (enhNames.has(norm(g.name))) unit.enh = g.name
+      else unit.weapons?.push(g)
+    }
+    out.units.push(unit)
+  }
+  return fromHeader(out)
+}
+
+// Our chat export (rosterExport's compactText): "Name — Faction — Detachments — 790/2000 pts", then
+// "• 2x Unit (10) — 200 pts [Warlord, Khorne, Enh: X, 1x Weapon, leads Other]". Any of the head's
+// first three parts can be missing, so the faction is found by name and the rest placed around it.
+const COMPACT_HEAD = /^(.*?)\s*—?\s*(\d+)(?:\/(\d+))? pts$/
+const COMPACT_UNIT = /^•\s*(?:(\d+)x )?(.+?)(?: \((\d+)\))? — (\d+) pts(?: \[(.*)\])?$/
+
+/** @param {string} text @param {FactionGroup[]} factionGroups @returns {ParsedList} */
+function parseCompact(text, factionGroups) {
+  /** @type {ParsedList} */
+  const out = { format: 'compact', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [] }
+  const lines = (text || '').split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
+  const head = lines[0]?.match(COMPACT_HEAD)
+  if (head) {
+    out.stated = +head[2]
+    out.limit = head[3] ? +head[3] : 0
+    const parts = head[1].split(' — ').map((x) => x.trim()).filter(Boolean)
+    // Read from the right: a list's own name may hold a " — " of its own, or a faction's name. A
+    // faction nobody resolves ("Heretic Astartes") is the part before the detachments.
+    let fi = parts.length - 1
+    while (fi >= 0 && !matchFaction(parts[fi], factionGroups)) fi--
+    if (fi < 0 && parts.length >= 3) fi = parts.length - 2
+    if (fi >= 0) {
+      out.faction = parts[fi]
+      out.name = parts.slice(0, fi).join(' — ')
+      const dets = parts.slice(fi + 1).join(', ')
+      if (dets) { out.detachmentLine = dets; out.detachments = dets.split(/,\s*/) }
+    } else out.name = head[1]
+  }
+  for (const t of lines.slice(1)) {
+    const m = t.match(COMPACT_UNIT)
+    if (!m) continue
+    const [, copies, name, models, pts, tags] = m
+    const n = +(copies || 1)
+    for (let i = 0; i < n; i++) {
+      /** @type {ParsedUnit} */
+      const unit = { name, pts: Math.round(+pts / n), group: null, role: null, warlord: false, enh: null, alleg: null, models: models ? +models : null, weapons: [], attachedTo: [] }
+      // Tags are split on ", " only before a known prefix or a plain item — an enhancement's own
+      // name has no comma in it, and neither has a weapon's.
+      for (const g of (tags || '').split(', ').map((x) => x.trim()).filter(Boolean)) {
+        const enh = g.match(/^Enh: (.+)$/)
+        const leads = g.match(/^leads (.+)$/)
+        if (/^warlord$/i.test(g)) unit.warlord = true
+        else if (enh) unit.enh = enh[1]
+        else if (leads) unit.attachedTo?.push(leads[1])
+        else unit.weapons?.push(...wtcGear(g))
+      }
+      out.units.push(unit)
+    }
+  }
+  return out
+}
+
+// War Organ's "simple" list, which we export too (rosterExport's simpleText): "Name [Faction] -
+// (790 points)", "Detachments: …", the disposition, then "Unit (N points)". No model counts: the
+// size is read off the price in matchRoster (sizeIndexFor).
+const SIMPLE_HEAD = /^(.*?)\s*\[([^\]]+)\]\s*-\s*\((\d+) points?\)$/i
+
+/** @param {string} text @returns {ParsedList} */
+function parseSimple(text) {
+  /** @type {ParsedList} */
+  const out = { format: 'simple', name: '', faction: '', limit: 0, stated: 0, detachments: [], units: [] }
+  const lines = (text || '').split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
+  const head = lines[0]?.match(SIMPLE_HEAD)
+  if (head) { out.name = head[1]; out.faction = head[2]; out.stated = +head[3] }
+  for (const t of lines.slice(1)) {
+    const det = t.match(/^Detachments?:\s*(.+)$/i)
+    if (det) { out.detachmentLine = det[1]; out.detachments = det[1].split(/,\s*/); continue }
+    const fd = dispositionNamed(t)
+    if (fd) { out.disposition = fd; continue }
+    const m = t.match(new RegExp(`^(.+?) \\((\\d+) ?${PTS}\\)$`, 'i'))
+    if (m) out.units.push({ name: m[1], pts: +m[2], group: null, role: null, warlord: false, enh: null, alleg: null, models: null, weapons: [] })
+  }
+  return out
+}
+
 // `factionGroups` is the app's faction directory (src/data/factionsIndex.js): the names a list's
 // header line is read against.
 /**
@@ -789,6 +931,9 @@ function fromHeader(out) {
 export function parseList(text, format, factionGroups) {
   const t = repairMojibake(text)
   const f = format || detectFormat(t)
+  if (f === 'rus') return parseRus(t)
+  if (f === 'compact') return parseCompact(t, factionGroups)
+  if (f === 'simple') return parseSimple(t)
   if (f === 'wtc') return parseWtc(t, factionGroups)
   if (f === 'listhammer-compact') return parseListhammerCompact(t)
   if (f === 'gw') return parseGw(t, factionGroups)
@@ -815,8 +960,19 @@ export function codexChapterNamed(name) {
 }
 const ASTARTES_KEYWORD = norm('Adeptus Astartes')
 // Faction keywords that are one faction's and nobody else's, where the keyword is not the name we
-// file that faction under.
-const KEYWORD_FACTIONS = new Map([[norm('Legiones Daemonica'), 'chaos-daemons']])
+// file that faction under. The four after the first are the names our own roster data gives a
+// faction — appdata's, which every export of ours prints — and none of them resolved, so a list we
+// wrote ourselves came back asking which faction it was (2026-10-29). Chaos Space Marines' is the
+// fifth such name, "Heretic Astartes", and it stays out: it is also the keyword of World Eaters,
+// Death Guard and Thousand Sons, and in the corpus of real lists it stands alone over all of them —
+// asking the player beats importing a World Eaters list as a Chaos Space Marines one.
+const KEYWORD_FACTIONS = new Map([
+  [norm('Legiones Daemonica'), 'chaos-daemons'],
+  [norm('Agents of the Imperium'), 'imperial-agents'],
+  [norm('Asuryani'), 'aeldari'],
+  [norm('Adeptus Titanicus'), 'titan-legions'],
+  [norm('Titanicus Traitoris'), 'chaos-titan-legions'],
+])
 
 // The faction the list names, as one of ours. WTC writes the alliance in front ("Xenos - Aeldari"),
 // which parseWtc has already stripped.
@@ -954,8 +1110,10 @@ const defaultNames = (def, items) => new Set(
 const fitsBracket = (def, models) => models != null
   && (def?.sizes || []).some((s) => models >= (s.per?.[0] ?? 1) && models <= (s.per?.[1] ?? s.per?.[0] ?? 1))
 
-// The size bracket whose model range holds `models`; the datasheet's own default when the list
-// doesn't say (a single-model unit, or a format that omits the count).
+// The size bracket whose model range holds `models`. When the list doesn't say (a single-model
+// unit, or a format that omits the count), the one bracket priced at what the list says the unit
+// cost (`pts`, the extra a later copy pays allowed for) — else the datasheet's own default.
+// War Organ's simple list prints no count at all, and its ten-model squads came back as five.
 // `perMini` is what the list says about the SPLIT between profiles, when it says anything. Two
 // brackets can hold the same number of models and differ only in how they may be divided: an
 // Indomitor Kill Team is either ten Heavy Intercessors (`comp` [[0,10],[1,0],[2,0]]) or three to
@@ -966,9 +1124,10 @@ const fitsBracket = (def, models) => models != null
  * @param {RosterUnit} def
  * @param {number | null | undefined} models
  * @param {Map<number, number> | null} [perMini]
+ * @param {number} [pts]
  * @returns {number}
  */
-function sizeIndexFor(def, models, perMini = null) {
+function sizeIndexFor(def, models, perMini = null, pts = 0) {
   const sizes = def?.sizes || []
   const n = models || 0   // read only when the list gave a count
   /** @param {import('../shared/roster.types.js').SizeBracket} s */
@@ -983,6 +1142,10 @@ function sizeIndexFor(def, models, perMini = null) {
     if (fits >= 0) return fits
     const hit = sizes.findIndex(inRange)
     if (hit >= 0) return hit
+  }
+  if (!models && pts && sizes.length > 1) {
+    const priced = sizes.flatMap((s, i) => (s.pts === pts || s.pts + (def.step?.pts || 0) === pts ? [i] : []))
+    if (priced.length === 1) return priced[0]
   }
   const def0 = sizes.findIndex((s) => s.default)
   return def0 >= 0 ? def0 : 0
@@ -1321,7 +1484,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const mi = miniIndexOf(def, l.name)
       if (mi != null) perMini.set(mi, (perMini.get(mi) || 0) + (l.n || 1))
     }
-    const size = sizeIndexFor(def, models, perMini)
+    const size = sizeIndexFor(def, models, perMini, pu.pts)
     const bracket = def.sizes?.[size]
     /** @type {RosterEntry} */
     const entry = { uid: `i${payload.units.length + 1}`, id: def.id, size }

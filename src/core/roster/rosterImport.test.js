@@ -1183,6 +1183,17 @@ describe('matchFaction', () => {
     expect(matchFaction('Adeptus Astartes')).toBe('space-marines')
   })
 
+  // Every export of ours prints the faction as our roster data names it (appdata's name), and five
+  // of those were names the import did not know — a list we wrote came back asking its faction.
+  it('reads back the name every faction carries in our own roster data', async () => {
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    // …all but Chaos Space Marines', "Heretic Astartes", which is four factions' keyword (below).
+    for (const f of factionGroups.flatMap((g) => g.factions).filter((x) => x.slug !== 'chaos-space-marines')) {
+      const bundle = await loadRosterFaction(f.slug)
+      expect([f.slug, matchFaction(bundle.name)]).toEqual([f.slug, f.slug])
+    }
+  })
+
   // The looser reading stays on the whole string: a bare line is how a list with no labelled header
   // states its faction, and its TITLE is a bare line too.
   it('does not read a faction out of a fragment of a list name', () => {

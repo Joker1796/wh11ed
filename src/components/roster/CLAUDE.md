@@ -1077,6 +1077,29 @@ directory; still part of this feature:
   (from the roster list's "Import" button) shows the report and only then creates the list, landing
   the reader in the EDITOR, because whatever failed to match is theirs to finish.
 
+  **Every format the export writes, the import reads back** (2026-10-29). The rule came late: a
+  player exported his list for a Russian tournament, pasted it into the import and got two units
+  of five — the round trip in `scripts/lib/test-rosters.test.js` named three formats by hand, and
+  the three added after it (rus, compact, simple) were never put in. It runs over `EXPORT_FORMATS`
+  now, so a seventh format fails there until it reads back. Each has its own parser:
+  - **rus** (`parseRus`) — WTC's `+` header (it also reads `ARMY NAME`, `FORCE DISPOSITION`, a "-"
+    for none, and `ENHANCEMENT: CH1: X, CH2: Y`), then "Attached Unit N:" blocks and
+    `CH1: (10) Name: swaps, Enhancement, Warlord (110 pts)`. Detected before WTC, by `+ HIN:` or
+    by its unit lines — never by `+ PLAYER NAME:`, which a team event's WTC list carries too; the enhancement and the Warlord in the tail are told
+    from the swaps by the header, the allegiance is left among them for `matchRoster` to recognise.
+  - **compact** (`parseCompact`) — the chat line: the head `Name — Faction — Detachments — N/M pts`
+    read from the right (a list's name can hold " — "), `2x` unfolded into copies, `leads X` as
+    `attachedTo`.
+  - **simple** (`parseSimple`) — War Organ's: no model counts at all, so `sizeIndexFor` takes the
+    one size bracket priced at what the line says (the extra a later copy pays allowed for) and
+    falls back to the default only when the price names none or two.
+
+  **Our own faction names resolve** (same day): the roster data names five factions as appdata does
+  — Agents of the Imperium, Asuryani, Adeptus Titanicus, Titanicus Traitoris, Heretic Astartes — and
+  every export prints that, so a list of ours came back asking its faction. The first four are in
+  `KEYWORD_FACTIONS`; Heretic Astartes stays out (four factions' keyword, see `matchFaction`), and a
+  Chaos Space Marines list still asks. `rosterImport.test.js` checks every other faction's name.
+
   **Best-effort, never silent.** A list is prose written by another program against another points
   file, so everything that could not be placed is named: units missing from our data, a detachment
   we don't have, wargear that matched no option. A unit is never dropped quietly — what is not shown
