@@ -13,7 +13,7 @@
 // vite-node, not node: this imports the app's own modules, which are ESM with Vite's resolution.
 import { readFileSync } from 'node:fs'
 import { basename } from 'node:path'
-import { detectFormat, matchFaction, matchRoster, parseList } from '../src/core/roster/rosterImport.js'
+import { detectFormat, factionCandidates, matchFaction, matchRoster, parseList, pickFaction } from '../src/core/roster/rosterImport.js'
 import { encodeRoster } from '../src/composables/rosterShare.js'
 import core from '../src/data/roster/core.js'
 import { factionGroups } from '../src/data/factionsIndex.js'
@@ -33,7 +33,12 @@ let bad = 0
 for (const file of files) {
   const text = readFileSync(file, 'utf8')
   const parsed = parseList(text, detectFormat(text), factionGroups)
-  const slug = parsed?.units?.length ? matchFaction(parsed.faction, factionGroups) : null
+  // The faction as the import window finds it: by name, or for a name several go by, by the list.
+  const among = factionCandidates(parsed?.faction)
+  const bundles = await Promise.all(among.map(async (s) => ({ slug: s, faction: await loadRosterFaction(s) })))
+  const slug = parsed?.units?.length
+    ? matchFaction(parsed.faction, factionGroups) || pickFaction(parsed, bundles, { core, items: rosterItems.items })
+    : null
   if (!slug) { console.log(`✗ ${file}: not a list the importer can read`); bad++; continue }
   const faction = await loadRosterFaction(slug, { allies: true })
   const { payload, report } = matchRoster(parsed, { faction, core, items: rosterItems.items })

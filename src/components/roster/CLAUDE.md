@@ -1091,14 +1091,26 @@ directory; still part of this feature:
     read from the right (a list's name can hold " — "), `2x` unfolded into copies, `leads X` as
     `attachedTo`.
   - **simple** (`parseSimple`) — War Organ's: no model counts at all, so `sizeIndexFor` takes the
-    one size bracket priced at what the line says (the extra a later copy pays allowed for) and
-    falls back to the default only when the price names none or two.
+    size bracket priced at what the line says (the extra a later copy pays allowed for), the FIRST
+    where the price names several, and the default only where it names none. Eight units share a
+    price between brackets (Neurogaunts 12–21 and 22 at 90, Inquisitorial Agents, Atalan Jackals,
+    and five whose brackets differ only in the split between profiles); the default they fell back
+    to until 2026-10-29 was the smallest squad, 45 points for a line saying 90. Such a unit is
+    marked `sizeGuess` and the import window names it ("Squad size guessed from the price").
 
   **Our own faction names resolve** (same day): the roster data names five factions as appdata does
   — Agents of the Imperium, Asuryani, Adeptus Titanicus, Titanicus Traitoris, Heretic Astartes — and
   every export prints that, so a list of ours came back asking its faction. The first four are in
-  `KEYWORD_FACTIONS`; Heretic Astartes stays out (four factions' keyword, see `matchFaction`), and a
-  Chaos Space Marines list still asks. `rosterImport.test.js` checks every other faction's name.
+  `KEYWORD_FACTIONS`; Heretic Astartes stays out of `matchFaction` (real lists print it over any of
+  the legions). It is a **shared name** instead (`SHARED_FACTION_NAMES` → `factionCandidates`: CSM,
+  World Eaters, Death Guard, Thousand Sons, Emperor's Children), and `pickFaction` reads the list
+  against each candidate's own bundle (no allies): the one whose detachments it names, else whose
+  datasheets it names more of, and only an answer no other candidate ties. Our own CSM export
+  resolves this way in every format; a list of Chaos Rhinos is any legion's, and the window asks
+  "“Heretic Astartes” is the name of several factions" with only those in the select (2026-10-29,
+  owner: the list did name its faction). `matchRoster` must not write to the parsed list for this
+  to hold — it is read once per candidate (the one place it did, a flat body's profile per weapon
+  line, writes a copy now). The round trip in `test-rosters.test.js` asks the faction back too.
 
   **Best-effort, never silent.** A list is prose written by another program against another points
   file, so everything that could not be placed is named: units missing from our data, a detachment

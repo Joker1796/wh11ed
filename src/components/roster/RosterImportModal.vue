@@ -29,17 +29,19 @@
       <!-- Only the short listhammer export gets this far without naming a faction: it carries no
            faction, detachment or battle size at all. Everything downstream (which datasheets to
            match against, what an enhancement belongs to) hangs on the answer, so it is asked
-           plainly rather than guessed from unit names. -->
+           plainly rather than guessed from unit names. A name several factions go by ("Heretic
+           Astartes") gets here only when the list's own detachments and units did not settle it,
+           and is asked among those factions alone. -->
       <ExpandTransition>
         <label
           v-if="askFaction"
           class="rim-faction"
         >
-          <span>{{ labels.rosterImportPickFaction }}</span>
+          <span>{{ askAmong.length ? labels.rosterImportPickShared.replace('{n}', sharedName) : labels.rosterImportPickFaction }}</span>
           <select v-model="pickedFaction">
             <option value="">—</option>
             <optgroup
-              v-for="g in factionGroups"
+              v-for="g in pickGroups"
               :key="g.id"
               :label="groupLabel(g.id)"
             >
@@ -126,6 +128,15 @@
             <span class="rim-warn-h">{{ labels.rosterImportGearCheck }}</span>
             <span>{{ gearCheck.join(', ') }}</span>
           </div>
+          <!-- A list with no model counts (War Organ's) names a size only by its price, and some
+               prices fit two sizes: the smaller was taken, and the unit is named so it gets checked. -->
+          <div
+            v-if="sizeGuessed.length"
+            class="rim-warn"
+          >
+            <span class="rim-warn-h">{{ labels.rosterImportSizeGuess }}</span>
+            <span>{{ sizeGuessed.join(', ') }}</span>
+          </div>
           <!-- An enhancement can only be placed once the detachment it belongs to is known, so a
                list that names none loses them all — say so instead of dropping them in silence. -->
           <div
@@ -176,7 +187,7 @@ import ExpandTransition from '../ExpandTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, SCHEMA_VERSION } from '../../composables/useRosters.js'
-import { detectFormat, matchFaction, matchRoster, parseList } from '../../core/roster/rosterImport.js'
+import { detectFormat, factionCandidates, matchFaction, matchRoster, parseList, pickFaction } from '../../core/roster/rosterImport.js'
 import rosterCore from '../../data/roster/core.js'
 // The light index (names + slugs), not the tracker's faction module: this modal is imported by the
 // roster list, which stays out of the heavy datasets.
@@ -197,13 +208,19 @@ const payload = ref(null)
 const factionName = ref('')
 const askFaction = ref(false)
 const pickedFaction = ref('')
+// The factions a shared name may mean, when the list did not settle which (factionCandidates).
+const askAmong = ref([])
+const sharedName = ref('')
+const pickGroups = computed(() => !askAmong.value.length ? factionGroups : factionGroups
+  .map((g) => ({ ...g, factions: g.factions.filter((f) => askAmong.value.includes(f.slug)) }))
+  .filter((g) => g.factions.length))
 
 const groupLabel = (id) => labels.value[factionGroupLabelKey(id)] || id
 
 // Editing the pasted text invalidates the report it produced — otherwise "Create" would build the
 // list somebody read about two edits ago. The faction they chose goes with it: the next paste is a
 // different list.
-watch(text, () => { report.value = null; payload.value = null; error.value = ''; askFaction.value = false; pickedFaction.value = '' })
+watch(text, () => { report.value = null; payload.value = null; error.value = ''; askFaction.value = false; pickedFaction.value = ''; askAmong.value = [] })
 // Choosing the faction is the answer to the question the read stopped on, so it resumes it.
 watch(pickedFaction, (slug) => { if (slug && text.value.trim()) read() })
 
@@ -213,7 +230,19 @@ async function read() {
   try {
     const parsed = parseList(text.value, detectFormat(text.value), factionGroups)
     if (!parsed?.units?.length) { error.value = labels.value.rosterImportUnknown; return }
-    const slug = matchFaction(parsed.faction, factionGroups) || pickedFaction.value
+    // The roster bundle for one faction is ~100 KB of generated data, so it is fetched only once a
+    // list actually names that faction — the same lazy load the editor does.
+    const [{ loadRosterFaction, rosterItems }] = await Promise.all([import('../../data/roster/index.js')])
+    let slug = matchFaction(parsed.faction, factionGroups) || pickedFaction.value
+    const among = slug ? [] : factionCandidates(parsed.faction)
+    if (among.length) {
+      // A name several armies go by: the list's detachments and units usually say which. Their own
+      // datasheets only — an ally would make every legion look a little like the others.
+      const bundles = (await Promise.all(among.map(async (s) => ({ slug: s, faction: await loadRosterFaction(s) }))))
+        .filter((b) => b.faction)
+      slug = pickFaction(parsed, bundles, { core: rosterCore, items: rosterItems.items })
+      if (!slug) { askAmong.value = among; sharedName.value = parsed.faction; askFaction.value = true; return }
+    }
     if (!slug) {
       // No faction in the text (the short listhammer export) — or one we don't know. Either way the
       // reader can say which it is; only an unrecognised NAME is worth an error line.
@@ -221,9 +250,6 @@ async function read() {
       if (parsed.faction) error.value = labels.value.rosterImportNoFaction.replace('{n}', parsed.faction)
       return
     }
-    // The roster bundle for one faction is ~100 KB of generated data, so it is fetched only once a
-    // list actually names that faction — the same lazy load the editor does.
-    const [{ loadRosterFaction, rosterItems }] = await Promise.all([import('../../data/roster/index.js')])
     const faction = await loadRosterFaction(slug, { allies: true })
     if (!faction) { error.value = labels.value.rosterImportNoFaction.replace('{n}', parsed.faction || '—'); return }
     factionName.value = faction.name
@@ -240,6 +266,7 @@ const missingGear = computed(() => [...new Set((report.value?.units || []).flatM
 const gearCheck = computed(() => (report.value?.units || [])
   .filter((u) => u.gear.check?.length)
   .map((u) => `${u.name} (${u.gear.check?.join(', ')})`))
+const sizeGuessed = computed(() => [...new Set((report.value?.units || []).filter((u) => u.sizeGuess).map((u) => u.name))])
 const missingEnh = computed(() => [...new Set((report.value?.units || []).filter((u) => u.enh && !u.enh.ok).map((u) => u.enh.name))])
 // A total that differs is a question the reader should not have to answer by hand: the units whose
 // own printed points are not what they cost here are named, so a data-version difference is one
@@ -253,6 +280,7 @@ const clean = computed(() => !!report.value
   && !report.value.detachments.missing.length
   && !missingGear.value.length
   && !gearCheck.value.length
+  && !sizeGuessed.value.length
   && !missingEnh.value.length
   && !repriced.value.length
   && !pointsDiffer.value)

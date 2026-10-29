@@ -475,6 +475,7 @@
  * @property {{ picked: string[], missing: string[], check?: string[] }} gear `check`: weapons whose count came out different from the list's
  * @property {{ name: string, ok: boolean } | null} enh
  * @property {{ stated: number, computed: number }} points
+ * @property {boolean} [sizeGuess] the list gave no model count and its price fits several sizes: the first was taken
  */
 
 /**
