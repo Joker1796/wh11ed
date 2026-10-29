@@ -459,7 +459,7 @@
                    and the numbers they belong to got lost between them. The chevron appears only
                    when there is something behind it. -->
                     <div
-                      v-if="pinnedChipOf(e) || inGame"
+                      v-if="pinnedChipOf(e) || (inGame && !historyId)"
                       class="rvunit-conds"
                     >
                       <ConditionChips
@@ -484,9 +484,11 @@
                           to="up"
                         />
                       </button>
-                      <!-- Where the unit is: the row's other end (owner, 2026-10-08). -->
+                      <!-- Where the unit is: the row's other end (owner, 2026-10-08). Not in a finished
+                           game's history (owner, 2026-10-29): nothing there can be marked any more,
+                           and a disabled button under every unit was a row of nothing. -->
                       <UnitStatusButton
-                        v-if="inGame && keeps('trackUnitStates')"
+                        v-if="inGame && !historyId && keeps('trackUnitStates')"
                         :status="unitStatusOf(gamePlayer, e.uid)"
                         :name="defOf(e.id)?.name || e.id"
                         :disabled="!canSwitch"
