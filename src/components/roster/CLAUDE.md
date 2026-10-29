@@ -2074,8 +2074,15 @@ mission datasets). The list's "Statistics" button is just a link to `/roster`.
   only the right-hand side fades; the width is `main-content--browse`, the footer is not drawn.
 - **Height:** the desk fills the window and every column scrolls on its own — the same
   `.rw-host` + `useViewportFill` the builder's workbench stands on (see "Height for the panes").
-- A tracker game's roster (`/tracker/game/roster/…`, `/tracker/history/…/roster/…`) is still
-  `RosterViewView` on its own: the desk is the saved rosters' screen.
+- A tracker game's roster (`/tracker/game/roster/…`, `/tracker/history/…/roster/…`) is not on
+  the desk — it has no list of lists — but from 901px it takes the desk's two right-hand columns
+  (owner, 2026-10-29): `gameDesk` in `RosterViewView` turns on the same `unitPane` split, the page
+  fills the window (`rw-host` + `useViewportFill`) and App.vue gives it the desk's width with no
+  footer (`isGameRosterDesk`). From 901, not 1200: two columns fit a tablet. The game screen's own
+  Roster tab (`inTracker`) stays as it was. In the history either side's list has a "…" menu —
+  Export and Save to my rosters (`importRoster`'s `fromGame` mark; saving the same side again
+  asks first, with a link to the copy, and a further copy is "Name (2)"); a game in progress has
+  no menu.
 - **The last list comes back** (owner, same day): the desk remembers the saved list opened last
   (`lastRoster.js`, per device, written on a phone too) and a bare `/roster` on a wide screen
   reopens it. The statistics are asked for by name — `/roster?stats`, the heading's button — and a

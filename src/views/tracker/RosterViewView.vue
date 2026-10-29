@@ -1,8 +1,9 @@
 <template>
   <div
     v-if="roster"
+    ref="rootEl"
     class="roster-view fa-themed"
-    :class="{ 'rv-in-desk': inDesk, 'rv-split': unitPane, 'rv-in-game': inTracker }"
+    :class="{ 'rv-in-desk': inDesk, 'rv-split': split, 'rv-in-game': inTracker, 'rw-host rv-game-desk': gameDesk }"
     :style="accentStyle"
   >
     <!-- On the rosters desk (RosterDeskView, wide screens) the page is a column that scrolls on its
@@ -384,7 +385,7 @@
                     :class="{
                       'rvunit-attached': e.leaderOf,
                       'rvunit-host': hasAttached(g.entries, e) || companionRows(defOf(e.id)).length > 0,
-                      'rvunit-on': unitPane && viewingUid === e.uid,
+                      'rvunit-on': split && viewingUid === e.uid,
                       'rvunit-fallen': fallen(e),
                     }"
                   >
@@ -514,7 +515,7 @@
                     :key="c.kind + c.id"
                     type="button"
                     class="rvunit rvunit-main rvunit-crew"
-                    :class="{ 'rvunit-on': unitPane && viewingCrew === c.id }"
+                    :class="{ 'rvunit-on': split && viewingCrew === c.id }"
                     data-press
                     data-press-sound="card"
                     @click="openCrew(c)"
@@ -621,7 +622,7 @@
       />
 
       <RosterUnitRulesModal
-        v-if="viewingCard && !unitPane"
+        v-if="viewingCard && !split"
         v-bind="viewingCard"
         v-on="viewingHandlers"
         @close="viewingUid = null; viewingCrew = null"
@@ -638,7 +639,7 @@
       />
     </div>
     <aside
-      v-if="unitPane"
+      v-if="split"
       class="rv-unit"
     >
       <RosterUnitRulesCard
@@ -661,7 +662,9 @@
 <script setup>
 import { modelsLabel } from '../../utils/copyTier.js'
 import ChevronIcon from '../../components/ChevronIcon.vue'
-import { computed, markRaw, onMounted, onUnmounted, ref, shallowRef, toRaw, watch } from 'vue'
+import { computed, markRaw, nextTick, onMounted, onUnmounted, ref, shallowRef, toRaw, watch } from 'vue'
+import { useMediaQuery } from '../../composables/useMediaQuery.js'
+import { useViewportFill } from '../../composables/useViewportFill.js'
 import { useRoute, useRouter } from 'vue-router'
 import { useFileFinishedGameOnLeave } from '../../composables/fileFinishedGame.js'
 import CollapseTransition from '../../components/CollapseTransition.vue'
@@ -769,6 +772,13 @@ const gamePi = computed(() => (props.inTracker ? props.pi : route.params.pi != n
 // Doubles: which member of the side this list belongs to (absent in singles → the side itself).
 const gameMi = computed(() => (props.inTracker ? props.mi : route.params.mi != null && route.params.mi !== '' ? Number(route.params.mi) : null))
 const inGame = computed(() => gamePi.value != null)
+// A game's list on a wide screen — the page of its own, not the game screen's Roster tab — is the
+// rosters desk's two right-hand columns (owner, 2026-10-29): the units, and the card of the one
+// picked beside them instead of a dialog, from 901px, where the bottom nav goes. The page fills
+// the window and each column scrolls on its own (useViewportFill), as on the desk.
+const wideScreen = useMediaQuery('(min-width: 901px)')
+const gameDesk = computed(() => inGame.value && !props.inTracker && wideScreen.value)
+const split = computed(() => props.unitPane || gameDesk.value)
 // A finished game reached from the history list (/tracker/history/:gid/roster/:pi) shows the same
 // screen as a live one, but as a RECORD: the rule switches are what they were when it ended, and
 // there is nothing left to flip. "Back" reopens that game's modal on the history list.
@@ -875,6 +885,10 @@ const activeFor = (entry) => (inGame.value
   : rosterConditions(entry, roster.value?.units, sheetOfId, unitRulesOf(entry).proves))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
+// The game desk's height (see gameDesk): measured once the page and its list are there.
+const rootEl = ref(null)
+const { measure: measureFill } = useViewportFill(rootEl)
+watch([gameDesk, () => !!roster.value], () => nextTick(measureFill))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
 // `roster` is legitimately null, and redirecting then would bounce straight back out of the view.
 watch([roster, gameRoster], () => {
@@ -2244,6 +2258,13 @@ const nowSlot = computed(() => {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   gap: 1rem;
+}
+.rv-game-desk { grid-template-rows: minmax(0, 1fr); }
+.rv-game-desk .rv-main {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 0.5rem 2rem 0;
 }
 .rv-unit {
   min-height: 0;

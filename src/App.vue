@@ -42,7 +42,7 @@
 
     <main
       class="main-content"
-      :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isFactionPageRoute || isCombatPatrolPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk, 'main-content--browse': isRosterBrowseDesk, 'main-content--fill': isFactionUnitsDesk }"
+      :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isFactionPageRoute || isCombatPatrolPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk || isGameRosterDesk, 'main-content--browse': isRosterBrowseDesk || isGameRosterDesk, 'main-content--fill': isFactionUnitsDesk }"
     >
       <RouterView v-slot="{ Component }">
         <Transition
@@ -57,7 +57,7 @@
           />
         </Transition>
       </RouterView>
-      <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute && !isRosterBrowseDesk && !isFactionUnitsDesk && !isBare" />
+      <AppFooter v-if="!isTrackerGameRoute && !isRosterEditRoute && !isRosterBrowseDesk && !isGameRosterDesk && !isFactionUnitsDesk && !isBare" />
     </main>
 
     <AppBottomNav
@@ -297,6 +297,9 @@ const isRosterBrowseDesk = computed(() => rosterBrowseWide.value &&
 // A faction's units on a wide screen: the list and the unit scroll in columns that fill the window
 // (FactionDatasheetsView), so the page itself does not scroll and has no footer under it.
 const isFactionUnitsDesk = computed(() => rosterBrowseWide.value && /^\/factions\/[^/]+\/datasheets$/.test(appPath.value))
+// A game's list — the one being played or one out of history — on the same wide screen: the units
+// and the open unit's card in two columns that fill the window (RosterViewView's game desk).
+const isGameRosterDesk = computed(() => rosterBrowseWide.value && /^\/tracker\/(game|history\/[^/]+)\/roster\//.test(appPath.value))
 
 // "Back to game" bar: only when a game is actively in progress and the user is reading something
 // that isn't the game — anywhere outside the tracker, plus the one tracker screen that is itself
