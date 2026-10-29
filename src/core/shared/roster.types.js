@@ -451,7 +451,7 @@
 /**
  * A whole list as a parser read it.
  * @typedef {object} ParsedList
- * @property {'gw' | 'wtc' | 'listhammer-compact'} format
+ * @property {'gw' | 'wtc' | 'listhammer-compact' | 'rus' | 'compact' | 'simple'} format
  * @property {string} name
  * @property {string} faction
  * @property {number} limit  the battle size's points

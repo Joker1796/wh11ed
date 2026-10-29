@@ -3,7 +3,7 @@ import { TEST_ROSTERS, buildTestRoster } from './test-rosters.mjs'
 import core from '../../src/data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../src/data/roster/index.js'
 import { validateRoster } from '../../src/core/roster/rosterValidation.js'
-import { buildRosterText } from '../../src/core/roster/rosterExport.js'
+import { buildRosterText, EXPORT_FORMATS } from '../../src/core/roster/rosterExport.js'
 import { detectFormat, matchRoster, parseList } from '../../src/core/roster/rosterImport.js'
 import { factionGroups } from '../../src/data/factionsIndex.js'
 import { rosterPoints } from '../../src/core/roster/rosterEngine.js'
@@ -25,14 +25,17 @@ describe('test rosters', () => {
 })
 
 // RELEASE-CHECKLIST 2.6 [A]: what the export writes, the import reads back as the same list — the
-// same datasheets, the same detachments, every weapon placed and the same points. The formats an
-// importer cannot read back (compact is for a chat, not for a machine) are left out.
+// same datasheets, the same detachments, every weapon placed and the same points. EVERY format the
+// export offers (owner, 2026-10-29: a list exported for a Russian tournament did not import; the
+// formats here were a list of three, and the three added later were never put in it). What a
+// format does not carry is not asked of it: the simple list has no wargear, enhancement, Warlord
+// or attachment — its datasheets, detachments and points must still come back.
 // A list's unit lines in the chat export, order aside: each line with what its brackets list sorted.
 const unitLines = (text) => text.split('\n').filter((l) => l.startsWith('•'))
   .map((l) => l.replace(/\[(.*)\]/, (_, inner) => `[${inner.split(', ').sort().join(', ')}]`)).sort()
 
 describe('test rosters survive export → import', () => {
-  for (const format of ['gw', 'wtc', 'wtc-compact']) {
+  for (const format of EXPORT_FORMATS) {
     for (const spec of TEST_ROSTERS.filter((x) => !x.expect.errors)) {
       it(`${spec.key} (${format})`, async () => {
         const faction = await loadRosterFaction(spec.faction, { allies: true })
@@ -46,6 +49,12 @@ describe('test rosters survive export → import', () => {
         expect(payload.units.map((u) => u.id).sort()).toEqual(roster.units.map((u) => u.id).sort())
         const defOf = (id) => faction.units.find((u) => u.id === id)
         const dets = faction.detachments.filter((d) => roster.detachments.includes(d.name))
+        if (format === 'simple') {
+          // No enhancement in the list, so the points it brings are not asked back.
+          const bare = (units) => units.map(({ enh, ...u }) => u)
+          expect(rosterPoints(bare(payload.units), defOf, dets)).toBe(rosterPoints(bare(roster.units), defOf, dets))
+          return
+        }
         expect(rosterPoints(payload.units, defOf, dets)).toBe(rosterPoints(roster.units, defOf, dets))
         // …and the same LIST, not only the same total: every weapon on the profile that carries it,
         // the same attachments, Warlord and enhancements. The chat export prints exactly those, a line
