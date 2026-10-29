@@ -1084,8 +1084,8 @@ directory; still part of this feature:
   now, so a seventh format fails there until it reads back. Each has its own parser:
   - **rus** (`parseRus`) — WTC's `+` header (it also reads `ARMY NAME`, `FORCE DISPOSITION`, a "-"
     for none, and `ENHANCEMENT: CH1: X, CH2: Y`), then "Attached Unit N:" blocks and
-    `CH1: (10) Name: swaps, Enhancement, Warlord (110 pts)`. Detected before WTC, by `+ HIN:` /
-    `+ PLAYER NAME:` or by its unit lines; the enhancement and the Warlord in the tail are told
+    `CH1: (10) Name: swaps, Enhancement, Warlord (110 pts)`. Detected before WTC, by `+ HIN:` or
+    by its unit lines — never by `+ PLAYER NAME:`, which a team event's WTC list carries too; the enhancement and the Warlord in the tail are told
     from the swaps by the header, the allegiance is left among them for `matchRoster` to recognise.
   - **compact** (`parseCompact`) — the chat line: the head `Name — Faction — Detachments — N/M pts`
     read from the right (a list's name can hold " — "), `2x` unfolded into copies, `leads X` as

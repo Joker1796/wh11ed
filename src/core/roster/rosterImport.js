@@ -153,9 +153,10 @@ function dispositionNamed(t) {
 /** @param {string | null | undefined} text @returns {ParsedList['format'] | null} */
 export function detectFormat(text) {
   const t = repairMojibake(text)
-  // Our own Russian tournament export first: it has WTC's header, and only its fields and unit
-  // lines say otherwise.
-  if (/^\+ (HIN|PLAYER NAME):/m.test(t) || (/^\+ FACTION KEYWORD:/m.test(t) && /^[A-Z]{2}\d+: .+ \(\d+ pts\)$/m.test(t))) return 'rus'
+  // Our own Russian tournament export first: it has WTC's header, and only its HIN field and its
+  // unit lines say otherwise. Not PLAYER NAME — a team event's WTC list carries that too (23 of
+  // them in the listhammer corpus came out unreadable when it decided, 2026-10-29).
+  if (/^\+ HIN:/m.test(t) || (/^\+ FACTION KEYWORD:/m.test(t) && /^[A-Z]{2}\d+: .+ \(\d+ pts\)$/m.test(t))) return 'rus'
   if (/^\s*\++\s*$/m.test(t) && /^\+ (FACTION KEYWORD|TOTAL ARMY POINTS):/m.test(t)) return 'wtc'
   if (SIMPLE_HEAD.test(t.trim().split(/\r?\n/)[0] || '')) return 'simple'
   if (COMPACT_HEAD.test(t.trim().split(/\r?\n/)[0] || '') && /^•\s*.+ — \d+ pts/m.test(t)) return 'compact'
