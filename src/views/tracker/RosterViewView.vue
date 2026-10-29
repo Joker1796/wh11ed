@@ -146,6 +146,40 @@
               {{ roster.archived ? labels.rosterUnarchive : labels.rosterArchive }}
             </button>
           </ActionMenu>
+          <!-- A finished game's list — either side's: the opponent's is the one a player has no
+               other way to get. Out as text, or in among the reader's own lists. Only in the
+               history (owner, 2026-10-29): a game in progress is not the moment. -->
+          <ActionMenu
+            v-else-if="historyId"
+            v-model:open="menuOpen"
+            :title="roster.name || labels.rosterUntitled"
+          >
+            <template #trigger="{ toggle }">
+              <button
+                type="button"
+                class="hdr-icon"
+                :aria-label="labels.rosterMoreActions"
+                @click="toggle"
+              >
+                <i class="wi wi-more-v" />
+              </button>
+            </template>
+            <button
+              type="button"
+              class="act-btn"
+              :disabled="!ready"
+              @click="openExport"
+            >
+              {{ labels.rosterExportTitle }}
+            </button>
+            <button
+              type="button"
+              class="act-btn"
+              @click="saveFromGame"
+            >
+              {{ labels.rosterSaveToMine }}
+            </button>
+          </ActionMenu>
         </div>
       </header>
 
@@ -552,6 +586,23 @@
         @close="exportOpen = false"
       />
 
+      <ConfirmModal
+        v-if="savedBefore"
+        :title="labels.rosterSavedAlready"
+        :confirm-label="labels.rosterSaveCopy"
+        :cancel-label="labels.trackerCancel"
+        @confirm="saveFromGame(true)"
+        @close="savedBefore = null"
+      >
+        {{ labels.rosterSavedAlreadyText }}
+        <RouterLink
+          :to="`/roster/${savedBefore.id}/view`"
+          class="rv-saved-link"
+        >
+          {{ savedBefore.name || labels.rosterUntitled }}
+        </RouterLink>
+      </ConfirmModal>
+
       <RosterDispositionModal
         v-if="dispModalOpen"
         :candidates="dispCands"
@@ -621,6 +672,7 @@ import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import ActionMenu from '../../components/ActionMenu.vue'
+import ConfirmModal from '../../components/ConfirmModal.vue'
 import RosterOwnLimitsMark from '../../components/roster/RosterOwnLimitsMark.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
 import UnitStatusButton from '../../components/tracker/UnitStatusButton.vue'
@@ -704,7 +756,7 @@ const { locale } = useLocale()
 // The same popover a core ability or a modifier note opens — a chip's "i" is one more way in.
 const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
-const { rosterById, updateRoster, setArchived, rosters } = useRosters()
+const { rosterById, updateRoster, setArchived, rosters, savedRosters, importRoster } = useRosters()
 const { saveToCloud } = useRosterSync()
 
 // Two ways in: /roster/:id/view reads the saved roster, /tracker/game/roster/:pi reads the
@@ -1770,6 +1822,22 @@ function playThisList() {
   menuOpen.value = false
   playRoster(roster.value, router)
 }
+// A finished game's list into the reader's own (owner, 2026-10-29): the snapshot as the game kept
+// it, under the name it had, marked with the game and side it came from. The same side saved
+// again asks first, with a link to the copy already there; a second copy is "Name (2)", and so on.
+const savedBefore = ref(null)
+function saveFromGame(again = false) {
+  menuOpen.value = false
+  const from = { id: historyId.value, pi: gamePi.value, ...(gameMi.value != null ? { mi: gameMi.value } : {}) }
+  const same = savedRosters.value.filter((r) => r.fromGame?.id === from.id && r.fromGame.pi === from.pi && (r.fromGame.mi ?? null) === (from.mi ?? null))
+  if (same.length && again !== true) { savedBefore.value = same[0]; return }
+  savedBefore.value = null
+  const name = roster.value.name || labels.value.rosterUntitled
+  const r = importRoster(gamePlayer.value.roster, same.length ? `${name} (${same.length + 1})` : name, from)
+  if (!r) return
+  saveToCloud(r.id)
+  router.push(`/roster/${r.id}/view`)
+}
 // The whole list as text, in the GW app's dialect — the one a player pastes into a chat or a
 // TO's form. The sheet stays open long enough to say it worked and then closes itself: a
 // clipboard write is invisible, and closing on the tap would leave nothing to see.
@@ -2184,6 +2252,8 @@ const nowSlot = computed(() => {
   padding: 0.75rem 0.5rem 2rem 1rem;
   border-left: 1px solid var(--border);
 }
+/* The list already saved from this side of the game, on a line of its own under the question. */
+.rv-saved-link { display: block; margin-top: 0.5rem; color: var(--accent-ink); font-weight: 600; }
 .rv-unit-empty {
   margin: 4rem 0 0;
   text-align: center;

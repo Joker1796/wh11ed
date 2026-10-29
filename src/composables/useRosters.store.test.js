@@ -62,6 +62,18 @@ describe('importRoster', () => {
     expect(r.units[0].size).toBeUndefined()
   })
 
+  // A finished game's list saved into the reader's own: marked with where it came from (so a second
+  // save can say it is already there), and never archived on arrival, whatever it was then.
+  it('marks a list saved out of a game with that game and side', () => {
+    const snap = { v: 4, name: 'Opponent', faction: 'necrons', archived: true, units: [{ uid: 'a', id: 'necron-warriors', size: 1 }] }
+    const r = store.importRoster(snap, 'Opponent', { id: 'g1', pi: 1 })
+    expect(r.fromGame).toEqual({ id: 'g1', pi: 1 })
+    expect(r.archived).toBeUndefined()
+    expect(stored().rosters[0].fromGame).toEqual({ id: 'g1', pi: 1 })
+    // A share payload carries no such mark, and could not smuggle one in.
+    expect(store.importRoster({ ...snap, fromGame: { id: 'x', pi: 0 } }).fromGame).toBeUndefined()
+  })
+
   it('refuses anything that is not roster-shaped', () => {
     expect(store.importRoster(null)).toBeNull()
     expect(store.importRoster({ name: 'no units' })).toBeNull()

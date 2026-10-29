@@ -5,8 +5,9 @@
     @close="$emit('close')"
   >
     <div class="modal-body">
+      <!-- The slot is for a message that needs markup — a link to what the question is about. -->
       <p class="cm-message">
-        {{ message }}
+        <slot>{{ message }}</slot>
       </p>
     </div>
 
