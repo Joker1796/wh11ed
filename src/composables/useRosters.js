@@ -400,7 +400,11 @@ function updateRoster(id, patch) {
 // The payload's own `v` decides how it is read: it is the same versioned shape as a stored roster
 // and can predate the current schema, so it goes through the same migration rather than being
 // trusted as-is. A payload with no `v` at all is older than that field and is migrated from zero.
-function importRoster(obj, name) {
+//
+// `fromGame` marks a list saved out of a finished game ({ id, pi, mi? } — the game and the side it
+// was played by), so saving the same side a second time can say it is already there. It rides to
+// the cloud with the rest of the list (the API passes a roster through untouched).
+function importRoster(obj, name, fromGame = null) {
   if (!obj || typeof obj !== 'object' || !Array.isArray(obj.units)) return null
   const r = JSON.parse(JSON.stringify(obj))
   const version = r.v
@@ -408,6 +412,10 @@ function importRoster(obj, name) {
   migrateRoster(r, version)
   r.id = uid()
   r.name = name || r.name || 'Roster'
+  // A game's snapshot is of the list as it stood then; put away or not, it comes in as a new one.
+  delete r.archived
+  if (fromGame) r.fromGame = fromGame
+  else delete r.fromGame
   r.createdAt = r.updatedAt = Date.now()
   // No summary is fabricated here: the points are the SENDER's arithmetic and this side can't
   // check them without the faction data. Left unset, it reads as "nobody has priced this yet",

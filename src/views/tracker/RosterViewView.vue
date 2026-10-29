@@ -1,8 +1,9 @@
 <template>
   <div
     v-if="roster"
+    ref="rootEl"
     class="roster-view fa-themed"
-    :class="{ 'rv-in-desk': inDesk, 'rv-split': unitPane, 'rv-in-game': inTracker }"
+    :class="{ 'rv-in-desk': inDesk, 'rv-split': split, 'rv-in-game': inTracker, 'rw-host rv-game-desk': gameDesk }"
     :style="accentStyle"
   >
     <!-- On the rosters desk (RosterDeskView, wide screens) the page is a column that scrolls on its
@@ -144,6 +145,40 @@
               @click="toggleArchived"
             >
               {{ roster.archived ? labels.rosterUnarchive : labels.rosterArchive }}
+            </button>
+          </ActionMenu>
+          <!-- A finished game's list — either side's: the opponent's is the one a player has no
+               other way to get. Out as text, or in among the reader's own lists. Only in the
+               history (owner, 2026-10-29): a game in progress is not the moment. -->
+          <ActionMenu
+            v-else-if="historyId"
+            v-model:open="menuOpen"
+            :title="roster.name || labels.rosterUntitled"
+          >
+            <template #trigger="{ toggle }">
+              <button
+                type="button"
+                class="hdr-icon"
+                :aria-label="labels.rosterMoreActions"
+                @click="toggle"
+              >
+                <i class="wi wi-more-v" />
+              </button>
+            </template>
+            <button
+              type="button"
+              class="act-btn"
+              :disabled="!ready"
+              @click="openExport"
+            >
+              {{ labels.rosterExportTitle }}
+            </button>
+            <button
+              type="button"
+              class="act-btn"
+              @click="saveFromGame"
+            >
+              {{ labels.rosterSaveToMine }}
             </button>
           </ActionMenu>
         </div>
@@ -350,7 +385,7 @@
                     :class="{
                       'rvunit-attached': e.leaderOf,
                       'rvunit-host': hasAttached(g.entries, e) || companionRows(defOf(e.id)).length > 0,
-                      'rvunit-on': unitPane && viewingUid === e.uid,
+                      'rvunit-on': isOn(e.uid),
                       'rvunit-fallen': fallen(e),
                     }"
                   >
@@ -363,7 +398,7 @@
                       data-press
                       data-press-sound="card"
                       data-press-scope=".rvunit"
-                      @click="viewingUid = e.uid"
+                      @click="openKey(e.uid)"
                     >
                       <span class="rvunit-text">
                         <!-- In the game the summary (warlord, models, upgrades, enhancement) stands at the
@@ -424,7 +459,7 @@
                    and the numbers they belong to got lost between them. The chevron appears only
                    when there is something behind it. -->
                     <div
-                      v-if="pinnedChipOf(e) || inGame"
+                      v-if="pinnedChipOf(e) || (inGame && !historyId)"
                       class="rvunit-conds"
                     >
                       <ConditionChips
@@ -449,9 +484,11 @@
                           to="up"
                         />
                       </button>
-                      <!-- Where the unit is: the row's other end (owner, 2026-10-08). -->
+                      <!-- Where the unit is: the row's other end (owner, 2026-10-08). Not in a finished
+                           game's history (owner, 2026-10-29): nothing there can be marked any more,
+                           and a disabled button under every unit was a row of nothing. -->
                       <UnitStatusButton
-                        v-if="inGame && keeps('trackUnitStates')"
+                        v-if="inGame && !historyId && keeps('trackUnitStates')"
                         :status="unitStatusOf(gamePlayer, e.uid)"
                         :name="defOf(e.id)?.name || e.id"
                         :disabled="!canSwitch"
@@ -480,10 +517,10 @@
                     :key="c.kind + c.id"
                     type="button"
                     class="rvunit rvunit-main rvunit-crew"
-                    :class="{ 'rvunit-on': unitPane && viewingCrew === c.id }"
+                    :class="{ 'rvunit-on': isOn(`crew:${c.id}`) }"
                     data-press
                     data-press-sound="card"
-                    @click="openCrew(c)"
+                    @click="openKey(`crew:${c.id}`)"
                   >
                     <i
                       class="wi rvunit-crew-mark"
@@ -552,6 +589,23 @@
         @close="exportOpen = false"
       />
 
+      <ConfirmModal
+        v-if="savedBefore"
+        :title="labels.rosterSavedAlready"
+        :confirm-label="labels.rosterSaveCopy"
+        :cancel-label="labels.trackerCancel"
+        @confirm="saveFromGame(true)"
+        @close="savedBefore = null"
+      >
+        {{ labels.rosterSavedAlreadyText }}
+        <RouterLink
+          :to="`/roster/${savedBefore.id}/view`"
+          class="rv-saved-link"
+        >
+          {{ savedBefore.name || labels.rosterUntitled }}
+        </RouterLink>
+      </ConfirmModal>
+
       <RosterDispositionModal
         v-if="dispModalOpen"
         :candidates="dispCands"
@@ -570,7 +624,7 @@
       />
 
       <RosterUnitRulesModal
-        v-if="viewingCard && !unitPane"
+        v-if="viewingCard && !split"
         v-bind="viewingCard"
         v-on="viewingHandlers"
         @close="viewingUid = null; viewingCrew = null"
@@ -587,7 +641,7 @@
       />
     </div>
     <aside
-      v-if="unitPane"
+      v-if="split"
       class="rv-unit"
     >
       <RosterUnitRulesCard
@@ -610,7 +664,9 @@
 <script setup>
 import { modelsLabel } from '../../utils/copyTier.js'
 import ChevronIcon from '../../components/ChevronIcon.vue'
-import { computed, markRaw, onMounted, onUnmounted, ref, shallowRef, toRaw, watch } from 'vue'
+import { computed, markRaw, nextTick, onMounted, onUnmounted, ref, shallowRef, toRaw, watch } from 'vue'
+import { useMediaQuery } from '../../composables/useMediaQuery.js'
+import { useViewportFill } from '../../composables/useViewportFill.js'
 import { useRoute, useRouter } from 'vue-router'
 import { useFileFinishedGameOnLeave } from '../../composables/fileFinishedGame.js'
 import CollapseTransition from '../../components/CollapseTransition.vue'
@@ -621,6 +677,7 @@ import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import ActionMenu from '../../components/ActionMenu.vue'
+import ConfirmModal from '../../components/ConfirmModal.vue'
 import RosterOwnLimitsMark from '../../components/roster/RosterOwnLimitsMark.vue'
 import ConditionChips from '../../components/ConditionChips.vue'
 import UnitStatusButton from '../../components/tracker/UnitStatusButton.vue'
@@ -694,6 +751,11 @@ const props = defineProps({
   pi: { type: Number, default: null },
   mi: { type: Number, default: null },
   frozen: { type: Boolean, default: false },
+  // A finished game's desk (GameHistoryDesk) draws the cards itself, beside the list, one of this
+  // list's units or two of anyone's: a tap says which (`unit`, a cardOf key) and `picked` lights
+  // the rows whose cards stand there.
+  externalCard: { type: Boolean, default: false },
+  picked: { type: Array, default: () => [] },
 })
 
 const route = useRoute()
@@ -704,7 +766,7 @@ const { locale } = useLocale()
 // The same popover a core ability or a modifier note opens — a chip's "i" is one more way in.
 const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
-const { rosterById, updateRoster, setArchived, rosters } = useRosters()
+const { rosterById, updateRoster, setArchived, rosters, savedRosters, importRoster } = useRosters()
 const { saveToCloud } = useRosterSync()
 
 // Two ways in: /roster/:id/view reads the saved roster, /tracker/game/roster/:pi reads the
@@ -713,10 +775,17 @@ const { saveToCloud } = useRosterSync()
 //
 // useTracker is imported dynamically on purpose: it statically pulls the mission/event datasets,
 // and the ordinary roster route must not carry them.
-const gamePi = computed(() => (props.inTracker ? props.pi : route.params.pi != null ? Number(route.params.pi) : null))
+const gamePi = computed(() => (props.inTracker || props.pi != null ? props.pi : route.params.pi != null ? Number(route.params.pi) : null))
 // Doubles: which member of the side this list belongs to (absent in singles → the side itself).
-const gameMi = computed(() => (props.inTracker ? props.mi : route.params.mi != null && route.params.mi !== '' ? Number(route.params.mi) : null))
+const gameMi = computed(() => (props.inTracker || props.pi != null ? props.mi : route.params.mi != null && route.params.mi !== '' ? Number(route.params.mi) : null))
 const inGame = computed(() => gamePi.value != null)
+// A game's list on a wide screen — the page of its own, not the game screen's Roster tab — is the
+// rosters desk's two right-hand columns (owner, 2026-10-29): the units, and the card of the one
+// picked beside them instead of a dialog, from 901px, where the bottom nav goes. The page fills
+// the window and each column scrolls on its own (useViewportFill), as on the desk.
+const wideScreen = useMediaQuery('(min-width: 901px)')
+const gameDesk = computed(() => inGame.value && !props.inTracker && !props.inDesk && wideScreen.value)
+const split = computed(() => props.unitPane || gameDesk.value)
 // A finished game reached from the history list (/tracker/history/:gid/roster/:pi) shows the same
 // screen as a live one, but as a RECORD: the rule switches are what they were when it ended, and
 // there is nothing left to flip. "Back" reopens that game's modal on the history list.
@@ -740,7 +809,8 @@ const liveGame = computed(() => {
 // The unit whose card is open (see "Unit rules modal" below).
 const viewingUid = ref(!props.inTracker && route.query?.unit ? String(route.query.unit) : null)
 // The game screen opens a unit's card straight from another tab (RoundTracker).
-defineExpose({ openUnit: (uid) => { viewingUid.value = uid } })
+defineExpose({ openUnit: (uid) => { viewingUid.value = uid }, cardOf: (key) => cardOf(key) })
+const emit = defineEmits(['unit'])
 // Kept off screen in the game's Roster tab, the page must not redo its whole modifier layer on
 // every tap of the game (a VP, a CP, a phase step): while `frozen` it reads a plain copy of the
 // game taken as it went out of sight — nothing reactive in it, so nothing below recomputes — and
@@ -823,6 +893,10 @@ const activeFor = (entry) => (inGame.value
   : rosterConditions(entry, roster.value?.units, sheetOfId, unitRulesOf(entry).proves))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
+// The game desk's height (see gameDesk): measured once the page and its list are there.
+const rootEl = ref(null)
+const { measure: measureFill } = useViewportFill(rootEl)
+watch([gameDesk, () => !!roster.value], () => nextTick(measureFill))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
 // `roster` is legitimately null, and redirecting then would bounce straight back out of the view.
 watch([roster, gameRoster], () => {
@@ -896,7 +970,7 @@ const {
 const overLimit = computed(() => legalityOn(roster.value) && points.value > limit.value)
 const ownLimits = computed(() => ownLimitsLines(effectiveBattle(roster.value || {}, rosterCore), labels.value).length > 0)
 // A Combat Patrol box has no points: neither the total nor a unit's 0 says anything there.
-const showPoints = computed(() => !!roster.value?.faction && !roster.value?.cp && (!props.inDesk || ownLimits.value || overLimit.value))
+const showPoints = computed(() => !!roster.value?.faction && !roster.value?.cp && (!props.inDesk || props.externalCard || ownLimits.value || overLimit.value))
 // A faction keyword tapped in a rule on this screen lists this list's own units first.
 useKeywordContext(() => ({ faction: roster.value?.faction, unitIds: roster.value?.units?.map((u) => u.id) }))
 
@@ -1070,36 +1144,49 @@ function openCrew(c) {
   viewingUid.value = null
   viewingCrew.value = c.id
 }
-// The entry, not just its datasheet: the modal's overlay (rosterModifiers.js) needs this unit's
-// own wargear picks to show the loadout it actually fields rather than every option on the sheet.
-const viewingDef = computed(() => (viewingEntry.value ? defOf(viewingEntry.value.id) : null))
-// Resolves `entry.leaderOf` (a uid) to the attached unit's display name for the modal's context
-// strip — the same list the editor's attachment picker is built from, computed here only for the
-// one entry being viewed.
-const viewingLeaderTargets = computed(() => (viewingEntry.value
-  ? leaderTargetsFor(viewingDef.value, roster.value?.units, viewingEntry.value.uid, defOf, curDetachments.value)
-  : []))
-// What the unit's card is drawn from and answers to — the same whether it opens in a dialog or in
-// the desk's unit column.
-const viewingCard = computed(() => (viewingCrew.value
-  ? { unitId: viewingCrew.value, factionSlug: roster.value.faction, ctx: null, gameCtx: null }
-  : viewingDef.value
-  ? {
-      unitId: viewingSrc.value?.[1] || viewingDef.value.id,
-      factionSlug: viewingSrc.value?.[0] || roster.value.faction,
-      ctx: {
-        def: viewingDef.value,
-        entry: viewingEntry.value,
-        items: rosterItems.items,
-        detachments: curDetachments.value,
-        leaderTargets: viewingLeaderTargets.value,
-        // What reaches this unit from the rest of its Attached unit — the parts still standing.
-        units: sourceUnits.value,
-        defOf,
-      },
-      gameCtx: viewingGameCtx.value,
-    }
-  : null))
+// A row's tap: its card here (a dialog, or the split's column), or the desk's (externalCard).
+function openKey(key) {
+  if (props.externalCard) { emit('unit', key); return }
+  if (key.startsWith('crew:')) openCrew({ id: key.slice(5) })
+  else viewingUid.value = key
+}
+// Whether the row's card is the one on screen beside the list.
+const isOn = (key) => (props.externalCard
+  ? props.picked.includes(key)
+  : split.value && (key.startsWith('crew:') ? viewingCrew.value === key.slice(5) : viewingUid.value === key))
+// What a unit's card is drawn from and answers to — the same whether it opens in a dialog, in the
+// desk's unit column, or in a column the parent draws (`externalCard`, a finished game's desk, which
+// may show a unit of this list beside one of another's). `key` is an entry's uid, or `crew:<id>`
+// for a crew row's printed sheet (Sir Hekhtur: in no list, nothing to overlay).
+function cardOf(key) {
+  if (!key || !roster.value) return null
+  if (key.startsWith('crew:')) return { unitId: key.slice(5), factionSlug: roster.value.faction, ctx: null, gameCtx: null }
+  const entry = roster.value.units.find((u) => u.uid === key)
+  // The entry, not just its datasheet: the overlay (rosterModifiers.js) needs this unit's own
+  // wargear picks to show the loadout it actually fields rather than every option on the sheet.
+  const def = entry ? defOf(entry.id) : null
+  if (!def) return null
+  // The datasheet behind an allied unit belongs to its own faction, and the namespaced id says so.
+  const src = allySourceOf(def.id)
+  return {
+    unitId: src?.[1] || def.id,
+    factionSlug: src?.[0] || roster.value.faction,
+    ctx: {
+      def,
+      entry,
+      items: rosterItems.items,
+      detachments: curDetachments.value,
+      // `entry.leaderOf` (a uid) resolved to the attached unit's name for the context strip — the
+      // same list the editor's attachment picker is built from.
+      leaderTargets: leaderTargetsFor(def, roster.value.units, entry.uid, defOf, curDetachments.value),
+      // What reaches this unit from the rest of its Attached unit — the parts still standing.
+      units: sourceUnits.value,
+      defOf,
+    },
+    gameCtx: gameCtxOf(entry),
+  }
+}
+const viewingCard = computed(() => cardOf(viewingCrew.value ? `crew:${viewingCrew.value}` : viewingUid.value))
 const viewingHandlers = {
   'toggle-aura': (...a) => toggleViewingAura(...a),
   'toggle-pick': (...a) => toggleViewingPick(...a),
@@ -1617,38 +1704,38 @@ function toggleArmyCond(sw) {
 // the rule (Creations of Bile's augmentations are army-wide, but the place a reader meets them is
 // the detachment rule on a unit's card). `army` is filtered to this entry's own records, so a card
 // only ever offers switches that can change something on it.
-const viewingGameCtx = computed(() => {
-  if (!inGame.value || !viewingEntry.value) return null
+function gameCtxOf(entry) {
+  if (!inGame.value || !entry) return null
   // The same gated list the card behind these chips is drawn from — a stratagem this unit cannot
   // be the target of is not offered here either (modContextFor).
-  const resolved = gatedFor(viewingEntry.value)
+  const resolved = gatedFor(entry)
   return {
-    active: activeFor(viewingEntry.value),
+    active: activeFor(entry),
     // Which stratagems are spent on this unit right now, and which its detachments offer that
     // would change a number on this card. Only in a live game: a record's clock is what expires
     // them, and a finished game's clock stopped where the battle did.
     strats: canSwitch.value && keeps('trackStratagems')
-      ? strictStrats(stratagemsFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value), viewingEntry.value)
+      ? strictStrats(stratagemsFor(resolved, gamePlayer.value, gameClock.value, entry), entry)
       : [],
     // …and the auras of other entries that reach it, the same chips its row carries.
-    auras: canSwitch.value ? auraSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
+    auras: canSwitch.value ? auraSwitchCache.value.get(entry.uid) || [] : [],
     // …and which option of its own ability set is up, likewise the row's chips.
-    picks: canSwitch.value ? pickSwitchCache.value.get(viewingEntry.value.uid) || [] : [],
+    picks: canSwitch.value ? pickSwitchCache.value.get(entry.uid) || [] : [],
     // …and its once-per-battle rules, ticked once used — a unit state, so under that option.
     uses: canSwitch.value && keeps('trackUnitStates')
-      ? withUseInfo(usesFor(resolved, gamePlayer.value, gameClock.value, viewingEntry.value, roster.value?.units))
+      ? withUseInfo(usesFor(resolved, gamePlayer.value, gameClock.value, entry, roster.value?.units))
       : [],
     // Picks are army-wide (allPicks): the card of a unit standing in someone else's aura must
     // read the same number its row does.
     chosen: canSwitch.value && keeps('trackAbilitySets') ? allPicks(gamePlayer.value, gameClock.value) : new Set(),
     switches: canSwitch.value
-      ? keptUnitSwitches(switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, viewingEntry.value, groupLimitsOf(viewingEntry.value), unitRulesOf(viewingEntry.value)))
+      ? keptUnitSwitches(switchesFor(resolved, 'unit', gamePlayer.value, gameClock.value, entry, groupLimitsOf(entry), unitRulesOf(entry)))
       : [],
     armySwitches: canSwitch.value && keeps('trackArmyStates')
-      ? switchesFor(resolved, 'army', gamePlayer.value, gameClock.value, viewingEntry.value)
+      ? switchesFor(resolved, 'army', gamePlayer.value, gameClock.value, entry)
       : [],
   }
-})
+}
 // Strict rules: a stratagem played on this unit before the side's last act cannot be unticked —
 // the box stays on, greyed, with why (ConditionChips' `strictLast`).
 function strictStrats(list, entry) {
@@ -1770,6 +1857,22 @@ function playThisList() {
   menuOpen.value = false
   playRoster(roster.value, router)
 }
+// A finished game's list into the reader's own (owner, 2026-10-29): the snapshot as the game kept
+// it, under the name it had, marked with the game and side it came from. The same side saved
+// again asks first, with a link to the copy already there; a second copy is "Name (2)", and so on.
+const savedBefore = ref(null)
+function saveFromGame(again = false) {
+  menuOpen.value = false
+  const from = { id: historyId.value, pi: gamePi.value, ...(gameMi.value != null ? { mi: gameMi.value } : {}) }
+  const same = savedRosters.value.filter((r) => r.fromGame?.id === from.id && r.fromGame.pi === from.pi && (r.fromGame.mi ?? null) === (from.mi ?? null))
+  if (same.length && again !== true) { savedBefore.value = same[0]; return }
+  savedBefore.value = null
+  const name = roster.value.name || labels.value.rosterUntitled
+  const r = importRoster(gamePlayer.value.roster, same.length ? `${name} (${same.length + 1})` : name, from)
+  if (!r) return
+  saveToCloud(r.id)
+  router.push(`/roster/${r.id}/view`)
+}
 // The whole list as text, in the GW app's dialect — the one a player pastes into a chat or a
 // TO's form. The sheet stays open long enough to say it worked and then closes itself: a
 // clipboard write is invisible, and closing on the tap would leave nothing to see.
@@ -1789,9 +1892,6 @@ async function copyWholeList() {
     openExport()
   }
 }
-
-// The datasheet behind an allied unit belongs to its own faction, and the namespaced id says so.
-const viewingSrc = computed(() => allySourceOf(viewingDef.value?.id))
 
 function summaryLine(e) {
   return entrySummary(e, defOf(e.id), (n) => modelsLabel(n, locale.value), labels.value.rosterWarlord)
@@ -2177,6 +2277,13 @@ const nowSlot = computed(() => {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   gap: 1rem;
 }
+.rv-game-desk { grid-template-rows: minmax(0, 1fr); }
+.rv-game-desk .rv-main {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 0.5rem 2rem 0;
+}
 .rv-unit {
   min-height: 0;
   overflow-y: auto;
@@ -2184,6 +2291,8 @@ const nowSlot = computed(() => {
   padding: 0.75rem 0.5rem 2rem 1rem;
   border-left: 1px solid var(--border);
 }
+/* The list already saved from this side of the game, on a line of its own under the question. */
+.rv-saved-link { display: block; margin-top: 0.5rem; color: var(--accent-ink); font-weight: 600; }
 .rv-unit-empty {
   margin: 4rem 0 0;
   text-align: center;

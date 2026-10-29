@@ -2097,8 +2097,26 @@ mission datasets). The list's "Statistics" button is just a link to `/roster`.
   only the right-hand side fades; the width is `main-content--browse`, the footer is not drawn.
 - **Height:** the desk fills the window and every column scrolls on its own — the same
   `.rw-host` + `useViewportFill` the builder's workbench stands on (see "Height for the panes").
-- A tracker game's roster (`/tracker/game/roster/…`, `/tracker/history/…/roster/…`) is still
-  `RosterViewView` on its own: the desk is the saved rosters' screen.
+- **A game in progress** (`/tracker/game/roster/…`) is not on the desk, but from 901px it takes
+  the desk's two right-hand columns (owner, 2026-10-29): `gameDesk` in `RosterViewView` turns on
+  the same `unitPane` split, the page fills the window (`rw-host` + `useViewportFill`) and App.vue
+  gives it the desk's width with no footer (`isGameRosterDesk`). The game screen's own Roster tab
+  (`inTracker`) stays as it was.
+- **A finished game** (`/tracker/history/:gid/roster/:pi/:mi?`) has a desk of its own from 901px,
+  `GameHistoryDesk.vue` (owner, same day): the game (date, every list it fielded — the
+  `GameRosterLinks` pills, stacked — and the score) · the list picked · the unit's card, and two
+  cards side by side to compare, the second from ANY list of the game. Compare is the faction unit
+  list's own (`useUnitPicks`, ◫ / ✕ on the card — `RosterUnitRulesCard`'s `compare`/`closable`),
+  so the two screens behave alike. Each list is a `RosterViewView` with `externalCard`: it lays out
+  its units, emits `unit` on a tap and answers `cardOf(key)` with its own faction's data; every
+  list opened stays built (`v-show`) so a card of it can stand beside another's. Widths, from
+  what a card needs (~300px each in a pair): ≥1440 all three columns; 1200–1439 a pair folds the
+  game column into a strip over the list; 901–1199 always the strip. Under 901 the route is the
+  list's own page as before. App.vue keys the page `game-desk|<gid>`, so picking another list of
+  the game swaps the middle column, not the screen. In the history either side's list has a "…" menu —
+  Export and Save to my rosters (`importRoster`'s `fromGame` mark; saving the same side again
+  asks first, with a link to the copy, and a further copy is "Name (2)"); a game in progress has
+  no menu.
 - **The last list comes back** (owner, same day): the desk remembers the saved list opened last
   (`lastRoster.js`, per device, written on a phone too) and a bare `/roster` on a wide screen
   reopens it. The statistics are asked for by name — `/roster?stats`, the heading's button — and a

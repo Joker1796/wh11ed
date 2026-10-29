@@ -9,11 +9,39 @@
       <h2 class="ruc-title">
         {{ view.sheet.name }}
       </h2>
-      <RosterOwnedStar
-        :faction-slug="factionSlug"
-        :unit-id="unitId"
-        :name="view.sheet.name"
-      />
+      <div class="ruc-ctls">
+        <RosterOwnedStar
+          v-if="ownable"
+          :faction-slug="factionSlug"
+          :unit-id="unitId"
+          :name="view.sheet.name"
+        />
+        <!-- A finished game's desk compares as a faction's unit list does (FactionUnitSheet):
+             ◫ waits for a second unit, ✕ takes one of a pair away. -->
+        <button
+          v-if="compare"
+          type="button"
+          class="ruc-ctl"
+          :class="{ on: compare === 'on' }"
+          :title="labels.dsCompare"
+          :aria-label="labels.dsCompare"
+          :aria-pressed="compare === 'on'"
+          data-press="pop"
+          @click="$emit('compare')"
+        >
+          <i class="wi wi-panes" />
+        </button>
+        <button
+          v-if="closable"
+          type="button"
+          class="ruc-ctl"
+          :title="labels.modalClose"
+          :aria-label="labels.modalClose"
+          @click="$emit('close')"
+        >
+          <i class="wi wi-close" />
+        </button>
+      </div>
     </div>
     <!-- Roster facts that aren't on the datasheet anywhere (rosterModifiers.js's
          entryContext): whether this entry is the Warlord, what enhancement it carries, who
@@ -400,8 +428,14 @@ const props = defineProps({
   // The dialog says who the unit is attached to under its title (a game's dialog, owner
   // 2026-10-07: a row of its own cost a line the table needs), so not again here.
   attachedInTitle: { type: Boolean, default: false },
+  // '' — no compare control; 'off' / 'on' — the control, and whether a second pick is awaited.
+  compare: { type: String, default: '' },
+  closable: { type: Boolean, default: false },
+  // The "I own this" star. Not on a finished game's desk (owner, 2026-10-29): half its cards are
+  // the opponent's army, and the collection is kept on the faction pages and in the builder.
+  ownable: { type: Boolean, default: true },
 })
-defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick', 'toggle-use'])
+defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick', 'toggle-use', 'compare', 'close'])
 
 const { locale } = useLocale()
 const { renderRichText } = useRenderInline()
@@ -684,6 +718,19 @@ defineExpose({
   justify-content: space-between;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.ruc-ctls { display: flex; align-items: center; flex-shrink: 0; }
+.ruc-ctl {
+  min-width: 36px;
+  min-height: 36px;
+  background: none;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.ruc-ctl.on { color: var(--accent-ink); border-color: var(--accent); }
+@media (hover: hover) {
+  .ruc-ctl:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
 }
 .ruc-title {
   margin: 0;

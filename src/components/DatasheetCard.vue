@@ -1498,6 +1498,15 @@ function abilityStateLabel(st) {
   }
 }
 
+/* Two cards compared side by side on a narrow desktop (a faction's unit list, a finished game's
+   desk — 262px each at 901px): six boxes at the 480px size need ~290px, and OC ran off the card.
+   Measured (2026-10-29): a 320px phone's card is 304–318px, so this step never reaches a phone. */
+@container dscard (max-width: 290px) {
+  .ds-stats { gap: 0.25rem; }
+  .ds-stat-box { min-width: 2.2rem; font-size: 1.15rem; }
+  .ds-inv-band { white-space: normal; }
+}
+
 /* Mobile: multi-profile model names move above their stat row (right of it on desktop) */
 @container dscard (max-width: 640px) {
   .ds-stats.has-name .ds-prof-name {

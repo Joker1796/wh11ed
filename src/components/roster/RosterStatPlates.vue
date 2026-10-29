@@ -29,7 +29,9 @@ defineProps({
 </script>
 
 <style scoped>
-.rsp { display: inline-flex; gap: 0.3rem; margin: 0.15rem 0; }
+/* Wraps only when the row is narrower than seven plates and the points beside them — a list in a
+   narrow column (a finished game's desk, two cards compared beside it); it ran under the points. */
+.rsp { display: inline-flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.15rem 0; }
 .rvst { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
 /* A plate the modifier layer rewrote — the same accent treatment DatasheetCard gives a modified
    value, so the list and the card agree at a glance as well as in the number. */
