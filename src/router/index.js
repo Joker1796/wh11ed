@@ -30,6 +30,7 @@ const TrackerStatsView  = () => import('../views/tracker/TrackerStatsView.vue')
 const RosterDeskView    = () => import('../views/tracker/RosterDeskView.vue')
 const RosterCreateView  = () => import('../views/tracker/RosterCreateView.vue')
 const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
+const GameHistoryDesk   = () => import('../views/tracker/GameHistoryDesk.vue')
 const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
 const RosterPrintView   = () => import('../views/tracker/RosterPrintView.vue')
 const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
@@ -137,7 +138,8 @@ const localeRoutes = [
     // of this device's games, so it is neither in STATIC_ROUTES nor in the sitemap.
     { path: '/tracker/stats', component: TrackerStatsView, meta: { section: 'tracker' } },
     // The same list, read out of a FINISHED game — the snapshot is what makes that possible at all.
-    { path: '/tracker/history/:gid/roster/:pi/:mi?', component: RosterViewView, meta: { section: 'tracker' } },
+    // On a wide screen the game's own desk: every list of it, and units compared across them.
+    { path: '/tracker/history/:gid/roster/:pi/:mi?', component: GameHistoryDesk, meta: { section: 'tracker' } },
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },
     // Where the links in sign-in mails land (wh11ed-api routes/email-auth.ts). Private like the
     // callback: not in STATIC_ROUTES, so the bucket answers them with the SPA and they stay unindexed.

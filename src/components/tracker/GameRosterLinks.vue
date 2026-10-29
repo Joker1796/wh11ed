@@ -2,11 +2,15 @@
   <div
     v-if="links.length"
     class="grl"
+    :class="{ 'grl-stack': stack }"
   >
     <RouterLink
       v-for="l in links"
-      :key="`${l.pi}:${l.mi ?? ''}`"
+      :key="l.key"
       class="grl-pill"
+      :class="{ on: l.key === active }"
+      :aria-current="l.key === active ? 'page' : undefined"
+      :replace="!!active"
       :to="l.mi == null ? `/tracker/history/${game.id}/roster/${l.pi}` : `/tracker/history/${game.id}/roster/${l.pi}/${l.mi}`"
     >
       <i class="wi wi-roster-list" />
@@ -35,6 +39,11 @@ import { membersOf, sideName } from '../../composables/useTracker.js'
 
 const props = defineProps({
   game: { type: Object, required: true },
+  // On the game's own desk (GameHistoryDesk): the list on screen (`pi:mi`), lit, and the others
+  // swapped in place of it — replace, so Back still leaves the game rather than walking its lists.
+  active: { type: String, default: '' },
+  // One under another, the width of a column.
+  stack: { type: Boolean, default: false },
 })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -47,6 +56,7 @@ const links = computed(() => (props.game.players || [])
     return membersOf(p).map((m, rawMi) => ({
       pi,
       mi: m === p ? null : rawMi,
+      key: `${pi}:${m === p ? '' : rawMi}`,
       name: m.roster?.name || '',
       who: m === p ? sideWho : (m.name || sideWho),
       has: !!m.roster?.units,
@@ -67,6 +77,12 @@ const links = computed(() => (props.game.players || [])
   background: var(--bg-card); color: var(--text-primary); text-decoration: none; font-size: 0.82rem;
 }
 .grl-pill:hover { border-color: var(--accent); color: var(--accent-ink); }
+.grl-pill.on { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+.grl-stack { flex-direction: column; flex-wrap: nowrap; }
+/* In a column the player and the list each get a line: the column is too narrow to share one. */
+.grl-stack .grl-pill { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.4rem; }
+.grl-stack .grl-pill > .wi { grid-row: span 2; }
+.grl-stack .grl-who { max-width: none; font-size: 0.75rem; }
 .grl-pill > .wi { flex-shrink: 0; }
 /* One line each, cut with "…": a long player name used to wrap into a column beside the icon
    (owner, 2026-10-10). The player gets at most half the pill, the list the rest. */

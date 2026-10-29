@@ -243,6 +243,8 @@ const pageKey = computed(() => {
   // The rosters desk: the list and every roster's page are ONE screen on a wide window
   // (RosterDeskView) — opening another roster changes its right-hand side, not the page.
   if (isRosterBrowseDesk.value) return 'roster-desk'
+  // A finished game's desk (GameHistoryDesk): picking another of its lists is the same screen.
+  if (isGameRosterDesk.value && route.params.gid) return `game-desk|${route.params.gid}`
   return route.matched.length > 1 ? `${route.matched[0].path}|${route.params.slug ?? ''}` : appPath.value
 })
 // A bare route (the broadcast overlay OBS captures) renders with NO app chrome at all —
