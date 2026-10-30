@@ -36,3 +36,18 @@ export function foldChars(s) {
 export function foldName(s) {
   return foldChars(s).toLowerCase().replace(/\s+/g, ' ').trim()
 }
+
+/**
+ * The key a wargear ITEM is matched to its rule by — the app's name against the sheet's: folded,
+ * without the use limit the app's name carries and the sheet puts in the rule ("Drakolithe (Once per
+ * battle, per token)"), a hyphen read as a space ("Nuncio-acquila" / "Nuncio Aquila"). Read by the
+ * wargear "i" (src/composables/wargearInfo.js) and the `.ros` export.
+ * @param {unknown} name
+ */
+export function infoKey(name) {
+  return foldName(name)
+    .replace(/\s*\(once per [^)]*\)$/, '')
+    .replace(/-/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}

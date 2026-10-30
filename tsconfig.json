@@ -61,6 +61,7 @@
     "src/composables/rosterHandoff.js",
     "src/core/rules/rosterGameContext.js",
     "src/core/roster/rosterImport.js",
+    "src/core/roster/rosterRos.js",
     "src/composables/rosterUnitCard.js",
     "src/composables/useDatasheetsRu.js",
     "src/utils/debouncedSave.js",

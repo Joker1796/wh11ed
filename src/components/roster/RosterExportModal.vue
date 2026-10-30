@@ -79,6 +79,39 @@
           {{ copied === 'link' ? labels.rosterCopied : labels.rosterCopyLink }}
         </button>
       </div>
+      <!-- Tabletop Simulator: a file, not a seventh text format — Yellowscribe takes a BattleScribe
+           file and nothing else (rosterRos.js). English whatever the locale, as the service is. -->
+      <div class="rex-tts">
+        <button
+          class="rex-btn"
+          :disabled="rosBusy"
+          @click="downloadRos"
+        >
+          <i class="wi wi-doc" />
+          {{ labels.rosterTtsDownload }}
+        </button>
+        <ol class="rex-hint rex-steps">
+          <li
+            v-for="(step, i) in ttsSteps"
+            :key="i"
+          >
+            <template
+              v-for="(part, j) in step"
+              :key="j"
+            >
+              <a
+                v-if="part.href"
+                :href="part.href"
+                target="_blank"
+                rel="noopener"
+              >{{ part.text }}</a>
+              <template v-else>
+                {{ part.text }}
+              </template>
+            </template>
+          </li>
+        </ol>
+      </div>
     </div>
   </BaseModal>
 </template>
@@ -89,6 +122,8 @@ import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { buildRosterText, EXPORT_FORMATS } from '../../core/roster/rosterExport.js'
+import { buildRosterRos } from '../../core/roster/rosterRos.js'
+import { loadRosterSheets } from '../../composables/rosterSheets.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { encodeRoster, shareUrl } from '../../composables/rosterShare.js'
@@ -138,6 +173,33 @@ onMounted(async () => {
   const origin = (typeof location !== 'undefined' && location.origin) || ''
   url.value = shareUrl(origin, await encodeRoster(props.roster))
 })
+
+// The `.ros` for Yellowscribe: built on the click, the datasheets fetched then — never for a reader
+// who only wanted the text.
+const rosBusy = ref(false)
+async function downloadRos() {
+  rosBusy.value = true
+  try {
+    const sheets = await loadRosterSheets(props.roster)
+    const xml = buildRosterRos(props.roster, { faction: props.faction, core: props.core, items: props.items, factionGroups, sheets })
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob([xml], { type: 'application/xml' }))
+    a.download = `${(props.roster.name || 'roster').replace(/[\\/:*?"<>|]+/g, ' ').trim() || 'roster'}.ros`
+    a.click()
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000)
+  } finally {
+    rosBusy.value = false
+  }
+}
+
+// The two steps after the download, each a sentence with its link in place of `{site}` / `{mod}`.
+// The mod is the one Yellowscribe's own page sends a code to ("the new mod, not the old one").
+const ttsLinks = computed(() => ({
+  '{site}': { text: 'yellowscribe.link', href: 'https://yellowscribe.link' },
+  '{mod}': { text: labels.value.rosterTtsMod, href: 'https://steamcommunity.com/sharedfiles/filedetails/?id=2920625970' },
+}))
+const ttsSteps = computed(() => [labels.value.rosterTtsStep1, labels.value.rosterTtsStep2].map((s) =>
+  s.split(/(\{site\}|\{mod\})/).filter(Boolean).map((part) => ttsLinks.value[part] || { text: part })))
 
 const copied = ref(null)
 async function copy(value, which) {
@@ -200,6 +262,9 @@ async function copy(value, which) {
   cursor: pointer;
 }
 .rex-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.rex-tts { display: flex; flex-direction: column; align-items: flex-start; gap: 0.4rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+.rex-steps { padding-left: 1.1rem; }
+.rex-steps a { color: var(--accent); }
 
 /* Narrow phones: inside a modal the two copy buttons are already boxed in, and at desktop size
    they wrap into a stack that fills half the sheet. Same rule as the CTA rows — button-sized

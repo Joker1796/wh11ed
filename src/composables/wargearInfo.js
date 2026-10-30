@@ -1,5 +1,5 @@
 import rosterItemsData from '../data/roster/items.js'
-import { foldName } from '../core/shared/foldName.js'
+import { infoKey } from '../core/shared/foldName.js'
 import { weaponBase } from '../core/rules/weaponGroups.js'
 
 // What a wargear option's info button looks up on a datasheet: the item's name, the way the
@@ -15,14 +15,9 @@ import { weaponBase } from '../core/rules/weaponGroups.js'
 // A Faction Pack item may also be named in the plural the option uses ("Missile drones").
 // src/composables/wargearInfo.test.js holds every option of every unit to finding something.
 
-/** The comparison key: folded, without a trailing use limit, a hyphen read as a space. */
-export function infoKey(name) {
-  return foldName(name)
-    .replace(/\s*\(once per [^)]*\)$/, '')
-    .replace(/-/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-}
+// The comparison key itself (folded, no trailing use limit, a hyphen read as a space) is the core's:
+// the `.ros` export matches items to rows the same way.
+export { infoKey }
 
 const STANDS = new Map(Object.entries(rosterItemsData.stands || {}).map(([k, v]) => [infoKey(k), v]))
 
