@@ -707,7 +707,8 @@ import { buildRosterText } from '../../core/roster/rosterExport.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { playRoster } from '../../composables/playRoster.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
-import { loadDatasheets, loadKeywordVocabulary } from '../../data/datasheets/index.js'
+import { loadKeywordVocabulary } from '../../data/datasheets/index.js'
+import { loadRosterSheets } from '../../composables/rosterSheets.js'
 import { provideCombatPatrolBox } from '../../composables/useCombatPatrolBox.js'
 import RosterStatPlates from '../../components/roster/RosterStatPlates.vue'
 import { unitKeywordsOf } from '../../core/rules/ruleTargets.js'
@@ -983,19 +984,14 @@ const fullSheets = ref(new Map())
 // Every keyword in the game, for the rule gates (ruleTargets' scopesMisread) — loaded with the sheets,
 // not deep-reactive: a few thousand strings, replaced whole.
 const keywordVocabulary = shallowRef(null)
-// Keyed by the id the ROSTER uses, which for an allied unit is namespaced: its datasheet lives in
-// its own faction's file (Draxus is an Imperial Agents sheet), and without this every ally row
-// would quietly lose its statline plates and its live rules.
+// Keyed by the id the ROSTER uses (loadRosterSheets): an ally's sheet is in its own faction's file.
 const allySlugs = computed(() => [...new Set((roster.value?.units || []).map((u) => allySourceOf(u.id)?.[0]).filter(Boolean))])
-watch([() => roster.value?.faction, allySlugs, () => roster.value?.cp], async ([slug, srcs, cp]) => {
+watch([() => roster.value?.faction, allySlugs, () => roster.value?.cp], async ([slug]) => {
   if (!slug) { fullSheets.value = new Map(); return }
   // The keyword vocabulary rides along: the rule gates read it as soon as the sheets land.
-  const [vocab, ...lists] = await Promise.all([loadKeywordVocabulary(), loadDatasheets(slug, { cp }), ...srcs.map((s) => loadDatasheets(s))])
+  const [vocab, m] = await Promise.all([loadKeywordVocabulary(), loadRosterSheets(roster.value)])
   if (roster.value?.faction !== slug) return
   keywordVocabulary.value = vocab
-  const m = new Map()
-  for (const d of lists[0] || []) m.set(d.id, d)
-  srcs.forEach((src, i) => { for (const d of lists[i + 1] || []) m.set(`${src}:${d.id}`, d) })
   fullSheets.value = m
 }, { immediate: true })
 

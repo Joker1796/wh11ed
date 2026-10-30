@@ -6,8 +6,9 @@
   >
     <div class="modal-body rex">
       <!-- One list, six dialects: which one you need depends on where it is going (a TO's inbox,
-           a tournament header, a Discord channel), so the choice is asked every time and not kept
-           as a setting. A native select rather than a row of tabs (owner, 2026-10-05): five of
+           a tournament header, a Discord channel) — but a player mostly sends to the same place, so
+           the dialog opens on the format used last on this device (owner, 2026-10-30: it always
+           opened on the GW app's). A native select rather than a row of tabs (owner, 2026-10-05): five of
            them took two lines on a phone, and a select opens the phone's own list instead of a
            second sheet over this one — the import dialog asks its faction the same way. -->
       <label class="rex-fmt">
@@ -79,6 +80,39 @@
           {{ copied === 'link' ? labels.rosterCopied : labels.rosterCopyLink }}
         </button>
       </div>
+      <!-- Tabletop Simulator: a file, not a seventh text format — Yellowscribe takes a BattleScribe
+           file and nothing else (rosterRos.js). English whatever the locale, as the service is. -->
+      <div class="rex-tts">
+        <button
+          class="rex-btn"
+          :disabled="rosBusy"
+          @click="downloadRos"
+        >
+          <i class="wi wi-doc" />
+          {{ labels.rosterTtsDownload }}
+        </button>
+        <ol class="rex-hint rex-steps">
+          <li
+            v-for="(step, i) in ttsSteps"
+            :key="i"
+          >
+            <template
+              v-for="(part, j) in step"
+              :key="j"
+            >
+              <a
+                v-if="part.href"
+                :href="part.href"
+                target="_blank"
+                rel="noopener"
+              >{{ part.text }}</a>
+              <template v-else>
+                {{ part.text }}
+              </template>
+            </template>
+          </li>
+        </ol>
+      </div>
     </div>
   </BaseModal>
 </template>
@@ -89,6 +123,8 @@ import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { buildRosterText, EXPORT_FORMATS } from '../../core/roster/rosterExport.js'
+import { buildRosterRos } from '../../core/roster/rosterRos.js'
+import { loadRosterSheets } from '../../composables/rosterSheets.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { encodeRoster, shareUrl } from '../../composables/rosterShare.js'
@@ -108,16 +144,19 @@ const labels = computed(() => ui[locale.value])
 const FORMATS = EXPORT_FORMATS
 const FMT_LABEL = { gw: 'rosterFmtGw', wtc: 'rosterFmtWtc', 'wtc-compact': 'rosterFmtWtcCompact', compact: 'rosterFmtCompact', simple: 'rosterFmtSimple', rus: 'rosterFmtRus' }
 const FMT_HINT = { gw: 'rosterFmtGwHint', wtc: 'rosterFmtWtcHint', 'wtc-compact': 'rosterFmtWtcCompactHint', compact: 'rosterFmtCompactHint', simple: 'rosterFmtSimpleHint', rus: 'rosterFmtRusHint' }
-const format = ref('gw')
 
 // The footer names the tool and the points data that wrote the list — never the GW app's own
 // version, which we would be claiming falsely (see rosterExport.js).
 const version = { app: APP_VERSION, data: APP_DATA_VERSION }
 
-// The player's name and HIN for the Russian tournament header, per device. Storage can be missing
-// or throw (a private window): the fields then simply start empty.
-const STORE = { player: 'wh11ed-export-player', hin: 'wh11ed-export-hin' }
+// Kept per device: the format used last, and the player's name and HIN for the Russian tournament
+// header. Storage can be missing or throw (a private window): the dialog then opens on the GW app's
+// format with the fields empty.
+const STORE = { player: 'wh11ed-export-player', hin: 'wh11ed-export-hin', format: 'wh11ed-export-format' }
 const stored = (k) => { try { return localStorage.getItem(k) || '' } catch { return '' } }
+// The format used last, if it is still one we offer.
+const format = ref(FORMATS.includes(stored(STORE.format)) ? stored(STORE.format) : 'gw')
+watch(format, (f) => { try { localStorage.setItem(STORE.format, f) } catch { /* not kept */ } })
 const player = ref(stored(STORE.player))
 const hin = ref(stored(STORE.hin))
 watch([player, hin], ([p, h]) => {
@@ -138,6 +177,33 @@ onMounted(async () => {
   const origin = (typeof location !== 'undefined' && location.origin) || ''
   url.value = shareUrl(origin, await encodeRoster(props.roster))
 })
+
+// The `.ros` for Yellowscribe: built on the click, the datasheets fetched then — never for a reader
+// who only wanted the text.
+const rosBusy = ref(false)
+async function downloadRos() {
+  rosBusy.value = true
+  try {
+    const sheets = await loadRosterSheets(props.roster)
+    const xml = buildRosterRos(props.roster, { faction: props.faction, core: props.core, items: props.items, factionGroups, sheets })
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob([xml], { type: 'application/xml' }))
+    a.download = `${(props.roster.name || 'roster').replace(/[\\/:*?"<>|]+/g, ' ').trim() || 'roster'}.ros`
+    a.click()
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000)
+  } finally {
+    rosBusy.value = false
+  }
+}
+
+// The two steps after the download, each a sentence with its link in place of `{site}` / `{mod}`.
+// The mod is the one Yellowscribe's own page sends a code to ("the new mod, not the old one").
+const ttsLinks = computed(() => ({
+  '{site}': { text: 'yellowscribe.link', href: 'https://yellowscribe.link' },
+  '{mod}': { text: labels.value.rosterTtsMod, href: 'https://steamcommunity.com/sharedfiles/filedetails/?id=2920625970' },
+}))
+const ttsSteps = computed(() => [labels.value.rosterTtsStep1, labels.value.rosterTtsStep2].map((s) =>
+  s.split(/(\{site\}|\{mod\})/).filter(Boolean).map((part) => ttsLinks.value[part] || { text: part })))
 
 const copied = ref(null)
 async function copy(value, which) {
@@ -200,6 +266,9 @@ async function copy(value, which) {
   cursor: pointer;
 }
 .rex-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.rex-tts { display: flex; flex-direction: column; align-items: flex-start; gap: 0.4rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+.rex-steps { padding-left: 1.1rem; }
+.rex-steps a { color: var(--accent); }
 
 /* Narrow phones: inside a modal the two copy buttons are already boxed in, and at desktop size
    they wrap into a stack that fills half the sheet. Same rule as the CTA rows — button-sized

@@ -230,17 +230,18 @@ export function fieldedTotals(def, entry, items) {
 function enhancementOf(def, entry, detachments) {
   if (entry?.enh) {
     const found = (detachments || []).flatMap((d) => d.enhancements || []).find((e) => e.name === entry.enh)
-    return { name: entry.enh, pts: enhancementPoints(detachments, entry, def), type: found?.type || 'miniature', mandatory: false }
+    return { name: entry.enh, pts: enhancementPoints(detachments, entry, def), type: found?.type || 'miniature', mandatory: false, weapons: found?.weapons || null }
   }
   const m = mandatoryEnhancementFor(def, detachments)
-  return m ? { name: m.name, pts: m.pts, type: m.type || 'miniature', mandatory: true } : null
+  return m ? { name: m.name, pts: m.pts, type: m.type || 'miniature', mandatory: true, weapons: m.weapons || null } : null
 }
 
+// Exported for the `.ros` file (rosterRos.js), which writes the same list in another shape.
 /**
  * @param {Partial<Roster> | null | undefined} roster
  * @param {ExportContext} [ctx]
  */
-function resolve(roster, { faction, core, items, factionGroups } = {}) {
+export function resolve(roster, { faction, core, items, factionGroups } = {}) {
   const defMap = new Map((faction?.units || []).map((u) => [u.id, u]))
   /** @param {string} id */
   const defOf = (id) => defMap.get(id)
