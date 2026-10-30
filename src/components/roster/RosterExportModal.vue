@@ -6,8 +6,9 @@
   >
     <div class="modal-body rex">
       <!-- One list, six dialects: which one you need depends on where it is going (a TO's inbox,
-           a tournament header, a Discord channel), so the choice is asked every time and not kept
-           as a setting. A native select rather than a row of tabs (owner, 2026-10-05): five of
+           a tournament header, a Discord channel) — but a player mostly sends to the same place, so
+           the dialog opens on the format used last on this device (owner, 2026-10-30: it always
+           opened on the GW app's). A native select rather than a row of tabs (owner, 2026-10-05): five of
            them took two lines on a phone, and a select opens the phone's own list instead of a
            second sheet over this one — the import dialog asks its faction the same way. -->
       <label class="rex-fmt">
@@ -143,16 +144,19 @@ const labels = computed(() => ui[locale.value])
 const FORMATS = EXPORT_FORMATS
 const FMT_LABEL = { gw: 'rosterFmtGw', wtc: 'rosterFmtWtc', 'wtc-compact': 'rosterFmtWtcCompact', compact: 'rosterFmtCompact', simple: 'rosterFmtSimple', rus: 'rosterFmtRus' }
 const FMT_HINT = { gw: 'rosterFmtGwHint', wtc: 'rosterFmtWtcHint', 'wtc-compact': 'rosterFmtWtcCompactHint', compact: 'rosterFmtCompactHint', simple: 'rosterFmtSimpleHint', rus: 'rosterFmtRusHint' }
-const format = ref('gw')
 
 // The footer names the tool and the points data that wrote the list — never the GW app's own
 // version, which we would be claiming falsely (see rosterExport.js).
 const version = { app: APP_VERSION, data: APP_DATA_VERSION }
 
-// The player's name and HIN for the Russian tournament header, per device. Storage can be missing
-// or throw (a private window): the fields then simply start empty.
-const STORE = { player: 'wh11ed-export-player', hin: 'wh11ed-export-hin' }
+// Kept per device: the format used last, and the player's name and HIN for the Russian tournament
+// header. Storage can be missing or throw (a private window): the dialog then opens on the GW app's
+// format with the fields empty.
+const STORE = { player: 'wh11ed-export-player', hin: 'wh11ed-export-hin', format: 'wh11ed-export-format' }
 const stored = (k) => { try { return localStorage.getItem(k) || '' } catch { return '' } }
+// The format used last, if it is still one we offer.
+const format = ref(FORMATS.includes(stored(STORE.format)) ? stored(STORE.format) : 'gw')
+watch(format, (f) => { try { localStorage.setItem(STORE.format, f) } catch { /* not kept */ } })
 const player = ref(stored(STORE.player))
 const hin = ref(stored(STORE.hin))
 watch([player, hin], ([p, h]) => {
