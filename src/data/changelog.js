@@ -22,6 +22,20 @@
 
 export const changelog = [
   {
+    version: '2.10.9',
+    date: '2026-10-30',
+    en: [
+      { h: 'Roster builder' },
+      '**A roster can go to Tabletop Simulator.** The “Export roster” window has a “File for Tabletop Simulator” button. Upload the file to yellowscribe.link and enter the code you get in the Yellowscribe mod. The models on the table get their profiles, weapons and abilities.',
+      '**The export window opens on the format you chose last time.**',
+    ],
+    ru: [
+      { h: 'Конструктор ростеров' },
+      '**Ростер можно перенести в Tabletop Simulator.** В окне «Экспорт листа» есть кнопка «Файл для Tabletop Simulator». Загрузите файл на yellowscribe.link и введите полученный код в мод Yellowscribe. Модели на столе получат характеристики, оружие и способности.',
+      '**Окно экспорта открывается на формате, который вы выбрали в прошлый раз.**',
+    ],
+  },
+  {
     version: '2.10.8',
     date: '2026-10-29',
     en: [
