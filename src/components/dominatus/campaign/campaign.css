@@ -51,7 +51,6 @@
    dialog, owner 2026-11-01). */
 .camp-form > .form-input,
 .camp-form > .camp-pair,
-.camp-form > .camp-drawn,
 .camp-form > .cpick,
 .camp-form > .camp-row { justify-self: stretch; }
 .camp-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; }
@@ -100,8 +99,10 @@
 }
 /* Cards drawn by the app, each with its Keep under it; two abreast where they fit, as on the rules page. */
 .camp-drawn { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1rem; }
-.camp-drawn-card { display: grid; gap: 0.5rem; justify-items: start; }
+/* The card takes the row's height and the Keep sits under it, level with its neighbour's. */
+.camp-drawn-card { display: grid; grid-template-rows: 1fr auto; gap: 0.5rem; justify-items: start; }
 .camp-drawn-card > .dcard { justify-self: stretch; }
+.camp-draw-body { padding: 0.9rem 1rem 1.1rem; }
 /* The players by Alliance: one under another on a phone, three abreast on a desk. */
 .camp-allies { display: grid; gap: 1.25rem; }
 @media (min-width: 768px) {

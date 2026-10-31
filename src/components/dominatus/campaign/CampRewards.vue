@@ -72,33 +72,15 @@
           class="camp-form"
         >
           <template v-if="state.draw === 'app'">
+            <!-- The draw opens a dialog of what came; closed unkept, the same cards wait (no re-roll). -->
             <button
-              v-if="!drawn[r.id]"
               class="btn-ghost"
               data-press
-              @click="draw(r)"
+              aria-haspopup="dialog"
+              @click="openDraw(r)"
             >
-              {{ labels.campDrawCards.replace('{n}', r.draw) }}
+              {{ drawn[r.id] ? labels.campDrawnShow : labels.campDrawCards.replace('{n}', r.draw) }}
             </button>
-            <!-- What came, as the cards themselves: the reader keeps one having read them. -->
-            <div
-              v-else
-              class="camp-drawn"
-            >
-              <div
-                v-for="slug in drawn[r.id]"
-                :key="slug"
-                class="camp-drawn-card"
-              >
-                <DomUpgradeCard :upgrade="upgradeOf(slug)" />
-                <button
-                  class="btn-primary"
-                  @click="claim(r, { drawn: drawn[r.id], kept: slug })"
-                >
-                  {{ labels.campKeep }}
-                </button>
-              </div>
-            </div>
           </template>
           <div
             v-else
@@ -127,6 +109,32 @@
         </div>
       </li>
     </ul>
+    <!-- What came, as the cards themselves: the reader keeps one having read them. -->
+    <BaseModal
+      v-if="drawFor && drawn[drawFor.id]"
+      :title="title(drawFor)"
+      :subtitle="playerName(drawFor.player)"
+      max-width="760px"
+      @close="drawFor = null"
+    >
+      <div class="modal-body camp-draw-body">
+        <div class="camp-drawn">
+          <div
+            v-for="slug in drawn[drawFor.id]"
+            :key="slug"
+            class="camp-drawn-card"
+          >
+            <DomUpgradeCard :upgrade="upgradeOf(slug)" />
+            <button
+              class="btn-primary"
+              @click="keep(drawFor, slug)"
+            >
+              {{ labels.campKeep }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </BaseModal>
   </section>
 </template>
 
@@ -134,11 +142,12 @@
 // What is owed to players: card draws after approved battles and at the end of a phase, and the
 // Location bonuses that ask a player something. This device sees the rewards it may take — all of
 // them for the Warmaster, a member's own otherwise (the fold refuses the rest anyway).
-import { reactive, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import NumberStepper from '../../tracker/NumberStepper.vue'
 import DomUpgradeCard from '../DomUpgradeCard.vue'
+import BaseModal from '../../BaseModal.vue'
 import CampPick from './CampPick.vue'
-import { drawFor, drawPile } from '../../../core/dominatus/campaign.js'
+import { drawFor as drawCards, drawPile } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
 const { state, isOwner, mine, act, labels, deck, playerName, upgradeName, phaseLabel } = useCampaignView()
@@ -157,8 +166,15 @@ function title(r) {
   const what = { honour: l.domHonours, skill: l.domSkills, relic: l.domRelics, fresh: l.campFresh, mettle: l.campMettle, augury: l.campAugury }[r.kind] || r.kind
   return r.kind === 'mettle' || r.kind === 'augury' ? what : `${what} · ${phaseLabel(r.phase)} · ${l.campDrawN.replace('{n}', r.draw)}`
 }
-function draw(r) {
-  drawn[r.id] = drawFor(deck.value, playerOf(r.player), r)
+// The reward whose drawn cards are in the dialog.
+const drawFor = ref(null)
+function openDraw(r) {
+  if (!drawn[r.id]) drawn[r.id] = drawCards(deck.value, playerOf(r.player), r)
+  drawFor.value = r
+}
+async function keep(r, slug) {
+  drawFor.value = null
+  await claim(r, { drawn: drawn[r.id], kept: slug })
 }
 function heldOf(pid, kind) {
   return deck.value.upgrades.filter((u) => u.kind === kind && playerOf(pid).upgrades.includes(u.slug))
