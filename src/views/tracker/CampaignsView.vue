@@ -54,6 +54,9 @@
       {{ labels.campSignInToLead }}
     </p>
 
+    <h2 class="dgroup-label">
+      {{ labels.campYours }}
+    </h2>
     <ul
       v-if="campaigns.length"
       class="camp-index"
@@ -90,6 +93,7 @@
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import AppToast from '../../components/AppToast.vue'
+import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns } from '../../composables/useCampaigns.js'
 import { useAuth } from '../../composables/useAuth.js'
