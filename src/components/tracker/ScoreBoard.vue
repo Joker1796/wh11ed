@@ -323,10 +323,12 @@ for (const [name, of] of Object.entries(scores)) {
   font-weight: 700;
   color: var(--side);
 }
+/* The score in the face of the app's other numbers (owner, 2026-11-01), at its weight 700: the mono
+   has no 500. */
 .grand {
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-size: 2.8rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--text-primary);
   line-height: 1;
 }
@@ -347,7 +349,7 @@ for (const [name, of] of Object.entries(scores)) {
 .breakdown div { display: flex; flex-direction: column; gap: 0; }
 .breakdown dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
 /* The main score's face (owner, 2026-09-29), a size under it. */
-.breakdown dd { margin: 0; font-family: var(--font-display); font-size: 1.75rem; line-height: 1; font-weight: 500; color: var(--text-primary); }
+.breakdown dd { margin: 0; font-family: var(--font-mono); font-size: 1.75rem; line-height: 1; font-weight: 700; color: var(--text-primary); }
 /* The badge straddles the board's top edge (the result screen only). The board makes room for it
    rather than the badge moving onto the score columns. */
 /* The plate stands wholly above the cards: half over them, it covered the top of the right-hand
