@@ -1305,6 +1305,8 @@ function onEndBattle(reason) {
   margin-bottom: 0.3rem;
 }
 .score-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
+/* Off the primary card above it, as the Dominatus row under the same card is (owner, 2026-11-01). */
+.mission-card + .score-row { margin-top: 0.55rem; }
 .sr-label {
   min-width: 4.5rem;
   font-size: 0.75rem;
