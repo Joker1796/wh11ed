@@ -72,7 +72,10 @@ const en = {
     blocks: [
       {
         id: 'dom-campaigns',
-        section: true, // the booklet's section headings (Armageddon Campaigns, Preparing, Start the Campaign)
+        // The booklet's section headings (Armageddon Campaigns, Preparing, Start the Campaign): full
+        // width, drawn as the Core Rules draw a section's head.
+        section: true,
+        wide: true,
         title: 'Armageddon Campaigns',
         body: 'An Armageddon campaign is split into 3 **campaign phases**, each of which consists of a number of battles. During each phase, the players will vie for control of a strategic **location**, before moving onto the next phase.\n'
           + 'Taking control of the final location is key to achieving victory, but it is only part of the challenge. Each player also has a set of **Agendas** they must achieve during the campaign. Only commanders who can achieve military success while accomplishing these vital goals will achieve everlasting glory on Armageddon.\n'
@@ -122,8 +125,8 @@ const en = {
       },
       {
         id: 'dom-preparing',
-        newRun: true,
-        section: true, // the booklet's sections each read as their own pair of columns
+        section: true,
+        wide: true, // the booklet's sections each read as their own pair of columns
         title: 'Preparing the Campaign',
         body: 'Before the campaign begins, the Warmaster should share a **Battle Schedule** with all players, informing them of the number of games each will play, and the army sizes they will need to muster. The default Battle Schedule below is designed to be played comfortably over the course of a weekend for players who can all muster a Strike Force sized army.',
         table: {
@@ -155,8 +158,8 @@ const en = {
       },
       {
         id: 'dom-start',
-        newRun: true,
         section: true,
+        wide: true,
         title: 'Start the Campaign',
         body: 'Players start the first campaign phase using the sequence below. After completing phases 1 and 2, start the next campaign phase and repeat this sequence. At the end of phase 3, the campaign ends.',
       },
