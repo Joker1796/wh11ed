@@ -140,27 +140,13 @@
 /* The lore paragraph above a card's rules (hidden by "hide lore", style.css), in the lore face. */
 .dcard-lore {
   margin: 0.2rem 0 0.6rem;
-  padding: 0.45rem 0.6rem 0.45rem 0.75rem;
+  padding-left: 0.75rem;
   border-left: 2px solid var(--border);
   font-family: var(--font-mono);
   font-size: 0.76rem;
   line-height: 1.45;
   color: var(--text-muted);
 }
-/* Under a card's lore and an Outcome's text, a tactical map: the green of the Location cards' map
-   squares, its grid and a cross at every node (owner, 2026-10-31 — Dominatus only). One SVG tile per
-   theme (a data URI cannot read a variable), 48px a square, quiet enough to read over. */
-:root {
-  --dom-map-bg: #e9ede5;
-  --dom-map-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath fill='%23e1e6dc' d='M24 0h1v48h-1zM0 24h48v1H0z'/%3E%3Cpath fill='%23d3dbcc' d='M23 18h3v13h-3zM18 23h13v3H18z'/%3E%3C/svg%3E");
-}
-:root[data-theme='dark'] {
-  --dom-map-bg: #262c28;
-  --dom-map-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath fill='%232b312d' d='M24 0h1v48h-1zM0 24h48v1H0z'/%3E%3Cpath fill='%23343e37' d='M23 18h3v13h-3zM18 23h13v3H18z'/%3E%3C/svg%3E");
-}
-.dcard-lore,
-.dout-text { background: var(--dom-map-tile) 0 0 / 48px 48px, var(--dom-map-bg); }
-
 /* The corner marks (DomCardMark): the card's type, its phase numeral in the card's frame, its
    Alliance's emblem — all three drawings, one size (owner, 2026-10-31). A circle reads a size small
    beside a square, so the emblem is drawn a step larger. */

@@ -191,7 +191,6 @@ async function openAgenda(slug) {
 }
 .dout-text {
   margin: 0.15rem 0 0;
-  padding: 0.45rem 0.6rem;
   font-family: var(--font-mono);
   font-size: 0.76rem;
   line-height: 1.45;
