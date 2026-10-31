@@ -124,12 +124,9 @@ async function create() {
 
 <style scoped>
 .campaigns { max-width: 760px; margin: 0 auto; padding-top: 0.5rem; }
-.camp-hero { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; border-bottom: 2px solid var(--accent); margin-bottom: 1rem; }
-.camp-hero h1 { margin: 0; font-family: var(--font-display); font-size: 2.3rem; font-weight: 400; }
-.camp-rules { font-size: 0.85rem; color: var(--accent-ink); }
+.camp-create .camp-error { margin: 0; }
 .camp-create { display: grid; gap: 0.5rem; margin-bottom: 1.25rem; justify-items: start; }
 .camp-create input { width: 100%; }
-.camp-error { margin: 0; color: var(--danger); font-size: 0.85rem; }
 .camp-index { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
 .camp-index a {
   display: flex; justify-content: space-between; gap: 0.6rem; align-items: baseline;

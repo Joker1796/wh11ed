@@ -181,9 +181,5 @@ function forget() {
 
 <style scoped>
 .campaign { max-width: 760px; margin: 0 auto; padding-top: 0.5rem; }
-.camp-hero { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.75rem; border-bottom: 2px solid var(--accent); margin-bottom: 1rem; }
-.camp-hero .back { flex-basis: 100%; }
-.camp-hero h1 { margin: 0; font-family: var(--font-display); font-size: 2.1rem; font-weight: 400; }
-.camp-error { color: var(--danger); font-size: 0.85rem; }
 .camp-foot { display: flex; justify-content: flex-end; margin: 1rem 0 2rem; }
 </style>

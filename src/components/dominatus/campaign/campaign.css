@@ -1,4 +1,19 @@
 /* The campaign pages' blocks (src/components/dominatus/campaign), loaded by CampaignView and CampaignsView. */
+/* Both pages' head: the title on the left, beside it what is about the page (the rules link, this
+   device's role), one accent rule under them; the campaign's own page has a way back above. */
+.camp-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.3rem 0.75rem;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 1rem;
+}
+.camp-hero .back { flex-basis: 100%; }
+.camp-hero h1 { margin: 0; font-family: var(--font-display); font-size: 2.2rem; font-weight: 400; }
+.camp-rules { font-size: 0.85rem; color: var(--accent-ink); }
+.camp-error { color: var(--danger); font-size: 0.85rem; }
 .camp-block {
   border: 1px solid var(--border);
   background: var(--bg-card);
@@ -42,3 +57,11 @@
 .camp-reward + .camp-reward { padding-top: 0.45rem; border-top: 1px dashed var(--border); }
 /* The device's role in a campaign: in the list and on the campaign's own header. */
 .camp-role { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+/* The narrowest phones (owner, 2026-10-31): the hero's title, its rules link and a choice's buttons
+   a step smaller, so the title holds a line and "Rules of the campaign" does not break in two. */
+@media (max-width: 400px) {
+  .camp-hero h1 { font-size: 1.75rem; }
+  .camp-rules { font-size: 0.78rem; white-space: nowrap; }
+  .camp-create .seg button,
+  .camp-form .seg button { padding: 0.4rem 0.55rem; font-size: 0.74rem; }
+}
