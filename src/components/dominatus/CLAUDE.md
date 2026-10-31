@@ -47,9 +47,11 @@ Core Rules section heads (the accent rule, the section title's size, capitals), 
 **Cards wear the printed card's marks** (2026-10-31): the tag line the deck prints up a card's
 spine ("Liberators · Agenda", "Battle Honour", "Location 1–2" — `cardTag`), the type icon, the
 phase as a boxed numeral and the Alliance's emblem (`DomCardMark.vue`; the deck marks and the
-emblems are traced off the booklet, `scripts/trace-dominatus-emblems.py`, owner 2026-10-31 — only
-Battle Honour's and Relic's are ours, in `scripts/draw-icons.mjs`), section labels white on black (`.dchip`), and a
-stripe in the Alliance's (or pile's) colour — `--dom-ink`, our colours, not the deck's. An Agenda
+emblems are traced or measured off the deck, `scripts/trace-dominatus-emblems.py` and
+`draw-dominatus-marks.py`, owner 2026-10-31 — only Battle Honour's is ours), section labels white
+on black (`.dchip`), and a stripe down the left in the DECK's colour, the printed spine's
+(`--dom-spine-*`), the tag line in it too. No Alliance colours: the deck has none, it tells them
+apart by emblem and name (owner, 2026-10-31). An Agenda
 is MissionCard, which has `tag` and `mark` slots for this.
 
 **The booklet's framed rules stay framed** (owner, 2026-10-31): a rule block with `box: true` —

@@ -1,8 +1,7 @@
 <template>
   <article
     :id="`upgrade-${upgrade.slug}`"
-    class="dcard"
-    :class="`dom-deck-upgrade dom-ink-${upgrade.alliance || upgrade.kind}`"
+    class="dcard dom-deck-upgrade"
   >
     <header class="dcard-head">
       <span class="dcard-tag">{{ tag }}</span>

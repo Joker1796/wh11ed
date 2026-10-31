@@ -1,8 +1,7 @@
 <template>
   <article
     :id="`briefing-${briefing.alliance}-${briefing.phase}`"
-    class="dcard"
-    :class="`dom-deck-briefing dom-ink-${briefing.alliance}`"
+    class="dcard dom-deck-briefing"
   >
     <header class="dcard-head">
       <span class="dcard-tag">{{ tag }}</span>

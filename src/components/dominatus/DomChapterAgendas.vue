@@ -61,8 +61,7 @@
         v-for="a in g.items"
         :key="a.slug"
         :mission="a"
-        class="dcard-agenda"
-        :class="`dom-deck-agenda dom-ink-${a.alliance}`"
+        class="dcard-agenda dom-deck-agenda"
       >
         <template #tag>
           <span class="dcard-tag">{{ cardTag({ kind: 'agenda', alliance: a.alliance }) }}</span>
