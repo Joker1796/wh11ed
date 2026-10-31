@@ -142,7 +142,7 @@ const { renderInline } = useRenderInline()
    The plate sits in the wrapper's top PADDING, not a margin: in two columns a block that starts a
    column loses its top margin, and the plate went with it — cut off at the column's top. One
    wrapper, so the plate and its frame are never split between columns either. */
-.prose-box-wrap { padding-top: 1.6rem; margin: 0.9rem 0; break-inside: avoid; }
+.prose-box-wrap { padding-top: 1.75rem; margin: 0.9rem 0; break-inside: avoid; }
 .prose-box {
   position: relative;
   padding: 0.75rem 0.85rem;
@@ -162,8 +162,10 @@ const { renderInline } = useRenderInline()
   background: var(--text-primary);
   color: var(--bg-card);
   font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 400;
+  /* 18.4px: just over the 18px under which the display face must stay at 400 (src/components/
+     CLAUDE.md, Type) — so the plates can be bold, as the booklet prints them (owner, 2026-10-31). */
+  font-size: 1.15rem;
+  font-weight: 700;
   line-height: 1.25;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -198,7 +200,7 @@ const { renderInline } = useRenderInline()
 }
 .prose-step :deep(.rule-header) { gap: 0.55rem; flex-wrap: nowrap; }
 /* A section heading of the booklet (Preparing the Campaign, Start the Campaign): a divider, not a
-   title — the chapter heading's face in capitals, a size under it, in the accent's ink, a hairline
+   title — the chapter heading's face in capitals, a step under it, in the accent's ink, a hairline
    running on to the right edge. Capitals at a heading's size read larger than the chapter's own heading over them (owner,
    2026-10-31, twice), so the section is marked by colour and rule, not by size. */
 .prose-section { padding: 1.1rem 0 0.2rem; border-bottom: none; }
@@ -206,13 +208,17 @@ const { renderInline } = useRenderInline()
 .prose-section :deep(.rule-title-wrap) { display: flex; align-items: center; gap: 0.75rem; flex: 1; }
 .prose-section :deep(.rule-title) {
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 2.1rem;
   font-weight: 700;
   line-height: 1.1;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--accent-ink);
   white-space: nowrap;
+}
+/* Under the chapter heading at both widths (the shared scale drops it to 1.95rem under 900px). */
+@media (max-width: 900px) {
+  .prose-section :deep(.rule-title) { font-size: 1.6rem; }
 }
 .prose-section :deep(.rule-title-wrap)::after {
   content: '';
