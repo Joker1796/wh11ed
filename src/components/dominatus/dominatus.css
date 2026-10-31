@@ -185,8 +185,19 @@
 
 /* In the head's top-right corner (owner's pick of three on the stand, 2026-10-31). */
 .dmark { position: absolute; top: 0.8rem; right: 0.9rem; }
+/* The head keeps clear of the marks the card HAS — a Battle Honour has no emblem, and room kept for
+   three left its Russian name a line of its own (owner, 2026-10-31). */
+.dcard,
+.dcard-agenda.mcard { --dm-phase: 0; --dm-ally: 0; }
+.dcard:has(.dmark-phase),
+.dcard-agenda.mcard:has(.dmark-phase) { --dm-phase: 1; }
+.dcard:has(.dmark-ally),
+.dcard-agenda.mcard:has(.dmark-ally) { --dm-ally: 1; }
 .dcard-head,
-.dcard-agenda .mcard-head { padding-right: calc(var(--dmark-size) * 3.12 + var(--dmark-gap) * 2 + 0.45rem); }
+.dcard-agenda .mcard-head {
+  padding-right: calc(var(--dmark-size) * (1 + var(--dm-phase) + 1.12 * var(--dm-ally))
+    + var(--dmark-gap) * (var(--dm-phase) + var(--dm-ally)) + 0.45rem);
+}
 
 /* A chapter's head drawn as a Core Rules section head (SectionHeader, owner 2026-10-31): the accent
    rule over it, the section title's size in capitals, its description under it and a thin rule
