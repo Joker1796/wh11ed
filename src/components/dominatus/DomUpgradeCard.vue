@@ -81,6 +81,15 @@ const tag = computed(() => cardTag({ kind: props.upgrade.kind, alliance: props.u
   letter-spacing: 0.05em;
   color: var(--text-primary);
 }
+/* A phone: the label opens its text's first line and the text runs on under it, the column the
+   labels kept is the card's (owner, 2026-10-31). A float, so it is the first line of ANY body —
+   a paragraph, a list. Its line as tall as the text's, so the two share a baseline. */
+@media (max-width: 430px) {
+  .dup-rows { display: block; }
+  .dup-label { float: left; clear: left; margin-right: 0.4rem; line-height: 1.35rem; }
+  .dup-who { display: block; line-height: 1.35rem; margin-bottom: 0.3rem; }
+  .dup-rows .dbody { line-height: 1.35rem; }
+}
 .dup-bonus {
   margin-top: 0.6rem;
   padding: 0.45rem 0.6rem;
