@@ -157,11 +157,15 @@
    Alliance's emblem — all three drawings, one size (owner, 2026-10-31). A circle reads a size small
    beside a square, so the emblem is drawn a step larger. */
 .dcard,
-.dcard-agenda.mcard { --dmark-size: 2.6rem; --dmark-gap: 0.75rem; }
-/* The narrowest phones keep them a step smaller: at 2.6rem most card tags broke onto two lines. */
-@media (max-width: 379px) {
-  .dcard,
-  .dcard-agenda.mcard { --dmark-size: 2rem; --dmark-gap: 0.65rem; }
+.dcard-agenda.mcard { container: dcard / inline-size; --dmark-size: 2.6rem; --dmark-gap: 0.75rem; }
+/* A narrow card keeps them a step smaller — by the CARD's width, not the screen's: three columns on
+   a desk make a card narrower than a phone's (310px inside its padding against 343), and at 2.6rem
+   the marks left a name ~150px, so eight names broke onto two lines there (owner, 2026-10-31); at
+   2rem one does. The query reads the width inside the card's padding. */
+@container dcard (max-width: 330px) {
+  .dmark,
+  .dcard-head,
+  .mcard-head { --dmark-size: 2rem; --dmark-gap: 0.65rem; }
 }
 .dmark {
   display: flex;
