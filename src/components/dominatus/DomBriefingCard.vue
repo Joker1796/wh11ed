@@ -10,98 +10,110 @@
         {{ phaseLabel(briefing.phase) }}
       </h3>
     </header>
-    <p
-      v-if="briefing.intro"
-      class="dcard-lore lines"
-    >
-      {{ briefing.intro }}
-    </p>
+    <div class="bbody">
+      <div class="bfront">
+        <p
+          v-if="briefing.intro"
+          class="dcard-lore lines"
+        >
+          {{ briefing.intro }}
+        </p>
 
-    <div class="bmatrix">
-      <div class="bhead">
-        <span>{{ labels.domYourDispo }}</span>
-        <span>{{ labels.domTheirDispo }}</span>
-        <span>{{ labels.domYourAgenda }}</span>
-      </div>
-      <div
-        v-for="(row, ri) in briefing.rows"
-        :key="ri"
-        class="brow"
-      >
-        <div class="bmine">
-          <template
-            v-for="(id, i) in row.mine"
-            :key="id"
-          >
-            <span
-              v-if="i"
-              class="bor"
-            >{{ labels.trackerOr }}</span>
-            <img
-              :src="dispo(id).icon"
-              :alt="dispo(id).name"
-              :title="dispo(id).name"
-              class="dispo-icon"
-            >
-          </template>
-        </div>
-        <div class="bbranches">
+        <div class="bmatrix">
+          <div class="bhead">
+            <span>{{ labels.domYourDispo }}</span>
+            <span>{{ labels.domTheirDispo }}</span>
+            <span>{{ labels.domYourAgenda }}</span>
+          </div>
           <div
-            v-for="b in row.branches"
-            :key="b.agenda"
-            class="bbranch"
+            v-for="(row, ri) in briefing.rows"
+            :key="ri"
+            class="brow"
           >
-            <span class="bvs">
-              <img
-                v-for="id in b.vs"
+            <div class="bmine">
+              <template
+                v-for="(id, i) in row.mine"
                 :key="id"
-                :src="dispo(id).icon"
-                :alt="dispo(id).name"
-                :title="dispo(id).name"
-                class="dispo-icon"
               >
-            </span>
-            <a
-              class="bagenda"
-              :href="`#mission-${b.agenda}`"
-              @click.prevent="openAgenda(b.agenda)"
-            >{{ agendaBySlug[b.agenda].name }}</a>
+                <span
+                  v-if="i"
+                  class="bor"
+                >{{ labels.trackerOr }}</span>
+                <img
+                  :src="dispo(id).icon"
+                  :alt="dispo(id).name"
+                  :title="dispo(id).name"
+                  class="dispo-icon"
+                >
+              </template>
+            </div>
+            <div class="bbranches">
+              <div
+                v-for="b in row.branches"
+                :key="b.agenda"
+                class="bbranch"
+              >
+                <span class="bvs">
+                  <img
+                    v-for="id in b.vs"
+                    :key="id"
+                    :src="dispo(id).icon"
+                    :alt="dispo(id).name"
+                    :title="dispo(id).name"
+                    class="dispo-icon"
+                  >
+                </span>
+                <a
+                  class="bagenda"
+                  :href="`#mission-${b.agenda}`"
+                  @click.prevent="openAgenda(b.agenda)"
+                >{{ agendaBySlug[b.agenda].name }}</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- The reverse of the card: what this phase's Narrative Points mean for the Alliance. Lore,
-         read once at the phase's end, so it starts folded. -->
-    <div
-      v-if="outcomes.length"
-      class="dcard-outcomes"
-    >
-      <button
-        type="button"
-        class="dout-toggle"
-        :aria-expanded="open"
-        @click="open = !open"
+      <!-- The reverse of the card: what this phase's Narrative Points mean for the Alliance. Lore,
+           read once at the phase's end, so on a phone it starts folded; a desk lays the card out
+           landscape, as printed, and shows them beside the chart. -->
+      <div
+        v-if="outcomes.length"
+        class="dcard-outcomes"
       >
-        {{ labels.domOutcome }}
-        <ChevronIcon :turned="open" />
-      </button>
-      <CollapseTransition :show="open">
-        <div class="dout-list">
-          <div
-            v-for="o in outcomes"
-            :key="o.np"
-            class="dout"
-          >
-            <div class="dout-np">
-              {{ labels[`domNarrative${o.np}`] }}
-            </div>
-            <p class="dout-text lines">
-              {{ o.text }}
-            </p>
-          </div>
+        <div
+          v-if="wide"
+          class="dout-toggle"
+        >
+          {{ labels.domOutcome }}
         </div>
-      </CollapseTransition>
+        <button
+          v-else
+          type="button"
+          class="dout-toggle"
+          :aria-expanded="open"
+          @click="open = !open"
+        >
+          {{ labels.domOutcome }}
+          <ChevronIcon :turned="open" />
+        </button>
+        <CollapseTransition :show="open || wide">
+          <div class="dout-list">
+            <div
+              v-for="o in outcomes"
+              :key="o.np"
+              class="dout"
+            >
+              <div class="dout-np">
+                {{ labels[`domNarrative${o.np}`] }}
+              </div>
+              <p class="dout-text lines">
+                {{ o.text }}
+              </p>
+            </div>
+          </div>
+        </CollapseTransition>
+      </div>
     </div>
     <DomCardMark
       kind="briefing"
@@ -119,6 +131,7 @@ import ChevronIcon from '../ChevronIcon.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import DomCardMark from './DomCardMark.vue'
 import { scrollToAnchor } from '../../composables/useRefNavigation.js'
+import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import { useDominatus, useAgendaFilter } from './useDominatus.js'
 
 const props = defineProps({
@@ -127,6 +140,9 @@ const props = defineProps({
 const { labels, phaseLabel, agendaBySlug, dispo, cardTag } = useDominatus()
 const tag = computed(() => cardTag({ kind: 'briefing', alliance: props.briefing.alliance }))
 const open = ref(false)
+// A desk lays the card out landscape (the chapter's grid gives it the full width there): chart on
+// the left, the three Outcomes beside it, always open (owner, 2026-10-31). Same query as the CSS.
+const wide = useMediaQuery('(min-width: 1024px)')
 // Most Narrative Points first, as the card reads.
 const outcomes = computed(() => Object.entries(props.briefing.outcomes || {})
   .map(([np, text]) => ({ np: Number(np), text }))
@@ -143,6 +159,20 @@ async function openAgenda(slug) {
 
 <style scoped>
 .dcard-outcomes { margin-top: 0.6rem; border-top: 1px dashed var(--border); }
+/* Landscape on a desk, as the printed card: the lore and the chart left, the Outcomes right in
+   three columns (2 / 1 / 0 Narrative Points). Same width as `wide` in the script. */
+@media (min-width: 1024px) {
+  .bbody {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .dcard-outcomes { margin-top: 0; padding-left: 1.25rem; border-top: none; border-left: 1px dashed var(--border); }
+  .dout-toggle { cursor: default; }
+  .dout-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+  .dout + .dout { margin-top: 0; }
+}
 .dout-toggle {
   display: flex;
   align-items: center;

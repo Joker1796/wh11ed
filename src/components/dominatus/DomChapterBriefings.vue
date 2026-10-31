@@ -34,7 +34,7 @@
     <h3 class="dgroup-label">
       {{ a.name }}
     </h3>
-    <div class="dgrid">
+    <div class="dgrid dgrid-one">
       <DomBriefingCard
         v-for="b in deck.briefings.filter((x) => x.alliance === a.id)"
         :key="`${b.alliance}-${b.phase}`"
