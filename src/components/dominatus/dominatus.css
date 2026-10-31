@@ -84,7 +84,7 @@
    Two colours on a card. Its DECK's is the stripe down its left edge — the spine every printed
    card runs beside its name (owner, 2026-10-31, measured off the photos): Agenda charcoal with an
    olive cast, Briefing a cooler grey, Location near-black, Upgrade (Honour, Skill, Relic) a deep
-   green, Agenda Achieved brass. Agenda, Briefing and Location print almost alike, so ours part
+   green. Agenda, Briefing and Location print almost alike, so ours part
    them by cast; in the dark theme each is lifted to show on a dark card. The tag line is written in
    it too, as the spine carries it. An Alliance has NO colour: the deck tells them apart by emblem
    and name alone, and so do we (owner, 2026-10-31: no colour that the original does not have). */
@@ -93,14 +93,12 @@
   --dom-spine-briefing: #474c50;
   --dom-spine-location: #1f2421;
   --dom-spine-upgrade: #2a5a42;
-  --dom-spine-achieved: #8c7340;
 }
 :root[data-theme='dark'] {
   --dom-spine-agenda: #98a385;
   --dom-spine-briefing: #9aa0a4;
   --dom-spine-location: #c5cbc2;
   --dom-spine-upgrade: #68ad8b;
-  --dom-spine-achieved: #c9a862;
 }
 .dom-deck-agenda { --dom-spine: var(--dom-spine-agenda); }
 .dom-deck-briefing { --dom-spine: var(--dom-spine-briefing); }

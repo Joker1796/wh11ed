@@ -241,17 +241,22 @@ async function openAgenda(slug) {
    the phase has (2 / 1 / 0, or 3 / 2 / 1 / 0). Same width as `wide` in the script. */
 @media (min-width: 1024px) {
   /* One three-column grid for the heads and every row (subgrid), so the plates stand over their
-     columns; the fork runs in the gap between the first two, the line on to the Agenda in the next. */
+     columns. ONE line runs through each row as the printed chart draws it: from a tick at the left
+     edge through your disposition to the fork, through the opponent's icons to the Agenda's box —
+     drawn behind the icons, which sit on it. */
   .bmatrix {
-    --bline: 2px solid var(--text-dim);
-    --bh: 2.75rem;
+    --bline: var(--text-dim);
+    --bstroke: 2px;
+    --bh: 3.4rem;
     --bgap: 1.5rem;
+    --brule: linear-gradient(var(--bline), var(--bline)) 0 50% / 100% var(--bstroke) no-repeat;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr);
     column-gap: var(--bgap);
-    margin-top: 0.4rem;
+    margin-top: 0.6rem;
   }
-  .bmatrix .dispo-icon { width: 30px; height: 30px; }
+  .bmine .dispo-icon { width: 48px; height: 48px; }
+  .bvs .dispo-icon { width: 36px; height: 36px; }
   .bhead,
   .brow,
   .bbranches,
@@ -261,19 +266,53 @@ async function openAgenda(slug) {
   .bbranches { grid-column: 2 / 4; }
   /* A subgrid numbers its lines from 1 again: the branch spans all of the fork's two. */
   .bbranch { grid-column: 1 / -1; }
-  .bhead { padding-bottom: 0.6rem; }
+  .bhead { padding-bottom: 0.9rem; }
   .bhead span {
     padding: 0.3rem 0.5rem;
     background: var(--text-primary);
     color: var(--bg-card);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
     text-align: center;
   }
-  .brow { padding: 0.7rem 0; border-top: none; }
-  .brow + .brow { border-top: 1px dashed var(--border); }
-  /* Your disposition, then a line on to the fork in the gap. */
-  .bmine { gap: 0.4rem; }
-  .bmine::after { content: ''; flex: 1; border-top: var(--bline); margin: 0 calc(var(--bgap) / -2) 0 0.5rem; }
-  /* The fork: a bar down the gap from the first branch to the last, a stub to each. */
+  .brow { padding: 0.5rem 0; border-top: none; }
+  /* Your disposition: centred on the line, which starts at a tick on the left edge and runs on
+     across half the gap to the fork. */
+  .bmine {
+    position: relative;
+    justify-content: center;
+    gap: 0;
+    margin-right: calc(var(--bgap) / -2);
+    background: var(--brule);
+  }
+  .bmine::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: calc(50% - 0.5rem);
+    height: 1rem;
+    border-left: var(--bstroke) solid var(--bline);
+  }
+  .bmine .dispo-icon + .bor,
+  .bmine .bor + .dispo-icon { margin-left: 0.5rem; }
+  /* "or" on a light disc, as the card prints it. */
+  .bor {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--text-primary);
+    color: var(--bg-card);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-style: normal;
+    text-transform: uppercase;
+  }
+  /* The fork: a bar down the gap from the first branch to the last; each branch's line runs from it
+     through the opponent's icons to the Agenda's box, which covers its end. */
   .bbranches { position: relative; }
   .bbranches::before {
     content: '';
@@ -281,13 +320,28 @@ async function openAgenda(slug) {
     left: calc(var(--bgap) / -2);
     top: calc(var(--bh) / 2);
     bottom: calc(var(--bh) / 2);
-    border-left: var(--bline);
+    border-left: var(--bstroke) solid var(--bline);
   }
-  .bbranch { position: relative; height: var(--bh); align-items: center; }
-  .bbranch::before { content: ''; position: absolute; left: calc(var(--bgap) / -2); width: calc(var(--bgap) / 2); top: 50%; border-top: var(--bline); }
-  .bvs { align-items: center; gap: 0.35rem; }
-  .bvs::after { content: ''; flex: 1; border-top: var(--bline); margin: 0 calc(var(--bgap) * -1) 0 0.5rem; }
-  .bagenda { padding: 0.25rem 0.6rem; border: 2px solid var(--text-muted); font-size: 1.15rem; }
+  .bbranch {
+    height: var(--bh);
+    align-items: center;
+    margin-left: calc(var(--bgap) / -2);
+    padding-left: calc(var(--bgap) / 2);
+    background: var(--brule);
+  }
+  .bbranch::before { content: none; }
+  .bvs { justify-content: center; align-items: center; gap: 0.6rem; }
+  .bagenda {
+    display: block;
+    padding: 0.3rem 0.75rem;
+    border: 2px solid var(--text-primary);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 1.35rem;
+    text-decoration: underline dotted;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+  }
 
   .dcard-outcomes { margin-top: 0.9rem; }
   .dout-toggle { cursor: default; }
