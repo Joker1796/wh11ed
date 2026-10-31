@@ -202,9 +202,11 @@
   overflow: hidden;
 }
 
-/* Prose that runs the full width (a section's only block, Alliances' intro) keeps a readable line:
-   the columns hold ~75 characters, this holds it to the same. */
-.dom-prose > .rule-block .rule-body { max-width: 46rem; }
+/* Prose that runs the full width (Alliances' intro) reads in two columns like the rest of the
+   chapter on a wide screen, ~75 characters a line, instead of one long measure. */
+@media (min-width: 1024px) {
+  .dom-prose > .rule-block .rule-body { column-count: 2; column-gap: 1.5rem; }
+}
 
 /* A chapter's head drawn as a Core Rules section head (SectionHeader, owner 2026-10-31): the accent
    rule over it, the section title's size in capitals, its description under it and a thin rule

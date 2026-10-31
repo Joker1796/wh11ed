@@ -171,11 +171,14 @@ const { renderInline } = useRenderInline()
   margin: 0.4rem 0 0.9rem;
 }
 .prose-boxes .prose-box-wrap { margin: 0.3rem 0; }
-.prose-boxes .prose-box { height: 100%; box-sizing: border-box; }
-.prose-box-row { display: flex; align-items: center; gap: 0.8rem; }
+.prose-boxes .prose-box { display: flex; height: 100%; box-sizing: border-box; }
+/* Frames stretched to the tallest: the row fills its frame, so each emblem centres on the frame,
+   level with its neighbours, not on its own (shorter) text. */
+.prose-boxes .prose-box-row { flex: 1; }
+.prose-box-row { display: flex; align-items: flex-start; gap: 0.8rem; }
 .prose-box-text { flex: 1; min-width: 0; }
 /* About a quarter of the frame's width, as the booklet prints it beside the text. */
-.prose-box-icon { flex: none; width: 5.5rem; height: 5.5rem; margin: 0; color: var(--text-primary); }
+.prose-box-icon { flex: none; align-self: center; width: 5.5rem; height: 5.5rem; margin: 0; color: var(--text-primary); }
 .prose-box-note { margin: 0.6rem 0 0.9rem; }
 /* A numbered step: the number on a filled square with its bottom-right corner cut, as the booklet
    prints it — in the house accent (the global .section-num, made a head taller than the title). */
