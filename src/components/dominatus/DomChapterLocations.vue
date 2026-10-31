@@ -15,7 +15,7 @@
     <h3 class="dgroup-label">
       {{ phaseLabel(p) }}
     </h3>
-    <div class="dgrid">
+    <div class="dgrid dgrid-two">
       <DomLocationCard
         v-for="l in deck.locations.filter((x) => x.phase === p)"
         :key="l.slug"

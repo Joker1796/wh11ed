@@ -15,6 +15,15 @@
 /* Multicol like .strat-grid: each card keeps its own height. */
 .dgrid { column-width: 320px; column-gap: 1rem; }
 .dgrid > * { break-inside: avoid; margin-bottom: 1rem; }
+/* The Locations at most two abreast (owner, 2026-10-31): three to a desk made each card too narrow
+   for its name beside the marks. A grid, not columns — three cards a phase read 1 2 / 3, tops level. */
+.dgrid-two {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(320px, calc((100% - 1rem) / 2)), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+.dgrid-two > * { margin-bottom: 0; }
 
 .dcard {
   border: 1px solid var(--border);
