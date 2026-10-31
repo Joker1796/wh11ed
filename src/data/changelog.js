@@ -22,6 +22,20 @@
 
 export const changelog = [
   {
+    version: '2.10.10',
+    date: '2026-10-31',
+    en: [
+      { h: 'Answers to bug reports' },
+      '**Base sizes come from the GW app.** For Gyrfalcon Jetbike Sodality the app gives a 75×42mm oval. The kit’s page in the GW store says 90×52mm. The site shows the size from the app.',
+      '**The Russian “until that unit has attacked” reads the same everywhere.** I fixed it in 13 faction rules and stratagems and in 2 places of the Core Rules.',
+    ],
+    ru: [
+      { h: 'Ответы на баг-репорты' },
+      '**Размеры подставок берутся из приложения GW.** У Gyrfalcon Jetbike Sodality там указан овал 75×42mm. На странице набора в магазине GW написано 90×52mm. Сайт показывает размер из приложения.',
+      '**«Пока тот вражеский юнит не завершит свои атаки» теперь написано везде одинаково.** Раньше в части правил было «отатакует», «заатакует» или «не атакует». Я исправил 13 правил и стратагем армий и 2 места в основных правилах.',
+    ],
+  },
+  {
     version: '2.10.9',
     date: '2026-10-30',
     en: [
