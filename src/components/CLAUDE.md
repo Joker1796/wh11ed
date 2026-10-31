@@ -434,8 +434,10 @@ colour / which face / how big" question.
   is the darker amber that clears AA as TEXT on its own 10% tint (4.9:1), not merely as an icon;
   the dark shade rides in the token the way `--danger`'s does.
 - **Type** — `--font-display` (Sofia Sans Extra Condensed) on every heading and title,
-  `--font-sans` (Inter) on everything else, `--font-serif` (EB Garamond) only on lore flavour
-  text. The heading scale is `--fs-*` / `--fw-heading`; new headings pick a step, they don't
+  `--font-sans` (Inter) on everything else, `--font-mono` (Kibernetyk Mono) on lore flavour
+  text and the numbers set apart (points, counts, chips) — the owner's choice of 2026-10-31, when
+  it replaced EB Garamond on the lore and Courier New, a system face each phone drew differently.
+  It has no italic: lore is told from rules by its face, colour and left rule, never slanted. The heading scale is `--fs-*` / `--fw-heading`; new headings pick a step, they don't
   invent a size. `font-family: inherit` on buttons/inputs is fine (it is undoing the UA default).
   **The display face at 18px or less is weight 400** — condensed, it reads cramped at 500 and
   up (owner, 2026-10-07: the roster editor's section headings at 600, the rules' ability names
@@ -443,8 +445,9 @@ colour / which face / how big" question.
   case, not weight. `npm run a11y` checks it on rendered pages (computed styles, so an inherited
   `--fw-heading` counts too).
   **Only the faces the app draws are loaded** (`src/fonts.js`, 2026-10-13): Inter 400–700, Sofia
-  400/500/700, EB Garamond 400 *italic*. There is no weight 800 (the logo, labels and dark-theme
-  `strong` are 700, owner's call) and no upright Garamond. The installed app's warm-up fetches
+  400/500/700, Kibernetyk Mono 400/600/700 (self-hosted in `src/assets/fonts`, whole — one file
+  per weight, ~12 KB, every glyph). There is no weight 800 (the logo, labels and dark-theme
+  `strong` are 700, owner's call) and no italic of the mono. The installed app's warm-up fetches
   every subset of every loaded face, so each one costs ~40–140 KB offline; a style asking for a
   face that is not loaded is substituted by the browser without a word, which is what `npm run
   a11y`'s `face` check is for.

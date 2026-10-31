@@ -11,13 +11,21 @@ import path from 'node:path'
 // The loaded set comes from src/fonts.js itself: adding a face there is all it takes to allow it.
 
 const SRC = path.resolve(__dirname)
-const FAMILIES = { inter: 'sans', 'sofia-sans-extra-condensed': 'display', 'eb-garamond': 'serif' }
+const FAMILIES = { inter: 'sans', 'sofia-sans-extra-condensed': 'display' }
+// Kibernetyk Mono is not on @fontsource: its faces are the @font-face rules of the stylesheet
+// src/fonts.js imports for it.
+const MONO_CSS = path.join(SRC, 'assets/fonts/kibernetyk-mono.css')
 
 function loadedFaces() {
   const text = fs.readFileSync(path.join(SRC, 'fonts.js'), 'utf8')
-  const out = { sans: new Set(), display: new Set(), serif: new Set() }
+  const out = { sans: new Set(), display: new Set(), mono: new Set() }
   for (const m of text.matchAll(/^import '@fontsource\/([a-z-]+)\/(\d{3})(-italic)?\.css'/gm)) {
     out[FAMILIES[m[1]]].add(`${m[2]}${m[3] ? ' italic' : ''}`)
+  }
+  if (/^import '\.\/assets\/fonts\/kibernetyk-mono\.css'/m.test(text)) {
+    for (const m of fs.readFileSync(MONO_CSS, 'utf8').matchAll(/@font-face\s*\{[^}]*font-style:\s*(\w+);[^}]*font-weight:\s*(\d{3})/g)) {
+      out.mono.add(`${m[2]}${m[1] === 'italic' ? ' italic' : ''}`)
+    }
   }
   return out
 }
@@ -56,36 +64,37 @@ const faces = loadedFaces()
 const all = blocks()
 const NAMED = { normal: '400', bold: '700' }
 const numeric = (w) => NAMED[w] || (/^\d{3}$/.test(w || '') ? w : null)
-const familyOf = (f) => (/--font-display/.test(f || '') ? 'display' : /--font-serif/.test(f || '') ? 'serif' : /--font-sans/.test(f || '') ? 'sans' : null)
+const familyOf = (f) => (/--font-display/.test(f || '') ? 'display' : /--font-mono/.test(f || '') ? 'mono' : /--font-sans/.test(f || '') ? 'sans' : null)
 const weightsOf = (fam) => new Set([...faces[fam]].map((f) => f.split(' ')[0]))
 
 describe('font faces in the stylesheets', () => {
   it('reads the loaded faces from src/fonts.js', () => {
     expect(faces.sans.size).toBeGreaterThan(0)
     expect(faces.display.size).toBeGreaterThan(0)
-    expect(faces.serif.size).toBeGreaterThan(0)
+    expect(faces.mono.size).toBeGreaterThan(0)
     expect(all.length).toBeGreaterThan(100)
   })
 
   it('asks for no weight that no face is loaded in', () => {
-    const any = new Set([...weightsOf('sans'), ...weightsOf('display'), ...weightsOf('serif')])
+    const any = new Set([...weightsOf('sans'), ...weightsOf('display'), ...weightsOf('mono')])
     const bad = all.filter((b) => numeric(b.weight) && !any.has(numeric(b.weight))).map((b) => `${b.where} — font-weight: ${b.weight}`)
     expect(bad, 'load the face in src/fonts.js, or use a weight that is loaded').toEqual([])
   })
 
   it('gives a block that names its family a weight that family is loaded in', () => {
     const bad = all
-      .filter((b) => familyOf(b.family) && familyOf(b.family) !== 'serif' && numeric(b.weight))
+      .filter((b) => familyOf(b.family) && numeric(b.weight))
       .filter((b) => !weightsOf(familyOf(b.family)).has(numeric(b.weight)))
       .map((b) => `${b.where} — ${b.family} at ${b.weight}`)
     expect(bad).toEqual([])
   })
 
-  it('sets EB Garamond only in a face it is loaded in', () => {
+  // It has no italic (owner, 2026-10-31: the lore lost its slant with it) — asked for one, the
+  // browser slants the letters itself.
+  it('never sets Kibernetyk Mono in italic', () => {
     const bad = all
-      .filter((b) => familyOf(b.family) === 'serif')
-      .filter((b) => !faces.serif.has(`${numeric(b.weight) || '400'}${b.style === 'italic' ? ' italic' : ''}`))
-      .map((b) => `${b.where} — weight ${b.weight || '(inherited)'}, style ${b.style || '(inherited)'}`)
-    expect(bad, 'EB Garamond is loaded as ' + [...faces.serif].join(', ')).toEqual([])
+      .filter((b) => familyOf(b.family) === 'mono' && b.style === 'italic')
+      .map((b) => b.where)
+    expect(bad, 'Kibernetyk Mono is loaded as ' + [...faces.mono].join(', ')).toEqual([])
   })
 })

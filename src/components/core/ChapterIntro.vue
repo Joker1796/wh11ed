@@ -101,9 +101,8 @@ const missionParagraphs = computed(() =>
 
 .flavor-line {
   color: var(--text-muted);
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
   line-height: 1.5;
   margin-bottom: 0.15rem;
 }

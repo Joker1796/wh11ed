@@ -662,8 +662,8 @@ async function shareUnit() {
 
 .ds-lore-text {
   margin: 0;
-  font-style: italic;
-  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
   line-height: 1.55;
   color: var(--text-on-dark);
 }

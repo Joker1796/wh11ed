@@ -79,7 +79,7 @@ function toggle(id) { openId.value = openId.value === id ? null : id }
 
 /* Raw rule text, unlike the MissionCard the other two pickers slot in, so it brings its own type. */
 .tw-body { font-size: 0.86rem; line-height: 1.5; color: var(--text-muted); }
-.tcard-flavor { font-style: italic; color: var(--text-muted); font-size: 0.82rem; line-height: 1.5; margin: 0.5rem 0; }
+.tcard-flavor { font-family: var(--font-mono); color: var(--text-muted); font-size: 0.76rem; line-height: 1.5; margin: 0.5rem 0; }
 .tp-note {
   margin-top: 0.6rem;
   padding: 0.5rem 0.65rem;

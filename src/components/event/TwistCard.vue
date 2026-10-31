@@ -75,9 +75,9 @@ const { renderParagraphs } = useRenderInline()
   line-height: 1.15;
 }
 .tcard-flavor {
-  font-style: italic;
+  font-family: var(--font-mono);
   color: var(--text-muted);
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   line-height: 1.5;
   margin: 0 0 0.6rem;
 }

@@ -77,12 +77,11 @@
   --sub-rule-head-bg: #dfe2d0;
   --sub-rule-border: #9a9d87;
   --sub-rule-ink: #40422f;
-  --font-serif: 'EB Garamond', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Courier New', Courier, monospace;
+  --font-mono: 'Kibernetyk Mono', monospace;
   /* Condensed display face for ALL headings/titles across the app (h1–h4 + the per-component
-     .*-title/.mh-title/etc.) and the WH RULES logo wordmark (.logo-wh). EB Garamond (--font-serif)
-     stays only on lore flavor text (.flavor-quote/.flavor-line). */
+     .*-title/.mh-title/etc.) and the WH RULES logo wordmark (.logo-wh). Kibernetyk Mono
+     (--font-mono) sets the lore and the numbers; it has no italic, so lore is never italic. */
   --font-display: 'Sofia Sans Extra Condensed', 'Inter', sans-serif;
   /* Shared text/content heading scale (the "Basic Rules" look). Single source of truth —
      the global h1–h4 rule, .view-hero, and the rule components (SectionHeader/RuleBlock/
@@ -866,14 +865,15 @@ strong {
 
 /* Flavor text / lore quotes */
 .flavor-quote {
-  font-family: var(--font-serif);
-  font-style: italic;
+  font-family: var(--font-mono);
   color: var(--text-muted);
   border-left: 2px solid var(--border);
   padding-left: 1rem;
   margin: 1rem 0;
-  font-size: 1.05rem;
+  font-size: 0.9rem;
 }
+/* A whole prose block that is lore (the Event Companion's `flavor` blocks): its text in the lore face. */
+.event-flavor .rule-body { font-family: var(--font-mono); font-size: 0.9em; }
 
 /* Step indicators */
 .steps-list {

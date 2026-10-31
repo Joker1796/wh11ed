@@ -576,9 +576,9 @@ function parseBody(text) {
 }
 
 .ability-flavor {
-  font-style: italic;
+  font-family: var(--font-mono);
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   margin: 0 0 0.6rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px dashed var(--border-light);

@@ -450,9 +450,9 @@ watch(() => route.hash, (hash) => {
 }
 
 .faction-flavor {
-  font-style: italic;
+  font-family: var(--font-mono);
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   line-height: 1.5;
   margin-bottom: 0.75rem;
 }

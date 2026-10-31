@@ -24,11 +24,11 @@
 //   type     — the display face (Sofia Sans Extra Condensed) at 18px or less is weight 400: the
 //              condensed letters read cramped at 500 and up (owner, 2026-10-07; src/components/
 //              CLAUDE.md → Type). Read from computed styles, so an inherited weight counts too.
-//   face     — every weight (and, for EB Garamond, style) the page renders our three faces in is
+//   face     — every weight (and, for Kibernetyk Mono, style) the page renders our three faces in is
 //              one src/fonts.js loads. The browser never says when it substitutes: asked for
 //              Sofia 600 with no 600 loaded it quietly draws 700, and nothing looks broken. The
-//              faces are trimmed to what is drawn (2026-10-13: no weight 800 anywhere, EB Garamond
-//              italic only — the installed app's warm-up fetches every face), so a style asking
+//              faces are trimmed to what is drawn (2026-10-13: no weight 800 anywhere; Kibernetyk
+//              Mono has no italic — the installed app's warm-up fetches every face), so a style asking
 //              for a dropped one fails here. scripts/lib/font-faces.mjs, shared with `npm run smoke`.
 //
 // Findings are keyed by an element signature (tag.classes) plus the colour pair — the same list

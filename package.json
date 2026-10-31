@@ -84,7 +84,6 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@fontsource/eb-garamond": "^5.2.7",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/sofia-sans-extra-condensed": "^5.2.8",
     "@vitejs/plugin-vue": "^6.0.10",

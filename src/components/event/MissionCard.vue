@@ -213,13 +213,12 @@ function isPerEach(text) {
 /* Flavour text (lore), shown right after the title — matches the project's
    .flavor-quote convention; hidden by the global "hide lore" toggle. */
 .mcard-lore {
-  font-family: var(--font-serif);
-  font-style: italic;
+  font-family: var(--font-mono);
   color: var(--text-muted);
   border-left: 2px solid var(--border);
   padding-left: 0.85rem;
   margin: 0.4rem 0 0.2rem;
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   line-height: 1.5;
 }
 

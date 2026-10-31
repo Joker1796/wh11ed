@@ -94,10 +94,10 @@ defineProps({
 
 .section-desc {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
   margin: 0.3rem 0 0;
   line-height: 1.55;
-  font-style: italic;
 }
 
 @media (max-width: 900px) {

@@ -128,7 +128,7 @@ watch(
   border: 1px solid var(--border);
   padding: 0.1rem 0.4rem;
 }
-.erm-flavor { font-style: italic; color: var(--text-muted); margin: 0 0 0.5rem; }
+.erm-flavor { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted); margin: 0 0 0.5rem; }
 .erm-note { margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted); }
 .erm-missing { color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 1rem 0; }
 </style>

@@ -1,0 +1,27 @@
+/* Kibernetyk Mono (Pavlo Kilko, SIL OFL 1.1 — kibernetyk-mono-OFL.txt beside these files;
+   github.com/PavloKilko/KibernetykMono, v1.0.1). Not on @fontsource, so it is self-hosted here:
+   the TTFs converted to woff2 whole — every glyph (595, full Cyrillic), no subsets to cut (owner:
+   rosters come from all over the world). Only the weights the app draws: 400, 600, 700. No italic
+   exists, and none may be asked for — the browser would slant the letters itself
+   (src/fontFaces.test.js). */
+@font-face {
+  font-family: 'Kibernetyk Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./kibernetyk-mono-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Kibernetyk Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./kibernetyk-mono-semibold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Kibernetyk Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./kibernetyk-mono-bold.woff2') format('woff2');
+}

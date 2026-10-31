@@ -327,10 +327,7 @@ p {
   margin-bottom: 0.7rem;
 }
 /* Lore inside a rule's text, as the faction page prints a rule's own lore. */
-.rule-flavor { font-family: var(--font-serif); font-style: italic; color: var(--text-muted); }
-/* Lore is set in EB Garamond italic at 400 only (src/fonts.js) — a keyword the prose bolds
-   ("Некоторые TYRANIDS…") would ask for a 700 italic that is not loaded. */
-.rule-flavor :deep(strong) { font-weight: inherit; }
+.rule-flavor { font-family: var(--font-mono); font-size: 0.88em; color: var(--text-muted); }
 
 .rule-subheading {
   font-family: var(--font-display);

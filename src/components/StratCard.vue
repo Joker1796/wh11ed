@@ -248,9 +248,9 @@ const renderField = text => (text ? renderRichText(text) : '')
 }
 
 .strat-flavor {
-  font-style: italic;
+  font-family: var(--font-mono);
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   line-height: 1.4;
   margin: 0 0 0.3rem;
   padding-bottom: 0.4rem;

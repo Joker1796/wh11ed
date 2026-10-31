@@ -7,7 +7,9 @@
 //   Inter 400/500/600/700 — everything that is not a heading;
 //   Sofia Sans Extra Condensed 400/500/700 — the display face (var(--font-display)): headings,
 //     titles, the logo, stat plates;
-//   EB Garamond 400 italic — lore flavour text only, always italic.
+//   Kibernetyk Mono 400/600/700 — lore flavour text and every number set in var(--font-mono)
+//     (owner, 2026-10-31: it replaced EB Garamond on the lore and Courier New, a system face that
+//     each phone drew differently). Not on @fontsource: self-hosted in src/assets/fonts.
 // No weight 800 anywhere (owner, 2026-10-13: the logo, labels and dark-theme bold are 700). The
 // `.woff` fallbacks each @font-face also names are cut out at build time (vite.config.js,
 // `woff2-only`): the app's floor is Safari 16, and five of them were small enough to be inlined
@@ -18,7 +20,7 @@ import '@fontsource/inter/500.css'
 import '@fontsource/inter/600.css'
 import '@fontsource/inter/700.css'
 
-import '@fontsource/eb-garamond/400-italic.css'
+import './assets/fonts/kibernetyk-mono.css'
 
 import '@fontsource/sofia-sans-extra-condensed/400.css'
 import '@fontsource/sofia-sans-extra-condensed/500.css'

@@ -3,17 +3,17 @@
 // that need a list or a game to render: the roster editor, the tracker, print).
 //
 // src/fonts.js loads only the faces the app draws (2026-10-13: the installed app's warm-up fetches
-// every subset of every loaded face). Asked for one that is not loaded — Sofia 600, an upright EB
-// Garamond — the browser quietly draws the nearest one and nothing looks broken, so this reads
-// what every visible text node is drawn in and compares it with what document.fonts holds.
-// Weight decides for Inter and Sofia (an italic is synthesised); EB Garamond is loaded as italic
-// only, so its style counts too.
+// every subset of every loaded face). Asked for one that is not loaded — Sofia 600, an italic
+// Kibernetyk Mono — the browser quietly draws the nearest one and nothing looks broken, so this
+// reads what every visible text node is drawn in and compares it with what document.fonts holds.
+// Weight decides for Inter and Sofia (an italic is synthesised); Kibernetyk Mono has no italic at
+// all, so its style counts too.
 //
 // Returns [{ sig, face, text }], one per element signature and face.
 /* global document, getComputedStyle */
 export function missingFaces() {
-  const OURS = /^(Inter|EB Garamond|Sofia Sans Extra Condensed)$/
-  const keyOf = (family, weight, style) => `${family} ${weight}${family === 'EB Garamond' ? ` ${style}` : ''}`
+  const OURS = /^(Inter|Kibernetyk Mono|Sofia Sans Extra Condensed)$/
+  const keyOf = (family, weight, style) => `${family} ${weight}${family === 'Kibernetyk Mono' ? ` ${style}` : ''}`
   const loaded = new Set()
   for (const f of document.fonts) {
     const family = f.family.replace(/["']/g, '')
