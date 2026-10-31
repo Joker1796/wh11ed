@@ -144,11 +144,17 @@
 /* The corner marks (DomCardMark): the card's type, its phase numeral in the card's frame, its
    Alliance's emblem — all three drawings, one size (owner, 2026-10-31). A circle reads a size small
    beside a square, so the emblem is drawn a step larger. */
+.dcard,
+.dcard-agenda.mcard { --dmark-size: 2.6rem; --dmark-gap: 0.75rem; }
+/* The narrowest phones keep them a step smaller: at 2.6rem most card tags broke onto two lines. */
+@media (max-width: 379px) {
+  .dcard,
+  .dcard-agenda.mcard { --dmark-size: 2rem; --dmark-gap: 0.65rem; }
+}
 .dmark {
-  --dmark-size: 2rem;
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: var(--dmark-gap);
   color: var(--text-primary);
 }
 .dmark .wi { width: var(--dmark-size); height: var(--dmark-size); margin: 0; }
@@ -158,7 +164,7 @@
 /* In the head's top-right corner (owner's pick of three on the stand, 2026-10-31). */
 .dmark { position: absolute; top: 0.8rem; right: 0.9rem; }
 .dcard-head,
-.dcard-agenda .mcard-head { padding-right: 8.2rem; }
+.dcard-agenda .mcard-head { padding-right: calc(var(--dmark-size) * 3.12 + var(--dmark-gap) * 2 + 0.45rem); }
 
 /* A chapter's head drawn as a Core Rules section head (SectionHeader, owner 2026-10-31): the accent
    rule over it, the section title's size in capitals, its description under it and a thin rule
