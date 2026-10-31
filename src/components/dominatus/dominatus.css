@@ -144,11 +144,11 @@
    theme (a data URI cannot read a variable), 48px a square, quiet enough to read over. */
 :root {
   --dom-map-bg: #e9ede5;
-  --dom-map-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath fill='%23dbe1d5' d='M24 0h1v48h-1zM0 24h48v1H0z'/%3E%3Cpath fill='%23c6cfbf' d='M23 18h3v13h-3zM18 23h13v3H18z'/%3E%3C/svg%3E");
+  --dom-map-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath fill='%23e1e6dc' d='M24 0h1v48h-1zM0 24h48v1H0z'/%3E%3Cpath fill='%23d3dbcc' d='M23 18h3v13h-3zM18 23h13v3H18z'/%3E%3C/svg%3E");
 }
 :root[data-theme='dark'] {
   --dom-map-bg: #262c28;
-  --dom-map-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath fill='%232e3530' d='M24 0h1v48h-1zM0 24h48v1H0z'/%3E%3Cpath fill='%233c4740' d='M23 18h3v13h-3zM18 23h13v3H18z'/%3E%3C/svg%3E");
+  --dom-map-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath fill='%232b312d' d='M24 0h1v48h-1zM0 24h48v1H0z'/%3E%3Cpath fill='%23343e37' d='M23 18h3v13h-3zM18 23h13v3H18z'/%3E%3C/svg%3E");
 }
 .dcard-lore,
 .dout-text { background: var(--dom-map-tile) 0 0 / 48px 48px, var(--dom-map-bg); }
