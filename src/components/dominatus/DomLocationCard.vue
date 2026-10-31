@@ -1,17 +1,23 @@
 <template>
   <article
     :id="`location-${location.slug}`"
-    class="dcard"
+    class="dcard dom-ink-location"
   >
     <header class="dcard-head">
+      <span class="dcard-tag">{{ tag }}</span>
       <h3 class="dcard-name">
         {{ location.name }}
       </h3>
-      <span class="dcard-sub">{{ labels.domRoll.replace('{n}', location.roll) }}</span>
     </header>
+    <p
+      v-if="location.lore"
+      class="dcard-lore lines"
+    >
+      {{ location.lore }}
+    </p>
 
     <section class="dloc-part">
-      <div class="dloc-label">
+      <div class="dchip">
         {{ labels.domLocationBonus }}
       </div>
       <h4 class="dloc-rule">
@@ -27,7 +33,7 @@
     </section>
 
     <section class="dloc-part">
-      <div class="dloc-label">
+      <div class="dchip">
         {{ labels.domWarZone }}
       </div>
       <template
@@ -46,19 +52,31 @@
         </div>
       </template>
     </section>
+    <!-- The map square's caption on the card: its grid reference. -->
+    <div class="dloc-grid">
+      {{ location.grid }}
+    </div>
+    <DomCardMark
+      kind="location"
+      :phase="location.phase"
+      :tag="tag"
+    />
   </article>
 </template>
 
 <script setup>
 // One Location card, both faces: the bonus the Alliance that takes it keeps, and the war zone
 // rules every battle of its phase is fought under.
+import { computed } from 'vue'
 import RuleBody from '../RuleBody.vue'
+import DomCardMark from './DomCardMark.vue'
 import { useDominatus } from './useDominatus.js'
 
-defineProps({
+const props = defineProps({
   location: { type: Object, required: true },
 })
-const { labels } = useDominatus()
+const { labels, cardTag } = useDominatus()
+const tag = computed(() => cardTag({ kind: 'location', roll: props.location.roll }))
 </script>
 
 <style scoped>
@@ -67,11 +85,13 @@ const { labels } = useDominatus()
   padding-top: 0.6rem;
   border-top: 1px dashed var(--border);
 }
-.dloc-label {
-  font-size: 0.7rem;
-  font-weight: 700;
+/* "2093-AR:VOLCANUS" — the grid reference printed under the card's map square. */
+.dloc-grid {
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--text-muted);
 }
 .dloc-rule {

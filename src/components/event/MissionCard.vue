@@ -12,6 +12,8 @@
       :aria-expanded="collapsible ? open : undefined"
       @click="collapsible && (open = !open)"
     >
+      <!-- A line above the name (a Dominatus Agenda's "Liberators · Agenda"). -->
+      <slot name="tag" />
       <h3 class="mcard-name">
         {{ mission.name }}
       </h3>
@@ -86,6 +88,8 @@
         </div>
       </div>
     </CollapseTransition>
+    <!-- The card's corner marks (a Dominatus Agenda's type, phase and Alliance). -->
+    <slot name="mark" />
   </article>
 </template>
 

@@ -214,6 +214,55 @@ const ICONS = {
     ring(rect(6.4, 15.4, 17.6, 22.2), 1.7)],
 }
 
+// ── Dominatus: the deck's card types and its three Alliances (drawn after the marks printed on the
+// cards, in the pack's manner — not traced). A skull here is an emblem, never a unit's status. ──
+const polar = (r, a, cx = 12, cy = 12) => [cx + r * Math.cos(rad(a)), cy + r * Math.sin(rad(a))]
+const GEAR = (() => {
+  const out = []
+  for (let k = 0; k < 8; k++) { const a = k * 45 - 90; out.push(polar(8.4, a - 16), polar(10.8, a - 8), polar(10.8, a + 8), polar(8.4, a + 16)) }
+  return out
+})()
+const SHIELD = [[12, 1.8], [20.6, 4.6], [20.6, 11.2], [18.4, 17], [12, 22.2], [5.6, 17], [3.4, 11.2], [3.4, 4.6]]
+// A skull: the cranium with its eyes and nose cut, and the jaw with its teeth — two paths.
+const skull = (cx, cy, r) => {
+  const k = r / 7.4, at = (x, y) => [cx + (x - 12) * k, cy + (y - 9.6) * k]
+  const P = (pts) => pts.map(([x, y]) => at(x, y))
+  return [
+    [circle(cx, cy, r), P(lens(2.3, 2).map(([x, y]) => [x - 3.3, y - 2.1])), P(lens(2.3, 2).map(([x, y]) => [x + 3.3, y - 2.1])), P(diamond(12, 13.6, 1.2))],
+    [P(rect(8.2, 15, 15.8, 20.6, 0.8)), P(rect(10.25, 17.2, 11.15, 20.6)), P(rect(12.85, 17.2, 13.75, 20.6))],
+  ]
+}
+const WING = [[6.8, 6.6], [0.2, 2.6], [0.6, 6], [1.8, 7.6], [0.2, 8.6], [1.6, 11], [0.8, 12.2], [3, 14], [2.8, 15.6], [6.8, 13.8]]
+// A bone across the emblem: the shaft and its two knobbed ends, each a path of its own (even-odd
+// would cut where they overlap).
+const BONE = (a) => [[rot(thick([[4.2, 19.8], [19.8, 4.2]], 2.4), a)],
+  ...[[2.6, 19.2], [4.8, 21.4], [19.2, 2.6], [21.4, 4.8]].map(([x, y]) => [rot(diamond(x, y, 1.9), a)])]
+const DOM_ICONS = {
+  // Agenda: a card with its list of conditions.
+  'dom-agenda': [ring(rect(3.4, 1.8, 20.6, 22.2, 0.8), 1.8), ...[6.6, 11.6, 16.6].flatMap((y) => [[rect(6.4, y, 8.8, y + 2.4)], [rect(10.6, y + 0.3, 17.6, y + 2.1)]])],
+  // Battle Honour: a medal on its ribbon.
+  'dom-honour': [[[[6.6, 1.8], [10.6, 1.8], [12.9, 7.4], [9.2, 8.6]]], [mirror([[6.6, 1.8], [10.6, 1.8], [12.9, 7.4], [9.2, 8.6]])],
+    [circle(12, 15, 7.4), plus(12, 15, 4.4, 1.15)]],
+  // Battle Skill: the gear with a cross, as on the card's corner.
+  'dom-skill': [[GEAR, circle(12, 12, 5.4)], [plus(12, 12, 3.5, 1.05)]],
+  // Relic: the shield with a cross.
+  'dom-relic': [[SHIELD, plus(12, 10.8, 4.6, 1.3)]],
+  // Location: a map pin.
+  'dom-location': [[[...arc(12, 9.4, 7.6, 150, 390), [12, 22.4]], circle(12, 9.4, 3)]],
+  // Briefing: the branching chart — your disposition, then the opponent's, then the Agenda.
+  'dom-briefing': [[circle(4.6, 12, 2.8)], [circle(19.4, 5, 2.8)], [circle(19.4, 19, 2.8)],
+    [thick([[6.8, 12], [11, 12], [17.2, 6.4]], 1.9)], [thick([[11, 12], [17.2, 17.6]], 1.9)]],
+  // Liberators: a winged skull.
+  'dom-liberators': { paths: [[WING], [mirror(WING)], ...skull(12, 9.4, 5.8)], cut: [[circle(12, 9.4, 7.2), rect(6.8, 12.4, 17.2, 18.8)]], keep: 2 },
+  // Oppressors: a greenskin's head — the brow, the slit eyes, the jaw and its tusks.
+  'dom-oppressors': [[[[5, 3.4], [19, 3.4], [21, 8], [20, 12.6], [21.6, 16], [18.6, 21.6], [5.4, 21.6], [2.4, 16], [4, 12.6], [3, 8]],
+    [[6.2, 8.6], [10.8, 10.4], [10.4, 12.6], [6.6, 11.6]], mirror([[6.2, 8.6], [10.8, 10.4], [10.4, 12.6], [6.6, 11.6]]),
+    [[6.2, 14.6], [17.8, 14.6], [16.8, 19.6], [7.2, 19.6]]],
+    [[[7.6, 19.6], [10, 19.6], [8.6, 15.4]]], [mirror([[7.6, 19.6], [10, 19.6], [8.6, 15.4]])]],
+  // Raiders: a skull over crossed bones.
+  'dom-raiders': { paths: [...BONE(0), ...BONE(90), ...skull(12, 9.6, 6.2)], cut: [[circle(12, 9.6, 7.8), rect(7, 13.6, 17, 21.4)]], keep: 10 },
+}
+
 function svg(name, spec) {
   const norm = (ps) => ps.map((p) => (typeof p[0][0] === 'number' ? [p] : p)) // a bare polygon is a path of one
   const { paths: raw, cut: rawCut = [], keep = 0 } = Array.isArray(spec) ? { paths: spec } : spec
@@ -234,5 +283,5 @@ function svg(name, spec) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" fill="currentColor">\n${body}\n</svg>\n`
 }
 
-for (const [name, spec] of Object.entries(ICONS)) fs.writeFileSync(path.join(OUT, `${name}.svg`), svg(name, spec))
-console.log(Object.keys(ICONS).length, 'icons')
+for (const [name, spec] of Object.entries({ ...ICONS, ...DOM_ICONS })) fs.writeFileSync(path.join(OUT, `${name}.svg`), svg(name, spec))
+console.log(Object.keys(ICONS).length + Object.keys(DOM_ICONS).length, 'icons')

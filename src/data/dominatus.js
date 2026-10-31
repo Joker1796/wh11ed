@@ -3,8 +3,9 @@
 // Source: the physical deck (89 cards + the 12-page booklet), photographed by the owner and
 // transcribed card by card on 2026-10-28 (hub: sources/dominatus/, DOMINATUS-RULES.md). GW
 // publishes the deck's contents nowhere — appdata carries only the Dominatus Event Companion
-// (`event` below, checked against the PDF by `npm run companions`). Rules text only: the card
-// lore and the nine Outcome narratives are not transcribed.
+// (`event` below, checked against the PDF by `npm run companions`). The card lore, the Briefing
+// introductions and the nine Outcome cards live in dominatusLore.js / dominatusLoreRu.js and are
+// hung on the cards here (`lore`, a Briefing's `intro` and `outcomes`).
 //
 // EN here, RU as an overlay in dominatusRu.js merged by `getDominatus(locale)`. Card names,
 // Alliance names, Force Dispositions and ALL-CAPS keywords stay English in both locales (the
@@ -25,6 +26,8 @@
 // holds every row to all five opponent dispositions and every cell to a real Agenda.
 
 import { dominatusRu } from './dominatusRu.js'
+import { dominatusLore } from './dominatusLore.js'
+import { dominatusLoreRu } from './dominatusLoreRu.js'
 
 export const PHASES = [1, 2, 3]
 export const ALLIANCE_IDS = ['liberators', 'oppressors', 'raiders']
@@ -1056,9 +1059,22 @@ function overlay(ru) {
   }
 }
 
+// The lore of each card, by slug; a Briefing's by `<alliance>-<phase>`.
+function withLore(d, lore) {
+  return {
+    ...d,
+    locations: d.locations.map((l) => ({ ...l, lore: lore.locations[l.slug] })),
+    agendas: d.agendas.map((a) => ({ ...a, lore: lore.agendas[a.slug] })),
+    upgrades: d.upgrades.map((u) => ({ ...u, lore: lore.upgrades[u.slug] })),
+    briefings: d.briefings.map((b) => ({ ...b, ...lore.briefings[`${b.alliance}-${b.phase}`] })),
+  }
+}
+
 const cache = {}
 export function getDominatus(locale) {
-  if (!cache[locale]) cache[locale] = locale === 'ru' ? overlay(dominatusRu) : en
+  if (!cache[locale]) {
+    cache[locale] = locale === 'ru' ? withLore(overlay(dominatusRu), dominatusLoreRu) : withLore(en, dominatusLore)
+  }
   return cache[locale]
 }
 

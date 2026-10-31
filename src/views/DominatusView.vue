@@ -1,5 +1,6 @@
 <template>
   <OnePageChapters
+    :class="cardLook"
     :heading="labels.domHeading"
     :desc="labels.domDesc"
     :chapters="chapters"
@@ -15,6 +16,7 @@
 // shell (OnePageChapters.vue). The data is one module (src/data/dominatus.js) in this route's
 // chunk, so no other page pays for it.
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import OnePageChapters from '../components/OnePageChapters.vue'
 import DomChapterRules from '../components/dominatus/DomChapterRules.vue'
 import DomChapterLocations from '../components/dominatus/DomChapterLocations.vue'
@@ -31,6 +33,9 @@ import '../components/dominatus/dominatus.css'
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const groups = useNavGroups('dominatus')
+// TEMP: which of the three card looks (dominatus.css "?dv=a|b|c") — the owner picks one on the stand.
+const route = useRoute()
+const cardLook = computed(() => `dv-${['a', 'b', 'c'].includes(route.query.dv) ? route.query.dv : 'a'}`)
 
 const chapters = [
   { id: 'dom-chapter-rules', component: DomChapterRules },

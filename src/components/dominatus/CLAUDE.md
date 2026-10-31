@@ -12,7 +12,12 @@ canon** for this deck: a correction is checked against them, not against a fan s
 Dominatus **Event Companion** has a published source (the PDF in `../sources`, appdata's fourth
 Event Companion edition); `npm run companions` gates its version like the other three.
 
-Rules text only: card lore and the nine Outcome narratives are not carried.
+**The lore is carried too** (owner, 2026-10-31): each card's italic paragraph, each Briefing's
+introduction and the nine Outcome cards, read off the same photos (Vision OCR, corrected by eye)
+into `src/data/dominatusLore.js` + `dominatusLoreRu.js` and hung on the cards by `getDominatus`
+(`lore`; a Briefing's `intro` and `outcomes` by Narrative Points). All of it is lore to the app:
+`.dcard-lore` / `.dcard-outcomes` are in style.css's "hide lore" list. `dominatusParity.test.js`
+holds every card to having it in both languages and every Briefing to its 3 (phase 3: 4) Outcomes.
 
 ## Data
 
@@ -35,7 +40,15 @@ left English, a `nameRu` on every card); `missionTiming.test.js` reads every Age
 
 `src/views/DominatusView.vue` on the Event Companion's shell (`OnePageChapters`), six chapters in
 this directory; nav groups `dominatusGroups` (router/nav.js), route section `dominatus`, a card on
-`/rules`. Card chrome shared by the chapters is `dominatus.css` (loaded by the view only). The
+`/rules`. Card chrome shared by the chapters is `dominatus.css` (loaded by the view only).
+
+**Cards wear the printed card's marks** (2026-10-31): the tag line the deck prints up a card's
+spine ("Liberators · Agenda", "Battle Honour", "Location 1–2" — `cardTag`), the type icon, the
+phase as a boxed numeral and the Alliance's emblem (`DomCardMark.vue`; the drawings are
+`wi-dom-*`, ours, in `scripts/draw-icons.mjs`), section labels white on black (`.dchip`), and a
+stripe in the Alliance's (or pile's) colour — `--dom-ink`, our colours, not the deck's. An Agenda
+is MissionCard, which has `tag` and `mark` slots for this. Where the marks sit is still being
+chosen on the stand (TEMP `?dv=a|b|c` in DominatusView and dominatus.css). The
 Agendas chapter's filters are one shared reactive (`useAgendaFilter`) so a Briefing cell can open
 the Agenda it names.
 

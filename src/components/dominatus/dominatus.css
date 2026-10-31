@@ -71,3 +71,133 @@
    below (made for numbered rules between rules) read as a hole between paragraphs (owner,
    2026-10-28). Three classes deep to outrank RuleBlock's scoped rule. */
 .book-chapter .dom-prose .rule-block { padding-block: 0.35rem; }
+
+/* ── The printed card's look (2026-10-31) ──────────────────────────────────────────────────────
+   Each card carries its Alliance (or its pile) as an ink: a stripe down its left edge, the colour
+   of its emblem. The deck itself prints every card in one green-and-black; the colours are ours,
+   so an Alliance's cards are told apart at a glance in a long column. */
+:root {
+  --dom-liberators: #2f6aa3;
+  --dom-oppressors: #a8432a;
+  --dom-raiders: #6f4fa0;
+  --dom-deck: #2f7a52;
+  --dom-place: #5b5b5b;
+}
+:root[data-theme='dark'] {
+  --dom-liberators: #6aa3d9;
+  --dom-oppressors: #e07a5c;
+  --dom-raiders: #a98bd6;
+  --dom-deck: #5cb585;
+  --dom-place: #9a9a9a;
+}
+.dom-ink-liberators { --dom-ink: var(--dom-liberators); }
+.dom-ink-oppressors { --dom-ink: var(--dom-oppressors); }
+.dom-ink-raiders { --dom-ink: var(--dom-raiders); }
+.dom-ink-honour,
+.dom-ink-skill { --dom-ink: var(--dom-deck); }
+.dom-ink-location { --dom-ink: var(--dom-place); }
+
+/* `.dcard-agenda.mcard` — an Agenda is MissionCard, whose scoped `.mcard` (0,2,0) would win. */
+.dcard,
+.dcard-agenda.mcard { position: relative; border-left: 4px solid var(--dom-ink, var(--border)); }
+/* An Agenda's name as every other card's: the deck prints them all alike. */
+.dcard-agenda .mcard-head .mcard-name { font-size: 1.35rem; font-weight: 400; text-transform: uppercase; }
+
+/* "Liberators · Agenda" — the line the card prints up its spine, over the name. */
+.dcard-tag {
+  flex-basis: 100%;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--dom-ink, var(--text-muted));
+  line-height: 1.2;
+}
+.dcard-head .dcard-tag + .dcard-name,
+.dcard-agenda .mcard-head .dcard-tag + .mcard-name { margin-top: -0.2rem; }
+
+/* A section label the card prints white on black ("LOCATION BONUS", "BONUS EFFECT: MOUNTED"). */
+.dchip {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  background: var(--text-primary);
+  color: var(--bg-card);
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+}
+
+/* The italic paragraph above a card's rules (hidden by "hide lore", style.css). */
+.dcard-lore {
+  margin: 0.2rem 0 0.6rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--border);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+/* The corner marks (DomCardMark): the card's type, its phase in a box, its Alliance's emblem. */
+.dmark { display: flex; align-items: center; gap: 0.4rem; color: var(--text-primary); }
+.dmark .wi { width: 1.35rem; height: 1.35rem; margin: 0; }
+.dmark-ally { color: var(--dom-ink, var(--text-primary)); }
+.dmark-phase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.45rem;
+  height: 1.45rem;
+  padding: 0 0.15rem;
+  border: 2px solid currentColor;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  line-height: 1;
+}
+.dmark-tag { display: none; }
+
+/* ── TEMP: three ways to wear the marks, for the owner to pick on the stand (?dv=a|b|c). The
+   two that lose go, with the switch in DominatusView. ── */
+/* A — in the head's top-right corner. */
+.dv-a .dmark { position: absolute; top: 0.8rem; right: 0.9rem; }
+.dv-a .dcard-head,
+.dv-a .dcard-agenda .mcard-head { padding-right: 5.6rem; }
+/* B — a foot row, as the printed card has them along its bottom edge. */
+.dv-b .dmark {
+  margin-top: 0.7rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+.dv-b .dmark-kind { margin-right: auto; }
+/* C — a dark spine down the left edge, the tag written up it and the marks at its foot. */
+.dv-c .dcard,
+.dv-c .dcard-agenda.mcard { border-left: none; padding-left: 3.1rem; }
+.dv-c .dcard-tag { display: none; }
+.dv-c .dmark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2.3rem;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0.6rem 0;
+  background: var(--dom-ink, var(--text-primary));
+  color: #fff;
+}
+.dv-c .dmark-ally { color: #fff; }
+.dv-c .dmark-tag {
+  display: block;
+  margin-bottom: auto;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  overflow: hidden;
+}

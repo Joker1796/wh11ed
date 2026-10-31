@@ -15,7 +15,15 @@ export function useDominatus() {
   const allianceName = (id) => deck.value.alliances.find((a) => a.id === id)?.name || id
   const agendaBySlug = computed(() => Object.fromEntries(deck.value.agendas.map((a) => [a.slug, a])))
   const phaseLabel = (n) => labels.value.domPhase.replace('{n}', ['I', 'II', 'III'][n - 1])
-  return { labels, deck, allianceName, agendaBySlug, phaseLabel, dispo: (id) => DISPO_BY_ID[id] }
+  const KIND_LABEL = { agenda: 'domKindAgenda', briefing: 'domKindBriefing', honour: 'domKindHonour', skill: 'domKindSkill', relic: 'domKindRelic', location: 'domKindLocation' }
+  const kindName = (kind) => labels.value[KIND_LABEL[kind]]
+  // The card's tag line, as the deck prints it up its spine: "Liberators · Agenda",
+  // "Battle Honour", "Location 1–2".
+  const cardTag = ({ kind, alliance, roll }) => {
+    if (kind === 'location') return `${kindName(kind)} ${roll}`
+    return alliance ? `${allianceName(alliance)} · ${kindName(kind)}` : kindName(kind)
+  }
+  return { labels, deck, allianceName, agendaBySlug, phaseLabel, kindName, cardTag, dispo: (id) => DISPO_BY_ID[id] }
 }
 
 // A jump from the contents to a group a filter hides: the filter is dropped first, so the

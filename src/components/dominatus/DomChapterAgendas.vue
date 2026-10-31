@@ -61,9 +61,21 @@
         v-for="a in g.items"
         :key="a.slug"
         :mission="a"
-        :subtitle="phaseLabel(a.phase)"
+        class="dcard-agenda"
+        :class="`dom-ink-${a.alliance}`"
       >
+        <template #tag>
+          <span class="dcard-tag">{{ cardTag({ kind: 'agenda', alliance: a.alliance }) }}</span>
+        </template>
         <DomAgendaAchieved :achieved="a.achieved" />
+        <template #mark>
+          <DomCardMark
+            kind="agenda"
+            :phase="a.phase"
+            :alliance="a.alliance"
+            :tag="cardTag({ kind: 'agenda', alliance: a.alliance })"
+          />
+        </template>
       </MissionCard>
     </TransitionGroup>
   </section>
@@ -75,10 +87,11 @@
 import { computed } from 'vue'
 import MissionCard from '../event/MissionCard.vue'
 import DomAgendaAchieved from './DomAgendaAchieved.vue'
+import DomCardMark from './DomCardMark.vue'
 import { PHASES } from '../../data/dominatus.js'
 import { useDominatus, useAgendaFilter, resetFilterOnJump } from './useDominatus.js'
 
-const { labels, deck, phaseLabel } = useDominatus()
+const { labels, deck, phaseLabel, cardTag } = useDominatus()
 const filter = useAgendaFilter()
 resetFilterOnJump('dom-agendas-', () => { filter.alliance = 'all'; filter.phase = 0 })
 

@@ -1069,6 +1069,16 @@ strong {
 .wi-coop { mask-image: url('./assets/icons/party-coop.svg'); }
 .wi-broadcast { mask-image: url('./assets/icons/party-broadcast.svg'); }
 .wi-end { mask-image: url('./assets/icons/party-end.svg'); }
+/* Dominatus: a card's type and its Alliance, as the deck prints them in a card's corner */
+.wi-dom-agenda { mask-image: url('./assets/icons/dom-agenda.svg'); }
+.wi-dom-briefing { mask-image: url('./assets/icons/dom-briefing.svg'); }
+.wi-dom-honour { mask-image: url('./assets/icons/dom-honour.svg'); }
+.wi-dom-skill { mask-image: url('./assets/icons/dom-skill.svg'); }
+.wi-dom-relic { mask-image: url('./assets/icons/dom-relic.svg'); }
+.wi-dom-location { mask-image: url('./assets/icons/dom-location.svg'); }
+.wi-dom-liberators { mask-image: url('./assets/icons/dom-liberators.svg'); }
+.wi-dom-oppressors { mask-image: url('./assets/icons/dom-oppressors.svg'); }
+.wi-dom-raiders { mask-image: url('./assets/icons/dom-raiders.svg'); }
 
 /* ── Boxed switch ──────────────────────────────────────────────────────────
    A row of separate boxes picking one of a few (the wizard's first-turn choice, the Event
@@ -2089,6 +2099,8 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 [data-hide-lore="true"] .mcard-lore,
 [data-hide-lore="true"] .faction-flavor,
 [data-hide-lore="true"] .erm-flavor,
+[data-hide-lore="true"] .dcard-lore,
+[data-hide-lore="true"] .dcard-outcomes,
 [data-hide-lore="true"] .section-desc {
   display: none !important;
 }

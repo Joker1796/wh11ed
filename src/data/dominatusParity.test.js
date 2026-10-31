@@ -43,6 +43,20 @@ walk('event', en.event, ru.event)
 walk('locations', en.locations, ru.locations)
 walk('agendas', en.agendas.map((a) => ({ achieved: a.achieved, primary: a.primary })), ru.agendas.map((a) => ({ achieved: a.achieved, primary: a.primary })))
 walk('upgrades', en.upgrades.map((u) => ({ who: u.who, body: u.body, bonus: u.bonus })), ru.upgrades.map((u) => ({ who: u.who, body: u.body, bonus: u.bonus })))
+// The lore (dominatusLore.js / dominatusLoreRu.js): every card has it, in both languages.
+const loreOf = (d) => ({
+  agendas: d.agendas.map((a) => a.lore),
+  upgrades: d.upgrades.map((u) => u.lore),
+  locations: d.locations.map((l) => l.lore),
+  briefings: d.briefings.map((b) => ({ intro: b.intro, outcomes: b.outcomes })),
+})
+const loreEn = loreOf(en)
+for (const [k, list] of Object.entries(loreEn)) list.forEach((x, i) => { if (!x) issues.push(`lore ${k}[${i}]: none in EN`) })
+for (const b of en.briefings) {
+  const want = b.phase === 3 ? '0|1|2|3' : '0|1|2'
+  if (Object.keys(b.outcomes || {}).sort().join('|') !== want) issues.push(`briefing ${b.alliance}-${b.phase}: outcomes ${Object.keys(b.outcomes || {})} (want ${want})`)
+}
+walk('lore', loreEn, loreOf(ru))
 // nameRu presence
 for (const a of ru.agendas) if (!a.nameRu) issues.push(`agenda ${a.slug}: no nameRu`)
 for (const u of ru.upgrades) if (!u.nameRu) issues.push(`upgrade ${u.slug}: no nameRu`)
