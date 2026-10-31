@@ -89,19 +89,20 @@ defineProps({
 .table-section {
   margin: 1rem 0;
 }
-/* A booklet's frame: a thin rule round the text, its title on a filled plate in the top-left
-   corner, sitting on the frame. */
+/* A booklet's frame: a thin rule round the text, its title on a filled plate standing on the
+   frame's top edge at the left (owner, 2026-10-31: above the frame, as the booklet prints it). The
+   top margin is the plate's height. */
 .prose-box {
   position: relative;
-  margin: 0.9rem 0;
-  padding: 2rem 0.85rem 0.7rem;
+  margin: 2.6rem 0 0.9rem;
+  padding: 0.75rem 0.85rem;
   border: 1px solid var(--text-muted);
 }
 .prose-box :deep(.rule-block) { padding: 0; border-bottom: none; }
 /* The frame's own padding is the space under the text: no paragraph margin on top of it. */
 .prose-box :deep(.rule-body > :last-child),
 .prose-box-text > :deep(:last-child) { margin-bottom: 0; }
-.prose-box :deep(.rule-header) { position: absolute; top: -1px; left: -1px; margin: 0; }
+.prose-box :deep(.rule-header) { position: absolute; bottom: 100%; left: -1px; margin: 0; }
 .prose-box :deep(.rule-title),
 .prose-box-title {
   display: inline-block;
@@ -116,8 +117,8 @@ defineProps({
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
-.prose-box-title { position: absolute; top: -1px; left: -1px; }
-.prose-box--item { margin: 0.6rem 0; }
+.prose-box-title { position: absolute; bottom: 100%; left: -1px; }
+.prose-box--item { margin: 2.4rem 0 0.6rem; }
 .prose-box-row { display: flex; align-items: center; gap: 0.8rem; }
 .prose-box-text { flex: 1; min-width: 0; }
 /* About a quarter of the frame's width, as the booklet prints it beside the text. */
