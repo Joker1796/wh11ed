@@ -77,9 +77,11 @@ defineProps({
   border: 1px solid var(--border);
   background: var(--bg-secondary);
   color: var(--text-muted);
+  /* The lore's face (owner, 2026-11-01); a mono needs no letter-spacing of its own. */
+  font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   text-transform: uppercase;
   line-height: 1.5;
   transition: border-color 0.15s;
