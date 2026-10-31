@@ -7,6 +7,15 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
 const DISPO_BY_ID = Object.fromEntries(DISPOSITIONS.map((d) => [d.id, d]))
+// Where the booklet describes each kind of card: [block id, line of its body].
+export const MARK_SOURCE = {
+  briefing: ['dom-deck-cards', 0],
+  location: ['dom-deck-cards', 1],
+  agenda: ['dom-deck-cards', 2],
+  skill: ['dom-upgrades', 1],
+  honour: ['dom-upgrades', 2],
+  relic: ['dom-upgrades', 3],
+}
 
 export function useDominatus() {
   const { locale } = useLocale()
@@ -23,7 +32,18 @@ export function useDominatus() {
     if (kind === 'location') return `${kindName(kind)} ${roll}`
     return alliance ? `${allianceName(alliance)} · ${kindName(kind)}` : kindName(kind)
   }
-  return { labels, deck, allianceName, agendaBySlug, phaseLabel, kindName, cardTag, dispo: (id) => DISPO_BY_ID[id] }
+  // What a card's corner mark means, for its popover: the name, and the booklet's own words on it —
+  // a kind's line from The Deck / Upgrade Cards, an Alliance's frame, a phase the campaign's opening
+  // paragraph (the booklet says nothing of one phase alone). By block id and line, so RU reads its own.
+  const markNote = ({ kind, phase, alliance }) => {
+    const blocks = deck.value.rules.blocks
+    const line = (id, n) => (blocks.find((x) => x.id === id)?.body || '').split('\n')[n]?.replace(/^▪ /, '') || ''
+    if (kind) return { name: kindName(kind), text: line(...MARK_SOURCE[kind]) }
+    if (phase) return { name: labels.value.domCampaignPhase.replace('{n}', ['I', 'II', 'III'][phase - 1]), text: line('dom-campaigns', 0) }
+    const box = blocks.find((x) => x.id === 'dom-alliances')?.boxes?.find((x) => x.id === alliance)
+    return { name: allianceName(alliance), text: box?.body || '' }
+  }
+  return { labels, deck, allianceName, agendaBySlug, phaseLabel, kindName, cardTag, markNote, dispo: (id) => DISPO_BY_ID[id] }
 }
 
 // A jump from the contents to a group a filter hides: the filter is dropped first, so the

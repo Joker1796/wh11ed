@@ -79,7 +79,10 @@ size outranked the chapter's heading, owner 2026-10-31).
 No lead paragraph of ours: the booklet's first section is the introduction. A frame and its plate are one unbreakable wrapper whose
 TOP PADDING holds the plate — a column drops a block's top margin, and the plate went with it. The marks (`DomCardMark`: the card's
 kind, its phase boxed, its Alliance's emblem) sit in the head's top-right corner, all three one size
-(owner's pick, 2026-10-31). The
+(owner's pick, 2026-10-31). Each opens the rules popover on a tap (on a desk also under the
+pointer): its name and the booklet's words on it — a kind's line of The Deck / Upgrade Cards, an
+Alliance's frame, a phase the campaign's opening line (`markNote`, `MARK_SOURCE`, by block id and
+line; `markNote.test.js` holds each kind to its own line in both languages). The
 Agendas chapter's filters are one shared reactive (`useAgendaFilter`) so a Briefing cell can open
 the Agenda it names.
 
