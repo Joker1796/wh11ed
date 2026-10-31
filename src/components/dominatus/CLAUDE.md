@@ -15,8 +15,9 @@ Event Companion edition); `npm run companions` gates its version like the other 
 **The lore is carried too** (owner, 2026-10-31): each card's italic paragraph, each Briefing's
 introduction and the nine Outcome cards, read off the same photos (Vision OCR, corrected by eye)
 into `src/data/dominatusLore.js` + `dominatusLoreRu.js` and hung on the cards by `getDominatus`
-(`lore`; a Briefing's `intro` and `outcomes` by Narrative Points). All of it is lore to the app:
-`.dcard-lore` / `.dcard-outcomes` are in style.css's "hide lore" list. `dominatusParity.test.js`
+(`lore`; a Briefing's `intro` and `outcomes` by Narrative Points). The cards' lore is lore to the app:
+`.dcard-lore` is in style.css's "hide lore" list — except a Briefing's introduction and Outcomes,
+which stay (owner, 2026-10-31: they are what the card is for). `dominatusParity.test.js`
 holds every card to having it in both languages and every Briefing to its 3 (phase 3: 4) Outcomes.
 
 ## Data

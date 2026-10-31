@@ -2103,8 +2103,9 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 [data-hide-lore="true"] .mcard-lore,
 [data-hide-lore="true"] .faction-flavor,
 [data-hide-lore="true"] .erm-flavor,
-[data-hide-lore="true"] .dcard-lore,
-[data-hide-lore="true"] .dcard-outcomes,
+/* A Briefing's lore stays: its introduction and Outcomes are the story the campaign plays out — without
+   them the card loses its point (owner, 2026-10-31). */
+[data-hide-lore="true"] .dcard:not(.dom-deck-briefing) .dcard-lore,
 [data-hide-lore="true"] .section-desc {
   display: none !important;
 }
