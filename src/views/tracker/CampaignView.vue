@@ -44,13 +44,7 @@
         <CampPhase v-if="tab === 'phase'" />
         <CampStandings v-else-if="tab === 'standings'" />
         <CampBattles v-else-if="tab === 'battles'" />
-        <div
-          v-else-if="tab === 'players'"
-          key="players"
-        >
-          <CampPlayers />
-          <CampShare />
-        </div>
+        <CampPlayers v-else-if="tab === 'players'" />
         <CampRewards v-else />
       </Transition>
       <section
@@ -121,7 +115,6 @@ import CampPhase from '../../components/dominatus/campaign/CampPhase.vue'
 import CampRewards from '../../components/dominatus/campaign/CampRewards.vue'
 import CampBattles from '../../components/dominatus/campaign/CampBattles.vue'
 import CampPlayers from '../../components/dominatus/campaign/CampPlayers.vue'
-import CampShare from '../../components/dominatus/campaign/CampShare.vue'
 import { provideCampaignView } from '../../components/dominatus/campaign/useCampaignView.js'
 import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'

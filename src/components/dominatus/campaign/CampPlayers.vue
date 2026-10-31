@@ -57,48 +57,52 @@
       </section>
     </div>
 
-    <!-- The Warmaster adds anyone; a player who joined by the link adds themselves, once. -->
-    <CampOpenForm
-      v-if="isOwner || (entry.role === 'member' && !mine)"
-      v-slot="{ close }"
-      :label="isOwner ? labels.campAddPlayer : labels.campJoinAs"
-      :primary="!isOwner"
-    >
-      <form
-        class="camp-form"
-        @submit.prevent="add().then((ok) => ok && close())"
+    <!-- On one line: add a player (the Warmaster anyone, a player who joined by the link
+         themselves, once) and hand out the links. -->
+    <div class="camp-row camp-player-actions">
+      <CampOpenForm
+        v-if="isOwner || (entry.role === 'member' && !mine)"
+        v-slot="{ close }"
+        :label="isOwner ? labels.campAddPlayer : labels.campJoinAs"
+        :primary="!isOwner"
       >
-        <input
-          v-model.trim="name"
-          class="form-input"
-          type="text"
-          maxlength="40"
-          :placeholder="labels.campPlayerName"
-          :aria-label="labels.campPlayerName"
+        <form
+          class="camp-form"
+          @submit.prevent="add().then((ok) => ok && close())"
         >
-        <div class="seg seg-fill">
-          <button
-            v-for="a in alliances"
-            :key="a.id"
-            type="button"
-            :class="{ on: alliance === a.id }"
-            @click="alliance = a.id"
+          <input
+            v-model.trim="name"
+            class="form-input"
+            type="text"
+            maxlength="40"
+            :placeholder="labels.campPlayerName"
+            :aria-label="labels.campPlayerName"
           >
-            <DomAllianceName
-              :id="a.id"
-              :name="a.name"
-            />
+          <div class="seg seg-fill">
+            <button
+              v-for="a in alliances"
+              :key="a.id"
+              type="button"
+              :class="{ on: alliance === a.id }"
+              @click="alliance = a.id"
+            >
+              <DomAllianceName
+                :id="a.id"
+                :name="a.name"
+              />
+            </button>
+          </div>
+          <button
+            class="btn-primary"
+            type="submit"
+            :disabled="!name || !alliance"
+          >
+            {{ isOwner ? labels.campAddPlayer : labels.campJoinAs }}
           </button>
-        </div>
-        <button
-          class="btn-primary"
-          type="submit"
-          :disabled="!name || !alliance"
-        >
-          {{ isOwner ? labels.campAddPlayer : labels.campJoinAs }}
-        </button>
-      </form>
-    </CampOpenForm>
+        </form>
+      </CampOpenForm>
+      <CampShare />
+    </div>
   </section>
 </template>
 
@@ -109,6 +113,7 @@
 import { ref, computed } from 'vue'
 import DomAllianceName from '../DomAllianceName.vue'
 import CampOpenForm from './CampOpenForm.vue'
+import CampShare from './CampShare.vue'
 import { useCampaignView } from './useCampaignView.js'
 
 const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade } = useCampaignView()

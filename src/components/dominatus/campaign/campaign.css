@@ -92,3 +92,5 @@
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
+.camp-player-actions { margin-top: 0.9rem; align-items: flex-start; }
+.camp-player-actions .copen.copen { margin-top: 0; }

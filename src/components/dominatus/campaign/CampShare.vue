@@ -78,6 +78,5 @@ async function copy(l) {
 </script>
 
 <style scoped>
-.camp-share { margin-bottom: 1.75rem; }
 .camp-share-body { padding: 0.9rem 1rem 1.1rem; }
 </style>
