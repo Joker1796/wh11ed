@@ -114,6 +114,7 @@ const en = {
         title: 'Preparing the Campaign',
         body: 'Before the campaign begins, the Warmaster should share a **Battle Schedule** with all players, informing them of the number of games each will play, and the army sizes they will need to muster. The default Battle Schedule below is designed to be played comfortably over the course of a weekend for players who can all muster a Strike Force sized army.',
         table: {
+          plate: true,
           title: 'Default Battle Schedule',
           headers: ['Campaign phase', 'Battles per player', 'Battle size'],
           rows: [

@@ -61,6 +61,7 @@
   <div
     v-if="block.table"
     class="table-section"
+    :class="{ 'prose-table': block.table.plate }"
   >
     <DataTable
       :title="block.table.title"
@@ -79,7 +80,8 @@ import DataTable from '../DataTable.vue'
 // One Event Companion prose block: the RuleBlock itself, optionally wrapped in the flavor
 // surface or framed (`box` — a booklet's boxed rule: a frame, the title on a filled plate in its
 // corner), optionally followed by framed items of its own (`boxes`, each with an emblem on the
-// right — Dominatus' Alliances) and its own table. Rendered by EventProseBlocks.vue.
+// right — Dominatus' Alliances) and its own table (`table.plate`: set as the booklet sets it — the
+// title on the same plate, no frame, rules between the rows). Rendered by EventProseBlocks.vue.
 defineProps({
   block: { type: Object, required: true },
 })
@@ -104,7 +106,8 @@ defineProps({
 .prose-box-text > :deep(:last-child) { margin-bottom: 0; }
 .prose-box :deep(.rule-header) { position: absolute; bottom: 100%; left: -1px; margin: 0; }
 .prose-box :deep(.rule-title),
-.prose-box-title {
+.prose-box-title,
+.prose-table :deep(.table-title) {
   display: inline-block;
   margin: 0;
   padding: 0.12rem 0.5rem;
@@ -124,4 +127,21 @@ defineProps({
 /* About a quarter of the frame's width, as the booklet prints it beside the text. */
 .prose-box-icon { flex: none; width: 5.5rem; height: 5.5rem; margin: 0; color: var(--text-primary); }
 .prose-box-note { margin: 0.6rem 0 0.9rem; }
+/* A booklet's table: the title plate standing on the table's top rule, a grey head in sentence
+   case, the counts large in the middle, a rule under every row — no frame, no stripes. */
+.prose-table :deep(.table-wrap) { margin: 0; border: none; }
+.prose-table :deep(table) { margin: 0; border-top: 1px solid var(--text-muted); }
+.prose-table :deep(th) {
+  background: color-mix(in srgb, var(--text-primary) 10%, transparent);
+  color: var(--text-primary);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.85rem;
+  border-bottom: none;
+}
+.prose-table :deep(td) { background: transparent; border-bottom: 1px solid var(--text-muted); vertical-align: middle; }
+.prose-table :deep(th:nth-child(2)),
+.prose-table :deep(td:nth-child(2)) { text-align: center; }
+.prose-table :deep(td:nth-child(2)) { font-size: 1.1rem; font-weight: 700; line-height: 1; }
+.prose-table :deep(td:last-child) { white-space: nowrap; }
 </style>
