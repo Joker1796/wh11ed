@@ -114,6 +114,9 @@
 /* `.dcard-agenda.mcard` — an Agenda is MissionCard, whose scoped `.mcard` (0,2,0) would win. */
 .dcard,
 .dcard-agenda.mcard { position: relative; border-left: 4px solid var(--dom-spine, var(--border)); }
+/* An Agenda's Action labels (Units, Use limit…) in the deck's colour, as an Upgrade's Who / Effect
+   (owner, 2026-10-31) — MissionBriefing's own is scoped (0,2,0). */
+.dcard-agenda.mcard .m-action-label { color: var(--dom-spine, var(--text-primary)); }
 /* An Agenda's name as every other card's: the deck prints them all alike. */
 .dcard-agenda .mcard-head .mcard-name { font-size: 1.35rem; font-weight: 400; text-transform: uppercase; }
 

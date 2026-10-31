@@ -79,7 +79,8 @@ const tag = computed(() => cardTag({ kind: props.upgrade.kind, alliance: props.u
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-primary);
+  /* In the deck's colour, as the tag line over the name (owner, 2026-10-31). */
+  color: var(--dom-spine, var(--text-primary));
 }
 /* A phone: the label opens its text's first line and the text runs on under it, the column the
    labels kept is the card's (owner, 2026-10-31). A float, so it is the first line of ANY body —
