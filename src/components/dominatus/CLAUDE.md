@@ -57,7 +57,9 @@ the right (`EventProseBlock.vue`, generic: any Event Companion block may use the
 Agendas sits between the battle steps in the booklet, so `dom-play-battles` is cut there and goes
 on in `dom-play-battles-steps`, a block with no title (RuleBlock draws no header for it). The Deck
 lists the five decks with their marks (`iconList`), and its paragraphs go on in `dom-deck-cards`.
-The Default Battle Schedule is `table.plate`: the booklet's table, title on the same plate. Where the marks sit is still being
+The Default Battle Schedule is `table.plate`: the booklet's table, title on the same plate. The campaign's
+steps carry `step` (1–4, End Campaign its own block as the booklet numbers it): the number on a
+filled square with a cut corner, in the house accent (`.section-num`), before the title. Where the marks sit is still being
 chosen on the stand (TEMP `?dv=a|b|c` in DominatusView and dominatus.css). The
 Agendas chapter's filters are one shared reactive (`useAgendaFilter`) so a Briefing cell can open
 the Agenda it names.

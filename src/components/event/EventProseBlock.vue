@@ -26,6 +26,8 @@
   <RuleBlock
     v-else
     :id="block.id"
+    :class="{ 'prose-step': block.step }"
+    :section-num="block.step ? String(block.step) : undefined"
     :title="block.title"
     :body="block.body"
     :note="block.note"
@@ -108,7 +110,8 @@ import { vSafeHtml } from '../../directives/safeHtml.js'
 // corner), optionally followed by framed items of its own (`boxes`, each with an emblem on the
 // right — Dominatus' Alliances), a list with a mark beside each line (`iconList` — the booklet's
 // list of decks) and its own table (`table.plate`: set as the booklet sets it — the
-// title on the same plate, no frame, rules between the rows). Rendered by EventProseBlocks.vue.
+// title on the same plate, no frame, rules between the rows); `step` puts the booklet's step
+// number before the title. Rendered by EventProseBlocks.vue.
 defineProps({
   block: { type: Object, required: true },
 })
@@ -155,6 +158,23 @@ const { renderInline } = useRenderInline()
 /* About a quarter of the frame's width, as the booklet prints it beside the text. */
 .prose-box-icon { flex: none; width: 5.5rem; height: 5.5rem; margin: 0; color: var(--text-primary); }
 .prose-box-note { margin: 0.6rem 0 0.9rem; }
+/* A numbered step: the number on a filled square with its bottom-right corner cut, as the booklet
+   prints it — in the house accent (the global .section-num, made the title's size). */
+.prose-step :deep(.section-num) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
+}
+.prose-step :deep(.rule-header) { gap: 0.55rem; flex-wrap: nowrap; }
 /* The booklet's list of decks: the mark, the name in the display face, the count under it, a
    dotted rule between the lines. */
 .prose-icons { list-style: none; margin: 0.3rem 0 0.9rem; padding: 0; }

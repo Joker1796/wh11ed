@@ -14,7 +14,8 @@
 // Shapes
 //   rules / event   = { intro, blocks: [{ id, title, body, table?, box?, boxes?, boxesNote? }] }  — EventProseBlocks
 //                     (box: framed as the booklet frames it; boxes: [{ id, title, icon, body }] framed after it;
-//                      iconList: [{ icon, title, count }] — a list with a mark beside each line)
+//                      iconList: [{ icon, title, count }] — a list with a mark beside each line;
+//                      step: the booklet's numbered step, drawn on its plate before the title)
 //   alliances       = [{ id, name, desc }]
 //   locations       = [{ slug, name, phase, roll, grid, bonus: { name, body }, warZone: [{ name, body }] }]
 //   briefings       = [{ alliance, phase, rows: [{ mine: [dispoId], branches: [{ vs: [dispoId], agenda }] }] }]
@@ -147,7 +148,8 @@ const en = {
       },
       {
         id: 'dom-start-phase',
-        title: '1. Start Campaign Phase',
+        title: 'Start Campaign Phase',
+        step: 1,
         body: 'Players start the first campaign phase using the sequence below. After completing phases 1 and 2, start the next campaign phase and repeat this sequence. At the end of phase 3, the campaign ends.\n'
           + 'At the start of each campaign phase, before any battles are fought, the Warmaster must:\n'
           + '▪ Roll one D6 to randomly select one of that phase\'s **Location** cards.\n'
@@ -156,7 +158,8 @@ const en = {
       },
       {
         id: 'dom-play-battles',
-        title: '2. Play Battles',
+        title: 'Play Battles',
+        step: 2,
         body: 'Players from opposing Alliances now battle each other. The Warmaster can leave players to arrange games themselves, or organise days and times to help everyone play an equal number of games. In campaigns with a large number of players, each Alliance can be broken down into smaller subgroups that are then matched against each other.\n'
           + 'To play a battle, the players generate a mission from any Chapter Approved mission deck (the Warmaster may curate this). The mission sequence is supplemented with the following rules.\n'
           + '### Determine Mission step\n'
@@ -184,15 +187,20 @@ const en = {
       },
       {
         id: 'dom-end-phase',
-        title: '3. End of Campaign Phase',
+        title: 'End of Campaign Phase',
+        step: 3,
         body: 'At the end of each phase, each Alliance adds up the total number of Battle Honour cards gained from that phase and the number of Agenda Achieved cards its players have. Then, before starting a new phase or ending the campaign, resolve the following:\n'
           + '1. **Take Control** — the Alliance with the most Battle Honour cards gained during this campaign phase takes control of the current location. If a location bonus defines additional effects when an Alliance takes control, resolve these now. In the event of a tie, tied Alliances use the total number of Battle Honours gained over the course of the entire campaign as a tie-breaker; if there is still a tie, the Warmaster decides how best to resolve it.\n'
           + '2. **Determine Ascendancy** — the Alliance with the most Agenda Achieved cards is in **ascendancy**. This helps to determine the narrative Outcome of that phase. In the event of a tie, all tied Alliances are in ascendancy.\n'
           + '3. **Acquire Relics** — at the end of campaign phases 1 and 2, each player takes their Alliance\'s Relic cards deck and randomly draws a number of cards equal to the number of Agenda Achieved cards that player has. That player selects 1 of those Relic cards to keep and returns the others to the deck.\n'
           + '4. **Update Narrative Outcome** — the players read their Alliance\'s Outcome for that phase (on the reverse of their Briefing card). The Outcome depends on the number of **Narrative Points** your Alliance has earned this phase, as described on that card.\n'
-          + '5. **Discard** — players discard all Agenda Achieved cards they have from previous phases.\n'
-          + '### End Campaign\n'
-          + 'Once the Outcomes of campaign phase 3 have been read, the campaign ends.',
+          + '5. **Discard** — players discard all Agenda Achieved cards they have from previous phases.',
+      },
+      {
+        id: 'dom-end-campaign',
+        title: 'End Campaign',
+        step: 4,
+        body: 'Once the Outcomes of campaign phase 3 have been read, the campaign ends.',
       },
       {
         id: 'dom-narrative-points',
