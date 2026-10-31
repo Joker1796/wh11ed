@@ -95,22 +95,13 @@
             />
           </label>
         </div>
-        <div class="camp-row">
-          <button
-            class="btn-primary"
-            type="submit"
-            :disabled="!a || !b"
-          >
-            {{ labels.campSendBattle }}
-          </button>
-          <button
-            type="button"
-            class="btn-ghost"
-            @click="close"
-          >
-            {{ labels.trackerCancel }}
-          </button>
-        </div>
+        <button
+          class="btn-primary"
+          type="submit"
+          :disabled="!a || !b"
+        >
+          {{ labels.campSendBattle }}
+        </button>
       </form>
     </CampOpenForm>
   </section>

@@ -77,3 +77,18 @@
 .camp-drawn { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1rem; }
 .camp-drawn-card { display: grid; gap: 0.5rem; justify-items: start; }
 .camp-drawn-card > .dcard { justify-self: stretch; }
+/* The players by Alliance: one under another on a phone, three abreast on a desk. */
+.camp-allies { display: grid; gap: 1.25rem; }
+@media (min-width: 768px) {
+  .camp-allies { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.camp-ally-head {
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}

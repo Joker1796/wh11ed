@@ -1,30 +1,31 @@
 <template>
-  <ExpandTransition mode="out-in">
+  <div class="copen">
     <button
-      v-if="!open"
-      key="button"
       type="button"
       :class="[primary ? 'btn-primary' : 'btn-ghost', 'copen-btn']"
+      aria-haspopup="dialog"
       @click="open = true"
     >
       {{ label }}
     </button>
-    <div
-      v-else
-      key="form"
-      class="copen-form"
+    <BaseModal
+      v-if="open"
+      :title="label"
+      @close="close"
     >
-      <slot :close="close" />
-    </div>
-  </ExpandTransition>
+      <div class="modal-body copen-body">
+        <slot :close="close" />
+      </div>
+    </BaseModal>
+  </div>
 </template>
 
 <script setup>
-// A form on the campaign pages that waits behind its button (owner, 2026-11-01: a new campaign, a
-// player, a battle): the button gives way to the form, which hands its slot `close` for Cancel and
-// for after it is sent.
+// A form on the campaign pages behind its button, in a dialog (owner, 2026-11-01: a new campaign,
+// a player, a battle): the slot gets `close`, called once the form is sent. One root element (no
+// comment before it), so a parent's class lands on it.
 import { ref } from 'vue'
-import ExpandTransition from '../../ExpandTransition.vue'
+import BaseModal from '../../BaseModal.vue'
 
 defineProps({
   label: { type: String, required: true },
@@ -35,5 +36,6 @@ const close = () => { open.value = false }
 </script>
 
 <style scoped>
-.copen-btn { margin-top: 0.6rem; }
+.copen { margin-top: 0.6rem; }
+.copen-body { padding: 0.9rem 1rem 1.1rem; }
 </style>

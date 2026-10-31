@@ -13,7 +13,6 @@
     <!-- A new campaign is the Warmaster's rare act: the form waits behind its button. -->
     <template v-if="status === 'authed'">
       <CampOpenForm
-        v-slot="{ close }"
         class="camp-new"
         :label="labels.campNew"
         primary
@@ -46,22 +45,13 @@
               {{ labels.campDrawManual }}
             </button>
           </div>
-          <div class="camp-row">
-            <button
-              class="btn-primary"
-              type="submit"
-              :disabled="!name || busy"
-            >
-              {{ labels.campCreate }}
-            </button>
-            <button
-              type="button"
-              class="btn-ghost"
-              @click="close"
-            >
-              {{ labels.trackerCancel }}
-            </button>
-          </div>
+          <button
+            class="btn-primary"
+            type="submit"
+            :disabled="!name || busy"
+          >
+            {{ labels.campCreate }}
+          </button>
         </form>
       </CampOpenForm>
     </template>

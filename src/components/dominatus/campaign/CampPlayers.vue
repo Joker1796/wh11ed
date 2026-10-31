@@ -1,43 +1,61 @@
 <template>
   <section class="camp-block">
-    <ul class="camp-list">
-      <li
-        v-for="p in state.players"
-        :key="p.id"
-        class="camp-player"
+    <!-- The players by Alliance, a column each on a desk, the Alliance's emblem and name over it. -->
+    <p
+      v-if="!groups.length"
+      class="empty-note"
+    >
+      {{ labels.campNoPlayers }}
+    </p>
+    <div
+      v-else
+      class="camp-allies"
+    >
+      <section
+        v-for="g in groups"
+        :key="g.id || 'none'"
+        class="camp-ally"
       >
-        <div class="camp-player-head">
-          <strong>{{ p.name || p.id }}</strong>
+        <h3 class="camp-ally-head">
           <DomAllianceName
-            v-if="p.alliance"
-            :id="p.alliance"
-            class="camp-dim"
-            :name="allianceName(p.alliance)"
+            :id="g.id"
+            :name="g.id ? allianceName(g.id) : '—'"
           />
-          <span
-            v-if="p.agenda.length"
-            class="camp-badge"
-          >{{ labels.domAgendaAchieved }} {{ p.agenda.length }}</span>
-        </div>
-        <!-- Each card held opens its text, as a card's corner mark does. -->
-        <p
-          v-if="p.upgrades.length"
-          class="camp-cards"
-        >
-          <button
-            v-for="slug in p.upgrades"
-            :key="slug"
-            type="button"
-            class="camp-card"
-            data-kw-open
-            aria-haspopup="dialog"
-            @click.stop="showUpgrade(slug, $event)"
+        </h3>
+        <ul class="camp-list">
+          <li
+            v-for="p in g.players"
+            :key="p.id"
+            class="camp-player"
           >
-            {{ upgradeName(slug) }}
-          </button>
-        </p>
-      </li>
-    </ul>
+            <div class="camp-player-head">
+              <strong>{{ p.name || p.id }}</strong>
+              <span
+                v-if="p.agenda.length"
+                class="camp-badge"
+              >{{ labels.domAgendaAchieved }} {{ p.agenda.length }}</span>
+            </div>
+            <!-- Each card held opens its text, as a card's corner mark does. -->
+            <p
+              v-if="p.upgrades.length"
+              class="camp-cards"
+            >
+              <button
+                v-for="slug in p.upgrades"
+                :key="slug"
+                type="button"
+                class="camp-card"
+                data-kw-open
+                aria-haspopup="dialog"
+                @click.stop="showUpgrade(slug, $event)"
+              >
+                {{ upgradeName(slug) }}
+              </button>
+            </p>
+          </li>
+        </ul>
+      </section>
+    </div>
 
     <!-- The Warmaster adds anyone; a player who joined by the link adds themselves, once. -->
     <CampOpenForm
@@ -72,22 +90,13 @@
             />
           </button>
         </div>
-        <div class="camp-row">
-          <button
-            class="btn-primary"
-            type="submit"
-            :disabled="!name || !alliance"
-          >
-            {{ isOwner ? labels.campAddPlayer : labels.campJoinAs }}
-          </button>
-          <button
-            type="button"
-            class="btn-ghost"
-            @click="close"
-          >
-            {{ labels.trackerCancel }}
-          </button>
-        </div>
+        <button
+          class="btn-primary"
+          type="submit"
+          :disabled="!name || !alliance"
+        >
+          {{ isOwner ? labels.campAddPlayer : labels.campJoinAs }}
+        </button>
       </form>
     </CampOpenForm>
   </section>
@@ -106,6 +115,13 @@ const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeNam
 const name = ref('')
 const alliance = ref(null)
 const alliances = computed(() => deck.value?.alliances || [])
+// The Alliances that have players, in the deck's order; anyone not yet in one last.
+const groups = computed(() => {
+  const players = state.value.players
+  const out = alliances.value.map((a) => ({ id: a.id, players: players.filter((p) => p.alliance === a.id) }))
+  out.push({ id: null, players: players.filter((p) => !p.alliance) })
+  return out.filter((g) => g.players.length)
+})
 
 async function add() {
   const id = isOwner.value ? `p${Date.now().toString(36)}` : `m-${entry.value.memberId}`
