@@ -197,8 +197,8 @@ async function openAgenda(slug) {
   color: var(--text-muted);
 }
 /* The chart at every width (owner, 2026-10-31: the lines on a phone too): one three-column grid
-   for the heads and every row (subgrid), the two icon columns as wide as their widest content,
-   the Agenda the rest. ONE line runs through each row as the printed chart draws it: from a tick
+   for the heads and every row (subgrid) across the card's whole width, an icon column never
+   narrower than its icons (owner, 2026-10-31). ONE line runs through each row as the printed chart draws it: from a tick
    at the left edge through your disposition to the fork, through the opponent's icons to the
    Agenda — drawn behind the icons, which sit on it; the Agenda's ground covers its end. */
 .bmatrix {
@@ -207,7 +207,7 @@ async function openAgenda(slug) {
   --bgap: 1rem;
   --brule: linear-gradient(var(--bline), var(--bline)) 0 50% / 100% var(--bstroke) no-repeat;
   display: grid;
-  grid-template-columns: min-content min-content minmax(0, 1fr);
+  grid-template-columns: minmax(min-content, 1fr) minmax(min-content, 1fr) minmax(0, 1.4fr);
   column-gap: var(--bgap);
 }
 .bhead,
@@ -232,6 +232,7 @@ async function openAgenda(slug) {
   color: var(--text-muted);
   padding-bottom: 0.3rem;
 }
+.bhead span:not(:last-child) { text-align: center; }
 .brow { padding: 0.35rem 0; }
 /* Your disposition: centred on the line, which starts at a tick on the left edge and runs on
    across half the gap to the fork. */
