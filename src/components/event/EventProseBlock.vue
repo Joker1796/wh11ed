@@ -195,17 +195,18 @@ const { renderInline } = useRenderInline()
 }
 .prose-step :deep(.rule-header) { gap: 0.55rem; flex-wrap: nowrap; }
 /* A section heading of the booklet (Preparing the Campaign, Start the Campaign): a divider, not a
-   title — small letterspaced capitals in the accent's ink, a hairline running on to the right
-   edge. Capitals at a heading's size read larger than the chapter's own heading over them (owner,
+   title — the chapter heading's face in capitals, a size under it, in the accent's ink, a hairline
+   running on to the right edge. Capitals at a heading's size read larger than the chapter's own heading over them (owner,
    2026-10-31, twice), so the section is marked by colour and rule, not by size. */
 .prose-section { padding: 1.1rem 0 0.2rem; border-bottom: none; }
 .prose-section :deep(.rule-header) { margin-bottom: 0; }
 .prose-section :deep(.rule-title-wrap) { display: flex; align-items: center; gap: 0.75rem; flex: 1; }
 .prose-section :deep(.rule-title) {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--accent-ink);
   white-space: nowrap;
