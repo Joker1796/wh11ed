@@ -32,7 +32,13 @@ const { labels, deck } = useDominatus()
 // A section heading runs across the page and its text goes on in the columns under it: a whole
 // section full width read at ~150 characters a line (owner, 2026-10-31). A section's table is a
 // block of its own, so a section of one paragraph and a table still makes two columns (Preparing).
+// A block's framed items (the Alliances) start the next column, as the booklet's spread has them:
+// its text and the schedule on the left page, the three frames down the right.
 const blocks = computed(() => deck.value.rules.blocks.flatMap((b) => {
+  if (b.boxes) {
+    const { boxes, boxesNote, ...text } = b
+    return [text, { id: `${b.id}-frames`, title: '', body: '', boxes, boxesNote, columnBreak: true }]
+  }
   if (!b.section) return [b]
   const { table, ...text } = b
   return [

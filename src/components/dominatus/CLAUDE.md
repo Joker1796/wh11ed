@@ -63,8 +63,9 @@ The Default Battle Schedule is `table.plate`: the booklet's table, title on the 
 steps carry `step` (1–4, End Campaign its own block as the booklet numbers it): the number on a
 filled square with a cut corner, in the house accent (`.section-num`), before the title.
 The chapter reads in the booklet's sections: `newRun` starts a new pair of columns at Preparing,
-the steps and Modifying (one flow ran a screen-high column down and back up), and Alliances is
-`wide`, its three frames side by side. The booklet's section headings (`section`: Armageddon Campaigns,
+the steps and Modifying (one flow ran a screen-high column down and back up), and the
+Preparing section is the booklet's spread: its text, the schedule and the Alliances' text on the
+left, the three frames down the right (`columnBreak`). The booklet's section headings (`section`: Armageddon Campaigns,
 Preparing, Start the Campaign — its own block, as printed above step 1): DomChapterRules splits
 each into a full-width heading and its text in the columns; the heading is a divider — small
 letterspaced capitals in the accent's ink and a hairline to the right edge (capitals at a heading's

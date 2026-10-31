@@ -25,10 +25,12 @@
       />
     </div>
   </div>
+  <!-- A block with neither title nor text only carries its table or frames: nothing of its own to
+       draw, and its empty padding opened a gap above them. -->
   <RuleBlock
-    v-else
+    v-else-if="block.title || block.body"
     :id="block.id"
-    :class="{ 'prose-step': block.step, 'prose-section': block.section }"
+    :class="{ 'prose-step': block.step, 'prose-section': block.section, 'prose-column-break': block.columnBreak }"
     :section-num="block.step ? String(block.step) : undefined"
     :title="block.title"
     :body="block.body"
@@ -61,7 +63,9 @@
   </ul>
   <div
     v-if="block.boxes"
+    :id="block.title || block.body ? undefined : block.id"
     class="prose-boxes"
+    :class="{ 'prose-column-break': block.columnBreak }"
   >
     <div
       v-for="x in block.boxes"
@@ -95,6 +99,7 @@
   </p>
   <div
     v-if="block.table"
+    :id="block.title || block.body ? undefined : block.id"
     class="table-section"
     :class="{ 'prose-table': block.table.plate }"
   >
@@ -119,7 +124,8 @@ import { vSafeHtml } from '../../directives/safeHtml.js'
 // corner), optionally followed by framed items of its own (`boxes`, each with an emblem on the
 // right — Dominatus' Alliances), a list with a mark beside each line (`iconList` — the booklet's
 // list of decks) and its own table (`table.plate`: set as the booklet sets it — the
-// title on the same plate, no frame, rules between the rows); `step` puts the booklet's step
+// title on the same plate, no frame, rules between the rows); `columnBreak` starts the next column;
+// `step` puts the booklet's step
 // number before the title; `section` sets one of the booklet's section headings apart. Rendered by EventProseBlocks.vue.
 defineProps({
   block: { type: Object, required: true },
@@ -163,22 +169,16 @@ const { renderInline } = useRenderInline()
   letter-spacing: 0.03em;
 }
 .prose-box-title { position: absolute; bottom: 100%; left: -1px; }
-/* The framed items side by side where they fit (Dominatus' three Alliances), stacked on a phone. */
-.prose-boxes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-  gap: 0 1rem;
-  margin: 0.4rem 0 0.9rem;
-}
+/* `columnBreak`: this block starts the next column of a two-column run. */
+.prose-column-break { break-before: column; -webkit-column-break-before: always; }
+/* The framed items one under another, each the full width (owner, 2026-10-31: side by side left
+   each too narrow). */
+.prose-boxes { margin: 0 0 0.9rem; }
 .prose-boxes .prose-box-wrap { margin: 0.3rem 0; }
-.prose-boxes .prose-box { display: flex; height: 100%; box-sizing: border-box; }
-/* Frames stretched to the tallest: the row fills its frame, so each emblem centres on the frame,
-   level with its neighbours, not on its own (shorter) text. */
-.prose-boxes .prose-box-row { flex: 1; }
-.prose-box-row { display: flex; align-items: flex-start; gap: 0.8rem; }
+.prose-box-row { display: flex; align-items: center; gap: 0.8rem; }
 .prose-box-text { flex: 1; min-width: 0; }
 /* About a quarter of the frame's width, as the booklet prints it beside the text. */
-.prose-box-icon { flex: none; align-self: center; width: 5.5rem; height: 5.5rem; margin: 0; color: var(--text-primary); }
+.prose-box-icon { flex: none; width: 5.5rem; height: 5.5rem; margin: 0; color: var(--text-primary); }
 .prose-box-note { margin: 0.6rem 0 0.9rem; }
 /* A numbered step: the number on a filled square with its bottom-right corner cut, as the booklet
    prints it — in the house accent (the global .section-num, made a head taller than the title). */

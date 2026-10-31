@@ -139,9 +139,8 @@ const en = {
       },
       {
         id: 'dom-alliances',
-        // Full width: its three frames sit side by side there; in a column the heading was left at
-        // the foot of one column and the frames at the top of the next.
-        wide: true,
+        // Laid out as the booklet's spread (DomChapterRules): this text under the schedule on the
+        // left, the three frames down the right.
         title: 'Alliances',
         body: 'The Warmaster will need to group all of the players into **Alliances**. A campaign must have an Oppressors Alliance and a Liberators Alliance. It can optionally have a Raiders Alliance as well. Alliances should be organised as evenly as possible, and based on the different factions players are using if possible. Players should play the same faction throughout the campaign.\n'
           + 'These are guidelines, not requirements; if it suits the group better to organise Alliances differently, the Warmaster should do so.',
