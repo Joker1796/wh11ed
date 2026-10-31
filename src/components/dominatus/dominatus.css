@@ -226,3 +226,16 @@
 @media (max-width: 900px) {
   .dom-prose .rule-block:not(.prose-section) .rule-title { font-size: 1.45rem; }
 }
+
+/* Long prose may run on into the next column — whole blocks only (the shared rule) left the steps'
+   right column a third short (owner, 2026-10-31). Frames and tables stay whole (their own wrappers
+   keep break-inside: avoid), and a heading never ends a column on its own. */
+.dom-prose .rule-columns > .rule-block { break-inside: auto; }
+/* RuleBlock's body wrapper holds its floats with overflow: hidden, and Chrome never splits such a
+   box across columns; flow-root holds the floats the same way and lets it run on. */
+.dom-prose .rule-columns .rule-body-wrap { overflow: visible; display: flow-root; }
+.dom-prose .rule-columns .rule-header,
+.dom-prose .rule-columns .rule-body h4 { break-after: avoid; }
+.dom-prose .rule-columns p { orphans: 2; widows: 2; }
+/* A list item stays whole: one torn off left a single line at the head of the next column. */
+.dom-prose .rule-columns li { break-inside: avoid; }

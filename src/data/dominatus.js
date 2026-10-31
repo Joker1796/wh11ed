@@ -222,7 +222,6 @@ const en = {
       },
       {
         id: 'dom-modifying',
-        newRun: true,
         title: 'Modifying Dominatus',
         box: true,
         body: 'The Warmaster can modify any of these rules to better suit the needs of their gaming group. While Dominatus is designed to be played over the course of a weekend, a Warmaster could use the deck to run a longer campaign by increasing the number of battles in a phase, remembering that phase 3 should consist of a single climactic final mission. It is also perfectly acceptable to vary the size-limit of players\' armies as the campaign evolves, perhaps starting with smaller battle sizes in earlier phases and growing in subsequent ones.\n'

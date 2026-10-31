@@ -62,10 +62,13 @@ lists the five decks with their marks (`iconList`), and its paragraphs go on in 
 The Default Battle Schedule is `table.plate`: the booklet's table, title on the same plate. The campaign's
 steps carry `step` (1–4, End Campaign its own block as the booklet numbers it): the number on a
 filled square with a cut corner, in the house accent (`.section-num`), before the title.
-The chapter reads in the booklet's sections: `newRun` starts a new pair of columns at Preparing,
-the steps and Modifying (one flow ran a screen-high column down and back up), and the
+The chapter reads in the booklet's sections: each full-width section heading ends one pair of
+columns and starts the next (one flow ran a screen-high column down and back up); Modifying runs
+on in the steps' columns, no `newRun` of its own since prose may cross columns. The
 Preparing section is the booklet's spread: its text, the schedule and the Alliances' text on the
-left, the three frames down the right (`columnBreak`). The booklet's section headings (`section`: Armageddon Campaigns,
+left, the three frames down the right (`columnBreak`). Prose may run on from one column into the next here (dominatus.css:
+the body wrapper is `flow-root`, not `overflow: hidden`, which Chrome never splits; list items
+and frames stay whole) — whole blocks only left the steps' right column a third short. The booklet's section headings (`section`: Armageddon Campaigns,
 Preparing, Start the Campaign — its own block, as printed above step 1): DomChapterRules splits
 each into a full-width heading and its text in the columns; the heading is a divider — small
 letterspaced capitals in the accent's ink and a hairline to the right edge (capitals at a heading's
