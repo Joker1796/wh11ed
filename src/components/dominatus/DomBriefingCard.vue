@@ -251,9 +251,19 @@ async function openAgenda(slug) {
   }
   .bbody,
   .bfront { display: contents; }
-  .dcard-head { grid-area: head; flex-wrap: nowrap; gap: 0.9rem; padding-right: 0; }
-  .dcard-tag { flex-basis: auto; font-size: 0.95rem; }
-  .dcard-head .dcard-tag + .dcard-name { margin-top: 0; font-size: 1.75rem; line-height: 1; }
+  /* One line in one face and size (owner, 2026-10-31): the tag keeps its deck colour, a dot between. */
+  .dcard-head { grid-area: head; flex-wrap: nowrap; gap: 0.5rem; padding-right: 0; }
+  .dcard-tag,
+  .dcard-head .dcard-tag + .dcard-name {
+    flex-basis: auto;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+  }
+  .dcard-tag::after { content: ' ·'; }
   .dcard-lore { grid-area: lore; align-self: center; margin: 0; }
   .dmark { grid-area: mark; position: static; align-self: center; }
   .bmatrix { grid-area: chart; }
