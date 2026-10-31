@@ -824,9 +824,10 @@ a.nd-link:hover {
   z-index: 1;
   flex: 1;
   text-align: center;
-  font-size: 0.72rem;
+  /* The lore's face, a step under Courier's 0.72rem: the mono stands taller (owner, 2026-11-01). */
+  font-size: 0.64rem;
   font-weight: 700;
-  font-family: var(--font-num);
+  font-family: var(--font-mono);
   letter-spacing: 0.5px;
   /* The language not picked: 0.7 (was 0.55, 4.1:1 on the switch — a11y gate, 2026-10-05). */
   color: rgba(255,255,255,0.7);
