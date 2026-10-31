@@ -327,7 +327,7 @@ const cardStyle = computed(() => {
 .tour-card.waiting { visibility: hidden; }
 .tour-card.phone { left: calc(var(--safe-left, 0px) + 12px); right: calc(var(--safe-right, 0px) + 12px); }
 .tour-head { display: flex; align-items: baseline; gap: 0.75rem; margin: 0 0 0.25rem; }
-.tour-count { flex: none; margin-left: auto; font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); }
+.tour-count { flex: none; margin-left: auto; font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-num); }
 .tour-title { margin: 0; font-family: var(--font-display); font-size: 1.3rem; font-weight: var(--fw-heading); line-height: 1.15; }
 .tour-text { margin: 0 0 0.6rem; font-size: 0.92rem; line-height: 1.4; }
 .tour-actions { display: flex; gap: 0.5rem; align-items: center; }

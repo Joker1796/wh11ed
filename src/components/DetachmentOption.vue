@@ -160,7 +160,7 @@ defineProps({
 .det-unique {
   font-size: 0.74rem; /* 0.66rem until 2026-10-03 — too small to read beside the name (owner) */
   color: var(--text-dim);
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   text-transform: uppercase;
 }
 
@@ -189,7 +189,7 @@ defineProps({
   flex-shrink: 0;
   padding: 0.25rem 0.55rem;
   border: 1px solid var(--border);
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--text-primary);

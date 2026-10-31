@@ -471,7 +471,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   .card:hover { border-color: var(--side, var(--side-you)); }
   .card:hover .card-head .manage { border-left-color: var(--side, var(--side-you)); }
 }
-.card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: var(--text-primary); flex-shrink: 0; }
+.card-vp { font-family: var(--font-num); font-weight: 700; font-size: 0.85rem; color: var(--text-primary); flex-shrink: 0; }
 .cm-src { flex-shrink: 0; font-size: 0.8rem; color: var(--text-muted); }
 .manage {
   min-width: 36px; min-height: 36px;

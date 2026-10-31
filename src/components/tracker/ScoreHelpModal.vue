@@ -66,7 +66,7 @@ const labels = computed(() => ui[locale.value])
 .sh-table td {
   padding: 0.3rem 0.5rem;
   border-bottom: 1px solid var(--border);
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   color: var(--text-muted);
 }
 .sh-table td:first-child { color: var(--text-primary); }

@@ -320,7 +320,7 @@ const stratagems = computed(() => dets.value.flatMap((d) => d.stratagems || []))
 }
 .rrp-sec-count {
   margin-left: auto;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--text-muted);

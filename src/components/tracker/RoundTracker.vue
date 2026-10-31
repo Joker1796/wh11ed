@@ -1283,7 +1283,7 @@ function onEndBattle(reason) {
   flex-shrink: 0; padding: 0.1rem 0.45rem; border: 1px solid var(--border);
   font-size: 0.72rem; color: var(--text-dim);
 }
-.mc-vp { flex-shrink: 0; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: var(--text-primary); }
+.mc-vp { flex-shrink: 0; font-family: var(--font-num); font-weight: 700; font-size: 0.85rem; color: var(--text-primary); }
 /* Correcting a past round. */
 .round-edit {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.4rem 0.75rem;
@@ -1295,7 +1295,7 @@ function onEndBattle(reason) {
   min-height: 36px; padding: 0 0.7rem; border: 1px solid var(--warning); background: var(--bg-card);
   font: inherit; font-size: 0.82rem; font-weight: 700; color: var(--warning); cursor: pointer;
 }
-.pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.3rem; font-family: var(--font-mono); }
+.pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.3rem; font-family: var(--font-num); }
 .sec-title-row {
   font-size: 0.75rem;
   font-weight: 700;

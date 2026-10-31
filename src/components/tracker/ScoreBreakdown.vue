@@ -332,7 +332,7 @@ function secondaries(pi) {
   align-items: center;
   justify-content: center;
   background: var(--bg-secondary);
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -341,7 +341,7 @@ function secondaries(pi) {
 .g-span5 { grid-column: 2 / 7; background: transparent; }
 .g-total {
   padding-left: 0.6rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--text-muted);

@@ -503,7 +503,7 @@ function saveName(entry) {
 @media (hover: hover) { .rul-bname:hover { color: var(--accent-ink); } }
 .rul-btotal {
   flex: none;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -566,7 +566,7 @@ function saveName(entry) {
 .rul-crew-name { flex: 1; min-width: 0; font-weight: 600; font-size: 0.85rem; }
 /* A spawn's note takes the zero's place: what brings it in, cut short before it wraps. */
 .rul-crew-note { flex: 0 1 auto; min-width: 0; padding-right: var(--rul-acts-w, 2rem); font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rul-crew-pts { flex: none; padding-right: var(--rul-acts-w, 2rem); font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; }
+.rul-crew-pts { flex: none; padding-right: var(--rul-acts-w, 2rem); font-family: var(--font-num); font-weight: 700; font-size: 0.85rem; }
 
 /* The action button is OUT of the row's flow, over the tile's top-right corner, and the row itself
    spans the full width underneath it. In flow it was a column as tall as the tile: ~4rem taken

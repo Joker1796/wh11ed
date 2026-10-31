@@ -91,7 +91,7 @@ const owned = computed(() => props.row.ownsUnit(props.unit))
 /* A step under the name it follows (owner, 2026-10-08), in em so it keeps to the name's size. */
 .rub-count { margin-left: 0.3em; font-size: 0.85em; font-weight: 700; color: var(--text-muted); }
 .rub-count.over { color: var(--danger); }
-.rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
+.rub-pts { font-family: var(--font-num); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
 .rub-rail { flex-shrink: 0; display: flex; align-items: stretch; }
 .rub-add {
   flex-shrink: 0;

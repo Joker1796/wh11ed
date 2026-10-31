@@ -171,17 +171,10 @@ defineExpose({ focus: () => (props.editable ? startEdit() : undefined) })
   overflow: hidden;
   min-width: 2.2ch;
   text-align: center;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-weight: 700;
   font-size: 1rem;
   color: var(--text-primary);
-}
-/* The mono's line box keeps room below its figures, so a number sat ~1.5px high between the
-   buttons: trimmed to the figures, it centres on them. A browser without `text-box` keeps the
-   line box as it was. */
-@supports (text-box: trim-both cap alphabetic) {
-  /* On the number itself: a grid item is a block of its own, the cell's trim does not reach it. */
-  .step-num { text-box: trim-both cap alphabetic; }
 }
 .step-num { grid-area: 1 / 1; }
 /* The tappable number of an `editable` stepper, and the field it turns into: the same cell. */
@@ -201,7 +194,7 @@ defineExpose({ focus: () => (props.editable ? startEdit() : undefined) })
   background: var(--bg-secondary);
   border: 1px solid var(--accent);
   font: inherit;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-weight: 700;
   font-size: 1rem;
   color: var(--text-primary);
@@ -212,7 +205,7 @@ defineExpose({ focus: () => (props.editable ? startEdit() : undefined) })
 .step-input::-webkit-inner-spin-button,
 .step-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .step-input:focus { outline: none; }
-.step-unit { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-right: 0.15rem; }
+.step-unit { font-family: var(--font-num); font-size: 0.75rem; color: var(--text-muted); margin-right: 0.15rem; }
 .roll-up-enter-active, .roll-up-leave-active,
 .roll-down-enter-active, .roll-down-leave-active {
   transition: transform var(--motion-fast) ease-out, opacity var(--motion-fast) ease-out;

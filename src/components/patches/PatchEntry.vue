@@ -376,7 +376,7 @@ button.pe-head:hover { background: color-mix(in srgb, var(--accent) 7%, transpar
 }
 .pe-chip {
   max-width: 100%;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-weight: 700;
   font-size: 0.78rem;
   padding: 0.05rem 0.35rem;

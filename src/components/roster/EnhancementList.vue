@@ -106,7 +106,7 @@ const bearers = (e) => answers.value.get(e.name) || null
   text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-primary);
 }
 .enh-ru { display: block; font-size: 0.72rem; color: var(--text-muted); }
-.enh-pts { margin-left: auto; flex-shrink: 0; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
+.enh-pts { margin-left: auto; flex-shrink: 0; font-family: var(--font-num); font-size: 0.75rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
 .enh-body { font-size: 0.85rem; line-height: 1.45; color: var(--text-primary); }
 /* The answer for this list, ruled off from the rule text. */
 .enh-who {

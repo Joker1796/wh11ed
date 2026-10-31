@@ -359,7 +359,7 @@ const chapterPickerOpen = ref(false)
 
 .dp-count {
   font-style: normal;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   color: var(--text-muted);
   font-weight: 700;
   margin-left: 0.3rem;

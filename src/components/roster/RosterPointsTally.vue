@@ -101,7 +101,7 @@ useFlashOnChange(() => props.points, pointsEl)
 <style scoped>
 .points-tally { display: flex; align-items: center; gap: 0.5rem; }
 
-.rc-points { display: flex; flex-direction: column; justify-content: center; font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+.rc-points { display: flex; flex-direction: column; justify-content: center; font-family: var(--font-num); font-weight: 700; color: var(--text-primary); white-space: nowrap; }
 .rc-points.large { font-family: var(--font-display); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
 .rc-points.over { color: var(--danger); }
 /* With the remainder on, the total steps down a size so the two lines together are no taller
@@ -125,7 +125,7 @@ useFlashOnChange(() => props.points, pointsEl)
   padding: 0.3rem 0.5rem;
   border: 1px solid var(--border);
   background: var(--bg-card);
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-weight: 700;
   font-size: 0.85rem;
   cursor: pointer;

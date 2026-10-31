@@ -449,7 +449,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
 @media (hover: hover) { .rub-filter-btn:hover { color: var(--text-primary); } }
 .rub-filter-count {
   margin-left: 0.2rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--text-muted);
@@ -521,7 +521,7 @@ const previewUnitId = computed(() => previewSrc.value?.[1] || previewId.value)
   letter-spacing: 0;
   color: var(--text-muted);
 }
-.rub-group-count { flex-shrink: 0; font-family: var(--font-mono); color: var(--text-dim); }
+.rub-group-count { flex-shrink: 0; font-family: var(--font-num); color: var(--text-dim); }
 
 @media (max-width: 560px) { .rub-body { gap: 0.3rem; } }
 /* In the build panes the catalogue gets half a phone. The name and its price stop competing for

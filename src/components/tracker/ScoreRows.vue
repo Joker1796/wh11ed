@@ -150,7 +150,7 @@ const isLocked = (b) => !!b.offRound || (!props.readonly && !!props.locked?.(b))
   flex-shrink: 0;
   min-width: 22px;
   text-align: center;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-weight: 700;
   font-size: 0.9rem;
   color: var(--text-dim);

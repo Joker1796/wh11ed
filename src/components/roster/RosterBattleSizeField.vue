@@ -263,7 +263,7 @@ function pick(id, close) {
 }
 .bsf-trigger .wi { flex-shrink: 0; margin-left: auto; color: var(--text-dim); font-size: 0.7rem; }
 .bsf-value { display: flex; align-items: baseline; gap: 0.45rem; min-width: 0; }
-.bsf-head { font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; color: var(--text-primary); }
+.bsf-head { font-family: var(--font-num); font-weight: 700; font-size: 0.95rem; color: var(--text-primary); }
 /* "Custom" and "No limit" are words, not figures: the text face, at the figures' weight. */
 .bsf-head.word { font-family: inherit; font-size: 0.9rem; font-weight: 600; }
 .bsf-name { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
@@ -359,7 +359,7 @@ function pick(id, close) {
   border: 1px solid var(--border);
   white-space: nowrap;
 }
-.bsf-chip.mono { font-family: var(--font-mono); font-weight: 700; color: var(--accent-ink); }
+.bsf-chip.mono { font-family: var(--font-num); font-weight: 700; color: var(--accent-ink); }
 /* Dark theme: light text in the chip's frame — the dark red is below AA as text (owner 2026-10-16). */
 :root[data-theme='dark'] .bsf-chip.mono { color: var(--text-primary); }
 /* The desk's dropdown is denser than the phone's sheet by its spacing alone, the type unchanged

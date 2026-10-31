@@ -272,7 +272,7 @@ watch(() => props.items, () => { open.clear(); wasOpened.clear() })
 .pb-fac-head:hover { background: color-mix(in srgb, var(--bg-insert) 85%, white); }
 .pb-fac-name { flex: 1; font-weight: 700; font-size: 0.95rem; }
 .pb-count {
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.78rem;
   font-weight: 700;
   padding: 0 0.35rem;

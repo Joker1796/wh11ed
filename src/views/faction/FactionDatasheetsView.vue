@@ -447,7 +447,7 @@ watch([wide, loaded], () => nextTick(measureFill))
 /* How many units the group holds — what a folded group still tells you. */
 .ds-group-count {
   margin-left: auto;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.75rem;
   letter-spacing: 0;
 }

@@ -1598,7 +1598,7 @@ function abilityStateLabel(st) {
   text-align: center;
   padding: 0.25rem 0.7rem;
   color: var(--text-primary);
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   white-space: nowrap;
 }
 .ds-points .pname { text-align: left; padding-left: 0; }

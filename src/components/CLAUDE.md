@@ -445,7 +445,7 @@ colour / which face / how big" question.
   `--font-sans` (Inter) on everything else, `--font-mono` (Kibernetyk Mono) on lore flavour
   text and the numbers set apart (points, counts, chips) — the owner's choice of 2026-10-31, when
   it replaced EB Garamond on the lore and Courier New, a system face each phone drew differently.
-  It has no italic: lore is told from rules by its face, colour and left rule, never slanted. The heading scale is `--fs-*` / `--fw-heading`; new headings pick a step, they don't
+  It has no italic: lore is told from rules by its face, colour and left rule, never slanted. **Points, counts and the language switch are `--font-num` — Courier New**, as they were before the lore face (owner, 2026-11-01, having seen them in the mono): a system face, so each phone draws its own; the rule numbers, the stratagem numbers and the search/popover numbers are in the text face (`--font-sans`). The heading scale is `--fs-*` / `--fw-heading`; new headings pick a step, they don't
   invent a size. `font-family: inherit` on buttons/inputs is fine (it is undoing the UA default).
   **The display face at 18px or less is weight 400** — condensed, it reads cramped at 500 and
   up (owner, 2026-10-07: the roster editor's section headings at 600, the rules' ability names

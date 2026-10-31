@@ -826,7 +826,7 @@ a.nd-link:hover {
   text-align: center;
   font-size: 0.72rem;
   font-weight: 700;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   letter-spacing: 0.5px;
   /* The language not picked: 0.7 (was 0.55, 4.1:1 on the switch — a11y gate, 2026-10-05). */
   color: rgba(255,255,255,0.7);

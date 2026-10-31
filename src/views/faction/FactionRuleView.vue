@@ -354,7 +354,7 @@ const isLong = (body) => (Array.isArray(body) ? body.join('\n') : String(body ||
 .enh-pts {
   margin-left: auto;
   flex-shrink: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--text-muted);

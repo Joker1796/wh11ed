@@ -221,7 +221,7 @@ const asTablist = computed(() => props.tabs.every((t) => !t.to))
 /* A count is a footnote to the label, not part of it — same monospace treatment the roster
    cards use for their numbers. */
 .page-tab-n {
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.72em;
   opacity: 0.75;
 }

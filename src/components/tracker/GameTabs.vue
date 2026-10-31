@@ -171,7 +171,7 @@ const labels = computed(() => ui[locale.value])
   position: absolute; top: 2px; right: 2px;
   min-width: 1.05rem; padding: 0 0.2rem;
   background: var(--accent); color: #fff;
-  font-family: var(--font-mono); font-size: 0.62rem; line-height: 1.35; letter-spacing: 0;
+  font-family: var(--font-num); font-size: 0.62rem; line-height: 1.35; letter-spacing: 0;
 }
 .gt-tab.on .gt-count { background: #fff; color: var(--accent); }
 /* An example (a help's demo): shown, not used — and not inside the page's flow above a panel. */

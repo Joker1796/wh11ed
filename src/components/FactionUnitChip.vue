@@ -117,7 +117,7 @@ const owned = computed(() => isOwned(props.slug, props.sheet.id))
 }
 .ds-chip-pts {
   order: 2;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.68rem;
   font-weight: 700;
   color: var(--text-muted);

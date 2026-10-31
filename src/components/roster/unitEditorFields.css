@@ -20,7 +20,7 @@
   margin-left: 0.35rem;
   padding: 0.05rem 0.35rem;
   border: 1px solid var(--border);
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.7rem;
   font-weight: 600;
   color: var(--text-muted);
@@ -30,7 +30,7 @@
 .opt-col { display: flex; flex-direction: column; gap: 0.3rem; }
 .pill {
   padding: 0.3rem 0.6rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.78rem;
   font-weight: 600;
   border: 1px solid var(--border);
@@ -41,7 +41,7 @@
 }
 .pill.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); color: var(--text-primary); }
 .opt-name { color: var(--text-primary); }
-.opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent-ink); }
+.opt-pts { font-family: var(--font-num); font-weight: 700; color: var(--accent-ink); }
 .opt-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-left: 0.4rem; }
 
 /* Checkbox tiles (wargear picks, enhancements, warlord) — same look as the tracker's

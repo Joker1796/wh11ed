@@ -549,7 +549,7 @@ function confirmDelete() {
 .empty { color: var(--text-muted); font-style: italic; text-align: center; }
 /* Sits where a saved list shows its issue count — for a draft, how far it got is the useful fact. */
 .rstep {
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.72rem;
   color: var(--text-muted);
 }
@@ -661,7 +661,7 @@ function confirmDelete() {
   .rfaction, .rpin { color: var(--fa-dark, var(--accent-ink)); }
 }
 .rpin { font-size: 0.85rem; color: var(--fa-light, var(--accent)); }
-.rpoints { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+.rpoints { font-family: var(--font-num); font-weight: 700; color: var(--text-primary); white-space: nowrap; }
 .rpoints.over { color: var(--danger); }
 .rpoints .unit { font-size: 0.62rem; color: var(--text-dim); margin-left: 0.15rem; }
 .roster-meta {

@@ -1968,7 +1968,7 @@ const nowSlot = computed(() => {
 .rvp-head:hover { border-color: var(--accent); color: var(--accent-ink); }
 .rvp-chev { flex-shrink: 0; font-size: 0.7rem; }
 .rvp-title { flex: 1; text-align: left; }
-.rvp-count { flex-shrink: 0; font-family: var(--font-mono); }
+.rvp-count { flex-shrink: 0; font-family: var(--font-num); }
 .rvp-list { list-style: none; margin: 0.4rem 0 0; padding: 0 0.2rem; font-size: 0.76rem; }
 .rvp-src {
   margin-top: 0.5rem; color: var(--text-muted);
@@ -2035,7 +2035,7 @@ const nowSlot = computed(() => {
 .rv-name.xlong { font-size: clamp(1.15rem, 4.4vw, 1.7rem); line-height: 1.15; }
 .rv-meta { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; flex: 0 0 auto; }
 .rv-meta:empty { display: none; }
-.rv-points { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
+.rv-points { font-family: var(--font-num); font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
 .rp-used { color: var(--text-primary); }
 .rv-points.over .rp-used { color: var(--danger); }
 .rp-sep, .rp-cap { color: var(--text-dim); }
@@ -2182,7 +2182,7 @@ const nowSlot = computed(() => {
   transition: border-color var(--motion-fast), color var(--motion-fast);
 }
 .rvunit-more:hover { border-color: var(--accent); color: var(--accent-ink); }
-.rvunit-more-n { font-family: var(--font-mono); font-weight: 700; }
+.rvunit-more-n { font-family: var(--font-num); font-weight: 700; }
 /* The folded-out strip continues the one above it, so it carries no rule of its own. */
 .rvunit-rest { border-top: 0; padding-top: 0; }
 .rvunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
@@ -2224,10 +2224,10 @@ const nowSlot = computed(() => {
   border-bottom: none;
 }
 .rvblock-name { flex: 1; min-width: 0; font-weight: 600; font-size: 0.85rem; color: var(--text-primary); }
-.rvblock-total { flex: none; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-primary); }
+.rvblock-total { flex: none; font-family: var(--font-num); font-size: 0.8rem; font-weight: 700; color: var(--text-primary); }
 /* The mini stat plates are RosterStatPlates.vue (shared with the tracker's help). */
 .rvunit-sub { font-size: 0.74rem; color: var(--text-dim); }
-.rvunit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
+.rvunit-pts { font-family: var(--font-num); font-weight: 700; color: var(--text-primary); }
 
 /* ── On the rosters desk (RosterDeskView) ──
    The page is a column of the desk and scrolls inside it; the way back is not drawn, the list of

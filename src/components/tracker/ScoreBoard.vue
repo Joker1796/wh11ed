@@ -323,17 +323,15 @@ for (const [name, of] of Object.entries(scores)) {
   font-weight: 700;
   color: var(--side);
 }
-/* The score in the face of the app's other numbers (owner, 2026-11-01), at its regular weight — 700
-   read heavy; the lightest of the three the app loads (src/fonts.js). */
 .grand {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: 2.8rem;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--text-primary);
   line-height: 1;
 }
-.grand-unit { font-size: 0.8rem; color: var(--text-dim); margin-left: 0.2rem; font-family: var(--font-mono); }
-.grand-vp { font-size: 0.85rem; opacity: 0.5; margin-left: 0.4rem; font-family: var(--font-mono); font-weight: 600; }
+.grand-unit { font-size: 0.8rem; color: var(--text-dim); margin-left: 0.2rem; font-family: var(--font-num); }
+.grand-vp { font-size: 0.85rem; opacity: 0.5; margin-left: 0.4rem; font-family: var(--font-num); font-weight: 600; }
 /* The running Battle Points stand beside the VP as its equal, the same face and size. */
 .grand-bp { margin-left: 1.1rem; }
 /* Grouped at the left under the score, not spread across the card (owner, 2026-09-29). */
@@ -349,7 +347,7 @@ for (const [name, of] of Object.entries(scores)) {
 .breakdown div { display: flex; flex-direction: column; gap: 0; }
 .breakdown dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
 /* The main score's face (owner, 2026-09-29), a size under it. */
-.breakdown dd { margin: 0; font-family: var(--font-mono); font-size: 1.75rem; line-height: 1; font-weight: 400; color: var(--text-primary); }
+.breakdown dd { margin: 0; font-family: var(--font-display); font-size: 1.75rem; line-height: 1; font-weight: 500; color: var(--text-primary); }
 /* The badge straddles the board's top edge (the result screen only). The board makes room for it
    rather than the badge moving onto the score columns. */
 /* The plate stands wholly above the cards: half over them, it covered the top of the right-hand

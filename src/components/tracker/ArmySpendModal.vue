@@ -78,7 +78,7 @@ const labels = computed(() => ui[locale.value])
 .opt-name { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); overflow-wrap: anywhere; }
 .opt-cost {
   flex-shrink: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--accent-ink);

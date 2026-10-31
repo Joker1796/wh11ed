@@ -107,7 +107,7 @@ defineEmits(['toggle', 'close'])
   flex-shrink: 0;
   font-size: 0.72rem;
   font-weight: 700;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   color: var(--accent-ink);
 }
 /* Rule text — RuleBody renders a bare <p> (its root class isn't bound), so reach it with :deep and

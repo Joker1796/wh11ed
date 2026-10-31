@@ -79,6 +79,9 @@
   --sub-rule-ink: #40422f;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Kibernetyk Mono', monospace;
+  /* Points, counts and the language switch, as they were set before the lore face (owner, 2026-11-01):
+     a system face, so each phone draws its own Courier — the reason it once left. */
+  --font-num: 'Courier New', Courier, monospace;
   /* Condensed display face for ALL headings/titles across the app (h1–h4 + the per-component
      .*-title/.mh-title/etc.) and the WH RULES logo wordmark (.logo-wh). Kibernetyk Mono
      (--font-mono) sets the lore and the numbers; it has no italic, so lore is never italic. */
@@ -2007,7 +2010,7 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
    the dialog is ABOUT (VP scored, points an enhancement costs, what is left in a pool). Three
    dialogs had three near-identical counters before this. */
 .mh-count {
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.85rem;
   font-style: normal;
   font-weight: 700;
@@ -2249,7 +2252,7 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   transition: border-color var(--motion-fast);
 }
 .phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
-.phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
+.phase-count { flex-shrink: 0; font-family: var(--font-num); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
 .phase-name { flex: 1; text-align: left; }
 .strat-toggle {
   display: inline-flex;

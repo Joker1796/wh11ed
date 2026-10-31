@@ -949,7 +949,7 @@ useFlashOnChange(counter, counterEl)
 .army-counter-readonly {
   min-width: 2.2ch;
   text-align: center;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-weight: 700;
   font-size: 1rem;
   color: var(--text-primary);
@@ -1046,7 +1046,7 @@ useFlashOnChange(counter, counterEl)
 
 .army-field-count {
   flex-shrink: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.75rem;
   font-weight: 700;
   color: var(--text-muted);
@@ -1154,7 +1154,7 @@ useFlashOnChange(counter, counterEl)
 
 .army-resurrect-cost {
   flex-shrink: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-weight: 700;
   color: var(--accent-ink);
 }
@@ -1196,7 +1196,7 @@ useFlashOnChange(counter, counterEl)
 }
 
 .army-readout-val {
-  font-family: var(--font-mono);
+  font-family: var(--font-num);
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--accent-ink);
