@@ -178,7 +178,7 @@ const positionStyle = computed(() => (anchor.value ? placeByAnchor(anchor.value)
 
 .kw-num {
   font-size: 0.72rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   color: rgba(255, 255, 255, 0.35);
   margin-left: auto;
   cursor: pointer;

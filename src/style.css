@@ -787,7 +787,7 @@ tr:nth-child(even) td {
   padding: 1px 7px;
   font-size: 0.72rem;
   font-weight: 700;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   margin-right: 0.5rem;
   vertical-align: middle;
   letter-spacing: 0.5px;

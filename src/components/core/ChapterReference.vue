@@ -542,6 +542,8 @@ function parseBody(text) {
   color: var(--ability-weapon, #7a5a00);
   font-family: var(--font-mono);
   font-weight: 700;
+  /* A step under the unit abilities' 1.05rem: the mono runs wider and taller (owner, 2026-11-01). */
+  font-size: 0.9rem;
 }
 
 .ability-name.unit {

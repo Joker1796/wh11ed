@@ -250,7 +250,7 @@ const activeChapter = computed(() => {
 }
 
 .chapter-toc-num {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   color: var(--text-muted);
   flex-shrink: 0;
@@ -311,7 +311,7 @@ const activeChapter = computed(() => {
 }
 
 .chapter-toc-subs-num {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.66rem;
   color: var(--text-dim);
   flex-shrink: 0;

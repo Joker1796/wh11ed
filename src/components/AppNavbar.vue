@@ -824,7 +824,7 @@ a.nd-link:hover {
   z-index: 1;
   flex: 1;
   text-align: center;
-  font-size: 0.64rem;
+  font-size: 0.72rem;
   font-weight: 700;
   font-family: var(--font-mono);
   letter-spacing: 0.5px;

@@ -213,7 +213,7 @@ const renderField = text => (text ? renderRichText(text) : '')
 }
 
 .strat-num {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.68rem;
   color: rgba(255,255,255,0.5);
   flex-shrink: 0;
@@ -351,7 +351,7 @@ const renderField = text => (text ? renderRichText(text) : '')
 }
 
 .strat-sub-num {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.65rem;
   color: rgba(255,255,255,0.5);
   flex-shrink: 0;

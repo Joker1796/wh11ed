@@ -173,8 +173,7 @@ defineExpose({ focus: () => (props.editable ? startEdit() : undefined) })
   text-align: center;
   font-family: var(--font-mono);
   font-weight: 700;
-  /* A step under 1rem: the mono's figures stand taller than Inter's did (owner, 2026-11-01). */
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--text-primary);
 }
 /* The mono's line box keeps room below its figures, so a number sat ~1.5px high between the
