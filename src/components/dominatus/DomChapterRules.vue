@@ -30,8 +30,15 @@ import { useDominatus } from './useDominatus.js'
 const { labels, deck } = useDominatus()
 
 // A section heading runs across the page and its text goes on in the columns under it: a whole
-// section full width read at ~150 characters a line (owner, 2026-10-31).
-const blocks = computed(() => deck.value.rules.blocks.flatMap((b) => (b.section
-  ? [{ id: b.id, title: b.title, section: true, wide: true, body: '' }, { ...b, id: `${b.id}-text`, title: '', section: false }]
-  : [b])))
+// section full width read at ~150 characters a line (owner, 2026-10-31). A section's table is a
+// block of its own, so a section of one paragraph and a table still makes two columns (Preparing).
+const blocks = computed(() => deck.value.rules.blocks.flatMap((b) => {
+  if (!b.section) return [b]
+  const { table, ...text } = b
+  return [
+    { id: b.id, title: b.title, section: true, wide: true, body: '' },
+    { ...text, id: `${b.id}-text`, title: '', section: false },
+    ...(table ? [{ id: `${b.id}-table`, title: '', body: '', table }] : []),
+  ]
+}))
 </script>
