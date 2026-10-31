@@ -2,7 +2,7 @@
   <article
     :id="`briefing-${briefing.alliance}-${briefing.phase}`"
     class="dcard"
-    :class="`dom-ink-${briefing.alliance}`"
+    :class="`dom-deck-briefing dom-ink-${briefing.alliance}`"
   >
     <header class="dcard-head">
       <span class="dcard-tag">{{ tag }}</span>

@@ -81,33 +81,46 @@
 .book-chapter .dom-prose .rule-block { padding-block: 0.35rem; }
 
 /* ── The printed card's look (2026-10-31) ──────────────────────────────────────────────────────
-   Each card carries its Alliance (or its pile) as an ink: a stripe down its left edge, the colour
-   of its emblem. The deck itself prints every card in one green-and-black; the colours are ours,
-   so an Alliance's cards are told apart at a glance in a long column. */
+   Two colours on a card. Its DECK's is the stripe down its left edge — the spine every printed
+   card runs beside its name (owner, 2026-10-31, measured off the photos): Agenda charcoal with an
+   olive cast, Briefing a cooler grey, Location near-black, Upgrade (Honour, Skill, Relic) a deep
+   green, Agenda Achieved brass. Agenda, Briefing and Location print almost alike, so ours part
+   them by cast; in the dark theme each is lifted to show on a dark card. Its ALLIANCE's is the tag
+   line and the emblem (the colours are ours: the deck tells Alliances apart by emblem alone); a
+   card with no Alliance writes its tag in its deck's colour. */
 :root {
   --dom-liberators: #2f6aa3;
   --dom-oppressors: #a8432a;
   --dom-raiders: #6f4fa0;
-  --dom-deck: #2f7a52;
-  --dom-place: #5b5b5b;
+  --dom-spine-agenda: #4f5842;
+  --dom-spine-briefing: #474c50;
+  --dom-spine-location: #1f2421;
+  --dom-spine-upgrade: #2a5a42;
+  --dom-spine-achieved: #8c7340;
 }
 :root[data-theme='dark'] {
   --dom-liberators: #6aa3d9;
   --dom-oppressors: #e8866a;
   --dom-raiders: #a98bd6;
-  --dom-deck: #5cb585;
-  --dom-place: #9a9a9a;
+  --dom-spine-agenda: #8f9a7c;
+  --dom-spine-briefing: #9aa0a4;
+  --dom-spine-location: #c5cbc2;
+  --dom-spine-upgrade: #5fa583;
+  --dom-spine-achieved: #c9a862;
 }
 .dom-ink-liberators { --dom-ink: var(--dom-liberators); }
 .dom-ink-oppressors { --dom-ink: var(--dom-oppressors); }
 .dom-ink-raiders { --dom-ink: var(--dom-raiders); }
+.dom-deck-agenda { --dom-spine: var(--dom-spine-agenda); }
+.dom-deck-briefing { --dom-spine: var(--dom-spine-briefing); }
+.dom-deck-location { --dom-spine: var(--dom-spine-location); --dom-ink: var(--dom-spine-location); }
+.dom-deck-upgrade { --dom-spine: var(--dom-spine-upgrade); }
 .dom-ink-honour,
-.dom-ink-skill { --dom-ink: var(--dom-deck); }
-.dom-ink-location { --dom-ink: var(--dom-place); }
+.dom-ink-skill { --dom-ink: var(--dom-spine-upgrade); }
 
 /* `.dcard-agenda.mcard` — an Agenda is MissionCard, whose scoped `.mcard` (0,2,0) would win. */
 .dcard,
-.dcard-agenda.mcard { position: relative; border-left: 4px solid var(--dom-ink, var(--border)); }
+.dcard-agenda.mcard { position: relative; border-left: 4px solid var(--dom-spine, var(--border)); }
 /* An Agenda's name as every other card's: the deck prints them all alike. */
 .dcard-agenda .mcard-head .mcard-name { font-size: 1.35rem; font-weight: 400; text-transform: uppercase; }
 
@@ -204,6 +217,11 @@
   letter-spacing: 0.5px;
   line-height: 1.05;
 }
+/* A deck's chapter wears that deck's colour on its rule (the Rules chapter keeps the accent). */
+#dom-chapter-locations > .chapter-heading { border-top-color: var(--dom-spine-location); }
+#dom-chapter-briefings > .chapter-heading { border-top-color: var(--dom-spine-briefing); }
+#dom-chapter-agendas > .chapter-heading { border-top-color: var(--dom-spine-agenda); }
+#dom-chapter-upgrades > .chapter-heading { border-top-color: var(--dom-spine-upgrade); }
 .book-chapter[id^='dom-chapter-'] > .chapter-desc {
   padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--border);

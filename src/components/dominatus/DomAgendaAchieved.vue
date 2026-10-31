@@ -50,7 +50,7 @@ const { labels } = useDominatus()
 </script>
 
 <style scoped>
-.dachieved { margin: 0.2rem 0 0.4rem; }
+.dachieved { margin: 0.2rem 0 0.4rem; padding-left: 0.6rem; border-left: 3px solid var(--dom-spine-achieved, var(--border)); }
 .dach-label {
   font-size: 0.7rem;
   font-weight: 700;

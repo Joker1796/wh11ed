@@ -1,7 +1,7 @@
 <template>
   <article
     :id="`location-${location.slug}`"
-    class="dcard dom-ink-location"
+    class="dcard dom-deck-location"
   >
     <header class="dcard-head">
       <span class="dcard-tag">{{ tag }}</span>

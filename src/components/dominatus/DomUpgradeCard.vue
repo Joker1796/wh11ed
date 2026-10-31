@@ -2,7 +2,7 @@
   <article
     :id="`upgrade-${upgrade.slug}`"
     class="dcard"
-    :class="`dom-ink-${upgrade.alliance || upgrade.kind}`"
+    :class="`dom-deck-upgrade dom-ink-${upgrade.alliance || upgrade.kind}`"
   >
     <header class="dcard-head">
       <span class="dcard-tag">{{ tag }}</span>
