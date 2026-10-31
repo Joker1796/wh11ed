@@ -120,6 +120,7 @@ defineProps({
 .prose-box--item { margin: 0.6rem 0; }
 .prose-box-row { display: flex; align-items: center; gap: 0.8rem; }
 .prose-box-text { flex: 1; min-width: 0; }
-.prose-box-icon { flex: none; width: 3.4rem; height: 3.4rem; margin: 0; color: var(--text-primary); }
+/* About a quarter of the frame's width, as the booklet prints it beside the text. */
+.prose-box-icon { flex: none; width: 5.5rem; height: 5.5rem; margin: 0; color: var(--text-primary); }
 .prose-box-note { margin: 0.6rem 0 0.9rem; }
 </style>
