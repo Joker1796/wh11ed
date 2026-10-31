@@ -306,7 +306,7 @@ const abilityRows = computed(() => ABILITY_LISTS.flatMap(abilityMatching))
   .wpm-weapons .wname-text { display: block; }
   .wtags { display: block; margin: 0.15rem 0 0; }
   .wtag { font-size: 0.7rem; }
-  .wtag :deep(.keyword) { font-size: 0.72rem; letter-spacing: 0; padding: 0 3px; }
+  .wtag :deep(.keyword) { font-size: 0.72rem; letter-spacing: 0; padding-inline: 3px; }
   .wprofile-arrow { width: 10px; height: 7px; margin-right: 0.25rem; }
 }
 
@@ -314,7 +314,7 @@ const abilityRows = computed(() => ABILITY_LISTS.flatMap(abilityMatching))
   /* Undo the squeeze — a card has room to be read, and only the table needed it. */
   .wpm-weapons table { font-size: 0.9rem; }
   .wtag { font-size: 0.72rem; }
-  .wtag :deep(.keyword) { font-size: 0.74rem; letter-spacing: 0.2px; padding: 0 5px; }
+  .wtag :deep(.keyword) { font-size: 0.74rem; letter-spacing: 0.2px; padding-inline: 5px; }
 
   .wpm-weapons { overflow-x: visible; }
   .wpm-weapons:has(+ .wpm-weapons) { margin-bottom: 0.8rem; }

@@ -245,7 +245,7 @@ const skill = computed(() => (melee.value ? 'ws' : 'bs'))
    (~9px) and the letters ran together. Pin it to a fixed, readable size instead of letting it
    compound with the ancestor font-size. */
 .wtag :deep(.keyword) {
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   letter-spacing: 0.2px;
 }
 
@@ -339,7 +339,7 @@ const skill = computed(() => (melee.value ? 'ws' : 'bs'))
      minimum width and pushed the whole table wider than the card. */
   .wtags { display: block; contain: inline-size; width: calc(100% / var(--wname-share) - 0.35rem); margin: 0.15rem 0 0; }
   .wtag { font-size: 0.6rem; }
-  .wtag :deep(.keyword) { letter-spacing: 0; padding: 0 3px; }
+  .wtag :deep(.keyword) { letter-spacing: 0; padding-inline: 3px; }
   .wprofile-arrow { width: 10px; height: 7px; margin-right: 0.25rem; }
 }
 
@@ -366,7 +366,7 @@ const skill = computed(() => (melee.value ? 'ws' : 'bs'))
   /* Undo the squeeze above — a card has room to be read, and only the table needed it. */
   .ds-weapons table { font-size: 0.82rem; }
   .wtag { font-size: 0.72rem; }
-  .wtag :deep(.keyword) { letter-spacing: 0.2px; padding: 0 5px; }
+  .wtag :deep(.keyword) { letter-spacing: 0.2px; padding-inline: 5px; }
 
   .ds-weapons table,
   .ds-weapons thead,

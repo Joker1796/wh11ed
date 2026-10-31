@@ -1817,7 +1817,7 @@ span.ds-stat-box.ds-stat-mod { color: var(--accent-ink); }
 /* Core-ability badges (Deep Strike, Leader…) — same fixed-size fix as .wtag's .keyword
    above, so they read clearly instead of the shared class's default em-scaled size. */
 .ds-ability-line .keyword {
-  font-size: 0.76rem;
+  font-size: 0.68rem;
   letter-spacing: 0.2px;
 }
 .ds-ability { margin-bottom: 0.45rem; }

@@ -737,20 +737,26 @@ tr:nth-child(even) td {
   color: var(--link-accent);
   border: 1px solid color-mix(in srgb, var(--link-accent) 35%, transparent);
   padding: 0 5px;
-  font-size: 0.78em;
+  /* A step under Inter's 0.78em: the mono is wider and taller (owner, 2026-11-01). */
+  font-size: 0.72em;
   font-weight: 600;
-  /* Inter, not the monospace it was until 2026-10-18 (owner): Courier New is a system face, so a
-     phone without it drew whatever monospace it had, and every tag was as wide as a typewriter
-     makes it. Inter is loaded and offline already, the same everywhere, and the frame is what
-     makes this a tag. */
-  font-family: var(--font-sans);
-  letter-spacing: 0.03em;
+  /* The lore's face (owner, 2026-11-01): a rule's tag reads as the app's other set-apart text.
+     Inter from 2026-10-18 because the monospace then was Courier New, a system face each phone drew
+     differently; Kibernetyk Mono is ours, loaded and offline like Inter. */
+  font-family: var(--font-mono);
+  letter-spacing: 0;
   /* Never wider than its line (2026-10-27: a granted "Feel No Pain 5+ (против смертельных ран и
      Psychic Attacks)" ran off the card on a phone, `nowrap` held it in one line). An inline-block
      is as wide as its text up to the line and no wider, so a tag that fits stays one line and moves
      down whole, as before; only a tag longer than the whole line breaks inside its frame. */
   max-width: 100%;
   cursor: pointer;
+}
+/* The mono's line box keeps room for descenders a tag in capitals never uses, so "[PRECISION]" sat
+   high in its frame (owner, 2026-11-01). Trimmed to the capitals and padded alike above and below,
+   the letters stand in the middle; a browser without `text-box` keeps the line box as it was. */
+@supports (text-box: trim-both cap alphabetic) {
+  .keyword { text-box: trim-both cap alphabetic; padding-block: 0.3em; }
 }
 /* A unit keyword inside a pill ("[ANTI-VEHICLE 4+]", "[LETHAL HITS: NON-MONSTER/VEHICLE]") is part
    of the tag's text: the renderer's auto-bold would light it white in the middle of the pill. */
