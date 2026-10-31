@@ -124,9 +124,12 @@ onUnmounted(() => {
 <style scoped>
 .pd { position: relative; display: inline-flex; flex-direction: column; }
 /* The modal's surface, dropped under the trigger: same card ground and frame, its own scroll. */
+/* Over a dialog (400): a dropdown opened from inside one — the campaign's faction pick in its Add
+   player dialog — opened under it, dimmed (2026-11-01). Under the rules popover (500). A dropdown
+   closes on a tap outside, so it never outlives the screen it was opened over. */
 .pd-panel {
   position: fixed;
-  z-index: 210;
+  z-index: 410;
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 0.45rem;

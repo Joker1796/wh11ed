@@ -334,6 +334,25 @@ function apply(s, deck, e) {
 }
 
 /**
+ * A player's counted battles: won, drawn, lost. A battle the Warmaster has not counted (pending) or
+ * refused is not in it.
+ * @param {CampaignState} s
+ * @param {string} playerId
+ */
+export function recordOf(s, playerId) {
+  const r = { won: 0, drawn: 0, lost: 0 }
+  for (const b of s.battles) {
+    if (b.status !== 'approved') continue
+    const side = b.a === playerId ? 'a' : b.b === playerId ? 'b' : null
+    if (!side) continue
+    if (!b.victor) r.drawn++
+    else if (b.victor === side) r.won++
+    else r.lost++
+  }
+  return r
+}
+
+/**
  * Battle Honours, Agenda Achieved cards held and Narrative Points so far, per Alliance — the
  * standings the campaign page shows.
  * @param {CampaignState} s

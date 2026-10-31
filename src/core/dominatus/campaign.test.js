@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { campaignState, drawPile, drawFor, standings, PATH_TO_CONQUEST } from './campaign.js'
+import { campaignState, drawPile, drawFor, standings, recordOf, PATH_TO_CONQUEST } from './campaign.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en')
@@ -168,5 +168,23 @@ describe('Dominatus campaign — the end of a phase', () => {
       { alliance: 'liberators', honours: 1, totalHonours: 1, agendaAchieved: 1, np: 0, locations: [] },
       { alliance: 'oppressors', honours: 0, totalHonours: 0, agendaAchieved: 0, np: 0, locations: [] },
     ])
+  })
+})
+
+describe('Dominatus campaign — a player\'s record', () => {
+  it('counts the battles the Warmaster counted, each from the player\'s side', () => {
+    const s = campaignState([
+      ...base(),
+      battle('owner', 'b1', 'ann', 'cid', 'a'),
+      battle('owner', 'b2', 'cid', 'ann', 'a'),
+      battle('owner', 'b3', 'ann', 'dee', null),
+      battle('m1', 'b4', 'ben', 'cid', 'a'),
+      battle('m2', 'b5', 'dee', 'ann', 'a'),
+      O('review', { battle: 'b5', ok: false }),
+    ], deck)
+    expect(recordOf(s, 'ann')).toEqual({ won: 1, drawn: 1, lost: 1 })
+    expect(recordOf(s, 'cid')).toEqual({ won: 1, drawn: 0, lost: 1 })
+    expect(recordOf(s, 'ben')).toEqual({ won: 0, drawn: 0, lost: 0 })
+    expect(recordOf(s, 'dee')).toEqual({ won: 0, drawn: 1, lost: 0 })
   })
 })

@@ -3,24 +3,31 @@
     v-model:open="open"
     class="cpick"
     :title="title || placeholder"
-    panel-width="20rem"
+    :panel-width="panelWidth"
   >
     <template #trigger="{ toggle }">
       <button
         type="button"
         class="form-input cpick-trigger"
-        :class="{ empty: !current }"
+        :class="{ empty: !shown }"
         :disabled="disabled"
         :aria-expanded="open"
         aria-haspopup="dialog"
         @click="toggle"
       >
-        <span class="cpick-value">{{ current ? current.label : placeholder }}</span>
+        <slot name="lead" />
+        <span class="cpick-value">{{ shown || placeholder }}</span>
         <i class="wi wi-chevron-down" />
       </button>
     </template>
     <template #default="{ bodyClass, close, compact }">
+      <!-- A list of its own (the factions) in place of the rows; it calls `pick`. -->
+      <slot
+        name="list"
+        v-bind="{ bodyClass, compact, pick: (v) => { model = v; close() } }"
+      />
       <div
+        v-if="!$slots.list"
         class="act-list"
         :class="[bodyClass, { 'act-compact': compact }]"
       >
@@ -51,10 +58,14 @@ const props = defineProps({
   placeholder: { type: String, default: '—' },
   title: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
+  panelWidth: { type: String, default: '20rem' },
+  // What the trigger says when the value is not one of `options` (a list of its own, `#list`).
+  label: { type: String, default: '' },
 })
 const model = defineModel({ type: [String, Number, null], default: null })
 const open = ref(false)
 const current = computed(() => props.options.find((o) => o.value === model.value) || null)
+const shown = computed(() => props.label || current.value?.label || '')
 </script>
 
 <style scoped>
@@ -62,7 +73,7 @@ const current = computed(() => props.options.find((o) => o.value === model.value
 .cpick-trigger {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   width: 100%;
   padding-right: 0.6rem;
   text-align: left;

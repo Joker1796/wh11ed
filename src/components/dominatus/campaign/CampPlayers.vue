@@ -29,13 +29,26 @@
             :key="p.id"
             class="camp-player"
           >
+            <!-- The name, then on the right the counted battles (won–drawn–lost); the faction under
+                 the name. What a player gains over the campaign follows: Agenda Achieved, cards. -->
             <div class="camp-player-head">
               <strong>{{ p.name || p.id }}</strong>
               <span
-                v-if="p.agenda.length"
-                class="camp-badge"
-              >{{ labels.domAgendaAchieved }} {{ p.agenda.length }}</span>
+                class="camp-record"
+                :title="labels.campRecordTitle"
+              >{{ recordLine(p.id) }}</span>
             </div>
+            <div
+              v-if="factionOf(p)"
+              class="camp-faction"
+            >
+              <FactionBadge :faction="factionOf(p)" />
+              {{ factionOf(p).name }}
+            </div>
+            <span
+              v-if="p.agenda.length"
+              class="camp-badge"
+            >{{ labels.domAgendaAchieved }} {{ p.agenda.length }}</span>
             <!-- Each card held opens its text, as a card's corner mark does. -->
             <p
               v-if="p.upgrades.length"
@@ -79,6 +92,7 @@
             :placeholder="labels.campPlayerName"
             :aria-label="labels.campPlayerName"
           >
+          <CampFactionPick v-model="faction" />
           <div class="seg seg-fill">
             <button
               v-for="a in alliances"
@@ -115,11 +129,18 @@ import { ref, computed } from 'vue'
 import DomAllianceName from '../DomAllianceName.vue'
 import CampOpenForm from './CampOpenForm.vue'
 import CampShare from './CampShare.vue'
+import CampFactionPick from './CampFactionPick.vue'
+import FactionBadge from '../../FactionBadge.vue'
+import { recordOf } from '../../../core/dominatus/campaign.js'
+import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 
 const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade } = useCampaignView()
 const name = ref('')
 const alliance = ref(null)
+const faction = ref(null)
+const factionOf = (p) => (p.faction ? factionIndexBySlug(p.faction) : null)
+const recordLine = (id) => { const r = recordOf(state.value, id); return `${r.won}–${r.drawn}–${r.lost}` }
 const alliances = computed(() => deck.value?.alliances || [])
 // The Alliances that have players, in the deck's order; anyone not yet in one last.
 const groups = computed(() => {
@@ -131,9 +152,10 @@ const groups = computed(() => {
 
 async function add() {
   const id = isOwner.value ? `p${Date.now().toString(36)}` : `m-${entry.value.memberId}`
-  if (!(await act('player', { id, name: name.value, alliance: alliance.value }))) return false
+  if (!(await act('player', { id, name: name.value, alliance: alliance.value, faction: faction.value }))) return false
   name.value = ''
   alliance.value = null
+  faction.value = null
   return true
 }
 </script>

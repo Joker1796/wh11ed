@@ -39,6 +39,9 @@
 .camp-loc { display: block; font-size: 0.72rem; font-weight: 400; color: var(--text-muted); }
 .camp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
 .camp-player-head { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; align-items: baseline; }
+/* Won–drawn–lost on the right of the name, in the face numbers set apart wear. */
+.camp-record { margin-left: auto; font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted); }
+.camp-faction { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.15rem; font-size: 0.82rem; color: var(--text-muted); }
 .camp-badge { font-size: 0.72rem; font-weight: 700; color: var(--accent-ink); }
 .camp-battle { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; align-items: center; font-size: 0.88rem; }
 .camp-battle.is-rejected { opacity: 0.6; text-decoration: line-through; }
@@ -48,6 +51,7 @@
    dialog, owner 2026-11-01). */
 .camp-form > .form-input,
 .camp-form > .camp-pair,
+.camp-form > .cpick,
 .camp-form > .camp-row { justify-self: stretch; }
 .camp-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; }
 .camp-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
