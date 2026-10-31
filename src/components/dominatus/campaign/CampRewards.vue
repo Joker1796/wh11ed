@@ -127,7 +127,7 @@
             <DomUpgradeCard :upgrade="upgradeOf(slug)" />
             <button
               class="btn-primary"
-              @click="keep(drawFor, slug)"
+              @click="askKeep(drawFor, slug)"
             >
               {{ labels.campKeep }}
             </button>
@@ -135,6 +135,17 @@
         </div>
       </div>
     </BaseModal>
+    <!-- Keeping one is final: say how many may be kept and where the rest go (the booklet: "return
+         the others to the deck" — they can be drawn again). -->
+    <ConfirmModal
+      v-if="keeping"
+      :title="labels.campKeepTitle"
+      :message="labels.campKeepConfirm.replace('{card}', upgradeName(keeping.slug)).replace('{n}', drawn[keeping.r.id].length)"
+      :confirm-label="labels.campKeep"
+      :cancel-label="labels.trackerCancel"
+      @confirm="keepNow"
+      @close="keeping = null"
+    />
   </section>
 </template>
 
@@ -146,6 +157,7 @@ import { ref, reactive, computed } from 'vue'
 import NumberStepper from '../../tracker/NumberStepper.vue'
 import DomUpgradeCard from '../DomUpgradeCard.vue'
 import BaseModal from '../../BaseModal.vue'
+import ConfirmModal from '../../ConfirmModal.vue'
 import CampPick from './CampPick.vue'
 import { drawFor as drawCards, drawPile } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
@@ -171,6 +183,17 @@ const drawFor = ref(null)
 function openDraw(r) {
   if (!drawn[r.id]) drawn[r.id] = drawCards(deck.value, playerOf(r.player), r)
   drawFor.value = r
+}
+// One card drawn is no choice and is kept at once; of several, the reader confirms first.
+const keeping = ref(null)
+function askKeep(r, slug) {
+  if (drawn[r.id].length > 1) keeping.value = { r, slug }
+  else keep(r, slug)
+}
+function keepNow() {
+  const { r, slug } = keeping.value
+  keeping.value = null
+  keep(r, slug)
 }
 async function keep(r, slug) {
   drawFor.value = null
