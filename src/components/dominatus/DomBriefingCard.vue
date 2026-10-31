@@ -161,6 +161,11 @@ async function openAgenda(slug) {
 </script>
 
 <style scoped>
+/* Below a desk the introduction takes the card's whole width — no rule down its left — a step
+   smaller (owner, 2026-10-31). */
+@media (max-width: 1023px) {
+  .dcard-lore { padding-left: 0; border-left: none; font-size: 0.7rem; }
+}
 .dcard-outcomes { margin-top: 0.6rem; border-top: 1px dashed var(--border); }
 .dout-toggle {
   display: flex;
