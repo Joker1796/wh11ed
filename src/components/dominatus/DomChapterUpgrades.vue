@@ -28,7 +28,7 @@
     <h3 class="dgroup-label">
       {{ g.label }}
     </h3>
-    <div class="dgrid">
+    <div class="dgrid dgrid-two">
       <DomUpgradeCard
         v-for="u in g.items"
         :key="u.slug"

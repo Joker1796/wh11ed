@@ -19,7 +19,7 @@
 .dgrid > * { break-inside: avoid; margin-bottom: 1rem; }
 /* The Locations at most two abreast (owner, 2026-10-31): three to a desk made each card too narrow
    for its name beside the marks. Still columns, not a grid: a grid's row stood as tall as its
-   tallest card and left a hole under the shorter one. The Agendas too (owner, 2026-10-31). */
+   tallest card and left a hole under the shorter one. The Agendas and Upgrades too (owner, 2026-10-31). */
 .dgrid-two { column-count: 2; }
 /* The Briefings one under another on a desk: each is laid out landscape there (DomBriefingCard). */
 @media (min-width: 1024px) {
