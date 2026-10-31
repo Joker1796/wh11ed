@@ -137,8 +137,11 @@
   line-height: 1.4;
 }
 
-/* The lore paragraph above a card's rules (hidden by "hide lore", style.css), in the lore face. */
-.dcard-lore {
+/* The lore paragraph above a card's rules (hidden by "hide lore", style.css), in the lore face —
+   an Agenda's too, which MissionCard draws as `.mcard-lore` (0,3,0 over its scoped 0,2,0): every
+   card's lore reads the same (owner, 2026-10-31). */
+.dcard-lore,
+.dcard-agenda.mcard .mcard-lore {
   margin: 0.2rem 0 0.6rem;
   padding-left: 0.75rem;
   border-left: 2px solid var(--border);
@@ -146,6 +149,12 @@
   font-size: 0.76rem;
   line-height: 1.45;
   color: var(--text-muted);
+}
+/* Below a desk the lore takes the card's whole width — no rule down its left — a step smaller
+   (owner, 2026-10-31, on the Briefings first). */
+@media (max-width: 1023px) {
+  .dcard-lore,
+  .dcard-agenda.mcard .mcard-lore { padding-left: 0; border-left: none; font-size: 0.7rem; }
 }
 /* The corner marks (DomCardMark): the card's type, its phase numeral in the card's frame, its
    Alliance's emblem — all three drawings, one size (owner, 2026-10-31). A circle reads a size small
