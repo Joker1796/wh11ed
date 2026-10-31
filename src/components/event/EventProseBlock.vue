@@ -159,17 +159,17 @@ const { renderInline } = useRenderInline()
 .prose-box-icon { flex: none; width: 5.5rem; height: 5.5rem; margin: 0; color: var(--text-primary); }
 .prose-box-note { margin: 0.6rem 0 0.9rem; }
 /* A numbered step: the number on a filled square with its bottom-right corner cut, as the booklet
-   prints it — in the house accent (the global .section-num, made the title's size). */
+   prints it — in the house accent (the global .section-num, made a head taller than the title). */
 .prose-step :deep(.section-num) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.9rem;
-  height: 1.9rem;
+  width: 2.5rem;
+  height: 2.5rem;
   margin: 0;
   padding: 0;
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.9rem;
   font-weight: 500;
   letter-spacing: 0;
   clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
