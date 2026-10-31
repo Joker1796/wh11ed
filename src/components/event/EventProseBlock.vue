@@ -142,7 +142,9 @@ const { renderInline } = useRenderInline()
    The plate sits in the wrapper's top PADDING, not a margin: in two columns a block that starts a
    column loses its top margin, and the plate went with it — cut off at the column's top. One
    wrapper, so the plate and its frame are never split between columns either. */
-.prose-box-wrap { padding-top: 1.75rem; margin: 0.9rem 0; break-inside: avoid; }
+/* The room below a frame is padding, not margin: a column drops the bottom margin of what ends it,
+   and a frame last in a chapter's right column sat on the next chapter's rule (owner, 2026-10-31). */
+.prose-box-wrap { padding: 1.75rem 0 0.9rem; margin: 0.9rem 0 0; break-inside: avoid; }
 .prose-box {
   position: relative;
   padding: 0.75rem 0.85rem;
@@ -176,7 +178,7 @@ const { renderInline } = useRenderInline()
 /* The framed items one under another, each the full width (owner, 2026-10-31: side by side left
    each too narrow). */
 .prose-boxes { margin: 0 0 0.9rem; }
-.prose-boxes .prose-box-wrap { margin: 0.3rem 0; }
+.prose-boxes .prose-box-wrap { margin: 0.3rem 0 0; padding-bottom: 0.3rem; }
 .prose-box-row { display: flex; align-items: center; gap: 0.8rem; }
 .prose-box-text { flex: 1; min-width: 0; }
 /* About a quarter of the frame's width, as the booklet prints it beside the text. */
