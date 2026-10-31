@@ -2251,13 +2251,13 @@ const nowSlot = computed(() => {
 .rv-in-game .roster-group-head { margin: 0.45rem 0 0.3rem; padding-bottom: 0; border-bottom: 0; }
 .rvunit-head { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.5rem; }
 .rv-in-game .rvunit-head .rvunit-sub { margin-left: auto; text-align: right; }
-/* The name's line runs the card's full width, to its right edge; the points sit on the plates'
-   line instead of a column down the whole card, which ended the name's line short. */
+/* The points at the end of the name's line (owner, 2026-11-01: they stood on the plates' line, off
+   on their own beside six plates); the plates under them across the card's whole width. */
 .rv-in-game .rvunit-main { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 0.6rem; row-gap: 0.1rem; }
 .rv-in-game .rvunit-text { display: contents; }
-.rv-in-game .rvunit-head { grid-column: 1 / -1; }
-.rv-in-game .rvunit-stats { grid-area: 2 / 1; }
-.rv-in-game .rvunit-pts { grid-area: 2 / 2; align-self: center; justify-self: end; }
+.rv-in-game .rvunit-head { grid-area: 1 / 1; }
+.rv-in-game .rvunit-pts { grid-area: 1 / 2; align-self: baseline; justify-self: end; }
+.rv-in-game .rvunit-stats { grid-area: 2 / 1 / 3 / -1; }
 @media (max-width: 360px) { .rv-in-game .rvunit-main { column-gap: 0.4rem; } }
 .rv-in-desk { height: 100%; padding: 0; }
 .rv-in-desk .rv-top { display: none; }
