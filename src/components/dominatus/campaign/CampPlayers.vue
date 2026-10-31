@@ -20,6 +20,7 @@
           <DomAllianceName
             :id="g.id"
             :name="g.id ? allianceName(g.id) : '—'"
+            big
           />
         </h3>
         <ul class="camp-list">
