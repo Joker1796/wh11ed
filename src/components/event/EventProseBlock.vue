@@ -194,21 +194,28 @@ const { renderInline } = useRenderInline()
   clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
 }
 .prose-step :deep(.rule-header) { gap: 0.55rem; flex-wrap: nowrap; }
-/* A section heading of the booklet (Preparing the Campaign, Start the Campaign): a short accent
-   bar over it and capitals, at the size of the headings it stands over — larger would put it above
-   the chapter's own heading (1.65rem), which it sits inside (owner, 2026-10-31, variant A). */
-.prose-section { padding-bottom: 0; border-bottom: none; }
-.prose-section :deep(.rule-header) { position: relative; padding-top: 0.75rem; margin-bottom: 0; }
-.prose-section :deep(.rule-header)::before {
+/* A section heading of the booklet (Preparing the Campaign, Start the Campaign): a divider, not a
+   title — small letterspaced capitals in the accent's ink, a hairline running on to the right
+   edge. Capitals at a heading's size read larger than the chapter's own heading over them (owner,
+   2026-10-31, twice), so the section is marked by colour and rule, not by size. */
+.prose-section { padding: 1.1rem 0 0.2rem; border-bottom: none; }
+.prose-section :deep(.rule-header) { margin-bottom: 0; }
+.prose-section :deep(.rule-title-wrap) { display: flex; align-items: center; gap: 0.75rem; flex: 1; }
+.prose-section :deep(.rule-title) {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  white-space: nowrap;
+}
+.prose-section :deep(.rule-title-wrap)::after {
   content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 3rem;
-  height: 3px;
+  flex: 1;
+  height: 1px;
   background: var(--accent);
 }
-.prose-section :deep(.rule-title) { text-transform: uppercase; letter-spacing: 0.03em; }
 /* The booklet's list of decks: the mark, the name in the display face, the count under it, a
    dotted rule between the lines. */
 .prose-icons { list-style: none; margin: 0.3rem 0 0.9rem; padding: 0; }
