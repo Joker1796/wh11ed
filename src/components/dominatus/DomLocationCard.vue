@@ -95,6 +95,9 @@ const tag = computed(() => cardTag({ kind: 'location', roll: props.location.roll
   text-transform: uppercase;
   color: var(--text-muted);
 }
+/* The Russian name on the same line as the English, after it (owner, 2026-10-31); it wraps under
+   only when the line is full. */
+.dloc-rule .dname-ru { display: inline; margin-left: 0.5rem; }
 .dloc-rule {
   margin: 0.35rem 0 0.15rem;
   font-family: var(--font-display);
