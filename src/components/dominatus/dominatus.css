@@ -205,3 +205,22 @@
 /* Prose that runs the full width (a section's only block, Alliances' intro) keeps a readable line:
    the columns hold ~75 characters, this holds it to the same. */
 .dom-prose > .rule-block .rule-body { max-width: 46rem; }
+
+/* A chapter's head drawn as a Core Rules section head (SectionHeader, owner 2026-10-31): the accent
+   rule over it, the section title's size in capitals, its description under it and a thin rule
+   closing the head. Keyed to this page's chapter ids: route CSS stays in the document after the
+   reader leaves, and the Event Companion's chapters wear the same .chapter-heading. */
+.book-chapter[id^='dom-chapter-'] > .chapter-heading {
+  padding: 0.7rem 0 0;
+  margin: 0 0 0.25rem;
+  border-top: 3px solid var(--accent);
+  border-bottom: none;
+  font-size: var(--fs-section-title);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.05;
+}
+.book-chapter[id^='dom-chapter-'] > .chapter-desc {
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}

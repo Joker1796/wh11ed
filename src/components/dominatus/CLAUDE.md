@@ -40,7 +40,9 @@ left English, a `nameRu` on every card); `missionTiming.test.js` reads every Age
 
 `src/views/DominatusView.vue` on the Event Companion's shell (`OnePageChapters`), six chapters in
 this directory; nav groups `dominatusGroups` (router/nav.js), route section `dominatus`, a card on
-`/rules`. Card chrome shared by the chapters is `dominatus.css` (loaded by the view only).
+`/rules`. Card chrome shared by the chapters is `dominatus.css` (loaded by the view only). Its chapter heads are drawn as
+Core Rules section heads (the accent rule, the section title's size, capitals), keyed to the
+`dom-chapter-*` ids — route CSS outlives the route, and the Event Companion shares `.chapter-heading`.
 
 **Cards wear the printed card's marks** (2026-10-31): the tag line the deck prints up a card's
 spine ("Liberators · Agenda", "Battle Honour", "Location 1–2" — `cardTag`), the type icon, the
