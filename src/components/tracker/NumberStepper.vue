@@ -173,8 +173,16 @@ defineExpose({ focus: () => (props.editable ? startEdit() : undefined) })
   text-align: center;
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 1rem;
+  /* A step under 1rem: the mono's figures stand taller than Inter's did (owner, 2026-11-01). */
+  font-size: 0.9rem;
   color: var(--text-primary);
+}
+/* The mono's line box keeps room below its figures, so a number sat ~1.5px high between the
+   buttons: trimmed to the figures, it centres on them. A browser without `text-box` keeps the
+   line box as it was. */
+@supports (text-box: trim-both cap alphabetic) {
+  /* On the number itself: a grid item is a block of its own, the cell's trim does not reach it. */
+  .step-num { text-box: trim-both cap alphabetic; }
 }
 .step-num { grid-area: 1 / 1; }
 /* The tappable number of an `editable` stepper, and the field it turns into: the same cell. */
