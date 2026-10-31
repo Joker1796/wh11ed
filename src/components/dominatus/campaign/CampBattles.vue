@@ -43,13 +43,14 @@
 
     <!-- A battle entered by hand (one played without the tracker); a tracker game is sent from its
          finished screen. A member enters only battles they played (the fold checks). -->
-    <CampFold
+    <CampOpenForm
       v-if="!state.finished && (isOwner || mine)"
+      v-slot="{ close }"
       :label="labels.campAddBattle"
     >
       <form
         class="camp-form"
-        @submit.prevent="add"
+        @submit.prevent="add().then((ok) => ok && close())"
       >
         <div class="camp-pair">
           <CampPick
@@ -101,15 +102,24 @@
             />
           </label>
         </div>
-        <button
-          class="btn-primary"
-          type="submit"
-          :disabled="!a || !b"
-        >
-          {{ labels.campSendBattle }}
-        </button>
+        <div class="camp-row">
+          <button
+            class="btn-primary"
+            type="submit"
+            :disabled="!a || !b"
+          >
+            {{ labels.campSendBattle }}
+          </button>
+          <button
+            type="button"
+            class="btn-ghost"
+            @click="close"
+          >
+            {{ labels.trackerCancel }}
+          </button>
+        </div>
       </form>
-    </CampFold>
+    </CampOpenForm>
   </section>
 </template>
 
@@ -119,7 +129,7 @@
 // from a finished tracker game (CampSendGame).
 import { ref, reactive, computed } from 'vue'
 import NumberStepper from '../../tracker/NumberStepper.vue'
-import CampFold from './CampFold.vue'
+import CampOpenForm from './CampOpenForm.vue'
 import CampPick from './CampPick.vue'
 import { useCampaignView } from './useCampaignView.js'
 
@@ -144,11 +154,12 @@ function outcome(x) {
   return labels.value.campWon.replace('{p}', playerName(x[x.victor]))
 }
 async function add() {
-  await act('battle', { id: `b${Date.now().toString(36)}`, a: a.value, b: b.value, victor: victor.value, achieved: { ...achieved } })
+  if (!(await act('battle', { id: `b${Date.now().toString(36)}`, a: a.value, b: b.value, victor: victor.value, achieved: { ...achieved } }))) return false
   a.value = null
   b.value = null
   victor.value = 'a'
   achieved.a = 0
   achieved.b = 0
+  return true
 }
 </script>

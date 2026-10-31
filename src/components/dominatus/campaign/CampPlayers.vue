@@ -43,41 +43,56 @@
     </ul>
 
     <!-- The Warmaster adds anyone; a player who joined by the link adds themselves, once. -->
-    <form
+    <CampOpenForm
       v-if="isOwner || (entry.role === 'member' && !mine)"
-      class="camp-form"
-      @submit.prevent="add"
+      v-slot="{ close }"
+      :label="isOwner ? labels.campAddPlayer : labels.campJoinAs"
+      :primary="!isOwner"
     >
-      <input
-        v-model.trim="name"
-        class="form-input"
-        type="text"
-        maxlength="40"
-        :placeholder="labels.campPlayerName"
-        :aria-label="labels.campPlayerName"
+      <form
+        class="camp-form"
+        @submit.prevent="add().then((ok) => ok && close())"
       >
-      <div class="seg seg-fill">
-        <button
-          v-for="a in alliances"
-          :key="a.id"
-          type="button"
-          :class="{ on: alliance === a.id }"
-          @click="alliance = a.id"
+        <input
+          v-model.trim="name"
+          class="form-input"
+          type="text"
+          maxlength="40"
+          :placeholder="labels.campPlayerName"
+          :aria-label="labels.campPlayerName"
         >
-          <DomAllianceName
-            :id="a.id"
-            :name="a.name"
-          />
-        </button>
-      </div>
-      <button
-        class="btn-primary"
-        type="submit"
-        :disabled="!name || !alliance"
-      >
-        {{ isOwner ? labels.campAddPlayer : labels.campJoinAs }}
-      </button>
-    </form>
+        <div class="seg seg-fill">
+          <button
+            v-for="a in alliances"
+            :key="a.id"
+            type="button"
+            :class="{ on: alliance === a.id }"
+            @click="alliance = a.id"
+          >
+            <DomAllianceName
+              :id="a.id"
+              :name="a.name"
+            />
+          </button>
+        </div>
+        <div class="camp-row">
+          <button
+            class="btn-primary"
+            type="submit"
+            :disabled="!name || !alliance"
+          >
+            {{ isOwner ? labels.campAddPlayer : labels.campJoinAs }}
+          </button>
+          <button
+            type="button"
+            class="btn-ghost"
+            @click="close"
+          >
+            {{ labels.trackerCancel }}
+          </button>
+        </div>
+      </form>
+    </CampOpenForm>
   </section>
 </template>
 
@@ -87,6 +102,7 @@
 // for that one player only.
 import { ref, computed } from 'vue'
 import DomAllianceName from '../DomAllianceName.vue'
+import CampOpenForm from './CampOpenForm.vue'
 import { useCampaignView } from './useCampaignView.js'
 
 const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade } = useCampaignView()
@@ -96,8 +112,9 @@ const alliances = computed(() => deck.value?.alliances || [])
 
 async function add() {
   const id = isOwner.value ? `p${Date.now().toString(36)}` : `m-${entry.value.memberId}`
-  await act('player', { id, name: name.value, alliance: alliance.value })
+  if (!(await act('player', { id, name: name.value, alliance: alliance.value }))) return false
   name.value = ''
   alliance.value = null
+  return true
 }
 </script>

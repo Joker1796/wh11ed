@@ -12,18 +12,13 @@
 
     <!-- A new campaign is the Warmaster's rare act: the form waits behind its button. -->
     <template v-if="status === 'authed'">
-      <ExpandTransition mode="out-in">
-        <button
-          v-if="!creating"
-          key="new"
-          class="btn-primary camp-new"
-          @click="creating = true"
-        >
-          {{ labels.campNew }}
-        </button>
+      <CampOpenForm
+        v-slot="{ close }"
+        class="camp-new"
+        :label="labels.campNew"
+        primary
+      >
         <form
-          v-else
-          key="form"
           class="camp-create"
           @submit.prevent="create"
         >
@@ -62,13 +57,13 @@
             <button
               type="button"
               class="btn-ghost"
-              @click="creating = false"
+              @click="close"
             >
               {{ labels.trackerCancel }}
             </button>
           </div>
         </form>
-      </ExpandTransition>
+      </CampOpenForm>
     </template>
     <p
       v-else
@@ -116,7 +111,7 @@
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import AppToast from '../../components/AppToast.vue'
-import ExpandTransition from '../../components/ExpandTransition.vue'
+import CampOpenForm from '../../components/dominatus/campaign/CampOpenForm.vue'
 import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns } from '../../composables/useCampaigns.js'
@@ -130,7 +125,6 @@ const { status } = useAuth()
 const { campaigns, createCampaign, refreshOwned } = useCampaigns()
 const router = useRouter()
 const name = ref('')
-const creating = ref(false)
 const draw = ref('app')
 const busy = ref(false)
 const error = ref('')

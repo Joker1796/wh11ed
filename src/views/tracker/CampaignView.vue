@@ -133,12 +133,15 @@ const confirmDelete = ref(false)
 // The Warmaster has battles to count: that block goes up among what waits for them.
 const battlesWaiting = computed(() => isOwner.value && !!state.value?.battles.some((b) => b.status === 'pending'))
 
+// True once the event is in: a form closes only then, keeping what was typed when it failed.
 async function act(type, payload) {
   error.value = ''
   try {
     await appendEvent(id.value, type, payload)
+    return true
   } catch (e) {
     error.value = labels.value.campFailed.replace('{code}', e.code || 'network')
+    return false
   }
 }
 provideCampaignView({ entry, state, isOwner, mine, act })
