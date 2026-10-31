@@ -42,7 +42,6 @@ export const dominatusRu = {
   heading: 'Dominatus',
 
   rules: {
-    intro: 'Сюжетная кампания для Warhammer 40,000 с колодой Dominatus: три альянса (Alliance) сражаются за Армагеддон на протяжении трёх фаз кампании, выполняя карты Agenda вместо основных миссий (Primary Mission) и получая для своих персонажей карты Upgrade. Она играется вместе с любой колодой миссий Chapter Approved.',
     blocks: {
       'dom-campaigns': {
         title: 'Кампании на Армагеддоне',

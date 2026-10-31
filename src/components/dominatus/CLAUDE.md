@@ -63,8 +63,10 @@ filled square with a cut corner, in the house accent (`.section-num`), before th
 The chapter reads in the booklet's sections: `newRun` starts a new pair of columns at Preparing,
 the steps and Modifying (one flow ran a screen-high column down and back up), and Alliances is
 `wide`, its three frames side by side. The booklet's section headings (`section`: Armageddon Campaigns,
-Preparing, Start the Campaign — its own block, as printed above step 1) run full width and are
-drawn as a Core Rules section head: the accent rule, the section title's size, capitals. A frame and its plate are one unbreakable wrapper whose
+Preparing, Start the Campaign — its own block, as printed above step 1): DomChapterRules splits
+each into a full-width heading and its text in the columns; the heading is in capitals under a
+short accent bar, at the size of the headings it stands over (bigger would outrank the chapter's).
+No lead paragraph of ours: the booklet's first section is the introduction. A frame and its plate are one unbreakable wrapper whose
 TOP PADDING holds the plate — a column drops a block's top margin, and the plate went with it. Where the marks sit is still being
 chosen on the stand (TEMP `?dv=a|b|c` in DominatusView and dominatus.css). The
 Agendas chapter's filters are one shared reactive (`useAgendaFilter`) so a Briefing cell can open

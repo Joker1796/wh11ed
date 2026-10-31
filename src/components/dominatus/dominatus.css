@@ -201,3 +201,7 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+/* Prose that runs the full width (a section's only block, Alliances' intro) keeps a readable line:
+   the columns hold ~75 characters, this holds it to the same. */
+.dom-prose > .rule-block .rule-body { max-width: 46rem; }

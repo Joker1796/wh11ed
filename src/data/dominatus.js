@@ -12,7 +12,7 @@
 // mission-card convention, missions.js); RU adds `nameRu` as a subline.
 //
 // Shapes
-//   rules / event   = { intro, blocks: [{ id, title, body, table?, box?, boxes?, boxesNote? }] }  — EventProseBlocks
+//   rules = { blocks }, event = { intro, blocks }; blocks = [{ id, title, body, table?, box?, boxes?, boxesNote? }] — EventProseBlocks
 //                     (box: framed as the booklet frames it; boxes: [{ id, title, icon, body }] framed after it;
 //                      iconList: [{ icon, title, count }] — a list with a mark beside each line;
 //                      step: the booklet's numbered step, drawn on its plate before the title;
@@ -68,14 +68,12 @@ function action(name, { starts = 'Your Shooting phase.', units, limit, completes
 const en = {
   heading: 'Dominatus',
   rules: {
-    intro: 'A narrative campaign for Warhammer 40,000 played with the Dominatus deck: three Alliances fight over Armageddon across three campaign phases, attempting Agendas in place of Primary Missions and earning Upgrades for their characters. It is played alongside any Chapter Approved mission deck.',
     blocks: [
       {
         id: 'dom-campaigns',
-        // The booklet's section headings (Armageddon Campaigns, Preparing, Start the Campaign): full
-        // width, drawn as the Core Rules draw a section's head.
+        // The booklet's section headings (Armageddon Campaigns, Preparing, Start the Campaign) — the
+        // chapter draws the title across the page and lets the text run in the columns under it.
         section: true,
-        wide: true,
         title: 'Armageddon Campaigns',
         body: 'An Armageddon campaign is split into 3 **campaign phases**, each of which consists of a number of battles. During each phase, the players will vie for control of a strategic **location**, before moving onto the next phase.\n'
           + 'Taking control of the final location is key to achieving victory, but it is only part of the challenge. Each player also has a set of **Agendas** they must achieve during the campaign. Only commanders who can achieve military success while accomplishing these vital goals will achieve everlasting glory on Armageddon.\n'
@@ -126,7 +124,6 @@ const en = {
       {
         id: 'dom-preparing',
         section: true,
-        wide: true, // the booklet's sections each read as their own pair of columns
         title: 'Preparing the Campaign',
         body: 'Before the campaign begins, the Warmaster should share a **Battle Schedule** with all players, informing them of the number of games each will play, and the army sizes they will need to muster. The default Battle Schedule below is designed to be played comfortably over the course of a weekend for players who can all muster a Strike Force sized army.',
         table: {
@@ -159,7 +156,6 @@ const en = {
       {
         id: 'dom-start',
         section: true,
-        wide: true,
         title: 'Start the Campaign',
         body: 'Players start the first campaign phase using the sequence below. After completing phases 1 and 2, start the next campaign phase and repeat this sequence. At the end of phase 3, the campaign ends.',
       },
@@ -1074,7 +1070,7 @@ function overlay(ru) {
   return {
     ...en,
     heading: ru.heading || en.heading,
-    rules: { intro: ru.rules?.intro || en.rules.intro, blocks: overlayBlocks(en.rules.blocks, ru.rules?.blocks) },
+    rules: { blocks: overlayBlocks(en.rules.blocks, ru.rules?.blocks) },
     event: { intro: ru.event?.intro || en.event.intro, blocks: overlayBlocks(en.event.blocks, ru.event?.blocks) },
     alliances: en.alliances.map((a) => ({ ...a, ...(ru.alliances?.[a.id] || {}) })),
     locations: en.locations.map((l) => {
