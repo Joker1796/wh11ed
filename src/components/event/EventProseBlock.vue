@@ -137,7 +137,13 @@ defineProps({
   text-transform: none;
   letter-spacing: 0;
   font-size: 0.85rem;
+  line-height: 1.2;
+  padding: 0.3rem 0.6rem;
   border-bottom: none;
+}
+/* A head on one line wherever it fits; a 360px phone has to wrap it or scroll sideways. */
+@media (min-width: 480px) {
+  .prose-table :deep(th) { white-space: nowrap; }
 }
 .prose-table :deep(td) { background: transparent; border-bottom: 1px solid var(--text-muted); vertical-align: middle; }
 .prose-table :deep(th:nth-child(2)),
