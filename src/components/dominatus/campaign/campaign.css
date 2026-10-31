@@ -51,6 +51,7 @@
    dialog, owner 2026-11-01). */
 .camp-form > .form-input,
 .camp-form > .camp-pair,
+.camp-form > .camp-drawn,
 .camp-form > .cpick,
 .camp-form > .camp-row { justify-self: stretch; }
 .camp-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; }
