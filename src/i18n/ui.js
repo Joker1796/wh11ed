@@ -1847,6 +1847,9 @@ export const ui = {
     domNarrative1: '1 Narrative Point',
     domNarrative2: '2 Narrative Points',
     domNarrative3: '3 Narrative Points',
+    // The line an Outcome card prints over its outcomes: how its points are earned (phases 1–2, phase 3).
+    domOutcomeLead1: 'Gain 1 Narrative Point if your Alliance has control of this phase\'s Location, and gain 1 Narrative Point if your Alliance is in ascendancy.',
+    domOutcomeLead3: 'Gain 2 Narrative Points if your Alliance has control of this phase\'s Location, and gain 1 Narrative Point if your Alliance is in ascendancy.',
     domHonours: 'Battle Honours',
     domSkills: 'Battle Skills',
     domRelics: 'Relics',
@@ -3697,6 +3700,8 @@ export const ui = {
     domNarrative1: '1 сюжетное очко',
     domNarrative2: '2 сюжетных очка',
     domNarrative3: '3 сюжетных очка',
+    domOutcomeLead1: 'Получите 1 сюжетное очко, если ваш альянс контролирует локацию этой фазы, и 1 сюжетное очко, если ваш альянс обладает превосходством (ascendancy).',
+    domOutcomeLead3: 'Получите 2 сюжетных очка, если ваш альянс контролирует локацию этой фазы, и 1 сюжетное очко, если ваш альянс обладает превосходством (ascendancy).',
     domHonours: 'Battle Honour',
     domSkills: 'Battle Skill',
     domRelics: 'Relic',

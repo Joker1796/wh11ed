@@ -98,6 +98,9 @@
           <ChevronIcon :turned="open" />
         </button>
         <CollapseTransition :show="open || wide">
+          <p class="dout-lead">
+            {{ briefing.phase === 3 ? labels.domOutcomeLead3 : labels.domOutcomeLead1 }}
+          </p>
           <div class="dout-list">
             <div
               v-for="o in outcomes"
@@ -140,8 +143,9 @@ const props = defineProps({
 const { labels, phaseLabel, agendaBySlug, dispo, cardTag } = useDominatus()
 const tag = computed(() => cardTag({ kind: 'briefing', alliance: props.briefing.alliance }))
 const open = ref(false)
-// A desk lays the card out landscape (the chapter's grid gives it the full width there): chart on
-// the left, the three Outcomes beside it, always open (owner, 2026-10-31). Same query as the CSS.
+// A desk lays the card out landscape (the chapter's grid gives it the full width there), as the
+// printed card reads: the lore, the chart across the card, the Outcomes in one row under it, always
+// open (owner, 2026-10-31). Same query as the CSS.
 const wide = useMediaQuery('(min-width: 1024px)')
 // Most Narrative Points first, as the card reads.
 const outcomes = computed(() => Object.entries(props.briefing.outcomes || {})
@@ -159,20 +163,6 @@ async function openAgenda(slug) {
 
 <style scoped>
 .dcard-outcomes { margin-top: 0.6rem; border-top: 1px dashed var(--border); }
-/* Landscape on a desk, as the printed card: the lore and the chart left, the Outcomes right in
-   three columns (2 / 1 / 0 Narrative Points). Same width as `wide` in the script. */
-@media (min-width: 1024px) {
-  .bbody {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
-    gap: 1.25rem;
-    align-items: start;
-  }
-  .dcard-outcomes { margin-top: 0; padding-left: 1.25rem; border-top: none; border-left: 1px dashed var(--border); }
-  .dout-toggle { cursor: default; }
-  .dout-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
-  .dout + .dout { margin-top: 0; }
-}
 .dout-toggle {
   display: flex;
   align-items: center;
@@ -190,6 +180,7 @@ async function openAgenda(slug) {
   color: var(--text-muted);
   cursor: pointer;
 }
+.dout-lead { margin: 0 0 0.6rem; font-size: 0.85rem; color: var(--text-primary); }
 .dout-list { padding-bottom: 0.2rem; }
 .dout + .dout { margin-top: 0.55rem; }
 .dout-np {
@@ -243,5 +234,66 @@ async function openAgenda(slug) {
 }
 @media (hover: hover) {
   .bagenda:hover { color: var(--accent-ink-hover); text-decoration: underline; }
+}
+/* Last in the sheet on purpose: it overrides the phone's layout above at the same specificity. */
+/* Landscape on a desk, as the printed card reads (owner, 2026-10-31): the lore across the card, the
+   chart across it with its three heads on plates and a line from your disposition forking to the
+   opponent's and on to the Agenda in its box, the Outcomes in one row under it — as many columns as
+   the phase has (2 / 1 / 0, or 3 / 2 / 1 / 0). Same width as `wide` in the script. */
+@media (min-width: 1024px) {
+  /* One three-column grid for the heads and every row (subgrid), so the plates stand over their
+     columns; the fork runs in the gap between the first two, the line on to the Agenda in the next. */
+  .bmatrix {
+    --bline: 2px solid var(--text-dim);
+    --bh: 2.75rem;
+    --bgap: 1.5rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr);
+    column-gap: var(--bgap);
+    margin-top: 0.4rem;
+  }
+  .bmatrix .dispo-icon { width: 30px; height: 30px; }
+  .bhead,
+  .brow,
+  .bbranches,
+  .bbranch { display: grid; grid-template-columns: subgrid; gap: 0 var(--bgap); }
+  .bhead,
+  .brow { grid-column: 1 / -1; }
+  .bbranches { grid-column: 2 / 4; }
+  /* A subgrid numbers its lines from 1 again: the branch spans all of the fork's two. */
+  .bbranch { grid-column: 1 / -1; }
+  .bhead { padding-bottom: 0.6rem; }
+  .bhead span {
+    padding: 0.3rem 0.5rem;
+    background: var(--text-primary);
+    color: var(--bg-card);
+    text-align: center;
+  }
+  .brow { padding: 0.7rem 0; border-top: none; }
+  .brow + .brow { border-top: 1px dashed var(--border); }
+  /* Your disposition, then a line on to the fork in the gap. */
+  .bmine { gap: 0.4rem; }
+  .bmine::after { content: ''; flex: 1; border-top: var(--bline); margin: 0 calc(var(--bgap) / -2) 0 0.5rem; }
+  /* The fork: a bar down the gap from the first branch to the last, a stub to each. */
+  .bbranches { position: relative; }
+  .bbranches::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--bgap) / -2);
+    top: calc(var(--bh) / 2);
+    bottom: calc(var(--bh) / 2);
+    border-left: var(--bline);
+  }
+  .bbranch { position: relative; height: var(--bh); align-items: center; }
+  .bbranch::before { content: ''; position: absolute; left: calc(var(--bgap) / -2); width: calc(var(--bgap) / 2); top: 50%; border-top: var(--bline); }
+  .bvs { align-items: center; gap: 0.35rem; }
+  .bvs::after { content: ''; flex: 1; border-top: var(--bline); margin: 0 calc(var(--bgap) * -1) 0 0.5rem; }
+  .bagenda { padding: 0.25rem 0.6rem; border: 2px solid var(--text-muted); font-size: 1.15rem; }
+
+  .dcard-outcomes { margin-top: 0.9rem; }
+  .dout-toggle { cursor: default; }
+  .dout-list { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 1.25rem; }
+  .dout + .dout { margin-top: 0; }
+  .dout-np { padding: 0.25rem 0.5rem; background: var(--text-primary); color: var(--bg-card); }
 }
 </style>
