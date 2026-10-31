@@ -13,7 +13,8 @@
 //
 // Shapes
 //   rules / event   = { intro, blocks: [{ id, title, body, table?, box?, boxes?, boxesNote? }] }  — EventProseBlocks
-//                     (box: framed as the booklet frames it; boxes: [{ id, title, icon, body }] framed after it)
+//                     (box: framed as the booklet frames it; boxes: [{ id, title, icon, body }] framed after it;
+//                      iconList: [{ icon, title, count }] — a list with a mark beside each line)
 //   alliances       = [{ id, name, desc }]
 //   locations       = [{ slug, name, phase, roll, grid, bonus: { name, body }, warZone: [{ name, body }] }]
 //   briefings       = [{ alliance, phase, rows: [{ mine: [dispoId], branches: [{ vs: [dispoId], agenda }] }] }]
@@ -83,13 +84,20 @@ const en = {
       {
         id: 'dom-deck',
         title: 'The Deck',
-        body: 'The deck contains 89 cards:\n'
-          + '▪ **Agenda** deck — 27 cards.\n'
-          + '▪ **Agenda Achieved** deck — 9 cards.\n'
-          + '▪ **Briefing** deck — 9 cards.\n'
-          + '▪ **Location** deck — 9 cards.\n'
-          + '▪ **Upgrade** deck — 35 cards: Battle Honour (×11), Battle Skill (×9) and Relic (×15).\n'
-          + '**Briefing cards** frame the narrative for each Alliance across the three campaign phases, listing the Agendas players can attempt depending on their Force Disposition and that of their opponent. On the reverse of each is a range of **Outcomes**, depending on how many **Narrative Points** you have gained.\n'
+        body: 'The deck contains 89 cards:',
+        // As the booklet lists them: each deck's mark, its name and how many cards it holds.
+        iconList: [
+          { icon: 'dom-agenda', title: 'Agenda deck', count: '27 cards' },
+          { icon: 'dom-achieved', title: 'Agenda Achieved deck', count: '9 cards' },
+          { icon: 'dom-briefing', title: 'Briefing deck', count: '9 cards' },
+          { icon: 'dom-location', title: 'Location deck', count: '9 cards' },
+          { icon: 'dom-skill', title: 'Upgrade deck', count: '35 cards — further categorised as **Battle Honour** cards (×11), **Battle Skill** cards (×9) and **Relic** cards (×15).' },
+        ],
+      },
+      {
+        id: 'dom-deck-cards',
+        title: '',
+        body: '**Briefing cards** frame the narrative for each Alliance across the three campaign phases, listing the Agendas players can attempt depending on their Force Disposition and that of their opponent. On the reverse of each is a range of **Outcomes**, depending on how many **Narrative Points** you have gained.\n'
           + '**Location cards** represent strategically important zones on the planet Armageddon. Each one features a **location bonus**; if an Alliance takes control of a location, all players in that Alliance gain its location bonus for the remainder of the campaign. On the reverse of each are **war zone rules** that apply to every battle fought during the same campaign phase.\n'
           + '**Agenda cards** represent goals that you can attempt to achieve during each battle in a campaign phase. Each Alliance has a unique set of 9 Agendas: 3 for each campaign phase. One side lists the conditions that, if met, result in that player gaining Agenda Achieved cards; on the reverse is a Primary Mission, which tells you how to gain VP in the battle.',
       },
@@ -1014,6 +1022,7 @@ function overlayBlocks(enBlocks, ruBlocks) {
       ...r,
       table: b.table && r.table ? { ...b.table, ...r.table } : b.table,
       boxes: b.boxes && r.boxes ? b.boxes.map((x, i) => ({ ...x, ...r.boxes[i] })) : b.boxes,
+      iconList: b.iconList && r.iconList ? b.iconList.map((x, i) => ({ ...x, ...r.iconList[i] })) : b.iconList,
     }
   })
 }

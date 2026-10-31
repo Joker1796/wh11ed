@@ -1072,6 +1072,7 @@ strong {
 /* Dominatus: a card's type and its Alliance, as the deck prints them in a card's corner */
 .wi-dom-agenda { mask-image: url('./assets/icons/dom-agenda.svg'); }
 .wi-dom-briefing { mask-image: url('./assets/icons/dom-briefing.svg'); }
+.wi-dom-achieved { mask-image: url('./assets/icons/dom-achieved.svg'); }
 .wi-dom-honour { mask-image: url('./assets/icons/dom-honour.svg'); }
 .wi-dom-skill { mask-image: url('./assets/icons/dom-skill.svg'); }
 .wi-dom-relic { mask-image: url('./assets/icons/dom-relic.svg'); }

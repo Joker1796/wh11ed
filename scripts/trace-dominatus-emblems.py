@@ -1,12 +1,14 @@
-# The three Dominatus Alliance emblems (Liberators, Oppressors, Raiders), traced off the owner's
-# photo of the booklet's Alliances page into one-colour SVGs for `.wi-dom-<alliance>`.
+# The Dominatus marks, traced off the owner's photos of the booklet into one-colour SVGs for
+# `.wi-dom-<name>`: the three Alliance emblems (the Alliances page) and the five deck marks (the
+# booklet's list of what the pack contains).
 #
-# The only drawings in src/assets/icons that are not ours: the owner asked for the emblems exactly
-# as the booklet prints them (2026-10-31), so they are traced, not redrawn. Run it again only to
-# re-trace from a better photo:
+# The only drawings in src/assets/icons that are not ours: the owner asked for them exactly as the
+# booklet prints them (2026-10-31), so they are traced, not redrawn. Run it again only to re-trace
+# from a better photo (the photos are in the hub's sources/dominatus/):
 #
 #   python3 -m venv /tmp/trace && /tmp/trace/bin/pip install potracer numpy pillow
-#   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py ../sources/dominatus/alliances.png src/assets/icons
+#   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py alliances ../sources/dominatus/alliances.png src/assets/icons
+#   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py decks ../sources/dominatus/deck-icons.png src/assets/icons
 #
 # What it does: crops each emblem (BOXES, pixels of that photo), scales it ×6 and blurs a little
 # so the threshold gives smooth edges, keeps ink midway between the photo's ink and paper, drops
@@ -16,8 +18,21 @@
 import sys, numpy as np, potrace
 from collections import deque
 from PIL import Image, ImageFilter
-SRC, OUT = sys.argv[1], sys.argv[2]
-BOXES = {'liberators': (330, 70, 500, 215), 'oppressors': (330, 260, 500, 410), 'raiders': (330, 455, 500, 600)}
+SET, SRC, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
+# name → (left, top, right, bottom) in pixels of that set's photo; a crop may take in a frame line
+# or the start of a caption, as long as they reach its edge (they are dropped).
+SETS = {
+    'alliances': {'liberators': (330, 70, 500, 215), 'oppressors': (330, 260, 500, 410), 'raiders': (330, 455, 500, 600)},
+    # The Upgrade deck's gear is the mark the Battle Skill cards print: `dom-skill`. Boxes are in
+    # the photo straightened by SHEAR below.
+    'decks': {'agenda': (60, 20, 135, 93), 'achieved': (60, 106, 135, 167), 'briefing': (60, 177, 135, 250),
+              'location': (60, 257, 130, 325), 'skill': (52, 346, 128, 421)},
+}
+BOXES = SETS[SET]
+# The decks photo was taken at an angle: a frame's left side leans 0.083 px right per px down and
+# its top rises 0.022 px per px right (measured on the Agenda and Briefing frames). Undone as a
+# shear about (cx, cy) before anything is cut out, so the frames trace square.
+SHEAR = {'decks': (0.083, -0.022, 90, 220)}
 K = 6  # upscale before thresholding: smoother edges for the tracer
 
 def components(mask):
@@ -35,8 +50,12 @@ def components(mask):
                 comps.append(np.array(pts))
     return comps
 
+photo = Image.open(SRC).convert('L')
+if SET in SHEAR:
+    a, b, cx0, cy0 = SHEAR[SET]
+    photo = photo.transform(photo.size, Image.AFFINE, (1, a, -a * cy0, b, 1, -b * cx0), resample=Image.BICUBIC, fillcolor=255)
 for name, box in BOXES.items():
-    im = Image.open(SRC).convert('L').crop(box)
+    im = photo.crop(box)
     im = im.resize((im.width * K, im.height * K), Image.LANCZOS).filter(ImageFilter.GaussianBlur(K * 0.6))
     a = np.asarray(im, dtype=np.float32)
     ink = a < (np.percentile(a, 5) + np.percentile(a, 95)) / 2   # midway between ink and paper

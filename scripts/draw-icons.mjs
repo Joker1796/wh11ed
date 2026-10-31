@@ -214,31 +214,16 @@ const ICONS = {
     ring(rect(6.4, 15.4, 17.6, 22.2), 1.7)],
 }
 
-// ── Dominatus: the deck's card types (drawn after the marks printed on the cards, in the pack's
-// manner — not traced). The three Alliance emblems are NOT here: they are traced off the booklet
-// (scripts/trace-dominatus-emblems.py, owner's decision 2026-10-31). ──
-const polar = (r, a, cx = 12, cy = 12) => [cx + r * Math.cos(rad(a)), cy + r * Math.sin(rad(a))]
-const GEAR = (() => {
-  const out = []
-  for (let k = 0; k < 8; k++) { const a = k * 45 - 90; out.push(polar(8.4, a - 16), polar(10.8, a - 8), polar(10.8, a + 8), polar(8.4, a + 16)) }
-  return out
-})()
+// ── Dominatus: the two card marks the booklet's photos do not show (Battle Honour, Relic), drawn
+// after the cards' corners in the pack's manner. The deck marks and the Alliance emblems are
+// traced off the booklet instead (scripts/trace-dominatus-emblems.py, owner 2026-10-31). ──
 const SHIELD = [[12, 1.8], [20.6, 4.6], [20.6, 11.2], [18.4, 17], [12, 22.2], [5.6, 17], [3.4, 11.2], [3.4, 4.6]]
 const DOM_ICONS = {
-  // Agenda: a card with its list of conditions.
-  'dom-agenda': [ring(rect(3.4, 1.8, 20.6, 22.2, 0.8), 1.8), ...[6.6, 11.6, 16.6].flatMap((y) => [[rect(6.4, y, 8.8, y + 2.4)], [rect(10.6, y + 0.3, 17.6, y + 2.1)]])],
   // Battle Honour: a medal on its ribbon.
   'dom-honour': [[[[6.6, 1.8], [10.6, 1.8], [12.9, 7.4], [9.2, 8.6]]], [mirror([[6.6, 1.8], [10.6, 1.8], [12.9, 7.4], [9.2, 8.6]])],
     [circle(12, 15, 7.4), plus(12, 15, 4.4, 1.15)]],
-  // Battle Skill: the gear with a cross, as on the card's corner.
-  'dom-skill': [[GEAR, circle(12, 12, 5.4)], [plus(12, 12, 3.5, 1.05)]],
   // Relic: the shield with a cross.
   'dom-relic': [[SHIELD, plus(12, 10.8, 4.6, 1.3)]],
-  // Location: a map pin.
-  'dom-location': [[[...arc(12, 9.4, 7.6, 150, 390), [12, 22.4]], circle(12, 9.4, 3)]],
-  // Briefing: the branching chart — your disposition, then the opponent's, then the Agenda.
-  'dom-briefing': [[circle(4.6, 12, 2.8)], [circle(19.4, 5, 2.8)], [circle(19.4, 19, 2.8)],
-    [thick([[6.8, 12], [11, 12], [17.2, 6.4]], 1.9)], [thick([[11, 12], [17.2, 17.6]], 1.9)]],
 }
 
 function svg(name, spec) {

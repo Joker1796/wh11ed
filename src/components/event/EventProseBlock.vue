@@ -31,6 +31,30 @@
     :note="block.note"
     :see-also="block.seeAlso"
   />
+  <ul
+    v-if="block.iconList"
+    class="prose-icons"
+  >
+    <li
+      v-for="x in block.iconList"
+      :key="x.icon"
+    >
+      <i
+        class="wi prose-icons-mark"
+        :class="`wi-${x.icon}`"
+        aria-hidden="true"
+      />
+      <div>
+        <div class="prose-icons-title">
+          {{ x.title }}
+        </div>
+        <div
+          v-safe-html="renderInline(x.count)"
+          class="prose-icons-text"
+        />
+      </div>
+    </li>
+  </ul>
   <div
     v-for="x in block.boxes || []"
     :id="`${block.id}-${x.id}`"
@@ -76,15 +100,19 @@
 import RuleBlock from '../RuleBlock.vue'
 import RuleBody from '../RuleBody.vue'
 import DataTable from '../DataTable.vue'
+import { useRenderInline } from '../../composables/useRenderInline.js'
+import { vSafeHtml } from '../../directives/safeHtml.js'
 
 // One Event Companion prose block: the RuleBlock itself, optionally wrapped in the flavor
 // surface or framed (`box` — a booklet's boxed rule: a frame, the title on a filled plate in its
 // corner), optionally followed by framed items of its own (`boxes`, each with an emblem on the
-// right — Dominatus' Alliances) and its own table (`table.plate`: set as the booklet sets it — the
+// right — Dominatus' Alliances), a list with a mark beside each line (`iconList` — the booklet's
+// list of decks) and its own table (`table.plate`: set as the booklet sets it — the
 // title on the same plate, no frame, rules between the rows). Rendered by EventProseBlocks.vue.
 defineProps({
   block: { type: Object, required: true },
 })
+const { renderInline } = useRenderInline()
 </script>
 
 <style scoped>
@@ -127,6 +155,25 @@ defineProps({
 /* About a quarter of the frame's width, as the booklet prints it beside the text. */
 .prose-box-icon { flex: none; width: 5.5rem; height: 5.5rem; margin: 0; color: var(--text-primary); }
 .prose-box-note { margin: 0.6rem 0 0.9rem; }
+/* The booklet's list of decks: the mark, the name in the display face, the count under it, a
+   dotted rule between the lines. */
+.prose-icons { list-style: none; margin: 0.3rem 0 0.9rem; padding: 0; }
+.prose-icons li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dotted var(--text-muted);
+}
+.prose-icons-mark { flex: none; width: 2.6rem; height: 2.6rem; margin: 0; color: var(--text-primary); }
+.prose-icons-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.prose-icons-text { font-size: 0.85rem; color: var(--text-muted); }
 /* A booklet's table: the title plate standing on the table's top rule, a grey head in sentence
    case, the counts large in the middle, a rule under every row — no frame, no stripes. */
 .prose-table :deep(.table-wrap) { margin: 0; border: none; }
