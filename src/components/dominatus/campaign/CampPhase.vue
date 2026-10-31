@@ -1,16 +1,21 @@
 <template>
   <section class="camp-block">
-    <h2 class="camp-h">
+    <h2 class="dgroup-label">
+      <i
+        v-if="!state.finished"
+        class="wi"
+        :class="`wi-dom-phase-${state.phase}`"
+        aria-hidden="true"
+      />
       {{ state.finished ? labels.campFinished : phaseLabel(state.phase) }}
     </h2>
 
     <template v-if="!state.finished">
-      <p
+      <!-- The phase's Location is its card, as the rules page draws it: the bonus and the war zone. -->
+      <DomLocationCard
         v-if="location"
-        class="camp-line"
-      >
-        <strong>{{ labels.trackerDomLocation }}:</strong> {{ location.name }}
-      </p>
+        :location="location"
+      />
       <p
         v-else
         class="camp-line camp-dim"
@@ -44,19 +49,6 @@
           {{ labels.trackerDomRoll }}
         </button>
       </div>
-      <details
-        v-if="location"
-        class="camp-fold"
-      >
-        <summary>{{ labels.domWarZone }}</summary>
-        <template
-          v-for="w in location.warZone"
-          :key="w.name"
-        >
-          <strong class="camp-wz">{{ w.name }}</strong>
-          <RuleBody :body="w.body" />
-        </template>
-      </details>
 
       <!-- Ending the phase: what the fold will make of it, shown before it is done. -->
       <div
@@ -108,7 +100,7 @@
 // and the end of the phase — with the result the fold will reach shown first, and the
 // Warmaster's word on a tie nothing else breaks.
 import { ref, computed } from 'vue'
-import RuleBody from '../../RuleBody.vue'
+import DomLocationCard from '../DomLocationCard.vue'
 import { campaignState } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 

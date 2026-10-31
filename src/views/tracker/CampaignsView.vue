@@ -46,12 +46,6 @@
       >
         {{ labels.campCreate }}
       </button>
-      <p
-        v-if="error"
-        class="camp-error"
-      >
-        {{ error }}
-      </p>
     </form>
     <p
       v-else
@@ -80,6 +74,12 @@
     >
       {{ labels.campNone }}
     </p>
+    <AppToast
+      :show="!!error"
+      :text="error"
+      tone="error"
+      @close="error = ''"
+    />
   </div>
 </template>
 
@@ -89,6 +89,7 @@
 // Warmaster's to run; joining and watching need none.
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import AppToast from '../../components/AppToast.vue'
 import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns } from '../../composables/useCampaigns.js'
 import { useAuth } from '../../composables/useAuth.js'
@@ -124,7 +125,6 @@ async function create() {
 
 <style scoped>
 .campaigns { max-width: 760px; margin: 0 auto; padding-top: 0.5rem; }
-.camp-create .camp-error { margin: 0; }
 .camp-create { display: grid; gap: 0.5rem; margin-bottom: 1.25rem; justify-items: start; }
 .camp-create input { width: 100%; }
 .camp-index { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }

@@ -2,6 +2,7 @@
 // reader's language, and the names of things. Provided by CampaignView, injected by its blocks.
 import { computed, inject, provide } from 'vue'
 import { dominatusDeck } from '../../../composables/dominatusMissions.js'
+import { useKeywordPopover } from '../../../composables/useKeywordPopover.js'
 import { ui } from '../../../i18n/ui.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
@@ -21,5 +22,19 @@ export function useCampaignView() {
   const allianceName = (id) => deck.value?.alliances.find((a) => a.id === id)?.name || id || '—'
   const playerName = (id) => ctx.state.value?.players.find((p) => p.id === id)?.name || id
   const phaseLabel = (n) => labels.value.domPhase.replace('{n}', ['I', 'II', 'III'][n - 1] || n)
-  return { ...ctx, labels, deck, upgradeName, locationName, allianceName, playerName, phaseLabel }
+  // An Upgrade card named on the page opens its text in the rules popover, as the card prints it:
+  // who may take it, what it does, its bonus effect.
+  const { openRule } = useKeywordPopover()
+  function showUpgrade(slug, e) {
+    const u = deck.value?.upgrades.find((x) => x.slug === slug)
+    if (!u) return
+    const l = labels.value
+    const text = [
+      u.who && `**${l.domWho}** ${u.who}`,
+      u.body,
+      u.bonus && `**${l.domBonusEffect}: ${u.bonus.label}**\n${u.bonus.body}`,
+    ].filter(Boolean).join('\n')
+    openRule(u.name, text, e.currentTarget.getBoundingClientRect(), u.nameRu || null)
+  }
+  return { ...ctx, labels, deck, upgradeName, locationName, allianceName, playerName, phaseLabel, showUpgrade }
 }

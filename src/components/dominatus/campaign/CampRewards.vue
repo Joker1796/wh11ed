@@ -3,8 +3,9 @@
     v-if="rewards.length"
     class="camp-block"
   >
-    <h2 class="camp-h">
+    <h2 class="dgroup-label">
       {{ labels.campRewards }}
+      <span class="camp-waiting">{{ labels.campWaiting }}</span>
     </h2>
     <ul class="camp-list">
       <li
@@ -46,37 +47,17 @@
             :key="kind"
             class="camp-pair"
           >
-            <select
+            <CampPick
               v-model="swap[r.id + kind + 'out']"
-              class="form-input"
-            >
-              <option :value="null">
-                {{ kind === 'honour' ? labels.domHonours : labels.domSkills }}: —
-              </option>
-              <option
-                v-for="u in heldOf(r.player, kind)"
-                :key="u.slug"
-                :value="u.slug"
-              >
-                {{ u.name }}
-              </option>
-            </select>
-            <select
+              :placeholder="`${kind === 'honour' ? labels.domHonours : labels.domSkills}: —`"
+              :options="[{ value: null, label: '—' }, ...heldOf(r.player, kind).map((u) => ({ value: u.slug, label: u.name }))]"
+            />
+            <CampPick
               v-model="swap[r.id + kind + 'in']"
-              class="form-input"
+              placeholder="→"
               :disabled="!swap[r.id + kind + 'out']"
-            >
-              <option :value="null">
-                →
-              </option>
-              <option
-                v-for="u in swapTargets(r.player, swap[r.id + kind + 'out'])"
-                :key="u.slug"
-                :value="u.slug"
-              >
-                {{ u.name }}
-              </option>
-            </select>
+              :options="swapTargets(r.player, swap[r.id + kind + 'out']).map((u) => ({ value: u.slug, label: u.name }))"
+            />
           </div>
           <button
             class="btn-primary"
@@ -100,42 +81,35 @@
             >
               {{ labels.campDrawCards.replace('{n}', r.draw) }}
             </button>
+            <!-- What came, as the cards themselves: the reader keeps one having read them. -->
             <div
               v-else
-              class="filter-chips"
+              class="camp-drawn"
             >
-              <button
+              <div
                 v-for="slug in drawn[r.id]"
                 :key="slug"
-                class="filter-chip"
-                @click="claim(r, { drawn: drawn[r.id], kept: slug })"
+                class="camp-drawn-card"
               >
-                {{ labels.campKeep }}: {{ upgradeName(slug) }}
-              </button>
+                <DomUpgradeCard :upgrade="upgradeOf(slug)" />
+                <button
+                  class="btn-primary"
+                  @click="claim(r, { drawn: drawn[r.id], kept: slug })"
+                >
+                  {{ labels.campKeep }}
+                </button>
+              </div>
             </div>
           </template>
           <div
             v-else
             class="camp-row"
           >
-            <select
+            <CampPick
               v-model="kept[r.id]"
-              class="form-input"
-            >
-              <option
-                :value="undefined"
-                disabled
-              >
-                {{ labels.campKeptCard }}
-              </option>
-              <option
-                v-for="slug in pileOf(r)"
-                :key="slug"
-                :value="slug"
-              >
-                {{ upgradeName(slug) }}
-              </option>
-            </select>
+              :placeholder="labels.campKeptCard"
+              :options="pileOf(r).map((slug) => ({ value: slug, label: upgradeName(slug) }))"
+            />
             <button
               class="btn-primary"
               :disabled="!kept[r.id]"
@@ -163,6 +137,8 @@
 // them for the Warmaster, a member's own otherwise (the fold refuses the rest anyway).
 import { reactive, computed } from 'vue'
 import NumberStepper from '../../tracker/NumberStepper.vue'
+import DomUpgradeCard from '../DomUpgradeCard.vue'
+import CampPick from './CampPick.vue'
 import { drawFor, drawPile } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
@@ -174,6 +150,7 @@ const swap = reactive({})
 
 const rewards = computed(() => state.value.pending.filter((r) => isOwner.value || r.player === mine.value?.id))
 const playerOf = (id) => state.value.players.find((p) => p.id === id)
+const upgradeOf = (slug) => deck.value.upgrades.find((u) => u.slug === slug)
 const pileOf = (r) => (deck.value ? drawPile(deck.value, playerOf(r.player), r) : [])
 
 function title(r) {

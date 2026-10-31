@@ -15,12 +15,6 @@
     </div>
 
     <p
-      v-if="error"
-      class="camp-error"
-    >
-      {{ error }}
-    </p>
-    <p
       v-if="!entry && !loading"
       class="empty-note"
     >
@@ -33,18 +27,24 @@
       {{ labels.campLoading }}
     </p>
 
+    <!-- What waits for this reader first — the rewards they take, the battles the Warmaster counts —
+         then the campaign's standing, its phase, its players. -->
     <template v-else>
+      <CampRewards />
+      <CampBattles
+        v-if="battlesWaiting"
+        waiting
+      />
       <CampStandings />
       <CampPhase />
-      <CampRewards />
-      <CampBattles />
+      <CampBattles v-if="!battlesWaiting" />
       <CampPlayers />
       <CampShare />
       <section
         v-if="isOwner && state.rejected.length"
         class="camp-block"
       >
-        <h2 class="camp-h">
+        <h2 class="dgroup-label">
           {{ labels.campRejectedEvents }}
         </h2>
         <ul class="camp-results">
@@ -74,6 +74,12 @@
       </div>
     </template>
 
+    <AppToast
+      :show="!!error"
+      :text="error"
+      tone="error"
+      @close="error = ''"
+    />
     <ConfirmModal
       v-if="confirmDelete"
       :title="labels.campDelete"
@@ -94,6 +100,7 @@
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '../../components/ConfirmModal.vue'
+import AppToast from '../../components/AppToast.vue'
 import CampStandings from '../../components/dominatus/campaign/CampStandings.vue'
 import CampPhase from '../../components/dominatus/campaign/CampPhase.vue'
 import CampRewards from '../../components/dominatus/campaign/CampRewards.vue'
@@ -101,6 +108,7 @@ import CampBattles from '../../components/dominatus/campaign/CampBattles.vue'
 import CampPlayers from '../../components/dominatus/campaign/CampPlayers.vue'
 import CampShare from '../../components/dominatus/campaign/CampShare.vue'
 import { provideCampaignView } from '../../components/dominatus/campaign/useCampaignView.js'
+import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns } from '../../composables/useCampaigns.js'
 import { useAuth } from '../../composables/useAuth.js'
@@ -122,6 +130,8 @@ const mine = computed(() => myPlayer(entry.value, state.value))
 const error = ref('')
 const loading = ref(true)
 const confirmDelete = ref(false)
+// The Warmaster has battles to count: that block goes up among what waits for them.
+const battlesWaiting = computed(() => isOwner.value && !!state.value?.battles.some((b) => b.status === 'pending'))
 
 async function act(type, payload) {
   error.value = ''

@@ -1,7 +1,11 @@
 <template>
   <section class="camp-block">
-    <h2 class="camp-h">
+    <h2 class="dgroup-label">
       {{ labels.campBattles }}
+      <span
+        v-if="waiting"
+        class="camp-waiting"
+      >{{ labels.campWaiting }}</span>
     </h2>
     <ul
       v-if="battles.length"
@@ -39,54 +43,25 @@
 
     <!-- A battle entered by hand (one played without the tracker); a tracker game is sent from its
          finished screen. A member enters only battles they played (the fold checks). -->
-    <details
+    <CampFold
       v-if="!state.finished && (isOwner || mine)"
-      class="camp-fold"
+      :label="labels.campAddBattle"
     >
-      <summary>{{ labels.campAddBattle }}</summary>
       <form
         class="camp-form"
         @submit.prevent="add"
       >
         <div class="camp-pair">
-          <select
+          <CampPick
             v-model="a"
-            class="form-input"
-            :aria-label="labels.campSideA"
-          >
-            <option
-              :value="null"
-              disabled
-            >
-              {{ labels.campSideA }}
-            </option>
-            <option
-              v-for="p in choosable"
-              :key="p.id"
-              :value="p.id"
-            >
-              {{ p.name }}
-            </option>
-          </select>
-          <select
+            :placeholder="labels.campSideA"
+            :options="choosable.map((p) => ({ value: p.id, label: p.name }))"
+          />
+          <CampPick
             v-model="b"
-            class="form-input"
-            :aria-label="labels.campSideB"
-          >
-            <option
-              :value="null"
-              disabled
-            >
-              {{ labels.campSideB }}
-            </option>
-            <option
-              v-for="p in opponentsOf(a)"
-              :key="p.id"
-              :value="p.id"
-            >
-              {{ p.name }}
-            </option>
-          </select>
+            :placeholder="labels.campSideB"
+            :options="opponentsOf(a).map((p) => ({ value: p.id, label: p.name }))"
+          />
         </div>
         <div class="seg seg-fill">
           <button
@@ -134,7 +109,7 @@
           {{ labels.campSendBattle }}
         </button>
       </form>
-    </details>
+    </CampFold>
   </section>
 </template>
 
@@ -144,7 +119,12 @@
 // from a finished tracker game (CampSendGame).
 import { ref, reactive, computed } from 'vue'
 import NumberStepper from '../../tracker/NumberStepper.vue'
+import CampFold from './CampFold.vue'
+import CampPick from './CampPick.vue'
 import { useCampaignView } from './useCampaignView.js'
+
+// `waiting`: the Warmaster has battles to count, and the block stands among what waits for them.
+defineProps({ waiting: { type: Boolean, default: false } })
 
 const { state, isOwner, mine, act, labels, playerName, phaseLabel } = useCampaignView()
 const a = ref(null)

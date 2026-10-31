@@ -13,20 +13,19 @@
 .camp-hero .back { flex-basis: 100%; }
 .camp-hero h1 { margin: 0; font-family: var(--font-display); font-size: 2.2rem; font-weight: 400; }
 .camp-rules { font-size: 0.85rem; color: var(--accent-ink); }
-.camp-error { color: var(--danger); font-size: 0.85rem; }
-.camp-block {
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  padding: 0.8rem 0.9rem;
-  margin-bottom: 1rem;
-}
-.camp-h {
-  margin: 0 0 0.5rem;
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  line-height: 1.1;
+/* A block reads as a section of the rules page (owner, 2026-10-31): its head is the Dominatus
+   group head (`.dgroup-label`, dominatus.css), the frame is left to the cards. */
+.camp-block { margin-bottom: 1.75rem; }
+.camp-block > .dgroup-label { display: flex; align-items: center; gap: 0.5rem; }
+.camp-block > .dgroup-label .wi { width: 1.4rem; height: 1.4rem; margin: 0; }
+/* "Waiting for you" on a block's head: what this reader has to do. */
+.camp-waiting {
+  margin-left: auto;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent-ink);
 }
 .camp-line { margin: 0.25rem 0; font-size: 0.9rem; }
 .camp-dim { color: var(--text-muted); font-size: 0.82rem; }
@@ -34,23 +33,20 @@
 .camp-table th,
 .camp-table td { padding: 0.35rem 0.3rem; border-top: 1px solid var(--border); text-align: left; }
 .camp-table th { background: none; color: var(--text-primary); }
+/* A row's head is the Alliance, not a column head: the global th's accent rule stays on the columns'. */
+.camp-table tbody th { border-bottom: none; text-transform: none; font-size: 0.88rem; letter-spacing: 0; }
 .camp-table thead th { border-top: none; font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); }
 .camp-loc { display: block; font-size: 0.72rem; font-weight: 400; color: var(--text-muted); }
 .camp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
 .camp-player-head { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; align-items: baseline; }
 .camp-badge { font-size: 0.72rem; font-weight: 700; color: var(--accent-ink); }
-.camp-cards { margin: 0.15rem 0 0; font-size: 0.82rem; color: var(--text-muted); }
 .camp-battle { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; align-items: center; font-size: 0.88rem; }
 .camp-battle.is-rejected { opacity: 0.6; text-decoration: line-through; }
 .camp-actions { display: flex; gap: 0.4rem; margin-left: auto; }
 .camp-form { display: grid; gap: 0.5rem; margin-top: 0.5rem; }
 .camp-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; }
-.camp-pair select { min-width: 0; width: 100%; }
 .camp-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
 .camp-num { display: grid; gap: 0.2rem; font-size: 0.78rem; color: var(--text-muted); }
-.camp-fold { margin-top: 0.5rem; border: 1px solid var(--border); padding: 0.4rem 0.6rem; }
-.camp-fold > summary { cursor: pointer; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
-.camp-wz { display: block; margin-top: 0.4rem; }
 .camp-end { display: grid; gap: 0.5rem; margin-top: 0.6rem; justify-items: start; }
 .camp-results { margin: 0.6rem 0 0; padding-left: 1.1rem; font-size: 0.85rem; }
 .camp-link + .camp-link { margin-top: 0.5rem; }
@@ -65,3 +61,19 @@
   .camp-create .seg button,
   .camp-form .seg button { padding: 0.4rem 0.55rem; font-size: 0.74rem; }
 }
+/* A card a player holds: its name, a tap opens its text. */
+.camp-cards { display: flex; flex-wrap: wrap; gap: 0.15rem 0.6rem; margin: 0.15rem 0 0; font-size: 0.82rem; color: var(--text-muted); }
+.camp-card {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+  cursor: help;
+}
+/* Cards drawn by the app, each with its Keep under it; two abreast where they fit, as on the rules page. */
+.camp-drawn { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1rem; }
+.camp-drawn-card { display: grid; gap: 0.5rem; justify-items: start; }
+.camp-drawn-card > .dcard { justify-self: stretch; }

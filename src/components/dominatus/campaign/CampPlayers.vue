@@ -1,6 +1,6 @@
 <template>
   <section class="camp-block">
-    <h2 class="camp-h">
+    <h2 class="dgroup-label">
       {{ labels.campPlayers }}
     </h2>
     <ul class="camp-list">
@@ -11,17 +11,33 @@
       >
         <div class="camp-player-head">
           <strong>{{ p.name || p.id }}</strong>
-          <span class="camp-dim">{{ allianceName(p.alliance) }}</span>
+          <DomAllianceName
+            v-if="p.alliance"
+            :id="p.alliance"
+            class="camp-dim"
+            :name="allianceName(p.alliance)"
+          />
           <span
             v-if="p.agenda.length"
             class="camp-badge"
           >{{ labels.domAgendaAchieved }} {{ p.agenda.length }}</span>
         </div>
+        <!-- Each card held opens its text, as a card's corner mark does. -->
         <p
           v-if="p.upgrades.length"
           class="camp-cards"
         >
-          {{ p.upgrades.map(upgradeName).join(', ') }}
+          <button
+            v-for="slug in p.upgrades"
+            :key="slug"
+            type="button"
+            class="camp-card"
+            data-kw-open
+            aria-haspopup="dialog"
+            @click.stop="showUpgrade(slug, $event)"
+          >
+            {{ upgradeName(slug) }}
+          </button>
         </p>
       </li>
     </ul>
@@ -48,7 +64,10 @@
           :class="{ on: alliance === a.id }"
           @click="alliance = a.id"
         >
-          {{ a.name }}
+          <DomAllianceName
+            :id="a.id"
+            :name="a.name"
+          />
         </button>
       </div>
       <button
@@ -67,9 +86,10 @@
 // cards. A player who joined by the link registers themselves here; the fold lets a member speak
 // for that one player only.
 import { ref, computed } from 'vue'
+import DomAllianceName from '../DomAllianceName.vue'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade } = useCampaignView()
 const name = ref('')
 const alliance = ref(null)
 const alliances = computed(() => deck.value?.alliances || [])

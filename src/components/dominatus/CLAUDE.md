@@ -128,6 +128,14 @@ on a tie nothing breaks.
   from `?t=`), pages `src/views/tracker/Campaign(s)View.vue`, blocks in `campaign/`. A finished
   Dominatus game is sent from its screen (`CampSendGame`, battle id `g-<game id>` so it counts once).
 - Gates: `src/core/dominatus/campaign.test.js`, `src/composables/useCampaigns.test.js`.
+- **The page reads as the rules page** (owner, 2026-10-31): blocks are sections under the Dominatus
+  group head (`.dgroup-label` — CampaignView loads `dominatus.css`), the frame left to the cards; the
+  phase's Location is its `DomLocationCard`, cards drawn by the app are `DomUpgradeCard`s with Keep,
+  a card a player holds opens its text in the rules popover (`showUpgrade`), Alliances are emblem +
+  name (`DomAllianceName`). What waits for the reader comes first (their rewards; the Warmaster's
+  battles to count), marked "Waiting for you". Picks are `CampPick` (AdaptivePicker — no native
+  select), folds `CampFold` (CollapseTransition — no `<details>`), errors the app's `AppToast`; the
+  links fold once two players are in.
 
 Booklet readings worth knowing: Agenda Achieved cards gained in a phase are kept into the next
 and discarded at ITS end (step V "from previous phases"); the Event Companion's variant (Relics and

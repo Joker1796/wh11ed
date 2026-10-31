@@ -1,65 +1,46 @@
 <template>
-  <details
+  <div
     v-if="options.length"
     class="csend"
   >
-    <summary>{{ labels.campSend }}</summary>
-    <div class="csend-body">
-      <label class="field">
-        <span>{{ labels.campSendPick }}</span>
-        <select
-          v-model="cid"
-          class="form-input"
+    <CampFold :label="labels.campSend">
+      <div class="csend-body">
+        <label class="field">
+          <span>{{ labels.campSendPick }}</span>
+          <CampPick
+            v-model="cid"
+            :title="labels.campSendPick"
+            :options="options.map((c) => ({ value: c.id, label: c.name || c.id }))"
+          />
+        </label>
+        <label
+          v-for="(p, i) in game.players"
+          :key="i"
+          class="field"
         >
-          <option
-            v-for="c in options"
-            :key="c.id"
-            :value="c.id"
-          >
-            {{ c.name || c.id }}
-          </option>
-        </select>
-      </label>
-      <label
-        v-for="(p, i) in game.players"
-        :key="i"
-        class="field"
-      >
-        <span>{{ labels.campSideOf.replace('{name}', p.name || `#${i + 1}`) }}</span>
-        <select
-          v-model="pick[i]"
-          class="form-input"
+          <span>{{ labels.campSideOf.replace('{name}', p.name || `#${i + 1}`) }}</span>
+          <CampPick
+            v-model="pick[i]"
+            :title="labels.campSideOf.replace('{name}', p.name || `#${i + 1}`)"
+            :options="playersFor(i).map((cp) => ({ value: cp.id, label: cp.name }))"
+          />
+        </label>
+        <button
+          class="btn-primary"
+          :disabled="!pick[0] || !pick[1] || pick[0] === pick[1] || busy || sent"
+          @click="send"
         >
-          <option
-            :value="null"
-            disabled
-          >
-            —
-          </option>
-          <option
-            v-for="cp in playersFor(i)"
-            :key="cp.id"
-            :value="cp.id"
-          >
-            {{ cp.name }}
-          </option>
-        </select>
-      </label>
-      <button
-        class="btn-primary"
-        :disabled="!pick[0] || !pick[1] || pick[0] === pick[1] || busy || sent"
-        @click="send"
-      >
-        {{ sent ? labels.campSent : labels.campSend }}
-      </button>
-      <p
-        v-if="error"
-        class="csend-error"
-      >
-        {{ error }}
-      </p>
-    </div>
-  </details>
+          {{ sent ? labels.campSent : labels.campSend }}
+        </button>
+      </div>
+    </CampFold>
+    <AppToast
+      :show="!!error"
+      :text="error"
+      tone="error"
+      @close="error = ''"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -67,6 +48,9 @@
 // of its players each side was. The battle carries the victor and each side's Agenda Achieved cards
 // from the game; its id is the game's, so sending twice is refused by the campaign's fold.
 import { ref, reactive, computed, watch } from 'vue'
+import AppToast from '../../AppToast.vue'
+import CampFold from './CampFold.vue'
+import CampPick from './CampPick.vue'
 import { useCampaigns } from '../../../composables/useCampaigns.js'
 import { leader } from '../../../core/game/gameScoring.js'
 import { ui } from '../../../i18n/ui.js'
@@ -127,10 +111,8 @@ async function send() {
 </script>
 
 <style scoped>
-.csend { margin: 1rem 0; border: 1px solid var(--border); background: var(--bg-card); padding: 0.5rem 0.75rem; }
-.csend > summary { cursor: pointer; font-weight: 600; }
-.csend-body { display: grid; gap: 0.5rem; margin-top: 0.5rem; justify-items: start; }
+.csend { margin: 1rem 0; border: 1px solid var(--border); background: var(--bg-card); padding: 0 0.75rem; }
+.csend :deep(.cfold) { margin-top: 0; border-top: none; }
+.csend-body { display: grid; gap: 0.5rem; justify-items: start; }
 .csend-body .field { width: 100%; }
-.csend-body select { width: 100%; }
-.csend-error { margin: 0; color: var(--danger); font-size: 0.85rem; }
 </style>
