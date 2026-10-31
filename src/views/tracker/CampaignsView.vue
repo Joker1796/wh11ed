@@ -10,43 +10,66 @@
       </RouterLink>
     </div>
 
-    <form
-      v-if="status === 'authed'"
-      class="camp-create"
-      @submit.prevent="create"
-    >
-      <input
-        v-model.trim="name"
-        class="form-input"
-        type="text"
-        maxlength="80"
-        :placeholder="labels.campName"
-        :aria-label="labels.campName"
-      >
-      <div class="seg">
+    <!-- A new campaign is the Warmaster's rare act: the form waits behind its button. -->
+    <template v-if="status === 'authed'">
+      <ExpandTransition mode="out-in">
         <button
-          type="button"
-          :class="{ on: draw === 'app' }"
-          @click="draw = 'app'"
+          v-if="!creating"
+          key="new"
+          class="btn-primary camp-new"
+          @click="creating = true"
         >
-          {{ labels.campDrawApp }}
+          {{ labels.campNew }}
         </button>
-        <button
-          type="button"
-          :class="{ on: draw === 'manual' }"
-          @click="draw = 'manual'"
+        <form
+          v-else
+          key="form"
+          class="camp-create"
+          @submit.prevent="create"
         >
-          {{ labels.campDrawManual }}
-        </button>
-      </div>
-      <button
-        class="btn-primary"
-        type="submit"
-        :disabled="!name || busy"
-      >
-        {{ labels.campCreate }}
-      </button>
-    </form>
+          <input
+            v-model.trim="name"
+            class="form-input"
+            type="text"
+            maxlength="80"
+            :placeholder="labels.campName"
+            :aria-label="labels.campName"
+          >
+          <div class="seg">
+            <button
+              type="button"
+              :class="{ on: draw === 'app' }"
+              @click="draw = 'app'"
+            >
+              {{ labels.campDrawApp }}
+            </button>
+            <button
+              type="button"
+              :class="{ on: draw === 'manual' }"
+              @click="draw = 'manual'"
+            >
+              {{ labels.campDrawManual }}
+            </button>
+          </div>
+          <div class="camp-row">
+            <button
+              class="btn-primary"
+              type="submit"
+              :disabled="!name || busy"
+            >
+              {{ labels.campCreate }}
+            </button>
+            <button
+              type="button"
+              class="btn-ghost"
+              @click="creating = false"
+            >
+              {{ labels.trackerCancel }}
+            </button>
+          </div>
+        </form>
+      </ExpandTransition>
+    </template>
     <p
       v-else
       class="empty-note"
@@ -93,6 +116,7 @@
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import AppToast from '../../components/AppToast.vue'
+import ExpandTransition from '../../components/ExpandTransition.vue'
 import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns } from '../../composables/useCampaigns.js'
@@ -106,6 +130,7 @@ const { status } = useAuth()
 const { campaigns, createCampaign, refreshOwned } = useCampaigns()
 const router = useRouter()
 const name = ref('')
+const creating = ref(false)
 const draw = ref('app')
 const busy = ref(false)
 const error = ref('')
@@ -129,6 +154,7 @@ async function create() {
 
 <style scoped>
 .campaigns { max-width: 760px; margin: 0 auto; padding-top: 0.5rem; }
+.camp-new { margin-bottom: 1.25rem; }
 .camp-create { display: grid; gap: 0.5rem; margin-bottom: 1.25rem; justify-items: start; }
 .camp-create input { width: 100%; }
 .camp-index { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
