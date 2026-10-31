@@ -62,7 +62,9 @@ steps carry `step` (1–4, End Campaign its own block as the booklet numbers it)
 filled square with a cut corner, in the house accent (`.section-num`), before the title.
 The chapter reads in the booklet's sections: `newRun` starts a new pair of columns at Preparing,
 the steps and Modifying (one flow ran a screen-high column down and back up), and Alliances is
-`wide`, its three frames side by side. A frame and its plate are one unbreakable wrapper whose
+`wide`, its three frames side by side. The booklet's section headings (`section`: Armageddon Campaigns,
+Preparing, Start the Campaign — its own block, as printed above step 1) are in capitals in the
+accent's ink. A frame and its plate are one unbreakable wrapper whose
 TOP PADDING holds the plate — a column drops a block's top margin, and the plate went with it. Where the marks sit is still being
 chosen on the stand (TEMP `?dv=a|b|c` in DominatusView and dominatus.css). The
 Agendas chapter's filters are one shared reactive (`useAgendaFilter`) so a Briefing cell can open

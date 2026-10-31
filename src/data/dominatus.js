@@ -15,7 +15,8 @@
 //   rules / event   = { intro, blocks: [{ id, title, body, table?, box?, boxes?, boxesNote? }] }  — EventProseBlocks
 //                     (box: framed as the booklet frames it; boxes: [{ id, title, icon, body }] framed after it;
 //                      iconList: [{ icon, title, count }] — a list with a mark beside each line;
-//                      step: the booklet's numbered step, drawn on its plate before the title)
+//                      step: the booklet's numbered step, drawn on its plate before the title;
+//                      section: one of the booklet's section headings, set apart from the rest)
 //   alliances       = [{ id, name, desc }]
 //   locations       = [{ slug, name, phase, roll, grid, bonus: { name, body }, warZone: [{ name, body }] }]
 //   briefings       = [{ alliance, phase, rows: [{ mine: [dispoId], branches: [{ vs: [dispoId], agenda }] }] }]
@@ -71,6 +72,7 @@ const en = {
     blocks: [
       {
         id: 'dom-campaigns',
+        section: true, // the booklet's section headings (Armageddon Campaigns, Preparing, Start the Campaign)
         title: 'Armageddon Campaigns',
         body: 'An Armageddon campaign is split into 3 **campaign phases**, each of which consists of a number of battles. During each phase, the players will vie for control of a strategic **location**, before moving onto the next phase.\n'
           + 'Taking control of the final location is key to achieving victory, but it is only part of the challenge. Each player also has a set of **Agendas** they must achieve during the campaign. Only commanders who can achieve military success while accomplishing these vital goals will achieve everlasting glory on Armageddon.\n'
@@ -120,7 +122,8 @@ const en = {
       },
       {
         id: 'dom-preparing',
-        newRun: true, // the booklet's sections each read as their own pair of columns
+        newRun: true,
+        section: true, // the booklet's sections each read as their own pair of columns
         title: 'Preparing the Campaign',
         body: 'Before the campaign begins, the Warmaster should share a **Battle Schedule** with all players, informing them of the number of games each will play, and the army sizes they will need to muster. The default Battle Schedule below is designed to be played comfortably over the course of a weekend for players who can all muster a Strike Force sized army.',
         table: {
@@ -151,12 +154,17 @@ const en = {
         boxesNote: 'Once players have been grouped into Alliances, it is time for the struggle for Armageddon to begin!',
       },
       {
-        id: 'dom-start-phase',
+        id: 'dom-start',
         newRun: true,
+        section: true,
+        title: 'Start the Campaign',
+        body: 'Players start the first campaign phase using the sequence below. After completing phases 1 and 2, start the next campaign phase and repeat this sequence. At the end of phase 3, the campaign ends.',
+      },
+      {
+        id: 'dom-start-phase',
         title: 'Start Campaign Phase',
         step: 1,
-        body: 'Players start the first campaign phase using the sequence below. After completing phases 1 and 2, start the next campaign phase and repeat this sequence. At the end of phase 3, the campaign ends.\n'
-          + 'At the start of each campaign phase, before any battles are fought, the Warmaster must:\n'
+        body: 'At the start of each campaign phase, before any battles are fought, the Warmaster must:\n'
           + '▪ Roll one D6 to randomly select one of that phase\'s **Location** cards.\n'
           + '▪ Players read their Alliance\'s **Briefing** card for this phase.\n'
           + '▪ Players gather their Alliance\'s **Agenda** cards for this phase.',

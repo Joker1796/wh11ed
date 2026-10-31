@@ -28,7 +28,7 @@
   <RuleBlock
     v-else
     :id="block.id"
-    :class="{ 'prose-step': block.step }"
+    :class="{ 'prose-step': block.step, 'prose-section': block.section }"
     :section-num="block.step ? String(block.step) : undefined"
     :title="block.title"
     :body="block.body"
@@ -120,7 +120,7 @@ import { vSafeHtml } from '../../directives/safeHtml.js'
 // right — Dominatus' Alliances), a list with a mark beside each line (`iconList` — the booklet's
 // list of decks) and its own table (`table.plate`: set as the booklet sets it — the
 // title on the same plate, no frame, rules between the rows); `step` puts the booklet's step
-// number before the title. Rendered by EventProseBlocks.vue.
+// number before the title; `section` sets one of the booklet's section headings apart. Rendered by EventProseBlocks.vue.
 defineProps({
   block: { type: Object, required: true },
 })
@@ -194,6 +194,9 @@ const { renderInline } = useRenderInline()
   clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
 }
 .prose-step :deep(.rule-header) { gap: 0.55rem; flex-wrap: nowrap; }
+/* A section heading of the booklet (Preparing the Campaign, Start the Campaign): in capitals as
+   printed, in the house accent's ink, so the sections read apart from the headings inside them. */
+.prose-section :deep(.rule-title) { color: var(--accent-ink); text-transform: uppercase; letter-spacing: 0.02em; }
 /* The booklet's list of decks: the mark, the name in the display face, the count under it, a
    dotted rule between the lines. */
 .prose-icons { list-style: none; margin: 0.3rem 0 0.9rem; padding: 0; }
