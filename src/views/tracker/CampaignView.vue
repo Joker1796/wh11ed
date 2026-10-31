@@ -11,7 +11,39 @@
       <span
         v-if="entry"
         class="camp-role"
-      >{{ labels[`campRole_${entry.role}`] }}</span>
+      >{{ labels[`campRole_${entry.role}`] }}
+        <!-- The campaign's own actions in its "…" (owner, 2026-11-01): deleting it is the
+             Warmaster's, a player or a watcher only takes it off this device. -->
+        <ActionMenu
+          v-model:open="menuOpen"
+          :title="entry.name || labels.campTitle"
+        >
+          <template #trigger="{ toggle }">
+            <button
+              class="camp-more"
+              :aria-label="labels.rosterMoreActions"
+              aria-haspopup="menu"
+              @click.stop="toggle"
+            >
+              <i class="wi wi-more-v" />
+            </button>
+          </template>
+          <button
+            v-if="isOwner"
+            class="act-btn act-danger"
+            @click="menuOpen = false; confirmDelete = true"
+          >
+            {{ labels.campDelete }}
+          </button>
+          <button
+            v-else
+            class="act-btn"
+            @click="menuOpen = false; forget()"
+          >
+            {{ labels.campForget }}
+          </button>
+        </ActionMenu>
+      </span>
     </div>
 
     <p
@@ -63,22 +95,6 @@
           </li>
         </ul>
       </section>
-      <div class="camp-foot">
-        <button
-          v-if="isOwner"
-          class="btn-ghost"
-          @click="confirmDelete = true"
-        >
-          {{ labels.campDelete }}
-        </button>
-        <button
-          v-else
-          class="btn-ghost"
-          @click="forget"
-        >
-          {{ labels.campForget }}
-        </button>
-      </div>
     </template>
 
     <AppToast
@@ -92,6 +108,7 @@
       :title="labels.campDelete"
       :message="labels.campDeleteConfirm"
       :confirm-label="labels.campDelete"
+      :cancel-label="labels.trackerCancel"
       @confirm="remove"
       @close="confirmDelete = false"
     />
@@ -107,6 +124,7 @@
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '../../components/ConfirmModal.vue'
+import ActionMenu from '../../components/ActionMenu.vue'
 import PageTabs from '../../components/PageTabs.vue'
 import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import AppToast from '../../components/AppToast.vue'
@@ -138,6 +156,7 @@ const mine = computed(() => myPlayer(entry.value, state.value))
 const error = ref('')
 const loading = ref(true)
 const confirmDelete = ref(false)
+const menuOpen = ref(false)
 // What waits for this reader: the rewards they take (all of them for the Warmaster, a member's own),
 // the battles the Warmaster has to count.
 const rewardsWaiting = computed(() => (state.value?.pending || []).filter((r) => isOwner.value || r.player === mine.value?.id).length)
@@ -202,14 +221,19 @@ watch(status, async (s) => {
   }
 }, { immediate: true })
 
+// The dialog stays up while the server deletes, then closes in the same tick as the page changes:
+// closed first, its deferred history pop (useBackToClose) landed after the push and brought the
+// reader back to the campaign just deleted.
 async function remove() {
-  confirmDelete.value = false
   try {
     await deleteCampaign(id.value)
-    router.push('/tracker/campaigns')
   } catch (e) {
+    confirmDelete.value = false
     error.value = labels.value.campFailed.replace('{code}', e.code || 'network')
+    return
   }
+  confirmDelete.value = false
+  router.push('/tracker/campaigns')
 }
 function forget() {
   forgetCampaign(id.value)
@@ -218,6 +242,5 @@ function forget() {
 </script>
 
 <style scoped>
-.campaign { max-width: 760px; margin: 0 auto; padding-top: 0.5rem; }
-.camp-foot { display: flex; justify-content: flex-end; margin: 1rem 0 2rem; }
+.campaign { max-width: 760px; margin: 0 auto; padding: 0.5rem 0 2rem; }
 </style>

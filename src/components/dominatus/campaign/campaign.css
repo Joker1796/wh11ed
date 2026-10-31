@@ -52,6 +52,21 @@
 .camp-link + .camp-link { margin-top: 0.5rem; }
 .camp-reward + .camp-reward { padding-top: 0.45rem; border-top: 1px dashed var(--border); }
 /* The device's role in a campaign: in the list and on the campaign's own header. */
+/* The campaign's "…" beside the role on its header. */
+.camp-hero .camp-role { display: inline-flex; align-items: center; gap: 0.25rem; }
+.camp-more {
+  display: inline-grid;
+  place-items: center;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+@media (hover: hover) { .camp-more:hover { color: var(--text-primary); background: color-mix(in srgb, var(--text-primary) 8%, transparent); } }
 .camp-role { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
 /* The narrowest phones (owner, 2026-10-31): the hero's title, its rules link and a choice's buttons
    a step smaller, so the title holds a line and "Rules of the campaign" does not break in two. */
