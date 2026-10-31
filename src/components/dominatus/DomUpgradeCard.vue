@@ -46,7 +46,6 @@
       :kind="upgrade.kind"
       :phase="upgrade.kind === 'honour' ? upgrade.phase : 0"
       :alliance="upgrade.alliance || ''"
-      :tag="tag"
     />
   </article>
 </template>

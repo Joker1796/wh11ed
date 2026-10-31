@@ -74,8 +74,9 @@ each into a full-width heading and its text in the columns; the heading is a div
 letterspaced capitals in the accent's ink and a hairline to the right edge (capitals at a heading's
 size outranked the chapter's heading, owner 2026-10-31).
 No lead paragraph of ours: the booklet's first section is the introduction. A frame and its plate are one unbreakable wrapper whose
-TOP PADDING holds the plate — a column drops a block's top margin, and the plate went with it. Where the marks sit is still being
-chosen on the stand (TEMP `?dv=a|b|c` in DominatusView and dominatus.css). The
+TOP PADDING holds the plate — a column drops a block's top margin, and the plate went with it. The marks (`DomCardMark`: the card's
+kind, its phase boxed, its Alliance's emblem) sit in the head's top-right corner, all three one size
+(owner's pick, 2026-10-31). The
 Agendas chapter's filters are one shared reactive (`useAgendaFilter`) so a Briefing cell can open
 the Agenda it names.
 

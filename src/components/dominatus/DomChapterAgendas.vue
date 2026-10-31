@@ -73,7 +73,6 @@
             kind="agenda"
             :phase="a.phase"
             :alliance="a.alliance"
-            :tag="cardTag({ kind: 'agenda', alliance: a.alliance })"
           />
         </template>
       </MissionCard>

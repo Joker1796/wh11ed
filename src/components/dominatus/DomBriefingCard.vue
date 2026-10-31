@@ -107,7 +107,6 @@
       kind="briefing"
       :phase="briefing.phase"
       :alliance="briefing.alliance"
-      :tag="tag"
     />
   </article>
 </template>

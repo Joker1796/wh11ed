@@ -142,65 +142,37 @@
 }
 
 /* The corner marks (DomCardMark): the card's type, its phase in a box, its Alliance's emblem. */
-.dmark { display: flex; align-items: center; gap: 0.4rem; color: var(--text-primary); }
-.dmark .wi { width: 1.35rem; height: 1.35rem; margin: 0; }
+/* One size for all three (owner, 2026-10-31: the boxed numeral stood larger than the drawings and
+   the round emblem read smaller than both). The box is the drawings' ink, 21 of their 24; a circle
+   reads a size small beside a square, so the emblem is drawn a step larger. */
+.dmark {
+  --dmark-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text-primary);
+}
+.dmark .wi { width: var(--dmark-size); height: var(--dmark-size); margin: 0; }
+.dmark .dmark-ally { width: calc(var(--dmark-size) * 1.12); height: calc(var(--dmark-size) * 1.12); }
 .dmark-ally { color: var(--dom-ink, var(--text-primary)); }
 .dmark-phase {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.45rem;
-  height: 1.45rem;
-  padding: 0 0.15rem;
-  border: 2px solid currentColor;
+  box-sizing: border-box;
+  min-width: calc(var(--dmark-size) * 0.875);
+  height: calc(var(--dmark-size) * 0.875);
+  padding: 0 0.12rem;
+  border: 1.5px solid currentColor;
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   line-height: 1;
 }
-.dmark-tag { display: none; }
 
-/* ── TEMP: three ways to wear the marks, for the owner to pick on the stand (?dv=a|b|c). The
-   two that lose go, with the switch in DominatusView. ── */
-/* A — in the head's top-right corner. */
-.dv-a .dmark { position: absolute; top: 0.8rem; right: 0.9rem; }
-.dv-a .dcard-head,
-.dv-a .dcard-agenda .mcard-head { padding-right: 5.6rem; }
-/* B — a foot row, as the printed card has them along its bottom edge. */
-.dv-b .dmark {
-  margin-top: 0.7rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--border);
-}
-.dv-b .dmark-kind { margin-right: auto; }
-/* C — a dark spine down the left edge, the tag written up it and the marks at its foot. */
-.dv-c .dcard,
-.dv-c .dcard-agenda.mcard { border-left: none; padding-left: 3.1rem; }
-.dv-c .dcard-tag { display: none; }
-.dv-c .dmark {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 2.3rem;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0.6rem 0;
-  background: var(--dom-ink, var(--text-primary));
-  color: #fff;
-}
-.dv-c .dmark-ally { color: #fff; }
-.dv-c .dmark-tag {
-  display: block;
-  margin-bottom: auto;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-size: 0.66rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  white-space: nowrap;
-  overflow: hidden;
-}
+/* In the head's top-right corner (owner's pick of three on the stand, 2026-10-31). */
+.dmark { position: absolute; top: 0.8rem; right: 0.9rem; }
+.dcard-head,
+.dcard-agenda .mcard-head { padding-right: 5rem; }
 
 /* A chapter's head drawn as a Core Rules section head (SectionHeader, owner 2026-10-31): the accent
    rule over it, the section title's size in capitals, its description under it and a thin rule

@@ -59,7 +59,6 @@
     <DomCardMark
       kind="location"
       :phase="location.phase"
-      :tag="tag"
     />
   </article>
 </template>
