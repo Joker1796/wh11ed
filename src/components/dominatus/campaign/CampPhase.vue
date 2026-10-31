@@ -1,15 +1,5 @@
 <template>
   <section class="camp-block">
-    <h2 class="dgroup-label">
-      <i
-        v-if="!state.finished"
-        class="wi"
-        :class="`wi-dom-phase-${state.phase}`"
-        aria-hidden="true"
-      />
-      {{ state.finished ? labels.campFinished : phaseLabel(state.phase) }}
-    </h2>
-
     <template v-if="!state.finished">
       <!-- The phase's Location is its card, as the rules page draws it: the bonus and the war zone. -->
       <DomLocationCard

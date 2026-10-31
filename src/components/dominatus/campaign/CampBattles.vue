@@ -1,12 +1,5 @@
 <template>
   <section class="camp-block">
-    <h2 class="dgroup-label">
-      {{ labels.campBattles }}
-      <span
-        v-if="waiting"
-        class="camp-waiting"
-      >{{ labels.campWaiting }}</span>
-    </h2>
     <ul
       v-if="battles.length"
       class="camp-list"
@@ -132,9 +125,6 @@ import NumberStepper from '../../tracker/NumberStepper.vue'
 import CampOpenForm from './CampOpenForm.vue'
 import CampPick from './CampPick.vue'
 import { useCampaignView } from './useCampaignView.js'
-
-// `waiting`: the Warmaster has battles to count, and the block stands among what waits for them.
-defineProps({ waiting: { type: Boolean, default: false } })
 
 const { state, isOwner, mine, act, labels, playerName, phaseLabel } = useCampaignView()
 const a = ref(null)

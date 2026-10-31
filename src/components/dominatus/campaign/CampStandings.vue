@@ -1,8 +1,5 @@
 <template>
   <section class="camp-block">
-    <h2 class="dgroup-label">
-      {{ labels.campStandings }}
-    </h2>
     <p
       v-if="!rows.length"
       class="empty-note"

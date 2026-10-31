@@ -13,20 +13,20 @@
 .camp-hero .back { flex-basis: 100%; }
 .camp-hero h1 { margin: 0; font-family: var(--font-display); font-size: 2.2rem; font-weight: 400; }
 .camp-rules { font-size: 0.85rem; color: var(--accent-ink); }
+/* The tabs hang over the blocks as a faction page's do (0.6rem, the canon under a strip). */
+.camp-tabs { margin-bottom: 0.6rem; }
+/* Five tabs on a phone. PageTabs gives each an equal share there, and "Rewards ⚠" was cut while
+   "Battles" had room to spare: here each is as wide as its label, and the phase goes by its name
+   alone. */
+@media (max-width: 480px) {
+  .camp-tabs .page-tab.page-tab { flex: 1 1 auto; padding-inline: 0.4rem; gap: 0.25rem; }
+  .camp-tabs .page-tab-icon.page-tab-icon { display: none; }
+}
 /* A block reads as a section of the rules page (owner, 2026-10-31): its head is the Dominatus
    group head (`.dgroup-label`, dominatus.css), the frame is left to the cards. */
 .camp-block { margin-bottom: 1.75rem; }
 .camp-block > .dgroup-label { display: flex; align-items: center; gap: 0.5rem; }
 .camp-block > .dgroup-label .wi { width: 1.4rem; height: 1.4rem; margin: 0; }
-/* "Waiting for you" on a block's head: what this reader has to do. */
-.camp-waiting {
-  margin-left: auto;
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--accent-ink);
-}
 .camp-line { margin: 0.25rem 0; font-size: 0.9rem; }
 .camp-dim { color: var(--text-muted); font-size: 0.82rem; }
 .camp-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }

@@ -1,12 +1,11 @@
 <template>
-  <section
-    v-if="rewards.length"
-    class="camp-block"
-  >
-    <h2 class="dgroup-label">
-      {{ labels.campRewards }}
-      <span class="camp-waiting">{{ labels.campWaiting }}</span>
-    </h2>
+  <section class="camp-block">
+    <p
+      v-if="!rewards.length"
+      class="empty-note"
+    >
+      {{ labels.campNoRewards }}
+    </p>
     <ul class="camp-list">
       <li
         v-for="r in rewards"

@@ -132,8 +132,10 @@ on a tie nothing breaks.
   group head (`.dgroup-label` — CampaignView loads `dominatus.css`), the frame left to the cards; the
   phase's Location is its `DomLocationCard`, cards drawn by the app are `DomUpgradeCard`s with Keep,
   a card a player holds opens its text in the rules popover (`showUpgrade`), Alliances are emblem +
-  name (`DomAllianceName`). What waits for the reader comes first (their rewards; the Warmaster's
-  battles to count), marked "Waiting for you". Picks are `CampPick` (AdaptivePicker — no native
+  name (`DomAllianceName`). The page is five tabs (owner, 2026-11-01), always the same in the same
+  order — the phase, the Alliances, battles, players (with the invite), rewards; a tab holding
+  something for this reader (their rewards, the Warmaster's battles to count) carries PageTabs'
+  warning mark and the page opens on it until the reader picks a tab. Picks are `CampPick` (AdaptivePicker — no native
   select), folds `CampFold` (CollapseTransition — no `<details>`), errors the app's `AppToast`. A new
   campaign, a player and a battle are forms behind their buttons (`CampOpenForm`), closed only once
   sent; the links are a button and a dialog (`CampShare`).

@@ -27,19 +27,32 @@
       {{ labels.campLoading }}
     </p>
 
-    <!-- What waits for this reader first — the rewards they take, the battles the Warmaster counts —
-         then the campaign's standing, its phase, its players. -->
+    <!-- The campaign in tabs (owner, 2026-11-01), always the same five in the same order; a tab
+         that holds something this reader has to do carries the warning mark, and the page opens on
+         the first such tab. -->
     <template v-else>
-      <CampRewards />
-      <CampBattles
-        v-if="battlesWaiting"
-        waiting
+      <PageTabs
+        class="camp-tabs"
+        :tabs="tabs"
+        @select="picked = $event"
       />
-      <CampStandings />
-      <CampPhase />
-      <CampBattles v-if="!battlesWaiting" />
-      <CampPlayers />
-      <CampShare />
+      <Transition
+        name="fade"
+        mode="out-in"
+        @enter="bringTabsIntoView"
+      >
+        <CampPhase v-if="tab === 'phase'" />
+        <CampStandings v-else-if="tab === 'standings'" />
+        <CampBattles v-else-if="tab === 'battles'" />
+        <div
+          v-else-if="tab === 'players'"
+          key="players"
+        >
+          <CampPlayers />
+          <CampShare />
+        </div>
+        <CampRewards v-else />
+      </Transition>
       <section
         v-if="isOwner && state.rejected.length"
         class="camp-block"
@@ -100,6 +113,8 @@
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '../../components/ConfirmModal.vue'
+import PageTabs from '../../components/PageTabs.vue'
+import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import AppToast from '../../components/AppToast.vue'
 import CampStandings from '../../components/dominatus/campaign/CampStandings.vue'
 import CampPhase from '../../components/dominatus/campaign/CampPhase.vue'
@@ -130,8 +145,25 @@ const mine = computed(() => myPlayer(entry.value, state.value))
 const error = ref('')
 const loading = ref(true)
 const confirmDelete = ref(false)
-// The Warmaster has battles to count: that block goes up among what waits for them.
+// What waits for this reader: the rewards they take (all of them for the Warmaster, a member's own),
+// the battles the Warmaster has to count.
+const rewardsWaiting = computed(() => (state.value?.pending || []).filter((r) => isOwner.value || r.player === mine.value?.id).length)
 const battlesWaiting = computed(() => isOwner.value && !!state.value?.battles.some((b) => b.status === 'pending'))
+// Open on what waits first; it follows the log as it comes in until the reader picks a tab.
+const picked = ref(null)
+const tab = computed(() => picked.value || (rewardsWaiting.value ? 'rewards' : battlesWaiting.value ? 'battles' : 'phase'))
+const tabs = computed(() => {
+  const l = labels.value
+  const s = state.value
+  const phaseName = s?.finished ? l.campFinished : l.domPhase.replace('{n}', ['I', 'II', 'III'][(s?.phase || 1) - 1])
+  return [
+    { key: 'phase', label: phaseName, icon: s && !s.finished ? `wi wi-dom-phase-${s.phase}` : '' },
+    { key: 'standings', label: l.campStandings },
+    { key: 'battles', label: l.campBattles, warn: battlesWaiting.value ? l.campWaiting : '' },
+    { key: 'players', label: l.campPlayers },
+    { key: 'rewards', label: l.campRewardsTab, warn: rewardsWaiting.value ? l.campWaiting : '' },
+  ].map((t) => ({ ...t, active: tab.value === t.key }))
+})
 
 // True once the event is in: a form closes only then, keeping what was typed when it failed.
 async function act(type, payload) {

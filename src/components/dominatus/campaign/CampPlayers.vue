@@ -1,8 +1,5 @@
 <template>
   <section class="camp-block">
-    <h2 class="dgroup-label">
-      {{ labels.campPlayers }}
-    </h2>
     <ul class="camp-list">
       <li
         v-for="p in state.players"
