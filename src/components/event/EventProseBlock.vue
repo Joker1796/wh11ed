@@ -170,7 +170,7 @@ const { renderInline } = useRenderInline()
   padding: 0;
   font-family: var(--font-display);
   font-size: 1.9rem;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0;
   clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
 }

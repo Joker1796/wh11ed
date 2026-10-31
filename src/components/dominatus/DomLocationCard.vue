@@ -88,7 +88,8 @@ const tag = computed(() => cardTag({ kind: 'location', roll: props.location.roll
 /* "2093-AR:VOLCANUS" — the grid reference printed under the card's map square. */
 .dloc-grid {
   margin-top: 0.6rem;
-  font-family: var(--font-mono);
+  /* Inter, not the system monospace: a phone without Courier draws whatever it has (style.css). */
+  font-variant-numeric: tabular-nums;
   font-size: 0.68rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
