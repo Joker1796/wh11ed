@@ -82,10 +82,12 @@ const tag = computed(() => cardTag({ kind: props.upgrade.kind, alliance: props.u
   /* In the deck's colour, as the tag line over the name (owner, 2026-10-31). */
   color: var(--dom-spine, var(--text-primary));
 }
-/* A phone: the label opens its text's first line and the text runs on under it, the column the
-   labels kept is the card's (owner, 2026-10-31). A float, so it is the first line of ANY body —
-   a paragraph, a list. Its line as tall as the text's, so the two share a baseline. */
-@media (max-width: 430px) {
+/* A narrow CARD — a phone, or a desk's column (owner, 2026-10-31: by the card, not the screen): the
+   label opens its text's first line and the text runs on under it, the column the labels kept is
+   the card's. A float, so it is the first line of ANY body — a paragraph, a list. Its line as tall
+   as the text's, so the two share a baseline. Own container name: `dcard`'s query sizes marks. */
+.dom-deck-upgrade { container: dup / inline-size; }
+@container dup (max-width: 440px) {
   .dup-rows { display: block; }
   .dup-label { float: left; clear: left; margin-right: 0.4rem; line-height: 1.35rem; }
   .dup-who { display: block; line-height: 1.35rem; margin-bottom: 0.3rem; }
