@@ -64,9 +64,12 @@ const current = computed(() => props.options.find((o) => o.value === model.value
   align-items: center;
   gap: 0.4rem;
   width: 100%;
+  padding-right: 0.6rem;
   text-align: left;
   cursor: pointer;
 }
+/* The chevron as the app's other picker fields draw it (RosterBattleSizeField): small, dim, off the edge. */
+.cpick-trigger .wi { flex-shrink: 0; margin: 0; font-size: 0.7rem; color: var(--text-dim); }
 .cpick-trigger:disabled { opacity: 0.5; cursor: default; }
 .cpick-value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cpick-trigger.empty .cpick-value { color: var(--text-muted); }
