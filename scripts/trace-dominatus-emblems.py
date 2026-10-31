@@ -11,6 +11,7 @@
 #   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py alliances ../sources/dominatus/alliances.png src/assets/icons
 #   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py decks ../sources/dominatus/deck-icons.png src/assets/icons
 #   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py relic ../sources/dominatus/5/66905a52-4ba9-4956-ac43-7473289c2c3c.jpeg src/assets/icons
+#   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py skill ../sources/dominatus/5/500cadd3-e825-49c1-b710-bc037071fdb0.jpeg src/assets/icons
 #
 # What it does: crops each emblem (BOXES, pixels of that photo), scales it ×6 and blurs a little
 # so the threshold gives smooth edges, keeps ink midway between the photo's ink and paper, drops
@@ -25,10 +26,13 @@ SET, SRC, OUT = sys.argv[1], sys.argv[2], sys.argv[3]
 # or the start of a caption, as long as they reach its edge (they are dropped).
 SETS = {
     'alliances': {'liberators': (330, 70, 500, 215), 'oppressors': (330, 260, 500, 410), 'raiders': (330, 455, 500, 600)},
-    # The Upgrade deck's gear is the mark the Battle Skill cards print: `dom-skill`. Boxes are in
-    # the photo straightened by SHEAR below.
+    # Boxes are in the photo straightened by SHEAR below.
     'decks': {'agenda': (60, 20, 135, 93), 'achieved': (60, 106, 135, 167),
-              'location': (60, 257, 130, 325), 'skill': (52, 346, 128, 421)},
+              'location': (60, 257, 130, 325)},
+    # The Upgrade deck's gear, the mark the Battle Skill cards print (`dom-skill`): off Lead from the
+    # Front's corner, the card nearest the middle of a photo shot square on — the booklet's leaning
+    # list skewed it out of round (owner, 2026-10-31).
+    'skill': {'skill': (925, 545, 1045, 665)},
     # The Briefing mark is no longer traced from `decks`: the booklet photo leaned and skewed it, so
     # it is drawn from the cards' measurements (draw-dominatus-marks.py).
     # Fate-Forged Weapon's corner, the clearest of the twelve Relic cards on the owner's photos.
@@ -42,9 +46,9 @@ SHEAR = {'decks': (0.083, -0.022, 90, 220)}
 K = 6  # upscale before thresholding: smoother edges for the tracer
 # How much to soften before thresholding, in photo pixels: the Relic card is a worn print shot from
 # further off, and at the booklet's 0.6 its edges came out wavy with the grain.
-BLUR = {'relic': 1.1}
+BLUR = {'relic': 1.1, 'skill': 1.6}
 # potrace rounds a corner below this: the Relic's cross keeps its square ends.
-ALPHAMAX = {'relic': 0.75}
+ALPHAMAX = {'relic': 0.75, 'skill': 0.75}
 
 def components(mask):
     h, w = mask.shape; lab = np.zeros((h, w), np.int32); comps = []; n = 0
