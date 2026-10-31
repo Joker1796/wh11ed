@@ -239,22 +239,22 @@ async function openAgenda(slug) {
    opponent's and on to the Agenda in its box, the Outcomes in one row under it — as many columns as
    the phase has (2 / 1 / 0, or 3 / 2 / 1 / 0). Same width as `wide` in the script. */
 @media (min-width: 1024px) {
-  /* The card's top as Wahapedia sets it, after the printed card: the head and the lore on the left,
-     the marks large on the right beside both (owner, 2026-10-31). The wrappers step aside so the
-     head, the lore, the chart and the Outcomes sit on the card's own grid. */
+  /* The card's top as Wahapedia sets it, after the printed card: the head one line across the card,
+     larger; under it the lore, the marks large on the right level with it (owner, 2026-10-31). The
+     wrappers step aside so the head, the lore, the chart and the Outcomes sit on the card's own grid. */
   .dcard {
     --dmark-size: 4.25rem;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas: 'head mark' 'lore mark' 'chart chart' 'out out';
-    /* Height the marks add beside a short lore goes under the lore, not into the head. */
-    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas: 'head head' 'lore mark' 'chart chart' 'out out';
     column-gap: 1.5rem;
   }
   .bbody,
   .bfront { display: contents; }
-  .dcard-head { grid-area: head; padding-right: 0; }
-  .dcard-lore { grid-area: lore; align-self: start; margin-bottom: 0; }
+  .dcard-head { grid-area: head; flex-wrap: nowrap; gap: 0.9rem; padding-right: 0; }
+  .dcard-tag { flex-basis: auto; font-size: 0.95rem; }
+  .dcard-head .dcard-tag + .dcard-name { margin-top: 0; font-size: 1.75rem; line-height: 1; }
+  .dcard-lore { grid-area: lore; align-self: center; margin: 0; }
   .dmark { grid-area: mark; position: static; align-self: center; }
   .bmatrix { grid-area: chart; }
   .dcard-outcomes { grid-area: out; }
