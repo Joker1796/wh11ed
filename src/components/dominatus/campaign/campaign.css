@@ -43,7 +43,12 @@
 .camp-battle { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; align-items: center; font-size: 0.88rem; }
 .camp-battle.is-rejected { opacity: 0.6; text-decoration: line-through; }
 .camp-actions { display: flex; gap: 0.4rem; margin-left: auto; }
-.camp-form { display: grid; gap: 0.5rem; margin-top: 0.5rem; }
+.camp-form { display: grid; gap: 0.5rem; margin-top: 0.5rem; justify-items: start; }
+/* Fields take the form's width; a button stays its own size (a grid stretched the submit across the
+   dialog, owner 2026-11-01). */
+.camp-form > .form-input,
+.camp-form > .camp-pair,
+.camp-form > .camp-row { justify-self: stretch; }
 .camp-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; }
 .camp-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
 .camp-num { display: grid; gap: 0.2rem; font-size: 0.78rem; color: var(--text-muted); }
