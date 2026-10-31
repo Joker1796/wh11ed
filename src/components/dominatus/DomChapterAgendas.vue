@@ -55,7 +55,7 @@
     <TransitionGroup
       name="sift"
       tag="div"
-      class="dgrid"
+      class="dgrid dgrid-two"
     >
       <MissionCard
         v-for="a in g.items"
