@@ -30,6 +30,13 @@
           </template>
           <button
             v-if="isOwner"
+            class="act-btn"
+            @click="startRename"
+          >
+            {{ labels.campRename }}
+          </button>
+          <button
+            v-if="isOwner"
             class="act-btn act-danger"
             @click="menuOpen = false; confirmDelete = true"
           >
@@ -103,6 +110,34 @@
       tone="error"
       @close="error = ''"
     />
+    <!-- The Warmaster renames the campaign: a settings event, which the server also carries into the
+         campaign list (wh11ed-api README). -->
+    <BaseModal
+      v-if="renaming"
+      :title="labels.campRename"
+      @close="renaming = false"
+    >
+      <form
+        class="modal-body camp-rename"
+        @submit.prevent="rename"
+      >
+        <input
+          v-model.trim="newName"
+          class="form-input"
+          type="text"
+          maxlength="80"
+          :placeholder="labels.campName"
+          :aria-label="labels.campName"
+        >
+        <button
+          class="btn-primary"
+          type="submit"
+          :disabled="!newName || newName === entry?.name"
+        >
+          {{ labels.campRenameSave }}
+        </button>
+      </form>
+    </BaseModal>
     <ConfirmModal
       v-if="confirmDelete"
       :title="labels.campDelete"
@@ -125,6 +160,7 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import ActionMenu from '../../components/ActionMenu.vue'
+import BaseModal from '../../components/BaseModal.vue'
 import PageTabs from '../../components/PageTabs.vue'
 import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import AppToast from '../../components/AppToast.vue'
@@ -157,6 +193,17 @@ const error = ref('')
 const loading = ref(true)
 const confirmDelete = ref(false)
 const menuOpen = ref(false)
+const renaming = ref(false)
+const newName = ref('')
+// The menu hands over to the dialog in one tick (a swap, BaseModal's modalLeave).
+function startRename() {
+  newName.value = entry.value?.name || ''
+  menuOpen.value = false
+  renaming.value = true
+}
+async function rename() {
+  if (await act('settings', { name: newName.value })) renaming.value = false
+}
 // What waits for this reader: the rewards they take (all of them for the Warmaster, a member's own),
 // the battles the Warmaster has to count.
 const rewardsWaiting = computed(() => (state.value?.pending || []).filter((r) => isOwner.value || r.player === mine.value?.id).length)
@@ -243,4 +290,6 @@ function forget() {
 
 <style scoped>
 .campaign { max-width: 760px; margin: 0 auto; padding: 0.5rem 0 2rem; }
+.camp-rename { display: grid; gap: 0.6rem; justify-items: start; padding: 0.9rem 1rem 1.1rem; }
+.camp-rename input { width: 100%; }
 </style>

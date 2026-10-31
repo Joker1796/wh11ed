@@ -138,7 +138,9 @@ on a tie nothing breaks.
   warning mark and the page opens on it until the reader picks a tab. Picks are `CampPick` (AdaptivePicker — no native
   select), folds `CampFold` (CollapseTransition — no `<details>`), errors the app's `AppToast`. A new
   campaign, a player and a battle are forms behind their buttons (`CampOpenForm`), closed only once
-  sent; the links are a button and a dialog (`CampShare`).
+  sent; the links are a button and a dialog (`CampShare`). The campaign's own actions are its header's
+  "…" (`ActionMenu`): Rename (a `settings` event — the API carries the name into the owner's list)
+  and Delete for the Warmaster, Remove from this device for anyone else.
 
 Booklet readings worth knowing: Agenda Achieved cards gained in a phase are kept into the next
 and discarded at ITS end (step V "from previous phases"); the Event Companion's variant (Relics and
