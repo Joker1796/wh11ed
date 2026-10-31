@@ -313,7 +313,9 @@ symmetric (a squad of three; the pack's two figures read lopsided, owner 2026-10
 files, 2026-10-13: chevrons, arrows, the info / help / warning / error / ok marks, dice faces, the
 tick box, files, people…) were drawn in the pack's manner — filled faceted shapes on the 24 grid,
 circles in 15° steps, diamonds for dots, cut-outs by even-odd, an SVG `<mask>` where a slash or a badge
-needs a gap. **`wi-army` is wherever the app
+needs a gap. **The one exception: the three Dominatus Alliance emblems** (`wi-dom-liberators` / `-oppressors` /
+`-raiders`) are traced off the deck's booklet, at the owner's word (2026-10-31: "exactly as on the
+screenshot") — `scripts/trace-dominatus-emblems.py`; the card-type `wi-dom-*` are ours. **`wi-army` is wherever the app
 means an army or its rules**; swords, hourglass and skull mean a unit's status and nothing else.
 Paired states swap the class (`theme-light`/`-dark`, `sound-on`/`-off`, `pin-on`/`-off`,
 `lore`/`lore-on`, `add`/`check`, `own`/`own-on`, `box`/`box-on`, `filter`/`filter-on`,

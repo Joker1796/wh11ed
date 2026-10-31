@@ -3,7 +3,10 @@
     :id="id"
     class="rule-block"
   >
+    <!-- No title and no number: the block carries on the one before it (Dominatus' steps
+         after its framed Declining Agendas). -->
     <div
+      v-if="title || sectionNum"
       class="rule-header"
       :class="{ 'rule-header--type': bodyIsInfoCard }"
     >

@@ -12,7 +12,8 @@
 // mission-card convention, missions.js); RU adds `nameRu` as a subline.
 //
 // Shapes
-//   rules / event   = { intro, blocks: [{ id, title, body, table? }] }  — EventProseBlocks
+//   rules / event   = { intro, blocks: [{ id, title, body, table?, box?, boxes?, boxesNote? }] }  — EventProseBlocks
+//                     (box: framed as the booklet frames it; boxes: [{ id, title, icon, body }] framed after it)
 //   alliances       = [{ id, name, desc }]
 //   locations       = [{ slug, name, phase, roll, grid, bonus: { name, body }, warZone: [{ name, body }] }]
 //   briefings       = [{ alliance, phase, rows: [{ mine: [dispoId], branches: [{ vs: [dispoId], agenda }] }] }]
@@ -76,6 +77,7 @@ const en = {
       {
         id: 'dom-warmaster',
         title: 'Warmaster',
+        box: true,
         body: 'Dominatus is best run with a **Warmaster**. They will take on the organisation of the campaign so that the other players can focus on playing games. A Warmaster can play in the campaign, but their primary role is to facilitate a smooth and enjoyable experience for all players involved. If such a heroic individual has not already volunteered themselves, the players can instead agree to take up the tasks of a Warmaster between themselves.',
       },
       {
@@ -125,10 +127,14 @@ const en = {
         id: 'dom-alliances',
         title: 'Alliances',
         body: 'The Warmaster will need to group all of the players into **Alliances**. A campaign must have an Oppressors Alliance and a Liberators Alliance. It can optionally have a Raiders Alliance as well. Alliances should be organised as evenly as possible, and based on the different factions players are using if possible. Players should play the same faction throughout the campaign.\n'
-          + '▪ **Liberators** — those who seek to free Armageddon, destroy the occupying forces and reestablish Imperial rule over the planet. The forces of the Imperium would be best suited to this Alliance.\n'
-          + '▪ **Oppressors** — those who wish to destroy Armageddon, slaughter its populace and watch the planet burn. The forces of the Orks are best suited to this Alliance.\n'
-          + '▪ **Raiders** — xenos warlords to Chaos renegades, all seeking to further their own agendas. This Alliance is best suited to those who carve their own path.\n'
           + 'These are guidelines, not requirements; if it suits the group better to organise Alliances differently, the Warmaster should do so.',
+        // As the booklet sets them: a frame each, the name on its plate, the emblem to the right.
+        boxes: [
+          { id: 'liberators', title: 'Liberators', icon: 'dom-liberators', body: 'Those who seek to free Armageddon, destroy the occupying forces and reestablish Imperial rule over the planet. The forces of the Imperium would be best suited to this Alliance.' },
+          { id: 'oppressors', title: 'Oppressors', icon: 'dom-oppressors', body: 'Those who wish to destroy Armageddon, slaughter its populace and watch the planet burn. The forces of the Orks are best suited to this Alliance.' },
+          { id: 'raiders', title: 'Raiders', icon: 'dom-raiders', body: 'The Raiders on Armageddon range from xenos warlords to Chaos renegades, all seeking to further their own agendas. This Alliance is best suited to those who carve their own path.' },
+        ],
+        boxesNote: 'Once players have been grouped into Alliances, it is time for the struggle for Armageddon to begin!',
       },
       {
         id: 'dom-start-phase',
@@ -146,10 +152,20 @@ const en = {
           + 'To play a battle, the players generate a mission from any Chapter Approved mission deck (the Warmaster may curate this). The mission sequence is supplemented with the following rules.\n'
           + '### Determine Mission step\n'
           + '▪ Read aloud all **war zone rules** for that phase from your Location card — these apply to the upcoming battle.\n'
-          + '▪ If both players wish to attempt Agendas in the battle, do not use the Primary Missions in your mission deck. Instead, after revealing Force Disposition cards, the players use their Alliance\'s current **Briefing** card and use the chart on it to compare their selected Force Disposition with that of their opponent. This combination will result in a specific **Agenda** card, which will state the Primary Mission to use in this battle.\n'
-          + '### Declining Agendas\n'
-          + 'If one or both players decline to attempt Agendas in a battle, determine Primary Missions as described in your mission deck, but only the player(s) that declined to attempt Agendas can score VP from that Primary Mission. A player that opted to attempt an Agenda cannot score VP from that Primary Mission and instead they use the Primary Mission on their Agenda card.\n'
-          + '### Declare Battle Formations step\n'
+          + '▪ If both players wish to attempt Agendas in the battle, do not use the Primary Missions in your mission deck. Instead, after revealing Force Disposition cards, the players use their Alliance\'s current **Briefing** card and use the chart on it to compare their selected Force Disposition with that of their opponent. This combination will result in a specific **Agenda** card, which will state the Primary Mission to use in this battle.',
+      },
+      // The booklet frames this one between the steps; the steps then carry on in a block with
+      // no title of its own.
+      {
+        id: 'dom-declining',
+        title: 'Declining Agendas',
+        box: true,
+        body: 'If one or both players decline to attempt Agendas in a battle, determine Primary Missions as described in your mission deck, but only the player(s) that declined to attempt Agendas can score VP from that Primary Mission. A player that opted to attempt an Agenda cannot score VP from that Primary Mission and instead they use the Primary Mission on their Agenda card.',
+      },
+      {
+        id: 'dom-play-battles-steps',
+        title: '',
+        body: '### Declare Battle Formations step\n'
           + '▪ Each player can select up to 3 **Upgrade** cards they have earned during the campaign, and give each of those Upgrade cards to a different friendly unit until the end of the battle (a unit cannot have more than one Upgrade card).\n'
           + '### Determine Victor step\n'
           + '▪ Each player that opted to attempt an Agenda in the battle checks the conditions listed on their Agenda card. If these are met, that player takes the number of **Agenda Achieved** cards listed.\n'
@@ -179,6 +195,7 @@ const en = {
       {
         id: 'dom-modifying',
         title: 'Modifying Dominatus',
+        box: true,
         body: 'The Warmaster can modify any of these rules to better suit the needs of their gaming group. While Dominatus is designed to be played over the course of a weekend, a Warmaster could use the deck to run a longer campaign by increasing the number of battles in a phase, remembering that phase 3 should consist of a single climactic final mission. It is also perfectly acceptable to vary the size-limit of players\' armies as the campaign evolves, perhaps starting with smaller battle sizes in earlier phases and growing in subsequent ones.\n'
           + 'Warmasters are free to change or introduce new rules to better fit their own narrative, perhaps allowing players to swap factions mid-campaign, or even change Alliance as new pacts are forged and traitors discovered — remembering that their role is to ensure everyone taking part has an enjoyable experience.',
       },
@@ -991,7 +1008,12 @@ function overlayBlocks(enBlocks, ruBlocks) {
   return enBlocks.map((b) => {
     const r = ruBlocks[b.id]
     if (!r) return b
-    return { ...b, ...r, table: b.table && r.table ? { ...b.table, ...r.table } : b.table }
+    return {
+      ...b,
+      ...r,
+      table: b.table && r.table ? { ...b.table, ...r.table } : b.table,
+      boxes: b.boxes && r.boxes ? b.boxes.map((x, i) => ({ ...x, ...r.boxes[i] })) : b.boxes,
+    }
   })
 }
 

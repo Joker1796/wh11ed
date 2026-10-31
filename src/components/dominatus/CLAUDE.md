@@ -44,10 +44,18 @@ this directory; nav groups `dominatusGroups` (router/nav.js), route section `dom
 
 **Cards wear the printed card's marks** (2026-10-31): the tag line the deck prints up a card's
 spine ("Liberators · Agenda", "Battle Honour", "Location 1–2" — `cardTag`), the type icon, the
-phase as a boxed numeral and the Alliance's emblem (`DomCardMark.vue`; the drawings are
-`wi-dom-*`, ours, in `scripts/draw-icons.mjs`), section labels white on black (`.dchip`), and a
+phase as a boxed numeral and the Alliance's emblem (`DomCardMark.vue`; the type drawings are
+ours, in `scripts/draw-icons.mjs`; the three emblems are traced off the booklet,
+`scripts/trace-dominatus-emblems.py`, owner 2026-10-31), section labels white on black (`.dchip`), and a
 stripe in the Alliance's (or pile's) colour — `--dom-ink`, our colours, not the deck's. An Agenda
-is MissionCard, which has `tag` and `mark` slots for this. Where the marks sit is still being
+is MissionCard, which has `tag` and `mark` slots for this.
+
+**The booklet's framed rules stay framed** (owner, 2026-10-31): a rule block with `box: true` —
+Warmaster, Declining Agendas, Modifying Dominatus — is drawn in a frame with its title on a filled
+plate in the corner, and the Alliances block's `boxes` are three such frames with the emblem on
+the right (`EventProseBlock.vue`, generic: any Event Companion block may use them). Declining
+Agendas sits between the battle steps in the booklet, so `dom-play-battles` is cut there and goes
+on in `dom-play-battles-steps`, a block with no title (RuleBlock draws no header for it). Where the marks sit is still being
 chosen on the stand (TEMP `?dv=a|b|c` in DominatusView and dominatus.css). The
 Agendas chapter's filters are one shared reactive (`useAgendaFilter`) so a Briefing cell can open
 the Agenda it names.
