@@ -1,6 +1,7 @@
 # The Dominatus marks, traced off the owner's photos of the booklet into one-colour SVGs for
 # `.wi-dom-<name>`: the three Alliance emblems (the Alliances page) and the five deck marks (the
-# booklet's list of what the pack contains).
+# booklet's list of what the pack contains), and the Relic deck's shield, off a Relic card (the
+# booklet's list shows no such mark).
 #
 # The only drawings in src/assets/icons that are not ours: the owner asked for them exactly as the
 # booklet prints them (2026-10-31), so they are traced, not redrawn. Run it again only to re-trace
@@ -9,6 +10,7 @@
 #   python3 -m venv /tmp/trace && /tmp/trace/bin/pip install potracer numpy pillow
 #   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py alliances ../sources/dominatus/alliances.png src/assets/icons
 #   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py decks ../sources/dominatus/deck-icons.png src/assets/icons
+#   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py relic ../sources/dominatus/5/66905a52-4ba9-4956-ac43-7473289c2c3c.jpeg src/assets/icons
 #
 # What it does: crops each emblem (BOXES, pixels of that photo), scales it ×6 and blurs a little
 # so the threshold gives smooth edges, keeps ink midway between the photo's ink and paper, drops
@@ -25,8 +27,12 @@ SETS = {
     'alliances': {'liberators': (330, 70, 500, 215), 'oppressors': (330, 260, 500, 410), 'raiders': (330, 455, 500, 600)},
     # The Upgrade deck's gear is the mark the Battle Skill cards print: `dom-skill`. Boxes are in
     # the photo straightened by SHEAR below.
-    'decks': {'agenda': (60, 20, 135, 93), 'achieved': (60, 106, 135, 167), 'briefing': (60, 177, 135, 250),
+    'decks': {'agenda': (60, 20, 135, 93), 'achieved': (60, 106, 135, 167),
               'location': (60, 257, 130, 325), 'skill': (52, 346, 128, 421)},
+    # The Briefing mark is no longer traced from `decks`: the booklet photo leaned and skewed it, so
+    # it is drawn from the cards' measurements (draw-dominatus-marks.py).
+    # Fate-Forged Weapon's corner, the clearest of the twelve Relic cards on the owner's photos.
+    'relic': {'relic': (458, 1673, 608, 1823)},
 }
 BOXES = SETS[SET]
 # The decks photo was taken at an angle: a frame's left side leans 0.083 px right per px down and
@@ -34,6 +40,11 @@ BOXES = SETS[SET]
 # shear about (cx, cy) before anything is cut out, so the frames trace square.
 SHEAR = {'decks': (0.083, -0.022, 90, 220)}
 K = 6  # upscale before thresholding: smoother edges for the tracer
+# How much to soften before thresholding, in photo pixels: the Relic card is a worn print shot from
+# further off, and at the booklet's 0.6 its edges came out wavy with the grain.
+BLUR = {'relic': 1.1}
+# potrace rounds a corner below this: the Relic's cross keeps its square ends.
+ALPHAMAX = {'relic': 0.75}
 
 def components(mask):
     h, w = mask.shape; lab = np.zeros((h, w), np.int32); comps = []; n = 0
@@ -56,7 +67,7 @@ if SET in SHEAR:
     photo = photo.transform(photo.size, Image.AFFINE, (1, a, -a * cy0, b, 1, -b * cx0), resample=Image.BICUBIC, fillcolor=255)
 for name, box in BOXES.items():
     im = photo.crop(box)
-    im = im.resize((im.width * K, im.height * K), Image.LANCZOS).filter(ImageFilter.GaussianBlur(K * 0.6))
+    im = im.resize((im.width * K, im.height * K), Image.LANCZOS).filter(ImageFilter.GaussianBlur(K * BLUR.get(SET, 0.6)))
     a = np.asarray(im, dtype=np.float32)
     ink = a < (np.percentile(a, 5) + np.percentile(a, 95)) / 2   # midway between ink and paper
     h, w = ink.shape
@@ -67,6 +78,13 @@ for name, box in BOXES.items():
         if ys.min() == 0 or xs.min() == 0 or ys.max() == h - 1 or xs.max() == w - 1: continue
         if len(c) < (K * K) * 12: continue
         keep[ys, xs] = True
+    # and whatever lies outside the mark itself (its largest piece): a card's edge, worn print
+    pieces = [c for c in components(keep)]
+    if pieces:
+        big = max(pieces, key=len); by0, by1, bx0, bx1 = big[:, 0].min(), big[:, 0].max(), big[:, 1].min(), big[:, 1].max()
+        for c in pieces:
+            cy, cx = c[:, 0].mean(), c[:, 1].mean()
+            if not (by0 <= cy <= by1 and bx0 <= cx <= bx1): keep[c[:, 0], c[:, 1]] = False
     # paper: fill holes too small to be drawn (grain inside the ink)
     for c in components(~keep):
         ys, xs = c[:, 0], c[:, 1]
@@ -74,7 +92,7 @@ for name, box in BOXES.items():
         if len(c) < (K * K) * 20: keep[ys, xs] = True
     ys, xs = np.nonzero(keep)
     x0, x1, y0, y1 = xs.min(), xs.max(), ys.min(), ys.max()
-    path = potrace.Bitmap(~keep).trace(turdsize=K * K * 6, alphamax=1.0, opticurve=True, opttolerance=0.5)
+    path = potrace.Bitmap(~keep).trace(turdsize=K * K * 6, alphamax=ALPHAMAX.get(SET, 1.0), opticurve=True, opttolerance=0.5)
     # into a 240 grid (whole numbers: the 24 grid at one decimal, written shorter): a square round the ink, the ink 21 of 24 and centred
     side = max(x1 - x0, y1 - y0) * 24 / 21; cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     s = 240 / side; f = lambda p: f'{round((p.x - cx) * s + 120)} {round((p.y - cy) * s + 120)}'
