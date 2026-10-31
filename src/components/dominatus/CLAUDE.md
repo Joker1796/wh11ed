@@ -134,8 +134,9 @@ on a tie nothing breaks.
   a card a player holds opens its text in the rules popover (`showUpgrade`), Alliances are emblem +
   name (`DomAllianceName`). What waits for the reader comes first (their rewards; the Warmaster's
   battles to count), marked "Waiting for you". Picks are `CampPick` (AdaptivePicker — no native
-  select), folds `CampFold` (CollapseTransition — no `<details>`), errors the app's `AppToast`; the
-  links fold once two players are in.
+  select), folds `CampFold` (CollapseTransition — no `<details>`), errors the app's `AppToast`. A new
+  campaign, a player and a battle are forms behind their buttons (`CampOpenForm`), closed only once
+  sent; the links are a button and a dialog (`CampShare`).
 
 Booklet readings worth knowing: Agenda Achieved cards gained in a phase are kept into the next
 and discarded at ITS end (step V "from previous phases"); the Event Companion's variant (Relics and

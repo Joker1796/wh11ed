@@ -1,49 +1,63 @@
 <template>
-  <section class="camp-block">
-    <!-- Open while the players are still coming in, folded once they are (two or more). -->
-    <CampFold
-      :label="labels.campLinks"
-      :start-open="state.players.length < 2"
+  <!-- The links wait behind a button, in a dialog (owner, 2026-11-01): needed to bring players in,
+       not on every visit. -->
+  <div class="camp-share">
+    <button
+      type="button"
+      class="btn-ghost"
+      aria-haspopup="dialog"
+      @click="open = true"
     >
-      <div
-        v-for="l in rows"
-        :key="l.key"
-        class="camp-link"
-      >
-        <span class="camp-dim">{{ l.label }}</span>
-        <div class="copy-row">
-          <input
-            type="text"
-            class="copy-field"
-            readonly
-            :value="l.url"
-            @focus="$event.target.select()"
-          >
-          <button
-            class="btn-ghost copy-btn"
-            @click="copy(l)"
-          >
-            {{ copied === l.key ? labels.trackerBroadcastCopied : labels.trackerBroadcastCopy }}
-          </button>
+      {{ isOwner ? labels.campInvite : labels.campLinks }}
+    </button>
+    <BaseModal
+      v-if="open"
+      :title="isOwner ? labels.campInvite : labels.campLinks"
+      max-width="560px"
+      @close="open = false"
+    >
+      <div class="modal-body camp-share-body">
+        <div
+          v-for="l in rows"
+          :key="l.key"
+          class="camp-link"
+        >
+          <span class="camp-dim">{{ l.label }}</span>
+          <div class="copy-row">
+            <input
+              type="text"
+              class="copy-field"
+              readonly
+              :value="l.url"
+              @focus="$event.target.select()"
+            >
+            <button
+              class="btn-ghost copy-btn"
+              @click="copy(l)"
+            >
+              {{ copied === l.key ? labels.trackerBroadcastCopied : labels.trackerBroadcastCopy }}
+            </button>
+          </div>
         </div>
       </div>
-    </CampFold>
-  </section>
+    </BaseModal>
+  </div>
 </template>
 
 <script setup>
 // The two links of a campaign: the invite (the Warmaster's to hand out — a player who opens it
 // joins and may enter their own battles) and the view link (anyone, read only).
 import { ref, computed } from 'vue'
-import CampFold from './CampFold.vue'
+import BaseModal from '../../BaseModal.vue'
 import { useCampaigns } from '../../../composables/useCampaigns.js'
 import { useLocale } from '../../../composables/useLocale.js'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, labels } = useCampaignView()
+const { entry, isOwner, labels } = useCampaignView()
 const { linksOf } = useCampaigns()
 const { locale } = useLocale()
 const copied = ref('')
+const open = ref(false)
 
 const rows = computed(() => {
   const links = linksOf(entry.value, window.location.origin, locale.value === 'ru' ? '/ru' : '')
@@ -62,3 +76,8 @@ async function copy(l) {
   }
 }
 </script>
+
+<style scoped>
+.camp-share { margin-bottom: 1.75rem; }
+.camp-share-body { padding: 0.9rem 1rem 1.1rem; }
+</style>
