@@ -250,6 +250,9 @@ async function openAgenda(slug) {
     --bh: 3.4rem;
     --bgap: 1.5rem;
     --brule: linear-gradient(var(--bline), var(--bline)) 0 50% / 100% var(--bstroke) no-repeat;
+    /* The plates and the "or" disc: a quiet step off the card, not the text's colour poured in —
+       a light fill read glaring on the dark theme (owner, 2026-10-31). */
+    --bplate: color-mix(in srgb, var(--text-primary) 16%, var(--bg-card));
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr);
     column-gap: var(--bgap);
@@ -269,8 +272,8 @@ async function openAgenda(slug) {
   .bhead { padding-bottom: 0.9rem; }
   .bhead span {
     padding: 0.3rem 0.5rem;
-    background: var(--text-primary);
-    color: var(--bg-card);
+    background: var(--bplate);
+    color: var(--text-primary);
     font-family: var(--font-display);
     font-size: 1.1rem;
     font-weight: 400;
@@ -304,8 +307,8 @@ async function openAgenda(slug) {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: var(--text-primary);
-    color: var(--bg-card);
+    background: var(--bplate);
+    color: var(--text-primary);
     font-family: var(--font-display);
     font-size: 0.95rem;
     font-style: normal;
@@ -347,6 +350,6 @@ async function openAgenda(slug) {
   .dout-toggle { cursor: default; }
   .dout-list { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 1.25rem; }
   .dout + .dout { margin-top: 0; }
-  .dout-np { padding: 0.25rem 0.5rem; background: var(--text-primary); color: var(--bg-card); }
+  .dout-np { padding: 0.25rem 0.5rem; background: color-mix(in srgb, var(--text-primary) 16%, var(--bg-card)); color: var(--text-primary); }
 }
 </style>
