@@ -57,28 +57,32 @@
             :options="opponentsOf(a).map((p) => ({ value: p.id, label: p.name }))"
           />
         </div>
-        <div class="seg seg-fill">
-          <button
-            type="button"
-            :class="{ on: victor === 'a' }"
-            @click="victor = 'a'"
-          >
-            {{ a ? playerName(a) : labels.campSideA }}
-          </button>
-          <button
-            type="button"
-            :class="{ on: victor === null }"
-            @click="victor = null"
-          >
-            {{ labels.campDraw }}
-          </button>
-          <button
-            type="button"
-            :class="{ on: victor === 'b' }"
-            @click="victor = 'b'"
-          >
-            {{ b ? playerName(b) : labels.campSideB }}
-          </button>
+        <!-- Who won: the result, under its own name (owner, 2026-11-01). -->
+        <div class="camp-num">
+          <span>{{ labels.campResult }}</span>
+          <div class="seg seg-fill">
+            <button
+              type="button"
+              :class="{ on: victor === 'a' }"
+              @click="victor = 'a'"
+            >
+              {{ a ? playerName(a) : labels.campSideA }}
+            </button>
+            <button
+              type="button"
+              :class="{ on: victor === null }"
+              @click="victor = null"
+            >
+              {{ labels.campDraw }}
+            </button>
+            <button
+              type="button"
+              :class="{ on: victor === 'b' }"
+              @click="victor = 'b'"
+            >
+              {{ b ? playerName(b) : labels.campSideB }}
+            </button>
+          </div>
         </div>
         <div class="camp-pair">
           <label
