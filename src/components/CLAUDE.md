@@ -316,8 +316,10 @@ circles in 15° steps, diamonds for dots, cut-outs by even-odd, an SVG `<mask>` 
 needs a gap. **The one exception: Dominatus' marks** — the three Alliance emblems and the five deck marks
 (`wi-dom-liberators` / `-oppressors` / `-raiders`, `wi-dom-agenda` / `-achieved` / `-briefing` /
 `-location` / `-skill`) are traced off the deck's booklet, at the owner's word (2026-10-31: "exactly
-as on the screenshot") — `scripts/trace-dominatus-emblems.py`; only `dom-honour` and `dom-relic`,
-which no photo shows, are ours. **`wi-army` is wherever the app
+as on the screenshot") — `scripts/trace-dominatus-emblems.py`; the phase numerals in the card's
+frame (`wi-dom-phase-1..3`) are drawn from the deck's measurements, not traced (plain geometry: a
+trace gave wavy edges) — `scripts/straighten-dominatus-phases.py` + `draw-dominatus-phases.py`;
+only `dom-honour` and `dom-relic`, which no photo shows, are ours. **`wi-army` is wherever the app
 means an army or its rules**; swords, hourglass and skull mean a unit's status and nothing else.
 Paired states swap the class (`theme-light`/`-dark`, `sound-on`/`-off`, `pin-on`/`-off`,
 `lore`/`lore-on`, `add`/`check`, `own`/`own-on`, `box`/`box-on`, `filter`/`filter-on`,
