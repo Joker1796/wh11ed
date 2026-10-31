@@ -9,6 +9,10 @@
 // it renders inside a column same as plain text (Sequence/Teams' `columns` branch renders
 // the DataTable per-item, not just their `full` branch). `block.wide: true` is the manual
 // opt-out for the cases a visual pass decides genuinely need the full measure.
+//
+// `block.newRun: true` starts a new two-column group at that block: a long chapter read as one
+// flow runs down a whole screen-height column and back up the next (Dominatus' booklet, owner
+// 2026-10-31), so it is cut where the source starts a new section.
 
 export function chunkBlocks(blocks, isWide = (b) => !!b.wide) {
   const out = []
@@ -18,7 +22,7 @@ export function chunkBlocks(blocks, isWide = (b) => !!b.wide) {
       run = null
       out.push({ type: 'full', key: 'f-' + block.id, item: block })
     } else {
-      if (!run) {
+      if (!run || block.newRun) {
         run = { type: 'columns', key: 'c-' + block.id, items: [] }
         out.push(run)
       }

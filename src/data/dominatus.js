@@ -120,6 +120,7 @@ const en = {
       },
       {
         id: 'dom-preparing',
+        newRun: true, // the booklet's sections each read as their own pair of columns
         title: 'Preparing the Campaign',
         body: 'Before the campaign begins, the Warmaster should share a **Battle Schedule** with all players, informing them of the number of games each will play, and the army sizes they will need to muster. The default Battle Schedule below is designed to be played comfortably over the course of a weekend for players who can all muster a Strike Force sized army.',
         table: {
@@ -135,6 +136,9 @@ const en = {
       },
       {
         id: 'dom-alliances',
+        // Full width: its three frames sit side by side there; in a column the heading was left at
+        // the foot of one column and the frames at the top of the next.
+        wide: true,
         title: 'Alliances',
         body: 'The Warmaster will need to group all of the players into **Alliances**. A campaign must have an Oppressors Alliance and a Liberators Alliance. It can optionally have a Raiders Alliance as well. Alliances should be organised as evenly as possible, and based on the different factions players are using if possible. Players should play the same faction throughout the campaign.\n'
           + 'These are guidelines, not requirements; if it suits the group better to organise Alliances differently, the Warmaster should do so.',
@@ -148,6 +152,7 @@ const en = {
       },
       {
         id: 'dom-start-phase',
+        newRun: true,
         title: 'Start Campaign Phase',
         step: 1,
         body: 'Players start the first campaign phase using the sequence below. After completing phases 1 and 2, start the next campaign phase and repeat this sequence. At the end of phase 3, the campaign ends.\n'
@@ -211,6 +216,7 @@ const en = {
       },
       {
         id: 'dom-modifying',
+        newRun: true,
         title: 'Modifying Dominatus',
         box: true,
         body: 'The Warmaster can modify any of these rules to better suit the needs of their gaming group. While Dominatus is designed to be played over the course of a weekend, a Warmaster could use the deck to run a longer campaign by increasing the number of battles in a phase, remembering that phase 3 should consist of a single climactic final mission. It is also perfectly acceptable to vary the size-limit of players\' armies as the campaign evolves, perhaps starting with smaller battle sizes in earlier phases and growing in subsequent ones.\n'

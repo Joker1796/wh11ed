@@ -13,15 +13,17 @@
   </div>
   <div
     v-else-if="block.box"
-    class="prose-box"
+    class="prose-box-wrap"
   >
-    <RuleBlock
-      :id="block.id"
-      :title="block.title"
-      :body="block.body"
-      :note="block.note"
-      :see-also="block.seeAlso"
-    />
+    <div class="prose-box">
+      <RuleBlock
+        :id="block.id"
+        :title="block.title"
+        :body="block.body"
+        :note="block.note"
+        :see-also="block.seeAlso"
+      />
+    </div>
   </div>
   <RuleBlock
     v-else
@@ -58,24 +60,31 @@
     </li>
   </ul>
   <div
-    v-for="x in block.boxes || []"
-    :id="`${block.id}-${x.id}`"
-    :key="x.id"
-    class="prose-box prose-box--item"
+    v-if="block.boxes"
+    class="prose-boxes"
   >
-    <div class="prose-box-title">
-      {{ x.title }}
-    </div>
-    <div class="prose-box-row">
-      <div class="prose-box-text">
-        <RuleBody :body="x.body" />
+    <div
+      v-for="x in block.boxes"
+      :id="`${block.id}-${x.id}`"
+      :key="x.id"
+      class="prose-box-wrap"
+    >
+    <div class="prose-box">
+        <div class="prose-box-title">
+          {{ x.title }}
+        </div>
+        <div class="prose-box-row">
+          <div class="prose-box-text">
+            <RuleBody :body="x.body" />
+          </div>
+          <i
+            v-if="x.icon"
+            class="wi prose-box-icon"
+            :class="`wi-${x.icon}`"
+            aria-hidden="true"
+          />
+        </div>
       </div>
-      <i
-        v-if="x.icon"
-        class="wi prose-box-icon"
-        :class="`wi-${x.icon}`"
-        aria-hidden="true"
-      />
     </div>
   </div>
   <p
@@ -123,11 +132,13 @@ const { renderInline } = useRenderInline()
   margin: 1rem 0;
 }
 /* A booklet's frame: a thin rule round the text, its title on a filled plate standing on the
-   frame's top edge at the left (owner, 2026-10-31: above the frame, as the booklet prints it). The
-   top margin is the plate's height. */
+   frame's top edge at the left (owner, 2026-10-31: above the frame, as the booklet prints it).
+   The plate sits in the wrapper's top PADDING, not a margin: in two columns a block that starts a
+   column loses its top margin, and the plate went with it — cut off at the column's top. One
+   wrapper, so the plate and its frame are never split between columns either. */
+.prose-box-wrap { padding-top: 1.6rem; margin: 0.9rem 0; break-inside: avoid; }
 .prose-box {
   position: relative;
-  margin: 2.6rem 0 0.9rem;
   padding: 0.75rem 0.85rem;
   border: 1px solid var(--text-muted);
 }
@@ -152,7 +163,15 @@ const { renderInline } = useRenderInline()
   letter-spacing: 0.03em;
 }
 .prose-box-title { position: absolute; bottom: 100%; left: -1px; }
-.prose-box--item { margin: 2.4rem 0 0.6rem; }
+/* The framed items side by side where they fit (Dominatus' three Alliances), stacked on a phone. */
+.prose-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 0 1rem;
+  margin: 0.4rem 0 0.9rem;
+}
+.prose-boxes .prose-box-wrap { margin: 0.3rem 0; }
+.prose-boxes .prose-box { height: 100%; box-sizing: border-box; }
 .prose-box-row { display: flex; align-items: center; gap: 0.8rem; }
 .prose-box-text { flex: 1; min-width: 0; }
 /* About a quarter of the frame's width, as the booklet prints it beside the text. */
@@ -196,6 +215,7 @@ const { renderInline } = useRenderInline()
 .prose-icons-text { font-size: 0.85rem; color: var(--text-muted); }
 /* A booklet's table: the title plate standing on the table's top rule, a grey head in sentence
    case, the counts large in the middle, a rule under every row — no frame, no stripes. */
+.prose-table { max-width: 40rem; }
 .prose-table :deep(.table-wrap) { margin: 0; border: none; }
 .prose-table :deep(table) { margin: 0; border-top: 1px solid var(--text-muted); }
 .prose-table :deep(th) {
