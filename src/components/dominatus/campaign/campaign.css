@@ -152,16 +152,9 @@
 .camp-held-back { padding: 0.25rem 0.1rem; border: none; background: none; font: inherit; font-size: 0.82rem; font-weight: 600; color: var(--accent-ink); cursor: pointer; }
 @media (hover: hover) { .camp-held-x:hover { color: var(--text-primary); } }
 .camp-change-loc { margin-top: 0.5rem; }
-/* A part of a tab under its own small head (pairings, Briefings, Outcomes, the chronicle). */
+/* A part of a tab under the campaign's group head, `.dgroup-label` (pairings, Briefings, Outcomes).
+   It had a 0.72rem head of its own, which the display face drew smaller than the folds under it. */
 .camp-sub { margin-top: 1.25rem; }
-.camp-sub-head {
-  margin: 0 0 0.4rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--accent-ink);
-}
 /* The Battle Schedule met: the phase can end. */
 .camp-ready { color: var(--text-primary); font-weight: 600; }
 /* The Alliances' Outcomes of a phase: one under another on a phone, side by side on a desk. */

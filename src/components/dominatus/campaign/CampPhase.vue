@@ -58,7 +58,7 @@
         v-if="pairings.length || isOwner"
         class="camp-sub"
       >
-        <h3 class="camp-sub-head">
+        <h3 class="dgroup-label">
           {{ labels.campPairings }}
         </h3>
         <ul
@@ -118,7 +118,7 @@
       <!-- Step 1 of every phase: the players read their Alliance's Briefing card — a player's own
            open, the rest folded. -->
       <div class="camp-sub">
-        <h3 class="camp-sub-head">
+        <h3 class="dgroup-label">
           {{ labels.campBriefings }}
         </h3>
         <CampFold
@@ -183,7 +183,7 @@
       v-else
       class="camp-sub"
     >
-      <h3 class="camp-sub-head">
+      <h3 class="dgroup-label">
         {{ labels.campFinal }}
       </h3>
       <ol class="camp-results">
@@ -209,7 +209,7 @@
       v-if="results.length"
       class="camp-sub"
     >
-      <h3 class="camp-sub-head">
+      <h3 class="dgroup-label">
         {{ labels.campOutcomes }}
       </h3>
       <CampFold
