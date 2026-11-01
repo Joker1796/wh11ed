@@ -106,10 +106,16 @@
 /* A drawn card is itself the choice: the chosen one framed in the accent, the others stepped back. */
 /* The frame is the card's own deck colour (its spine), not the site's accent. */
 .camp-card-pick { display: grid; cursor: pointer; outline: none; transition: opacity var(--motion-fast); }
-.camp-card-pick > .dcard { outline: 2px solid transparent; outline-offset: -1px; transition: outline-color var(--motion-fast); }
+.camp-card-pick > .dcard { outline: 2px solid transparent; outline-offset: -1px; }
 .camp-card-pick.on > .dcard,
 .camp-card-pick:focus-visible > .dcard { outline-color: var(--dom-spine); }
 .camp-card-pick.off { opacity: 0.55; }
+/* A card that answers a tap says so under the pointer (owner, 2026-11-01): its frame lights in the
+   deck's colour, thin — the chosen card's frame is the thick one. */
+.camp-card-pick > .dcard { transition: outline-color var(--motion-fast), border-color var(--motion-fast); }
+@media (hover: hover) {
+  .camp-card-pick:hover > .dcard { border-color: var(--dom-spine); }
+}
 /* A dialog choosing among cards folded to their heads (a card for a hand, the phase's Location). */
 .camp-picker-body { padding: 0.8rem 0.9rem 1rem; }
 .camp-picker-list { display: grid; gap: 0.4rem; }
@@ -187,7 +193,7 @@
 .cpick-two { display: grid; gap: 0.1rem; }
 .cpick-sub { font-size: 0.78rem; font-weight: 400; color: var(--text-muted); }
 /* The phase tab (owner, 2026-11-01). The phase's Location folded to its head, opened by a tap. */
-.camp-loc-now { margin: 0.5rem 0; cursor: pointer; }
+.camp-loc-now { margin: 0.5rem 0; }
 /* One Briefing at a time, the Alliances a switch above it. */
 .camp-brief-seg { margin-bottom: 0.6rem; }
 /* The Warmaster's block: a row each, what stands now on the left, its button on the right. */

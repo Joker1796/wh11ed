@@ -21,7 +21,8 @@
            phone); a tap opens it, as in the Location picker. -->
       <div
         v-if="location"
-        class="camp-loc-now"
+        class="camp-card-pick camp-loc-now"
+        data-press
         role="button"
         tabindex="0"
         :aria-expanded="locOpen"
