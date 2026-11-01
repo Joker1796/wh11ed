@@ -17,11 +17,22 @@
         />
       </p>
 
-      <!-- The phase's Location is its card, as the rules page draws it: the bonus and the war zone. -->
-      <DomLocationCard
+      <!-- The phase's Location is its card folded to its head (the war zone is a screen high on a
+           phone); a tap opens it, as in the Location picker. -->
+      <div
         v-if="location"
-        :location="location"
-      />
+        class="camp-loc-now"
+        role="button"
+        tabindex="0"
+        :aria-expanded="locOpen"
+        @click="toggleLoc"
+        @keydown.enter.space.self.prevent="locOpen = !locOpen"
+      >
+        <DomLocationCard
+          :location="location"
+          :folded="!locOpen"
+        />
+      </div>
       <p
         v-else
         class="camp-line camp-dim"
@@ -35,139 +46,172 @@
       >
         {{ labels.campStagingPost.replace('{a}', allianceName(stagingBy)) }}
       </p>
-      <!-- The Warmaster picks or rolls the Location in a dialog, and may pick again (the Event
-           Companion: they may select it instead of rolling). -->
-      <button
-        v-if="isOwner"
-        class="btn-ghost camp-change-loc"
-        aria-haspopup="dialog"
-        @click="choosing = true"
+      <!-- The Warmaster's pairing for this device's player; the pairings themselves are on the
+           battles tab, beside the battles. -->
+      <p
+        v-if="myOpponent"
+        class="camp-line"
       >
-        {{ location ? labels.campChangeLocation : labels.campChooseLocation }}
-      </button>
-      <CampLocationPicker
-        v-if="choosing"
-        :locations="phaseLocations"
-        :current="location?.slug || ''"
-        @pick="setLocation"
-        @close="choosing = false"
-      />
+        {{ labels.campMyPairing.replace('{p}', playerName(myOpponent)) }}
+      </p>
 
-      <!-- The Warmaster's pairings this phase (the booklet: they may organise who plays whom). -->
+      <!-- Step 1 of every phase: the players read their Alliance's Briefing card. One at a time,
+           the reader's own first; the others a switch away. -->
       <div
-        v-if="pairings.length || isOwner"
+        v-if="briefings.length"
         class="camp-sub"
       >
         <h3 class="dgroup-label">
-          {{ labels.campPairings }}
-        </h3>
-        <ul
-          v-if="pairings.length"
-          class="camp-list"
-        >
-          <li
-            v-for="x in pairings"
-            :key="x.id"
-            class="camp-battle"
-          >
-            <span>{{ playerName(x.a) }} — {{ playerName(x.b) }}</span>
-            <span class="camp-dim">{{ x.played ? labels.campPairPlayed : labels.campPairWaiting }}</span>
-            <button
-              v-if="isOwner && !x.played"
-              type="button"
-              class="camp-more"
-              :aria-label="labels.campPairRemove"
-              @click="removePairing(x)"
-            >
-              <i class="wi wi-close" />
-            </button>
-          </li>
-        </ul>
-        <CampOpenForm
-          v-if="isOwner"
-          v-slot="{ close }"
-          :label="labels.campPairAdd"
-        >
-          <form
-            class="camp-form"
-            @submit.prevent="addPairing().then((ok) => ok && close())"
-          >
-            <div class="camp-pair">
-              <CampPick
-                v-model="pa"
-                :placeholder="labels.campSideA"
-                :options="state.players.filter((p) => p.alliance).map(playerOption)"
-              />
-              <CampPick
-                v-model="pb"
-                :placeholder="labels.campSideB"
-                :options="opponentsOf(pa).map(playerOption)"
-              />
-            </div>
-            <button
-              class="btn-primary"
-              type="submit"
-              :disabled="!pa || !pb"
-            >
-              {{ labels.campPairAdd }}
-            </button>
-          </form>
-        </CampOpenForm>
-      </div>
-
-      <!-- Step 1 of every phase: the players read their Alliance's Briefing card — a player's own
-           open, the rest folded. -->
-      <div class="camp-sub">
-        <h3 class="dgroup-label">
           {{ labels.campBriefings }}
         </h3>
-        <CampFold
-          v-for="b in briefings"
-          :key="b.alliance"
-          :label="allianceName(b.alliance)"
-          :start-open="b.alliance === mine?.alliance"
+        <div
+          v-if="briefings.length > 1"
+          class="seg camp-brief-seg"
         >
-          <DomBriefingCard :briefing="b" />
-        </CampFold>
+          <button
+            v-for="b in briefings"
+            :key="b.alliance"
+            type="button"
+            :class="{ on: shownBriefing === b }"
+            @click="briefFor = b.alliance"
+          >
+            {{ allianceName(b.alliance) }}
+          </button>
+        </div>
+        <DomBriefingCard
+          v-if="shownBriefing"
+          :key="shownBriefing.alliance"
+          :briefing="shownBriefing"
+        />
       </div>
+    </template>
 
-      <!-- Ending the phase: what the fold will make of it, shown before it is done. -->
+    <!-- The Warmaster's part of the phase in one place, under what everyone reads: the Location,
+         ending the phase (its forecast in the dialog), undoing the last end. -->
+    <div
+      v-if="isOwner && (!state.finished || back)"
+      class="camp-sub"
+    >
+      <h3 class="dgroup-label">
+        {{ labels.campForWarmaster }}
+      </h3>
       <div
-        v-if="isOwner && location"
-        class="camp-end"
+        v-if="!state.finished"
+        class="camp-wm-row"
       >
+        <span class="camp-wm-what">
+          <span class="camp-set-label">{{ labels.campLocationLabel }}</span>
+          <span>{{ location ? location.name : labels.campNoLocationShort }}</span>
+        </span>
+        <button
+          class="btn-ghost"
+          aria-haspopup="dialog"
+          @click="choosing = true"
+        >
+          {{ location ? labels.campChangeLocation : labels.campChooseLocation }}
+        </button>
+      </div>
+      <div
+        v-if="!state.finished"
+        class="camp-wm-row"
+      >
+        <span class="camp-wm-what">
+          <span class="camp-set-label">{{ phaseLabel(state.phase) }}</span>
+          <span :class="{ 'camp-dim': !location }">{{ location ? preview : labels.campEndNeedsLocation }}</span>
+        </span>
+        <button
+          class="btn-primary"
+          aria-haspopup="dialog"
+          :disabled="!location"
+          @click="ending = true"
+        >
+          {{ labels.campEndPhase.replace('{n}', phaseLabel(state.phase)) }}
+        </button>
+      </div>
+      <!-- The Warmaster undoes the last end of a phase (an `amend`, reopenPhase): not under a
+           battle of the phase after it. -->
+      <div
+        v-if="back"
+        class="camp-wm-row"
+      >
+        <span
+          v-if="back.blocked"
+          class="camp-dim"
+        >{{ labels.campReopenBlocked }}</span>
+        <button
+          class="btn-ghost"
+          :disabled="back.blocked"
+          @click="reopening = true"
+        >
+          {{ labels.campReopen.replace('{n}', phaseLabel(back.phase)) }}
+        </button>
+      </div>
+    </div>
+    <CampLocationPicker
+      v-if="choosing"
+      :locations="phaseLocations"
+      :current="location?.slug || ''"
+      @pick="setLocation"
+      @close="choosing = false"
+    />
+    <!-- Ending the phase: what the fold will make of it, shown before it is done, and the
+         Warmaster's word on a tie nothing else breaks. -->
+    <BaseModal
+      v-if="ending"
+      :title="labels.campEndPhase.replace('{n}', phaseLabel(state.phase))"
+      max-width="480px"
+      @close="ending = false"
+    >
+      <div class="modal-body camp-end-body">
         <p class="camp-line">
           {{ preview }}
         </p>
-        <ul
+        <table
           v-if="ahead"
-          class="camp-results"
+          class="camp-table"
         >
-          <li
-            v-for="(n, a) in ahead.np"
-            :key="a"
-          >
-            {{ allianceName(a) }}: {{ labels[`domNarrative${n}`] }}<template v-if="ahead.ascendancy.includes(a)">
-              {{ ' · ' + labels.campAscendancyShort }}
-            </template>
-          </li>
-          <li v-if="relicDraws.length">
-            {{ labels.campRelicDraws }}: {{ relicDraws.join(', ') }}
-          </li>
-        </ul>
-        <div
-          v-if="tied.length > 1"
-          class="seg"
+          <thead>
+            <tr>
+              <th>{{ labels.campAlliance }}</th>
+              <th>{{ labels.campNpShort }}</th>
+              <th>{{ labels.campAscendancyShort }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(n, a) in ahead.np"
+              :key="a"
+            >
+              <th>{{ allianceName(a) }}</th>
+              <td class="camp-num-cell">
+                {{ n }}
+              </td>
+              <td>{{ ahead.ascendancy.includes(a) ? '✓' : '' }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p
+          v-if="relicDraws.length"
+          class="camp-line"
         >
-          <button
-            v-for="a in tied"
-            :key="a"
-            :class="{ on: override === a }"
-            @click="override = a"
-          >
-            {{ allianceName(a) }}
-          </button>
-        </div>
+          {{ labels.campRelicDraws }}: {{ relicDraws.join(', ') }}
+        </p>
+        <template v-if="tied.length > 1">
+          <span class="camp-set-label">{{ labels.campTieWho }}</span>
+          <div class="seg">
+            <button
+              v-for="a in tied"
+              :key="a"
+              type="button"
+              :class="{ on: override === a }"
+              @click="override = a"
+            >
+              {{ allianceName(a) }}
+            </button>
+          </div>
+        </template>
+      </div>
+      <footer class="camp-draw-foot">
         <button
           class="btn-primary"
           :disabled="tied.length > 1 && !override"
@@ -175,8 +219,8 @@
         >
           {{ labels.campEndPhase.replace('{n}', phaseLabel(state.phase)) }}
         </button>
-      </div>
-    </template>
+      </footer>
+    </BaseModal>
 
     <!-- The campaign over: Narrative Points over the three phases, most first. -->
     <div
@@ -233,27 +277,6 @@
       </CampFold>
     </div>
 
-    <!-- The Warmaster undoes the last end of a phase (an `amend`, reopenPhase): not under a battle
-         of the phase after it. -->
-    <div
-      v-if="isOwner && back"
-      class="camp-end"
-    >
-      <button
-        class="btn-ghost"
-        :disabled="back.blocked"
-        @click="reopening = true"
-      >
-        {{ labels.campReopen.replace('{n}', phaseLabel(back.phase)) }}
-      </button>
-      <p
-        v-if="back.blocked"
-        class="camp-dim"
-      >
-        {{ labels.campReopenBlocked }}
-      </p>
-    </div>
-
     <CampChronicle class="camp-sub" />
 
     <ConfirmModal
@@ -269,10 +292,12 @@
 </template>
 
 <script setup>
-// The campaign phase: where it stands against the Battle Schedule, its Location (the Warmaster
-// picks or rolls), the Warmaster's pairings, each Alliance's Briefing, the end of the phase — with
-// the result the fold will reach shown first and the Warmaster's word on a tie nothing else breaks
-// — and, once phases have ended, their Outcomes; the campaign's chronicle under it all.
+// The campaign phase. On top what every player reads: where the phase stands against the Battle
+// Schedule, its Location, their pairing, the Briefings. Under it the Warmaster's block: the
+// Location (picked or rolled), ending the phase — the result the fold will reach shown in the
+// dialog first, with the Warmaster's word on a tie nothing else breaks — and undoing the last end.
+// Then the Outcomes of the ended phases and the chronicle. (Owner, 2026-11-01: the Warmaster's
+// buttons sat between the content, and the forecast read as part of the Briefings.)
 import { ref, computed } from 'vue'
 import DomLocationCard from '../DomLocationCard.vue'
 import CampLocationPicker from './CampLocationPicker.vue'
@@ -281,14 +306,13 @@ import DomBriefingCard from '../DomBriefingCard.vue'
 import DomAllianceName from '../DomAllianceName.vue'
 import ConfirmModal from '../../ConfirmModal.vue'
 import CampFold from './CampFold.vue'
-import CampPick from './CampPick.vue'
-import CampOpenForm from './CampOpenForm.vue'
+import BaseModal from '../../BaseModal.vue'
 import CampOutcomeCard from './CampOutcomeCard.vue'
 import CampChronicle from './CampChronicle.vue'
-import { campaignState, reopenable, reopenPhase, scheduleProgress, pairingsNow, amendments, standings } from '../../../core/dominatus/campaign.js'
+import { campaignState, reopenable, reopenPhase, scheduleProgress, pairingsNow, standings } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, playerOption, phaseLabel } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, phaseLabel } = useCampaignView()
 const override = ref(null)
 
 const phaseLocations = computed(() => deck.value?.locations.filter((l) => l.phase === state.value.phase) || [])
@@ -307,6 +331,22 @@ const alliancesIn = computed(() => {
 const briefings = computed(() => alliancesIn.value
   .map((a) => deck.value?.briefings.find((b) => b.alliance === a && b.phase === state.value.phase))
   .filter(Boolean))
+const briefFor = ref(null)
+const shownBriefing = computed(() => briefings.value.find((b) => b.alliance === briefFor.value) || briefings.value[0] || null)
+
+// The Location card opens on a tap; a tap on a keyword or a mark inside it is theirs.
+const locOpen = ref(false)
+function toggleLoc(ev) {
+  if (ev.target.closest('.keyword, [data-kw-open], a, button')) return
+  locOpen.value = !locOpen.value
+}
+
+// The opponent the Warmaster paired this device's player with, while the battle is still to play.
+const myOpponent = computed(() => {
+  const me = mine.value?.id
+  const x = me && pairingsNow(state.value).find((p) => !p.played && (p.a === me || p.b === me))
+  return x ? (x.a === me ? x.b : x.a) : null
+})
 
 // The end of the phase, folded ahead of time — and what it hands out.
 const aheadState = computed(() => {
@@ -332,33 +372,14 @@ const preview = computed(() => {
 })
 
 const choosing = ref(false)
+const ending = ref(false)
 async function setLocation(slug) {
   if (slug === location.value?.slug || (await act('location', { phase: state.value.phase, slug }))) choosing.value = false
 }
 function endPhase() {
   act('endPhase', { phase: state.value.phase, ...(override.value ? { control: override.value } : {}) })
   override.value = null
-}
-
-// Pairings: set by the Warmaster, taken back by an amend of the event that set it.
-const pairings = computed(() => pairingsNow(state.value))
-const pa = ref(null)
-const pb = ref(null)
-const opponentsOf = (id) => {
-  const me = state.value.players.find((p) => p.id === id)
-  return state.value.players.filter((p) => p.id !== id && p.alliance && p.alliance !== me?.alliance)
-}
-async function addPairing() {
-  if (!(await act('pairing', { id: `x${Date.now().toString(36)}`, phase: state.value.phase, a: pa.value, b: pb.value }))) return false
-  pa.value = null
-  pb.value = null
-  return true
-}
-function removePairing(x) {
-  const events = entry.value.events || []
-  const am = amendments(events)
-  const e = events.find((ev) => ev.type === 'pairing' && ev.payload?.id === x.id && am.get(ev.seq) !== null)
-  if (e) act('amend', { edits: [{ seq: e.seq, payload: null }] })
+  ending.value = false
 }
 
 const results = computed(() => Object.entries(state.value.results).map(([phase, r]) => ({ phase: Number(phase), ...r })))

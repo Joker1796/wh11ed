@@ -145,11 +145,15 @@ on a tie nothing breaks.
   the phase tab), battles counted at once (`approve: 'auto'`), the Event Companion's timing (`format:
   'event'` — only notes on the end-of-phase rewards: the counts are the same, the moment is the next
   phase's first battle), and the player the Warmaster plays as (`me` — `myPlayer` answers it for the
-  owner). Pairings (`pairing`, owner, taken back by an amend; `pairingsNow`). A battle carries the
+  owner). Pairings (`pairing`, owner, taken back by an amend; `pairingsNow`) live on the battles tab (`CampPairings`), and "Play a battle" takes the opponent from the player's pairing. A battle carries the
   `phase` it was played in and the fold refuses it in another (a game sent after its phase ended).
   `likelyDuplicates` marks a waiting battle beside another between the same two in the phase.
+- **The phase tab reads top-down** (owner, 2026-11-01, "everything here is bad"): what every player
+  reads first (the schedule line, the Location folded to its head, their pairing, the Briefings one
+  at a time behind a `.seg` of Alliances), then the Warmaster's block (`camp-wm-row`: Location, the
+  end of the phase — its forecast in a dialog before it is done — and Reopen), then the Outcomes.
 - **The story is on the page**: the phase tab shows each Alliance's Briefing (`DomBriefingCard`, the
-  reader's own open; its Agenda links go to `/dominatus` from here), every ended phase's Outcome per
+  reader's own first; its Agenda links go to `/dominatus` from here), every ended phase's Outcome per
   Alliance by its Narrative Points (`CampOutcomeCard` — the Briefing's reverse, so its spine and its
   lore stay when lore is hidden), the final Narrative Points, and the chronicle (`CampChronicle`:
   every entry in words, corrections and refusals marked — refusals in the reader's language,

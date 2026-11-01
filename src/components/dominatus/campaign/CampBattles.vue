@@ -66,6 +66,8 @@
       </CampOpenForm>
     </div>
 
+    <CampPairings v-if="!state.finished" />
+
     <CampPick
       v-if="state.players.length > 2 && state.battles.length"
       v-model="only"
@@ -245,7 +247,8 @@ import CampOpenForm from './CampOpenForm.vue'
 import CampPick from './CampPick.vue'
 import CampBattleResult from './CampBattleResult.vue'
 import CampFold from './CampFold.vue'
-import { battleAmend, battleLocked, likelyDuplicates } from '../../../core/dominatus/campaign.js'
+import CampPairings from './CampPairings.vue'
+import { battleAmend, battleLocked, likelyDuplicates, pairingsNow } from '../../../core/dominatus/campaign.js'
 import { useRouter } from 'vue-router'
 import { useCampaignView } from './useCampaignView.js'
 
@@ -316,9 +319,11 @@ const playing = ref(false)
 const pa = ref(null)
 const pb = ref(null)
 const fixedSelf = computed(() => (isOwner.value ? null : mine.value))
+// A pairing the Warmaster set for this device's player and not yet played names the opponent.
 function startPlay() {
   pa.value = mine.value?.id || null
-  pb.value = null
+  const x = pa.value && pairingsNow(state.value).find((p) => !p.played && (p.a === pa.value || p.b === pa.value))
+  pb.value = x ? (x.a === pa.value ? x.b : x.a) : null
   playing.value = true
 }
 async function play() {

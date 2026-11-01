@@ -61,7 +61,6 @@
 .camp-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; }
 .camp-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
 .camp-num { display: grid; gap: 0.2rem; font-size: 0.78rem; color: var(--text-muted); }
-.camp-end { display: grid; gap: 0.5rem; margin-top: 0.6rem; justify-items: start; }
 .camp-results { margin: 0.6rem 0 0; padding-left: 1.1rem; font-size: 0.85rem; }
 .camp-link + .camp-link { margin-top: 0.5rem; }
 /* The device's role in a campaign: in the list and on the campaign's own header. */
@@ -151,7 +150,6 @@
 .camp-held-x { display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border: none; background: none; color: var(--text-muted); font-size: 0.7rem; cursor: pointer; }
 .camp-held-back { padding: 0.25rem 0.1rem; border: none; background: none; font: inherit; font-size: 0.82rem; font-weight: 600; color: var(--accent-ink); cursor: pointer; }
 @media (hover: hover) { .camp-held-x:hover { color: var(--text-primary); } }
-.camp-change-loc { margin-top: 0.5rem; }
 /* A part of a tab under the campaign's group head, `.dgroup-label` (pairings, Briefings, Outcomes).
    It had a 0.72rem head of its own, which the display face drew smaller than the folds under it. */
 .camp-sub { margin-top: 1.25rem; }
@@ -188,3 +186,15 @@
 /* A row with a second, muted line: a player's Alliance and faction, a roster's faction and points. */
 .cpick-two { display: grid; gap: 0.1rem; }
 .cpick-sub { font-size: 0.78rem; font-weight: 400; color: var(--text-muted); }
+/* The phase tab (owner, 2026-11-01). The phase's Location folded to its head, opened by a tap. */
+.camp-loc-now { margin: 0.5rem 0; cursor: pointer; }
+/* One Briefing at a time, the Alliances a switch above it. */
+.camp-brief-seg { margin-bottom: 0.6rem; }
+/* The Warmaster's block: a row each, what stands now on the left, its button on the right. */
+.camp-wm-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.4rem 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+.camp-wm-row:last-child { border-bottom: none; }
+.camp-wm-what { display: grid; gap: 0.1rem; flex: 1 1 12rem; }
+.camp-end-body { display: grid; gap: 0.6rem; padding: 0.9rem 1rem; }
+.camp-num-cell { font-family: var(--font-num); }
+/* The pairings on the battles tab, between its buttons and the battles. */
+.camp-pairings { margin-bottom: 1rem; }
