@@ -2,6 +2,7 @@
   <article
     :id="`upgrade-${upgrade.slug}`"
     class="dcard dom-deck-upgrade"
+    :class="{ 'is-folded': folded }"
   >
     <header class="dcard-head">
       <span class="dcard-tag">{{ tag }}</span>
@@ -13,34 +14,37 @@
         class="dname-ru"
       >{{ upgrade.nameRu }}</span>
     </header>
-    <p
-      v-if="upgrade.lore"
-      class="dcard-lore lines"
-    >
-      {{ upgrade.lore }}
-    </p>
-    <!-- WHO: and EFFECT: beside their text, as the card prints them. -->
-    <div class="dup-rows">
-      <template v-if="upgrade.who">
-        <span class="dup-label">{{ labels.domWho }}</span>
-        <span class="dup-who">{{ upgrade.who }}</span>
-      </template>
-      <span class="dup-label">{{ labels.domEffect }}</span>
-      <div class="dbody">
-        <RuleBody :body="upgrade.body" />
+    <!-- Folded, the card is its head and marks: a list to choose from opens the one chosen. -->
+    <CollapseTransition :show="!folded">
+      <p
+        v-if="upgrade.lore"
+        class="dcard-lore lines"
+      >
+        {{ upgrade.lore }}
+      </p>
+      <!-- WHO: and EFFECT: beside their text, as the card prints them. -->
+      <div class="dup-rows">
+        <template v-if="upgrade.who">
+          <span class="dup-label">{{ labels.domWho }}</span>
+          <span class="dup-who">{{ upgrade.who }}</span>
+        </template>
+        <span class="dup-label">{{ labels.domEffect }}</span>
+        <div class="dbody">
+          <RuleBody :body="upgrade.body" />
+        </div>
       </div>
-    </div>
-    <div
-      v-if="upgrade.bonus"
-      class="dup-bonus"
-    >
-      <div class="dchip">
-        {{ labels.domBonusEffect }}: {{ upgrade.bonus.label }}
+      <div
+        v-if="upgrade.bonus"
+        class="dup-bonus"
+      >
+        <div class="dchip">
+          {{ labels.domBonusEffect }}: {{ upgrade.bonus.label }}
+        </div>
+        <div class="dbody">
+          <RuleBody :body="upgrade.bonus.body" />
+        </div>
       </div>
-      <div class="dbody">
-        <RuleBody :body="upgrade.bonus.body" />
-      </div>
-    </div>
+    </CollapseTransition>
     <DomCardMark
       :kind="upgrade.kind"
       :phase="upgrade.kind === 'honour' ? upgrade.phase : 0"
@@ -57,10 +61,13 @@
 import { computed } from 'vue'
 import RuleBody from '../RuleBody.vue'
 import DomCardMark from './DomCardMark.vue'
+import CollapseTransition from '../CollapseTransition.vue'
 import { useDominatus } from './useDominatus.js'
 
 const props = defineProps({
   upgrade: { type: Object, required: true },
+  // Only the head and the marks (a picker's row); the rest unfolds when it turns false.
+  folded: { type: Boolean, default: false },
 })
 const { labels, cardTag } = useDominatus()
 const tag = computed(() => cardTag({ kind: props.upgrade.kind, alliance: props.upgrade.alliance }))
@@ -100,4 +107,7 @@ const tag = computed(() => cardTag({ kind: props.upgrade.kind, alliance: props.u
   background: var(--bg-secondary);
 }
 .dup-bonus .dchip { margin-bottom: 0.3rem; }
+/* Folded: the head alone, its rule under it gone with the text it divided off. */
+.dom-deck-upgrade .dcard-head { transition: padding var(--motion-fold), margin var(--motion-fold), border-color var(--motion-fold); }
+.dom-deck-upgrade.is-folded .dcard-head { padding-bottom: 0; margin-bottom: 0; border-bottom-color: transparent; }
 </style>

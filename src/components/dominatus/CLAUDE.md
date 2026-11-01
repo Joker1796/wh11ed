@@ -161,6 +161,13 @@ on a tie nothing breaks.
   pre-battle Upgrades offer only the cards that campaign player holds (`DomUpgradesEditor`, when this
   device knows the campaign), and `CampSendGame` opens on that campaign and those players, sends the
   phase, and says why the campaign refused it if it did.
+- **Choosing a card is tapping the card** (owner, 2026-11-01): the drawn cards' dialog and the
+  Warmaster's "Add a card" (`CampCardPicker`: the deck by pile, Honours by phase, Relics by Alliance,
+  each card folded to its head — `DomUpgradeCard folded`) select by a tap, frame the chosen card in
+  its deck colour, and keep or add by one button at the foot that names the card. A card taken off
+  in the cards dialog stays struck through with "Put back" until Save. The Warmaster's buttons on
+  another player's reward say "for the player". The "?" by the campaign's header explains the open
+  tab, each setting has its own (`campHelp_*`, HelpText markup, `OptionHelpModal`).
 - What waits is noted on the device (`noteWaiting`, `c.waiting`) so the campaign list and the
   tracker home's door show ⚠ without folding the log; the list reads every campaign again on entry
   (`syncAll`) and shows each one's phase.

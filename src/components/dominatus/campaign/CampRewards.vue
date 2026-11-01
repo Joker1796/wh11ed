@@ -134,7 +134,7 @@
           <div
             v-for="slug in drawFor.drawn"
             :key="slug"
-            class="camp-drawn-pick"
+            class="camp-card-pick"
             :class="{ on: picked === slug, off: picked && picked !== slug }"
             role="button"
             tabindex="0"

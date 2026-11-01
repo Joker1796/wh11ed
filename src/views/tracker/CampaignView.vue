@@ -12,6 +12,17 @@
         v-if="entry"
         class="camp-role"
       >{{ labels[`campRole_${entry.role}`] }}
+        <!-- How the open tab works: the same "?" and dialog as the tracker's settings. -->
+        <button
+          v-if="state"
+          type="button"
+          class="help-btn camp-help"
+          data-press
+          aria-haspopup="dialog"
+          :aria-label="labels.campHelp"
+          :title="labels.campHelp"
+          @click="helpOpen = true"
+        ><i class="wi wi-help" /></button>
         <!-- The campaign's own actions in its "…" (owner, 2026-11-01): deleting it is the
              Warmaster's, a player or a watcher only takes it off this device. -->
         <ActionMenu
@@ -94,6 +105,12 @@
         <CampRewards v-else />
       </Transition>
     </template>
+    <OptionHelpModal
+      v-if="helpOpen"
+      :title="tabs.find((t) => t.active)?.label || labels.campHelp"
+      :text="labels[`campHelp_${tab}`]"
+      @close="helpOpen = false"
+    />
     <CampSettings
       v-if="settingsOpen"
       @close="settingsOpen = false"
@@ -151,6 +168,7 @@
 // page is open (a campaign moves at the pace of games, not of turns); every change is an event
 // appended and read back. `?join=` (an invite) and `?t=` (a view link) are taken once and dropped
 // from the address, so a shared screenshot of the address bar hands out nothing.
+import OptionHelpModal from '../../components/tracker/OptionHelpModal.vue'
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '../../components/ConfirmModal.vue'
@@ -210,6 +228,7 @@ const battlesWaiting = computed(() => waiting.value.battles > 0)
 watch(waiting, (w) => { if (state.value) noteWaiting(id.value, w.rewards + w.battles) }, { immediate: true })
 // Open on what waits first; it follows the log as it comes in until the reader picks a tab.
 const picked = ref(null)
+const helpOpen = ref(false)
 const tab = computed(() => picked.value || (rewardsWaiting.value ? 'rewards' : battlesWaiting.value ? 'battles' : 'phase'))
 const tabs = computed(() => {
   const l = labels.value

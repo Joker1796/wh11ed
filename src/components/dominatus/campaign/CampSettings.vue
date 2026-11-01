@@ -10,7 +10,14 @@
       <!-- The Battle Schedule (the booklet's first job for the Warmaster): battles per player in
            each phase. -->
       <div class="camp-num">
-        <span>{{ labels.campSchedule }}</span>
+        <span class="camp-set-label">{{ labels.campSchedule }}<button
+          type="button"
+          class="help-btn"
+          data-press
+          aria-haspopup="dialog"
+          :aria-label="labels.campHelp"
+          @click="help = 'schedule'"
+        ><i class="wi wi-help" /></button></span>
         <div class="camp-sched">
           <label
             v-for="n in [1, 2, 3]"
@@ -28,7 +35,14 @@
         </div>
       </div>
       <div class="camp-num">
-        <span>{{ labels.campDrawSetting }}</span>
+        <span class="camp-set-label">{{ labels.campDrawSetting }}<button
+          type="button"
+          class="help-btn"
+          data-press
+          aria-haspopup="dialog"
+          :aria-label="labels.campHelp"
+          @click="help = 'draw'"
+        ><i class="wi wi-help" /></button></span>
         <div class="seg">
           <button
             type="button"
@@ -47,7 +61,14 @@
         </div>
       </div>
       <div class="camp-num">
-        <span>{{ labels.campApproveSetting }}</span>
+        <span class="camp-set-label">{{ labels.campApproveSetting }}<button
+          type="button"
+          class="help-btn"
+          data-press
+          aria-haspopup="dialog"
+          :aria-label="labels.campHelp"
+          @click="help = 'approve'"
+        ><i class="wi wi-help" /></button></span>
         <div class="seg">
           <button
             type="button"
@@ -66,7 +87,14 @@
         </div>
       </div>
       <div class="camp-num">
-        <span>{{ labels.campFormat }}</span>
+        <span class="camp-set-label">{{ labels.campFormat }}<button
+          type="button"
+          class="help-btn"
+          data-press
+          aria-haspopup="dialog"
+          :aria-label="labels.campHelp"
+          @click="help = 'format'"
+        ><i class="wi wi-help" /></button></span>
         <div class="seg">
           <button
             type="button"
@@ -87,7 +115,14 @@
       </div>
       <!-- The Warmaster who plays: their rewards and battles are theirs on this page. -->
       <div class="camp-num">
-        <span>{{ labels.campMe }}</span>
+        <span class="camp-set-label">{{ labels.campMe }}<button
+          type="button"
+          class="help-btn"
+          data-press
+          aria-haspopup="dialog"
+          :aria-label="labels.campHelp"
+          @click="help = 'me'"
+        ><i class="wi wi-help" /></button></span>
         <CampPick
           v-model="form.me"
           :placeholder="labels.campMeNone"
@@ -101,6 +136,12 @@
         {{ labels.trackerSave }}
       </button>
     </form>
+    <OptionHelpModal
+      v-if="help"
+      :title="labels[HELP_TITLES[help]]"
+      :text="labels[`campHelp_${help}`]"
+      @close="help = null"
+    />
   </BaseModal>
 </template>
 
@@ -108,15 +149,18 @@
 // The campaign's settings, the Warmaster's: the Battle Schedule, how cards are drawn, whether
 // battles are counted at once, the booklet's rules or the Event Companion's, and the player the
 // Warmaster plays as. One `settings` event, only what changed.
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import BaseModal from '../../BaseModal.vue'
 import NumberStepper from '../../tracker/NumberStepper.vue'
 import CampPick from './CampPick.vue'
+import OptionHelpModal from '../../tracker/OptionHelpModal.vue'
 import { useCampaignView } from './useCampaignView.js'
 
 const emit = defineEmits(['close'])
 const { state, act, labels, phaseLabel } = useCampaignView()
 const s = state.value
+const help = ref(null)
+const HELP_TITLES = { schedule: 'campSchedule', draw: 'campDrawSetting', approve: 'campApproveSetting', format: 'campFormat', me: 'campMe' }
 const form = reactive({ schedule: [...s.schedule], draw: s.draw, approve: s.approve, format: s.format, me: s.me })
 
 async function save() {
@@ -128,5 +172,6 @@ async function save() {
 </script>
 
 <style scoped>
+.camp-set-label { display: inline-flex; align-items: center; gap: 0.1rem; }
 .camp-sched { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
 </style>

@@ -244,27 +244,41 @@
           v-if="cards.upgrades.length"
           class="camp-held"
         >
+          <!-- A card taken off stays on its line, struck through, until Save: nothing leaves the
+               player before that, and "Put back" undoes it in place. -->
           <li
             v-for="slug in cards.upgrades"
             :key="slug"
+            :class="{ 'is-off': cards.off.includes(slug) }"
           >
-            <span>{{ upgradeName(slug) }}</span>
+            <span class="camp-held-name">{{ upgradeName(slug) }}</span>
             <button
+              v-if="cards.off.includes(slug)"
               type="button"
-              class="camp-more"
+              class="camp-held-back"
+              @click="cards.off = cards.off.filter((u) => u !== slug)"
+            >
+              {{ labels.campPutBack }}
+            </button>
+            <button
+              v-else
+              type="button"
+              class="camp-held-x"
               :aria-label="labels.campRemoveCard.replace('{card}', upgradeName(slug))"
-              @click="cards.upgrades = cards.upgrades.filter((u) => u !== slug)"
+              @click="takeOff(slug)"
             >
               <i class="wi wi-close" />
             </button>
           </li>
         </ul>
-        <CampPick
-          :model-value="null"
-          :placeholder="labels.campAddCard"
-          :options="addable"
-          @update:model-value="(v) => v && cards.upgrades.push(v)"
-        />
+        <button
+          type="button"
+          class="btn-ghost"
+          aria-haspopup="dialog"
+          @click="adding = true"
+        >
+          + {{ labels.campAddCard }}
+        </button>
         <label class="camp-num">
           <span>{{ labels.domAgendaAchieved }}</span>
           <NumberStepper
@@ -282,6 +296,13 @@
         </button>
       </form>
     </BaseModal>
+    <CampCardPicker
+      v-if="adding"
+      :held="cards.upgrades"
+      :subtitle="carding?.name || ''"
+      @pick="(slug) => { cards.upgrades.push(slug); adding = false }"
+      @close="adding = false"
+    />
     <ConfirmModal
       v-if="removing"
       :title="labels.campRemovePlayer"
@@ -304,10 +325,10 @@ import ActionMenu from '../../ActionMenu.vue'
 import BaseModal from '../../BaseModal.vue'
 import ConfirmModal from '../../ConfirmModal.vue'
 import NumberStepper from '../../tracker/NumberStepper.vue'
-import CampPick from './CampPick.vue'
 import DomAllianceName from '../DomAllianceName.vue'
 import CampOpenForm from './CampOpenForm.vue'
 import CampShare from './CampShare.vue'
+import CampCardPicker from './CampCardPicker.vue'
 import CampFactionPick from './CampFactionPick.vue'
 import FactionBadge from '../../FactionBadge.vue'
 import { recordOf, removable, removePlayer, playedIn, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
@@ -355,23 +376,24 @@ async function saveEdit() {
 }
 
 const carding = ref(null)
-const cards = reactive({ upgrades: [], agenda: 0 })
+const cards = reactive({ upgrades: [], off: [], agenda: 0 })
+const adding = ref(false)
 function startCards(p) {
   cards.upgrades = [...p.upgrades]
+  cards.off = []
   cards.agenda = p.agenda.length
   menuFor.value = null
   carding.value = p
 }
-// Any card not held yet, by kind: the Warmaster's word is not bound to a pile.
-const addable = computed(() => {
-  const l = labels.value
-  const kinds = { honour: l.domHonours, skill: l.domSkills, relic: l.domRelics }
-  return (deck.value?.upgrades || [])
-    .filter((u) => !cards.upgrades.includes(u.slug))
-    .map((u) => ({ value: u.slug, label: `${kinds[u.kind] || ''} · ${u.name}` }))
-})
+// A card added in this dialog and taken off again simply goes; one the player held waits struck
+// through until Save.
+function takeOff(slug) {
+  if (carding.value.upgrades.includes(slug)) cards.off.push(slug)
+  else cards.upgrades = cards.upgrades.filter((u) => u !== slug)
+}
 async function saveCards() {
-  if (await act('adjust', { player: carding.value.id, upgrades: [...cards.upgrades], agenda: cards.agenda })) carding.value = null
+  const upgrades = cards.upgrades.filter((u) => !cards.off.includes(u))
+  if (await act('adjust', { player: carding.value.id, upgrades, agenda: cards.agenda })) carding.value = null
 }
 
 const removing = ref(null)

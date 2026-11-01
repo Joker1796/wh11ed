@@ -106,11 +106,11 @@
 /* The card takes the row's height and the Keep sits under it, level with its neighbour's. */
 /* A drawn card is itself the choice: the chosen one framed in the accent, the others stepped back. */
 /* The frame is the card's own deck colour (its spine), not the site's accent. */
-.camp-drawn-pick { display: grid; cursor: pointer; outline: none; transition: opacity var(--motion-fast); }
-.camp-drawn-pick > .dcard { outline: 2px solid transparent; outline-offset: -1px; transition: outline-color var(--motion-fast); }
-.camp-drawn-pick.on > .dcard,
-.camp-drawn-pick:focus-visible > .dcard { outline-color: var(--dom-spine); }
-.camp-drawn-pick.off { opacity: 0.55; }
+.camp-card-pick { display: grid; cursor: pointer; outline: none; transition: opacity var(--motion-fast); }
+.camp-card-pick > .dcard { outline: 2px solid transparent; outline-offset: -1px; transition: outline-color var(--motion-fast); }
+.camp-card-pick.on > .dcard,
+.camp-card-pick:focus-visible > .dcard { outline-color: var(--dom-spine); }
+.camp-card-pick.off { opacity: 0.55; }
 /* The keep, one for the dialog, under the cards and always in view. */
 .camp-draw-foot { display: grid; gap: 0.4rem; padding: 0.6rem 0.9rem 0.75rem; border-top: 1px solid var(--border); }
 .camp-draw-foot p { margin: 0; font-size: 0.8rem; }
@@ -142,7 +142,12 @@
 .camp-player-head .camp-more { margin-right: -0.4rem; }
 /* The cards a player holds, in the Warmaster's cards dialog: a name and its remove. */
 .camp-held { justify-self: stretch; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; font-size: 0.88rem; }
-.camp-held li { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; border-bottom: 1px solid var(--border); }
+.camp-held li { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; min-height: 2.4rem; border-bottom: 1px solid var(--border); }
+.camp-held li.is-off .camp-held-name { text-decoration: line-through; color: var(--text-muted); }
+/* Taking a card off is a small mark, not the row's loudest thing; putting it back is a word. */
+.camp-held-x { display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border: none; background: none; color: var(--text-muted); font-size: 0.7rem; cursor: pointer; }
+.camp-held-back { padding: 0.25rem 0.1rem; border: none; background: none; font: inherit; font-size: 0.82rem; font-weight: 600; color: var(--accent-ink); cursor: pointer; }
+@media (hover: hover) { .camp-held-x:hover { color: var(--text-primary); } }
 .camp-change-loc { margin-top: 0.5rem; }
 /* A part of a tab under its own small head (pairings, Briefings, Outcomes, the chronicle). */
 .camp-sub { margin-top: 1.25rem; }
