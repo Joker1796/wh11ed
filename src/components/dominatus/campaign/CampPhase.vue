@@ -223,9 +223,10 @@
       </footer>
     </BaseModal>
 
-    <!-- The campaign over: Narrative Points over the three phases, most first. -->
+    <!-- The campaign over: Narrative Points over the three phases, most first. Its own condition:
+         a v-else here once hung off the Warmaster's block and showed in a new campaign. -->
     <div
-      v-else
+      v-if="state.finished"
       class="camp-sub"
     >
       <h3 class="dgroup-label">
