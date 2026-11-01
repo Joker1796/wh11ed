@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { campaignState, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, PATH_TO_CONQUEST } from './campaign.js'
+import { campaignState, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, scheduleProgress, pairingsNow, likelyDuplicates, PATH_TO_CONQUEST } from './campaign.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en')
@@ -315,5 +315,49 @@ describe('Dominatus campaign — the Warmaster\'s corrections', () => {
     const evs = [...base(), battle('owner', 'b1', 'ann', 'cid', 'a', { a: 1, b: 0 }), O('endPhase', { phase: 1 }), O('adjust', { player: 'ann', agenda: 3 })]
     expect(fold(evs).players[0].agenda.map((c) => c.phase)).toEqual([1, 2, 2])
     expect(fold([...evs, O('adjust', { player: 'ann', agenda: 1 })]).players[0].agenda.map((c) => c.phase)).toEqual([1])
+  })
+})
+
+describe('Dominatus campaign — the schedule, pairings and settings', () => {
+  const fold = (evs) => campaignState(evs, deck)
+
+  it('refuses a battle sent for a phase that has ended', () => {
+    const evs = [...base(), O('endPhase', { phase: 1 }), O('location', { phase: 2, slug: 'blackfire-death-pits' })]
+    const s = fold([...evs, ev('owner', 'battle', { id: 'g1', phase: 1, a: 'ann', b: 'cid', victor: 'a', achieved: { a: 0, b: 0 } })])
+    expect(s.battles).toEqual([])
+    expect(s.rejected.map((r) => r.reason)).toEqual(['not the current phase'])
+  })
+
+  it('counts a member\'s battle at once when the campaign says so', () => {
+    const s = fold([...base(), O('settings', { approve: 'auto' }), battle('m1', 'b1', 'ben', 'cid', 'a')])
+    expect(s.battles[0].status).toBe('approved')
+    expect(s.pending).toHaveLength(2)
+  })
+
+  it('follows the Battle Schedule: played, due, and done once every player has played and all is counted', () => {
+    const evs = [...base(), O('settings', { schedule: [1, 1, 1] }), battle('owner', 'b1', 'ann', 'cid', 'a')]
+    expect(playedIn(fold(evs), 'ann')).toBe(1)
+    expect(scheduleProgress(fold(evs)).done).toBe(false)
+    evs.push(battle('m1', 'b2', 'ben', 'dee', 'a'))
+    expect(scheduleProgress(fold(evs)).done).toBe(false) // waiting for the Warmaster
+    evs.push(O('review', { battle: 'b2', ok: true }))
+    expect(scheduleProgress(fold(evs))).toMatchObject({ due: 1, done: true })
+  })
+
+  it('keeps the Warmaster\'s pairings for the phase and marks those played', () => {
+    const evs = [...base(), O('pairing', { id: 'x1', phase: 1, a: 'ann', b: 'cid' }), O('pairing', { id: 'x2', phase: 1, a: 'ben', b: 'dee' }), battle('owner', 'b1', 'cid', 'ann', 'b')]
+    expect(pairingsNow(fold(evs)).map((x) => [x.id, x.played])).toEqual([['x1', true], ['x2', false]])
+    const bad = fold([...base(), O('pairing', { id: 'x', phase: 1, a: 'ann', b: 'ben' }), ev('m1', 'pairing', { id: 'y', phase: 1, a: 'ben', b: 'cid' })])
+    expect(bad.rejected.map((r) => r.reason)).toEqual(['players of one Alliance', 'owner only'])
+  })
+
+  it('flags a battle waiting beside another between the same two in the phase', () => {
+    const s = fold([...base(), battle('m1', 'b1', 'ben', 'cid', 'a'), battle('m1', 'b2', 'cid', 'ben', 'b'), battle('m2', 'b3', 'dee', 'ann', 'a')])
+    expect([...likelyDuplicates(s)].sort()).toEqual(['b1', 'b2'])
+  })
+
+  it('remembers the player the Warmaster plays as', () => {
+    expect(fold([...base(), O('settings', { me: 'ann' })]).me).toBe('ann')
+    expect(fold([...base(), O('settings', { me: 'ann' }), O('settings', { me: null })]).me).toBe(null)
   })
 })

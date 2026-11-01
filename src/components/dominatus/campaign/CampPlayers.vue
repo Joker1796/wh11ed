@@ -34,6 +34,10 @@
             <div class="camp-player-head">
               <strong>{{ p.name || p.id }}</strong>
               <span
+                v-if="p.id === mine?.id"
+                class="camp-you"
+              >{{ labels.campYou }}</span>
+              <span
                 class="camp-record"
                 :title="labels.campRecordTitle"
               >{{ recordLine(p.id) }}</span>
@@ -90,6 +94,12 @@
               <FactionBadge :faction="factionOf(p)" />
               {{ factionOf(p).name }}
             </div>
+            <!-- The Battle Schedule: this phase's battles played of those due. -->
+            <span
+              v-if="!state.finished && p.alliance && state.schedule[state.phase - 1]"
+              class="camp-dim camp-played"
+              :class="{ 'is-done': playedIn(state, p.id) >= state.schedule[state.phase - 1] }"
+            >{{ labels.campPlayedOf.replace('{k}', playedIn(state, p.id)).replace('{n}', state.schedule[state.phase - 1]) }}</span>
             <span
               v-if="p.agenda.length"
               class="camp-badge"
@@ -138,7 +148,7 @@
             :aria-label="labels.campPlayerName"
           >
           <CampFactionPick v-model="faction" />
-          <div class="seg seg-fill">
+          <div class="seg">
             <button
               v-for="a in alliances"
               :key="a.id"
@@ -190,7 +200,7 @@
           class="camp-num"
         >
           <span>{{ labels.campAlliance }}</span>
-          <div class="seg seg-fill">
+          <div class="seg">
             <button
               v-for="a in alliances"
               :key="a.id"
@@ -300,7 +310,7 @@ import CampOpenForm from './CampOpenForm.vue'
 import CampShare from './CampShare.vue'
 import CampFactionPick from './CampFactionPick.vue'
 import FactionBadge from '../../FactionBadge.vue'
-import { recordOf, removable, removePlayer, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
+import { recordOf, removable, removePlayer, playedIn, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
 import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 

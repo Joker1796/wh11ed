@@ -1,118 +1,153 @@
 <template>
   <section class="camp-block">
-    <ul
-      v-if="battles.length"
-      class="camp-list"
+    <!-- Play a battle of the campaign in the tracker: the phase, the Location, both players and
+         their Alliances set up already, and the game knows where to go back to. -->
+    <div
+      v-if="!state.finished && (isOwner || mine)"
+      class="camp-row camp-battle-actions"
     >
-      <li
-        v-for="x in battles"
-        :key="x.id"
-        class="camp-battle"
-        :class="`is-${x.status}`"
+      <button
+        class="btn-primary"
+        aria-haspopup="dialog"
+        :disabled="!state.locations[state.phase]"
+        :title="state.locations[state.phase] ? '' : labels.campNoLocation"
+        @click="startPlay"
       >
-        <span>{{ phaseLabel(x.phase) }} · {{ playerName(x.a) }} — {{ playerName(x.b) }}: {{ outcome(x) }}</span>
-        <span class="camp-dim">{{ labels[`campStatus_${x.status}`] }}<template v-if="x.edited">{{ ' · ' + labels.campEdited }}</template></span>
-        <span
-          v-if="isOwner"
-          class="camp-actions"
+        {{ labels.campPlayBattle }}
+      </button>
+      <span
+        v-if="!state.locations[state.phase]"
+        class="camp-dim"
+      >{{ labels.campNoLocation }}</span>
+      <!-- A battle entered by hand (one played without the tracker); a tracker game is sent from its
+           finished screen. A member enters only battles they played (the fold checks). -->
+      <CampOpenForm
+        v-slot="{ close }"
+        :label="labels.campAddBattle"
+      >
+        <form
+          class="camp-form"
+          @submit.prevent="add().then((ok) => ok && close())"
         >
-          <template v-if="x.status === 'pending'">
-            <button
-              class="btn-ghost"
-              @click="act('review', { battle: x.id, ok: true })"
-            >{{ labels.campApprove }}</button>
-            <button
-              class="btn-ghost"
-              @click="act('review', { battle: x.id, ok: false })"
-            >{{ labels.campReject }}</button>
-          </template>
-          <!-- The Warmaster's corrections (the booklet leaves the campaign to them): the result, or
-               the battle taken out. A closed phase's battles wait for the phase to be reopened. -->
-          <ActionMenu
-            :open="menuFor === x.id"
-            :title="`${playerName(x.a)} — ${playerName(x.b)}`"
-            @update:open="(v) => (menuFor = v ? x.id : null)"
+          <div class="camp-pair">
+            <CampPick
+              v-model="a"
+              :placeholder="labels.campSideA"
+              :options="choosable.map((p) => ({ value: p.id, label: p.name }))"
+            />
+            <CampPick
+              v-model="b"
+              :placeholder="labels.campSideB"
+              :options="opponentsOf(a).map((p) => ({ value: p.id, label: p.name }))"
+            />
+          </div>
+          <CampBattleResult
+            v-model:victor="victor"
+            v-model:achieved="achieved"
+            :name-a="a ? playerName(a) : ''"
+            :name-b="b ? playerName(b) : ''"
+            :cap="state.phase === 3 ? 2 : 1"
+          />
+          <button
+            class="btn-primary"
+            type="submit"
+            :disabled="!a || !b"
           >
-            <template #trigger="{ toggle }">
-              <button
-                class="camp-more"
-                :aria-label="labels.rosterMoreActions"
-                aria-haspopup="menu"
-                @click.stop="toggle"
-              >
-                <i class="wi wi-more-v" />
-              </button>
-            </template>
-            <button
-              class="act-btn"
-              :disabled="locked(x)"
-              @click="startEdit(x)"
-            >
-              {{ labels.campEditBattle }}
-            </button>
-            <button
-              class="act-btn act-danger"
-              :disabled="locked(x)"
-              @click="menuFor = null; removing = x"
-            >
-              {{ labels.campDeleteBattle }}
-            </button>
-            <p
-              v-if="locked(x)"
-              class="camp-act-note"
-            >
-              {{ labels.campBattleLocked }}
-            </p>
-          </ActionMenu>
-        </span>
-      </li>
-    </ul>
+            {{ labels.campSendBattle }}
+          </button>
+        </form>
+      </CampOpenForm>
+    </div>
+
+    <CampPick
+      v-if="state.players.length > 2 && state.battles.length"
+      v-model="only"
+      class="camp-filter"
+      :placeholder="labels.campAllPlayers"
+      :options="[{ value: null, label: labels.campAllPlayers }, ...state.players.map((p) => ({ value: p.id, label: p.name }))]"
+    />
     <p
-      v-else
+      v-if="!groups.length"
       class="empty-note"
     >
       {{ labels.campNoBattles }}
     </p>
-
-    <!-- A battle entered by hand (one played without the tracker); a tracker game is sent from its
-         finished screen. A member enters only battles they played (the fold checks). -->
-    <CampOpenForm
-      v-if="!state.finished && (isOwner || mine)"
-      v-slot="{ close }"
-      :label="labels.campAddBattle"
+    <CampFold
+      v-for="g in groups"
+      :key="g.phase"
+      :label="`${phaseLabel(g.phase)} · ${g.battles.length}`"
+      :start-open="g.phase === state.phase || state.finished"
     >
-      <form
-        class="camp-form"
-        @submit.prevent="add().then((ok) => ok && close())"
-      >
-        <div class="camp-pair">
-          <CampPick
-            v-model="a"
-            :placeholder="labels.campSideA"
-            :options="choosable.map((p) => ({ value: p.id, label: p.name }))"
-          />
-          <CampPick
-            v-model="b"
-            :placeholder="labels.campSideB"
-            :options="opponentsOf(a).map((p) => ({ value: p.id, label: p.name }))"
-          />
-        </div>
-        <CampBattleResult
-          v-model:victor="victor"
-          v-model:achieved="achieved"
-          :name-a="a ? playerName(a) : ''"
-          :name-b="b ? playerName(b) : ''"
-          :cap="state.phase === 3 ? 2 : 1"
-        />
-        <button
-          class="btn-primary"
-          type="submit"
-          :disabled="!a || !b"
+      <ul class="camp-list">
+        <li
+          v-for="x in g.battles"
+          :key="x.id"
+          class="camp-battle"
+          :class="`is-${x.status}`"
         >
-          {{ labels.campSendBattle }}
-        </button>
-      </form>
-    </CampOpenForm>
+          <span>{{ playerName(x.a) }} — {{ playerName(x.b) }}: {{ outcome(x) }}</span>
+          <span class="camp-dim">{{ labels[`campStatus_${x.status}`] }}<template v-if="x.edited">{{ ' · ' + labels.campEdited }}</template></span>
+          <span
+            v-if="isOwner && dupes.has(x.id)"
+            class="camp-warn"
+          >{{ labels.campLikelyDuplicate }}</span>
+          <span
+            v-if="isOwner"
+            class="camp-actions"
+          >
+            <template v-if="x.status === 'pending'">
+              <button
+                class="btn-ghost"
+                @click="act('review', { battle: x.id, ok: true })"
+              >{{ labels.campApprove }}</button>
+              <button
+                class="btn-ghost"
+                @click="act('review', { battle: x.id, ok: false })"
+              >{{ labels.campReject }}</button>
+            </template>
+            <!-- The Warmaster's corrections (the booklet leaves the campaign to them): the result, or
+                 the battle taken out. A closed phase's battles wait for the phase to be reopened. -->
+            <ActionMenu
+              :open="menuFor === x.id"
+              :title="`${playerName(x.a)} — ${playerName(x.b)}`"
+              @update:open="(v) => (menuFor = v ? x.id : null)"
+            >
+              <template #trigger="{ toggle }">
+                <button
+                  class="camp-more"
+                  :aria-label="labels.rosterMoreActions"
+                  aria-haspopup="menu"
+                  @click.stop="toggle"
+                >
+                  <i class="wi wi-more-v" />
+                </button>
+              </template>
+              <button
+                class="act-btn"
+                :disabled="locked(x)"
+                @click="startEdit(x)"
+              >
+                {{ labels.campEditBattle }}
+              </button>
+              <button
+                class="act-btn act-danger"
+                :disabled="locked(x)"
+                @click="menuFor = null; removing = x"
+              >
+                {{ labels.campDeleteBattle }}
+              </button>
+              <p
+                v-if="locked(x)"
+                class="camp-act-note"
+              >
+                {{ labels.campBattleLocked }}
+              </p>
+            </ActionMenu>
+          </span>
+        </li>
+      </ul>
+    </CampFold>
+
 
     <BaseModal
       v-if="editing"
@@ -143,6 +178,41 @@
         </button>
       </form>
     </BaseModal>
+    <BaseModal
+      v-if="playing"
+      :title="labels.campPlayBattle"
+      :subtitle="phaseLabel(state.phase)"
+      @close="playing = false"
+    >
+      <form
+        class="modal-body camp-form camp-modal-form"
+        @submit.prevent="play"
+      >
+        <div class="camp-pair">
+          <CampPick
+            v-model="pa"
+            :placeholder="labels.campSideA"
+            :disabled="!!fixedSelf"
+            :options="(fixedSelf ? [fixedSelf] : state.players.filter((p) => p.alliance)).map((p) => ({ value: p.id, label: p.name }))"
+          />
+          <CampPick
+            v-model="pb"
+            :placeholder="labels.campSideB"
+            :options="opponentsOf(pa).map((p) => ({ value: p.id, label: p.name }))"
+          />
+        </div>
+        <p class="camp-dim">
+          {{ labels.campPlayNote }}
+        </p>
+        <button
+          class="btn-primary"
+          type="submit"
+          :disabled="!pa || !pb"
+        >
+          {{ labels.campPlayGo }}
+        </button>
+      </form>
+    </BaseModal>
     <ConfirmModal
       v-if="removing"
       :title="labels.campDeleteBattle"
@@ -167,7 +237,9 @@ import ConfirmModal from '../../ConfirmModal.vue'
 import CampOpenForm from './CampOpenForm.vue'
 import CampPick from './CampPick.vue'
 import CampBattleResult from './CampBattleResult.vue'
-import { battleAmend, battleLocked } from '../../../core/dominatus/campaign.js'
+import CampFold from './CampFold.vue'
+import { battleAmend, battleLocked, likelyDuplicates } from '../../../core/dominatus/campaign.js'
+import { useRouter } from 'vue-router'
 import { useCampaignView } from './useCampaignView.js'
 
 const { entry, state, isOwner, mine, act, labels, playerName, phaseLabel } = useCampaignView()
@@ -176,7 +248,15 @@ const b = ref(null)
 const victor = ref('a')
 const achieved = ref({ a: 0, b: 0 })
 
-const battles = computed(() => [...state.value.battles].reverse())
+// By phase, newest phase and battle first; one player's only when the filter says so.
+const only = ref(null)
+const groups = computed(() => {
+  const bs = state.value.battles.filter((b) => !only.value || b.a === only.value || b.b === only.value)
+  return [3, 2, 1]
+    .map((phase) => ({ phase, battles: bs.filter((b) => b.phase === phase).reverse() }))
+    .filter((g) => g.battles.length)
+})
+const dupes = computed(() => likelyDuplicates(state.value))
 // A member fights as their own player; the Warmaster enters anyone's battle.
 const choosable = computed(() => (isOwner.value ? state.value.players : mine.value ? [mine.value] : []))
 const opponentsOf = (id) => {
@@ -220,5 +300,25 @@ async function remove() {
   const edits = battleAmend(entry.value.events, removing.value.id, null)
   removing.value = null
   if (edits.length) await act('amend', { edits })
+}
+
+// Play a battle in the tracker: this device's own player on the left (a member's, the Warmaster's
+// if they play), the opponent from another Alliance.
+const router = useRouter()
+const playing = ref(false)
+const pa = ref(null)
+const pb = ref(null)
+const fixedSelf = computed(() => (isOwner.value ? null : mine.value))
+function startPlay() {
+  pa.value = mine.value?.id || null
+  pb.value = null
+  playing.value = true
+}
+async function play() {
+  const s = state.value
+  const side = (id) => s.players.find((p) => p.id === id)
+  const { playCampaignBattle } = await import('../../../composables/campaignHandoff.js')
+  playing.value = false
+  await playCampaignBattle({ campaignId: entry.value.id, phase: s.phase, location: s.locations[s.phase], a: side(pa.value), b: side(pb.value) }, router)
 }
 </script>

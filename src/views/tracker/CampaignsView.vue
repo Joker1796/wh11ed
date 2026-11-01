@@ -83,8 +83,17 @@
         :key="c.id"
       >
         <RouterLink :to="`/tracker/campaigns/${c.id}`">
-          <strong>{{ c.name || c.id }}</strong>
-          <span class="camp-role">{{ labels[`campRole_${c.role}`] }}</span>
+          <span class="camp-index-name">
+            <strong>{{ c.name || c.id }}</strong>
+            <span class="camp-dim">{{ phaseOf(c) }}</span>
+          </span>
+          <span class="camp-index-side">
+            <span
+              v-if="c.waiting"
+              class="camp-index-warn"
+            >⚠ {{ labels.campWaiting }}</span>
+            <span class="camp-role">{{ labels[`campRole_${c.role}`] }}</span>
+          </span>
         </RouterLink>
       </li>
     </ul>
@@ -123,15 +132,26 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { status } = useAuth()
 const { signIn } = useAccountActions()
-const { campaigns, createCampaign, refreshOwned } = useCampaigns()
+const { campaigns, createCampaign, refreshOwned, stateOf, syncAll } = useCampaigns()
 const router = useRouter()
 const name = ref('')
 const draw = ref('app')
 const busy = ref(false)
 const error = ref('')
 
-// The session comes back after the page does (a refresh on load), so ask once it is there.
-watch(status, (s) => { if (s === 'authed') refreshOwned().catch(() => {}) }, { immediate: true })
+// The session comes back after the page does (a refresh on load), so ask once it is there; then
+// every campaign is read again, so the list says what waits in each.
+watch(status, async (s) => {
+  if (s === 'authed') await refreshOwned().catch(() => {})
+  if (s !== 'idle') syncAll()
+}, { immediate: true })
+// Where a campaign stands, from its log as last read (blank until the deck has loaded).
+function phaseOf(c) {
+  const st = stateOf(c.id)
+  if (!st) return ''
+  const l = labels.value
+  return st.finished ? l.campFinished : l.domPhase.replace('{n}', ['I', 'II', 'III'][st.phase - 1])
+}
 
 async function create() {
   busy.value = true
@@ -155,6 +175,9 @@ async function create() {
 .camp-create { display: grid; gap: 0.5rem; margin-bottom: 1.25rem; justify-items: start; }
 .camp-create input { width: 100%; }
 .camp-index { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.camp-index-name { display: grid; gap: 0.1rem; min-width: 0; }
+.camp-index-side { display: grid; justify-items: end; gap: 0.1rem; }
+.camp-index-warn { font-size: 0.75rem; font-weight: 700; color: var(--warning); white-space: nowrap; }
 .camp-index a {
   display: flex; justify-content: space-between; gap: 0.6rem; align-items: baseline;
   padding: 0.6rem 0.75rem; border: 1px solid var(--border); background: var(--bg-card);

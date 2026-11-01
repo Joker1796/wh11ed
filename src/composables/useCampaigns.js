@@ -179,15 +179,68 @@ function linksOf(c, origin, prefix = '') {
   }
 }
 
-/** The player this device speaks for in a campaign: the member's own, or null. */
+/** The player this device speaks for in a campaign: the member's own, the one the Warmaster plays
+ * as (a campaign setting), or null. */
 function myPlayer(c, state) {
-  if (!c || !state || c.role !== 'member') return null
+  if (!c || !state) return null
+  if (c.role === 'owner') return state.players.find((p) => p.id === state.me) || null
+  if (c.role !== 'member') return null
   return state.players.find((p) => p.member === c.memberId) || null
+}
+
+/** What waits for this device in a campaign: rewards to take (every one for the Warmaster, a
+ * member's own) and, for the Warmaster, battles to count. */
+function waitingFor(c, state) {
+  if (!c || !state) return { rewards: 0, battles: 0 }
+  const owner = c.role === 'owner'
+  const me = myPlayer(c, state)
+  return {
+    rewards: state.pending.filter((r) => owner || (me && r.player === me.id)).length,
+    battles: owner ? state.battles.filter((b) => b.status === 'pending').length : 0,
+  }
+}
+
+/** Remember whether anything waits, for screens that do not fold the log (the tracker's home). */
+function noteWaiting(id, n) {
+  const c = byId(id)
+  if (!c || (c.waiting || 0) === n) return
+  c.waiting = n
+  save()
+}
+
+/** Read every campaign this device knows again and note what waits in each; failures are quiet
+ * (offline, a revoked link) — the list still shows what it had. */
+async function syncAll() {
+  for (const c of [...campaigns.value]) {
+    try {
+      await syncCampaign(c.id)
+    } catch {
+      // keep what this device had
+    }
+    const w = waitingFor(byId(c.id), stateOf(c.id))
+    if (stateOf(c.id)) noteWaiting(c.id, w.rewards + w.battles)
+  }
 }
 
 /** Does this device know any campaign? — for a door that shows only then (no deck loaded). */
 export function hasKnownCampaigns() {
   return campaigns.value.length > 0
+}
+
+/** A reason the campaign's fold refused an entry, in the reader's words (ui.js `campWhy_<reason>`);
+ * an unknown one as the fold wrote it. */
+export function refusalText(labels, reason) {
+  return labels[`campWhy_${String(reason).toLowerCase().replace(/[^a-z]+/g, '_')}`] || reason
+}
+
+/** The campaigns this device knows, as stored — names and ids, no fold (no deck loaded). */
+export function knownCampaigns() {
+  return campaigns.value
+}
+
+/** Does anything wait in a campaign this device knows, as last noted (no deck loaded)? */
+export function campaignsWaiting() {
+  return campaigns.value.some((c) => (c.waiting || 0) > 0)
 }
 
 export function useCampaigns() {
@@ -206,5 +259,8 @@ export function useCampaigns() {
     stateOf,
     linksOf,
     myPlayer,
+    waitingFor,
+    noteWaiting,
+    syncAll,
   }
 }

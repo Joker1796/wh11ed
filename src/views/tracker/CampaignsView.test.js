@@ -24,6 +24,7 @@ vi.mock('../../composables/useCampaigns.js', () => ({
     campaigns: campaigns.value, createCampaign: vi.fn(), refreshOwned, byId, syncCampaign,
     joinCampaign: vi.fn(), watchCampaign: vi.fn(), appendEvent: vi.fn(), deleteCampaign: vi.fn(),
     forgetCampaign: vi.fn(), stateOf: () => null, myPlayer: () => null,
+    waitingFor: () => ({ rewards: 0, battles: 0 }), noteWaiting: vi.fn(), syncAll: vi.fn(),
   }),
 }))
 

@@ -36,6 +36,13 @@
             {{ labels.campRename }}
           </button>
           <button
+            v-if="isOwner && state"
+            class="act-btn"
+            @click="menuOpen = false; settingsOpen = true"
+          >
+            {{ labels.campSettings }}
+          </button>
+          <button
             v-if="isOwner"
             class="act-btn act-danger"
             @click="menuOpen = false; confirmDelete = true"
@@ -86,23 +93,11 @@
         <CampPlayers v-else-if="tab === 'players'" />
         <CampRewards v-else />
       </Transition>
-      <section
-        v-if="isOwner && state.rejected.length"
-        class="camp-block"
-      >
-        <h2 class="dgroup-label">
-          {{ labels.campRejectedEvents }}
-        </h2>
-        <ul class="camp-results">
-          <li
-            v-for="r in state.rejected"
-            :key="r.seq"
-          >
-            #{{ r.seq }}: {{ r.reason }}
-          </li>
-        </ul>
-      </section>
     </template>
+    <CampSettings
+      v-if="settingsOpen"
+      @close="settingsOpen = false"
+    />
 
     <AppToast
       :show="!!error"
@@ -169,6 +164,7 @@ import CampPhase from '../../components/dominatus/campaign/CampPhase.vue'
 import CampRewards from '../../components/dominatus/campaign/CampRewards.vue'
 import CampBattles from '../../components/dominatus/campaign/CampBattles.vue'
 import CampPlayers from '../../components/dominatus/campaign/CampPlayers.vue'
+import CampSettings from '../../components/dominatus/campaign/CampSettings.vue'
 import { provideCampaignView } from '../../components/dominatus/campaign/useCampaignView.js'
 import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
@@ -181,7 +177,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const route = useRoute()
 const router = useRouter()
-const { byId, refreshOwned, joinCampaign, watchCampaign, syncCampaign, appendEvent, deleteCampaign, forgetCampaign, stateOf, myPlayer } = useCampaigns()
+const { byId, refreshOwned, joinCampaign, watchCampaign, syncCampaign, appendEvent, deleteCampaign, forgetCampaign, stateOf, myPlayer, waitingFor, noteWaiting } = useCampaigns()
 const { status, ensureSession } = useAuth()
 
 const id = computed(() => route.params.id)
@@ -193,6 +189,7 @@ const error = ref('')
 const loading = ref(true)
 const confirmDelete = ref(false)
 const menuOpen = ref(false)
+const settingsOpen = ref(false)
 const renaming = ref(false)
 const newName = ref('')
 // The menu hands over to the dialog in one tick (a swap, BaseModal's modalLeave).
@@ -206,8 +203,11 @@ async function rename() {
 }
 // What waits for this reader: the rewards they take (all of them for the Warmaster, a member's own),
 // the battles the Warmaster has to count.
-const rewardsWaiting = computed(() => (state.value?.pending || []).filter((r) => isOwner.value || r.player === mine.value?.id).length)
-const battlesWaiting = computed(() => isOwner.value && !!state.value?.battles.some((b) => b.status === 'pending'))
+const waiting = computed(() => waitingFor(entry.value, state.value))
+const rewardsWaiting = computed(() => waiting.value.rewards)
+const battlesWaiting = computed(() => waiting.value.battles > 0)
+// The list and the tracker's home show the mark without folding the log: noted as it changes.
+watch(waiting, (w) => { if (state.value) noteWaiting(id.value, w.rewards + w.battles) }, { immediate: true })
 // Open on what waits first; it follows the log as it comes in until the reader picks a tab.
 const picked = ref(null)
 const tab = computed(() => picked.value || (rewardsWaiting.value ? 'rewards' : battlesWaiting.value ? 'battles' : 'phase'))

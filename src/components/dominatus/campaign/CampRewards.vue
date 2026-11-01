@@ -15,6 +15,14 @@
         <p class="camp-line">
           <strong>{{ playerName(r.player) }}</strong> · {{ title(r) }}
         </p>
+        <!-- The Event Companion's timing (a campaign setting): what the end of a phase hands out is
+             resolved at the next phase's first battle; Auspicious Augury before a witness. -->
+        <p
+          v-if="eventNote(r)"
+          class="camp-dim"
+        >
+          {{ eventNote(r) }}
+        </p>
 
         <!-- Auspicious Augury: the player shuffles their Secondary Missions and reports the Fixed
              Missions among the top four. -->
@@ -178,6 +186,12 @@ function title(r) {
   const l = labels.value
   const what = { honour: l.domHonours, skill: l.domSkills, relic: l.domRelics, fresh: l.campFresh, mettle: l.campMettle, augury: l.campAugury }[r.kind] || r.kind
   return r.kind === 'mettle' || r.kind === 'augury' ? what : `${what} · ${phaseLabel(r.phase)} · ${l.campDrawN.replace('{n}', r.draw)}`
+}
+function eventNote(r) {
+  if (state.value.format !== 'event' || r.battle) return ''
+  const l = labels.value
+  if (r.kind === 'augury') return l.campEventAugury
+  return ['relic', 'fresh', 'mettle'].includes(r.kind) ? l.campEventTiming.replace('{n}', phaseLabel(Math.min(3, r.phase + 1))) : ''
 }
 // The reward whose drawn cards are in the dialog, read from the campaign as it folds.
 const drawForId = ref(null)

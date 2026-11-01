@@ -49,13 +49,19 @@
       </button>
     </div>
     <button
-      v-if="editable && list.length < limit"
+      v-if="editable && list.length < limit && hasFree"
       type="button"
       class="btn-ghost dupe-add"
       @click="add"
     >
       + {{ labels.trackerDomAddUpgrade }} ({{ list.length }}/{{ limit }})
     </button>
+    <p
+      v-else-if="editable && held && !held.size"
+      class="dupe-none"
+    >
+      {{ labels.trackerDomNoCampaignCards }}
+    </p>
   </div>
 </template>
 
@@ -66,6 +72,7 @@
 import { computed } from 'vue'
 import { domUpgrades, domUpgradeLimit } from '../../composables/dominatusMissions.js'
 import { useTracker } from '../../composables/useTracker.js'
+import { useCampaigns } from '../../composables/useCampaigns.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -76,13 +83,25 @@ const props = defineProps({
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, setUpgrades } = useTracker()
+const { byId, stateOf } = useCampaigns()
+
+// In a battle of a campaign this device knows, a side gives only the cards its player holds; any
+// other battle offers the whole deck (the players say what they hold).
+const held = computed(() => {
+  const cid = current.value.settings?.dominatus?.campaign
+  const pid = current.value.players[props.pi].campaignPlayer
+  if (!cid || !pid || !byId(cid)) return null
+  const p = stateOf(cid)?.players.find((x) => x.id === pid)
+  return p ? new Set(p.upgrades) : null
+})
+const offered = (ups) => (held.value ? ups.filter((u) => held.value.has(u.slug)) : ups)
 
 const list = computed(() => current.value.players[props.pi].upgrades || [])
 const limit = computed(() => domUpgradeLimit(current.value.settings?.dominatus))
 const taken = computed(() => new Set(list.value.map((u) => u.slug)))
 const groups = computed(() => {
   const l = labels.value
-  const ups = domUpgrades(locale.value)
+  const ups = offered(domUpgrades(locale.value))
   return [
     { label: l.domHonours, items: ups.filter((u) => u.kind === 'honour') },
     { label: l.domSkills, items: ups.filter((u) => u.kind === 'skill') },
@@ -96,13 +115,15 @@ function set(k, patch) {
 function remove(k) {
   setUpgrades(props.pi, list.value.filter((_, i) => i !== k))
 }
+const hasFree = computed(() => offered(domUpgrades()).some((u) => !taken.value.has(u.slug)))
 function add() {
-  const free = domUpgrades().find((u) => !taken.value.has(u.slug))
+  const free = offered(domUpgrades()).find((u) => !taken.value.has(u.slug))
   if (free) setUpgrades(props.pi, [...list.value, { slug: free.slug, unit: '' }])
 }
 </script>
 
 <style scoped>
+.dupe-none { margin: 0.3rem 0 0; font-size: 0.82rem; color: var(--text-muted); }
 .dupe { display: grid; gap: 0.4rem; }
 .dupe-row {
   display: grid;

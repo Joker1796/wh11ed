@@ -398,9 +398,10 @@ function makePlayer(p, opponent, settings, isYou = false) {
     primarySlug: primary ? primary.slug : null,
     // Dominatus (settings.dominatus): the Alliance, whether this player declined Agendas this
     // battle, the Upgrades given to units in Declare Battle Formations, and the Agenda Achieved
-    // cards the battle earned (told at Determine Victor).
+    // cards the battle earned (told at Determine Victor); in a battle of a campaign, the campaign's
+    // player this side is (campaignHandoff.js).
     ...(settings.dominatus
-      ? { alliance: p.alliance || null, declineAgenda: !!p.declineAgenda, upgrades: [], agendaAchieved: 0 }
+      ? { alliance: p.alliance || null, declineAgenda: !!p.declineAgenda, upgrades: [], agendaAchieved: 0, ...(settings.dominatus.campaign && p.campaignPlayer ? { campaignPlayer: p.campaignPlayer } : {}) }
       : {}),
     cp: 0,
     cpBase: 0,

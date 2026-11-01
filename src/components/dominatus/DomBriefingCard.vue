@@ -127,8 +127,10 @@
 
 <script setup>
 // A Briefing card's chart: my Force Disposition (left) against the opponent's (middle) gives the
-// Agenda I attempt (right). A tap on an Agenda opens its card in the Agendas chapter.
+// Agenda I attempt (right). A tap on an Agenda opens its card in the Agendas chapter — on the rules
+// page itself, or from a campaign by going there.
 import { ref, computed, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
 import ChevronIcon from '../ChevronIcon.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import DomCardMark from './DomCardMark.vue'
@@ -151,12 +153,14 @@ const outcomes = computed(() => Object.entries(props.briefing.outcomes || {})
   .map(([np, text]) => ({ np: Number(np), text }))
   .sort((a, b) => b.np - a.np))
 const filter = useAgendaFilter()
+const router = useRouter()
 
 async function openAgenda(slug) {
   filter.alliance = props.briefing.alliance
   filter.phase = props.briefing.phase
   await nextTick()
-  scrollToAnchor(`mission-${slug}`, 100, { glide: true })
+  if (document.getElementById(`mission-${slug}`)) scrollToAnchor(`mission-${slug}`, 100, { glide: true })
+  else router.push({ path: '/dominatus', hash: `#mission-${slug}` })
 }
 </script>
 

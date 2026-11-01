@@ -103,7 +103,12 @@
           to="/tracker/campaigns"
           class="btn-ghost"
         >
-          {{ labels.campHomeLink }}
+          {{ labels.campHomeLink }}<span
+            v-if="campaignsWaiting()"
+            class="camp-door-warn"
+            :title="labels.campWaiting"
+            :aria-label="labels.campWaiting"
+          > ⚠</span>
         </RouterLink>
       </div>
       <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
@@ -292,7 +297,7 @@ import { battlePointsFromVp, concededSide, grandTotal, youIndex as youIdx } from
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, membersOf, isYouSide, battleName } from '../../composables/useTracker.js'
-import { hasKnownCampaigns } from '../../composables/useCampaigns.js'
+import { hasKnownCampaigns, campaignsWaiting } from '../../composables/useCampaigns.js'
 import { fileFinishedGame } from '../../composables/fileFinishedGame.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { toneVars } from '../../utils/tone.js'
@@ -878,4 +883,5 @@ function footLine(g) {
   .gc-faction { font-size: 0.74rem; }
 }
 
+.camp-door-warn { color: var(--warning); }
 </style>

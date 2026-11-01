@@ -41,8 +41,11 @@
  * @typedef {{ id: string, player: string, kind: string, phase: number, draw: number, battle: string | null, drawn: string[] | null }} Reward
  * @typedef {{ seq: number, payload: object | null }} Amendment
  * @typedef {{ control: string | null, tie: boolean, honours: Record<string, number>, ascendancy: string[], np: Record<string, number> }} PhaseResult
+ * @typedef {{ id: string, phase: number, a: string, b: string }} Pairing
  * @typedef {{
  *   name: string, draw: 'app' | 'manual', phase: number, finished: boolean,
+ *   approve: 'warmaster' | 'auto', format: 'deck' | 'event', schedule: number[], me: string | null,
+ *   pairings: Pairing[],
  *   locations: Record<number, string | null>, control: Record<string, string>,
  *   players: Player[], battles: Battle[], pending: Reward[],
  *   results: Record<number, PhaseResult>, rejected: Array<{ seq: number, reason: string }>
@@ -52,6 +55,8 @@
 export const ALLIANCES = ['liberators', 'oppressors', 'raiders']
 export const MAX_AGENDA_ACHIEVED = 3
 export const PATH_TO_CONQUEST = 'path-to-conquest'
+export const DEFAULT_SCHEDULE = [2, 2, 1]
+const MAX_SCHEDULE = 20
 
 // Location bonuses the fold applies (the rest are read where they act: Staging Post by the
 // Warmaster's next-Location step, Auspicious Augury as a reward its player reports).
@@ -61,7 +66,7 @@ const EXTRA_DRAW = { 'the-mannheim-gap': 'skill', 'the-morpheon-line': 'honour',
 const SIDES = ['a', 'b']
 // What an `amend` may touch: the events that describe the campaign. Not an amend (a correction is
 // itself corrected by a newer amend of the same event), not the campaign's creation.
-const AMENDABLE = ['settings', 'player', 'location', 'battle', 'review', 'claim', 'draw', 'endPhase', 'adjust']
+const AMENDABLE = ['settings', 'player', 'location', 'pairing', 'battle', 'review', 'claim', 'draw', 'endPhase', 'adjust']
 // The rewards that are drawn from a deck (the rest ask the player something).
 const DRAWN = ['honour', 'skill', 'relic', 'fresh']
 
@@ -69,6 +74,12 @@ const DRAWN = ['honour', 'skill', 'relic', 'fresh']
 function empty() {
   return {
     name: '', draw: 'app', phase: 1, finished: false,
+    // Battles counted by the Warmaster or at once; the booklet's rules or the Event Companion's
+    // (Relics, the discard and two Location bonuses resolved at the next phase's first battle); the
+    // Battle Schedule's battles per player per phase (the booklet's default 2 / 2 / 1); the player
+    // the Warmaster plays as, if they play.
+    approve: 'warmaster', format: 'deck', schedule: [...DEFAULT_SCHEDULE], me: null,
+    pairings: [],
     locations: { 1: null, 2: null, 3: null }, control: {},
     players: [], battles: [], pending: [], results: {}, rejected: [],
   }
@@ -226,10 +237,11 @@ export function campaignState(events, deck) {
 
 /**
  * The Warmaster's corrections in force: each amended event's latest payload, null for one taken out.
+ * Exported for the chronicle, which marks what was corrected.
  * @param {CampaignEvent[]} events
  * @returns {Map<number, object | null>}
  */
-function amendments(events) {
+export function amendments(events) {
   /** @type {Map<number, CampaignEvent>} */
   const bySeq = new Map(events.map((e) => [e.seq, e]))
   /** @type {Map<number, object | null>} */
@@ -344,7 +356,7 @@ export function reopenPhase(events, s) {
   const next = r.phase + 1
   const dropped = s.battles.filter((b) => b.phase === next).map((b) => b.id)
   const out = live.filter((e) => e.seq > end.seq && (
-    (e.type === 'location' && e.payload?.phase === next)
+    ((e.type === 'location' || e.type === 'pairing') && e.payload?.phase === next)
     || ((e.type === 'claim' || e.type === 'draw') && String(e.payload?.reward || '').startsWith(`p${r.phase}:`))
     || (e.type === 'battle' && dropped.includes(e.payload?.id))
     || (e.type === 'review' && dropped.includes(e.payload?.battle))
@@ -386,6 +398,10 @@ function apply(s, deck, e) {
       if (!owner) return 'owner only'
       if (typeof p.name === 'string') s.name = p.name
       if (p.draw === 'app' || p.draw === 'manual') s.draw = p.draw
+      if (p.approve === 'warmaster' || p.approve === 'auto') s.approve = p.approve
+      if (p.format === 'deck' || p.format === 'event') s.format = p.format
+      if (Array.isArray(p.schedule) && p.schedule.length === 3) s.schedule = p.schedule.map((/** @type {any} */ n) => Math.max(0, Math.min(MAX_SCHEDULE, Math.floor(Number(n) || 0))))
+      if (p.me !== undefined) s.me = typeof p.me === 'string' && p.me ? p.me : null
       return null
 
     case 'player': {
@@ -413,8 +429,23 @@ function apply(s, deck, e) {
       s.locations[p.phase] = p.slug
       return null
 
+    case 'pairing': {
+      // The Warmaster sets who plays whom this phase; taken back by an amend.
+      if (!owner) return 'owner only'
+      if (s.finished || p.phase !== s.phase) return 'not the current phase'
+      if (typeof p.id !== 'string' || !p.id || s.pairings.some((x) => x.id === p.id)) return 'duplicate pairing'
+      const a = playerById(s, p.a), b = playerById(s, p.b)
+      if (!a || !b || a === b) return 'unknown players'
+      if (!a.alliance || !b.alliance || a.alliance === b.alliance) return 'players of one Alliance'
+      s.pairings.push({ id: p.id, phase: s.phase, a: a.id, b: b.id })
+      return null
+    }
+
     case 'battle': {
       if (s.finished) return 'campaign finished'
+      // A battle says which phase it was played in (a game sent after the phase it belongs to has
+      // ended must not land in the next one); an older entry without it is the current phase's.
+      if (p.phase != null && p.phase !== s.phase) return 'not the current phase'
       if (typeof p.id !== 'string' || s.battles.some((b) => b.id === p.id)) return 'duplicate battle'
       const a = playerById(s, p.a), b = playerById(s, p.b)
       if (!a || !b || a === b) return 'unknown players'
@@ -427,8 +458,8 @@ function apply(s, deck, e) {
       /** @type {Battle} */
       const battle = { id: p.id, phase: s.phase, a: a.id, b: b.id, victor: p.victor, achieved: { a: ach(p.achieved?.a), b: ach(p.achieved?.b) }, status: 'pending', by: e.author, edited: !!e.amended }
       s.battles.push(battle)
-      // The Warmaster's own entry needs no second look.
-      if (owner) approveBattle(s, battle)
+      // The Warmaster's own entry needs no second look, nor any under a campaign that counts at once.
+      if (owner || s.approve === 'auto') approveBattle(s, battle)
       return null
     }
 
@@ -537,6 +568,51 @@ export function recordOf(s, playerId) {
     else r.lost++
   }
   return r
+}
+
+/**
+ * A player's battles this phase that count toward the Battle Schedule: counted or waiting.
+ * @param {CampaignState} s @param {string} playerId @param {number} [phase]
+ */
+export function playedIn(s, playerId, phase = s.phase) {
+  return s.battles.filter((b) => b.phase === phase && b.status !== 'rejected' && (b.a === playerId || b.b === playerId)).length
+}
+
+/**
+ * The Battle Schedule this phase: each player in an Alliance, battles played and due; `done` once
+ * every one of them has played theirs (and the Warmaster has counted them all).
+ * @param {CampaignState} s
+ */
+export function scheduleProgress(s) {
+  const due = s.schedule[s.phase - 1] ?? 0
+  const rows = s.players.filter((p) => p.alliance).map((p) => ({ player: p.id, played: playedIn(s, p.id), due }))
+  const waiting = s.battles.some((b) => b.phase === s.phase && b.status === 'pending')
+  return { due, rows, done: !s.finished && due > 0 && rows.length > 0 && rows.every((r) => r.played >= due) && !waiting }
+}
+
+/**
+ * The Warmaster's pairings this phase, each with whether a battle between the two is in.
+ * @param {CampaignState} s
+ */
+export function pairingsNow(s) {
+  return s.pairings.filter((x) => x.phase === s.phase).map((x) => ({
+    ...x,
+    played: s.battles.some((b) => b.phase === x.phase && b.status !== 'rejected' && ((b.a === x.a && b.b === x.b) || (b.a === x.b && b.b === x.a))),
+  }))
+}
+
+/**
+ * Battles waiting for the Warmaster that look entered twice: the same two players in the same phase
+ * as another battle not refused (two phones each sending the game they kept).
+ * @param {CampaignState} s
+ * @returns {Set<string>}
+ */
+export function likelyDuplicates(s) {
+  const key = (/** @type {Battle} */ b) => `${b.phase}:${[b.a, b.b].sort().join('|')}`
+  /** @type {Map<string, number>} */
+  const n = new Map()
+  for (const b of s.battles) if (b.status !== 'rejected') n.set(key(b), (n.get(key(b)) || 0) + 1)
+  return new Set(s.battles.filter((b) => b.status === 'pending' && (n.get(key(b)) || 0) > 1).map((b) => b.id))
 }
 
 /**

@@ -139,6 +139,31 @@ on a tie nothing breaks.
   Warmaster's; the player's cards and Agenda Achieved by hand, `adjust`; remove), "Change the
   Location" and "Reopen" on the phase tab. Not a roster: the booklet asks for a faction kept over
   the campaign, never a list (Upgrades go to units battle by battle).
+- **The campaign around the battles** (owner, 2026-11-01, "do all of it"). Settings, the
+  Warmaster's (`CampSettings`, one `settings` event): the Battle Schedule (`schedule`, the booklet's
+  2 / 2 / 1 — `playedIn`, `scheduleProgress`: each player's count on Players, "the phase can end" on
+  the phase tab), battles counted at once (`approve: 'auto'`), the Event Companion's timing (`format:
+  'event'` — only notes on the end-of-phase rewards: the counts are the same, the moment is the next
+  phase's first battle), and the player the Warmaster plays as (`me` — `myPlayer` answers it for the
+  owner). Pairings (`pairing`, owner, taken back by an amend; `pairingsNow`). A battle carries the
+  `phase` it was played in and the fold refuses it in another (a game sent after its phase ended).
+  `likelyDuplicates` marks a waiting battle beside another between the same two in the phase.
+- **The story is on the page**: the phase tab shows each Alliance's Briefing (`DomBriefingCard`, the
+  reader's own open; its Agenda links go to `/dominatus` from here), every ended phase's Outcome per
+  Alliance by its Narrative Points (`CampOutcomeCard` — the Briefing's reverse, so its spine and its
+  lore stay when lore is hidden), the final Narrative Points, and the chronicle (`CampChronicle`:
+  every entry in words, corrections and refusals marked — refusals in the reader's language,
+  `refusalText` → ui.js `campWhy_<reason>`; a new refusal reason needs its two labels).
+- **A battle is played from the campaign** (`campaignHandoff.js`, "Play a battle" on the battles
+  tab): the tracker's setup draft gets the phase, the Location, both players with their factions and
+  Alliances, `settings.dominatus.campaign` and each side's `campaignPlayer` (carried by `makePlayer`).
+  The setup shows the campaign in place of the phase and Location pickers ("Unlink" drops it), the
+  pre-battle Upgrades offer only the cards that campaign player holds (`DomUpgradesEditor`, when this
+  device knows the campaign), and `CampSendGame` opens on that campaign and those players, sends the
+  phase, and says why the campaign refused it if it did.
+- What waits is noted on the device (`noteWaiting`, `c.waiting`) so the campaign list and the
+  tracker home's door show ⚠ without folding the log; the list reads every campaign again on entry
+  (`syncAll`) and shows each one's phase.
 - Device side: `src/composables/useCampaigns.js` (the campaigns this device knows, with its
   credential for each — the account for the owner, a member token from `?join=`, the view token
   from `?t=`), pages `src/views/tracker/Campaign(s)View.vue`, blocks in `campaign/`. A finished

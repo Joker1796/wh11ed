@@ -3,7 +3,10 @@
     v-if="options.length"
     class="csend"
   >
-    <CampFold :label="labels.campSend">
+    <CampFold
+      :label="labels.campSend"
+      :start-open="!!linked && !inCampaign"
+    >
       <div class="csend-body">
         <label class="field">
           <span>{{ labels.campSendPick }}</span>
@@ -27,10 +30,10 @@
         </label>
         <button
           class="btn-primary"
-          :disabled="!pick[0] || !pick[1] || pick[0] === pick[1] || busy || sent"
+          :disabled="!pick[0] || !pick[1] || pick[0] === pick[1] || busy || inCampaign"
           @click="send"
         >
-          {{ sent ? labels.campSent : labels.campSend }}
+          {{ inCampaign ? labels.campSent : labels.campSend }}
         </button>
       </div>
     </CampFold>
@@ -51,7 +54,7 @@ import { ref, reactive, computed, watch } from 'vue'
 import AppToast from '../../AppToast.vue'
 import CampFold from './CampFold.vue'
 import CampPick from './CampPick.vue'
-import { useCampaigns } from '../../../composables/useCampaigns.js'
+import { useCampaigns, refusalText } from '../../../composables/useCampaigns.js'
 import { leader } from '../../../core/game/gameScoring.js'
 import { ui } from '../../../i18n/ui.js'
 import { useLocale } from '../../../composables/useLocale.js'
@@ -67,12 +70,18 @@ const options = computed(() => campaigns.value.filter((c) => c.role === 'owner' 
 const cid = ref(null)
 const pick = reactive({ 0: null, 1: null })
 const busy = ref(false)
-const sent = ref(false)
 const error = ref('')
-watch(options, (o) => { if (!cid.value && o.length) cid.value = o[0].id }, { immediate: true })
+// A battle started from a campaign goes back to it, as the players it was started for.
+const linked = computed(() => props.game.settings?.dominatus?.campaign || null)
+watch(options, (o) => {
+  if (cid.value) return
+  cid.value = (linked.value && o.some((c) => c.id === linked.value) ? linked.value : o[0]?.id) || null
+}, { immediate: true })
 
 const entry = computed(() => campaigns.value.find((c) => c.id === cid.value) || null)
 const state = computed(() => (cid.value ? stateOf(cid.value) : null))
+// Sent already (from this phone or the other player's): the campaign has a battle under the game's id.
+const inCampaign = computed(() => !!state.value?.battles.some((b) => b.id === `g-${props.game.id}`))
 // A member's own side is their player; the Warmaster may enter anyone.
 function playersFor(i) {
   const s = state.value
@@ -85,7 +94,8 @@ watch([state, () => props.game], () => {
   for (const i of [0, 1]) {
     const list = playersFor(i)
     const byName = list.find((p) => p.name && p.name === props.game.players[i].name)
-    if (!pick[i]) pick[i] = (list.length === 1 ? list[0] : byName)?.id || null
+    const byLink = cid.value === linked.value ? list.find((p) => p.id === props.game.players[i].campaignPlayer) : null
+    if (!pick[i]) pick[i] = (byLink || (list.length === 1 ? list[0] : byName))?.id || null
   }
 }, { immediate: true })
 
@@ -96,12 +106,17 @@ async function send() {
   try {
     await appendEvent(cid.value, 'battle', {
       id: `g-${props.game.id}`,
+      // The phase the game was played in: sent after that phase ended, the campaign refuses it
+      // rather than counting it in the next one.
+      ...(props.game.settings?.dominatus?.phase ? { phase: props.game.settings.dominatus.phase } : {}),
       a: pick[0],
       b: pick[1],
       victor: w === 0 ? 'a' : w === 1 ? 'b' : null,
       achieved: { a: props.game.players[0].agendaAchieved || 0, b: props.game.players[1].agendaAchieved || 0 },
     })
-    sent.value = true
+    // The server keeps every entry; whether the campaign took it is the fold's word.
+    const why = stateOf(cid.value)?.rejected.find((r) => r.seq === entry.value?.seq)?.reason
+    if (why) error.value = refusalText(labels.value, why)
   } catch (e) {
     error.value = labels.value.campFailed.replace('{code}', e.code || 'network')
   } finally {

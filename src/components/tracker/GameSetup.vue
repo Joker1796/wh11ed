@@ -737,7 +737,25 @@
             v-if="settings.dominatus"
             class="dom-fields"
           >
-            <div class="field">
+            <!-- A battle started from a campaign: its phase and Location are the campaign's, and the
+                 finished game goes back to it. Unlinked, the fields below are this game's own. -->
+            <div
+              v-if="settings.dominatus.campaign"
+              class="dom-campaign"
+            >
+              <span>{{ labels.trackerDomFromCampaign.replace('{name}', domCampaignName).replace('{phase}', ['I', 'II', 'III'][settings.dominatus.phase - 1]).replace('{loc}', domLocation?.name || '—') }}</span>
+              <button
+                type="button"
+                class="btn-ghost"
+                @click="unlinkCampaign"
+              >
+                {{ labels.trackerDomUnlink }}
+              </button>
+            </div>
+            <div
+              v-if="!settings.dominatus.campaign"
+              class="field"
+            >
               <span>{{ labels.trackerDomPhase }}</span>
               <div class="seg">
                 <button
@@ -750,7 +768,10 @@
                 </button>
               </div>
             </div>
-            <div class="field">
+            <div
+              v-if="!settings.dominatus.campaign"
+              class="field"
+            >
               <span>{{ labels.trackerDomLocation }}</span>
               <div class="filter-chips">
                 <button
@@ -1532,6 +1553,7 @@ import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import { combatPatrolRoster, defaultCombatPatrolEnhancement } from '../../core/roster/combatPatrolRoster.js'
 import { domAlliances, domLocationsOf, domLocation as domLocationOf, loadDominatusDeck } from '../../composables/dominatusMissions.js'
 import DomAgendaAchieved from '../dominatus/DomAgendaAchieved.vue'
+import { knownCampaigns as campaignsHere } from '../../composables/useCampaigns.js'
 import { loadRosterFaction } from '../../data/roster/index.js'
 import RosterPickerModal from './RosterPickerModal.vue'
 import { useRosters, uid as newRosterUid } from '../../composables/useRosters.js'
@@ -1601,7 +1623,7 @@ function defaultPlayer(role, name = '') {
     name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical',
     fixedSecondaries: [], battleReady: false, rosterId: null, roster: null,
     // Dominatus fields — inert outside a Dominatus battle (makePlayer ignores them there).
-    alliance: null, declineAgenda: false,
+    alliance: null, declineAgenda: false, campaignPlayer: null,
     // Doubles fields — inert in singles (makePlayer ignores them there).
     teamName: '', forceType: null, members: [defaultMember(), defaultMember()],
   }
@@ -2034,6 +2056,15 @@ function setDominatus(on) {
 function setDomPhase(n) {
   if (!settings.dominatus || settings.dominatus.phase === n) return
   settings.dominatus = { phase: n, location: null }
+}
+// A battle from a campaign (campaignHandoff.js): named by the campaign this device knows.
+const domCampaignName = computed(() => {
+  const id = settings.dominatus?.campaign
+  return (id && campaignsHere().find((c) => c.id === id)?.name) || ''
+})
+function unlinkCampaign() {
+  settings.dominatus = { phase: settings.dominatus.phase, location: settings.dominatus.location }
+  for (const p of players) p.campaignPlayer = null
 }
 // The Warmaster's D6: 1–2, 3–4, 5–6 pick the phase's first, second, third Location.
 function rollDomLocation() {
@@ -2600,6 +2631,7 @@ function cancel() {
 .twist-block > :not(.block-head),
 .dom-block > :not(.block-head) { grid-column: 2; }
 .dom-fields { display: grid; gap: 0.6rem; margin-top: 0.5rem; }
+.dom-campaign { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.75rem; font-size: 0.88rem; }
 .dom-side { display: grid; gap: 0.5rem; margin-top: 0.6rem; }
 .dom-rule {
   margin: 0.5rem 0 0.1rem;

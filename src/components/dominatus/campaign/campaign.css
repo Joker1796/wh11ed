@@ -131,3 +131,35 @@
 .camp-held { justify-self: stretch; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; font-size: 0.88rem; }
 .camp-held li { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; border-bottom: 1px solid var(--border); }
 .camp-change-loc { margin-top: 0.5rem; }
+/* A part of a tab under its own small head (pairings, Briefings, Outcomes, the chronicle). */
+.camp-sub { margin-top: 1.25rem; }
+.camp-sub-head {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-ink);
+}
+/* The Battle Schedule met: the phase can end. */
+.camp-ready { color: var(--text-primary); font-weight: 600; }
+/* The Alliances' Outcomes of a phase: one under another on a phone, side by side on a desk. */
+.camp-outcomes { display: grid; gap: 0.75rem; margin-bottom: 0.6rem; }
+@media (min-width: 768px) {
+  .camp-outcomes { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+}
+/* "you" beside this device's own player; the schedule's count under a player, lit once met. */
+.camp-you { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--accent-ink); }
+.camp-played { display: block; margin-top: 0.1rem; }
+.camp-played.is-done { color: var(--text-primary); font-weight: 600; }
+/* A note the Warmaster should not miss on a battle (it looks entered twice). */
+.camp-warn { font-size: 0.78rem; color: var(--warning); }
+/* "Play a battle" over the battles; the player filter beside the phases. */
+.camp-battle-actions { margin-bottom: 0.75rem; }
+.camp-filter { max-width: 20rem; margin-bottom: 0.5rem; }
+/* An either/or in a campaign form spans the form, its choices sharing the width. */
+.camp-form .seg,
+.camp-num > .seg { width: 100%; }
+.camp-form .seg > button,
+.camp-num > .seg > button { flex: 1 1 0; min-width: 0; }
+.camp-battle-actions .copen.copen { margin-top: 0; }
