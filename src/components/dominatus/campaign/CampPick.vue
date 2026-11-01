@@ -76,8 +76,6 @@ const shown = computed(() => props.label || current.value?.label || '')
 
 <style scoped>
 .cpick { min-width: 0; }
-.cpick-two { display: grid; gap: 0.1rem; }
-.cpick-sub { font-size: 0.78rem; font-weight: 400; color: var(--text-muted); }
 .cpick-trigger {
   display: flex;
   align-items: center;

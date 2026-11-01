@@ -195,7 +195,7 @@ function waitingFor(c, state) {
   const owner = c.role === 'owner'
   const me = myPlayer(c, state)
   return {
-    rewards: state.pending.filter((r) => owner || (me && r.player === me.id)).length,
+    rewards: state.pending.filter((r) => owner || (me && r.player === me.id && state.rewardsBy !== 'warmaster')).length,
     battles: owner ? state.battles.filter((b) => b.status === 'pending').length : 0,
   }
 }

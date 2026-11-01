@@ -2,8 +2,15 @@
   <section class="camp-block">
     <!-- Play a battle of the campaign in the tracker: the phase, the Location, both players and
          their Alliances set up already, and the game knows where to go back to. -->
+    <!-- A player enters their own battles unless the campaign leaves battles to the Warmaster. -->
+    <p
+      v-if="!state.finished && !isOwner && mine && state.battlesBy === 'warmaster'"
+      class="camp-dim"
+    >
+      {{ labels.campBattlesByWarmasterNote }}
+    </p>
     <div
-      v-if="!state.finished && (isOwner || mine)"
+      v-else-if="!state.finished && (isOwner || mine)"
       class="camp-row camp-battle-actions"
     >
       <button
@@ -319,6 +326,6 @@ async function play() {
   const side = (id) => s.players.find((p) => p.id === id)
   const { playCampaignBattle } = await import('../../../composables/campaignHandoff.js')
   playing.value = false
-  await playCampaignBattle({ campaignId: entry.value.id, phase: s.phase, location: s.locations[s.phase], a: side(pa.value), b: side(pb.value) }, router)
+  await playCampaignBattle({ campaignId: entry.value.id, phase: s.phase, location: s.locations[s.phase], size: s.size, a: side(pa.value), b: side(pb.value) }, router)
 }
 </script>

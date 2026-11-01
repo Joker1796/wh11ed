@@ -184,3 +184,14 @@
 .camp-form .seg > button,
 .camp-num > .seg > button { flex: 1 1 0; min-width: 0; }
 .camp-battle-actions .copen.copen { margin-top: 0; }
+
+/* A setting of the campaign's settings page: its name (with the "?"), then the control. */
+.camp-set { display: grid; gap: 0.3rem; }
+.camp-set-label { display: inline-flex; align-items: center; gap: 0.1rem; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); }
+.camp-set-seg { display: flex; width: 100%; }
+.camp-set-seg > button { flex: 1 1 0; }
+/* A player's attached roster: a link to its snapshot, one line under the faction. */
+.camp-roster { display: block; margin-top: 0.15rem; font-size: 0.82rem; color: var(--accent-ink); }
+/* A row with a second, muted line: a player's Alliance and faction, a roster's faction and points. */
+.cpick-two { display: grid; gap: 0.1rem; }
+.cpick-sub { font-size: 0.78rem; font-weight: 400; color: var(--text-muted); }

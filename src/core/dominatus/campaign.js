@@ -36,7 +36,8 @@
  * @typedef {{ upgrades: UpgradeCard[], locations: LocationCard[] }} Deck
  * @typedef {{ seq: number, author: string, type: string, payload: any }} CampaignEvent
  * @typedef {{ phase: number }} AgendaCard
- * @typedef {{ id: string, name: string, alliance: string | null, faction: string | null, member: string | null, upgrades: string[], agenda: AgendaCard[] }} Player
+ * @typedef {{ code: string, name: string, points: number, faction: string | null }} RosterSnapshot
+ * @typedef {{ id: string, name: string, alliance: string | null, faction: string | null, member: string | null, upgrades: string[], agenda: AgendaCard[], roster: RosterSnapshot | null }} Player
  * @typedef {{ id: string, phase: number, a: string, b: string, victor: 'a' | 'b' | null, achieved: { a: number, b: number }, status: 'pending' | 'approved' | 'rejected', by: string, edited: boolean }} Battle
  * @typedef {{ id: string, player: string, kind: string, phase: number, draw: number, battle: string | null, drawn: string[] | null }} Reward
  * @typedef {{ seq: number, payload: object | null }} Amendment
@@ -45,6 +46,9 @@
  * @typedef {{
  *   name: string, draw: 'app' | 'manual', phase: number, finished: boolean,
  *   approve: 'warmaster' | 'auto', format: 'deck' | 'event', schedule: number[], me: string | null,
+ *   join: 'open' | 'closed', allianceBy: 'player' | 'warmaster', factionLock: boolean,
+ *   roster: 'none' | 'optional' | 'required', size: string, battlesBy: 'players' | 'warmaster',
+ *   rewardsBy: 'players' | 'warmaster',
  *   pairings: Pairing[],
  *   locations: Record<number, string | null>, control: Record<string, string>,
  *   players: Player[], battles: Battle[], pending: Reward[],
@@ -57,6 +61,22 @@ export const MAX_AGENDA_ACHIEVED = 3
 export const PATH_TO_CONQUEST = 'path-to-conquest'
 export const DEFAULT_SCHEDULE = [2, 2, 1]
 const MAX_SCHEDULE = 20
+// The battle sizes a campaign may be played at (the tracker's ids).
+export const CAMPAIGN_SIZES = ['incursion', 'strikeForce', 'onslaught']
+// A roster snapshot is the share code of the list (rosterShare.js): a deflated, base64url string.
+export const MAX_ROSTER_CODE = 7000
+// A new campaign's settings. Battles counted by the Warmaster or at once; the booklet's rules or the
+// Event Companion's (Relics, the discard and two Location bonuses resolved at the next phase's first
+// battle); the Battle Schedule; the player the Warmaster plays as. And who may do what, and what a
+// player brings (owner, 2026-11-01): joining by the link open or closed; the Alliance the player's
+// or the Warmaster's; the faction kept from the first battle (the booklet) or free; a roster none /
+// optional / required (a snapshot everyone sees); the battle size; battles entered by the players or
+// the Warmaster alone; rewards taken by the players or handed out by the Warmaster.
+export const SETTINGS_DEFAULTS = Object.freeze({
+  draw: 'app', approve: 'warmaster', format: 'deck', schedule: DEFAULT_SCHEDULE, me: null,
+  join: 'open', allianceBy: 'player', factionLock: true, roster: 'none', size: 'strikeForce',
+  battlesBy: 'players', rewardsBy: 'players',
+})
 
 // Location bonuses the fold applies (the rest are read where they act: Staging Post by the
 // Warmaster's next-Location step, Auspicious Augury as a reward its player reports).
@@ -73,12 +93,8 @@ const DRAWN = ['honour', 'skill', 'relic', 'fresh']
 /** @returns {CampaignState} */
 function empty() {
   return {
-    name: '', draw: 'app', phase: 1, finished: false,
-    // Battles counted by the Warmaster or at once; the booklet's rules or the Event Companion's
-    // (Relics, the discard and two Location bonuses resolved at the next phase's first battle); the
-    // Battle Schedule's battles per player per phase (the booklet's default 2 / 2 / 1); the player
-    // the Warmaster plays as, if they play.
-    approve: 'warmaster', format: 'deck', schedule: [...DEFAULT_SCHEDULE], me: null,
+    name: '', phase: 1, finished: false,
+    ...SETTINGS_DEFAULTS, schedule: [...DEFAULT_SCHEDULE],
     pairings: [],
     locations: { 1: null, 2: null, 3: null }, control: {},
     players: [], battles: [], pending: [], results: {}, rejected: [],
@@ -87,6 +103,8 @@ function empty() {
 
 /** @param {CampaignState} s @param {string} id */
 const playerById = (s, id) => s.players.find((p) => p.id === id) || null
+/** A battle of theirs is in the campaign (counted or waiting): the faction is kept from then. @param {CampaignState} s @param {string} id */
+const hasPlayed = (s, id) => s.battles.some((b) => b.status !== 'rejected' && (b.a === id || b.b === id))
 
 /** @param {CampaignState} s @param {string | null} alliance @param {string} kind */
 function extraDraw(s, alliance, kind) {
@@ -402,6 +420,13 @@ function apply(s, deck, e) {
       if (p.format === 'deck' || p.format === 'event') s.format = p.format
       if (Array.isArray(p.schedule) && p.schedule.length === 3) s.schedule = p.schedule.map((/** @type {any} */ n) => Math.max(0, Math.min(MAX_SCHEDULE, Math.floor(Number(n) || 0))))
       if (p.me !== undefined) s.me = typeof p.me === 'string' && p.me ? p.me : null
+      if (p.join === 'open' || p.join === 'closed') s.join = p.join
+      if (p.allianceBy === 'player' || p.allianceBy === 'warmaster') s.allianceBy = p.allianceBy
+      if (typeof p.factionLock === 'boolean') s.factionLock = p.factionLock
+      if (p.roster === 'none' || p.roster === 'optional' || p.roster === 'required') s.roster = p.roster
+      if (CAMPAIGN_SIZES.includes(p.size)) s.size = p.size
+      if (p.battlesBy === 'players' || p.battlesBy === 'warmaster') s.battlesBy = p.battlesBy
+      if (p.rewardsBy === 'players' || p.rewardsBy === 'warmaster') s.rewardsBy = p.rewardsBy
       return null
 
     case 'player': {
@@ -412,13 +437,29 @@ function apply(s, deck, e) {
       if (!owner) {
         const mine = memberPlayer(s, e)
         if (was ? was.member !== e.author : !!mine) return 'not your player'
+        if (!was && s.join === 'closed') return 'registration closed'
+        if (s.allianceBy === 'warmaster' && p.alliance !== undefined && (p.alliance || null) !== (was?.alliance || null)) return 'alliance by the warmaster'
+        if (s.factionLock && was && p.faction !== undefined && (p.faction || null) !== was.faction && hasPlayed(s, was.id)) return 'faction locked'
       }
-      const row = was || { id: p.id, name: '', alliance: null, faction: null, member: owner ? null : e.author, upgrades: [], agenda: [] }
+      const row = was || { id: p.id, name: '', alliance: null, faction: null, member: owner ? null : e.author, upgrades: [], agenda: [], roster: null }
       if (typeof p.name === 'string') row.name = p.name.slice(0, 40)
       if (p.alliance !== undefined) row.alliance = p.alliance
       if (p.faction !== undefined) row.faction = p.faction || null
       if (owner && p.member !== undefined) row.member = p.member || null
       if (!was) s.players.push(row)
+      return null
+    }
+
+    case 'roster': {
+      // A player's list, as a snapshot (the share code) everyone in the campaign can open; `code:
+      // null` takes it off. The Warmaster for anyone, a member for their own player.
+      const pl = playerById(s, p.player)
+      if (!pl) return 'no such player'
+      if (!owner && pl.member !== e.author) return 'not your player'
+      if (p.code == null) { pl.roster = null; return null }
+      if (s.roster === 'none') return 'rosters off'
+      if (typeof p.code !== 'string' || !p.code || p.code.length > MAX_ROSTER_CODE) return 'roster too long'
+      pl.roster = { code: p.code, name: String(p.name || '').slice(0, 60), points: Math.max(0, Math.floor(Number(p.points) || 0)), faction: typeof p.faction === 'string' ? p.faction : null }
       return null
     }
 
@@ -451,6 +492,8 @@ function apply(s, deck, e) {
       if (!a || !b || a === b) return 'unknown players'
       if (!a.alliance || !b.alliance || a.alliance === b.alliance) return 'players of one Alliance'
       if (!owner && a.member !== e.author && b.member !== e.author) return 'not your battle'
+      if (!owner && s.battlesBy === 'warmaster') return 'battles by the warmaster'
+      if (!owner && s.roster === 'required' && (!a.roster || !b.roster)) return 'no roster'
       if (p.victor !== 'a' && p.victor !== 'b' && p.victor !== null) return 'bad victor'
       const cap = s.phase === 3 ? 2 : 1
       /** @param {any} n */
@@ -479,6 +522,7 @@ function apply(s, deck, e) {
       const pl = playerById(s, r.player)
       if (!pl) return 'no such player'
       if (!owner && pl.member !== e.author) return 'not your reward'
+      if (!owner && s.rewardsBy === 'warmaster') return 'rewards by the warmaster'
       if (r.kind === 'augury') {
         gainAgenda(pl, Math.max(0, Math.min(r.draw, Math.floor(Number(p.gained) || 0))), r.phase)
       } else if (r.kind === 'mettle') {
@@ -510,6 +554,7 @@ function apply(s, deck, e) {
       const pl = playerById(s, r.player)
       if (!pl) return 'no such player'
       if (!owner && pl.member !== e.author) return 'not your reward'
+      if (!owner && s.rewardsBy === 'warmaster') return 'rewards by the warmaster'
       if (s.draw !== 'app') return 'drawn at the table'
       if (!DRAWN.includes(r.kind)) return 'nothing to draw'
       if (r.drawn) return 'already drawn'

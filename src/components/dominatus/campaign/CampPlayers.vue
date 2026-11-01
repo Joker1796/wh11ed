@@ -64,6 +64,21 @@
                 >
                   {{ labels.campEditPlayer }}
                 </button>
+                <!-- A roster: attached by the player or the Warmaster when the campaign takes them. -->
+                <button
+                  v-if="state.roster !== 'none'"
+                  class="act-btn"
+                  @click="menuFor = null; rosterFor = p"
+                >
+                  {{ p.roster ? labels.campRosterReplace : labels.campRosterAttach }}
+                </button>
+                <button
+                  v-if="p.roster"
+                  class="act-btn"
+                  @click="menuFor = null; act('roster', { player: p.id, code: null })"
+                >
+                  {{ labels.campRosterRemove }}
+                </button>
                 <button
                   v-if="isOwner"
                   class="act-btn"
@@ -94,6 +109,17 @@
               <FactionBadge :faction="factionOf(p)" />
               {{ factionOf(p).name }}
             </div>
+            <!-- The roster attached, as a snapshot anyone in the campaign opens; missing where the
+                 campaign requires one. -->
+            <a
+              v-if="p.roster"
+              class="camp-roster"
+              :href="`/roster/shared#r=${p.roster.code}`"
+            >{{ rosterLine(p.roster) }}</a>
+            <span
+              v-else-if="state.roster === 'required'"
+              class="camp-warn"
+            >{{ labels.campRosterMissing }}</span>
             <!-- The Battle Schedule: this phase's battles played of those due. -->
             <span
               v-if="!state.finished && p.alliance && state.schedule[state.phase - 1]"
@@ -132,8 +158,14 @@
     <!-- On one line: add a player (the Warmaster anyone, a player who joined by the link
          themselves, once) and hand out the links. -->
     <div class="camp-row camp-player-actions">
+      <p
+        v-if="!isOwner && entry.role === 'member' && !mine && state.join === 'closed'"
+        class="camp-dim"
+      >
+        {{ labels.campJoinClosedNote }}
+      </p>
       <CampOpenForm
-        v-if="isOwner || (entry.role === 'member' && !mine)"
+        v-else-if="isOwner || (entry.role === 'member' && !mine)"
         v-slot="{ close }"
         :label="isOwner ? labels.campAddPlayer : labels.campJoinAs"
         :primary="!isOwner"
@@ -151,7 +183,17 @@
             :aria-label="labels.campPlayerName"
           >
           <CampFactionPick v-model="faction" />
-          <div class="seg">
+          <!-- The Alliance is the player's to pick unless the campaign leaves it to the Warmaster. -->
+          <p
+            v-if="!pickAlliance"
+            class="camp-dim"
+          >
+            {{ labels.campAllianceByWarmasterNote }}
+          </p>
+          <div
+            v-else
+            class="seg"
+          >
             <button
               v-for="a in alliances"
               :key="a.id"
@@ -168,7 +210,7 @@
           <button
             class="btn-primary"
             type="submit"
-            :disabled="!name || !alliance"
+            :disabled="!name || (pickAlliance && !alliance)"
           >
             {{ isOwner ? labels.campAddPlayer : labels.campJoinAs }}
           </button>
@@ -195,7 +237,16 @@
           :placeholder="labels.campPlayerName"
           :aria-label="labels.campPlayerName"
         >
-        <CampFactionPick v-model="edit.faction" />
+        <CampFactionPick
+          v-model="edit.faction"
+          :disabled="factionLocked"
+        />
+        <p
+          v-if="factionLocked"
+          class="camp-dim"
+        >
+          {{ labels.campFactionLockedNote }}
+        </p>
         <!-- Grouping the players is the Warmaster's (the Event Companion: they may require a player
              to change their Alliance). -->
         <div
@@ -299,6 +350,39 @@
         </button>
       </form>
     </BaseModal>
+    <BaseModal
+      v-if="rosterFor"
+      :title="rosterFor.roster ? labels.campRosterReplace : labels.campRosterAttach"
+      :subtitle="rosterFor.name"
+      @close="rosterFor = null"
+    >
+      <div class="modal-body camp-modal-form">
+        <p class="camp-dim">
+          {{ labels.campRosterNote }}
+        </p>
+        <p
+          v-if="!rosterChoices.length"
+          class="empty-note"
+        >
+          {{ labels.campRosterNone }}
+        </p>
+        <div
+          v-else
+          class="act-list"
+        >
+          <button
+            v-for="r in rosterChoices"
+            :key="r.id"
+            type="button"
+            class="act-btn"
+            :disabled="attaching"
+            @click="attachRoster(r)"
+          >
+            <span class="cpick-two"><span>{{ r.name }}</span><span class="cpick-sub">{{ rosterSub(r) }}</span></span>
+          </button>
+        </div>
+      </div>
+    </BaseModal>
     <CampCardPicker
       v-if="adding"
       :held="cards.upgrades"
@@ -333,6 +417,9 @@ import CampOpenForm from './CampOpenForm.vue'
 import CampShare from './CampShare.vue'
 import CampCardPicker from './CampCardPicker.vue'
 import CountText from '../../CountText.vue'
+import { useRosters } from '../../../composables/useRosters.js'
+import { encodeRoster } from '../../../composables/rosterShare.js'
+import { countLabel } from '../../../utils/plural.js'
 import CampFactionPick from './CampFactionPick.vue'
 import FactionBadge from '../../FactionBadge.vue'
 import { recordOf, removable, removePlayer, playedIn, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
@@ -354,9 +441,42 @@ const groups = computed(() => {
   return out.filter((g) => g.players.length)
 })
 
+// What the campaign leaves to the player: the Alliance (or the Warmaster's), the faction once
+// they have played (when the campaign keeps it).
+const pickAlliance = computed(() => isOwner.value || state.value.allianceBy !== 'warmaster')
+const factionLocked = computed(() => !isOwner.value && state.value.factionLock && !!editing.value
+  && state.value.battles.some((b) => b.status !== 'rejected' && (b.a === editing.value.id || b.b === editing.value.id)))
+
+// A roster attached as a snapshot (the share code): this device's saved lists, the player's
+// faction first. Its points as the builder last counted them.
+const { activeRosters } = useRosters()
+const rosterFor = ref(null)
+const attaching = ref(false)
+const pts = (n) => countLabel(n, labels.value.campPointsForms)
+const rosterLine = (r) => labels.value.campRosterLine.replace('{name}', r.name).replace('{pts}', pts(r.points))
+const rosterChoices = computed(() => {
+  const f = rosterFor.value?.faction
+  return [...activeRosters.value].sort((a, b) => (b.faction === f) - (a.faction === f))
+})
+function rosterSub(r) {
+  const fac = r.faction ? factionIndexBySlug(r.faction)?.name || r.faction : ''
+  return [fac, r.summary?.points ? pts(r.summary.points) : ''].filter(Boolean).join(' · ')
+}
+async function attachRoster(r) {
+  attaching.value = true
+  try {
+    const code = await encodeRoster(r)
+    if (await act('roster', { player: rosterFor.value.id, code, name: r.name, points: r.summary?.points || 0, faction: r.faction || null })) rosterFor.value = null
+  } finally {
+    attaching.value = false
+  }
+}
+
 async function add() {
   const id = isOwner.value ? `p${Date.now().toString(36)}` : `m-${entry.value.memberId}`
-  if (!(await act('player', { id, name: name.value, alliance: alliance.value, faction: faction.value }))) return false
+  const payload = { id, name: name.value, faction: faction.value }
+  if (pickAlliance.value) payload.alliance = alliance.value
+  if (!(await act('player', payload))) return false
   name.value = ''
   alliance.value = null
   faction.value = null
@@ -374,7 +494,8 @@ function startEdit(p) {
 }
 async function saveEdit() {
   const p = editing.value
-  const payload = { id: p.id, name: edit.name, faction: edit.faction }
+  const payload = { id: p.id, name: edit.name }
+  if (!factionLocked.value) payload.faction = edit.faction
   if (isOwner.value) payload.alliance = edit.alliance
   if (await act('player', payload)) editing.value = null
 }

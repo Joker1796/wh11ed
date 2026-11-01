@@ -16,15 +16,16 @@ const sideOf = (p) => ({
 })
 
 /**
- * @param {{ campaignId: string, phase: number, location: string | null, a: object, b: object }} battle
+ * @param {{ campaignId: string, phase: number, location: string | null, size?: string, a: object, b: object }} battle
  * @param {import('vue-router').Router} router
  */
-export async function playCampaignBattle({ campaignId, phase, location, a, b }, router) {
+export async function playCampaignBattle({ campaignId, phase, location, size, a, b }, router) {
   const { setupDraft, current } = useTracker()
   setupDraft.value = {
     step: 1,
     players: [sideOf(a), sideOf(b)],
-    settings: { dominatus: { phase, location: location || null, campaign: campaignId } },
+    // The campaign's battle size (a campaign setting); the setup still lets the players change it.
+    settings: { ...(size ? { battleSize: size } : {}), dominatus: { phase, location: location || null, campaign: campaignId } },
   }
   await router.push(current.value ? '/tracker' : '/tracker/game')
 }

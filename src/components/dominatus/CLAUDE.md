@@ -161,6 +161,17 @@ on a tie nothing breaks.
   pre-battle Upgrades offer only the cards that campaign player holds (`DomUpgradesEditor`, when this
   device knows the campaign), and `CampSendGame` opens on that campaign and those players, sends the
   phase, and says why the campaign refused it if it did.
+- **The settings are a page** (owner, 2026-11-01): `/tracker/campaigns/new` starts a campaign with
+  them and `/tracker/campaigns/:id/settings` changes them (`CampaignSettingsView` + `CampSettingsForm`,
+  each setting a `CampSettingSeg` with its "?"; the old dialog and Rename are gone — the name is a
+  setting). The core holds the defaults (`SETTINGS_DEFAULTS`) and enforces each: joining by the link
+  (`join`), the Alliance the player's or the Warmaster's (`allianceBy`), the faction kept from the
+  first battle (`factionLock`), rosters none / optional / required (`roster` — a `roster` event
+  carries the list's share code, a snapshot anyone opens at `/roster/shared#r=`; required refuses a
+  member's battle where a side has none), the battle size "Play a battle" sets (`size`), battles
+  entered by players or the Warmaster alone (`battlesBy`), rewards taken by players or handed out by
+  the Warmaster (`rewardsBy`). The screens say what a setting closes instead of hiding it.
+  Not yet: "Play a battle" does not attach the campaign's roster snapshots to the tracker game.
 - **Choosing a card is tapping the card** (owner, 2026-11-01): the drawn cards' dialog and the
   Warmaster's "Add a card" (`CampCardPicker`: the deck by pile, Honours by phase, Relics by Alliance,
   each card folded to its head — `DomUpgradeCard folded`) select by a tap, frame the chosen card in

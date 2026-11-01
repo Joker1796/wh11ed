@@ -40,16 +40,9 @@
             </button>
           </template>
           <button
-            v-if="isOwner"
-            class="act-btn"
-            @click="startRename"
-          >
-            {{ labels.campRename }}
-          </button>
-          <button
             v-if="isOwner && state"
             class="act-btn"
-            @click="menuOpen = false; settingsOpen = true"
+            @click="menuOpen = false; router.push(`/tracker/campaigns/${id}/settings`)"
           >
             {{ labels.campSettings }}
           </button>
@@ -111,10 +104,6 @@
       :text="labels[`campHelp_${tab}`]"
       @close="helpOpen = false"
     />
-    <CampSettings
-      v-if="settingsOpen"
-      @close="settingsOpen = false"
-    />
 
     <AppToast
       :show="!!error"
@@ -122,34 +111,6 @@
       tone="error"
       @close="error = ''"
     />
-    <!-- The Warmaster renames the campaign: a settings event, which the server also carries into the
-         campaign list (wh11ed-api README). -->
-    <BaseModal
-      v-if="renaming"
-      :title="labels.campRename"
-      @close="renaming = false"
-    >
-      <form
-        class="modal-body camp-rename"
-        @submit.prevent="rename"
-      >
-        <input
-          v-model.trim="newName"
-          class="form-input"
-          type="text"
-          maxlength="80"
-          :placeholder="labels.campName"
-          :aria-label="labels.campName"
-        >
-        <button
-          class="btn-primary"
-          type="submit"
-          :disabled="!newName || newName === entry?.name"
-        >
-          {{ labels.campRenameSave }}
-        </button>
-      </form>
-    </BaseModal>
     <ConfirmModal
       v-if="confirmDelete"
       :title="labels.campDelete"
@@ -173,7 +134,6 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import ActionMenu from '../../components/ActionMenu.vue'
-import BaseModal from '../../components/BaseModal.vue'
 import PageTabs from '../../components/PageTabs.vue'
 import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import AppToast from '../../components/AppToast.vue'
@@ -182,7 +142,6 @@ import CampPhase from '../../components/dominatus/campaign/CampPhase.vue'
 import CampRewards from '../../components/dominatus/campaign/CampRewards.vue'
 import CampBattles from '../../components/dominatus/campaign/CampBattles.vue'
 import CampPlayers from '../../components/dominatus/campaign/CampPlayers.vue'
-import CampSettings from '../../components/dominatus/campaign/CampSettings.vue'
 import { provideCampaignView } from '../../components/dominatus/campaign/useCampaignView.js'
 import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
@@ -207,18 +166,6 @@ const error = ref('')
 const loading = ref(true)
 const confirmDelete = ref(false)
 const menuOpen = ref(false)
-const settingsOpen = ref(false)
-const renaming = ref(false)
-const newName = ref('')
-// The menu hands over to the dialog in one tick (a swap, BaseModal's modalLeave).
-function startRename() {
-  newName.value = entry.value?.name || ''
-  menuOpen.value = false
-  renaming.value = true
-}
-async function rename() {
-  if (await act('settings', { name: newName.value })) renaming.value = false
-}
 // What waits for this reader: the rewards they take (all of them for the Warmaster, a member's own),
 // the battles the Warmaster has to count.
 const waiting = computed(() => waitingFor(entry.value, state.value))
@@ -236,10 +183,11 @@ const tabs = computed(() => {
   const phaseName = s?.finished ? l.campFinished : l.domPhase.replace('{n}', ['I', 'II', 'III'][(s?.phase || 1) - 1])
   return [
     { key: 'phase', label: phaseName, icon: s && !s.finished ? `wi wi-dom-phase-${s.phase}` : '' },
-    { key: 'standings', label: l.campStandings },
     { key: 'battles', label: l.campBattles, warn: battlesWaiting.value ? l.campWaiting : '' },
     { key: 'players', label: l.campPlayers },
     { key: 'rewards', label: l.campRewardsTab, warn: rewardsWaiting.value ? l.campWaiting : '' },
+    // The Alliances' standing last (owner, 2026-11-01).
+    { key: 'standings', label: l.campStandings },
   ].map((t) => ({ ...t, active: tab.value === t.key }))
 })
 
@@ -309,6 +257,4 @@ function forget() {
 
 <style scoped>
 .campaign { max-width: 760px; margin: 0 auto; padding: 0.5rem 0 2rem; }
-.camp-rename { display: grid; gap: 0.6rem; justify-items: start; padding: 0.9rem 1rem 1.1rem; }
-.camp-rename input { width: 100%; }
 </style>

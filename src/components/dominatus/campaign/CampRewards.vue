@@ -6,6 +6,12 @@
     >
       {{ labels.campNoRewards }}
     </p>
+    <p
+      v-else-if="!canTake"
+      class="camp-dim"
+    >
+      {{ labels.campRewardsByWarmasterNote }}
+    </p>
     <ul class="camp-list">
       <li
         v-for="r in rewards"
@@ -24,99 +30,102 @@
           {{ eventNote(r) }}
         </p>
 
-        <!-- Auspicious Augury: the player shuffles their Secondary Missions and reports the Fixed
+        <!-- Handed out by the Warmaster alone (a campaign setting): a player sees what is owed. -->
+        <template v-if="canTake">
+          <!-- Auspicious Augury: the player shuffles their Secondary Missions and reports the Fixed
              Missions among the top four. -->
-        <div
-          v-if="r.kind === 'augury'"
-          class="camp-row"
-        >
-          <NumberStepper
-            :model-value="augury[r.id] || 0"
-            :min="0"
-            :max="4"
-            @update:model-value="(v) => (augury[r.id] = v)"
-          />
-          <button
-            class="btn-primary"
-            @click="claim(r, { gained: augury[r.id] || 0 })"
-          >
-            {{ say(r, 'Confirm') }}
-          </button>
-        </div>
-
-        <!-- Test of Mettle: up to one Battle Honour and one Battle Skill swapped. -->
-        <div
-          v-else-if="r.kind === 'mettle'"
-          class="camp-form"
-        >
           <div
-            v-for="kind in ['honour', 'skill']"
-            :key="kind"
-            class="camp-pair"
-          >
-            <CampPick
-              v-model="swap[r.id + kind + 'out']"
-              :placeholder="`${kind === 'honour' ? labels.domHonours : labels.domSkills}: —`"
-              :options="[{ value: null, label: '—' }, ...heldOf(r.player, kind).map((u) => ({ value: u.slug, label: u.name }))]"
-            />
-            <CampPick
-              v-model="swap[r.id + kind + 'in']"
-              placeholder="→"
-              :disabled="!swap[r.id + kind + 'out']"
-              :options="swapTargets(r.player, swap[r.id + kind + 'out']).map((u) => ({ value: u.slug, label: u.name }))"
-            />
-          </div>
-          <button
-            class="btn-primary"
-            @click="claimMettle(r)"
-          >
-            {{ say(r, 'Confirm') }}
-          </button>
-        </div>
-
-        <!-- A draw: by the app (draw, then keep one of what came) or at the table (pick the card kept). -->
-        <div
-          v-else
-          class="camp-form"
-        >
-          <template v-if="state.draw === 'app'">
-            <!-- The draw is written to the campaign (a `draw` event) and opens a dialog of what came;
-                 closed unkept, or opened on another device, the same cards wait — no re-roll. -->
-            <button
-              class="btn-ghost"
-              data-press
-              aria-haspopup="dialog"
-              :disabled="drawing"
-              @click="openDraw(r)"
-            >
-              {{ r.drawn ? say(r, 'DrawnShow', 'Show') : say(r, 'DrawCards', 'Draw').replace('{n}', r.draw) }}
-            </button>
-          </template>
-          <div
-            v-else
+            v-if="r.kind === 'augury'"
             class="camp-row"
           >
-            <CampPick
-              v-model="kept[r.id]"
-              :placeholder="labels.campKeptCard"
-              :options="pileOf(r).map((slug) => ({ value: slug, label: upgradeName(slug) }))"
+            <NumberStepper
+              :model-value="augury[r.id] || 0"
+              :min="0"
+              :max="4"
+              @update:model-value="(v) => (augury[r.id] = v)"
             />
             <button
               class="btn-primary"
-              :disabled="!kept[r.id]"
-              @click="claim(r, { kept: kept[r.id] })"
+              @click="claim(r, { gained: augury[r.id] || 0 })"
             >
               {{ say(r, 'Confirm') }}
             </button>
           </div>
-          <button
-            v-if="!pileOf(r).length"
-            class="btn-ghost"
-            @click="claim(r, {})"
+
+          <!-- Test of Mettle: up to one Battle Honour and one Battle Skill swapped. -->
+          <div
+            v-else-if="r.kind === 'mettle'"
+            class="camp-form"
           >
-            {{ say(r, 'NothingLeft', 'Nothing') }}
-          </button>
-        </div>
+            <div
+              v-for="kind in ['honour', 'skill']"
+              :key="kind"
+              class="camp-pair"
+            >
+              <CampPick
+                v-model="swap[r.id + kind + 'out']"
+                :placeholder="`${kind === 'honour' ? labels.domHonours : labels.domSkills}: —`"
+                :options="[{ value: null, label: '—' }, ...heldOf(r.player, kind).map((u) => ({ value: u.slug, label: u.name }))]"
+              />
+              <CampPick
+                v-model="swap[r.id + kind + 'in']"
+                placeholder="→"
+                :disabled="!swap[r.id + kind + 'out']"
+                :options="swapTargets(r.player, swap[r.id + kind + 'out']).map((u) => ({ value: u.slug, label: u.name }))"
+              />
+            </div>
+            <button
+              class="btn-primary"
+              @click="claimMettle(r)"
+            >
+              {{ say(r, 'Confirm') }}
+            </button>
+          </div>
+
+          <!-- A draw: by the app (draw, then keep one of what came) or at the table (pick the card kept). -->
+          <div
+            v-else
+            class="camp-form"
+          >
+            <template v-if="state.draw === 'app'">
+              <!-- The draw is written to the campaign (a `draw` event) and opens a dialog of what came;
+                 closed unkept, or opened on another device, the same cards wait — no re-roll. -->
+              <button
+                class="btn-ghost"
+                data-press
+                aria-haspopup="dialog"
+                :disabled="drawing"
+                @click="openDraw(r)"
+              >
+                {{ r.drawn ? say(r, 'DrawnShow', 'Show') : say(r, 'DrawCards', 'Draw').replace('{n}', r.draw) }}
+              </button>
+            </template>
+            <div
+              v-else
+              class="camp-row"
+            >
+              <CampPick
+                v-model="kept[r.id]"
+                :placeholder="labels.campKeptCard"
+                :options="pileOf(r).map((slug) => ({ value: slug, label: upgradeName(slug) }))"
+              />
+              <button
+                class="btn-primary"
+                :disabled="!kept[r.id]"
+                @click="claim(r, { kept: kept[r.id] })"
+              >
+                {{ say(r, 'Confirm') }}
+              </button>
+            </div>
+            <button
+              v-if="!pileOf(r).length"
+              class="btn-ghost"
+              @click="claim(r, {})"
+            >
+              {{ say(r, 'NothingLeft', 'Nothing') }}
+            </button>
+          </div>
+        </template>
       </li>
     </ul>
     <!-- What came, as the cards themselves: the reader keeps one having read them. -->
@@ -183,6 +192,7 @@ const kept = reactive({})
 const augury = reactive({})
 const swap = reactive({})
 
+const canTake = computed(() => isOwner.value || state.value.rewardsBy !== 'warmaster')
 const rewards = computed(() => state.value.pending.filter((r) => isOwner.value || r.player === mine.value?.id))
 const playerOf = (id) => state.value.players.find((p) => p.id === id)
 const upgradeOf = (slug) => deck.value.upgrades.find((u) => u.slug === slug)

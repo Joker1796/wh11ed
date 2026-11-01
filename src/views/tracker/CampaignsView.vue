@@ -10,50 +10,14 @@
       </RouterLink>
     </div>
 
-    <!-- A new campaign is the Warmaster's rare act: the form waits behind its button. -->
+    <!-- A new campaign is the Warmaster's, set up on a page of its own: its settings are a screenful. -->
     <template v-if="status === 'authed'">
-      <CampOpenForm
-        class="camp-new"
-        :label="labels.campNew"
-        primary
+      <RouterLink
+        to="/tracker/campaigns/new"
+        class="btn-primary camp-new"
       >
-        <form
-          class="camp-create"
-          @submit.prevent="create"
-        >
-          <input
-            v-model.trim="name"
-            class="form-input"
-            type="text"
-            maxlength="80"
-            :placeholder="labels.campName"
-            :aria-label="labels.campName"
-          >
-          <div class="seg">
-            <button
-              type="button"
-              :class="{ on: draw === 'app' }"
-              @click="draw = 'app'"
-            >
-              {{ labels.campDrawApp }}
-            </button>
-            <button
-              type="button"
-              :class="{ on: draw === 'manual' }"
-              @click="draw = 'manual'"
-            >
-              {{ labels.campDrawManual }}
-            </button>
-          </div>
-          <button
-            class="btn-primary"
-            type="submit"
-            :disabled="!name || busy"
-          >
-            {{ labels.campCreate }}
-          </button>
-        </form>
-      </CampOpenForm>
+        {{ labels.campNew }}
+      </RouterLink>
     </template>
     <!-- Signed out: why an account, and the way in, where the campaign would start (owner,
          2026-11-01 — the ⚙ menu alone was not enough of a hint). -->
@@ -103,12 +67,6 @@
     >
       {{ labels.campNone }}
     </p>
-    <AppToast
-      :show="!!error"
-      :text="error"
-      tone="error"
-      @close="error = ''"
-    />
   </div>
 </template>
 
@@ -116,10 +74,7 @@
 // Dominatus campaigns this device knows: the account's own (the Warmaster's), the ones joined by
 // an invite link, the ones watched by a view link. A new one needs an account — it is the
 // Warmaster's to run; joining and watching need none.
-import { ref, computed, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import AppToast from '../../components/AppToast.vue'
-import CampOpenForm from '../../components/dominatus/campaign/CampOpenForm.vue'
+import { computed, watch } from 'vue'
 import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns } from '../../composables/useCampaigns.js'
@@ -132,12 +87,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { status } = useAuth()
 const { signIn } = useAccountActions()
-const { campaigns, createCampaign, refreshOwned, stateOf, syncAll } = useCampaigns()
-const router = useRouter()
-const name = ref('')
-const draw = ref('app')
-const busy = ref(false)
-const error = ref('')
+const { campaigns, refreshOwned, stateOf, syncAll } = useCampaigns()
 
 // The session comes back after the page does (a refresh on load), so ask once it is there; then
 // every campaign is read again, so the list says what waits in each.
@@ -153,18 +103,6 @@ function phaseOf(c) {
   return st.finished ? l.campFinished : l.domPhase.replace('{n}', ['I', 'II', 'III'][st.phase - 1])
 }
 
-async function create() {
-  busy.value = true
-  error.value = ''
-  try {
-    const c = await createCampaign(name.value, draw.value)
-    router.push(`/tracker/campaigns/${c.id}`)
-  } catch (e) {
-    error.value = labels.value.campFailed.replace('{code}', e.code || 'network')
-  } finally {
-    busy.value = false
-  }
-}
 </script>
 
 <style scoped>
@@ -172,8 +110,6 @@ async function create() {
 .camp-new { margin-bottom: 1.25rem; }
 .camp-signin { display: grid; gap: 0.6rem; justify-items: start; margin-bottom: 1.25rem; }
 .camp-signin p { margin: 0; font-size: 0.9rem; }
-.camp-create { display: grid; gap: 0.5rem; margin-bottom: 1.25rem; justify-items: start; }
-.camp-create input { width: 100%; }
 .camp-index { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
 .camp-index-name { display: grid; gap: 0.1rem; min-width: 0; }
 .camp-index-side { display: grid; justify-items: end; gap: 0.1rem; }

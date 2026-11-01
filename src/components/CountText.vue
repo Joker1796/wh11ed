@@ -23,5 +23,5 @@ const pieces = computed(() => countPieces(props.text, props.vals))
 </script>
 
 <style scoped>
-.count-n { font-family: var(--font-num); font-weight: 700; color: var(--text-primary); }
+.count-n { font-family: var(--font-num); font-size: 1.15em; font-weight: 700; color: var(--accent-ink); }
 </style>

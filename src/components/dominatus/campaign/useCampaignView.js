@@ -9,6 +9,15 @@ import { useLocale } from '../../../composables/useLocale.js'
 
 const KEY = Symbol('campaignView')
 
+/** A player in a picker: the name, and under it the Alliance and the faction they keep. */
+export function playerOptionOf(p, allianceName) {
+  return {
+    value: p.id,
+    label: p.name,
+    sub: [p.alliance && allianceName(p.alliance), p.faction && factionIndexBySlug(p.faction)?.name].filter(Boolean).join(' · '),
+  }
+}
+
 export function provideCampaignView(ctx) {
   provide(KEY, ctx)
 }
@@ -22,12 +31,7 @@ export function useCampaignView() {
   const locationName = (slug) => deck.value?.locations.find((l) => l.slug === slug)?.name || slug
   const allianceName = (id) => deck.value?.alliances.find((a) => a.id === id)?.name || id || '—'
   const playerName = (id) => ctx.state.value?.players.find((p) => p.id === id)?.name || id
-  // A player in a picker: the name, and under it the Alliance and the faction they keep.
-  const playerOption = (p) => ({
-    value: p.id,
-    label: p.name,
-    sub: [p.alliance && allianceName(p.alliance), p.faction && factionIndexBySlug(p.faction)?.name].filter(Boolean).join(' · '),
-  })
+  const playerOption = (p) => playerOptionOf(p, allianceName)
   const phaseLabel = (n) => labels.value.domPhase.replace('{n}', ['I', 'II', 'III'][n - 1] || n)
   // An Upgrade card named on the page opens its text in the rules popover, as the card prints it:
   // who may take it, what it does, its bonus effect.

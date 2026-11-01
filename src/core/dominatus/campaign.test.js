@@ -361,3 +361,38 @@ describe('Dominatus campaign — the schedule, pairings and settings', () => {
     expect(fold([...base(), O('settings', { me: 'ann' }), O('settings', { me: null })]).me).toBe(null)
   })
 })
+
+describe('Dominatus campaign — who may do what, and rosters', () => {
+  it('closes joining by the link, keeping the players already in', () => {
+    const s = campaignState([...base(), O('settings', { join: 'closed' }), ev('m3', 'player', { id: 'eve', name: 'Eve' }), ev('m1', 'player', { id: 'ben', name: 'Benedict' })], deck)
+    expect(s.rejected.map((r) => r.reason)).toEqual(['registration closed'])
+    expect(s.players.find((p) => p.id === 'ben').name).toBe('Benedict')
+  })
+
+  it('leaves the Alliance to the Warmaster when the campaign says so', () => {
+    const s = campaignState([...base(), O('settings', { allianceBy: 'warmaster' }), ev('m1', 'player', { id: 'ben', alliance: 'raiders' }), ev('m1', 'player', { id: 'ben', alliance: 'liberators', name: 'B' }), O('player', { id: 'ben', alliance: 'raiders' })], deck)
+    expect(s.rejected.map((r) => r.reason)).toEqual(['alliance by the warmaster'])
+    expect(s.players.find((p) => p.id === 'ben').alliance).toBe('raiders')
+  })
+
+  it('keeps a member\'s faction from their first battle, unless the campaign frees it', () => {
+    const evs = [...base(), ev('m1', 'player', { id: 'ben', faction: 'orks' }), battle('owner', 'b1', 'ben', 'cid', 'a'), ev('m1', 'player', { id: 'ben', faction: 'necrons' })]
+    expect(campaignState(evs, deck).rejected.map((r) => r.reason)).toEqual(['faction locked'])
+    const free = campaignState([...evs.slice(0, 1), O('settings', { factionLock: false }), ...evs.slice(1)], deck)
+    expect(free.players.find((p) => p.id === 'ben').faction).toBe('necrons')
+  })
+
+  it('takes a member\'s battle and rewards only when they are not the Warmaster\'s alone', () => {
+    const s = campaignState([...base(), O('settings', { battlesBy: 'warmaster', rewardsBy: 'warmaster' }), battle('m1', 'b1', 'ben', 'cid', 'a'), battle('owner', 'b2', 'ben', 'cid', 'a'), ev('m1', 'claim', { reward: 'b2:a', kept: 'x' })], deck)
+    expect(s.rejected.map((r) => r.reason)).toEqual(['battles by the warmaster', 'rewards by the warmaster'])
+  })
+
+  it('keeps a roster snapshot per player, refuses one when rosters are off, and asks for both under "required"', () => {
+    const code = '1.abc'
+    const off = campaignState([...base(), ev('m1', 'roster', { player: 'ben', code, name: 'Speed', points: 1995 })], deck)
+    expect(off.rejected.map((r) => r.reason)).toEqual(['rosters off'])
+    const s = campaignState([...base(), O('settings', { roster: 'required' }), ev('m1', 'roster', { player: 'ben', code, name: 'Speed', points: 1995 }), ev('m1', 'roster', { player: 'cid', code }), battle('m1', 'b1', 'ben', 'cid', 'a')], deck)
+    expect(s.players.find((p) => p.id === 'ben').roster).toMatchObject({ code, name: 'Speed', points: 1995 })
+    expect(s.rejected.map((r) => r.reason)).toEqual(['not your player', 'no roster'])
+  })
+})

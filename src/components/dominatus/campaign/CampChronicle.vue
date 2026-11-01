@@ -93,6 +93,7 @@ function describe(e, seenPlayers) {
       ? l.campChrKept.replace('{p}', playerName(rewardPlayer(p.reward))).replace('{card}', upgradeName(p.kept))
       : l.campChrClaimed.replace('{p}', playerName(rewardPlayer(p.reward)))
     case 'endPhase': return l.campChrEndPhase.replace('{phase}', phaseLabel(p.phase))
+    case 'roster': return p.code ? l.campChrRoster.replace('{p}', playerName(p.player)).replace('{name}', p.name || '') : l.campChrRosterOff.replace('{p}', playerName(p.player))
     case 'adjust': return l.campChrAdjust.replace('{p}', playerName(p.player))
     case 'amend': return l.campChrAmend.replace('{n}', (p.edits || []).length)
     default: return e.type

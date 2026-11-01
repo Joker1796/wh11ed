@@ -5,6 +5,7 @@
     :title="labels.trackerFaction"
     :placeholder="labels.trackerChooseFaction"
     :label="faction ? faction.name : ''"
+    :disabled="disabled"
     panel-width="32rem"
   >
     <template #lead>
@@ -35,6 +36,7 @@ import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { ui } from '../../../i18n/ui.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
+defineProps({ disabled: { type: Boolean, default: false } })
 const model = defineModel({ type: [String, null], default: null })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
