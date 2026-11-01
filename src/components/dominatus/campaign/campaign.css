@@ -38,8 +38,11 @@
 .camp-table thead th { border-top: none; font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); }
 .camp-loc { display: block; font-size: 0.72rem; font-weight: 400; color: var(--text-muted); }
 .camp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
-/* A player is a card of its own: a surface on the page, as a campaign is in the list of campaigns. */
-.camp-player { padding: 0.55rem 0.75rem 0.65rem; border: 1px solid var(--border); background: var(--bg-card); }
+/* A player, a battle, a pairing and a reward are each a card of its own: a surface on the page, as
+   a campaign is in the list of campaigns. */
+.camp-player,
+.camp-battle,
+.camp-reward { padding: 0.55rem 0.75rem 0.65rem; border: 1px solid var(--border); background: var(--bg-card); }
 .camp-player-head { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; align-items: baseline; }
 /* Won–drawn–lost on the right of the name, in the face numbers set apart wear. */
 .camp-record { margin-left: auto; font-family: var(--font-num); font-size: 0.82rem; color: var(--text-muted); }
@@ -61,7 +64,6 @@
 .camp-end { display: grid; gap: 0.5rem; margin-top: 0.6rem; justify-items: start; }
 .camp-results { margin: 0.6rem 0 0; padding-left: 1.1rem; font-size: 0.85rem; }
 .camp-link + .camp-link { margin-top: 0.5rem; }
-.camp-reward + .camp-reward { padding-top: 0.45rem; border-top: 1px dashed var(--border); }
 /* The device's role in a campaign: in the list and on the campaign's own header. */
 /* The campaign's "…" beside the role on its header. */
 .camp-hero .camp-role { display: inline-flex; align-items: center; gap: 0.25rem; }
