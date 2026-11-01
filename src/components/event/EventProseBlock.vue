@@ -73,7 +73,7 @@
       :key="x.id"
       class="prose-box-wrap"
     >
-    <div class="prose-box">
+      <div class="prose-box">
         <div class="prose-box-title">
           {{ x.title }}
         </div>

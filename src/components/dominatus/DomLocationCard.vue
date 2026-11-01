@@ -2,6 +2,7 @@
   <article
     :id="`location-${location.slug}`"
     class="dcard dom-deck-location"
+    :class="{ 'is-folded': folded }"
   >
     <header class="dcard-head">
       <span class="dcard-tag">{{ tag }}</span>
@@ -9,53 +10,56 @@
         {{ location.name }}
       </h3>
     </header>
-    <p
-      v-if="location.lore"
-      class="dcard-lore lines"
-    >
-      {{ location.lore }}
-    </p>
-
-    <section class="dloc-part">
-      <div class="dchip">
-        {{ labels.domLocationBonus }}
-      </div>
-      <h4 class="dloc-rule">
-        {{ location.bonus.name }}
-        <span
-          v-if="location.bonus.nameRu"
-          class="dname-ru"
-        >{{ location.bonus.nameRu }}</span>
-      </h4>
-      <div class="dbody">
-        <RuleBody :body="location.bonus.body" />
-      </div>
-    </section>
-
-    <section class="dloc-part">
-      <div class="dchip">
-        {{ labels.domWarZone }}
-      </div>
-      <template
-        v-for="w in location.warZone"
-        :key="w.name"
+    <!-- Folded, the card is its head and marks: a list to choose from opens the one chosen. -->
+    <CollapseTransition :show="!folded">
+      <p
+        v-if="location.lore"
+        class="dcard-lore lines"
       >
+        {{ location.lore }}
+      </p>
+
+      <section class="dloc-part">
+        <div class="dchip">
+          {{ labels.domLocationBonus }}
+        </div>
         <h4 class="dloc-rule">
-          {{ w.name }}
+          {{ location.bonus.name }}
           <span
-            v-if="w.nameRu"
+            v-if="location.bonus.nameRu"
             class="dname-ru"
-          >{{ w.nameRu }}</span>
+          >{{ location.bonus.nameRu }}</span>
         </h4>
         <div class="dbody">
-          <RuleBody :body="w.body" />
+          <RuleBody :body="location.bonus.body" />
         </div>
-      </template>
-    </section>
-    <!-- The map square's caption on the card: its grid reference. -->
-    <div class="dloc-grid">
-      {{ location.grid }}
-    </div>
+      </section>
+
+      <section class="dloc-part">
+        <div class="dchip">
+          {{ labels.domWarZone }}
+        </div>
+        <template
+          v-for="w in location.warZone"
+          :key="w.name"
+        >
+          <h4 class="dloc-rule">
+            {{ w.name }}
+            <span
+              v-if="w.nameRu"
+              class="dname-ru"
+            >{{ w.nameRu }}</span>
+          </h4>
+          <div class="dbody">
+            <RuleBody :body="w.body" />
+          </div>
+        </template>
+      </section>
+      <!-- The map square's caption on the card: its grid reference. -->
+      <div class="dloc-grid">
+        {{ location.grid }}
+      </div>
+    </CollapseTransition>
     <DomCardMark
       kind="location"
       :phase="location.phase"
@@ -69,10 +73,13 @@
 import { computed } from 'vue'
 import RuleBody from '../RuleBody.vue'
 import DomCardMark from './DomCardMark.vue'
+import CollapseTransition from '../CollapseTransition.vue'
 import { useDominatus } from './useDominatus.js'
 
 const props = defineProps({
   location: { type: Object, required: true },
+  // Only the head and the marks (a picker's row); the rest unfolds when it turns false.
+  folded: { type: Boolean, default: false },
 })
 const { labels, cardTag } = useDominatus()
 const tag = computed(() => cardTag({ kind: 'location', roll: props.location.roll }))

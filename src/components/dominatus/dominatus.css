@@ -40,6 +40,9 @@
   margin-bottom: 0.5rem;
   border-bottom: 1px solid var(--border);
 }
+/* A card folded to its head (a picker's row): the rule under the head goes with the text it divided off. */
+.dcard .dcard-head { transition: padding var(--motion-fold), margin var(--motion-fold), border-color var(--motion-fold); }
+.dcard.is-folded .dcard-head { padding-bottom: 0; margin-bottom: 0; border-bottom-color: transparent; }
 .dcard-name {
   margin: 0;
   font-family: var(--font-display);

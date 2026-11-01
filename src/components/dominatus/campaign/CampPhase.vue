@@ -7,7 +7,14 @@
         class="camp-line"
         :class="{ 'camp-ready': progress.done }"
       >
-        {{ progress.done ? labels.campScheduleDone : labels.campScheduleLine.replace('{n}', progress.due).replace('{k}', playedAll).replace('{m}', progress.rows.length) }}
+        <template v-if="progress.done">
+          {{ labels.campScheduleDone }}
+        </template>
+        <CountText
+          v-else
+          :text="labels.campScheduleLine"
+          :vals="{ n: progress.due, k: playedAll, m: progress.rows.length }"
+        />
       </p>
 
       <!-- The phase's Location is its card, as the rules page draws it: the bonus and the war zone. -->
@@ -28,43 +35,23 @@
       >
         {{ labels.campStagingPost.replace('{a}', allianceName(stagingBy)) }}
       </p>
-      <!-- The Warmaster picks or rolls the Location, and may pick again (the Event Companion: they
-           may select it instead of rolling). -->
+      <!-- The Warmaster picks or rolls the Location in a dialog, and may pick again (the Event
+           Companion: they may select it instead of rolling). -->
       <button
-        v-if="isOwner && location && !choosing"
+        v-if="isOwner"
         class="btn-ghost camp-change-loc"
+        aria-haspopup="dialog"
         @click="choosing = true"
       >
-        {{ labels.campChangeLocation }}
+        {{ location ? labels.campChangeLocation : labels.campChooseLocation }}
       </button>
-      <div
-        v-if="isOwner && (!location || choosing)"
-        class="filter-chips"
-      >
-        <button
-          v-for="l in phaseLocations"
-          :key="l.slug"
-          class="filter-chip"
-          :class="{ on: location?.slug === l.slug }"
-          @click="setLocation(l.slug)"
-        >
-          {{ l.roll }} · {{ l.name }}
-        </button>
-        <button
-          class="filter-chip"
-          data-press
-          @click="roll"
-        >
-          {{ labels.trackerDomRoll }}
-        </button>
-        <button
-          v-if="location"
-          class="filter-chip"
-          @click="choosing = false"
-        >
-          {{ labels.trackerCancel }}
-        </button>
-      </div>
+      <CampLocationPicker
+        v-if="choosing"
+        :locations="phaseLocations"
+        :current="location?.slug || ''"
+        @pick="setLocation"
+        @close="choosing = false"
+      />
 
       <!-- The Warmaster's pairings this phase (the booklet: they may organise who plays whom). -->
       <div
@@ -208,7 +195,10 @@
             :id="r.alliance"
             :name="allianceName(r.alliance)"
           />
-          {{ ' — ' + r.np + ' ' + labels.campNpShort }}
+          {{ ' — ' }}<CountText
+            :text="`{n} ${labels.campNpShort}`"
+            :vals="{ n: r.np }"
+          />
         </li>
       </ol>
     </div>
@@ -285,6 +275,8 @@
 // — and, once phases have ended, their Outcomes; the campaign's chronicle under it all.
 import { ref, computed } from 'vue'
 import DomLocationCard from '../DomLocationCard.vue'
+import CampLocationPicker from './CampLocationPicker.vue'
+import CountText from '../../CountText.vue'
 import DomBriefingCard from '../DomBriefingCard.vue'
 import DomAllianceName from '../DomAllianceName.vue'
 import ConfirmModal from '../../ConfirmModal.vue'
@@ -342,11 +334,6 @@ const preview = computed(() => {
 const choosing = ref(false)
 async function setLocation(slug) {
   if (slug === location.value?.slug || (await act('location', { phase: state.value.phase, slug }))) choosing.value = false
-}
-function roll() {
-  const n = 1 + Math.floor(Math.random() * 6)
-  const l = phaseLocations.value[Math.ceil(n / 2) - 1]
-  if (l) setLocation(l.slug)
 }
 function endPhase() {
   act('endPhase', { phase: state.value.phase, ...(override.value ? { control: override.value } : {}) })

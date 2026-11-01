@@ -107,7 +107,5 @@ const tag = computed(() => cardTag({ kind: props.upgrade.kind, alliance: props.u
   background: var(--bg-secondary);
 }
 .dup-bonus .dchip { margin-bottom: 0.3rem; }
-/* Folded: the head alone, its rule under it gone with the text it divided off. */
-.dom-deck-upgrade .dcard-head { transition: padding var(--motion-fold), margin var(--motion-fold), border-color var(--motion-fold); }
-.dom-deck-upgrade.is-folded .dcard-head { padding-bottom: 0; margin-bottom: 0; border-bottom-color: transparent; }
+
 </style>

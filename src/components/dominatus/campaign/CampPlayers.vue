@@ -99,7 +99,10 @@
               v-if="!state.finished && p.alliance && state.schedule[state.phase - 1]"
               class="camp-dim camp-played"
               :class="{ 'is-done': playedIn(state, p.id) >= state.schedule[state.phase - 1] }"
-            >{{ labels.campPlayedOf.replace('{k}', playedIn(state, p.id)).replace('{n}', state.schedule[state.phase - 1]) }}</span>
+            ><CountText
+              :text="labels.campPlayedOf"
+              :vals="{ k: playedIn(state, p.id), n: state.schedule[state.phase - 1] }"
+            /></span>
             <span
               v-if="p.agenda.length"
               class="camp-badge"
@@ -329,6 +332,7 @@ import DomAllianceName from '../DomAllianceName.vue'
 import CampOpenForm from './CampOpenForm.vue'
 import CampShare from './CampShare.vue'
 import CampCardPicker from './CampCardPicker.vue'
+import CountText from '../../CountText.vue'
 import CampFactionPick from './CampFactionPick.vue'
 import FactionBadge from '../../FactionBadge.vue'
 import { recordOf, removable, removePlayer, playedIn, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'

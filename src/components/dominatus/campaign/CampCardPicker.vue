@@ -114,10 +114,8 @@ function pick(slug, ev) {
 </script>
 
 <style scoped>
-.camp-picker-body { padding: 0.8rem 0.9rem 1rem; }
 .camp-picker-kinds { display: flex; width: 100%; margin-bottom: 0.6rem; }
 .camp-picker-kinds > button { flex: 1 1 0; }
 .camp-picker-group + .camp-picker-group { margin-top: 1rem; }
 .camp-picker-group .dgroup-label { margin: 0 0 0.4rem; }
-.camp-picker-list { display: grid; gap: 0.4rem; }
 </style>

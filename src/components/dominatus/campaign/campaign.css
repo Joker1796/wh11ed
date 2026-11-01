@@ -111,6 +111,9 @@
 .camp-card-pick.on > .dcard,
 .camp-card-pick:focus-visible > .dcard { outline-color: var(--dom-spine); }
 .camp-card-pick.off { opacity: 0.55; }
+/* A dialog choosing among cards folded to their heads (a card for a hand, the phase's Location). */
+.camp-picker-body { padding: 0.8rem 0.9rem 1rem; }
+.camp-picker-list { display: grid; gap: 0.4rem; }
 /* The keep, one for the dialog, under the cards and always in view. */
 .camp-draw-foot { display: grid; gap: 0.4rem; padding: 0.6rem 0.9rem 0.75rem; border-top: 1px solid var(--border); }
 .camp-draw-foot p { margin: 0; font-size: 0.8rem; }
