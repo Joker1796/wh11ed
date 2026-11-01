@@ -40,7 +40,7 @@
             class="btn-primary"
             @click="claim(r, { gained: augury[r.id] || 0 })"
           >
-            {{ labels.campConfirm }}
+            {{ say(r, 'Confirm') }}
           </button>
         </div>
 
@@ -70,7 +70,7 @@
             class="btn-primary"
             @click="claimMettle(r)"
           >
-            {{ labels.campConfirm }}
+            {{ say(r, 'Confirm') }}
           </button>
         </div>
 
@@ -89,7 +89,7 @@
               :disabled="drawing"
               @click="openDraw(r)"
             >
-              {{ r.drawn ? labels.campDrawnShow : labels.campDrawCards.replace('{n}', r.draw) }}
+              {{ r.drawn ? say(r, 'DrawnShow', 'Show') : say(r, 'DrawCards', 'Draw').replace('{n}', r.draw) }}
             </button>
           </template>
           <div
@@ -106,7 +106,7 @@
               :disabled="!kept[r.id]"
               @click="claim(r, { kept: kept[r.id] })"
             >
-              {{ labels.campConfirm }}
+              {{ say(r, 'Confirm') }}
             </button>
           </div>
           <button
@@ -114,7 +114,7 @@
             class="btn-ghost"
             @click="claim(r, {})"
           >
-            {{ labels.campNothingLeft }}
+            {{ say(r, 'NothingLeft', 'Nothing') }}
           </button>
         </div>
       </li>
@@ -139,7 +139,7 @@
               class="btn-primary"
               @click="askKeep(drawFor, slug)"
             >
-              {{ labels.campKeep }}
+              {{ say(drawFor, 'Keep') }}
             </button>
           </div>
         </div>
@@ -150,8 +150,8 @@
     <ConfirmModal
       v-if="keeping"
       :title="labels.campKeepTitle"
-      :message="labels.campKeepConfirm.replace('{card}', upgradeName(keeping.slug)).replace('{n}', keeping.r.drawn.length)"
-      :confirm-label="labels.campKeep"
+      :message="say(keeping.r, 'KeepConfirm').replace('{p}', playerName(keeping.r.player)).replace('{card}', upgradeName(keeping.slug)).replace('{n}', keeping.r.drawn.length)"
+      :confirm-label="say(keeping.r, 'Keep')"
       :cancel-label="labels.trackerCancel"
       @confirm="keepNow"
       @close="keeping = null"
@@ -180,6 +180,12 @@ const swap = reactive({})
 const rewards = computed(() => state.value.pending.filter((r) => isOwner.value || r.player === mine.value?.id))
 const playerOf = (id) => state.value.players.find((p) => p.id === id)
 const upgradeOf = (slug) => deck.value.upgrades.find((u) => u.slug === slug)
+// The Warmaster taking another player's reward: the buttons say it is done for the player.
+const forOther = (r) => isOwner.value && r.player !== mine.value?.id
+function say(r, key, forKey = key) {
+  const l = labels.value
+  return (forOther(r) && l[`campFor${forKey}`]) || l[`camp${key}`]
+}
 const pileOf = (r) => (deck.value ? drawPile(deck.value, playerOf(r.player), r) : [])
 
 function title(r) {
