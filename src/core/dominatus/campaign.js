@@ -20,7 +20,15 @@
 //     discard of Agenda Achieved cards from earlier phases.
 // A draw is "draw N, keep 1" — by the app, or by hand from a physical deck (`draw` setting); the
 // fold checks the card kept against what may be drawn and against the player's hand (no
-// duplicates), not the randomness.
+// duplicates), not the randomness. The app's draw is an event of its own (`draw`), written before
+// the card is kept: the cards that came are the campaign's, on every device and after a reload, and
+// a second draw for the same reward is refused.
+//
+// The Warmaster corrects the log, never rewrites it (the booklet leaves everything to them): an
+// `amend` names earlier events and gives each a new payload, or none to take it out. The fold reads
+// each amended event in its own place with its new payload, so what followed is worked out again —
+// a battle's rewards, the end of a phase. `battleAmend`, `reopenPhase` and `removePlayer` say which
+// events a correction has to touch for the rest of the log to still hold.
 
 /**
  * @typedef {{ slug: string, kind: 'honour' | 'skill' | 'relic', phase?: number, alliance?: string }} UpgradeCard
@@ -29,8 +37,9 @@
  * @typedef {{ seq: number, author: string, type: string, payload: any }} CampaignEvent
  * @typedef {{ phase: number }} AgendaCard
  * @typedef {{ id: string, name: string, alliance: string | null, faction: string | null, member: string | null, upgrades: string[], agenda: AgendaCard[] }} Player
- * @typedef {{ id: string, phase: number, a: string, b: string, victor: 'a' | 'b' | null, achieved: { a: number, b: number }, status: 'pending' | 'approved' | 'rejected', by: string }} Battle
- * @typedef {{ id: string, player: string, kind: string, phase: number, draw: number, battle: string | null }} Reward
+ * @typedef {{ id: string, phase: number, a: string, b: string, victor: 'a' | 'b' | null, achieved: { a: number, b: number }, status: 'pending' | 'approved' | 'rejected', by: string, edited: boolean }} Battle
+ * @typedef {{ id: string, player: string, kind: string, phase: number, draw: number, battle: string | null, drawn: string[] | null }} Reward
+ * @typedef {{ seq: number, payload: object | null }} Amendment
  * @typedef {{ control: string | null, tie: boolean, honours: Record<string, number>, ascendancy: string[], np: Record<string, number> }} PhaseResult
  * @typedef {{
  *   name: string, draw: 'app' | 'manual', phase: number, finished: boolean,
@@ -50,6 +59,11 @@ export const PATH_TO_CONQUEST = 'path-to-conquest'
 const EXTRA_DRAW = { 'the-mannheim-gap': 'skill', 'the-morpheon-line': 'honour', 'volcanus-archipelago': 'relic' }
 /** @type {Array<'a' | 'b'>} */
 const SIDES = ['a', 'b']
+// What an `amend` may touch: the events that describe the campaign. Not an amend (a correction is
+// itself corrected by a newer amend of the same event), not the campaign's creation.
+const AMENDABLE = ['settings', 'player', 'location', 'battle', 'review', 'claim', 'draw', 'endPhase', 'adjust']
+// The rewards that are drawn from a deck (the rest ask the player something).
+const DRAWN = ['honour', 'skill', 'relic', 'fresh']
 
 /** @returns {CampaignState} */
 function empty() {
@@ -116,7 +130,7 @@ function approveBattle(s, b) {
     }
     const kind = b.victor === side ? 'honour' : 'skill'
     const draw = 1 + (b.achieved[side] > 0 ? 1 : 0) + extraDraw(s, p.alliance, kind)
-    s.pending.push({ id: `${b.id}:${side}`, player: p.id, kind, phase: b.phase, draw, battle: b.id })
+    s.pending.push({ id: `${b.id}:${side}`, player: p.id, kind, phase: b.phase, draw, battle: b.id, drawn: null })
   }
 }
 
@@ -154,9 +168,9 @@ function endPhase(s, deck, phase, override) {
   if (control && loc) {
     s.control[loc] = control
     const members = s.players.filter((p) => p.alliance === control)
-    if (loc === 'victorinius-spaceport') for (const p of members) s.pending.push({ id: `p${phase}:fresh:${p.id}`, player: p.id, kind: 'fresh', phase, draw: 1, battle: null })
-    if (loc === 'blackfire-death-pits') for (const p of members) s.pending.push({ id: `p${phase}:mettle:${p.id}`, player: p.id, kind: 'mettle', phase, draw: 0, battle: null })
-    if (loc === 'eyes-of-the-emperor-observatory') for (const p of members.filter((x) => x.agenda.length < MAX_AGENDA_ACHIEVED)) s.pending.push({ id: `p${phase}:augury:${p.id}`, player: p.id, kind: 'augury', phase, draw: 4, battle: null })
+    if (loc === 'victorinius-spaceport') for (const p of members) s.pending.push({ id: `p${phase}:fresh:${p.id}`, player: p.id, kind: 'fresh', phase, draw: 1, battle: null, drawn: null })
+    if (loc === 'blackfire-death-pits') for (const p of members) s.pending.push({ id: `p${phase}:mettle:${p.id}`, player: p.id, kind: 'mettle', phase, draw: 0, battle: null, drawn: null })
+    if (loc === 'eyes-of-the-emperor-observatory') for (const p of members.filter((x) => x.agenda.length < MAX_AGENDA_ACHIEVED)) s.pending.push({ id: `p${phase}:augury:${p.id}`, player: p.id, kind: 'augury', phase, draw: 4, battle: null, drawn: null })
     if (loc === 'titangrave') for (const p of members) if (p.upgrades.filter((u) => deck.upgrades.find((c) => c.slug === u)?.kind === 'honour').length >= 4) gainAgenda(p, 1, phase)
     if (loc === 'hive-acheron-subsprawl') for (const p of members) if (p.upgrades.filter((u) => deck.upgrades.find((c) => c.slug === u)?.kind === 'skill').length >= 3) gainAgenda(p, 1, phase)
   }
@@ -179,7 +193,7 @@ function endPhase(s, deck, phase, override) {
     for (const p of s.players) {
       if (!p.agenda.length) continue
       const draw = p.agenda.length + extraDraw(s, p.alliance, 'relic')
-      s.pending.push({ id: `p${phase}:relic:${p.id}`, player: p.id, kind: 'relic', phase, draw, battle: null })
+      s.pending.push({ id: `p${phase}:relic:${p.id}`, player: p.id, kind: 'relic', phase, draw, battle: null, drawn: null })
     }
   }
   // V. Discard the Agenda Achieved cards of previous phases.
@@ -203,7 +217,7 @@ const memberPlayer = (s, e) => s.players.find((p) => p.member === e.author) || n
  */
 export function campaignState(events, deck) {
   const s = empty()
-  for (const e of events) {
+  for (const e of liveEvents(events)) {
     const why = apply(s, deck, e)
     if (why) s.rejected.push({ seq: e.seq, reason: why })
   }
@@ -211,8 +225,156 @@ export function campaignState(events, deck) {
 }
 
 /**
+ * The Warmaster's corrections in force: each amended event's latest payload, null for one taken out.
+ * @param {CampaignEvent[]} events
+ * @returns {Map<number, object | null>}
+ */
+function amendments(events) {
+  /** @type {Map<number, CampaignEvent>} */
+  const bySeq = new Map(events.map((e) => [e.seq, e]))
+  /** @type {Map<number, object | null>} */
+  const out = new Map()
+  for (const e of events) {
+    if (e.type !== 'amend' || e.author !== 'owner') continue
+    const edits = Array.isArray(e.payload?.edits) ? e.payload.edits : []
+    for (const x of edits) {
+      const t = bySeq.get(x?.seq)
+      if (!t || t.seq >= e.seq || !AMENDABLE.includes(t.type)) continue
+      out.set(t.seq, x.payload && typeof x.payload === 'object' ? x.payload : null)
+    }
+  }
+  return out
+}
+
+/**
+ * The log as the fold reads it: an event taken out is gone, an amended one carries its new payload
+ * (and `amended`), the amends themselves stay for the fold to check who wrote them.
+ * @param {CampaignEvent[]} events
+ * @returns {Array<CampaignEvent & { amended?: boolean }>}
+ */
+function liveEvents(events) {
+  const am = amendments(events)
+  const out = []
+  for (const e of events) {
+    if (!am.has(e.seq)) { out.push(e); continue }
+    const payload = am.get(e.seq)
+    if (payload) out.push({ ...e, payload, amended: true })
+  }
+  return out
+}
+
+/**
+ * Take out the claims and draws of these rewards: the reward comes back to be drawn again.
+ * @param {CampaignEvent[]} live @param {string[]} rewards
+ * @returns {Amendment[]}
+ */
+function rewardEdits(live, rewards) {
+  return live
+    .filter((e) => (e.type === 'claim' || e.type === 'draw') && rewards.includes(e.payload?.reward))
+    .map((e) => ({ seq: e.seq, payload: null }))
+}
+
+/**
+ * The amend that corrects a counted battle's result, or takes the battle out (`change` null).
+ * Taken out, its review and every card drawn for it go too. Corrected, a side whose reward changes
+ * (an Honour for a Skill, or one card more or less to draw) gives back what it drew for it and draws
+ * again; a side whose reward stays keeps its card.
+ * @param {CampaignEvent[]} events
+ * @param {string} battleId
+ * @param {{ victor: 'a' | 'b' | null, achieved: { a: number, b: number } } | null} change
+ * @returns {Amendment[]}
+ */
+export function battleAmend(events, battleId, change) {
+  const live = liveEvents(events)
+  const be = live.find((e) => e.type === 'battle' && e.payload?.id === battleId)
+  if (!be) return []
+  const rewardOf = (/** @type {string} */ side) => `${battleId}:${side}`
+  if (!change) {
+    return [
+      { seq: be.seq, payload: null },
+      ...live.filter((e) => e.type === 'review' && e.payload?.battle === battleId).map((e) => ({ seq: e.seq, payload: null })),
+      ...rewardEdits(live, SIDES.map(rewardOf)),
+    ]
+  }
+  const was = be.payload
+  const next = { ...was, victor: change.victor, achieved: { a: change.achieved.a, b: change.achieved.b } }
+  /** @param {any} b @param {string} side */
+  const reward = (b, side) => `${b.victor === side ? 'honour' : 'skill'}:${(Number(b.achieved?.[side]) || 0) > 0}`
+  const changed = SIDES.filter((side) => reward(was, side) !== reward(next, side)).map(rewardOf)
+  return [{ seq: be.seq, payload: next }, ...rewardEdits(live, changed)]
+}
+
+/**
+ * What stands in the way of correcting a battle: one of a closed phase is corrected by reopening
+ * the phase first (its end drew Relics on the Agenda Achieved cards it counted).
+ * @param {CampaignState} s @param {Battle} b
+ * @returns {'closed' | null}
+ */
+export function battleLocked(s, b) {
+  return s.finished || b.phase !== s.phase ? 'closed' : null
+}
+
+/**
+ * The phase the Warmaster can reopen — the last one ended — and what stands in the way: a battle
+ * already counted or waiting in the phase after it. Rejected battles of that phase go with it.
+ * @param {CampaignState} s
+ * @returns {{ phase: number, blocked: boolean } | null}
+ */
+export function reopenable(s) {
+  const phase = s.finished ? 3 : s.phase - 1
+  if (phase < 1) return null
+  const blocked = !s.finished && s.battles.some((b) => b.phase === s.phase && b.status !== 'rejected')
+  return { phase, blocked }
+}
+
+/**
+ * The amend that reopens the last phase ended: its end goes, with what only it led to — the next
+ * phase's Location, the Relics and Location bonuses it handed out (drawn, kept or reported), the
+ * next phase's refused battles.
+ * @param {CampaignEvent[]} events
+ * @param {CampaignState} s
+ * @returns {Amendment[]}
+ */
+export function reopenPhase(events, s) {
+  const r = reopenable(s)
+  if (!r || r.blocked) return []
+  const live = liveEvents(events)
+  const end = live.filter((e) => e.type === 'endPhase' && e.payload?.phase === r.phase).pop()
+  if (!end) return []
+  const next = r.phase + 1
+  const dropped = s.battles.filter((b) => b.phase === next).map((b) => b.id)
+  const out = live.filter((e) => e.seq > end.seq && (
+    (e.type === 'location' && e.payload?.phase === next)
+    || ((e.type === 'claim' || e.type === 'draw') && String(e.payload?.reward || '').startsWith(`p${r.phase}:`))
+    || (e.type === 'battle' && dropped.includes(e.payload?.id))
+    || (e.type === 'review' && dropped.includes(e.payload?.battle))
+  ))
+  return [{ seq: end.seq, payload: null }, ...out.map((e) => ({ seq: e.seq, payload: null }))]
+}
+
+/**
+ * Can the Warmaster take a player out: only one who has fought no battle and is owed nothing —
+ * their battles are other players' battles too.
+ * @param {CampaignState} s @param {string} playerId
+ */
+export function removable(s, playerId) {
+  return !s.battles.some((b) => b.a === playerId || b.b === playerId) && !s.pending.some((r) => r.player === playerId)
+}
+
+/**
+ * The amend that takes a player out: every event that made or changed them.
+ * @param {CampaignEvent[]} events @param {string} playerId
+ * @returns {Amendment[]}
+ */
+export function removePlayer(events, playerId) {
+  return liveEvents(events)
+    .filter((e) => (e.type === 'player' && e.payload?.id === playerId) || (e.type === 'adjust' && e.payload?.player === playerId))
+    .map((e) => ({ seq: e.seq, payload: null }))
+}
+
+/**
  * Apply one event; a string is the reason it was refused.
- * @param {CampaignState} s @param {Deck} deck @param {CampaignEvent} e
+ * @param {CampaignState} s @param {Deck} deck @param {CampaignEvent & { amended?: boolean }} e
  * @returns {string | null}
  */
 function apply(s, deck, e) {
@@ -263,7 +425,7 @@ function apply(s, deck, e) {
       /** @param {any} n */
       const ach = (n) => Math.max(0, Math.min(cap, Math.floor(Number(n) || 0)))
       /** @type {Battle} */
-      const battle = { id: p.id, phase: s.phase, a: a.id, b: b.id, victor: p.victor, achieved: { a: ach(p.achieved?.a), b: ach(p.achieved?.b) }, status: 'pending', by: e.author }
+      const battle = { id: p.id, phase: s.phase, a: a.id, b: b.id, victor: p.victor, achieved: { a: ach(p.achieved?.a), b: ach(p.achieved?.b) }, status: 'pending', by: e.author, edited: !!e.amended }
       s.battles.push(battle)
       // The Warmaster's own entry needs no second look.
       if (owner) approveBattle(s, battle)
@@ -300,16 +462,36 @@ function apply(s, deck, e) {
         const pile = drawPile(deck, pl, r)
         if (p.kept != null) {
           if (!pile.includes(p.kept)) return 'card not in the pile'
-          if (s.draw === 'app') {
-            const drawn = Array.isArray(p.drawn) ? p.drawn : []
-            if (!drawn.includes(p.kept) || drawn.length > r.draw || drawn.some((/** @type {any} */ d) => !pile.includes(d))) return 'kept card was not drawn'
-          }
+          // Drawn by the app: the card kept is one of those its `draw` event drew.
+          if (s.draw === 'app' && !(r.drawn || []).includes(p.kept)) return 'kept card was not drawn'
           pl.upgrades.push(p.kept)
         }
       }
       s.pending = s.pending.filter((x) => x !== r)
       return null
     }
+
+    case 'draw': {
+      // The cards the app drew for a reward, before one is kept: as many as the reward draws (fewer
+      // only when the pile runs short), all from the pile, once.
+      const r = s.pending.find((x) => x.id === p.reward)
+      if (!r) return 'no such reward'
+      const pl = playerById(s, r.player)
+      if (!pl) return 'no such player'
+      if (!owner && pl.member !== e.author) return 'not your reward'
+      if (s.draw !== 'app') return 'drawn at the table'
+      if (!DRAWN.includes(r.kind)) return 'nothing to draw'
+      if (r.drawn) return 'already drawn'
+      const pile = drawPile(deck, pl, r)
+      const cards = Array.isArray(p.cards) ? p.cards : []
+      if (cards.length !== Math.min(r.draw, pile.length) || new Set(cards).size !== cards.length || cards.some((/** @type {any} */ c) => !pile.includes(c))) return 'not a draw from the pile'
+      r.drawn = [...cards]
+      return null
+    }
+
+    case 'amend':
+      // Read before the fold (liveEvents); here only who wrote it.
+      return owner ? null : 'owner only'
 
     case 'endPhase':
       if (!owner) return 'owner only'
@@ -324,7 +506,12 @@ function apply(s, deck, e) {
       const pl = playerById(s, p.player)
       if (!pl) return 'no such player'
       if (Array.isArray(p.upgrades)) pl.upgrades = [...new Set(p.upgrades.filter((/** @type {any} */ u) => deck.upgrades.some((c) => c.slug === u)))]
-      if (p.agenda != null) pl.agenda = Array.from({ length: Math.max(0, Math.min(MAX_AGENDA_ACHIEVED, Math.floor(Number(p.agenda) || 0))) }, () => ({ phase: s.phase }))
+      if (p.agenda != null) {
+        // The cards kept keep their phase (one from the last phase is still discarded at the end of
+        // this one); a card added is of this phase.
+        const n = Math.max(0, Math.min(MAX_AGENDA_ACHIEVED, Math.floor(Number(p.agenda) || 0)))
+        pl.agenda = [...pl.agenda.slice(0, n), ...Array.from({ length: Math.max(0, n - pl.agenda.length) }, () => ({ phase: s.phase }))]
+      }
       return null
     }
 

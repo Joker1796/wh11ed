@@ -121,8 +121,24 @@ on a tie nothing breaks.
 - The fold is the authority on rights the server cannot judge: a member speaks only for the player
   they registered (`m-<memberId>`), a battle they fought, a reward of their own. A refused event
   stays in the log and is listed (`rejected`) for the Warmaster.
-- The app's draw is client-side randomness (friends at a table, not an anti-cheat); the fold checks
-  that the card kept was among those drawn, was in the pile, and is not already held.
+- The app's draw is client-side randomness (friends at a table, not an anti-cheat), but it is
+  written down: a `draw` event carries the cards that came before one is kept, so a reload or a
+  second device shows the same cards and a second draw for the reward is refused (owner, 2026-11-01:
+  "a reload drew again" was the hole). The fold checks the card kept against that draw, the pile and
+  the hand.
+- **The Warmaster corrects, the log stays append-only** (owner, 2026-11-01, "the booklet leaves
+  everything to the Warmaster"): an `amend` event gives earlier events new payloads or takes them
+  out, and the fold reads each in its own place (`liveEvents`) — so what followed is worked out
+  again. The core says which events a correction touches: `battleAmend` (a result corrected — a side
+  whose reward changes gives back its card and draws again; a battle taken out with its review and
+  cards), `reopenPhase` (the last end of a phase undone with the next Location and the Relics and
+  bonuses it handed out; refused while the next phase has battles — `reopenable`), `removePlayer`
+  (only one with no battles and nothing owed — `removable`). A closed phase's battle is corrected by
+  reopening the phase first (`battleLocked`): its end drew Relics on the Agenda Achieved cards it
+  counted. On the page: a "…" on each battle and each player (edit — the Alliance is the
+  Warmaster's; the player's cards and Agenda Achieved by hand, `adjust`; remove), "Change the
+  Location" and "Reopen" on the phase tab. Not a roster: the booklet asks for a faction kept over
+  the campaign, never a list (Upgrades go to units battle by battle).
 - Device side: `src/composables/useCampaigns.js` (the campaigns this device knows, with its
   credential for each — the account for the owner, a member token from `?join=`, the view token
   from `?t=`), pages `src/views/tracker/Campaign(s)View.vue`, blocks in `campaign/`. A finished
@@ -145,3 +161,5 @@ on a tie nothing breaks.
 Booklet readings worth knowing: Agenda Achieved cards gained in a phase are kept into the next
 and discarded at ITS end (step V "from previous phases"); the Event Companion's variant (Relics and
 Discard at the next phase's first battle) is not modelled — the Warmaster's `adjust` covers it.
+`adjust` keeps the Agenda Achieved cards it leaves in place with their own phase (a card from the
+last phase is still discarded at the end of this one); only the cards it adds are of this phase.

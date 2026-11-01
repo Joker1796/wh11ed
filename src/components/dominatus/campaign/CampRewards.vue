@@ -72,14 +72,16 @@
           class="camp-form"
         >
           <template v-if="state.draw === 'app'">
-            <!-- The draw opens a dialog of what came; closed unkept, the same cards wait (no re-roll). -->
+            <!-- The draw is written to the campaign (a `draw` event) and opens a dialog of what came;
+                 closed unkept, or opened on another device, the same cards wait — no re-roll. -->
             <button
               class="btn-ghost"
               data-press
               aria-haspopup="dialog"
+              :disabled="drawing"
               @click="openDraw(r)"
             >
-              {{ drawn[r.id] ? labels.campDrawnShow : labels.campDrawCards.replace('{n}', r.draw) }}
+              {{ r.drawn ? labels.campDrawnShow : labels.campDrawCards.replace('{n}', r.draw) }}
             </button>
           </template>
           <div
@@ -111,16 +113,16 @@
     </ul>
     <!-- What came, as the cards themselves: the reader keeps one having read them. -->
     <BaseModal
-      v-if="drawFor && drawn[drawFor.id]"
+      v-if="drawFor?.drawn"
       :title="title(drawFor)"
       :subtitle="playerName(drawFor.player)"
       max-width="760px"
-      @close="drawFor = null"
+      @close="drawForId = null"
     >
       <div class="modal-body camp-draw-body">
         <div class="camp-drawn">
           <div
-            v-for="slug in drawn[drawFor.id]"
+            v-for="slug in drawFor.drawn"
             :key="slug"
             class="camp-drawn-card"
           >
@@ -140,7 +142,7 @@
     <ConfirmModal
       v-if="keeping"
       :title="labels.campKeepTitle"
-      :message="labels.campKeepConfirm.replace('{card}', upgradeName(keeping.slug)).replace('{n}', drawn[keeping.r.id].length)"
+      :message="labels.campKeepConfirm.replace('{card}', upgradeName(keeping.slug)).replace('{n}', keeping.r.drawn.length)"
       :confirm-label="labels.campKeep"
       :cancel-label="labels.trackerCancel"
       @confirm="keepNow"
@@ -163,7 +165,6 @@ import { drawFor as drawCards, drawPile } from '../../../core/dominatus/campaign
 import { useCampaignView } from './useCampaignView.js'
 
 const { state, isOwner, mine, act, labels, deck, playerName, upgradeName, phaseLabel } = useCampaignView()
-const drawn = reactive({})
 const kept = reactive({})
 const augury = reactive({})
 const swap = reactive({})
@@ -178,16 +179,23 @@ function title(r) {
   const what = { honour: l.domHonours, skill: l.domSkills, relic: l.domRelics, fresh: l.campFresh, mettle: l.campMettle, augury: l.campAugury }[r.kind] || r.kind
   return r.kind === 'mettle' || r.kind === 'augury' ? what : `${what} · ${phaseLabel(r.phase)} · ${l.campDrawN.replace('{n}', r.draw)}`
 }
-// The reward whose drawn cards are in the dialog.
-const drawFor = ref(null)
-function openDraw(r) {
-  if (!drawn[r.id]) drawn[r.id] = drawCards(deck.value, playerOf(r.player), r)
-  drawFor.value = r
+// The reward whose drawn cards are in the dialog, read from the campaign as it folds.
+const drawForId = ref(null)
+const drawFor = computed(() => state.value.pending.find((r) => r.id === drawForId.value) || null)
+const drawing = ref(false)
+async function openDraw(r) {
+  if (!r.drawn) {
+    drawing.value = true
+    const ok = await act('draw', { reward: r.id, cards: drawCards(deck.value, playerOf(r.player), r) })
+    drawing.value = false
+    if (!ok) return
+  }
+  drawForId.value = r.id
 }
 // One card drawn is no choice and is kept at once; of several, the reader confirms first.
 const keeping = ref(null)
 function askKeep(r, slug) {
-  if (drawn[r.id].length > 1) keeping.value = { r, slug }
+  if (r.drawn.length > 1) keeping.value = { r, slug }
   else keep(r, slug)
 }
 function keepNow() {
@@ -196,8 +204,8 @@ function keepNow() {
   keep(r, slug)
 }
 async function keep(r, slug) {
-  drawFor.value = null
-  await claim(r, { drawn: drawn[r.id], kept: slug })
+  drawForId.value = null
+  await claim(r, { kept: slug })
 }
 function heldOf(pid, kind) {
   return deck.value.upgrades.filter((u) => u.kind === kind && playerOf(pid).upgrades.includes(u.slug))
@@ -208,9 +216,8 @@ function swapTargets(pid, outSlug) {
   const held = playerOf(pid).upgrades
   return deck.value.upgrades.filter((u) => u.kind === out.kind && (out.kind !== 'honour' || u.phase === out.phase) && !held.includes(u.slug))
 }
-async function claim(r, extra) {
-  await act('claim', { reward: r.id, ...extra })
-  delete drawn[r.id]
+function claim(r, extra) {
+  return act('claim', { reward: r.id, ...extra })
 }
 function claimMettle(r) {
   const swaps = ['honour', 'skill']

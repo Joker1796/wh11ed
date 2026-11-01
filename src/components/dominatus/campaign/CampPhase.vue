@@ -19,15 +19,25 @@
       >
         {{ labels.campStagingPost.replace('{a}', allianceName(stagingBy)) }}
       </p>
+      <!-- The Warmaster picks or rolls the Location, and may pick again (the Event Companion: they
+           may select it instead of rolling). -->
+      <button
+        v-if="isOwner && location && !choosing"
+        class="btn-ghost camp-change-loc"
+        @click="choosing = true"
+      >
+        {{ labels.campChangeLocation }}
+      </button>
       <div
-        v-if="isOwner && !location"
+        v-if="isOwner && (!location || choosing)"
         class="filter-chips"
       >
         <button
           v-for="l in phaseLocations"
           :key="l.slug"
           class="filter-chip"
-          @click="act('location', { phase: state.phase, slug: l.slug })"
+          :class="{ on: location?.slug === l.slug }"
+          @click="setLocation(l.slug)"
         >
           {{ l.roll }} · {{ l.name }}
         </button>
@@ -37,6 +47,13 @@
           @click="roll"
         >
           {{ labels.trackerDomRoll }}
+        </button>
+        <button
+          v-if="location"
+          class="filter-chip"
+          @click="choosing = false"
+        >
+          {{ labels.trackerCancel }}
         </button>
       </div>
 
@@ -82,6 +99,35 @@
         <strong>{{ phaseLabel(r.phase) }}:</strong> {{ resultLine(r) }}
       </li>
     </ul>
+    <!-- The Warmaster undoes the last end of a phase (an `amend`, reopenPhase): not under a battle
+         of the phase after it. -->
+    <div
+      v-if="isOwner && back"
+      class="camp-end"
+    >
+      <button
+        class="btn-ghost"
+        :disabled="back.blocked"
+        @click="reopening = true"
+      >
+        {{ labels.campReopen.replace('{n}', phaseLabel(back.phase)) }}
+      </button>
+      <p
+        v-if="back.blocked"
+        class="camp-dim"
+      >
+        {{ labels.campReopenBlocked }}
+      </p>
+    </div>
+    <ConfirmModal
+      v-if="reopening"
+      :title="labels.campReopen.replace('{n}', phaseLabel(back.phase))"
+      :message="labels.campReopenConfirm.replace('{n}', phaseLabel(back.phase))"
+      :confirm-label="labels.campReopen.replace('{n}', phaseLabel(back.phase))"
+      :cancel-label="labels.trackerCancel"
+      @confirm="reopen"
+      @close="reopening = false"
+    />
   </section>
 </template>
 
@@ -91,7 +137,8 @@
 // Warmaster's word on a tie nothing else breaks.
 import { ref, computed } from 'vue'
 import DomLocationCard from '../DomLocationCard.vue'
-import { campaignState } from '../../../core/dominatus/campaign.js'
+import ConfirmModal from '../../ConfirmModal.vue'
+import { campaignState, reopenable, reopenPhase } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
 const { entry, state, isOwner, act, labels, deck, allianceName, locationName, phaseLabel } = useCampaignView()
@@ -120,10 +167,14 @@ const preview = computed(() => {
   return r.tie ? labels.value.campTie : labels.value.campWillControl.replace('{a}', allianceName(r.control))
 })
 
+const choosing = ref(false)
+async function setLocation(slug) {
+  if (slug === location.value?.slug || (await act('location', { phase: state.value.phase, slug }))) choosing.value = false
+}
 function roll() {
   const n = 1 + Math.floor(Math.random() * 6)
   const l = phaseLocations.value[Math.ceil(n / 2) - 1]
-  if (l) act('location', { phase: state.value.phase, slug: l.slug })
+  if (l) setLocation(l.slug)
 }
 function endPhase() {
   act('endPhase', { phase: state.value.phase, ...(override.value ? { control: override.value } : {}) })
@@ -137,5 +188,13 @@ function resultLine(r) {
   if (r.ascendancy.length) parts.push(l.campAscendancy.replace('{a}', r.ascendancy.map(allianceName).join(', ')))
   parts.push(Object.entries(r.np).map(([a, n]) => `${allianceName(a)} ${n} ${l.campNpShort}`).join(', '))
   return parts.join(' · ')
+}
+
+const back = computed(() => reopenable(state.value))
+const reopening = ref(false)
+async function reopen() {
+  const edits = reopenPhase(entry.value.events, state.value)
+  reopening.value = false
+  if (edits.length) await act('amend', { edits })
 }
 </script>

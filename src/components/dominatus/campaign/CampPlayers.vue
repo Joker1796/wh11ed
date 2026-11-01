@@ -37,6 +37,51 @@
                 class="camp-record"
                 :title="labels.campRecordTitle"
               >{{ recordLine(p.id) }}</span>
+              <!-- The Warmaster edits anyone and holds their cards; a player edits themselves. -->
+              <ActionMenu
+                v-if="isOwner || p.id === mine?.id"
+                :open="menuFor === p.id"
+                :title="p.name || p.id"
+                @update:open="(v) => (menuFor = v ? p.id : null)"
+              >
+                <template #trigger="{ toggle }">
+                  <button
+                    class="camp-more"
+                    :aria-label="labels.rosterMoreActions"
+                    aria-haspopup="menu"
+                    @click.stop="toggle"
+                  >
+                    <i class="wi wi-more-v" />
+                  </button>
+                </template>
+                <button
+                  class="act-btn"
+                  @click="startEdit(p)"
+                >
+                  {{ labels.campEditPlayer }}
+                </button>
+                <button
+                  v-if="isOwner"
+                  class="act-btn"
+                  @click="startCards(p)"
+                >
+                  {{ labels.campPlayerCards }}
+                </button>
+                <button
+                  v-if="isOwner"
+                  class="act-btn act-danger"
+                  :disabled="!removable(state, p.id)"
+                  @click="menuFor = null; removing = p"
+                >
+                  {{ labels.campRemovePlayer }}
+                </button>
+                <p
+                  v-if="isOwner && !removable(state, p.id)"
+                  class="camp-act-note"
+                >
+                  {{ labels.campRemovePlayerLocked }}
+                </p>
+              </ActionMenu>
             </div>
             <div
               v-if="factionOf(p)"
@@ -118,20 +163,144 @@
       </CampOpenForm>
       <CampShare />
     </div>
+
+    <BaseModal
+      v-if="editing"
+      :title="labels.campEditPlayer"
+      :subtitle="editing.name"
+      @close="editing = null"
+    >
+      <form
+        class="modal-body camp-form camp-modal-form"
+        @submit.prevent="saveEdit"
+      >
+        <input
+          v-model.trim="edit.name"
+          class="form-input"
+          type="text"
+          maxlength="40"
+          :placeholder="labels.campPlayerName"
+          :aria-label="labels.campPlayerName"
+        >
+        <CampFactionPick v-model="edit.faction" />
+        <!-- Grouping the players is the Warmaster's (the Event Companion: they may require a player
+             to change their Alliance). -->
+        <div
+          v-if="isOwner"
+          class="camp-num"
+        >
+          <span>{{ labels.campAlliance }}</span>
+          <div class="seg seg-fill">
+            <button
+              v-for="a in alliances"
+              :key="a.id"
+              type="button"
+              :class="{ on: edit.alliance === a.id }"
+              @click="edit.alliance = a.id"
+            >
+              <DomAllianceName
+                :id="a.id"
+                :name="a.name"
+              />
+            </button>
+          </div>
+        </div>
+        <button
+          class="btn-primary"
+          type="submit"
+          :disabled="!edit.name"
+        >
+          {{ labels.trackerSave }}
+        </button>
+      </form>
+    </BaseModal>
+
+    <!-- The Warmaster's hand on a player's cards (`adjust`): what they hold and their Agenda
+         Achieved cards, set without a battle. -->
+    <BaseModal
+      v-if="carding"
+      :title="labels.campPlayerCards"
+      :subtitle="carding.name"
+      @close="carding = null"
+    >
+      <form
+        class="modal-body camp-form camp-modal-form"
+        @submit.prevent="saveCards"
+      >
+        <p class="camp-dim">
+          {{ labels.campPlayerCardsNote }}
+        </p>
+        <ul
+          v-if="cards.upgrades.length"
+          class="camp-held"
+        >
+          <li
+            v-for="slug in cards.upgrades"
+            :key="slug"
+          >
+            <span>{{ upgradeName(slug) }}</span>
+            <button
+              type="button"
+              class="camp-more"
+              :aria-label="labels.campRemoveCard.replace('{card}', upgradeName(slug))"
+              @click="cards.upgrades = cards.upgrades.filter((u) => u !== slug)"
+            >
+              <i class="wi wi-close" />
+            </button>
+          </li>
+        </ul>
+        <CampPick
+          :model-value="null"
+          :placeholder="labels.campAddCard"
+          :options="addable"
+          @update:model-value="(v) => v && cards.upgrades.push(v)"
+        />
+        <label class="camp-num">
+          <span>{{ labels.domAgendaAchieved }}</span>
+          <NumberStepper
+            :model-value="cards.agenda"
+            :min="0"
+            :max="MAX_AGENDA_ACHIEVED"
+            @update:model-value="(v) => (cards.agenda = v)"
+          />
+        </label>
+        <button
+          class="btn-primary"
+          type="submit"
+        >
+          {{ labels.trackerSave }}
+        </button>
+      </form>
+    </BaseModal>
+    <ConfirmModal
+      v-if="removing"
+      :title="labels.campRemovePlayer"
+      :message="labels.campRemovePlayerConfirm.replace('{p}', removing.name || removing.id)"
+      :confirm-label="labels.campRemovePlayer"
+      :cancel-label="labels.trackerCancel"
+      @confirm="remove"
+      @close="removing = null"
+    />
   </section>
 </template>
 
 <script setup>
 // The campaign's players, their Alliance, the Upgrade cards they hold and their Agenda Achieved
 // cards. A player who joined by the link registers themselves here; the fold lets a member speak
-// for that one player only.
-import { ref, computed } from 'vue'
+// for that one player only. Each player's "…": edit (name, faction; the Alliance the Warmaster's),
+// and for the Warmaster the player's cards by hand and taking out a player with no battles.
+import { ref, reactive, computed } from 'vue'
+import ActionMenu from '../../ActionMenu.vue'
+import BaseModal from '../../BaseModal.vue'
+import ConfirmModal from '../../ConfirmModal.vue'
+import NumberStepper from '../../tracker/NumberStepper.vue'
+import CampPick from './CampPick.vue'
 import DomAllianceName from '../DomAllianceName.vue'
 import CampOpenForm from './CampOpenForm.vue'
 import CampShare from './CampShare.vue'
 import CampFactionPick from './CampFactionPick.vue'
 import FactionBadge from '../../FactionBadge.vue'
-import { recordOf } from '../../../core/dominatus/campaign.js'
+import { recordOf, removable, removePlayer, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
 import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 
@@ -157,5 +326,48 @@ async function add() {
   alliance.value = null
   faction.value = null
   return true
+}
+
+const menuFor = ref(null)
+// The menu hands over to the dialog in one tick (a swap, BaseModal's modalLeave).
+const editing = ref(null)
+const edit = reactive({ name: '', faction: null, alliance: null })
+function startEdit(p) {
+  Object.assign(edit, { name: p.name, faction: p.faction, alliance: p.alliance })
+  menuFor.value = null
+  editing.value = p
+}
+async function saveEdit() {
+  const p = editing.value
+  const payload = { id: p.id, name: edit.name, faction: edit.faction }
+  if (isOwner.value) payload.alliance = edit.alliance
+  if (await act('player', payload)) editing.value = null
+}
+
+const carding = ref(null)
+const cards = reactive({ upgrades: [], agenda: 0 })
+function startCards(p) {
+  cards.upgrades = [...p.upgrades]
+  cards.agenda = p.agenda.length
+  menuFor.value = null
+  carding.value = p
+}
+// Any card not held yet, by kind: the Warmaster's word is not bound to a pile.
+const addable = computed(() => {
+  const l = labels.value
+  const kinds = { honour: l.domHonours, skill: l.domSkills, relic: l.domRelics }
+  return (deck.value?.upgrades || [])
+    .filter((u) => !cards.upgrades.includes(u.slug))
+    .map((u) => ({ value: u.slug, label: `${kinds[u.kind] || ''} · ${u.name}` }))
+})
+async function saveCards() {
+  if (await act('adjust', { player: carding.value.id, upgrades: [...cards.upgrades], agenda: cards.agenda })) carding.value = null
+}
+
+const removing = ref(null)
+async function remove() {
+  const edits = removePlayer(entry.value.events, removing.value.id)
+  removing.value = null
+  if (edits.length) await act('amend', { edits })
 }
 </script>

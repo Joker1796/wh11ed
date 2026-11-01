@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { campaignState, drawPile, drawFor, standings, recordOf, PATH_TO_CONQUEST } from './campaign.js'
+import { campaignState, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, PATH_TO_CONQUEST } from './campaign.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en')
@@ -68,12 +68,29 @@ describe('Dominatus campaign — a battle\'s rewards', () => {
     const pile = drawPile(deck, s0.players[0], r)
     expect(pile).toHaveLength(5) // the five Phase 1 Battle Honours
     const drawn = drawFor(deck, s0.players[0], r, () => 0)
-    const ok = campaignState([...evs, O('claim', { reward: r.id, drawn, kept: drawn[0] })], deck)
+    const evsDrawn = [...evs, O('draw', { reward: r.id, cards: drawn })]
+    expect(campaignState(evsDrawn, deck).pending[0].drawn).toEqual(drawn)
+    const ok = campaignState([...evsDrawn, O('claim', { reward: r.id, kept: drawn[0] })], deck)
     expect(ok.players[0].upgrades).toEqual([drawn[0]])
-    const notDrawn = campaignState([...evs, O('claim', { reward: r.id, drawn, kept: pile[4] })], deck)
+    const notDrawn = campaignState([...evsDrawn, O('claim', { reward: r.id, kept: pile[4] })], deck)
     expect(notDrawn.rejected[0].reason).toBe('kept card was not drawn')
-    const stranger = campaignState([...evs, ev('m2', 'claim', { reward: r.id, drawn, kept: drawn[0] })], deck)
+    const undrawn = campaignState([...evs, O('claim', { reward: r.id, kept: drawn[0] })], deck)
+    expect(undrawn.rejected[0].reason).toBe('kept card was not drawn')
+    const stranger = campaignState([...evsDrawn, ev('m2', 'claim', { reward: r.id, kept: drawn[0] })], deck)
     expect(stranger.rejected[0].reason).toBe('not your reward')
+  })
+
+  it('draws once per reward, as many cards as it draws, from the pile', () => {
+    const evs = [...base(), battle('owner', 'b1', 'ann', 'cid', 'a')]
+    const s0 = campaignState(evs, deck)
+    const r = s0.pending[0]
+    const pile = drawPile(deck, s0.players[0], r)
+    const reasons = (extra) => campaignState([...evs, ...extra], deck).rejected.map((x) => x.reason)
+    expect(reasons([O('draw', { reward: r.id, cards: [pile[0]] }), O('draw', { reward: r.id, cards: [pile[1]] })])).toEqual(['already drawn'])
+    expect(reasons([O('draw', { reward: r.id, cards: [pile[0], pile[1]] })])).toEqual(['not a draw from the pile'])
+    expect(reasons([O('draw', { reward: r.id, cards: ['agenda-nope'] })])).toEqual(['not a draw from the pile'])
+    expect(reasons([ev('m2', 'draw', { reward: r.id, cards: [pile[0]] })])).toEqual(['not your reward'])
+    expect(reasons([O('settings', { draw: 'manual' }), O('draw', { reward: r.id, cards: [pile[0]] })])).toEqual(['drawn at the table'])
   })
 
   it('takes a card kept by hand when the deck is drawn at the table', () => {
@@ -186,5 +203,117 @@ describe('Dominatus campaign — a player\'s record', () => {
     expect(recordOf(s, 'cid')).toEqual({ won: 1, drawn: 0, lost: 1 })
     expect(recordOf(s, 'ben')).toEqual({ won: 0, drawn: 0, lost: 0 })
     expect(recordOf(s, 'dee')).toEqual({ won: 0, drawn: 1, lost: 0 })
+  })
+})
+
+describe('Dominatus campaign — the Warmaster\'s corrections', () => {
+  const amend = (edits) => O('amend', { edits })
+  const fold = (evs) => campaignState(evs, deck)
+
+  it('takes an event out or gives it a new payload, read in its own place', () => {
+    const evs = [...base(), battle('owner', 'b1', 'ann', 'cid', 'a')]
+    const b1 = evs.at(-1).seq
+    const gone = fold([...evs, amend([{ seq: b1, payload: null }])])
+    expect(gone.battles).toEqual([])
+    expect(gone.pending).toEqual([])
+    const flipped = fold([...evs, amend([{ seq: b1, payload: { ...evs.at(-1).payload, victor: 'b' } }])])
+    expect(flipped.battles[0].edited).toBe(true)
+    expect(flipped.pending.map((r) => [r.player, r.kind])).toEqual([['ann', 'skill'], ['cid', 'honour']])
+  })
+
+  it('is the Warmaster\'s alone and never reaches an amend or the creation', () => {
+    const evs = [...base(), battle('owner', 'b1', 'ann', 'cid', 'a')]
+    const s = fold([...evs, ev('m1', 'amend', { edits: [{ seq: evs.at(-1).seq, payload: null }] })])
+    expect(s.battles).toHaveLength(1)
+    expect(s.rejected.map((r) => r.reason)).toEqual(['owner only'])
+    const a1 = amend([{ seq: evs.at(-1).seq, payload: null }])
+    const s2 = fold([...evs, a1, amend([{ seq: a1.seq, payload: null }, { seq: 1, payload: null }])])
+    expect(s2.battles).toEqual([])
+    expect(s2.name).toBe('Armageddon')
+  })
+
+  it('takes a battle out with its review and the cards drawn for it', () => {
+    const evs = [...base(), battle('m1', 'b1', 'ben', 'cid', 'a'), O('review', { battle: 'b1', ok: true })]
+    const r = fold(evs).pending[0]
+    const card = drawPile(deck, fold(evs).players[1], r)[0]
+    evs.push(O('draw', { reward: r.id, cards: [card] }), O('claim', { reward: r.id, kept: card }))
+    expect(fold(evs).players[1].upgrades).toEqual([card])
+    const edits = battleAmend(evs, 'b1', null)
+    expect(edits.map((e) => evs.find((x) => x.seq === e.seq).type)).toEqual(['battle', 'review', 'draw', 'claim'])
+    const s = fold([...evs, amend(edits)])
+    expect(s.battles).toEqual([])
+    expect(s.players[1].upgrades).toEqual([])
+    expect(s.rejected).toEqual([])
+  })
+
+  it('corrects a result: a side whose reward changes draws again, the other keeps its card', () => {
+    const evs = [...base(), battle('owner', 'b1', 'ann', 'cid', 'a')]
+    for (const r of fold(evs).pending) {
+      const pl = fold(evs).players.find((p) => p.id === r.player)
+      const cards = drawFor(deck, pl, r, () => 0)
+      evs.push(O('draw', { reward: r.id, cards }), O('claim', { reward: r.id, kept: cards[0] }))
+    }
+    const kept = fold(evs).players.find((p) => p.id === 'cid').upgrades
+    // Ann won with no Agenda; now she won with one: one card more to draw, so she draws again.
+    const more = battleAmend(evs, 'b1', { victor: 'a', achieved: { a: 1, b: 0 } })
+    const s = fold([...evs, amend(more)])
+    expect(s.rejected).toEqual([])
+    expect(s.players.find((p) => p.id === 'ann').upgrades).toEqual([])
+    expect(s.players.find((p) => p.id === 'ann').agenda).toHaveLength(1)
+    expect(s.pending.map((r) => [r.player, r.kind, r.draw])).toEqual([['ann', 'honour', 2]])
+    expect(s.players.find((p) => p.id === 'cid').upgrades).toEqual(kept)
+    // Turned into a draw: both sides draw a Skill now; Cid's Skill stands, Ann's Honour goes.
+    const draw = fold([...evs, amend(battleAmend(evs, 'b1', { victor: null, achieved: { a: 0, b: 0 } }))])
+    expect(draw.rejected).toEqual([])
+    expect(draw.pending.map((r) => [r.player, r.kind])).toEqual([['ann', 'skill']])
+  })
+
+  it('locks the battles of a closed phase', () => {
+    const evs = [...base(), battle('owner', 'b1', 'ann', 'cid', 'a'), O('endPhase', { phase: 1 })]
+    const s = fold(evs)
+    expect(battleLocked(s, s.battles[0])).toBe('closed')
+    expect(battleLocked(fold(evs.slice(0, -1)), s.battles[0])).toBe(null)
+  })
+
+  it('reopens the last phase ended, with the Location, Relics and refused battles that followed it', () => {
+    const evs = [...base(), battle('owner', 'b1', 'ann', 'cid', 'a', { a: 1, b: 0 }), O('endPhase', { phase: 1 }), O('location', { phase: 2, slug: 'blackfire-death-pits' })]
+    const s1 = fold(evs)
+    const relic = s1.pending.find((r) => r.kind === 'relic')
+    const cards = drawFor(deck, s1.players[0], relic, () => 0)
+    evs.push(O('draw', { reward: relic.id, cards }), O('claim', { reward: relic.id, kept: cards[0] }))
+    evs.push(battle('m2', 'b2', 'dee', 'ben', 'a'), O('review', { battle: 'b2', ok: false }))
+    const s = fold(evs)
+    expect(reopenable(s)).toEqual({ phase: 1, blocked: false })
+    const back = fold([...evs, amend(reopenPhase(evs, s))])
+    expect(back.phase).toBe(1)
+    expect(back.results).toEqual({})
+    expect(back.locations[2]).toBe(null)
+    expect(back.battles.map((b) => b.id)).toEqual(['b1'])
+    expect(back.players[0].upgrades).not.toContain(cards[0])
+    expect(back.rejected).toEqual([])
+  })
+
+  it('will not reopen a phase under a battle of the next one, nor before any phase ended', () => {
+    const evs = [...base(), O('endPhase', { phase: 1 }), O('location', { phase: 2, slug: 'blackfire-death-pits' }), battle('owner', 'b1', 'ann', 'cid', 'a')]
+    const s = fold(evs)
+    expect(reopenable(s)).toEqual({ phase: 1, blocked: true })
+    expect(reopenPhase(evs, s)).toEqual([])
+    expect(reopenable(fold(base()))).toBe(null)
+  })
+
+  it('takes out a player who fought no battle, with their edits', () => {
+    const evs = [...base(), O('player', { id: 'eve', name: 'Eve', alliance: 'raiders' }), O('player', { id: 'eve', faction: 'orks' }), O('adjust', { player: 'eve', agenda: 1 })]
+    const s = fold(evs)
+    expect(removable(s, 'eve')).toBe(true)
+    expect(removePlayer(evs, 'eve')).toHaveLength(3)
+    const gone = fold([...evs, amend(removePlayer(evs, 'eve'))])
+    expect(gone.players.map((p) => p.id)).toEqual(['ann', 'ben', 'cid', 'dee'])
+    expect(removable(fold([...evs, battle('owner', 'b1', 'eve', 'ann', 'a')]), 'eve')).toBe(false)
+  })
+
+  it('sets a player\'s Agenda Achieved cards by hand, the kept ones keeping their phase', () => {
+    const evs = [...base(), battle('owner', 'b1', 'ann', 'cid', 'a', { a: 1, b: 0 }), O('endPhase', { phase: 1 }), O('adjust', { player: 'ann', agenda: 3 })]
+    expect(fold(evs).players[0].agenda.map((c) => c.phase)).toEqual([1, 2, 2])
+    expect(fold([...evs, O('adjust', { player: 'ann', agenda: 1 })]).players[0].agenda.map((c) => c.phase)).toEqual([1])
   })
 })

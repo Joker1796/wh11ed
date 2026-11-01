@@ -121,3 +121,13 @@
 }
 .camp-player-actions { margin-top: 0.9rem; align-items: flex-start; }
 .camp-player-actions .copen.copen { margin-top: 0; }
+/* A form in the Warmaster's correction dialogs (a battle's result, a player, a player's cards). */
+.camp-modal-form { margin-top: 0; padding: 0.9rem 1rem 1.1rem; }
+/* Why an item of a "…" menu is greyed: under the items, in the menu's own padding. */
+.camp-act-note { margin: 0.3rem 0 0; padding: 0 0.75rem 0.4rem; font-size: 0.78rem; color: var(--text-muted); }
+/* The battle and the player rows carry their "…" at the right end. */
+.camp-player-head .camp-more { margin-right: -0.4rem; }
+/* The cards a player holds, in the Warmaster's cards dialog: a name and its remove. */
+.camp-held { justify-self: stretch; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; font-size: 0.88rem; }
+.camp-held li { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; border-bottom: 1px solid var(--border); }
+.camp-change-loc { margin-top: 0.5rem; }
