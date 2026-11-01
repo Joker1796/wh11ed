@@ -125,37 +125,44 @@
       :title="title(drawFor)"
       :subtitle="playerName(drawFor.player)"
       max-width="760px"
-      @close="drawForId = null"
+      @close="drawForId = null; chosen = null"
     >
+      <!-- Tap a card to choose it (again to let it go); the one button at the foot keeps it, and
+           says which and for whom. A single card drawn is no choice: it comes chosen. -->
       <div class="modal-body camp-draw-body">
         <div class="camp-drawn">
           <div
             v-for="slug in drawFor.drawn"
             :key="slug"
-            class="camp-drawn-card"
+            class="camp-drawn-pick"
+            :class="{ on: picked === slug, off: picked && picked !== slug }"
+            role="button"
+            tabindex="0"
+            data-press
+            :aria-pressed="picked === slug"
+            @click="pick(slug, $event)"
+            @keydown.enter.space.self.prevent="pick(slug)"
           >
             <DomUpgradeCard :upgrade="upgradeOf(slug)" />
-            <button
-              class="btn-primary"
-              @click="askKeep(drawFor, slug)"
-            >
-              {{ say(drawFor, 'Keep') }}
-            </button>
           </div>
         </div>
       </div>
+      <footer class="camp-draw-foot">
+        <p
+          v-if="drawFor.drawn.length > 1"
+          class="camp-dim"
+        >
+          {{ labels.campKeepNote }}
+        </p>
+        <button
+          class="btn-primary"
+          :disabled="!picked"
+          @click="keep(drawFor, picked)"
+        >
+          {{ picked ? say(drawFor, 'KeepNamed').replace('{card}', upgradeName(picked)) : labels.campKeepPick }}
+        </button>
+      </footer>
     </BaseModal>
-    <!-- Keeping one is final: say how many may be kept and where the rest go (the booklet: "return
-         the others to the deck" — they can be drawn again). -->
-    <ConfirmModal
-      v-if="keeping"
-      :title="labels.campKeepTitle"
-      :message="say(keeping.r, 'KeepConfirm').replace('{p}', playerName(keeping.r.player)).replace('{card}', upgradeName(keeping.slug)).replace('{n}', keeping.r.drawn.length)"
-      :confirm-label="say(keeping.r, 'Keep')"
-      :cancel-label="labels.trackerCancel"
-      @confirm="keepNow"
-      @close="keeping = null"
-    />
   </section>
 </template>
 
@@ -167,7 +174,6 @@ import { ref, reactive, computed } from 'vue'
 import NumberStepper from '../../tracker/NumberStepper.vue'
 import DomUpgradeCard from '../DomUpgradeCard.vue'
 import BaseModal from '../../BaseModal.vue'
-import ConfirmModal from '../../ConfirmModal.vue'
 import CampPick from './CampPick.vue'
 import { drawFor as drawCards, drawPile } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
@@ -210,21 +216,20 @@ async function openDraw(r) {
     drawing.value = false
     if (!ok) return
   }
+  chosen.value = null
   drawForId.value = r.id
 }
-// One card drawn is no choice and is kept at once; of several, the reader confirms first.
-const keeping = ref(null)
-function askKeep(r, slug) {
-  if (r.drawn.length > 1) keeping.value = { r, slug }
-  else keep(r, slug)
-}
-function keepNow() {
-  const { r, slug } = keeping.value
-  keeping.value = null
-  keep(r, slug)
+// The card chosen in the dialog; a draw of one comes chosen. A tap on a keyword inside a card
+// opens its text and leaves the choice alone.
+const chosen = ref(null)
+const picked = computed(() => chosen.value || (drawFor.value?.drawn.length === 1 ? drawFor.value.drawn[0] : null))
+function pick(slug, ev) {
+  if (ev?.target.closest('.keyword, [data-kw-open], a, button')) return
+  chosen.value = chosen.value === slug ? null : slug
 }
 async function keep(r, slug) {
   drawForId.value = null
+  chosen.value = null
   await claim(r, { kept: slug })
 }
 function heldOf(pid, kind) {

@@ -104,8 +104,14 @@
 /* Cards drawn by the app, each with its Keep under it; two abreast where they fit, as on the rules page. */
 .camp-drawn { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1rem; }
 /* The card takes the row's height and the Keep sits under it, level with its neighbour's. */
-.camp-drawn-card { display: grid; grid-template-rows: 1fr auto; gap: 0.5rem; justify-items: start; }
-.camp-drawn-card > .dcard { justify-self: stretch; }
+/* A drawn card is itself the choice: the chosen one framed in the accent, the others stepped back. */
+.camp-drawn-pick { display: grid; cursor: pointer; outline: 2px solid transparent; outline-offset: -1px; transition: outline-color var(--motion-fast), opacity var(--motion-fast); }
+.camp-drawn-pick.on { outline-color: var(--accent); }
+.camp-drawn-pick.off { opacity: 0.55; }
+.camp-drawn-pick:focus-visible { outline-color: var(--accent-ink); }
+/* The keep, one for the dialog, under the cards and always in view. */
+.camp-draw-foot { display: grid; gap: 0.4rem; padding: 0.6rem 0.9rem 0.75rem; border-top: 1px solid var(--border); }
+.camp-draw-foot p { margin: 0; font-size: 0.8rem; }
 .camp-draw-body { padding: 0.9rem 1rem 1.1rem; }
 /* The players by Alliance: one under another on a phone, three abreast on a desk. */
 .camp-allies { display: grid; gap: 1.25rem; }
