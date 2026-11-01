@@ -96,12 +96,12 @@
               <CampPick
                 v-model="pa"
                 :placeholder="labels.campSideA"
-                :options="state.players.filter((p) => p.alliance).map((p) => ({ value: p.id, label: p.name }))"
+                :options="state.players.filter((p) => p.alliance).map(playerOption)"
               />
               <CampPick
                 v-model="pb"
                 :placeholder="labels.campSideB"
-                :options="opponentsOf(pa).map((p) => ({ value: p.id, label: p.name }))"
+                :options="opponentsOf(pa).map(playerOption)"
               />
             </div>
             <button
@@ -288,7 +288,7 @@ import CampChronicle from './CampChronicle.vue'
 import { campaignState, reopenable, reopenPhase, scheduleProgress, pairingsNow, amendments, standings } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, phaseLabel } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, playerOption, phaseLabel } = useCampaignView()
 const override = ref(null)
 
 const phaseLocations = computed(() => deck.value?.locations.filter((l) => l.phase === state.value.phase) || [])

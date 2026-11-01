@@ -33,12 +33,12 @@
             <CampPick
               v-model="a"
               :placeholder="labels.campSideA"
-              :options="choosable.map((p) => ({ value: p.id, label: p.name }))"
+              :options="choosable.map(playerOption)"
             />
             <CampPick
               v-model="b"
               :placeholder="labels.campSideB"
-              :options="opponentsOf(a).map((p) => ({ value: p.id, label: p.name }))"
+              :options="opponentsOf(a).map(playerOption)"
             />
           </div>
           <CampBattleResult
@@ -64,7 +64,7 @@
       v-model="only"
       class="camp-filter"
       :placeholder="labels.campAllPlayers"
-      :options="[{ value: null, label: labels.campAllPlayers }, ...state.players.map((p) => ({ value: p.id, label: p.name }))]"
+      :options="[{ value: null, label: labels.campAllPlayers }, ...state.players.map(playerOption)]"
     />
     <p
       v-if="!groups.length"
@@ -193,12 +193,12 @@
             v-model="pa"
             :placeholder="labels.campSideA"
             :disabled="!!fixedSelf"
-            :options="(fixedSelf ? [fixedSelf] : state.players.filter((p) => p.alliance)).map((p) => ({ value: p.id, label: p.name }))"
+            :options="(fixedSelf ? [fixedSelf] : state.players.filter((p) => p.alliance)).map(playerOption)"
           />
           <CampPick
             v-model="pb"
             :placeholder="labels.campSideB"
-            :options="opponentsOf(pa).map((p) => ({ value: p.id, label: p.name }))"
+            :options="opponentsOf(pa).map(playerOption)"
           />
         </div>
         <p class="camp-dim">
@@ -242,7 +242,7 @@ import { battleAmend, battleLocked, likelyDuplicates } from '../../../core/domin
 import { useRouter } from 'vue-router'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, mine, act, labels, playerName, phaseLabel } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, playerName, playerOption, phaseLabel } = useCampaignView()
 const a = ref(null)
 const b = ref(null)
 const victor = ref('a')

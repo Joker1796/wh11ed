@@ -126,7 +126,7 @@
         <CampPick
           v-model="form.me"
           :placeholder="labels.campMeNone"
-          :options="[{ value: null, label: labels.campMeNone }, ...state.players.map((p) => ({ value: p.id, label: p.name }))]"
+          :options="[{ value: null, label: labels.campMeNone }, ...state.players.map(playerOption)]"
         />
       </div>
       <button
@@ -157,7 +157,7 @@ import OptionHelpModal from '../../tracker/OptionHelpModal.vue'
 import { useCampaignView } from './useCampaignView.js'
 
 const emit = defineEmits(['close'])
-const { state, act, labels, phaseLabel } = useCampaignView()
+const { state, act, labels, phaseLabel, playerOption } = useCampaignView()
 const s = state.value
 const help = ref(null)
 const HELP_TITLES = { schedule: 'campSchedule', draw: 'campDrawSetting', approve: 'campApproveSetting', format: 'campFormat', me: 'campMe' }

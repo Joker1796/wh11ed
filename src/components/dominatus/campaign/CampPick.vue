@@ -39,7 +39,13 @@
           :class="{ on: o.value === model }"
           @click="model = o.value; close()"
         >
-          {{ o.label }}
+          <span
+            v-if="o.sub"
+            class="cpick-two"
+          ><span>{{ o.label }}</span><span class="cpick-sub">{{ o.sub }}</span></span>
+          <template v-else>
+            {{ o.label }}
+          </template>
         </button>
       </div>
     </template>
@@ -49,7 +55,7 @@
 <script setup>
 // A pick from a short list on the campaign pages — a player, a card, a campaign: the app's picker
 // (AdaptivePicker: a dropdown on a desk, a sheet on a phone) in place of the browser's own select,
-// the rows the "…" menus draw (`.act-list`). `options` = [{ value, label }].
+// the rows the "…" menus draw (`.act-list`). `options` = [{ value, label, sub? }] — `sub` a muted second line (a player's Alliance and faction).
 import { ref, computed } from 'vue'
 import AdaptivePicker from '../../AdaptivePicker.vue'
 
@@ -70,6 +76,8 @@ const shown = computed(() => props.label || current.value?.label || '')
 
 <style scoped>
 .cpick { min-width: 0; }
+.cpick-two { display: grid; gap: 0.1rem; }
+.cpick-sub { font-size: 0.78rem; font-weight: 400; color: var(--text-muted); }
 .cpick-trigger {
   display: flex;
   align-items: center;
