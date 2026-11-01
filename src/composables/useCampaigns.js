@@ -222,6 +222,17 @@ async function syncAll() {
   }
 }
 
+/** Remember a choice the reader makes on a campaign's page — the Briefing's Alliance, the tab, a
+ * fold, a filter — so the page opens as they left it (owner, 2026-11-01: "a player plays one
+ * Alliance the whole campaign, don't make them click a hundred times"). This device only; it goes
+ * with the campaign when the campaign is forgotten here. */
+export function setCampaignPref(id, key, value) {
+  const c = byId(id)
+  if (!c || (c.prefs?.[key] ?? null) === value) return
+  c.prefs = { ...(c.prefs || {}), [key]: value }
+  save()
+}
+
 /** Does this device know any campaign? — for a door that shows only then (no deck loaded). */
 export function hasKnownCampaigns() {
   return campaigns.value.length > 0

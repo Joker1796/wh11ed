@@ -2,6 +2,7 @@
 // reader's language, and the names of things. Provided by CampaignView, injected by its blocks.
 import { computed, inject, provide } from 'vue'
 import { dominatusDeck } from '../../../composables/dominatusMissions.js'
+import { setCampaignPref } from '../../../composables/useCampaigns.js'
 import { useKeywordPopover } from '../../../composables/useKeywordPopover.js'
 import { ui } from '../../../i18n/ui.js'
 import { factionIndexBySlug } from '../../../data/factionsIndex.js'
@@ -47,5 +48,11 @@ export function useCampaignView() {
     ].filter(Boolean).join('\n')
     openRule(u.name, text, e.currentTarget.getBoundingClientRect(), u.nameRu || null)
   }
-  return { ...ctx, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, phaseLabel, showUpgrade }
+  // A choice this reader makes again and again here, kept with the campaign on this device
+  // (`setCampaignPref`): read and written like a ref, null until first made.
+  const remembered = (key) => computed({
+    get: () => ctx.entry.value?.prefs?.[key] ?? null,
+    set: (v) => ctx.entry.value && setCampaignPref(ctx.entry.value.id, key, v),
+  })
+  return { ...ctx, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, phaseLabel, showUpgrade, remembered }
 }

@@ -313,7 +313,7 @@ import CampChronicle from './CampChronicle.vue'
 import { campaignState, reopenable, reopenPhase, scheduleProgress, pairingsNow, standings } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, phaseLabel } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, phaseLabel, remembered } = useCampaignView()
 const override = ref(null)
 
 const phaseLocations = computed(() => deck.value?.locations.filter((l) => l.phase === state.value.phase) || [])
@@ -332,11 +332,13 @@ const alliancesIn = computed(() => {
 const briefings = computed(() => alliancesIn.value
   .map((a) => deck.value?.briefings.find((b) => b.alliance === a && b.phase === state.value.phase))
   .filter(Boolean))
-const briefFor = ref(null)
+// The Alliance last switched to stays (a player reads their own one all campaign).
+const briefFor = remembered('briefing')
 const shownBriefing = computed(() => briefings.value.find((b) => b.alliance === briefFor.value) || briefings.value[0] || null)
 
-// The Location card opens on a tap; a tap on a keyword or a mark inside it is theirs.
-const locOpen = ref(false)
+// The Location card opens on a tap and stays as the reader left it; a tap on a keyword or a mark
+// inside it is theirs.
+const locOpen = remembered('locationOpen')
 function toggleLoc(ev) {
   if (ev.target.closest('.keyword, [data-kw-open], a, button')) return
   locOpen.value = !locOpen.value

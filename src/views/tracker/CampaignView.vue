@@ -84,7 +84,7 @@
       <PageTabs
         class="camp-tabs"
         :tabs="tabs"
-        @select="picked = $event"
+        @select="pickTab"
       />
       <Transition
         name="fade"
@@ -145,7 +145,7 @@ import CampPlayers from '../../components/dominatus/campaign/CampPlayers.vue'
 import { provideCampaignView } from '../../components/dominatus/campaign/useCampaignView.js'
 import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
-import { useCampaigns } from '../../composables/useCampaigns.js'
+import { useCampaigns, setCampaignPref } from '../../composables/useCampaigns.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -176,7 +176,12 @@ watch(waiting, (w) => { if (state.value) noteWaiting(id.value, w.rewards + w.bat
 // Open on what waits first; it follows the log as it comes in until the reader picks a tab.
 const picked = ref(null)
 const helpOpen = ref(false)
-const tab = computed(() => picked.value || (rewardsWaiting.value ? 'rewards' : battlesWaiting.value ? 'battles' : 'phase'))
+// With nothing waiting it opens on the tab the reader had last (this device, setCampaignPref).
+const tab = computed(() => picked.value || (rewardsWaiting.value ? 'rewards' : battlesWaiting.value ? 'battles' : entry.value?.prefs?.tab || 'phase'))
+function pickTab(key) {
+  picked.value = key
+  setCampaignPref(id.value, 'tab', key)
+}
 const tabs = computed(() => {
   const l = labels.value
   const s = state.value

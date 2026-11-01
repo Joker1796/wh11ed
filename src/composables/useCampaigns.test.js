@@ -41,6 +41,16 @@ describe('campaigns on this device', () => {
     expect(JSON.parse(localStorage.getItem('wh11ed-campaigns'))[0].seq).toBe(3)
   })
 
+  it('keeps the reader\'s choices with the campaign, and a sync leaves them alone', async () => {
+    const c = mod.useCampaigns()
+    await c.joinCampaign('c1', 'J'.repeat(22))
+    mod.setCampaignPref('c1', 'briefing', 'raiders')
+    mod.setCampaignPref('c1', 'tab', 'battles')
+    await c.syncCampaign('c1')
+    expect(c.byId('c1').prefs).toEqual({ briefing: 'raiders', tab: 'battles' })
+    expect(JSON.parse(localStorage.getItem('wh11ed-campaigns'))[0].prefs.briefing).toBe('raiders')
+  })
+
   it('asks only for what is after the last seq, and a 204 changes nothing', async () => {
     const c = mod.useCampaigns()
     await c.joinCampaign('c1', 'J'.repeat(22))

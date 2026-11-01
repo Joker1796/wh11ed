@@ -239,7 +239,7 @@
 // the Warmaster has approved it (only then do its rewards come). Entered here by hand, or sent
 // from a finished tracker game (CampSendGame). The Warmaster corrects a battle of the open phase
 // or takes it out — an `amend` of the log (battleAmend says what else it touches).
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import ActionMenu from '../../ActionMenu.vue'
 import BaseModal from '../../BaseModal.vue'
 import ConfirmModal from '../../ConfirmModal.vue'
@@ -252,14 +252,30 @@ import { battleAmend, battleLocked, likelyDuplicates, pairingsNow } from '../../
 import { useRouter } from 'vue-router'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, mine, act, labels, playerName, playerOption, phaseLabel } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, playerName, playerOption, phaseLabel, remembered } = useCampaignView()
+// The opponent the Warmaster paired a player with this phase, while that battle is still to play.
+function pairedWith(id) {
+  const x = id && pairingsNow(state.value).find((p) => !p.played && (p.a === id || p.b === id))
+  return x ? (x.a === id ? x.b : x.a) : null
+}
+// A battle entered by hand starts from this device's own player and their pairing, when there are.
 const a = ref(null)
 const b = ref(null)
+watch(() => mine.value?.id, (me) => {
+  if (a.value || !me) return
+  a.value = me
+  b.value = pairedWith(me)
+}, { immediate: true })
 const victor = ref('a')
 const achieved = ref({ a: 0, b: 0 })
 
-// By phase, newest phase and battle first; one player's only when the filter says so.
-const only = ref(null)
+// By phase, newest phase and battle first; one player's only when the filter says so. The filter
+// stays as the reader left it; a player no longer in the campaign filters nothing.
+const remOnly = remembered('battlesOf')
+const only = computed({
+  get: () => (state.value.players.some((p) => p.id === remOnly.value) ? remOnly.value : null),
+  set: (v) => { remOnly.value = v },
+})
 const groups = computed(() => {
   const bs = state.value.battles.filter((b) => !only.value || b.a === only.value || b.b === only.value)
   return [3, 2, 1]
@@ -279,8 +295,8 @@ function outcome(x) {
 }
 async function add() {
   if (!(await act('battle', { id: `b${Date.now().toString(36)}`, a: a.value, b: b.value, victor: victor.value, achieved: { ...achieved.value } }))) return false
-  a.value = null
-  b.value = null
+  a.value = mine.value?.id || null
+  b.value = pairedWith(a.value)
   victor.value = 'a'
   achieved.value = { a: 0, b: 0 }
   return true
@@ -322,8 +338,7 @@ const fixedSelf = computed(() => (isOwner.value ? null : mine.value))
 // A pairing the Warmaster set for this device's player and not yet played names the opponent.
 function startPlay() {
   pa.value = mine.value?.id || null
-  const x = pa.value && pairingsNow(state.value).find((p) => !p.played && (p.a === pa.value || p.b === pa.value))
-  pb.value = x ? (x.a === pa.value ? x.b : x.a) : null
+  pb.value = pairedWith(pa.value)
   playing.value = true
 }
 async function play() {
