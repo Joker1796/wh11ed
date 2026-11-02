@@ -23,7 +23,7 @@
 export const changelog = [
   {
     version: '2.10.10',
-    date: '2026-10-31',
+    date: '2026-11-02',
     en: [
       { h: 'Answers to bug reports' },
       '**Base sizes come from the GW app.** For Gyrfalcon Jetbike Sodality the app gives a 75×42mm oval. The kit’s page in the GW store says 90×52mm. The site shows the size from the app.',
