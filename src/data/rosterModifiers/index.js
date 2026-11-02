@@ -13,8 +13,9 @@
 // none is a faction, so all three are excluded and the glob keeps meaning "one entry per faction".
 import { SM_CHAPTERS } from '../../core/shared/smChapters.js'
 import { borrowedFrom, detachmentSources } from '../detachmentSources.js'
+import { quietLoaders } from '../../composables/staleChunks.js'
 
-const loaders = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./appliesWhile.js', '!./*.test.js'], { import: 'default' })
+const loaders = quietLoaders(import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./coreRules.js', '!./appliesWhile.js', '!./*.test.js'], { import: 'default' }))
 
 // One faction's records, or null when the faction has no file (or the layer was removed).
 /**

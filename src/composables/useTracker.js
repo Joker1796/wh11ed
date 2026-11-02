@@ -15,6 +15,7 @@ import {
   grandTotal as grandTotalOf,
   leader as leaderOf,
   youIndex,
+  mendSide,
 } from '../core/game/gameScoring.js'
 import { BATTLE_PHASES, usableThisTurn, usableInSlot } from '../core/rules/stratagemPhases.js'
 import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
@@ -243,8 +244,12 @@ function load(key, fallback) {
 export { isValidGame }
 
 const loadedCurrent = load(CUR_KEY, null)
+// A game saved with a side short of its rounds (gameScoring.js mendSide) is mended as it is read —
+// the one in play and the finished ones, which the stats and Resume read the same way.
+if (isValidGame(loadedCurrent)) loadedCurrent.players.forEach(mendSide)
 const current = ref(isValidGame(loadedCurrent) ? loadedCurrent : null)
 const history = ref((load(HIST_KEY, []) || []).filter(isValidGame))
+for (const g of history.value) g.players.forEach(mendSide)
 // In-progress new-game setup, persisted so it survives reloads / navigating away.
 const setupDraft = ref(load(DRAFT_KEY, null))
 

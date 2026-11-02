@@ -15,14 +15,16 @@ function game(over = {}) {
         isYou: true, name: 'Me', factionSlug: 'orks', detachments: ['War Horde'], disposition: 'd0', role: 'attacker',
         secondaryMode: 'tactical', battleReady: true, rosterId: 'r1', roster: snap('Mine'),
         primarySlug: 'p0', cp: 3, army: { counter: 2 }, ctx: { units: { a: { charged: 120 } } },
-        rounds: [{ primary: 5, picks: { '0:0': 1 } }, { primary: 0, picks: {} }],
+        cpLog: [],
+        rounds: [{ primary: 5, picks: { '0:0': 1 } }, { primary: 0, picks: {} }, { primary: 0, picks: {} }, { primary: 0, picks: {} }, { primary: 0, picks: {} }],
         secondary: { deck: ['x', 'y'], hand: ['z'], drawn: { z: 1 }, discarded: [], scored: [] },
       },
       {
         isYou: false, name: 'Opp', factionSlug: 'necrons', detachments: [], disposition: 'd1', role: 'defender',
         secondaryMode: 'fixed', battleReady: false, rosterId: null, roster: null,
         primarySlug: 'p1', cp: 1, army: {},
-        rounds: [{ primary: 0, picks: {} }, { primary: 0, picks: {} }],
+        cpLog: [],
+        rounds: [{ primary: 0, picks: {} }, { primary: 0, picks: {} }, { primary: 0, picks: {} }, { primary: 0, picks: {} }, { primary: 0, picks: {} }],
         secondary: { deck: [], hand: ['f1', 'f2'], drawn: { f1: 1, f2: 1 }, discarded: [], scored: [] },
       },
     ],
@@ -206,5 +208,33 @@ describe('changedSlices / stableJson', () => {
   it('treats a missing slice as changed and undefined values as absent', () => {
     expect(changedSlices({ shared: { a: 1 }, side0: {} }, { shared: { a: 1, b: undefined } })).toEqual(['side0'])
     expect(stableJson({ b: [1, { d: 2, c: 3 }], a: undefined })).toBe('{"b":[1,{"c":3,"d":2}]}')
+  })
+})
+
+// A game on another phone (2.10.9, /tracker): the Rounds tab fell over reading `rounds[0]` of a
+// side that had none. A side comes in whole or not at all.
+describe('a side that comes in short', () => {
+  it('a null in place of a side or of the battle leaves the live game as it was', () => {
+    const g = game()
+    const before = JSON.stringify(g)
+    expect(applySlice(g, 'side1', null)).toBe(false)
+    expect(applySlice(g, 'shared', null)).toBe(false)
+    expect(JSON.stringify(g)).toBe(before)
+  })
+  it('a side the server does not hold yet still reads as a side', () => {
+    const s = sliceGame(game())
+    delete s.side1
+    const g = assembleGame(s, { you: 0 })
+    expect(g.players[1].rounds).toHaveLength(5)
+    expect(g.players[1].rounds[0]).toEqual({ primary: 0, picks: {} })
+    expect(g.players[1].cpLog).toEqual([])
+  })
+  it('a side slice missing its rounds gets them, and keeps what it scored', () => {
+    const g = game()
+    const { rounds, ...rest } = sliceGame(g).side0
+    expect(applySlice(g, 'side0', rest)).toBe(true)
+    expect(g.players[0].rounds).toHaveLength(5)
+    expect(applySlice(g, 'side0', { ...rest, rounds })).toBe(true)
+    expect(g.players[0].rounds[0]).toEqual({ primary: 5, picks: { '0:0': 1 } })
   })
 })

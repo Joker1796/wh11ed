@@ -5,7 +5,8 @@
 // English and inherit from EN via deepOverlay; stratagem and enhancement names get an
 // optional RU display line instead (see stratNamesRu/enhNamesRu below). Loaded on demand
 // by useFactionPage only in the RU locale, so the overlays never enter the EN bundle.
-const modules = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'])
+import { quietLoaders } from '../../../composables/staleChunks.js'
+const modules = quietLoaders(import.meta.glob(['./*.js', '!./index.js', '!./*.test.js']))
 
 // Resolves the RU overlay MODULE for a faction (or null). The module's `default` export is
 // the sparse overlay merged by deepOverlay; optional `stratNamesRu`/`enhNamesRu` named

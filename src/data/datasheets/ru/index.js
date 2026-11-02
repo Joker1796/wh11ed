@@ -10,7 +10,8 @@
 //
 // Loaded on demand by FactionDatasheetView only in the RU locale, so the overlays never
 // enter the EN bundle. Each ./<slug>.js is code-split into its own chunk via glob.
-const modules = import.meta.glob(['./*.js', '!./index.js', '!./localize.js', '!./*.test.js'])
+import { quietLoaders } from '../../../composables/staleChunks.js'
+const modules = quietLoaders(import.meta.glob(['./*.js', '!./index.js', '!./localize.js', '!./*.test.js']))
 export { localizeSheet } from './localize.js'
 
 // Resolves the RU overlay MODULE for a faction (or null). Returns the whole module
