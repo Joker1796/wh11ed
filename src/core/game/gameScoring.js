@@ -7,6 +7,30 @@
 /** @typedef {import('../shared/roster.types.js').TrackerPlayer} TrackerPlayer */
 
 export const ROUND_COUNT = 5           // battle rounds in a game
+
+// What every reader of a side indexes without asking: its five rounds, its CP ledger, its army
+// state. makePlayer builds them all; a side that came in another way can lack them — a game on
+// another phone (2.10.9, /tracker: the primary's row read `rounds[0]` of a side that had none and
+// the Rounds tab fell over). Filled in place, nothing that is there is touched. Returns the side.
+/**
+ * @param {Record<string, any>} side
+ * @returns {Record<string, any>}
+ */
+export function mendSide(side) {
+  if (!side || typeof side !== 'object') return side
+  if (!Array.isArray(side.rounds)) side.rounds = []
+  for (let r = 0; r < ROUND_COUNT; r++) {
+    const round = side.rounds[r]
+    if (!round || typeof round !== 'object') side.rounds[r] = { primary: 0, picks: {} }
+    else {
+      if (typeof round.primary !== 'number') round.primary = 0
+      if (!round.picks || typeof round.picks !== 'object') round.picks = {}
+    }
+  }
+  if (!Array.isArray(side.cpLog)) side.cpLog = []
+  if (!side.army || typeof side.army !== 'object') side.army = {}
+  return side
+}
 export const PRIMARY_GAME_CAP = 45
 export const FIXED_SECONDARY_CAP = 20 // each fixed secondary, over the game
 export const TACTICAL_SECONDARY_CAP = 5 // each tactical secondary, per scoring ("up to 5VP")

@@ -29,6 +29,7 @@
 // assembleGame sets `isYou` from the joiner's seat and leaves the rest for the caller.
 
 import { LOCAL_TRACK_SETTINGS } from '../data/trackerOptions.js'
+import { mendSide } from '../core/game/gameScoring.js'
 
 export const SLICE_NAMES = ['shared', 'side0', 'side1', 'roster0', 'roster1']
 
@@ -97,7 +98,9 @@ function assembleSide(side, roster, isYou) {
     pl.members = pl.members.map((m, mi) => ({ ...m, ...rosterPart(roster?.members?.[mi]) }))
   }
   pl.isYou = isYou
-  return pl
+  // A side slice the server does not hold yet (a joining phone) or one that came short must still
+  // read as a side: five rounds, a ledger, an army blob (gameScoring.js mendSide).
+  return mendSide(pl)
 }
 
 // A whole game from its slices — what a joining device builds from the server's first answer.
@@ -127,6 +130,10 @@ function replaceKeys(target, next, keep = []) {
 export function applySlice(game, name, data) {
   if (!game || !Array.isArray(game.players) || game.players.length !== 2) return false
   const side = sideOfSlice(name)
+  // Nothing in place of a side or of the battle is not news, it is a hole: written over the live
+  // game it would empty that side (its rounds and scores) or the settings. The server only ever
+  // stores objects; a null is a corrupt row or this phone's own base for a slice it never had.
+  if (!name.startsWith('roster') && (!data || typeof data !== 'object')) return false
   const next = clone(data) || {}
   if (name === 'shared') {
     const local = {}
