@@ -12,143 +12,165 @@
     >
       {{ labels.campRewardsByWarmasterNote }}
     </p>
-    <ul class="camp-list">
-      <li
-        v-for="r in rewards"
-        :key="r.id"
-        class="camp-reward"
-      >
-        <!-- Who, what, why on three short lines, and the draw on the right (owner, 2026-11-03: one
+    <!-- The reader's own rewards, then — for the Warmaster — the other players' under a head that
+         says why they are here (owner, 2026-11-03: the one red button among grey ones read as chance). -->
+    <template
+      v-for="g in groups"
+      :key="g.key"
+    >
+      <template v-if="g.key === 'others'">
+        <p class="camp-rewards-head">
+          {{ labels.campOthersRewards }}
+        </p>
+        <p
+          v-if="state.rewardsBy !== 'warmaster'"
+          class="camp-dim camp-rewards-note"
+        >
+          {{ labels.campOthersRewardsNote }}
+        </p>
+      </template>
+      <ul class="camp-list">
+        <li
+          v-for="r in g.list"
+          :key="r.id"
+          class="camp-reward"
+        >
+          <!-- Who, what, why on three short lines, and the draw on the right (owner, 2026-11-03: one
              long line through dots wrapped anywhere, and "draw 2" was said twice). Another player's
              reward says so in a tag, not on its button. -->
-        <div class="camp-reward-head">
-          <div class="camp-reward-text">
-            <p class="camp-reward-who">
-              <strong>{{ playerName(r.player) }}</strong>
-              <span
-                v-if="forOther(r)"
-                class="camp-reward-tag"
-              >{{ labels.campForPlayerTag }}</span>
-            </p>
-            <p class="camp-reward-what">
-              {{ rewardKind(r) }}
-            </p>
-            <p
-              v-if="why(r)"
-              class="camp-dim"
-            >
-              {{ why(r) }}
-            </p>
-          </div>
-          <button
-            v-if="appDraw(r)"
-            :class="forOther(r) ? 'btn-ghost' : 'btn-primary'"
-            class="camp-reward-go"
-            data-press
-            aria-haspopup="dialog"
-            :disabled="drawing"
-            @click="openDraw(r)"
-          >
-            {{ r.drawn ? labels.campDrawnShow : labels.campDrawCards.replace('{n}', r.draw) }}
-          </button>
-        </div>
-        <!-- The Event Companion's timing (a campaign setting): what the end of a phase hands out is
-             resolved at the next phase's first battle; Auspicious Augury before a witness. -->
-        <p
-          v-if="eventNote(r)"
-          class="camp-dim"
-        >
-          {{ eventNote(r) }}
-        </p>
-
-        <!-- Handed out by the Warmaster alone (a campaign setting): a player sees what is owed. -->
-        <template v-if="canTake">
-          <!-- Auspicious Augury: the player shuffles their Secondary Missions and reports the Fixed
-             Missions among the top four. -->
-          <div
-            v-if="r.kind === 'augury'"
-            class="camp-row"
-          >
-            <NumberStepper
-              :model-value="augury[r.id] || 0"
-              :min="0"
-              :max="4"
-              @update:model-value="(v) => (augury[r.id] = v)"
-            />
-            <button
-              class="btn-primary"
-              @click="claim(r, { gained: augury[r.id] || 0 })"
-            >
-              {{ say(r, 'Confirm') }}
-            </button>
-          </div>
-
-          <!-- Test of Mettle: up to one Battle Honour and one Battle Skill swapped. -->
-          <div
-            v-else-if="r.kind === 'mettle'"
-            class="camp-form"
-          >
-            <div
-              v-for="kind in ['honour', 'skill']"
-              :key="kind"
-              class="camp-pair"
-            >
-              <CampPick
-                v-model="swap[r.id + kind + 'out']"
-                :placeholder="`${kind === 'honour' ? labels.domHonours : labels.domSkills}: —`"
-                :options="[{ value: null, label: '—' }, ...heldOf(r.player, kind).map((u) => ({ value: u.slug, label: u.name }))]"
-              />
-              <CampPick
-                v-model="swap[r.id + kind + 'in']"
-                placeholder="→"
-                :disabled="!swap[r.id + kind + 'out']"
-                :options="swapTargets(r.player, swap[r.id + kind + 'out']).map((u) => ({ value: u.slug, label: u.name }))"
-              />
+          <div class="camp-reward-head">
+            <div class="camp-reward-text">
+              <p class="camp-reward-who">
+                <strong>{{ playerName(r.player) }}</strong>
+                <span
+                  v-if="forOther(r)"
+                  class="camp-reward-tag"
+                >{{ labels.campForPlayerTag }}</span>
+                <span
+                  v-else-if="isOwner"
+                  class="camp-you"
+                >{{ labels.campYou }}</span>
+              </p>
+              <p class="camp-reward-what">
+                {{ rewardKind(r) }}
+              </p>
+              <p
+                v-if="why(r)"
+                class="camp-dim"
+              >
+                {{ why(r) }}
+              </p>
             </div>
             <button
-              class="btn-primary"
-              @click="claimMettle(r)"
+              v-if="appDraw(r)"
+              :class="forOther(r) ? 'btn-ghost' : 'btn-primary'"
+              class="camp-reward-go"
+              data-press
+              aria-haspopup="dialog"
+              :disabled="drawing"
+              @click="openDraw(r)"
             >
-              {{ say(r, 'Confirm') }}
+              {{ r.drawn ? labels.campDrawnShow : labels.campDrawCards.replace('{n}', r.draw) }}
             </button>
           </div>
-
-          <!-- A draw: by the app (draw, then keep one of what came) or at the table (pick the card kept). -->
-          <div
-            v-else-if="state.draw !== 'app' || !pileOf(r).length"
-            class="camp-form"
+          <!-- The Event Companion's timing (a campaign setting): what the end of a phase hands out is
+             resolved at the next phase's first battle; Auspicious Augury before a witness. -->
+          <p
+            v-if="eventNote(r)"
+            class="camp-dim"
           >
-            <!-- Drawn by the app: the button sits in the head (appDraw). The draw is written to the
-                 campaign (a `draw` event) and opens a dialog of what came; closed unkept, or opened
-                 on another device, the same cards wait — no re-roll. -->
+            {{ eventNote(r) }}
+          </p>
+
+          <!-- Handed out by the Warmaster alone (a campaign setting): a player sees what is owed. -->
+          <template v-if="canTake">
+            <!-- Auspicious Augury: the player shuffles their Secondary Missions and reports the Fixed
+             Missions among the top four. -->
             <div
-              v-if="state.draw !== 'app'"
+              v-if="r.kind === 'augury'"
               class="camp-row"
             >
-              <CampPick
-                v-model="kept[r.id]"
-                :placeholder="labels.campKeptCard"
-                :options="pileOf(r).map((slug) => ({ value: slug, label: upgradeName(slug) }))"
+              <NumberStepper
+                :model-value="augury[r.id] || 0"
+                :min="0"
+                :max="4"
+                @update:model-value="(v) => (augury[r.id] = v)"
               />
               <button
                 class="btn-primary"
-                :disabled="!kept[r.id]"
-                @click="claim(r, { kept: kept[r.id] })"
+                @click="claim(r, { gained: augury[r.id] || 0 })"
               >
                 {{ say(r, 'Confirm') }}
               </button>
             </div>
-            <button
-              v-if="!pileOf(r).length"
-              class="btn-ghost"
-              @click="claim(r, {})"
+
+            <!-- Test of Mettle: up to one Battle Honour and one Battle Skill swapped. -->
+            <div
+              v-else-if="r.kind === 'mettle'"
+              class="camp-form"
             >
-              {{ say(r, 'NothingLeft', 'Nothing') }}
-            </button>
-          </div>
-        </template>
-      </li>
-    </ul>
+              <div
+                v-for="kind in ['honour', 'skill']"
+                :key="kind"
+                class="camp-pair"
+              >
+                <CampPick
+                  v-model="swap[r.id + kind + 'out']"
+                  :placeholder="`${kind === 'honour' ? labels.domHonours : labels.domSkills}: —`"
+                  :options="[{ value: null, label: '—' }, ...heldOf(r.player, kind).map((u) => ({ value: u.slug, label: u.name }))]"
+                />
+                <CampPick
+                  v-model="swap[r.id + kind + 'in']"
+                  placeholder="→"
+                  :disabled="!swap[r.id + kind + 'out']"
+                  :options="swapTargets(r.player, swap[r.id + kind + 'out']).map((u) => ({ value: u.slug, label: u.name }))"
+                />
+              </div>
+              <button
+                class="btn-primary"
+                @click="claimMettle(r)"
+              >
+                {{ say(r, 'Confirm') }}
+              </button>
+            </div>
+
+            <!-- A draw: by the app (draw, then keep one of what came) or at the table (pick the card kept). -->
+            <div
+              v-else-if="state.draw !== 'app' || !pileOf(r).length"
+              class="camp-form"
+            >
+              <!-- Drawn by the app: the button sits in the head (appDraw). The draw is written to the
+                 campaign (a `draw` event) and opens a dialog of what came; closed unkept, or opened
+                 on another device, the same cards wait — no re-roll. -->
+              <div
+                v-if="state.draw !== 'app'"
+                class="camp-row"
+              >
+                <CampPick
+                  v-model="kept[r.id]"
+                  :placeholder="labels.campKeptCard"
+                  :options="pileOf(r).map((slug) => ({ value: slug, label: upgradeName(slug) }))"
+                />
+                <button
+                  class="btn-primary"
+                  :disabled="!kept[r.id]"
+                  @click="claim(r, { kept: kept[r.id] })"
+                >
+                  {{ say(r, 'Confirm') }}
+                </button>
+              </div>
+              <button
+                v-if="!pileOf(r).length"
+                class="btn-ghost"
+                @click="claim(r, {})"
+              >
+                {{ say(r, 'NothingLeft', 'Nothing') }}
+              </button>
+            </div>
+          </template>
+        </li>
+      </ul>
+    </template>
     <!-- What came, as the cards themselves: the reader keeps one having read them. -->
     <BaseModal
       v-if="drawFor?.drawn"
@@ -214,10 +236,12 @@ const augury = reactive({})
 const swap = reactive({})
 
 const canTake = computed(() => isOwner.value || state.value.rewardsBy !== 'warmaster')
-// The reader's own first, then the others the Warmaster takes for their players.
-const rewards = computed(() => state.value.pending
-  .filter((r) => isOwner.value || r.player === mine.value?.id)
-  .sort((a, b) => (a.player === mine.value?.id ? 0 : 1) - (b.player === mine.value?.id ? 0 : 1)))
+const rewards = computed(() => state.value.pending.filter((r) => isOwner.value || r.player === mine.value?.id))
+// The reader's own first, then the others the Warmaster may take for their players.
+const groups = computed(() => [
+  { key: 'mine', list: rewards.value.filter((r) => !forOther(r)) },
+  { key: 'others', list: rewards.value.filter(forOther) },
+].filter((g) => g.list.length))
 const playerOf = (id) => state.value.players.find((p) => p.id === id)
 const upgradeOf = (slug) => deck.value.upgrades.find((u) => u.slug === slug)
 // The Warmaster taking another player's reward: the buttons say it is done for the player.
