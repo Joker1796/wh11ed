@@ -43,6 +43,14 @@
 .camp-player,
 .camp-battle,
 .camp-reward { padding: 0.55rem 0.75rem 0.65rem; border: 1px solid var(--border); background: var(--bg-card); }
+.camp-reward-head { display: flex; align-items: center; gap: 0.6rem; }
+.camp-reward-text { flex: 1 1 auto; min-width: 0; }
+.camp-reward-text p { margin: 0; }
+.camp-reward-who { display: flex; align-items: baseline; gap: 0.45rem; font-size: 0.95rem; }
+.camp-reward-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); }
+.camp-reward-what { font-size: 0.9rem; }
+.camp-reward-go { flex: none; }
+.camp-reward > .camp-form, .camp-reward > .camp-row, .camp-reward > .camp-dim { margin-top: 0.5rem; }
 .camp-player-head { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; align-items: baseline; }
 /* Won–drawn–lost on the right of the name, in the face numbers set apart wear. */
 .camp-record { margin-left: auto; font-family: var(--font-num); font-size: 0.82rem; color: var(--text-muted); }

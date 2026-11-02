@@ -18,9 +18,40 @@
         :key="r.id"
         class="camp-reward"
       >
-        <p class="camp-line">
-          <strong>{{ playerName(r.player) }}</strong> · {{ title(r) }}
-        </p>
+        <!-- Who, what, why on three short lines, and the draw on the right (owner, 2026-11-03: one
+             long line through dots wrapped anywhere, and "draw 2" was said twice). Another player's
+             reward says so in a tag, not on its button. -->
+        <div class="camp-reward-head">
+          <div class="camp-reward-text">
+            <p class="camp-reward-who">
+              <strong>{{ playerName(r.player) }}</strong>
+              <span
+                v-if="forOther(r)"
+                class="camp-reward-tag"
+              >{{ labels.campForPlayerTag }}</span>
+            </p>
+            <p class="camp-reward-what">
+              {{ rewardKind(r) }}
+            </p>
+            <p
+              v-if="why(r)"
+              class="camp-dim"
+            >
+              {{ why(r) }}
+            </p>
+          </div>
+          <button
+            v-if="appDraw(r)"
+            :class="forOther(r) ? 'btn-ghost' : 'btn-primary'"
+            class="camp-reward-go"
+            data-press
+            aria-haspopup="dialog"
+            :disabled="drawing"
+            @click="openDraw(r)"
+          >
+            {{ r.drawn ? labels.campDrawnShow : labels.campDrawCards.replace('{n}', r.draw) }}
+          </button>
+        </div>
         <!-- The Event Companion's timing (a campaign setting): what the end of a phase hands out is
              resolved at the next phase's first battle; Auspicious Augury before a witness. -->
         <p
@@ -84,24 +115,14 @@
 
           <!-- A draw: by the app (draw, then keep one of what came) or at the table (pick the card kept). -->
           <div
-            v-else
+            v-else-if="state.draw !== 'app' || !pileOf(r).length"
             class="camp-form"
           >
-            <template v-if="state.draw === 'app'">
-              <!-- The draw is written to the campaign (a `draw` event) and opens a dialog of what came;
-                 closed unkept, or opened on another device, the same cards wait — no re-roll. -->
-              <button
-                class="btn-ghost"
-                data-press
-                aria-haspopup="dialog"
-                :disabled="drawing"
-                @click="openDraw(r)"
-              >
-                {{ r.drawn ? say(r, 'DrawnShow', 'Show') : say(r, 'DrawCards', 'Draw').replace('{n}', r.draw) }}
-              </button>
-            </template>
+            <!-- Drawn by the app: the button sits in the head (appDraw). The draw is written to the
+                 campaign (a `draw` event) and opens a dialog of what came; closed unkept, or opened
+                 on another device, the same cards wait — no re-roll. -->
             <div
-              v-else
+              v-if="state.draw !== 'app'"
               class="camp-row"
             >
               <CampPick
@@ -193,7 +214,10 @@ const augury = reactive({})
 const swap = reactive({})
 
 const canTake = computed(() => isOwner.value || state.value.rewardsBy !== 'warmaster')
-const rewards = computed(() => state.value.pending.filter((r) => isOwner.value || r.player === mine.value?.id))
+// The reader's own first, then the others the Warmaster takes for their players.
+const rewards = computed(() => state.value.pending
+  .filter((r) => isOwner.value || r.player === mine.value?.id)
+  .sort((a, b) => (a.player === mine.value?.id ? 0 : 1) - (b.player === mine.value?.id ? 0 : 1)))
 const playerOf = (id) => state.value.players.find((p) => p.id === id)
 const upgradeOf = (slug) => deck.value.upgrades.find((u) => u.slug === slug)
 // The Warmaster taking another player's reward: the buttons say it is done for the player.
@@ -204,15 +228,18 @@ function say(r, key, forKey = key) {
 }
 const pileOf = (r) => (deck.value ? drawPile(deck.value, playerOf(r.player), r) : [])
 
-function title(r) {
+// A draw the app makes, taken here: its button stands in the reward's head.
+const appDraw = (r) => canTake.value && state.value.draw === 'app' && r.kind !== 'mettle' && r.kind !== 'augury' && !!pileOf(r).length
+// Why it is owed: the battle it came from, by the opponent's name, or the phase that handed it out;
+// and how many cards it draws when no button says it.
+function why(r) {
   const l = labels.value
-  const what = rewardKind(r)
-  if (r.kind === 'mettle' || r.kind === 'augury') return what
-  // Why it is owed: the battle it came from, by the opponent's name.
+  if (r.kind === 'mettle' || r.kind === 'augury') return ''
   const b = r.battle && state.value.battles.find((x) => x.id === r.battle)
-  const why = b ? l.campRewardFor.replace('{p}', playerName(b.a === r.player ? b.b : b.a)) : phaseLabel(r.phase)
-  return `${what} · ${why} · ${l.campDrawN.replace('{n}', r.draw)}`
+  const from = b ? l.campRewardFor.replace('{p}', playerName(b.a === r.player ? b.b : b.a)) : phaseLabel(r.phase)
+  return appDraw(r) ? from : `${from} · ${l.campDrawN.replace('{n}', r.draw)}`
 }
+const title = (r) => [rewardKind(r), why(r)].filter(Boolean).join(' · ')
 function eventNote(r) {
   if (state.value.format !== 'event' || r.battle) return ''
   const l = labels.value
