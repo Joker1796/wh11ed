@@ -11,7 +11,8 @@
 // Build scripts are unaffected: scripts/*.mjs never import this file, they read
 // src/data/factions/<slug>.js directly through sync-common.mjs's loadModule (import.meta.glob
 // is a Vite transform and would not resolve under plain Node).
-const modules = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'])
+import { quietLoaders } from '../../composables/staleChunks.js'
+const modules = quietLoaders(import.meta.glob(['./*.js', '!./index.js', '!./*.test.js']))
 
 // Every faction file has exactly one named export, the camelCase of its slug
 // ('space-marines' → `spaceMarines`). Resolve by that name and fall back to the module's first
@@ -36,7 +37,7 @@ export async function loadFaction(slug) {
 // the objects here as `extras` — [{ en, ru }] — on a detachment's `rule` and on an enhancement;
 // RuleExtras.vue draws it under the text. The RU overlay inherits it (deepOverlay copies what the
 // overlay does not name). Its own chunk, fetched with the faction that has one. Once per module.
-const extrasModules = import.meta.glob('./extras/*.js')
+const extrasModules = quietLoaders(import.meta.glob('./extras/*.js'))
 async function attachExtras(slug, data) {
   if (!data?.en || data.__extras) return
   const loader = extrasModules[`./extras/${slug}.js`]
