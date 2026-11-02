@@ -3,21 +3,41 @@
     :label="foldLabel"
     :start-open="isOwner && state.rejected.length > 0"
   >
-    <ol class="camp-chron">
-      <li
-        v-for="row in shown"
-        :key="row.seq"
-        :class="{ 'is-off': row.mark === 'off' || row.mark === 'refused' }"
+    <!-- A cogitator screen (owner, 2026-11-03): the one place on the campaign pages drawn as a
+         device, so it keeps its own dark phosphor panel in both themes. -->
+    <div class="camp-chron">
+      <ol>
+        <li
+          v-for="row in shown"
+          :key="row.seq"
+          :class="{ 'is-off': row.mark === 'off' || row.mark === 'refused' }"
+        >
+          <div class="camp-chron-meta">
+            [{{ row.when }}] {{ row.who }}
+          </div>
+          <div class="camp-chron-text">
+            <span
+              v-if="row.mark"
+              class="camp-chron-tag"
+              :class="`is-${row.mark}`"
+            >{{ row.tag }}</span>
+            <span class="camp-chron-what">{{ row.text }}</span>
+          </div>
+          <div
+            v-if="row.mark === 'refused'"
+            class="camp-chron-why"
+          >
+            {{ row.markText }}
+          </div>
+        </li>
+      </ol>
+      <p
+        v-if="rows.length === shown.length"
+        class="camp-chron-end"
       >
-        <span class="camp-chron-when">{{ row.when }}</span>
-        <span class="camp-chron-text"><strong>{{ row.who }}</strong> · {{ row.text }}</span>
-        <span
-          v-if="row.mark"
-          class="camp-chron-mark"
-          :class="`is-${row.mark}`"
-        >{{ row.markText }}</span>
-      </li>
-    </ol>
+        ++ {{ labels.campChrEnd }} ++
+      </p>
+    </div>
     <button
       v-if="rows.length > shown.length"
       class="btn-ghost"
@@ -44,10 +64,11 @@ const { locale } = useLocale()
 const all = ref(false)
 const SHOWN = 20
 
-const fmt = computed(() => new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }))
+// Digits only, the way a terminal stamps a line: 01.11 20:44 (01/11 20:44 in English).
+const fmt = computed(() => new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }))
 const when = (at) => {
   try {
-    return at ? fmt.value.format(new Date(at)) : ''
+    return at ? fmt.value.format(new Date(at)).replace(',', '') : ''
   } catch {
     return ''
   }
@@ -109,10 +130,11 @@ const rows = computed(() => {
     const payload = am.has(e.seq) ? am.get(e.seq) : e.payload
     let mark = ''
     let markText = ''
-    if (am.has(e.seq) && !am.get(e.seq)) { mark = 'off'; markText = l.campChrOff }
-    else if (refused.has(e.seq)) { mark = 'refused'; markText = why(refused.get(e.seq)) }
-    else if (am.has(e.seq)) { mark = 'edited'; markText = l.campEdited }
-    return { seq: e.seq, when: when(e.at), who: who(e.author), text: describe({ ...e, payload: payload || e.payload }, seenPlayers), mark, markText }
+    let tag = ''
+    if (am.has(e.seq) && !am.get(e.seq)) { mark = 'off'; tag = l.campChrOff }
+    else if (refused.has(e.seq)) { mark = 'refused'; tag = l.campChrTagRefused; markText = why(refused.get(e.seq)) }
+    else if (am.has(e.seq)) { mark = 'edited'; tag = l.campChrTagEdited }
+    return { seq: e.seq, when: when(e.at), who: who(e.author), text: describe({ ...e, payload: payload || e.payload }, seenPlayers), mark, tag, markText }
   })
   return out.reverse()
 })
@@ -125,10 +147,34 @@ const foldLabel = computed(() => {
 </script>
 
 <style scoped>
-.camp-chron { list-style: none; margin: 0 0 0.5rem; padding: 0; display: grid; gap: 0.3rem; font-size: 0.82rem; }
-.camp-chron li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 0.6rem; align-items: baseline; }
-.camp-chron-when { font-family: var(--font-num); font-size: 0.74rem; color: var(--text-muted); white-space: nowrap; }
-.camp-chron-mark { grid-column: 2; font-size: 0.74rem; color: var(--text-muted); }
-.camp-chron-mark.is-refused { color: var(--warning); }
-.camp-chron li.is-off .camp-chron-text { text-decoration: line-through; color: var(--text-muted); }
+/* Phosphor green on near-black: dark in both themes, since it is a screen, not a page surface.
+   The amber of a refusal is the dark theme's --warning, which reads on this panel. */
+.camp-chron {
+  --chr-bg: #0d140f;
+  --chr-line: #24452c;
+  --chr-fg: #7ee08f;
+  --chr-dim: #4f9a5d;
+  --chr-alert: #e3b341;
+  margin: 0 0 0.5rem;
+  padding: 0.5rem 0.65rem;
+  background: var(--chr-bg);
+  border: 1px solid var(--chr-line);
+  color: var(--chr-fg);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-shadow: 0 0 4px rgba(126, 224, 143, 0.35);
+}
+.camp-chron ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+.camp-chron-meta { color: var(--chr-dim); text-transform: uppercase; }
+.camp-chron-text, .camp-chron-why { padding-left: 2ch; }
+.camp-chron-text::before { content: '> '; margin-left: -2ch; }
+.camp-chron-tag { font-weight: 700; text-transform: uppercase; color: var(--chr-dim); margin-right: 1ch; }
+.camp-chron-tag.is-refused, .camp-chron-why { color: var(--chr-alert); }
+.camp-chron-why { font-size: 0.72rem; }
+.camp-chron li.is-off .camp-chron-what { text-decoration: line-through; color: var(--chr-dim); }
+.camp-chron-end { margin: 0.5rem 0 0; color: var(--chr-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; }
+.camp-chron-end::after { content: '_'; margin-left: 0.5ch; color: var(--chr-fg); animation: camp-chron-blink 1s steps(1) infinite; }
+@keyframes camp-chron-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .camp-chron-end::after { animation: none; } }
 </style>
