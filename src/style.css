@@ -883,7 +883,7 @@ strong {
 }
 /* A whole prose block that is lore (the Event Companion's `flavor` blocks): its text in the lore face. */
 /* `.rule-block` in the chain outranks RuleBlock's own scoped `.rule-body` size (0,2,0, later). */
-.event-flavor .rule-block .rule-body { font-family: var(--font-mono); font-size: 0.82rem; }
+.event-flavor .rule-block .rule-body { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted); }
 
 /* Step indicators */
 .steps-list {
