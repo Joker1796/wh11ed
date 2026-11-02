@@ -102,7 +102,8 @@ const missionParagraphs = computed(() =>
 .flavor-line {
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 1.05rem;
+  /* The lore's size elsewhere (.flavor-quote): the mono at 1.05rem read larger than the rules (2026-11-02). */
+  font-size: 0.9rem;
   line-height: 1.5;
   margin-bottom: 0.15rem;
 }

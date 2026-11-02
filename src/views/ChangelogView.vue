@@ -245,7 +245,8 @@ useUpdateNotice().markSeen()
   background: var(--accent);
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 1.05rem;
+  /* The mono stands taller and wider than Inter: 1.05rem shouted over the section heads (owner, 2026-11-02). */
+  font-size: 0.9rem;
   color: var(--text-on-accent);
 }
 
