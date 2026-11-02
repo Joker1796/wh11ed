@@ -9,8 +9,16 @@
     >
       {{ labels.campBattlesByWarmasterNote }}
     </p>
+    <!-- The two buttons said apart in one line above them (owner, 2026-11-03: a player could not
+         tell them apart); above, so nothing moves when a form opens under them. -->
+    <p
+      v-if="!state.finished && (isOwner || mine) && !(!isOwner && state.battlesBy === 'warmaster')"
+      class="camp-dim camp-battle-note"
+    >
+      {{ labels.campPlayOrEnterNote }}
+    </p>
     <div
-      v-else-if="!state.finished && (isOwner || mine)"
+      v-if="!state.finished && (isOwner || mine) && !(!isOwner && state.battlesBy === 'warmaster')"
       class="camp-row camp-battle-actions"
     >
       <button

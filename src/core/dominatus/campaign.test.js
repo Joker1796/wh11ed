@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { campaignState, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, scheduleProgress, pairingsNow, likelyDuplicates, PATH_TO_CONQUEST } from './campaign.js'
+import { campaignState, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, PATH_TO_CONQUEST } from './campaign.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en')
@@ -396,3 +396,43 @@ describe('Dominatus campaign — who may do what, and rosters', () => {
     expect(s.rejected.map((r) => r.reason)).toEqual(['not your player', 'no roster'])
   })
 })
+
+describe('Dominatus campaign — what waits for the reader', () => {
+  const kinds = (steps) => steps.map((x) => `${x.kind}${x.player ? `:${x.player}` : ''}${x.n ? `:${x.n}` : ''}`)
+  const me = (s, id) => s.players.find((p) => p.id === id)
+
+  it('tells a member their reward (and whose battle it was), the battle that waits, and the pairing left', () => {
+    const s = campaignState([
+      ...base(),
+      O('pairing', { id: 'x1', phase: 1, a: 'ben', b: 'cid' }),
+      O('pairing', { id: 'x2', phase: 1, a: 'ben', b: 'dee' }),
+      battle('owner', 'b1', 'ben', 'cid', 'a'),
+    ], deck)
+    expect(kinds(nextSteps(s, me(s, 'ben'), false))).toEqual(['reward:cid', 'play:dee'])
+    const s2 = campaignState([...base(), battle('m1', 'b2', 'ben', 'dee', 'b')], deck)
+    expect(kinds(nextSteps(s2, me(s2, 'ben'), false))).toEqual(['playMore:1', 'waitCount:dee'])
+  })
+
+  it('says a member with their battles played is waiting for the end of the phase, and one not yet registered to sign up', () => {
+    const s = campaignState([...base(), battle('m1', 'b1', 'ben', 'cid', null), battle('m1', 'b2', 'ben', 'dee', null), O('review', { battle: 'b1', ok: true }), O('review', { battle: 'b2', ok: true })], deck)
+    expect(kinds(nextSteps(s, me(s, 'ben'), false)).filter((k) => !k.startsWith('reward'))).toEqual(['phaseDone'])
+    expect(kinds(nextSteps(s, null, false))).toEqual(['register'])
+  })
+
+  it('waits for the Location before a member can play, and gives the Warmaster theirs to choose', () => {
+    seq = 0
+    const s = campaignState([O('created', { name: 'X' }), O('player', { id: 'ann', name: 'Ann', alliance: 'liberators' }), ev('m1', 'player', { id: 'ben', name: 'Ben', alliance: 'oppressors' })], deck)
+    expect(kinds(nextSteps(s, me(s, 'ben'), false))).toEqual(['waitLocation'])
+    expect(kinds(nextSteps(s, null, true))).toEqual(['location'])
+  })
+
+  it('asks the Warmaster to count, to hand out rewards when the campaign leaves them to them, and to end a played phase', () => {
+    const s = campaignState([...base(), O('settings', { rewardsBy: 'warmaster' }), battle('m1', 'b1', 'ben', 'cid', 'a')], deck)
+    expect(kinds(nextSteps(s, null, true))).toEqual(['count:1'])
+    expect(kinds(nextSteps(s, me(s, 'ben'), false))).toEqual(['playMore:1', 'waitCount:cid'])
+    const done = campaignState([...base(), O('settings', { rewardsBy: 'warmaster', schedule: [1, 1, 1] }), battle('owner', 'b1', 'ann', 'cid', 'a'), battle('owner', 'b2', 'ben', 'dee', 'a')], deck)
+    expect(kinds(nextSteps(done, null, true))).toEqual([`give:${done.pending.length}`, 'endPhase'])
+    expect(kinds(nextSteps(done, me(done, 'ben'), false))[0]).toBe('rewardWait:dee')
+  })
+})
+

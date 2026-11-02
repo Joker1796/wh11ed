@@ -81,6 +81,10 @@
          that holds something this reader has to do carries the warning mark, and the page opens on
          the first such tab. -->
     <template v-else>
+      <CampNext
+        :tab="tab"
+        @go="pickTab"
+      />
       <PageTabs
         class="camp-tabs"
         :tabs="tabs"
@@ -138,6 +142,7 @@ import PageTabs from '../../components/PageTabs.vue'
 import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import AppToast from '../../components/AppToast.vue'
 import CampStandings from '../../components/dominatus/campaign/CampStandings.vue'
+import CampNext from '../../components/dominatus/campaign/CampNext.vue'
 import CampPhase from '../../components/dominatus/campaign/CampPhase.vue'
 import CampRewards from '../../components/dominatus/campaign/CampRewards.vue'
 import CampBattles from '../../components/dominatus/campaign/CampBattles.vue'

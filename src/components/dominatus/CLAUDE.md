@@ -198,6 +198,13 @@ on a tie nothing breaks.
   guest's member is bound to the account on sign-in (`claimMember`). A guest who lost their device
   joins again and the Warmaster gives their player to the new entry in the player's Edit
   ("Who enters for the player" — a `player` event with `member`).
+- **"What next" above the tabs** (`CampNext`, owner 2026-11-03: a player did not know what was
+  asked of them): the core's `nextSteps(state, me, owner)` lists this reader's steps — what they can
+  do first (a reward with the battle it came from, the pairing to play, battles to count, the
+  Location, the end of a played phase), then what they wait for — each with the tab where it is
+  done. A watcher sees nothing. With it: a reward names its battle's opponent, a line above "Play a
+  battle" / "Enter a battle" says them apart, and a player's "this phase" says how many of their
+  battles wait for the Warmaster.
 - Gates: `src/core/dominatus/campaign.test.js`, `src/composables/useCampaigns.test.js`.
 - **The page reads as the rules page** (owner, 2026-10-31): blocks are sections under the Dominatus
   group head (`.dgroup-label` — CampaignView loads `dominatus.css`), the frame left to the cards; the

@@ -647,6 +647,58 @@ export function pairingsNow(s) {
 }
 
 /**
+ * @typedef {{ kind: string, todo: boolean, tab: string, n?: number, player?: string, reward?: Reward, battle?: Battle }} NextStep
+ */
+
+/**
+ * What waits for this reader now, in the order to do it: first what they can do (`todo`), then what
+ * they wait for (owner, 2026-11-03: a player opened the campaign and did not know what was asked of
+ * them). `me` is the player this reader speaks for (`myPlayer`), `owner` whether they are the
+ * Warmaster. Each step names the tab where it is done.
+ * @param {CampaignState} s @param {Player | null} me @param {boolean} owner
+ * @returns {NextStep[]}
+ */
+export function nextSteps(s, me, owner) {
+  /** @type {NextStep[]} */
+  const todo = []
+  /** @type {NextStep[]} */
+  const wait = []
+  if (s.finished) return [{ kind: 'finished', todo: false, tab: 'standings' }]
+  if (!owner && !me) return s.join === 'open' ? [{ kind: 'register', todo: true, tab: 'players' }] : []
+  const other = (/** @type {Battle} */ b, /** @type {string} */ id) => (b.a === id ? b.b : b.a)
+  // Rewards: a player's own (or handed out by the Warmaster); the Warmaster's, everyone's they hand out.
+  for (const r of s.pending.filter((x) => me && x.player === me.id)) {
+    const battle = s.battles.find((b) => b.id === r.battle)
+    const step = { kind: 'reward', tab: 'rewards', reward: r, ...(battle && me ? { player: other(battle, me.id) } : {}) }
+    if (owner || s.rewardsBy !== 'warmaster') todo.push({ ...step, todo: true })
+    else wait.push({ ...step, kind: 'rewardWait', todo: false })
+  }
+  const located = !!s.locations[s.phase]
+  if (owner) {
+    if (!located) todo.push({ kind: 'location', todo: true, tab: 'phase' })
+    const toCount = s.battles.filter((b) => b.status === 'pending').length
+    if (toCount) todo.push({ kind: 'count', todo: true, tab: 'battles', n: toCount })
+    const toGive = s.pending.filter((x) => x.player !== me?.id).length
+    if (toGive && s.rewardsBy === 'warmaster') todo.push({ kind: 'give', todo: true, tab: 'rewards', n: toGive })
+  }
+  if (me && me.alliance) {
+    for (const b of s.battles.filter((x) => x.phase === s.phase && x.status === 'pending' && (x.a === me.id || x.b === me.id))) {
+      wait.push({ kind: 'waitCount', todo: false, tab: 'battles', battle: b, player: other(b, me.id) })
+    }
+    const due = s.schedule[s.phase - 1] ?? 0
+    const left = due - playedIn(s, me.id)
+    const paired = pairingsNow(s).filter((x) => !x.played && (x.a === me.id || x.b === me.id))
+    if (left > 0 && !located && !owner) wait.push({ kind: 'waitLocation', todo: false, tab: 'phase' })
+    else if (left > 0 && located && !(s.battlesBy === 'warmaster' && !owner)) {
+      for (const x of paired.slice(0, left)) todo.push({ kind: 'play', todo: true, tab: 'battles', player: x.a === me.id ? x.b : x.a })
+      if (left > paired.length) todo.push({ kind: 'playMore', todo: true, tab: 'battles', n: left - paired.length })
+    } else if (left <= 0 && due > 0 && !owner) wait.push({ kind: 'phaseDone', todo: false, tab: 'phase' })
+  }
+  if (owner && scheduleProgress(s).done) todo.push({ kind: 'endPhase', todo: true, tab: 'phase' })
+  return [...todo, ...wait]
+}
+
+/**
  * Battles waiting for the Warmaster that look entered twice: the same two players in the same phase
  * as another battle not refused (two phones each sending the game they kept).
  * @param {CampaignState} s

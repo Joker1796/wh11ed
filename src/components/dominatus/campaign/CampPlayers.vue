@@ -128,7 +128,10 @@
             ><CountText
               :text="labels.campPlayedOf"
               :vals="{ k: playedIn(state, p.id), n: state.schedule[state.phase - 1] }"
-            /></span>
+            /><template v-if="waitingOf(p.id)"> · <CountText
+              :text="labels.campPlayedWaiting"
+              :vals="{ n: waitingOf(p.id) }"
+            /></template></span>
             <span
               v-if="p.agenda.length"
               class="camp-badge"
@@ -448,6 +451,9 @@ const name = ref('')
 const alliance = ref(null)
 const faction = ref(null)
 const factionOf = (p) => (p.faction ? factionIndexBySlug(p.faction) : null)
+// Battles counted toward the schedule that the Warmaster has not counted yet — why "2 of 2" can sit
+// beside a record with one battle.
+const waitingOf = (id) => state.value.battles.filter((b) => b.phase === state.value.phase && b.status === 'pending' && (b.a === id || b.b === id)).length
 const recordLine = (id) => { const r = recordOf(state.value, id); return `${r.won}–${r.drawn}–${r.lost}` }
 const alliances = computed(() => deck.value?.alliances || [])
 // The Alliances that have players, in the deck's order; anyone not yet in one last.

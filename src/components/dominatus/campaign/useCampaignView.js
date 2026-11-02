@@ -33,6 +33,13 @@ export function useCampaignView() {
   const allianceName = (id) => deck.value?.alliances.find((a) => a.id === id)?.name || id || '—'
   const playerName = (id) => ctx.state.value?.players.find((p) => p.id === id)?.name || id
   const playerOption = (p) => playerOptionOf(p, allianceName)
+  // A reward by its kind: the card pile it draws from, or the Location bonus with what it asks;
+  // `rewardName` the short form, the name alone.
+  const rewardKind = (r) => {
+    const l = labels.value
+    return { honour: l.domHonours, skill: l.domSkills, relic: l.domRelics, fresh: l.campFresh, mettle: l.campMettle, augury: l.campAugury }[r.kind] || r.kind
+  }
+  const rewardName = (r) => rewardKind(r).split(':')[0]
   const phaseLabel = (n) => labels.value.domPhase.replace('{n}', ['I', 'II', 'III'][n - 1] || n)
   // An Upgrade card named on the page opens its text in the rules popover, as the card prints it:
   // who may take it, what it does, its bonus effect.
@@ -54,5 +61,5 @@ export function useCampaignView() {
     get: () => ctx.entry.value?.prefs?.[key] ?? null,
     set: (v) => ctx.entry.value && setCampaignPref(ctx.entry.value.id, key, v),
   })
-  return { ...ctx, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, phaseLabel, showUpgrade, remembered }
+  return { ...ctx, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, phaseLabel, rewardKind, rewardName, showUpgrade, remembered }
 }

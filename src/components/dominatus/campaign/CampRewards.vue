@@ -187,7 +187,7 @@ import CampPick from './CampPick.vue'
 import { drawFor as drawCards, drawPile } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
-const { state, isOwner, mine, act, labels, deck, playerName, upgradeName, phaseLabel } = useCampaignView()
+const { state, isOwner, mine, act, labels, deck, playerName, upgradeName, phaseLabel, rewardKind } = useCampaignView()
 const kept = reactive({})
 const augury = reactive({})
 const swap = reactive({})
@@ -206,8 +206,12 @@ const pileOf = (r) => (deck.value ? drawPile(deck.value, playerOf(r.player), r) 
 
 function title(r) {
   const l = labels.value
-  const what = { honour: l.domHonours, skill: l.domSkills, relic: l.domRelics, fresh: l.campFresh, mettle: l.campMettle, augury: l.campAugury }[r.kind] || r.kind
-  return r.kind === 'mettle' || r.kind === 'augury' ? what : `${what} · ${phaseLabel(r.phase)} · ${l.campDrawN.replace('{n}', r.draw)}`
+  const what = rewardKind(r)
+  if (r.kind === 'mettle' || r.kind === 'augury') return what
+  // Why it is owed: the battle it came from, by the opponent's name.
+  const b = r.battle && state.value.battles.find((x) => x.id === r.battle)
+  const why = b ? l.campRewardFor.replace('{p}', playerName(b.a === r.player ? b.b : b.a)) : phaseLabel(r.phase)
+  return `${what} · ${why} · ${l.campDrawN.replace('{n}', r.draw)}`
 }
 function eventNote(r) {
   if (state.value.format !== 'event' || r.battle) return ''

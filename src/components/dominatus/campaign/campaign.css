@@ -173,6 +173,7 @@
 /* A note the Warmaster should not miss on a battle (it looks entered twice). */
 .camp-warn { font-size: 0.78rem; color: var(--warning); }
 /* "Play a battle" over the battles; the player filter beside the phases. */
+.camp-battle-note { margin: 0 0 0.4rem; }
 .camp-battle-actions { margin-bottom: 0.75rem; }
 .camp-filter { max-width: 20rem; margin-bottom: 0.5rem; }
 /* An either/or in a campaign form spans the form, its choices sharing the width. */
