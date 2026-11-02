@@ -269,6 +269,20 @@
             </button>
           </div>
         </div>
+        <!-- Who speaks for the player (`member`): the Warmaster gives the player to the entry a
+             player's new device made, when the old one is lost (a guest's member lives on one
+             device; an account's follows them). -->
+        <template v-if="isOwner && memberOptions.length > 1">
+          <span class="camp-dim">{{ labels.campPlayerMember }}</span>
+          <CampPick
+            v-model="edit.member"
+            :placeholder="labels.campPlayerMember"
+            :options="memberOptions"
+          />
+          <p class="camp-dim">
+            {{ labels.campMemberNote }}
+          </p>
+        </template>
         <button
           class="btn-primary"
           type="submit"
@@ -416,6 +430,7 @@ import DomAllianceName from '../DomAllianceName.vue'
 import CampOpenForm from './CampOpenForm.vue'
 import CampShare from './CampShare.vue'
 import CampCardPicker from './CampCardPicker.vue'
+import CampPick from './CampPick.vue'
 import CountText from '../../CountText.vue'
 import { useRosters } from '../../../composables/useRosters.js'
 import { encodeRoster } from '../../../composables/rosterShare.js'
@@ -425,8 +440,10 @@ import FactionBadge from '../../FactionBadge.vue'
 import { recordOf, removable, removePlayer, playedIn, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
 import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
+import { useLocale } from '../../../composables/useLocale.js'
 
 const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade } = useCampaignView()
+const { locale } = useLocale()
 const name = ref('')
 const alliance = ref(null)
 const faction = ref(null)
@@ -486,9 +503,9 @@ async function add() {
 const menuFor = ref(null)
 // The menu hands over to the dialog in one tick (a swap, BaseModal's modalLeave).
 const editing = ref(null)
-const edit = reactive({ name: '', faction: null, alliance: null })
+const edit = reactive({ name: '', faction: null, alliance: null, member: '' })
 function startEdit(p) {
-  Object.assign(edit, { name: p.name, faction: p.faction, alliance: p.alliance })
+  Object.assign(edit, { name: p.name, faction: p.faction, alliance: p.alliance, member: p.member || '' })
   menuFor.value = null
   editing.value = p
 }
@@ -497,8 +514,33 @@ async function saveEdit() {
   const payload = { id: p.id, name: edit.name }
   if (!factionLocked.value) payload.faction = edit.faction
   if (isOwner.value) payload.alliance = edit.alliance
+  if (isOwner.value && edit.member !== (p.member || '')) payload.member = edit.member || null
   if (await act('player', payload)) editing.value = null
 }
+
+// The entries a player can be given to (the server's member list, the Warmaster's only): those not
+// speaking for another player, newest first — the one a lost device's owner just made is on top.
+const joinedFmt = computed(() => new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }))
+function joinedAt(at) {
+  try {
+    return at ? joinedFmt.value.format(new Date(at)).replace(',', '') : ''
+  } catch {
+    return ''
+  }
+}
+const memberOptions = computed(() => {
+  const l = labels.value
+  const taken = new Set(state.value.players.filter((x) => x.id !== editing.value?.id && x.member).map((x) => x.member))
+  const free = (entry.value?.members || []).filter((m) => !m.revoked && !taken.has(m.memberId)).reverse()
+  return [
+    { value: '', label: l.campMemberNone },
+    ...free.map((m) => ({
+      value: m.memberId,
+      label: m.name || l.campMemberJoined.replace('{when}', joinedAt(m.joinedAt)),
+      sub: m.account ? l.campMemberAccount : l.campMemberDevice,
+    })),
+  ]
+})
 
 const carding = ref(null)
 const cards = reactive({ upgrades: [], off: [], agenda: 0 })

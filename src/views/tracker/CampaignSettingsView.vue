@@ -55,7 +55,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const route = useRoute()
 const router = useRouter()
-const { byId, createCampaign, refreshOwned, syncCampaign, appendEvent, stateOf } = useCampaigns()
+const { byId, createCampaign, refreshAccount, syncCampaign, appendEvent, stateOf } = useCampaigns()
 const { status, ensureSession } = useAuth()
 
 const id = computed(() => route.params.id || '')
@@ -80,7 +80,7 @@ const players = computed(() => {
 onMounted(async () => {
   try {
     await ensureSession()
-    if (id.value && !byId(id.value)) await refreshOwned()
+    if (id.value && !byId(id.value)) await refreshAccount()
     if (id.value && byId(id.value)) await syncCampaign(id.value)
   } catch (e) {
     error.value = labels.value.campFailed.replace('{code}', e.code || 'network')

@@ -87,12 +87,12 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { status } = useAuth()
 const { signIn } = useAccountActions()
-const { campaigns, refreshOwned, stateOf, syncAll } = useCampaigns()
+const { campaigns, refreshAccount, stateOf, syncAll } = useCampaigns()
 
 // The session comes back after the page does (a refresh on load), so ask once it is there; then
 // every campaign is read again, so the list says what waits in each.
 watch(status, async (s) => {
-  if (s === 'authed') await refreshOwned().catch(() => {})
+  if (s === 'authed') await refreshAccount().catch(() => {})
   if (s !== 'idle') syncAll()
 }, { immediate: true })
 // Where a campaign stands, from its log as last read (blank until the deck has loaded).

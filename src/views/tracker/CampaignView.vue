@@ -154,7 +154,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const route = useRoute()
 const router = useRouter()
-const { byId, refreshOwned, joinCampaign, watchCampaign, syncCampaign, appendEvent, deleteCampaign, forgetCampaign, stateOf, myPlayer, waitingFor, noteWaiting } = useCampaigns()
+const { byId, refreshAccount, joinCampaign, watchCampaign, syncCampaign, appendEvent, deleteCampaign, forgetCampaign, stateOf, myPlayer, waitingFor, noteWaiting } = useCampaigns()
 const { status, ensureSession } = useAuth()
 
 const id = computed(() => route.params.id)
@@ -228,12 +228,14 @@ onMounted(async () => {
   timer = setInterval(() => { if (byId(id.value) && document.visibilityState === 'visible') syncCampaign(id.value).catch(() => {}) }, 20_000)
 })
 onUnmounted(() => clearInterval(timer))
-// The Warmaster opening their campaign on a device that has not seen it: the account knows it,
-// once the session is back.
+// A campaign this device has not seen, opened signed in (the Warmaster's, or one the account plays
+// in): the account knows it, once the session is back. And a guest's member here, now signed in,
+// is bound to the account (refreshAccount) — so it follows them to their other devices.
 watch(status, async (s) => {
-  if (s !== 'authed' || byId(id.value)) return
+  const c = byId(id.value)
+  if (s !== 'authed' || (c && !(c.role === 'member' && c.memberToken && !c.account))) return
   try {
-    await refreshOwned()
+    await refreshAccount()
     if (byId(id.value)) await syncCampaign(id.value)
   } catch {
     // the page already says what it can
