@@ -84,6 +84,35 @@ export function upgradeStartCp(card, unit) {
 }
 
 /**
+ * The modifier entries the Upgrade cards a unit carries add to its card — the stat pass's own shape
+ * (rosterStatMods' ModEntry), as an enhancement's: an Upgrade addresses its bearer ("this model", no
+ * `target`) and "this unit" (`target: 'unit'`), and is placed on one model of a unit of several the
+ * way an enhancement is. `upgrade: true` names the source on the card's notes. `mods` is the
+ * hand-read table (src/data/dominatusUpgradeMods.js); a bonus that applies on the bearer replaces
+ * the card's own effects where the card says "instead", else adds to them. A card with no numbers
+ * adds no entry. `unitOnly` keeps the "this unit" effects alone — the card of another part of the
+ * Attached unit the bearer belongs to (19.04).
+ * @param {Array<UpgradeCard & { slug: string, name: string }>} cards
+ * @param {Record<string, { effects: object[], bonus?: { replace: boolean, effects: object[] } }>} mods
+ * @param {UpgradeUnit} unit the bearer
+ * @param {{ unitOnly?: boolean }} [opts]
+ */
+export function upgradeModEntries(cards, mods, unit, { unitOnly = false } = {}) {
+  /** @type {any[]} */
+  const out = []
+  for (const card of cards || []) {
+    const m = mods[card.slug]
+    if (!m) continue
+    const bonus = m.bonus && upgradeBonusApplies(card, unit) ? m.bonus : null
+    let effects = bonus ? (bonus.replace ? bonus.effects : [...m.effects, ...bonus.effects]) : m.effects
+    if (unitOnly) effects = effects.filter((/** @type {any} */ e) => e.target === 'unit')
+    if (!effects.length) continue
+    out.push({ sid: `dom:${card.slug}`, kind: 'enhancement', upgrade: true, name: card.name, body: '', reviewed: true, effects, ...(unitOnly ? { from: 'unit' } : {}) })
+  }
+  return out
+}
+
+/**
  * Upgrades a side may give out this battle: 3, or 4 under Titangrave's Vermillion Sanction.
  * @param {{ location?: string | null } | null | undefined} dominatus
  */

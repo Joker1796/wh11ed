@@ -285,7 +285,9 @@ export function useRosterUnitCard(props) {
     view.value.context?.enhancement?.name,
     // The mark this entry chose — a Daemonic Allegiance record modifies only the model that took it.
     allegianceChoiceOf(props.ctx?.def, props.ctx?.entry),
-  ))
+  // …and, in a Dominatus battle, the Upgrade cards bearing on it (RosterViewView's upgradeEntriesFor),
+  // among the faction's records as RosterViewView's plates take them.
+  ).concat(props.gameCtx?.upgradeEntries || []))
   // …in the order the rules take them (core/rules/unitRules.js): the Core Rules', the attached unit's, the faction's.
   const resolvedModifiers = computed(() => [...coreModifiers, ...abilityModifiers.value, ...factionModifiers.value])
 

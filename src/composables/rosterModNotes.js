@@ -27,7 +27,7 @@ export function modSourceLabel(n, l) {
   if (n.kind === 'stratagem') return n.det ? `${l.srcStratagem} · ${n.det}` : l.srcStratagem
   if (n.kind === 'wargear') return n.from === 'aura' ? `${l.srcAura} · ${n.owner || l.srcWargear}` : l.srcWargear
   if (n.kind === 'detachmentRule') return n.det ? `${l.factionDetachment} · ${n.det}` : l.factionDetachment
-  if (n.kind === 'enhancement') return l.rosterEnhancement
+  if (n.kind === 'enhancement') return n.upgrade ? `${l.trackerPhaseUpgrade} · ${n.source}` : l.rosterEnhancement
   if (n.kind === 'allegiance') return l.srcAllegiance
   return l.srcArmy
 }

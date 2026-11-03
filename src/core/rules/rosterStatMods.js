@@ -310,6 +310,8 @@ function noteOf(entry, effect, applied, via = null, live = true) {
     // `kind` they are what the card's source label is built from.
     owner: entry.owner || null,
     from: entry.from || null,
+    // A Dominatus Upgrade card, read as an enhancement but named as itself (core/dominatus/upgrades.js).
+    ...(entry.upgrade ? { upgrade: true } : {}),
     on: effect.on,
     stat: effect.stat,
     op: effect.op,

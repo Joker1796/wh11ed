@@ -106,7 +106,18 @@ deck) is one of the card's "Once per battle" chips, kept as any unit's use (`set
 `dom:<card>`) and under the same option (`trackUnitStates`). The phase reminder (`usePhaseRules`)
 lists a card in the phase its English text names, under the unit, and the Location's war zone rules
 for both sides (opening the missions tab, where they are printed) — read by `phaseEntryOf`, the
-core function the generated phase index is made of. No number on the card changes yet (3b).
+core function the generated phase index is made of.
+**The numbers** (3b): `src/data/dominatusUpgradeMods.js` is the deck read by hand into the modifier
+layer's effect shape — no `target` the bearer, `target: 'unit'` the unit and the Attached unit it is
+in (19.04); a bonus `replace`s where the card says "instead", else adds; a card with nothing a number
+can carry has a `note` saying why (a re-roll, mortal wounds, CP, a rule of the campaign). 12 of 35
+carry numbers. `upgradeModEntries` makes them enhancement-shaped entries (`upgrade: true`, so the
+card's notes say "Upgrade · <card>"), and RosterViewView's `upgradeEntriesFor` hands a unit its own
+cards whole plus the "this unit" effects of the cards on the other parts of its Attached unit — into
+the faction records (`recordsFor().faction`, `gameCtx.upgradeEntries` → `rosterUnitCard`'s
+`factionModifiers`: the stat pass reads the faction records, not the resolved list).
+`upgradeMods.test.js` holds every card to an entry and every number and granted name to the card's
+English text.
 **CP an Upgrade starts the battle with** (3c): High Strategy's "You start the battle with 1CP" (2CP on
 the WARLORD — the list's, by the card's `uid`; a unit typed in is not known to be one) is one 'start'
 entry in the side's CP ledger at round 1, turn 0 (`settleStartCp` in useTracker's `settleSide`, read
@@ -116,7 +127,7 @@ round's one bonus point: it is had before the battle. The log says "+2 CP at the
 the missions tab — the conditions read the table, not the score). The Primary slug is `dom-<agenda>`
 (`primaryOf` → `src/composables/dominatusMissions.js`); scoring and caps are the ordinary ones (the
 Dominatus Event Companion says 45 / 15 a round). The Location's war zone rules ride on the missions
-tab like a twist. The tracker applies no Upgrade's or war zone rule's effect to a number yet.
+tab like a twist. The tracker applies no war zone rule's effect to a number yet.
 
 **The deck is loaded on demand** (`loadDominatusDeck`, ~35 KB gzipped): the tracker store is on
 every tracker and roster screen, and a static import put the deck on all of them. Until it lands an

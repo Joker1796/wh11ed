@@ -674,7 +674,8 @@ import ExpandTransition from '../../components/ExpandTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterUnitRulesCard from '../../components/roster/RosterUnitRulesCard.vue'
 import { domUpgrades } from '../../composables/dominatusMissions.js'
-import { upgradeBonusApplies, upgradeOncePerBattle } from '../../core/dominatus/upgrades.js'
+import { upgradeBonusApplies, upgradeOncePerBattle, upgradeModEntries } from '../../core/dominatus/upgrades.js'
+import { dominatusUpgradeMods } from '../../data/dominatusUpgradeMods.js'
 import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
@@ -1268,8 +1269,25 @@ function recordsFor(entry) {
     // A datasheet ability can modify the unit it is attached to, so this entry's records include
     // the abilities of whoever leads it and of whoever it leads — the roster records both.
     attached: datasheetEntriesFor(modifierRecords.value, attachmentCtxOf(entry)),
-    faction: resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg),
+    faction: [...resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg), ...upgradeEntriesFor(entry)],
   }
+}
+// Dominatus: the numbers of the Upgrade cards bearing on this entry (core/dominatus/upgrades.js) —
+// its own cards whole, and the "this unit" half of the cards another part of its Attached unit
+// carries (19.04), from a part still on the table. Read by the plates and the card alike.
+function upgradeEntriesFor(entry) {
+  const ups = gameSide.value?.upgrades
+  if (!game.value?.settings?.dominatus || !ups?.length || !entry) return []
+  const mi = gameMi.value ?? 0
+  const deck = domUpgrades()
+  const cardsOn = (uid) => ups.filter((u) => u.uid === uid && (u.mi ?? 0) === mi).map((u) => deck.find((c) => c.slug === u.slug)).filter(Boolean)
+  const bearer = (u) => ({ kws: defOf(u.id)?.kws || [], warlord: !!u.warlord })
+  const host = entry.leaderOf || entry.uid
+  const others = sourceUnits.value.filter((u) => u.uid !== entry.uid && (u.uid === host || u.leaderOf === host))
+  return [
+    ...upgradeModEntries(cardsOn(entry.uid), dominatusUpgradeMods, bearer(entry)),
+    ...others.flatMap((u) => upgradeModEntries(cardsOn(u.uid), dominatusUpgradeMods, bearer(u), { unitOnly: true })),
+  ]
 }
 function resolvedFor(entry) {
   const r = recordsFor(entry)
@@ -1733,6 +1751,7 @@ function gameCtxOf(entry) {
       ? switchesFor(resolved, 'army', gamePlayer.value, gameClock.value, entry)
       : [],
     upgrades: upgradesOf(entry),
+    upgradeEntries: upgradeEntriesFor(entry),
   }
 }
 // Dominatus: the Upgrade cards this unit was given in Declare Battle Formations (DomUpgradesEditor
