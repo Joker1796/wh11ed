@@ -28,6 +28,7 @@
             v-for="p in g.players"
             :key="p.id"
             class="camp-player"
+            :data-player="p.id"
           >
             <!-- The name, then on the right the counted battles (won–drawn–lost); the faction under
                  the name. What a player gains over the campaign follows: Agenda Achieved, cards. -->
@@ -108,6 +109,32 @@
             >
               <FactionBadge :faction="factionOf(p)" />
               {{ factionOf(p).name }}
+            </div>
+            <!-- The player asks for another faction after their first battle; the Warmaster answers. -->
+            <div
+              v-if="p.factionAsk"
+              class="camp-faction-ask"
+            >
+              <span class="camp-warn">{{ labels.campFactionAsk.replace('{f}', factionName(p.factionAsk)) }}</span>
+              <span
+                v-if="isOwner"
+                class="camp-actions"
+              >
+                <button
+                  type="button"
+                  class="btn-ghost"
+                  @click="act('player', { id: p.id, faction: p.factionAsk })"
+                >{{ labels.campFactionAskYes }}</button>
+                <button
+                  type="button"
+                  class="btn-ghost"
+                  @click="act('player', { id: p.id, factionAsk: null })"
+                >{{ labels.campFactionAskNo }}</button>
+              </span>
+              <span
+                v-else
+                class="camp-dim"
+              >{{ labels.campFactionAskWaiting }}</span>
             </div>
             <!-- The roster attached, as a snapshot anyone in the campaign opens; missing where the
                  campaign requires one. -->
@@ -241,10 +268,7 @@
           :placeholder="labels.campPlayerName"
           :aria-label="labels.campPlayerName"
         >
-        <CampFactionPick
-          v-model="edit.faction"
-          :disabled="factionLocked"
-        />
+        <CampFactionPick v-model="edit.faction" />
         <p
           v-if="factionLocked"
           class="camp-dim"
@@ -446,10 +470,14 @@ import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade, onAsk } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade, onAsk, bringIntoView } = useCampaignView()
 // "What next": signing up opens the form.
 const joinForm = ref(null)
-onAsk({ register: () => joinForm.value?.show() })
+onAsk({
+  register: () => joinForm.value?.show(),
+  factionAsk: (x) => bringIntoView(`[data-player="${x.player}"]`),
+})
+const factionName = (slug) => factionIndexBySlug(slug)?.name || slug
 const { locale } = useLocale()
 const name = ref('')
 const alliance = ref(null)
@@ -515,14 +543,16 @@ const menuFor = ref(null)
 const editing = ref(null)
 const edit = reactive({ name: '', faction: null, alliance: null, member: '' })
 function startEdit(p) {
-  Object.assign(edit, { name: p.name, faction: p.faction, alliance: p.alliance, member: p.member || '' })
+  Object.assign(edit, { name: p.name, faction: p.factionAsk || p.faction, alliance: p.alliance, member: p.member || '' })
   menuFor.value = null
   editing.value = p
 }
 async function saveEdit() {
   const p = editing.value
   const payload = { id: p.id, name: edit.name }
-  if (!factionLocked.value) payload.faction = edit.faction
+  // Once kept, a player's new faction is an ask the Warmaster answers (the fold); asking for the one
+  // they have takes the ask back.
+  if (!factionLocked.value || (edit.faction && edit.faction !== (p.factionAsk || p.faction))) payload.faction = edit.faction
   if (isOwner.value) payload.alliance = edit.alliance
   if (isOwner.value && edit.member !== (p.member || '')) payload.member = edit.member || null
   if (await act('player', payload)) editing.value = null

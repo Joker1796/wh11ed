@@ -37,7 +37,7 @@
  * @typedef {{ seq: number, author: string, type: string, payload: any }} CampaignEvent
  * @typedef {{ phase: number }} AgendaCard
  * @typedef {{ code: string, name: string, points: number, faction: string | null }} RosterSnapshot
- * @typedef {{ id: string, name: string, alliance: string | null, faction: string | null, member: string | null, upgrades: string[], agenda: AgendaCard[], roster: RosterSnapshot | null }} Player
+ * @typedef {{ id: string, name: string, alliance: string | null, faction: string | null, member: string | null, upgrades: string[], agenda: AgendaCard[], roster: RosterSnapshot | null, factionAsk?: string | null }} Player
  * @typedef {{ id: string, phase: number, a: string, b: string, victor: 'a' | 'b' | null, achieved: { a: number, b: number }, status: 'pending' | 'approved' | 'rejected', by: string, edited: boolean }} Battle
  * @typedef {{ id: string, player: string, kind: string, phase: number, draw: number, battle: string | null, drawn: string[] | null }} Reward
  * @typedef {{ seq: number, payload: object | null }} Amendment
@@ -434,17 +434,31 @@ function apply(s, deck, e) {
       if (typeof p.id !== 'string' || !p.id) return 'no player id'
       if (p.alliance != null && !ALLIANCES.includes(p.alliance)) return 'unknown alliance'
       const was = playerById(s, p.id)
+      // A player who has played, in a campaign that keeps the faction, asks the Warmaster for another
+      // one (owner, 2026-11-03: "flexible, but the last word is the Warmaster's"): the ask waits on
+      // the player (`factionAsk`) until the Warmaster sets a faction or turns it down (`factionAsk:
+      // null`); the player asking for the faction they have takes the ask back.
+      let ask = false
       if (!owner) {
         const mine = memberPlayer(s, e)
         if (was ? was.member !== e.author : !!mine) return 'not your player'
         if (!was && s.join === 'closed') return 'registration closed'
         if (s.allianceBy === 'warmaster' && p.alliance !== undefined && (p.alliance || null) !== (was?.alliance || null)) return 'alliance by the warmaster'
-        if (s.factionLock && was && p.faction !== undefined && (p.faction || null) !== was.faction && hasPlayed(s, was.id)) return 'faction locked'
+        if (s.factionLock && was && p.faction !== undefined && (p.faction || null) !== was.faction && hasPlayed(s, was.id)) {
+          if (!p.faction) return 'faction locked'
+          ask = true
+        }
       }
+      /** @type {Player} */
       const row = was || { id: p.id, name: '', alliance: null, faction: null, member: owner ? null : e.author, upgrades: [], agenda: [], roster: null }
       if (typeof p.name === 'string') row.name = p.name.slice(0, 40)
       if (p.alliance !== undefined) row.alliance = p.alliance
-      if (p.faction !== undefined) row.faction = p.faction || null
+      if (ask) row.factionAsk = p.faction
+      else if (p.faction !== undefined) {
+        row.faction = p.faction || null
+        if (row.factionAsk) row.factionAsk = null
+      }
+      if (owner && p.factionAsk === null && row.factionAsk) row.factionAsk = null
       if (owner && p.member !== undefined) row.member = p.member || null
       if (!was) s.players.push(row)
       return null
@@ -647,7 +661,7 @@ export function pairingsNow(s) {
 }
 
 /**
- * @typedef {{ kind: string, todo: boolean, tab: string, n?: number, player?: string, reward?: Reward, battle?: Battle }} NextStep
+ * @typedef {{ kind: string, todo: boolean, tab: string, n?: number, player?: string, reward?: Reward, battle?: Battle, faction?: string }} NextStep
  */
 
 /**
@@ -680,7 +694,9 @@ export function nextSteps(s, me, owner) {
     if (toCount) todo.push({ kind: 'count', todo: true, tab: 'battles', n: toCount })
     const toGive = s.pending.filter((x) => x.player !== me?.id).length
     if (toGive && s.rewardsBy === 'warmaster') todo.push({ kind: 'give', todo: true, tab: 'rewards', n: toGive })
+    for (const p of s.players.filter((x) => x.factionAsk)) todo.push({ kind: 'factionAsk', todo: true, tab: 'players', player: p.id, faction: p.factionAsk || undefined })
   }
+  if (!owner && me?.factionAsk) wait.push({ kind: 'factionAskWait', todo: false, tab: 'players', player: me.id, faction: me.factionAsk || undefined })
   if (me && me.alliance) {
     for (const b of s.battles.filter((x) => x.phase === s.phase && x.status === 'pending' && (x.a === me.id || x.b === me.id))) {
       wait.push({ kind: 'waitCount', todo: false, tab: 'battles', battle: b, player: other(b, me.id) })

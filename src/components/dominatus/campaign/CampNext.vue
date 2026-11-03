@@ -44,6 +44,7 @@
 import { computed } from 'vue'
 import CountText from '../../CountText.vue'
 import { nextSteps } from '../../../core/dominatus/campaign.js'
+import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 
 defineEmits(['go'])
@@ -59,6 +60,7 @@ function sentence(x) {
   return (l[key] || x.kind)
     .replace('{p}', x.player ? playerName(x.player) : '')
     .replace('{what}', x.reward ? rewardName(x.reward) : '')
+    .replace('{f}', x.faction ? factionIndexBySlug(x.faction)?.name || x.faction : '')
 }
 </script>
 
@@ -85,4 +87,13 @@ function sentence(x) {
 .camp-next li.is-todo .camp-next-dot { background: var(--accent); border-color: var(--accent); }
 .camp-next-text { flex: 1 1 auto; min-width: 0; }
 .camp-next-go { flex: none; min-height: 2.2rem; padding: 0.25rem 0.6rem; font-size: 0.8rem; }
+/* A narrow phone: edge to edge, the text on the page's own line, no accent edge stuck to the
+   screen's (owner, 2026-11-03). */
+@media (max-width: 480px) {
+  .camp-next {
+    margin-inline: calc(50% - 50vw);
+    padding-inline: calc(50vw - 50%);
+    border-inline: none;
+  }
+}
 </style>

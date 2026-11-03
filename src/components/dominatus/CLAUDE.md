@@ -170,7 +170,8 @@ on a tie nothing breaks.
   each setting a `CampSettingSeg` with its "?"; the old dialog and Rename are gone — the name is a
   setting). The core holds the defaults (`SETTINGS_DEFAULTS`) and enforces each: joining by the link
   (`join`), the Alliance the player's or the Warmaster's (`allianceBy`), the faction kept from the
-  first battle (`factionLock`), rosters none / optional / required (`roster` — a `roster` event
+  first battle (`factionLock` — after it a player's new faction is an ask, `factionAsk`, the Warmaster
+  accepts or turns down on Players and in What next; owner 2026-11-03), rosters none / optional / required (`roster` — a `roster` event
   carries the list's share code, a snapshot anyone opens at `/roster/shared#r=`; required refuses a
   member's battle where a side has none), the battle size "Play a battle" sets (`size`), battles
   entered by players or the Warmaster alone (`battlesBy`), rewards taken by players or handed out by

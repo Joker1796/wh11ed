@@ -375,9 +375,21 @@ describe('Dominatus campaign — who may do what, and rosters', () => {
     expect(s.players.find((p) => p.id === 'ben').alliance).toBe('raiders')
   })
 
-  it('keeps a member\'s faction from their first battle, unless the campaign frees it', () => {
+  it('keeps a member\'s faction from their first battle: another is an ask the Warmaster answers', () => {
     const evs = [...base(), ev('m1', 'player', { id: 'ben', faction: 'orks' }), battle('owner', 'b1', 'ben', 'cid', 'a'), ev('m1', 'player', { id: 'ben', faction: 'necrons' })]
-    expect(campaignState(evs, deck).rejected.map((r) => r.reason)).toEqual(['faction locked'])
+    const ben = (x) => campaignState(x, deck).players.find((p) => p.id === 'ben')
+    const s = campaignState(evs, deck)
+    expect(s.rejected).toEqual([])
+    expect(ben(evs)).toMatchObject({ faction: 'orks', factionAsk: 'necrons' })
+    const steps = (who, owner) => nextSteps(s, who, owner).map((x) => `${x.kind}:${x.player}:${x.faction}`)
+    expect(steps(null, true)).toContain('factionAsk:ben:necrons')
+    expect(steps(ben(evs), false)).toContain('factionAskWait:ben:necrons')
+    // The Warmaster accepts (sets it) or turns it down; the player takes it back by asking for theirs.
+    expect(ben([...evs, O('player', { id: 'ben', faction: 'necrons' })])).toMatchObject({ faction: 'necrons', factionAsk: null })
+    expect(ben([...evs, O('player', { id: 'ben', factionAsk: null })])).toMatchObject({ faction: 'orks', factionAsk: null })
+    expect(ben([...evs, ev('m1', 'player', { id: 'ben', faction: 'orks' })])).toMatchObject({ faction: 'orks', factionAsk: null })
+    // No faction at all is still refused once kept.
+    expect(campaignState([...evs.slice(0, -1), ev('m1', 'player', { id: 'ben', faction: null })], deck).rejected.map((r) => r.reason)).toEqual(['faction locked'])
     const free = campaignState([...evs.slice(0, 1), O('settings', { factionLock: false }), ...evs.slice(1)], deck)
     expect(free.players.find((p) => p.id === 'ben').faction).toBe('necrons')
   })
