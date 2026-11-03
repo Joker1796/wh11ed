@@ -52,20 +52,29 @@ export function prefillDraftFromRoster(roster) {
   const battleSize = !size || size === UNLIMITED_BATTLE ? 'strikeForce' : toTrackerBattleSize(size)
   setupDraft.value = {
     step: 1,
-    players: [
-      {
-        factionSlug: roster?.faction || null,
-        detachments: [...(roster?.detachments || [])],
-        // The list already declared which Force Disposition it plays, and that is the one thing
-        // the tracker would otherwise ask again — and answer for the player by taking whichever
-        // candidate came first. The roster stores it as the detachment data spells it; the ids
-        // are the tracker's, and this is the one place both vocabularies are in scope.
-        disposition: dispositionId(roster?.disposition),
-        rosterId: roster?.id || null,
-        roster: rosterSnapshot(roster),
-      },
-      {},
-    ],
+    players: [armyFromRoster(roster, rosterSnapshot(roster)), {}],
     settings: { battleSize },
+  }
+}
+
+/**
+ * The army a setup side starts with when it fields this list: its faction, detachments and Force
+ * Disposition, and the list attached. Shared with a campaign's battle (campaignHandoff.js), whose
+ * lists arrive as share snapshots — taken as they are, `v` included, so rosterFromPlayer migrates
+ * them on read like any game's.
+ * @param {any} roster the list (a stored roster, or a decoded share payload)
+ * @param {any} snap its snapshot (rosterPayload's shape), or null
+ */
+export function armyFromRoster(roster, snap) {
+  return {
+    factionSlug: roster?.faction || null,
+    detachments: [...(roster?.detachments || [])],
+    // The list already declared which Force Disposition it plays, and that is the one thing
+    // the tracker would otherwise ask again — and answer for the player by taking whichever
+    // candidate came first. The roster stores it as the detachment data spells it; the ids
+    // are the tracker's, and this is the one place both vocabularies are in scope.
+    disposition: dispositionId(roster?.disposition),
+    rosterId: roster?.id || null,
+    roster: snap || null,
   }
 }

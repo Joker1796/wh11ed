@@ -297,6 +297,12 @@ export function knownCampaigns() {
   return campaigns.value
 }
 
+/** A known campaign's state as this device last read it — null until the deck is in (this loads
+ * nothing: a screen that wants it loads the deck itself). */
+export function knownCampaignState(id) {
+  return stateOf(id)
+}
+
 /** Does anything wait in a campaign this device knows, as last noted (no deck loaded)? */
 export function campaignsWaiting() {
   return campaigns.value.some((c) => (c.waiting || 0) > 0)

@@ -1371,7 +1371,19 @@
         />
       </div>
 
+      <!-- A campaign played with lists (its "Rosters" setting at required) refuses a battle with a
+           side short of one, so the setup says so here rather than letting the game be sent back
+           and turned away (Dominatus, owner 2026-11-03). -->
       <div class="actions">
+        <!-- In the pinned bar, over the buttons: the line beside the grey button it explains. -->
+        <ExpandTransition>
+          <p
+            v-if="domRosterMissing"
+            class="rl-over start-why"
+          >
+            <i class="wi wi-warning" /> {{ labels.trackerDomRosterRequired }}
+          </p>
+        </ExpandTransition>
         <button
           class="btn-ghost"
           @click="step = 3"
@@ -1553,7 +1565,7 @@ import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import { combatPatrolRoster, defaultCombatPatrolEnhancement } from '../../core/roster/combatPatrolRoster.js'
 import { domAlliances, domLocationsOf, domLocation as domLocationOf, loadDominatusDeck } from '../../composables/dominatusMissions.js'
 import DomAgendaAchieved from '../dominatus/DomAgendaAchieved.vue'
-import { knownCampaigns as campaignsHere } from '../../composables/useCampaigns.js'
+import { knownCampaigns as campaignsHere, knownCampaignState } from '../../composables/useCampaigns.js'
 import { loadRosterFaction } from '../../data/roster/index.js'
 import RosterPickerModal from './RosterPickerModal.vue'
 import { useRosters, uid as newRosterUid } from '../../composables/useRosters.js'
@@ -2062,6 +2074,13 @@ const domCampaignName = computed(() => {
   const id = settings.dominatus?.campaign
   return (id && campaignsHere().find((c) => c.id === id)?.name) || ''
 })
+// The campaign's "Rosters" setting, read from its fold on this device (the deck is loaded for a
+// Dominatus game above); required, every side the campaign plays must carry a list to start.
+const domRosterMissing = computed(() => {
+  const id = settings.dominatus?.campaign
+  if (!id || knownCampaignState(id)?.roster !== 'required') return false
+  return players.some(p => p.campaignPlayer && !p.roster)
+})
 function unlinkCampaign() {
   settings.dominatus = { phase: settings.dominatus.phase, location: settings.dominatus.location }
   for (const p of players) p.campaignPlayer = null
@@ -2310,6 +2329,9 @@ function factionHasDetachments(p) {
 
 // Disposition is derived from the chosen detachment(s); it's gated until one is picked. Same
 // rule as the faction watcher above: the other side's disposition is reported, not derived.
+// Immediate: a draft can arrive with its detachments already in (a list handed over by the
+// builder or a campaign, rosterHandoff.js) and no disposition declared — the candidates then never
+// change, and a single one sat unread in an empty field (2026-11-03).
 players.forEach((p, i) => watch(() => candidateDispositions(p), (ids) => {
   if (!editable(i)) return
   if (ids.length === 0) {
@@ -2317,7 +2339,7 @@ players.forEach((p, i) => watch(() => candidateDispositions(p), (ids) => {
     return                                               // detachment-less faction keeps its manual value
   }
   if (!ids.includes(p.disposition)) p.disposition = ids[0]
-}, { deep: true }))
+}, { deep: true, immediate: true }))
 
 // Step-2 recap line under the side heading: who fields what. The doubles team name is NOT
 // here — it rides in the heading itself (the muted .ph-team span above), so this line is the
@@ -2442,7 +2464,7 @@ function canGoTo(n) {
 
 // Step 4 (Settings): every row has a default — gate on the earlier steps too.
 const canStart = computed(() =>
-  canMission.value && players.every(p => p.role) && othersReady.value
+  canMission.value && players.every(p => p.role) && othersReady.value && !domRosterMissing.value
 )
 
 // Persist the in-progress setup so it survives reloads / navigating away. Serialized
@@ -3197,6 +3219,8 @@ function cancel() {
 }
 .actions .btn-primary,
 .actions .btn-ghost { padding: 0.45rem 0.95rem; font-size: 0.85rem; }
+.actions { flex-wrap: wrap; }
+.actions .start-why { flex-basis: 100%; margin: 0; text-align: right; }
 /* Clear of the mobile bottom nav (52px, as .rc-sticky). */
 @media (max-width: 900px) {
   /* The utility bar's buttons ("to top", "back to the game") float in the bottom-right corner, and

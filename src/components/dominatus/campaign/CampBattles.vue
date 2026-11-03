@@ -363,7 +363,6 @@ async function play() {
   const s = state.value
   const side = (id) => s.players.find((p) => p.id === id)
   const { playCampaignBattle } = await import('../../../composables/campaignHandoff.js')
-  playing.value = false
-  await playCampaignBattle({ campaignId: entry.value.id, phase: s.phase, location: s.locations[s.phase], size: s.size, a: side(pa.value), b: side(pb.value) }, router)
+  await playCampaignBattle({ campaignId: entry.value.id, phase: s.phase, location: s.locations[s.phase], size: s.size, a: side(pa.value), b: side(pb.value) }, router, () => { playing.value = false })
 }
 </script>

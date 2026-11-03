@@ -176,7 +176,13 @@ on a tie nothing breaks.
   member's battle where a side has none), the battle size "Play a battle" sets (`size`), battles
   entered by players or the Warmaster alone (`battlesBy`), rewards taken by players or handed out by
   the Warmaster (`rewardsBy`). The screens say what a setting closes instead of hiding it.
-  Not yet: "Play a battle" does not attach the campaign's roster snapshots to the tracker game.
+  "Play a battle" attaches each player's list (the share code decoded, `v` kept, so it is migrated
+  on read like any game's snapshot — `armyFromRoster` in `rosterHandoff.js`, shared with the
+  builder's "play this list"); a list of another faction than the campaign keeps is left behind.
+  The setup's roster button swaps it for one of the player's own. With rosters required, the setup's
+  Start greys while a campaign side has no list, the reason in the pinned bar over it
+  (`domRosterMissing`). The dialog closes in the same tick as the push (`playCampaignBattle`'s
+  `leaving`): closed before the lists were read, its Back-to-close step cancelled the push.
 - **Choosing a card is tapping the card** (owner, 2026-11-01): the drawn cards' dialog and the
   Warmaster's "Add a card" (`CampCardPicker`: the deck by pile, Honours by phase, Relics by Alliance,
   each card folded to its head — `DomUpgradeCard folded`) select by a tap, frame the chosen card in

@@ -5,27 +5,44 @@
 // that player holds, and the finished game is sent to that campaign as those two players
 // (CampSendGame). As rosterHandoff.js: the saved-game envelope is untouched, only the draft is
 // written, and a game in progress is never overwritten (the draft waits behind "Continue setup").
+//
+// A player's list in the campaign (a `roster` event: the share code) comes along attached, as the
+// roster builder's "play this list" attaches one (rosterHandoff.js) — the setup's roster button
+// still swaps it for one of the player's own (owner, 2026-11-03). A list of another faction than the
+// campaign keeps for the player is left behind: the campaign's faction is the one played.
 import { useTracker } from './useTracker.js'
+import { decodeRoster } from './rosterShare.js'
+import { armyFromRoster } from './rosterHandoff.js'
 
-const sideOf = (p) => ({
-  name: p?.name || '',
-  factionSlug: p?.faction || null,
-  detachments: [],
-  alliance: p?.alliance || null,
-  campaignPlayer: p?.id || null,
-})
+async function sideOf(p) {
+  const snap = p?.roster?.code ? await decodeRoster(p.roster.code) : null
+  const army = snap && (!p.faction || snap.faction === p.faction) ? armyFromRoster(snap, snap) : null
+  return {
+    name: p?.name || '',
+    factionSlug: p?.faction || army?.factionSlug || null,
+    detachments: [],
+    ...army,
+    alliance: p?.alliance || null,
+    campaignPlayer: p?.id || null,
+  }
+}
 
 /**
  * @param {{ campaignId: string, phase: number, location: string | null, size?: string, a: object, b: object }} battle
  * @param {import('vue-router').Router} router
+ * @param {() => void} [leaving] closes the caller's dialog — in the same tick as the push, after the
+ *   lists are read: a dialog closed before it steps the history back (useBackToClose) a beat later,
+ *   and that step cancelled the push still waiting on the tracker's chunk.
  */
-export async function playCampaignBattle({ campaignId, phase, location, size, a, b }, router) {
+export async function playCampaignBattle({ campaignId, phase, location, size, a, b }, router, leaving) {
   const { setupDraft, current } = useTracker()
+  const players = await Promise.all([sideOf(a), sideOf(b)])
   setupDraft.value = {
     step: 1,
-    players: [sideOf(a), sideOf(b)],
+    players,
     // The campaign's battle size (a campaign setting); the setup still lets the players change it.
     settings: { ...(size ? { battleSize: size } : {}), dominatus: { phase, location: location || null, campaign: campaignId } },
   }
+  leaving?.()
   await router.push(current.value ? '/tracker' : '/tracker/game')
 }
