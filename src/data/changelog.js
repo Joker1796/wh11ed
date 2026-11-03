@@ -27,10 +27,20 @@ export const changelog = [
     en: [
       { h: 'Answers to bug reports' },
       '**When two Characters lead one unit, the gear and enhancements of each reach the other too.** The Lion Helm on Azrael gives a 4+ InSv to the whole unit, the Lieutenant with him included. Before, only the Bodyguard models got it.',
+      '**The file for Tabletop Simulator gives each model the wargear you chose for it.** Before, a Wolf Guard Terminator could get the power fist without the assault cannon it comes with.',
+      { h: 'The app on your phone' },
+      '**The installed app opens on a bad connection too.** If the page you left last time does not load, the app opens the home page. Before, it could stay blank.',
+      '**A section that does not load no longer leaves the button dead.** The app tries again by itself and then opens the section anew.',
+      '**The menu says “Downloaded for offline” only when everything is downloaded.** If an update did not finish downloading, the menu offers to download again.',
     ],
     ru: [
       { h: 'Ответы на баг-репорты' },
       '**Когда отряд ведут два персонажа, снаряжение и улучшения каждого действуют и на другого.** The Lion Helm у Azrael даёт 4+ InSv всему отряду, и Lieutenant рядом с ним тоже. Раньше его получали только телохранители.',
+      '**Файл для Tabletop Simulator даёт каждой модели то снаряжение, которое вы ей выбрали.** Раньше Wolf Guard Terminator мог получить power fist без assault cannon, с которым он идёт в паре.',
+      { h: 'Приложение на телефоне' },
+      '**Установленное приложение открывается и при плохой связи.** Если экран, который вы открывали в прошлый раз, не загрузился, приложение откроет главную. Раньше оно могло остаться пустым.',
+      '**Раздел, который не загрузился, больше не оставляет кнопку без ответа.** Приложение само пробует ещё раз, а потом открывает раздел заново.',
+      '**В меню написано «Скачано для офлайна», только когда скачано всё.** Если обновление скачалось не до конца, меню предложит скачать ещё раз.',
     ],
   },
   {
