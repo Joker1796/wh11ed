@@ -21,6 +21,7 @@
 // English only: Yellowscribe and TTS are, and names and keywords stay English in this project anyway.
 // Datasheets only — what the army's rules change about a unit (rosterModifiers) does not travel.
 import { resolve } from './rosterExport.js'
+import { modelsPerMini, miniName, optionItems, pickMiniFor, wargearGroupLive } from './rosterEngine.js'
 import { weaponRowClaimer } from '../rules/rosterModifiers.js'
 import { foldName, infoKey } from '../shared/foldName.js'
 
@@ -119,7 +120,7 @@ function unitXml(r, sheet, items, id) {
 
   // Models: the stacks the export prints, a profile per stack. A stack the export leaves out for
   // holding nothing still stands on the table, so the count the export lost comes back as one more.
-  const stacks = r.gear.flatMap((g) => splitStack(g.name || r.name, g.models, g.items))
+  const stacks = r.gear.flatMap((g) => bySwaps(r, g, items) || splitStack(g.name || r.name, g.models, g.items))
   const missing = r.models - stacks.reduce((s, g) => s + g.n, 0)
   if (missing > 0) stacks.push({ name: r.name, n: missing, items: [] })
   if (!stacks.length) stacks.push({ name: r.name, n: r.models, items: [] })
@@ -155,6 +156,61 @@ function unitXml(r, sheet, items, id) {
     return `<selection id="${id()}" name="${esc(s.name)}" number="${s.n}" type="model">${gear ? `<selections>${gear}</selections>` : ''}</selection>`
   }).join('')
   return `<selection id="${id()}" name="${esc(r.name)}" number="1" type="unit">${head}<selections>${models}${shared}</selections>${categories}</selection>`
+}
+
+// A profile's models as its swaps made them. The export counts a profile's loadout as totals, and
+// dealing totals out loses what goes together: 7 storm shields and 2 assault cannons with 2 power
+// fists among 9 Wolf Guard Terminators came out as 5 with a shield, 2 with a cannon and 2 with a fist
+// and a shield (a player's report, 2026-11-03) — the cannon and the fist are one swap, and a model
+// that traded its storm bolter for them has none left to trade for a shield. So each picked option is
+// handed to the models still holding everything it replaces, the way the roster's stock rule counts
+// them (a model cannot give the same item up twice), and the alike are stacked. Used only where that
+// reproduces the export's own totals for the profile; anything it cannot read (a unit-wide group, a
+// pick with nothing to replace, a profile-wide quantity) leaves the dealing below to it.
+/**
+ * @param {ExportRow} r
+ * @param {{ name?: string, models: number, items: Array<{ name: string, n: number }> }} g
+ * @param {Record<number, string>} items
+ * @returns {Array<{ name: string, n: number, items: Array<{ name: string, n: number }> }> | null}
+ */
+function bySwaps(r, g, items) {
+  const { def, entry } = r
+  const perMini = def?.defaults?.length ? modelsPerMini(def, entry) : null
+  if (!perMini || g.models <= 1) return null
+  const m = (def.defaults || []).map(([mm]) => mm).find((mm) => perMini.get(mm) === g.models && miniName(def, mm) === g.name)
+  const stock = m == null ? null : (def.defaults || []).find(([mm]) => mm === m)?.[1]
+  if (!stock || stock.some(([, , total]) => total)) return null
+  /** @type {Array<{ held: Map<number, number>, swaps: number }>} */
+  const models = Array.from({ length: g.models }, () => ({ held: new Map(stock.map(([id, c]) => [id, c || 1])), swaps: 0 }))
+  for (const [gi, oi, n] of entry?.wg || []) {
+    const grp = def.gear?.[gi]
+    if (!grp || !wargearGroupLive(def, entry, gi) || pickMiniFor(def, entry, gi) !== m) continue
+    const opt = grp.o?.[oi]
+    const rep = grp.rep || []
+    if (grp.all || !opt || !rep.length) return null
+    for (let k = 0; k < (n || 1); k++) {
+      const free = models.filter((x) => rep.every((id) => (x.held.get(id) || 0) > 0))
+      if (!free.length) return null
+      const who = free.reduce((a, b) => (b.swaps < a.swaps ? b : a))
+      for (const id of rep) who.held.delete(id)
+      for (const [id, q] of optionItems(opt)) who.held.set(id, (who.held.get(id) || 0) + q)
+      who.swaps++
+    }
+  }
+  /** @type {Map<string, { name: string, n: number, items: Array<{ name: string, n: number }> }>} */
+  const alike = new Map()
+  for (const x of models) {
+    const list = [...x.held].filter(([id, c]) => c > 0 && items[id]).map(([id, c]) => ({ name: items[id], n: c })).sort((a, b) => a.name.localeCompare(b.name))
+    const key = list.map((it) => `${it.name}×${it.n}`).join('|')
+    const st = alike.get(key)
+    if (st) st.n++
+    else alike.set(key, { name: g.name || r.name, n: 1, items: list })
+  }
+  const stacks = [...alike.values()].map((st) => ({ ...st, items: st.items.map((it) => ({ name: it.name, n: it.n * st.n })) }))
+  // The same totals the export prints, or this reading is not the export's and is not used.
+  /** @param {Array<{ name: string, n: number }>} list */
+  const sum = (list) => [...list.reduce((t, it) => t.set(it.name, (t.get(it.name) || 0) + it.n), new Map())].sort().join('|')
+  return sum(stacks.flatMap((st) => st.items)) === sum(g.items) ? stacks : null
 }
 
 // A stack in whole weapons. The export counts a profile's loadout as totals — 2 autocannons and
