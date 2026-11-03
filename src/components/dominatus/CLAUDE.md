@@ -106,7 +106,13 @@ deck) is one of the card's "Once per battle" chips, kept as any unit's use (`set
 `dom:<card>`) and under the same option (`trackUnitStates`). The phase reminder (`usePhaseRules`)
 lists a card in the phase its English text names, under the unit, and the Location's war zone rules
 for both sides (opening the missions tab, where they are printed) — read by `phaseEntryOf`, the
-core function the generated phase index is made of. No number on the card changes yet (3b). `agendaAchieved` (0–1, 0–2 for a phase 3 Agenda; set by the players on
+core function the generated phase index is made of. No number on the card changes yet (3b).
+**CP an Upgrade starts the battle with** (3c): High Strategy's "You start the battle with 1CP" (2CP on
+the WARLORD — the list's, by the card's `uid`; a unit typed in is not known to be one) is one 'start'
+entry in the side's CP ledger at round 1, turn 0 (`settleStartCp` in useTracker's `settleSide`, read
+by `upgradeStartCp`) — written when the battle begins, kept in line with the cards, and NOT the
+round's one bonus point: it is had before the battle. The log says "+2 CP at the start of the battle
+(High Strategy)". `agendaAchieved` (0–1, 0–2 for a phase 3 Agenda; set by the players on
 the missions tab — the conditions read the table, not the score). The Primary slug is `dom-<agenda>`
 (`primaryOf` → `src/composables/dominatusMissions.js`); scoring and caps are the ordinary ones (the
 Dominatus Event Companion says 45 / 15 a round). The Location's war zone rules ride on the missions

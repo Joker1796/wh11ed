@@ -4,7 +4,8 @@ import { CUR_KEY, gameInPlay, isValidGame } from './gameInPlay.js'
 import { missions, primaryFor } from '../data/missions.js'
 import { overlayMission } from '../data/missionOverlay.js'
 import { isCpMissionSlug, cpMissionBySlug, cpMissionSlugFor } from '../data/combatPatrolMissions.js'
-import { isDomMissionSlug, domMissionBySlug, domMissionSlugFor, loadDominatusDeck } from './dominatusMissions.js'
+import { isDomMissionSlug, domMissionBySlug, domMissionSlugFor, loadDominatusDeck, domUpgrades } from './dominatusMissions.js'
+import { upgradeStartCp } from '../core/dominatus/upgrades.js'
 import { missionsRu } from '../data/missionsRu.js'
 import { eventCompanion } from '../data/eventCompanion.js'
 import {
@@ -459,6 +460,7 @@ function settleSide(pi) {
         }
       }
     }
+    settleStartCp(g, pl)
   }
   const s = pl.secondary
   if (!s) return
@@ -479,6 +481,27 @@ function settleSide(pi) {
     s.hand = s.hand.filter(x => x !== slug)
     s.discarded.push({ slug, round: last.round, auto: last.turn, t: Date.now() })
   }
+}
+// Dominatus: the CP an Upgrade starts the battle with (High Strategy — 1, 2 on the Warlord), one
+// 'start' entry at round 1, turn 0, in line with the cards the side gave out. Not a 'bonus': it is
+// had before the battle, not gained in a round, so it is not the round's one bonus point. Left
+// alone while the deck is still on its way (no card can be read yet).
+function settleStartCp(g, pl) {
+  const deck = domUpgrades()
+  if (!g.settings?.dominatus || !deck.length) return
+  let want = 0
+  let ref = null
+  for (const u of pl.upgrades || []) {
+    const card = deck.find((c) => c.slug === u.slug)
+    if (!card) continue
+    const entry = u.uid ? memberAt(pl, u.mi ?? null)?.roster?.units?.find((x) => x.uid === u.uid) : null
+    const n = upgradeStartCp(card, { kws: [], warlord: !!entry?.warlord })
+    if (n > want) { want = n; ref = card.slug }
+  }
+  const have = pl.cpLog.filter((e) => e.kind === 'start')
+  if (have.length === (want ? 1 : 0) && (!want || (have[0].amount === want && have[0].ref === ref))) return
+  removeEntries(pl, (e) => e.kind === 'start')
+  if (want) addEntry(pl, { kind: 'start', amount: want, round: 1, turn: 0, source: 'upgrade', ref })
 }
 // Ledger entries taken out of the game, each one told in the log as taken back (actionLog.js).
 // The two a card already tells — its replacement's 1CP, its discard's bonus point — go silently:

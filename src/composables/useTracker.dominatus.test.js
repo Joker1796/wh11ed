@@ -89,3 +89,32 @@ describe('Dominatus deck on demand', () => {
     expect(m.domMissionBySlug('dom-a-knife-in-the-dark').blocks.length).toBeGreaterThan(0)
   })
 })
+
+// High Strategy (owner, 2026-11-03, stage 3c): "You start the battle with 1CP", 2CP when given to the
+// WARLORD — one 'start' entry, written when the battle begins, not the round's bonus point.
+describe('Dominatus — CP an Upgrade starts the battle with', () => {
+  const list = { id: 'r1', name: 'L', faction: 'space-marines', detachments: [], battleSize: 'strike-force', units: [{ uid: 'cap', id: 'captain', warlord: true }, { uid: 'lt', id: 'lieutenant' }] }
+  function begun(uid) {
+    const g = domGame()
+    g.players[0].roster = list
+    tracker.newGame(g)
+    tracker.setUpgrades(0, [{ slug: 'high-strategy', unit: 'x', uid, mi: 0 }])
+    const before = tracker.current.value.players[0].cp
+    tracker.beginGame()
+    const me = tracker.current.value.players[0]
+    return { me, before }
+  }
+  it('gives 2CP on the Warlord and 1CP on another character, as one entry', () => {
+    const w = begun('cap')
+    expect(w.me.cpLog.filter((e) => e.kind === 'start')).toEqual([expect.objectContaining({ amount: 2, round: 1, turn: 0, ref: 'high-strategy' })])
+    expect(w.me.cp - w.before).toBe(2 + 1) // the start, and the first Command phase's Core CP
+    const l = begun('lt')
+    expect(l.me.cpLog.find((e) => e.kind === 'start').amount).toBe(1)
+    expect(tracker.current.value.players[1].cpLog.some((e) => e.kind === 'start')).toBe(false)
+  })
+  it('is not the round\'s bonus point', () => {
+    const { me } = begun('cap')
+    expect(tracker.canGainBonus(0)).toBe(true)
+    expect(me.cpLog.some((e) => e.kind === 'bonus')).toBe(false)
+  })
+})

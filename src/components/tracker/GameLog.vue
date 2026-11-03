@@ -124,6 +124,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide, missionBySlug } from '../../composables/useTracker.js'
 import { buildGameLog } from '../../core/game/gameLog.js'
+import { domUpgrades } from '../../composables/dominatusMissions.js'
 import { conditions } from '../../core/rules/conditions.js'
 import { grandTotal, primaryTotal, secondaryTotal } from '../../core/game/gameScoring.js'
 import { useSwapFade } from '../../composables/useSwapFade.js'
@@ -200,6 +201,7 @@ function line(e) {
     case 'whenDrawn': return (e.mode === 'shuffle' ? l.trackerLogWhenDrawnShuffle : l.trackerLogWhenDrawnDiscard).replace('{card}', cardName(e.pi, e.slug)) + whenDrawnWhy(e)
     case 'core': return l.trackerLogCore
     case 'bonus': return l.trackerLogBonus
+    case 'start': return l.trackerLogStartCp.replace('{n}', e.amount).replace('{card}', domUpgrades().find((c) => c.slug === e.ref)?.name || e.ref || '')
     case 'adjust': return l.trackerLogAdjust.replace('{n}', signed(e.amount))
     case 'spend': return l.trackerLogSpend.replace('{cp}', -e.amount)
     case 'strat': return (e.target ? l.trackerLogStratOn.replace('{unit}', e.target.name || '') : l.trackerLogStrat).replace('{name}', e.name || '').replace('{cp}', -e.amount)

@@ -637,7 +637,7 @@
  * One entry of a side's CP ledger (cpLedger.js), `amount` signed. `turn` is absent on entries
  * written before the clock kept turns; `t` is stamped by addEntry.
  * @typedef {object} CpEntry
- * @property {'core' | 'bonus' | 'spend' | 'adjust'} kind
+ * @property {'core' | 'bonus' | 'spend' | 'adjust' | 'start'} kind
  * @property {number} amount
  * @property {number} round
  * @property {number | null} [turn]

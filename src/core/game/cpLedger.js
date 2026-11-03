@@ -19,6 +19,8 @@
 //   kind 'spend'  — CP spent: source 'redraw' (the once-per-battle 1CP secondary replacement),
 //                   'strat' (a stratagem, ref = its id).
 //   kind 'adjust' — a hand correction from the stepper: what the ledger does not explain.
+//   kind 'start'  — CP a side starts the battle with (Dominatus' High Strategy: source 'upgrade',
+//                   ref = the card), at round 1, turn 0. Had before the battle, so not a 'bonus'.
 // `player.cp` stays the balance every reader already uses (the score cards, the broadcast, the
 // history): `cpBase` + the sum of the ledger, never below 0. `cpBase` is what an older game had
 // on its stepper when the ledger started — such a game keeps its number and gains a ledger from

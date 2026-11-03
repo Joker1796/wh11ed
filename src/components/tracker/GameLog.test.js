@@ -109,3 +109,22 @@ describe('GameLog — acts taken back', () => {
     w.unmount()
   })
 })
+
+// Dominatus' High Strategy is told as CP the side started the battle with, naming the card.
+describe('GameLog — CP an Upgrade starts the battle with', () => {
+  it('tells the start entry with its card', async () => {
+    await (await import('../../composables/dominatusMissions.js')).loadDominatusDeck()
+    const p = { factionSlug: null, detachments: [], secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false }
+    tracker.newGame({
+      settings: { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', scoreMode: 'vp', twist: null, twistMission: null, dominatus: { phase: 1, location: null } },
+      players: [
+        { ...p, name: 'Me', disposition: DISPOSITIONS[0].id, role: 'attacker', alliance: 'liberators' },
+        { ...p, name: 'Opp', disposition: DISPOSITIONS[1].id, role: 'defender', alliance: 'oppressors' },
+      ],
+    })
+    tracker.setUpgrades(0, [{ slug: 'high-strategy', unit: 'Captain' }])
+    tracker.beginGame()
+    const w = mount(GameLog, { props: { names: ['Me', 'Opp'] } })
+    expect(w.text()).toContain('+1 CP at the start of the battle (High Strategy)')
+  })
+})

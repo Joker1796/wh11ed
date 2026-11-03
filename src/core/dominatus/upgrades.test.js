@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { upgradeNeedsUnit, upgradeUnitBlock, upgradeBonusKeywords, upgradeBonusApplies, upgradeLimit, upgradeOncePerBattle } from './upgrades.js'
+import { upgradeNeedsUnit, upgradeUnitBlock, upgradeBonusKeywords, upgradeBonusApplies, upgradeLimit, upgradeOncePerBattle, upgradeStartCp } from './upgrades.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en').upgrades
@@ -66,5 +66,13 @@ describe('upgradeLimit', () => {
 describe('upgradeOncePerBattle', () => {
   it('names the five cards the deck prints "(Once per battle)" on', () => {
     expect(deck.filter(upgradeOncePerBattle).map((c) => c.slug).sort()).toEqual(['displacer-field', 'fortunes-favoured', 'personal-teleporter', 'ruinator', 'vortex-grenade'])
+  })
+})
+
+describe('upgradeStartCp', () => {
+  it('reads High Strategy: 1CP, 2CP on the Warlord, and no other card of the deck starts with CP', () => {
+    expect(upgradeStartCp(card('high-strategy'), captain)).toBe(1)
+    expect(upgradeStartCp(card('high-strategy'), { ...captain, warlord: true })).toBe(2)
+    expect(deck.filter((c) => upgradeStartCp(c, { kws: [], warlord: true }) > 0).map((c) => c.slug)).toEqual(['high-strategy'])
   })
 })

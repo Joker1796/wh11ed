@@ -70,6 +70,20 @@ export function upgradeOncePerBattle(card) {
 }
 
 /**
+ * The CP a card starts its side's battle with — High Strategy's "You start the battle with 1CP",
+ * its bonus' "…2CP instead" when the bonus applies on the unit — read off the English text; 0 for
+ * a card that says nothing of the kind.
+ * @param {UpgradeCard & { body?: string, bonus?: { label: string, body?: string } | null }} card
+ * @param {UpgradeUnit} unit
+ */
+export function upgradeStartCp(card, unit) {
+  const RE = /start the battle with (\d+)\s*CP/i
+  const base = Number(RE.exec(card?.body || '')?.[1] || 0)
+  const bonus = Number(RE.exec(card?.bonus?.body || '')?.[1] || 0)
+  return bonus && upgradeBonusApplies(card, unit) ? bonus : base
+}
+
+/**
  * Upgrades a side may give out this battle: 3, or 4 under Titangrave's Vermillion Sanction.
  * @param {{ location?: string | null } | null | undefined} dominatus
  */
