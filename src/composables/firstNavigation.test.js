@@ -29,6 +29,21 @@ describe('settleFirstNavigation', () => {
     expect(router.replace).toHaveBeenCalledTimes(1)
   })
 
+  it('opens home when a page the reader asked for fails outright — a reload would ask for the same file', async () => {
+    const router = routerWith(() => Promise.reject(new TypeError('Failed to fetch dynamically imported module')))
+    expect(await settleFirstNavigation(router, { resumed: () => false, wait: never })).toBe('home')
+  })
+
+  it('opens home when a page the reader asked for fails after the app was mounted around it', async () => {
+    let fail
+    const router = routerWith(() => new Promise((_, reject) => { fail = reject }))
+    expect(await settleFirstNavigation(router, { resumed: () => false, wait: now })).toBe('late')
+    expect(router.replace).not.toHaveBeenCalled()
+    fail(new TypeError('Failed to fetch dynamically imported module'))
+    await new Promise((r) => setTimeout(r, 0))
+    expect(router.replace).toHaveBeenCalledWith('/')
+  })
+
   it('keeps a page the reader asked for, and mounts around it while it loads', async () => {
     const router = routerWith(never)
     expect(await settleFirstNavigation(router, { resumed: () => false, wait: now })).toBe('late')

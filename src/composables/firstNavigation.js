@@ -12,8 +12,8 @@
 // The page left last time is a convenience, never a reason not to open: when it is not there in
 // time, or does not load, the app opens on home, which is in the shell and always on the device.
 // Quietly (owner, 2026-11-02: a failed load says nothing). Any other first page — a link, a
-// shortcut — is what the reader asked for: the app is mounted around it and the page arrives when
-// its chunk does.
+// shortcut — is what the reader asked for: the app is mounted around it while it loads, and only
+// a page that fails outright gives way to home (a reload would ask for the same missing file).
 export const RESUME_MS = 3000
 
 /**
@@ -25,10 +25,14 @@ export async function settleFirstNavigation(router, { resumed, home = '/', ms = 
   const ready = router.isReady().then(() => 'ready', () => 'failed')
   const outcome = await Promise.race([ready, wait(ms).then(() => 'slow')])
   if (outcome === 'ready') return 'ready'
-  if (resumed()) {
+  // Failed: the device does not have that page, whichever it was — the start owns this failure and
+  // nothing reloads for it (staleChunks.js). Slow: only the page left last time gives way.
+  if (outcome === 'failed' || resumed()) {
     // A newer navigation cancels the one still waiting for its chunk.
     await router.replace(home).catch(() => {})
     return 'home'
   }
+  // Mounted around a page still loading: if it fails after all, the same answer, later.
+  ready.then((o) => { if (o === 'failed') router.replace(home).catch(() => {}) })
   return 'late'
 }

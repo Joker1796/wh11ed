@@ -1,3 +1,4 @@
+import { START_LOCATION } from 'vue-router'
 import { noteReload, reloadsHeld } from './reloadLoop.js'
 
 // A page from an older deploy asking for a chunk the server no longer has.
@@ -29,6 +30,10 @@ const SW_GRACE_MS = 10 * 1000
 let inFlight = false
 // Imports importQuietly is waiting on (below): their failures are its to recover from.
 let quietImports = 0
+// A route's chunk the router's handler has already answered — by recovering, or by leaving it to the
+// start (below); the preload listener, one task later, then has nothing to do.
+let claimed = false
+let listening = false
 
 function readGuard() {
   try { return Number(sessionStorage.getItem(GUARD_KEY)) || 0 } catch { return 0 }
@@ -63,19 +68,40 @@ export async function recoverFromStaleChunk(url, { now = Date.now(), reload = (u
   return true
 }
 
+// ONE OWNER PER FAILURE (owner, 2026-11-03: "not too many handlers and quiet reloads — no risk of a
+// loop?"). What reloads the page by itself, all of it:
+//   · launchGate.js — a start that finds a newer build: once per version (TRIED_KEY);
+//   · recoverFromStaleChunk above — a chunk that would not load: once per 30 s in a tab, never
+//     offline, never during the hold;
+// and under both reloadLoop.js: three of the app's own reloads of a tab in 20 s hold every one of
+// them for ten minutes and say so in the error log. Everything else tries again IN the page
+// (importQuietly, routeChunk) and hands over to the second one only when its tries are spent.
+//
+// The first navigation of a start is not that one's: a page that does not open at a start is a
+// page the device does not have, and a reload would only ask for it again — firstNavigation.js opens
+// home instead. Both answering it, the start went home and the reload brought the broken page back.
 export function installStaleChunkRecovery(router) {
-  // A route component that failed to load: go to that route, fresh.
-  router.onError((err, to) => {
-    if (isChunkLoadError(err)) recoverFromStaleChunk(router.resolve(to).href)
+  // A route component that failed to load after the app was up: go to that route, fresh.
+  router.onError((err, to, from) => {
+    if (!isChunkLoadError(err)) return
+    claimed = true
+    if (from === START_LOCATION) return
+    recoverFromStaleChunk(router.resolve(to).href)
   })
   // Any other lazy import (data files, the search index): stay where the reader is. A route's
   // own chunk raises this too, and first — one task later, so the router's handler above has
   // claimed it with the address the reader was actually going to.
   // A faction's data asked for through quietLoaders below is that loader's to recover: it tries
   // again first and reloads only when the tries are spent.
+  // Once per page, however often this is called: two listeners would answer one event twice.
+  if (listening) return
+  listening = true
   window.addEventListener('vite:preloadError', () => {
     if (quietImports > 0) return
-    setTimeout(() => recoverFromStaleChunk(window.location.href), 0)
+    setTimeout(() => {
+      if (claimed) { claimed = false; return }
+      recoverFromStaleChunk(window.location.href)
+    }, 0)
   })
 }
 
@@ -116,7 +142,9 @@ export async function importQuietly(load, { delays = RETRY_DELAYS_MS, wait = sle
     try {
       return await load()
     } catch (err) {
-      if (!isChunkLoadError(err)) throw err
+      // A load that never finished is not asked for again: the module is still pending, and the same
+      // import would wait on the same request.
+      if (!isChunkLoadError(err) || /** @type {any} */ (err)?.timedOut) throw err
       if (attempt >= delays.length) {
         recover()
         throw err
@@ -140,5 +168,32 @@ export function quietLoaders(loaders) {
   return Object.fromEntries(Object.entries(loaders).map(([k, load]) => [k, () => importQuietly(load)]))
 }
 
+// ── A route's chunk, bounded ─────────────────────────────────────────────────────────────────
+// A tap on a section whose chunk does not come did nothing, for as long as the request hung: the
+// worker asks the network with no limit of its own, and the router waits on the import (a player's
+// Android behind a VPN, 2026-11-03 — at the start it was a blank app, firstNavigation.js). Bounded at
+// ROUTE_CHUNK_MS, and a load that fails is asked for again like a faction's data; the router's
+// handler above takes what is left — one reload into that page, under the same guards.
+export const ROUTE_CHUNK_MS = 8000
+
+/**
+ * @template T
+ * @param {() => Promise<T>} load
+ * @param {{ ms?: number, delays?: number[], wait?: (ms: number) => Promise<unknown> }} [opts]
+ * @returns {() => Promise<T>}
+ */
+export function routeChunk(load, { ms = ROUTE_CHUNK_MS, ...retry } = {}) {
+  const bounded = () => new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      const err = /** @type {Error & { timedOut?: boolean }} */ (new Error(`Failed to fetch dynamically imported module: no answer in ${ms} ms`))
+      err.timedOut = true
+      reject(err)
+    }, ms)
+    load().then((m) => { clearTimeout(timer); resolve(m) }, (e) => { clearTimeout(timer); reject(e) })
+  })
+  // The router's handler recovers, with the address the reader was going to: not this one.
+  return () => importQuietly(bounded, { ...retry, recover: () => {} })
+}
+
 // Tests only.
-export function _resetStaleChunks() { inFlight = false; quietImports = 0 }
+export function _resetStaleChunks() { inFlight = false; quietImports = 0; claimed = false }
