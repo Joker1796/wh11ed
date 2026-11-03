@@ -266,7 +266,7 @@ const en = {
       bonus: { name: 'Staging Post', body: 'While an Alliance has control of this location, the location for the next phase of the campaign is not randomly determined by the Warmaster. Instead, in the next Start Campaign Phase step, the players in that Alliance can choose what the next location will be (either by taking a vote or nominating one amongst them to choose).' },
       warZone: [
         { name: 'Shrouding Smoke', body: '▪ All units have the SMOKE keyword.\n▪ Models that are not within 24" of each other are not **[gloss:visible:visible]** to each other.' },
-        { name: 'Ash Clouds', body: '▪ When an AIRCRAFT unit ends an **[gloss:ingress-move:ingress move]**, make a **[gloss:hazard-roll:hazard roll]** for that unit.\n▪ When a FLYING unit ends a move in which it **took to the skies**, make a **hazard roll** for that unit.' },
+        { name: 'Ash Clouds', body: '▪ When an AIRCRAFT unit ends an **[gloss:ingress-move:ingress move]**, make a **[gloss:hazard-roll:hazard roll]** for that unit.\n▪ When a FLYING unit ends a move in which it **[gloss:take-to-the-skies:took to the skies]**, make a **hazard roll** for that unit.' },
       ],
     },
     {

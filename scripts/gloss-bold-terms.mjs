@@ -45,6 +45,7 @@ const EXTRA_EN = {
   'desperate escape mode': 'desperate-escape', 'objective consolidation mode': 'objective-consolidation',
   'start an action': 'action', 'starts an action': 'action', 'declares a charge': 'declare-charge',
   'at half-strength': 'half-strength', 'below half-strength': 'half-strength', 'remains stationary': 'remain-stationary',
+  'took to the skies': 'take-to-the-skies', 'takes to the skies': 'take-to-the-skies',
   'move types': 'move-type', 'hazard rolls': 'hazard-roll', 'leadership rolls': 'leadership-roll', 'damage rolls': 'damage-roll',
   heals: 'heal', secured: 'secured-objective', suppressed: 'sm-suppressed', entrenched: 'sm-entrenched', snared: 'sm-snared', assailed: 'sm-assailed',
   'advance rolls': 'advance-roll', 'charge rolls': 'charge-roll', 'mortal wound': 'mortal-wound',
@@ -58,7 +59,7 @@ export const RU_FORMS = [
   [/^брос\S* продвижени\S*$/, 'advance-roll'], [/^брос\S* нападения$/, 'charge-roll'], [/^брос\S* на опасность$/, 'hazard-roll'], [/^провер\S* опасности$/, 'hazard-roll'],
   // The Dominatus deck's forms (2026-11-03), each already written by hand elsewhere on the site.
   [/^не связан\S* боем$/, 'unengaged'], [/^связан\S* боем$/, 'engaged'], [/^боевом шоке$/, 'battle-shocked'],
-  [/^област\S* укрытия$/, 'terrain-area'], [/^брос\S* на продвижение$/, 'advance-roll'], [/^оста\S* неподвижн\S*$/, 'remain-stationary'], [/^нача\S* действие$/, 'action'], [/^спас-брос\S*$/, 'save-roll'],
+  [/^област\S* укрытия$/, 'terrain-area'], [/^брос\S* на продвижение$/, 'advance-roll'], [/^оста\S* неподвижн\S*$/, 'remain-stationary'], [/^нача\S* действие$/, 'action'], [/^подним\S* в небо$/, 'take-to-the-skies'], [/^спас-брос\S*$/, 'save-roll'],
   [/^брос\S* (на )?урон\S*$/, 'damage-roll'], [/^брос\S* на лидерство$/, 'leadership-roll'], [/^псайкерск\S* бросок$/, 'psychic-roll'],
   [/^в боевом шоке$/, 'battle-shocked'], [/^в ближнем бою$/, 'engaged'], [/^не (находящ\S* )?в ближнем бою$/, 'unengaged'],
   [/^цел(ь|и|ью|ей|ям|ями)$/, 'objective'], [/^цел\S* нападения$/, 'charge-target'], [/^закреплён\S*$|^закреплена$/, 'secured-objective'],

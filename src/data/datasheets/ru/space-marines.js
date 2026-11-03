@@ -544,7 +544,7 @@ export default {
   "heavy-intercessor-squad": {
     "flavor": "Облачённые в толстую броню Gravis, Heavy Intercessor закрепляют местность и непоколебимы в обороне. Всегда готовые к любому признаку вражеской контратаки, они стоят твёрдо, обрушивая залпы тяжёлого огня, что держат на расстоянии всех, кроме самых упорных или безрассудных врагов.",
     "abilities": {
-      "Unyielding in the Face of the Foe": "Пока этот юнит контролирует **[gloss:objective:цель]**, этот юнит имеет +1 к **спас-броскам**."
+      "Unyielding in the Face of the Foe": "Пока этот юнит контролирует **[gloss:objective:цель]**, этот юнит имеет +1 к **[gloss:save-roll:спас-броскам]**."
     },
     "loadout": "**Каждая модель вооружена:** 1 Bolt Pistol; 1 Ceramite Fists; 1 Heavy Bolt Rifle.",
     "options": [
