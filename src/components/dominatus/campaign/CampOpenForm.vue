@@ -33,6 +33,8 @@ defineProps({
 })
 const open = ref(false)
 const close = () => { open.value = false }
+// Opened from elsewhere too (a step of the campaign's "What next").
+defineExpose({ show: () => { open.value = true } })
 </script>
 
 <style scoped>

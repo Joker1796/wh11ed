@@ -60,6 +60,7 @@ The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. Wh
     and Tempestus Scions in prose — and it overrides the community guide, which renders the word
     «отпрыск». As always this is transliteration for **prose only**: the unit is still
     `Tempestus Scion` in EN, and unit/keyword names stay English in RU text.
+  - `Hive Death Mire` (Dominatus lore) → «улей **Дез-Майер**» (owner, 2026-11-03).
 - **Astra Militarum `Order`/`Orders`** (the Voice of Command mechanic) are translated as «приказ»/«приказы», unlike named mechanics such as Space Marines' Combat Doctrine which stay English — decided 2026-07-22. Specific order names (`Move! Move! Move!`, `Take Aim!`, …) stay English and bold in the ability's own listing, or in «guillemets» when referenced from prose elsewhere. Glossed via `[gloss:am-order:…]` (`src/data/glossary.js`) on the first occurrence in the army rule body and the first occurrence in each detachment (rule/stratagems/enhancements combined) — not every occurrence.
 
 > **Maintainers only.** The guide itself lives in `wh-glossary`, a **private** reference repo (34k EN→RU pairs extracted from the community's docx). It is not public and contributors neither have nor need it — nothing in this repo depends on it, and decisions from it land in this file. If you do have it cloned alongside: **grep it, never read it whole** — `grep -iP '^Kauyon\t' ../wh-glossary/terms/*.tsv`, conventions in its `conventions.md`.

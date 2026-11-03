@@ -1,6 +1,7 @@
 // What every block of the campaign page reads: the entry, the folded state, the deck in the
 // reader's language, and the names of things. Provided by CampaignView, injected by its blocks.
-import { computed, inject, provide } from 'vue'
+import { computed, inject, nextTick, provide, watch } from 'vue'
+import { instantly } from '../../../composables/useRefNavigation.js'
 import { dominatusDeck } from '../../../composables/dominatusMissions.js'
 import { setCampaignPref } from '../../../composables/useCampaigns.js'
 import { useKeywordPopover } from '../../../composables/useKeywordPopover.js'
@@ -61,5 +62,22 @@ export function useCampaignView() {
     get: () => ctx.entry.value?.prefs?.[key] ?? null,
     set: (v) => ctx.entry.value && setCampaignPref(ctx.entry.value.id, key, v),
   })
-  return { ...ctx, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, phaseLabel, rewardKind, rewardName, showUpgrade, remembered }
+  // A step of "What next" asked for (CampaignView's `ask`, owner 2026-11-03: the button does the
+  // step, not only opens its tab): the block that knows the step's kind takes it once, after it is
+  // on screen, and opens its dialog or brings the row it names into view.
+  function onAsk(handlers) {
+    watch(() => ctx.ask?.value, (x) => {
+      const h = x && handlers[x.kind]
+      if (!h) return
+      ctx.ask.value = null
+      nextTick(() => h(x))
+    }, { immediate: true })
+  }
+  function bringIntoView(selector) {
+    const el = document.querySelector(selector)
+    if (!el) return
+    instantly(() => el.scrollIntoView({ block: 'center' }))
+    el.querySelector('button')?.focus({ preventScroll: true })
+  }
+  return { ...ctx, onAsk, bringIntoView, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, phaseLabel, rewardKind, rewardName, showUpgrade, remembered }
 }

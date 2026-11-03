@@ -314,7 +314,7 @@ import CampChronicle from './CampChronicle.vue'
 import { campaignState, reopenable, reopenPhase, scheduleProgress, pairingsNow, standings } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, phaseLabel, remembered } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, phaseLabel, remembered, onAsk } = useCampaignView()
 const override = ref(null)
 
 const phaseLocations = computed(() => deck.value?.locations.filter((l) => l.phase === state.value.phase) || [])
@@ -377,6 +377,11 @@ const preview = computed(() => {
 
 const choosing = ref(false)
 const ending = ref(false)
+// "What next": the Warmaster's Location and end of the phase open their dialogs.
+onAsk({
+  location: () => { choosing.value = true },
+  endPhase: () => { if (location.value) ending.value = true },
+})
 async function setLocation(slug) {
   if (slug === location.value?.slug || (await act('location', { phase: state.value.phase, slug }))) choosing.value = false
 }

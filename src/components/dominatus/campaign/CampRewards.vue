@@ -34,6 +34,7 @@
           v-for="r in g.list"
           :key="r.id"
           class="camp-reward"
+          :data-reward="r.id"
         >
           <!-- Who, what, why on three short lines, and the draw on the right (owner, 2026-11-03: one
              long line through dots wrapped anywhere, and "draw 2" was said twice). Another player's
@@ -230,7 +231,7 @@ import CampPick from './CampPick.vue'
 import { drawFor as drawCards, drawPile } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
-const { state, isOwner, mine, act, labels, deck, playerName, upgradeName, phaseLabel, rewardKind } = useCampaignView()
+const { state, isOwner, mine, act, labels, deck, playerName, upgradeName, phaseLabel, rewardKind, onAsk, bringIntoView } = useCampaignView()
 const kept = reactive({})
 const augury = reactive({})
 const swap = reactive({})
@@ -284,6 +285,19 @@ async function openDraw(r) {
   chosen.value = null
   drawForId.value = r.id
 }
+// "What next": the reader's reward opens its cards when the app draws them, else its row comes into
+// view (Augury, Mettle, a draw at the table ask something there); the rewards to hand out, the first.
+onAsk({
+  reward: (x) => {
+    const r = state.value.pending.find((p) => p.id === x.reward?.id)
+    if (r && appDraw(r)) openDraw(r)
+    else if (r) bringIntoView(`[data-reward="${r.id}"]`)
+  },
+  give: () => {
+    const r = rewards.value.find(forOther)
+    if (r) bringIntoView(`[data-reward="${r.id}"]`)
+  },
+})
 // The card chosen in the dialog; a draw of one comes chosen. A tap on a keyword inside a card
 // opens its text and leaves the choice alone.
 const chosen = ref(null)

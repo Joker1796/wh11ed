@@ -169,6 +169,7 @@
       </p>
       <CampOpenForm
         v-else-if="isOwner || (entry.role === 'member' && !mine)"
+        ref="joinForm"
         v-slot="{ close }"
         :label="isOwner ? labels.campAddPlayer : labels.campJoinAs"
         :primary="!isOwner"
@@ -445,7 +446,10 @@ import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade, onAsk } = useCampaignView()
+// "What next": signing up opens the form.
+const joinForm = ref(null)
+onAsk({ register: () => joinForm.value?.show() })
 const { locale } = useLocale()
 const name = ref('')
 const alliance = ref(null)

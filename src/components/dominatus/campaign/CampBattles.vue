@@ -101,6 +101,7 @@
           :key="x.id"
           class="camp-battle"
           :class="`is-${x.status}`"
+          :data-battle="x.id"
         >
           <span>{{ playerName(x.a) }} — {{ playerName(x.b) }}: {{ outcome(x) }}</span>
           <span class="camp-dim">{{ labels[`campStatus_${x.status}`] }}<template v-if="x.edited">{{ ' · ' + labels.campEdited }}</template></span>
@@ -260,7 +261,7 @@ import { battleAmend, battleLocked, likelyDuplicates, pairingsNow } from '../../
 import { useRouter } from 'vue-router'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, mine, act, labels, playerName, playerOption, phaseLabel, remembered } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, playerName, playerOption, phaseLabel, remembered, onAsk, bringIntoView } = useCampaignView()
 // The opponent the Warmaster paired a player with this phase, while that battle is still to play.
 function pairedWith(id) {
   const x = id && pairingsNow(state.value).find((p) => !p.played && (p.a === id || p.b === id))
@@ -349,6 +350,15 @@ function startPlay() {
   pb.value = pairedWith(pa.value)
   playing.value = true
 }
+// "What next": the pairing to play opens the dialog with that opponent; battles to count, the first.
+onAsk({
+  play: (x) => { startPlay(); pb.value = x.player },
+  playMore: () => startPlay(),
+  count: () => {
+    const first = state.value.battles.find((x) => x.status === 'pending')
+    if (first) bringIntoView(`[data-battle="${first.id}"]`)
+  },
+})
 async function play() {
   const s = state.value
   const side = (id) => s.players.find((p) => p.id === id)

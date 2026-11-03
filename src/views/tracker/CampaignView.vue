@@ -82,8 +82,7 @@
          the first such tab. -->
     <template v-else>
       <CampNext
-        :tab="tab"
-        @go="pickTab"
+        @go="goStep"
       />
       <PageTabs
         class="camp-tabs"
@@ -187,6 +186,12 @@ function pickTab(key) {
   picked.value = key
   setCampaignPref(id.value, 'tab', key)
 }
+// A step of "What next" pressed: its tab opens and does the step there (onAsk in the tab's block).
+const ask = ref(null)
+function goStep(step) {
+  pickTab(step.tab)
+  ask.value = { ...step }
+}
 const tabs = computed(() => {
   const l = labels.value
   const s = state.value
@@ -212,7 +217,7 @@ async function act(type, payload) {
     return false
   }
 }
-provideCampaignView({ entry, state, isOwner, mine, act })
+provideCampaignView({ entry, state, isOwner, mine, act, ask })
 
 let timer = null
 onMounted(async () => {

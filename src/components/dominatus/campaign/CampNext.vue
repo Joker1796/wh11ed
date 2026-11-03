@@ -1,7 +1,8 @@
 <template>
   <!-- What this reader has to do now, above the tabs (owner, 2026-11-03: a player opened the
-       campaign and did not know what was asked of them). Their own steps first, each with the way
-       to the tab where it is done; then what they wait for. Nothing for a reader who only watches. -->
+       campaign and did not know what was asked of them). Their own steps first, each with a button
+       that does it (opens its tab and there its dialog, or the row it names); then what they wait
+       for. Nothing for a reader who only watches. -->
   <section
     v-if="steps.length"
     class="camp-next"
@@ -26,12 +27,13 @@
           :vals="{ n: x.n || 0 }"
         />
         <button
-          v-if="x.todo && x.tab !== tab"
+          v-if="x.todo"
           type="button"
           class="btn-ghost camp-next-go"
-          @click="$emit('go', x.tab)"
+          :aria-haspopup="OPENS_DIALOG.has(x.kind) ? 'dialog' : null"
+          @click="$emit('go', x)"
         >
-          {{ labels[`campGo_${x.tab}`] }}
+          {{ labels[`campDo_${x.kind}`] }}
         </button>
       </li>
     </ul>
@@ -44,10 +46,11 @@ import CountText from '../../CountText.vue'
 import { nextSteps } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
-defineProps({ tab: { type: String, default: '' } })
 defineEmits(['go'])
 
 const { entry, state, isOwner, mine, labels, playerName, rewardName } = useCampaignView()
+// The steps whose button opens a dialog.
+const OPENS_DIALOG = new Set(['play', 'playMore', 'location', 'endPhase', 'register'])
 const steps = computed(() => (entry.value?.role === 'viewer' ? [] : nextSteps(state.value, mine.value, isOwner.value)))
 
 function sentence(x) {
