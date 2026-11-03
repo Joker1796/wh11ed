@@ -64,6 +64,9 @@ const max = computed(() => (mission.value?.achieved?.more ? 2 : 1))
 </script>
 
 <style scoped>
-.dagr-check { padding: 0.35rem 0.6rem; }
+/* In the row, not a field of a form: the box and its word on the row's own ground, no plate of
+   their own (owner, 2026-11-03: the darker box read odd); the row keeps its 44px for the finger. */
+.dagr-check { padding: 0.35rem 0; border: 0; background: none; }
+.dagr-check.on { background: none; }
 .dagr-max { font-size: 0.8rem; color: var(--text-muted); }
 </style>
