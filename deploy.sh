@@ -217,8 +217,8 @@ aws s3 sync dist "$BUCKET" \
   --delete
 
 # 2b) PWA service worker + manifest — MUST revalidate so updates reach clients.
-#     Excluded from step 2 to prevent CDN from caching them with a 1-year TTL.
-echo "▶ sw.js / registerSW.js / manifest  →  no-cache"
+#     Excluded from step 2 to prevent CDN from caching them with a 1-year TTL. Defined here,
+#     uploaded LAST (step 3c): they announce the build.
 set_nocache() { # <file> <content-type>
   # `if`, not `[ -f ] && …`: under `set -e` a missing file (e.g. no registerSW.js in
   # PWA prompt mode) makes the `&&` return non-zero and aborts the whole deploy before
@@ -230,16 +230,6 @@ set_nocache() { # <file> <content-type>
       --metadata-directive REPLACE
   fi
 }
-set_nocache sw.js "application/javascript; charset=utf-8"
-set_nocache registerSW.js "application/javascript; charset=utf-8"
-set_nocache manifest.webmanifest "application/manifest+json; charset=utf-8"
-# The offline warm-up's shopping list. Every deploy renames the hashed chunks they name, so a
-# cached copy sends the warm-up after files that no longer exist — and the app reads them with
-# `cache: 'no-store'` anyway, which only works because nothing in between decided to keep one.
-set_nocache offline-manifest.json "application/json; charset=utf-8"
-# What is live, asked by a page already open (launchGate.js): a cached copy would tell it that
-# nothing new had shipped.
-set_nocache version.json "application/json; charset=utf-8"
 
 # 2c) SEO files — short TTL so crawlers pick up changes quickly. Excluded from the
 #     1-year tier (step 2): a stale robots/sitemap can otherwise be served for a year.
@@ -324,6 +314,24 @@ if [ -f dist/.seo-routes.txt ] && [ -f dist/index.html ]; then
 else
   echo "⚠ dist/.seo-routes.txt missing — SEO route keys not uploaded"
 fi
+
+# 3c) The announcement, last: the worker, the manifests and version.json go up only once every file
+#     the new build serves is in place. On 2026-11-03 a deploy to the beta died on robots.txt (the
+#     storage endpoint did not answer) after these had gone up and before index.html: for a while
+#     the bucket said 2.10.11 and served the 2.10.10 page, and a worker installing then precaches
+#     the old page under the new revision — stuck there until the next release. Uploaded last, a
+#     deploy that dies leaves the old build whole, and the next run finishes it.
+echo "▶ sw.js / registerSW.js / manifest / version.json  →  no-cache (last: they announce the build)"
+set_nocache sw.js "application/javascript; charset=utf-8"
+set_nocache registerSW.js "application/javascript; charset=utf-8"
+set_nocache manifest.webmanifest "application/manifest+json; charset=utf-8"
+# The offline warm-up's shopping list. Every deploy renames the hashed chunks they name, so a
+# cached copy sends the warm-up after files that no longer exist — and the app reads them with
+# `cache: 'no-store'` anyway, which only works because nothing in between decided to keep one.
+set_nocache offline-manifest.json "application/json; charset=utf-8"
+# What is live, asked by a page already open (launchGate.js): a cached copy would tell it that
+# nothing new had shipped.
+set_nocache version.json "application/json; charset=utf-8"
 
 # 4) Drop the CDN edge copy of the entry point (and anything stale).
 #    `if …; then` so a purge failure warns instead of aborting (the upload is done).
