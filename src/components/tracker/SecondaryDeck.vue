@@ -419,6 +419,7 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   padding: 0.45rem 0.8rem; background: var(--accent); color: #fff; border: none;
   font-size: 0.82rem; font-weight: 700; cursor: pointer;
 }
+.untake-btn :deep(svg) { font-size: 1.15rem; }
 .untake-btn {
   flex-shrink: 0; white-space: nowrap;
   display: inline-flex; align-items: center; gap: 0.3rem;
@@ -472,7 +473,9 @@ function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
   .card:hover .card-head .manage { border-left-color: var(--side, var(--side-you)); }
 }
 .card-vp { font-family: var(--font-num); font-weight: 700; font-size: 0.85rem; color: var(--text-primary); flex-shrink: 0; }
-.cm-src { flex-shrink: 0; font-size: 0.8rem; color: var(--text-muted); }
+/* How the card came in, a die or a hand — a size up, with the frame rows' marks (owner, 2026-11-03). */
+.cm-src { flex-shrink: 0; display: inline-flex; font-size: 1.15rem; color: var(--text-muted); }
+.cm-src .wi { margin-inline: 0; }
 .manage {
   min-width: 36px; min-height: 36px;
   background: none; border: 1px solid var(--border); color: var(--text-dim);

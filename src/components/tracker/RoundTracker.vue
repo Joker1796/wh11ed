@@ -358,8 +358,14 @@
               data-press
               @click="openPrimary = i"
             >
+              <!-- A Dominatus Primary is the player's Agenda: the deck's Agenda mark before its name. -->
+              <i
+                v-if="isDomMissionSlug(current.players[i].primarySlug)"
+                class="wi wi-dom-agenda mc-mark"
+                aria-hidden="true"
+              />
               <span class="mc-name">{{ primaryName(i) }}</span>
-              <span class="mc-tag">{{ labels.trackerPrimary }}</span>
+              <span class="mc-tag">{{ isDomMissionSlug(current.players[i].primarySlug) ? labels.domKindAgenda : labels.trackerPrimary }}</span>
               <!-- Over the round's 15 only with an End of Battle row, which the cap does not reach: no
                    "/ 15" then, a figure past it would read as an error. -->
               <span class="mc-vp">{{ current.players[i].rounds[shownRound - 1].primary }}{{ current.players[i].rounds[shownRound - 1].primary > PRIMARY_ROUND_CAP ? '' : ` / ${PRIMARY_ROUND_CAP}` }} VP</span>
@@ -1248,6 +1254,7 @@ function onEndBattle(reason) {
   background: color-mix(in srgb, var(--side) 4%, var(--bg-card));
   font: inherit; text-align: left; cursor: pointer;
 }
+.mc-mark { flex-shrink: 0; margin-inline: 0; font-size: 1.3rem; color: var(--accent-ink); }
 @media (hover: hover) { .mission-card:hover { border-color: var(--side); } }
 .mc-name {
   flex: 1 1 auto; min-width: 0;
