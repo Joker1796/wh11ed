@@ -79,3 +79,52 @@ describe('TrackerHomeView — a game being set up', () => {
     expect(card.find('.gc-foot').text()).toBe('Strike Force') // no score basis before the game
   })
 })
+
+// The game in play is finished from its card (owner, 2026-11-03), through the game screen's dialog,
+// and filed at once; a shared game is not finished here.
+describe('TrackerHomeView — finishing the game in play from its card', () => {
+  const playing = (over) => ({ id: 'g2', phase: 'playing', currentRound: 3, settings: { battleSize: 'strikeForce' }, players: [player('Me', true), player('Opp', false)], ...over })
+
+  it('opens the end dialog without going into the game, and files the game', async () => {
+    const w = await mountHome({ 'wh11ed-tracker-current': playing() })
+    const btn = w.find('.game.live .gc-finish')
+    expect(btn.attributes('disabled')).toBeUndefined()
+    await btn.trigger('click')
+    const { DOMWrapper } = await import('@vue/test-utils')
+    const body = new DOMWrapper(document.body)
+    await body.find('.ge-end').trigger('click')
+    await new Promise((r) => setTimeout(r))
+    expect(localStorage.getItem('wh11ed-tracker-current')).toBeNull()
+    const [filed] = JSON.parse(localStorage.getItem('wh11ed-tracker-history'))
+    expect(filed.id).toBe('g2')
+    expect(filed.phase).toBe('finished')
+    expect(w.find('.game.live').exists()).toBe(false)
+    w.unmount()
+  })
+
+  it('is greyed for a shared game, with the reason', async () => {
+    const w = await mountHome({ 'wh11ed-tracker-current': playing({ party: { id: 'p1', host: true, status: 'live' } }) })
+    const btn = w.find('.game.live .gc-finish')
+    expect(btn.attributes('disabled')).toBeDefined()
+    expect(btn.attributes('title')).toMatch(/game screen/)
+    w.unmount()
+  })
+})
+
+// A campaign's battle is sent back to it from the finished screen: finished from the card, it goes
+// there instead of into the history.
+describe('TrackerHomeView — finishing a campaign battle from its card', () => {
+  it('opens the finished screen and files nothing', async () => {
+    const game = { id: 'g3', phase: 'playing', currentRound: 2, settings: { battleSize: 'strikeForce', dominatus: { phase: 1, location: null, campaign: 'c1' } }, players: [player('Me', true), player('Opp', false)] }
+    const w = await mountHome({ 'wh11ed-tracker-current': game })
+    await w.find('.game.live .gc-finish').trigger('click')
+    const { DOMWrapper } = await import('@vue/test-utils')
+    await new DOMWrapper(document.body).find('.ge-end').trigger('click')
+    await new Promise((r) => setTimeout(r))
+    const { useTracker } = await import('../../composables/useTracker.js')
+    const { current, history } = useTracker()
+    expect(current.value.phase).toBe('finished')
+    expect(history.value).toEqual([])
+    w.unmount()
+  })
+})
