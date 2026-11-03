@@ -1,7 +1,8 @@
 <template>
   <!-- A die seen from a corner, like the 🎲 it replaces: the app's dice faces (`wi-dice-1…6`) are
        face-on, and a face-on die reads as "five" rather than "at random". One pip on top,
-       two on the left face, three on the right. Solid, in the pack's manner (owner, 2026-11-03):
+       two on the left face, three on the right — down its other diagonal, from the top right
+       corner (owner, 2026-11-03: along the top edge's slope they read as a far face). Solid, in the pack's manner (owner, 2026-11-03):
        one fill in `currentColor`, the edges between the faces and the pips cut out of it — drawn
        as an outline it read as a wire cube, its three pips a far face seen through it. 1em, sized
        and coloured like the icons beside it. Decorative: the label next to it carries the meaning. -->
@@ -46,8 +47,8 @@
             r="0.85"
           />
           <circle
-            cx="9.63"
-            cy="8.88"
+            cx="12.88"
+            cy="7.13"
             r="0.85"
           />
           <circle
@@ -56,8 +57,8 @@
             r="0.85"
           />
           <circle
-            cx="12.88"
-            cy="10.63"
+            cx="9.63"
+            cy="12.38"
             r="0.85"
           />
         </g>
