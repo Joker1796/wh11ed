@@ -673,6 +673,8 @@ import CollapseTransition from '../../components/CollapseTransition.vue'
 import ExpandTransition from '../../components/ExpandTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterUnitRulesCard from '../../components/roster/RosterUnitRulesCard.vue'
+import { domUpgrades } from '../../composables/dominatusMissions.js'
+import { upgradeBonusApplies, upgradeOncePerBattle } from '../../core/dominatus/upgrades.js'
 import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
@@ -1719,7 +1721,7 @@ function gameCtxOf(entry) {
     picks: canSwitch.value ? pickSwitchCache.value.get(entry.uid) || [] : [],
     // …and its once-per-battle rules, ticked once used — a unit state, so under that option.
     uses: canSwitch.value && keeps('trackUnitStates')
-      ? withUseInfo(usesFor(resolved, gamePlayer.value, gameClock.value, entry, roster.value?.units))
+      ? [...withUseInfo(usesFor(resolved, gamePlayer.value, gameClock.value, entry, roster.value?.units)), ...upgradeUsesOf(entry)]
       : [],
     // Picks are army-wide (allPicks): the card of a unit standing in someone else's aura must
     // read the same number its row does.
@@ -1730,7 +1732,37 @@ function gameCtxOf(entry) {
     armySwitches: canSwitch.value && keeps('trackArmyStates')
       ? switchesFor(resolved, 'army', gamePlayer.value, gameClock.value, entry)
       : [],
+    upgrades: upgradesOf(entry),
   }
+}
+// Dominatus: the Upgrade cards this unit was given in Declare Battle Formations (DomUpgradesEditor
+// names the list's unit by `uid`, and `mi` in doubles) — each with its text and whether its bonus
+// applies, so the card says where the rule comes from (owner, 2026-11-03). Text only: the numbers
+// are not applied yet. The deck is loaded while a Dominatus game is on (the store).
+// …and its once-per-battle ones among the card's "Once per battle" chips, kept as any other use
+// (setUnitUse, under `dom:<card>`), its text on the chip's "i".
+function upgradeUsesOf(entry) {
+  const en = domUpgrades()
+  return upgradesOf(entry).filter((u) => upgradeOncePerBattle(en.find((c) => c.slug === u.slug))).map((u) => {
+    const id = `dom:${u.slug}`
+    const used = gamePlayer.value?.ctx?.uses?.[entry.uid]?.[id] != null
+    return { id, label: { en: u.name, ru: u.name }, on: used, live: false, spent: used, auto: false, blocked: false, blockedBy: null, duration: null, once: 'unit', info: { name: u.name, text: u.body } }
+  })
+}
+function upgradesOf(entry) {
+  const ups = gameSide.value?.upgrades
+  if (!game.value?.settings?.dominatus || !ups?.length) return []
+  const mi = gameMi.value ?? 0
+  const def = defOf(entry.id)
+  const unit = { kws: def?.kws || [], warlord: !!entry.warlord }
+  const deck = domUpgrades(locale.value)
+  return ups
+    .filter((u) => u.uid === entry.uid && (u.mi ?? 0) === mi)
+    .map((u) => {
+      const card = deck.find((c) => c.slug === u.slug)
+      return card && { slug: card.slug, kind: card.kind, name: card.name, body: card.body, bonus: card.bonus || null, bonusOn: upgradeBonusApplies(card, unit) }
+    })
+    .filter(Boolean)
 }
 // Strict rules: a stratagem played on this unit before the side's last act cannot be unticked —
 // the box stays on, greyed, with why (ConditionChips' `strictLast`).

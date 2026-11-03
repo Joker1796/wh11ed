@@ -127,6 +127,30 @@ export function phaseMomentsOf(englishText) {
   return Object.fromEntries(Object.entries(seen).filter(([, v]) => v))
 }
 
+/**
+ * A rule as the phase reminder reads it: `{ n, p, s, m?, ru? }` — its name, the phases it names
+ * (`phasesOf`, "any" dropped: a rule true of every slot reminds of nothing), whose they are
+ * (`phaseSidesOf`), and when inside each it fires where the text says (`phaseMomentsOf`). Null when
+ * the prose names no phase. The generated phase index (scripts/gen-phase-index.mjs) is made of these,
+ * and the tracker builds them the same way for what no index holds (a Dominatus Upgrade, a war zone).
+ * @param {string} name
+ * @param {string | null | undefined} text English
+ * @param {string | null} [ru]
+ */
+export function phaseEntryOf(name, text, ru = null) {
+  if (!text) return null
+  const p = phasesOf(text).filter((x) => x !== 'any')
+  if (!p.length) return null
+  const s = phaseSidesOf(text)
+  /** @type {{ n: string, p: string[], s: Record<string, string>, m?: Record<string, string | null>, ru?: string }} */
+  const out = { n: name, p, s }
+  // When inside the phase, where the text says so: 'start' / 'end' per phase, absent = during.
+  const m = Object.fromEntries(Object.entries(phaseMomentsOf(text)).filter(([k]) => p.includes(k)))
+  if (Object.keys(m).length) out.m = m
+  if (ru && ru !== name) out.ru = ru
+  return out
+}
+
 // Can this stratagem be used in the slot the game is standing on? `mine` is whether the turn
 // belongs to the player whose roster is open. A stratagem with no detectable phase, or one that
 // works in any phase, is always offered — the timing line is still printed on the card.

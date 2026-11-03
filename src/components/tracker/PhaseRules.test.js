@@ -245,3 +245,29 @@ describe('PhaseRules — where a line leads', () => {
     expect(w.findAll('.pr-go-btn').every((b) => !b.text().includes('Crude Surgery'))).toBe(true)
   })
 })
+
+// Dominatus (owner, 2026-11-03): an Upgrade card given to a unit is a reminder in the phase its
+// text names, under the unit that carries it; the Location's war zone rules are too, for both sides.
+describe('PhaseRules — a Dominatus battle', () => {
+  it('reminds of an Upgrade on a unit, and of the war zone, in the phase they name', async () => {
+    const { loadDominatusDeck } = await import('../../composables/dominatusMissions.js')
+    await loadDominatusDeck()
+    startGame({
+      alliance: 'liberators',
+      roster: { id: 'r1', name: 'L', faction: 'orks', detachments: [], battleSize: 'strike-force', units: [{ uid: 'u1', id: 'painboy', size: 0 }] },
+    }, { alliance: 'oppressors' }, { dominatus: { phase: 1, location: 'volcanus-archipelago' } })
+    tracker.setUpgrades(0, [{ slug: 'strategic-laurels', unit: 'Painboy', uid: 'u1', mi: 0 }])
+    const w = await mountBlock()
+    // "In your Command phase, if this unit controls an objective…" — the side on turn's, at its main step.
+    expect(stepOf(w, 'Strategic Laurels')).toBe('Command abilities')
+    expect(w.findAll('.pr-side')[0].text()).toContain('Strategic Laurels')
+    expect(w.findAll('.pr-side')[1].text()).not.toContain('Strategic Laurels')
+    expect(w.text()).not.toContain('Landing Craft')
+
+    // "In a player's Movement phase…" — the war zone, on both sides' cards.
+    tracker.goToPhase(0, 'movement')
+    await flushPromises()
+    expect(w.text()).not.toContain('Strategic Laurels')
+    expect(w.findAll('.pr-side')[0].text()).toContain('Landing Craft')
+  })
+})

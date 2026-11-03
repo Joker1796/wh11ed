@@ -97,11 +97,20 @@ a unit the card's `who` excludes — not a CHARACTER, an EPIC HERO for the no-he
 carrying another card is greyed in the picker with why, a card changed under a unit it no longer fits
 says so under the row, and the bonus effect says when it applies (its keywords, WARLORD = the list's
 Warlord). `upgrades.test.js` holds every card of the deck to the phrasings the core reads. Without a
-list the unit is typed in (owner, 2026-11-03). `agendaAchieved` (0–1, 0–2 for a phase 3 Agenda; set by the players on
+list the unit is typed in (owner, 2026-11-03).
+**In the battle** (owner, 2026-11-03, stage 3a — text, not numbers): a unit's card in the game
+(`RosterUnitRulesCard`, `gameCtx.upgrades` from `RosterViewView`'s `upgradesOf`) carries its cards
+under "Upgrades this battle", each folded like a rule — the deck, the name, the text, and the bonus
+said to apply or not on this unit. A "(Once per battle)" card (`upgradeOncePerBattle`, five in the
+deck) is one of the card's "Once per battle" chips, kept as any unit's use (`setUnitUse`, id
+`dom:<card>`) and under the same option (`trackUnitStates`). The phase reminder (`usePhaseRules`)
+lists a card in the phase its English text names, under the unit, and the Location's war zone rules
+for both sides (opening the missions tab, where they are printed) — read by `phaseEntryOf`, the
+core function the generated phase index is made of. No number on the card changes yet (3b). `agendaAchieved` (0–1, 0–2 for a phase 3 Agenda; set by the players on
 the missions tab — the conditions read the table, not the score). The Primary slug is `dom-<agenda>`
 (`primaryOf` → `src/composables/dominatusMissions.js`); scoring and caps are the ordinary ones (the
 Dominatus Event Companion says 45 / 15 a round). The Location's war zone rules ride on the missions
-tab like a twist. The tracker applies no Upgrade's or war zone rule's effect — they are the table's.
+tab like a twist. The tracker applies no Upgrade's or war zone rule's effect to a number yet.
 
 **The deck is loaded on demand** (`loadDominatusDeck`, ~35 KB gzipped): the tracker store is on
 every tracker and roster screen, and a static import put the deck on all of them. Until it lands an

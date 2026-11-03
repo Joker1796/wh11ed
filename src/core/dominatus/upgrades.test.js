@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { upgradeNeedsUnit, upgradeUnitBlock, upgradeBonusKeywords, upgradeBonusApplies, upgradeLimit } from './upgrades.js'
+import { upgradeNeedsUnit, upgradeUnitBlock, upgradeBonusKeywords, upgradeBonusApplies, upgradeLimit, upgradeOncePerBattle } from './upgrades.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en').upgrades
@@ -60,5 +60,11 @@ describe('upgradeLimit', () => {
     expect(upgradeLimit({ location: 'titangrave' })).toBe(4)
     expect(upgradeLimit({ location: 'cerbera-base' })).toBe(3)
     expect(upgradeLimit(null)).toBe(3)
+  })
+})
+
+describe('upgradeOncePerBattle', () => {
+  it('names the five cards the deck prints "(Once per battle)" on', () => {
+    expect(deck.filter(upgradeOncePerBattle).map((c) => c.slug).sort()).toEqual(['displacer-field', 'fortunes-favoured', 'personal-teleporter', 'ruinator', 'vortex-grenade'])
   })
 })

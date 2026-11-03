@@ -31,7 +31,7 @@
 import { existsSync, writeFileSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { join } from 'node:path'
-import { phasesOf, phaseSidesOf, phaseMomentsOf } from '../src/core/rules/stratagemPhases.js'
+import { phaseEntryOf } from '../src/core/rules/stratagemPhases.js'
 import { lockedToExactUnit } from '../src/core/roster/rosterEnhEligible.js'
 import { slugify } from '../src/core/shared/slugify.js'
 import { foldName } from '../src/core/shared/foldName.js'
@@ -40,21 +40,9 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const imp = (rel) => import(pathToFileURL(join(ROOT, rel)).href)
 const has = (rel) => existsSync(join(ROOT, rel))
 
-// One entry, or null when the prose names no phase. `p`/`s` are `usableInSlot`'s own arguments.
-// A rule that works in "any phase" is dropped rather than shown in all five: it is true of every
-// slot, so it reminds the reader of nothing.
-function entryOf(name, text, ru = null) {
-  if (!text) return null
-  const p = phasesOf(text).filter((x) => x !== 'any')
-  if (!p.length) return null
-  const s = phaseSidesOf(text)
-  const out = { n: name, p, s }
-  // When inside the phase, where the text says so: 'start' / 'end' per phase, absent = during.
-  const m = Object.fromEntries(Object.entries(phaseMomentsOf(text)).filter(([k]) => p.includes(k)))
-  if (Object.keys(m).length) out.m = m
-  if (ru && ru !== name) out.ru = ru
-  return out
-}
+// One entry, or null when the prose names no phase — `phaseEntryOf` (core), which the tracker
+// also builds its own reminders with.
+const entryOf = phaseEntryOf
 
 const { factionGroups } = await imp('src/data/factionsIndex.js')
 

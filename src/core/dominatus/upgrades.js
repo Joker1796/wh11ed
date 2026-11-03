@@ -61,6 +61,15 @@ export function upgradeBonusApplies(card, unit) {
 }
 
 /**
+ * Is the card (or one of its effects) used once per battle? Read off its English text, as the deck
+ * prints it: "(Once per battle) …".
+ * @param {{ body?: string }} card
+ */
+export function upgradeOncePerBattle(card) {
+  return /\(once per battle\)/i.test(card?.body || '')
+}
+
+/**
  * Upgrades a side may give out this battle: 3, or 4 under Titangrave's Vermillion Sanction.
  * @param {{ location?: string | null } | null | undefined} dominatus
  */

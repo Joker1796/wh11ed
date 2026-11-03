@@ -233,6 +233,58 @@
            The block itself is NOT an accordion: it's a marked container that always shows
            what applies, and each rule inside collapses on its own. One level of chevrons,
            and opening the container can't dump four long rule bodies at once. -->
+        <!-- Dominatus: the Upgrade cards this unit carries this battle (gameCtx.upgrades), each
+             folded like a rule — its deck by name, the card, its text, and its bonus said to apply
+             or not on this unit (owner, 2026-11-03). Their numbers are not applied yet. -->
+        <section
+          v-if="gameCtx?.upgrades?.length"
+          class="rum-rules"
+        >
+          <h4 class="rum-rules-h">
+            {{ labels.domUpgradesOnUnit }}
+          </h4>
+          <div
+            v-for="u in gameCtx.upgrades"
+            :key="u.slug"
+            class="rum-rule"
+          >
+            <DsAccordion
+              collapsible
+              :start-open="false"
+            >
+              <template #header="{ open, toggle }">
+                <button
+                  type="button"
+                  class="rum-rule-btn"
+                  :aria-expanded="open"
+                  @click="toggle"
+                >
+                  <span class="rum-rule-text">
+                    <span class="rum-rule-src">{{ upgradeKindName(u.kind) }}</span>
+                    <span class="rum-rule-name">{{ u.name }}</span>
+                  </span>
+                  <ChevronIcon
+                    class="rum-chev"
+                    :turned="open"
+                    from="right"
+                    to="down"
+                  />
+                </button>
+              </template>
+              <div class="rum-rule-body">
+                <RuleBody :body="u.body" />
+                <p
+                  v-if="u.bonus"
+                  class="rum-upg-bonus"
+                  :class="{ off: !u.bonusOn }"
+                >
+                  <strong>{{ (u.bonusOn ? labels.domBonusOn : labels.domBonusOff).replace('{kw}', u.bonus.label) }}</strong>
+                  <span v-safe-html="renderRichText(u.bonus.body)" />
+                </p>
+              </div>
+            </DsAccordion>
+          </div>
+        </section>
         <section
           v-if="ruleBlocks.length"
           class="rum-rules"
@@ -454,6 +506,8 @@ const sheetGroups = computed(() => [
   { key: 'crew', label: labels.value.rosterAlsoInUnit, items: companions.value.map((sheet) => ({ sheet, src: '' })) },
   { key: 'spawn', label: labels.value.rosterSpawnHeading, items: spawned.value.map(({ sheet, rule }) => ({ sheet, src: rule })) },
 ].filter((g) => g.items.length))
+// A Dominatus Upgrade's deck, as the deck's own chapters name them.
+const upgradeKindName = (kind) => labels.value[{ honour: 'domHonour', skill: 'domSkill', relic: 'domRelic' }[kind]] || ''
 // The roster facts row: only when there is a chip left to show in it.
 const ctxChips = computed(() => {
   const c = view.value.context
@@ -707,6 +761,9 @@ defineExpose({
 .rum-rule--off .rum-rule-name,
 .rum-rule--off .rum-rule-body { color: var(--text-muted); }
 .rum-rule-off { font-size: 0.75rem; color: var(--text-muted); }
+.rum-upg-bonus { margin: 0.35rem 0 0; }
+.rum-upg-bonus.off { color: var(--text-muted); }
+.rum-upg-bonus strong { margin-right: 0.3rem; }
 .rum-chev { font-size: 0.7rem; color: var(--text-muted); flex-shrink: 0; }
 .rum-rule-body { padding-bottom: 0.5rem; }
 .rum-ability { margin-bottom: 0.35rem; }

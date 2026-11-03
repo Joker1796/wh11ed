@@ -18,7 +18,8 @@ import { useLocale } from './useLocale.js'
 import { useTracker, membersOf, sideName, isYouSide, scorableBlocks, missionBySlug } from './useTracker.js'
 import { cardMoments } from '../core/game/missionTiming.js'
 import { tracks } from '../data/trackerOptions.js'
-import { usableInSlot, BATTLE_PHASES, phaseLabel } from '../core/rules/stratagemPhases.js'
+import { usableInSlot, BATTLE_PHASES, phaseLabel, phaseEntryOf } from '../core/rules/stratagemPhases.js'
+import { domUpgrades, domLocation } from './dominatusMissions.js'
 import { allySourceOf } from '../core/roster/rosterEngine.js'
 import { detachmentSources } from '../data/detachmentSources.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
@@ -169,8 +170,46 @@ export function usePhaseRules() {
         }
       }
       for (const r of byRule.values()) out.push({ ...r, sub: [...r.units].join(' · ') })
+
+      // Dominatus: the Upgrade cards this army gave its units (DomUpgradesEditor — `mi` names the
+      // army in doubles), read for their phase from the English card as the index reads a rule
+      // (phaseEntryOf); a line per card, leading to the unit that carries it.
+      for (const u of upgradesOf(pl, rawMi)) {
+        const card = domUpgrades().find((c) => c.slug === u.slug)
+        const e = card && phaseEntryOf(card.name, card.body)
+        if (!e || !usableInSlot(e.p, e.s, ph, mine)) continue
+        const entry = units.find((x) => x.uid === u.uid)
+        out.push({
+          key: `upg|${mi ?? ''}|${u.slug}`,
+          kind: 'unit',
+          mi: rawMi,
+          name: card.name,
+          what: labels.value.trackerPhaseUpgrade,
+          when: momentOf(e, ph),
+          sub: u.unit || null,
+          to: entry ? cardOf(m, pi, mi, entry, allySourceOf(entry.id)) : listOf(m, pi, mi),
+          roster: m.roster ? { pi, mi, ...(entry ? { uid: entry.uid } : {}) } : null,
+        })
+      }
     })
+
+    // …and the Location's war zone rules, which bind both sides (their words say whose phase). They
+    // are read where they are printed, on the missions tab.
+    for (const w of warZoneOf()) {
+      const e = phaseEntryOf(w.name, w.body)
+      if (!e || !usableInSlot(e.p, e.s, ph, mine)) continue
+      out.push({ key: `wz|${w.name}`, kind: 'card', pi, mi: 0, name: w.name, what: labels.value.trackerPhaseWarZone, when: momentOf(e, ph), sub: null })
+    }
     return out
+  }
+
+  function upgradesOf(pl, mi) {
+    if (!current.value?.settings?.dominatus) return []
+    return (pl.upgrades || []).filter((u) => u.uid && (u.mi ?? 0) === mi)
+  }
+  function warZoneOf() {
+    const loc = current.value?.settings?.dominatus?.location
+    return (loc && domLocation(loc)?.warZone) || []
   }
 
   function rosterPath(pi, mi) {
