@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, START_LOCATION } from 'vue-router'
 import { pageSwapGap } from '../composables/usePageMotion.js'
 import { instantly } from '../composables/useRefNavigation.js'
 import { prefetchFor } from './prefetch.js'
+import { routeChunk } from '../composables/staleChunks.js'
 import LandingView from '../views/LandingView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
 import { LOCALE_SEGMENT, localePath, stripLocale } from './locale.js'
@@ -15,45 +16,45 @@ import { locale as activeLocale, readStoredLocale, setLocale } from '../composab
 // Route views are lazy-loaded so each page (and its data file) ships in its own
 // chunk, keeping the initial bundle small. LandingView (the project landing at "/")
 // stays eager.
-const CoreRulesView     = () => import('../views/CoreRulesView.vue')
-const EventCompanionView = () => import('../views/EventCompanionView.vue')
-const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
-const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
-const PartyJoinView     = () => import('../views/tracker/PartyJoinView.vue')
-const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
-const EmailVerifyView   = () => import('../views/account/EmailVerifyView.vue')
-const PasswordResetView = () => import('../views/account/PasswordResetView.vue')
-const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
-const TrackerStatsView  = () => import('../views/tracker/TrackerStatsView.vue')
+const CoreRulesView     = routeChunk(() => import('../views/CoreRulesView.vue'))
+const EventCompanionView = routeChunk(() => import('../views/EventCompanionView.vue'))
+const TrackerHomeView   = routeChunk(() => import('../views/tracker/TrackerHomeView.vue'))
+const TrackerGameView   = routeChunk(() => import('../views/tracker/TrackerGameView.vue'))
+const PartyJoinView     = routeChunk(() => import('../views/tracker/PartyJoinView.vue'))
+const AuthCallbackView  = routeChunk(() => import('../views/tracker/AuthCallbackView.vue'))
+const EmailVerifyView   = routeChunk(() => import('../views/account/EmailVerifyView.vue'))
+const PasswordResetView = routeChunk(() => import('../views/account/PasswordResetView.vue'))
+const TrackerHistoryView = routeChunk(() => import('../views/tracker/TrackerHistoryView.vue'))
+const TrackerStatsView  = routeChunk(() => import('../views/tracker/TrackerStatsView.vue'))
 // The list and a saved roster's page are one screen on a wide window (RosterDeskView), and the
 // same two pages as before on a phone.
-const RosterDeskView    = () => import('../views/tracker/RosterDeskView.vue')
-const RosterCreateView  = () => import('../views/tracker/RosterCreateView.vue')
-const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
-const GameHistoryDesk   = () => import('../views/tracker/GameHistoryDesk.vue')
-const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
-const RosterPrintView   = () => import('../views/tracker/RosterPrintView.vue')
-const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
-const LinksView         = () => import('../views/LinksView.vue')
-const SupportView       = () => import('../views/SupportView.vue')
-const BroadcastOverlayView = () => import('../views/BroadcastOverlayView.vue')
-const DisclaimerView    = () => import('../views/DisclaimerView.vue')
-const HelpView          = () => import('../views/HelpView.vue')
-const HelpTopicView     = () => import('../views/HelpTopicView.vue')
-const ChangelogView     = () => import('../views/ChangelogView.vue')
-const PatchesView       = () => import('../views/PatchesView.vue')
-const StratagemsView    = () => import('../views/StratagemsView.vue')
-const FactionsListView  = () => import('../views/FactionsListView.vue')
-const FactionPagesView  = () => import('../views/faction/FactionPagesView.vue')
-const FactionRuleView        = () => import('../views/faction/FactionRuleView.vue')
-const FactionDatasheetsView  = () => import('../views/faction/FactionDatasheetsView.vue')
-const FactionDatasheetView   = () => import('../views/faction/FactionDatasheetView.vue')
-const FactionFaqView         = () => import('../views/faction/FactionFaqView.vue')
-const RulesLandingView  = () => import('../views/RulesLandingView.vue')
-const CombatPatrolIndexView  = () => import('../views/combat-patrol/CombatPatrolIndexView.vue')
-const CombatPatrolFactionView = () => import('../views/combat-patrol/CombatPatrolFactionView.vue')
-const CombatPatrolHowToView = () => import('../views/combat-patrol/CombatPatrolHowToView.vue')
-const NotFoundView      = () => import('../views/NotFoundView.vue')
+const RosterDeskView    = routeChunk(() => import('../views/tracker/RosterDeskView.vue'))
+const RosterCreateView  = routeChunk(() => import('../views/tracker/RosterCreateView.vue'))
+const RosterViewView    = routeChunk(() => import('../views/tracker/RosterViewView.vue'))
+const GameHistoryDesk   = routeChunk(() => import('../views/tracker/GameHistoryDesk.vue'))
+const RosterEditorView  = routeChunk(() => import('../views/tracker/RosterEditorView.vue'))
+const RosterPrintView   = routeChunk(() => import('../views/tracker/RosterPrintView.vue'))
+const RosterSharedView  = routeChunk(() => import('../views/tracker/RosterSharedView.vue'))
+const LinksView         = routeChunk(() => import('../views/LinksView.vue'))
+const SupportView       = routeChunk(() => import('../views/SupportView.vue'))
+const BroadcastOverlayView = routeChunk(() => import('../views/BroadcastOverlayView.vue'))
+const DisclaimerView    = routeChunk(() => import('../views/DisclaimerView.vue'))
+const HelpView          = routeChunk(() => import('../views/HelpView.vue'))
+const HelpTopicView     = routeChunk(() => import('../views/HelpTopicView.vue'))
+const ChangelogView     = routeChunk(() => import('../views/ChangelogView.vue'))
+const PatchesView       = routeChunk(() => import('../views/PatchesView.vue'))
+const StratagemsView    = routeChunk(() => import('../views/StratagemsView.vue'))
+const FactionsListView  = routeChunk(() => import('../views/FactionsListView.vue'))
+const FactionPagesView  = routeChunk(() => import('../views/faction/FactionPagesView.vue'))
+const FactionRuleView        = routeChunk(() => import('../views/faction/FactionRuleView.vue'))
+const FactionDatasheetsView  = routeChunk(() => import('../views/faction/FactionDatasheetsView.vue'))
+const FactionDatasheetView   = routeChunk(() => import('../views/faction/FactionDatasheetView.vue'))
+const FactionFaqView         = routeChunk(() => import('../views/faction/FactionFaqView.vue'))
+const RulesLandingView  = routeChunk(() => import('../views/RulesLandingView.vue'))
+const CombatPatrolIndexView  = routeChunk(() => import('../views/combat-patrol/CombatPatrolIndexView.vue'))
+const CombatPatrolFactionView = routeChunk(() => import('../views/combat-patrol/CombatPatrolFactionView.vue'))
+const CombatPatrolHowToView = routeChunk(() => import('../views/combat-patrol/CombatPatrolHowToView.vue'))
+const NotFoundView      = routeChunk(() => import('../views/NotFoundView.vue'))
 
 // The Links page (/links, external source PDFs) is deliberately NOT in the navbar or
 // the drawer — it's reachable only from its card on the landing page (src/data/landing.js).
@@ -247,6 +248,11 @@ router.beforeResolve((to) => prefetchFor(to))
 // owns the one-time RESTORE below, which must run before the first view mounts so the
 // app never flashes home first.
 
+// Whether this start was sent to the page left last time — main.js opens home instead when that
+// page does not come in time (firstNavigation.js).
+let resumedStart = false
+export const wasResumed = () => resumedStart
+
 if (isStandaloneDisplay()) {
   // One-time restore on the very first navigation, only if we landed on home (no deep link).
   let restored = false
@@ -261,7 +267,10 @@ if (isStandaloneDisplay()) {
     if (!saved || saved === to.fullPath) return
     const resolved = router.resolve(saved)
     // meta.bare (the broadcast overlay) is a capture surface, not a place to resume reading.
-    if (resolved.matched.length && !SKIP_RESTORE.has(stripLocale(resolved.path)) && !resolved.meta?.bare) return saved
+    if (resolved.matched.length && !SKIP_RESTORE.has(stripLocale(resolved.path)) && !resolved.meta?.bare) {
+      resumedStart = true
+      return saved
+    }
   })
 }
 
