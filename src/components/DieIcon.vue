@@ -1,11 +1,10 @@
 <template>
-  <!-- A die seen from a corner, like the 🎲 it replaces: the app's dice faces (`wi-dice-1…6`) are
-       face-on, and a face-on die reads as "five" rather than "at random". One pip on top,
-       two on the left face, three on the right — down its other diagonal, from the top right
-       corner (owner, 2026-11-03: along the top edge's slope they read as a far face). Solid, in the pack's manner (owner, 2026-11-03):
-       one fill in `currentColor`, the edges between the faces and the pips cut out of it — drawn
-       as an outline it read as a wire cube, its three pips a far face seen through it. 1em, sized
-       and coloured like the icons beside it. Decorative: the label next to it carries the meaning. -->
+  <!-- Two dice, one tilted behind the other — "rolled", the 🎲 it replaces (owner, 2026-11-03).
+       The app's dice faces (`wi-dice-1…6`) are a single face-on die, which reads as "five" rather
+       than "at random"; a die drawn from a corner (2026-10) read as a wire cube, and at 14–18px as a
+       hexagon. Solid, in the pack's manner: one fill in `currentColor`, the pips and the gap round
+       the front die cut out of it. 1em, sized and coloured like the icons beside it. Decorative:
+       the label next to it carries the meaning. -->
   <svg
     class="die-icon"
     viewBox="0 0 16 16"
@@ -14,7 +13,7 @@
     aria-hidden="true"
     focusable="false"
   >
-    <!-- The cut-outs: a mask per die, its id this instance's own (a page shows several dice, and a
+    <!-- The cut-outs: a mask per icon, its id this instance's own (a page shows several, and a
          repeated id resolves to the first — one inside a hidden block would blank them all). -->
     <defs>
       <mask :id="maskId">
@@ -23,52 +22,67 @@
           height="16"
           fill="#fff"
         />
-        <path
-          d="M1.5 4.5 8 8 14.5 4.5M8 8V15"
+        <!-- The gap that sets the front die apart from the one behind it. -->
+        <rect
+          x="1.2"
+          y="5.6"
+          width="9.6"
+          height="9.6"
           fill="none"
           stroke="#000"
-          stroke-width="1.1"
+          stroke-width="1.3"
         />
         <g fill="#000">
-          <ellipse
-            cx="8"
-            cy="4.5"
-            rx="1.2"
-            ry="0.7"
+          <!-- Front die: three on the diagonal. -->
+          <circle
+            cx="3.6"
+            cy="8"
+            r="0.95"
           />
           <circle
-            cx="3.45"
-            cy="7.65"
-            r="0.85"
+            cx="6"
+            cy="10.4"
+            r="0.95"
           />
           <circle
-            cx="6.05"
-            cy="11.85"
-            r="0.85"
+            cx="8.4"
+            cy="12.8"
+            r="0.95"
           />
-          <circle
-            cx="12.88"
-            cy="7.13"
-            r="0.85"
-          />
-          <circle
-            cx="11.25"
-            cy="9.75"
-            r="0.85"
-          />
-          <circle
-            cx="9.63"
-            cy="12.38"
-            r="0.85"
-          />
+          <!-- The die behind: two, on its own tilt. -->
+          <g transform="rotate(20 11 5)">
+            <circle
+              cx="9.2"
+              cy="3.2"
+              r="0.9"
+            />
+            <circle
+              cx="12.8"
+              cy="6.8"
+              r="0.9"
+            />
+          </g>
         </g>
       </mask>
     </defs>
-    <path
-      d="M8 .6 14.9 4.3V11.7L8 15.4 1.1 11.7V4.3Z"
+    <g
       fill="currentColor"
       :mask="`url(#${maskId})`"
-    />
+    >
+      <rect
+        x="7"
+        y="1"
+        width="8"
+        height="8"
+        transform="rotate(20 11 5)"
+      />
+      <rect
+        x="1.2"
+        y="5.6"
+        width="9.6"
+        height="9.6"
+      />
+    </g>
   </svg>
 </template>
 
