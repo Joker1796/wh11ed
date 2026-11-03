@@ -191,6 +191,22 @@
             >
               <i class="wi wi-trash" />
             </button>
+            <!-- The game in play is finished from its card too (owner, 2026-11-03: going in to find
+                 "Finish" in the ⋯ every time annoyed him) — the game screen's own dialog, then filed
+                 like any finished game. A shared game is not: filing it here would end the party for
+                 the other phones before they heard the game was over. -->
+            <button
+              v-else-if="g.live === 'playing'"
+              type="button"
+              class="gc-finish"
+              aria-haspopup="dialog"
+              :disabled="!!g.party"
+              :title="g.party ? labels.trackerFinishSharedHere : labels.trackerFinish"
+              @click.stop="endOpen = true"
+              @keydown.enter.stop
+            >
+              <i class="wi wi-end" /> {{ labels.trackerFinishShort }}
+            </button>
           </div>
 
           <div class="gc-body">
@@ -260,6 +276,11 @@
       @close="summaryGame = null"
     />
 
+    <GameEndModal
+      v-if="endOpen"
+      @confirm="finishHere"
+      @close="endOpen = false"
+    />
     <ConfirmModal
       v-if="confirmState"
       :title="confirmState.title"
@@ -279,6 +300,7 @@ import { useTour } from '../../composables/useTour.js'
 import { useRoute, useRouter } from 'vue-router'
 import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
+import GameEndModal from '../../components/tracker/GameEndModal.vue'
 import { battlePointsFromVp, concededSide, grandTotal, youIndex as youIdx } from '../../core/game/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -297,7 +319,7 @@ const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
-const { current, history, setupDraft, putAwayCurrent, resumeFromHistory, deleteHistory } = useTracker()
+const { current, history, setupDraft, putAwayCurrent, resumeFromHistory, deleteHistory, finishGame } = useTracker()
 // Only the host of a shared game needs an account, and this is the button that makes one.
 const { init: initParty } = useParty()
 // A finished game nobody filed (a reload on its finished screen, the app reopened here) goes to
@@ -398,6 +420,14 @@ onMounted(async () => {
 // Pending-action confirmation. Holds the message and the action so one ConfirmModal
 // serves "New game" / "Resume from history" (overwrite) and "Delete from history".
 const confirmState = ref(null) // { title, message, confirmLabel, action } | null
+// Finishing the game in play from its card: the same end as the game screen's, filed at once —
+// the card becomes the game's record in the list.
+const endOpen = ref(false)
+function finishHere(reason) {
+  endOpen.value = false
+  finishGame(reason)
+  fileFinishedGame()
+}
 
 function startNew() {
   if (current.value) {
@@ -781,6 +811,22 @@ function footLine(g) {
   padding: 0.1rem;
 }
 .del:hover { color: var(--accent-ink); }
+.gc-finish {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 28px;
+  padding: 0.2rem 0.55rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font: inherit;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .gc-finish:not(:disabled):hover { color: var(--accent-ink); border-color: var(--accent); }
+}
+.gc-finish:disabled { opacity: 0.5; cursor: default; }
 
 .gc-body {
   display: grid;
