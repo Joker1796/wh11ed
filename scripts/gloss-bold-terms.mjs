@@ -55,7 +55,10 @@ const EN_PATTERNS = [[/^(psyker|psychic) levels?( \d+)?$/, 'psyker-level']]
 // Russian forms, tried in order against the lower-cased span.
 export const RU_FORMS = [
   [/^брос\S* на попадани\S*$/, 'hit-roll'], [/^брос\S* на ранени\S*$/, 'wound-roll'], [/^брос\S* на боевой шок$/, 'battle-shock-test'],
-  [/^брос\S* продвижени\S*$/, 'advance-roll'], [/^брос\S* нападения$/, 'charge-roll'], [/^брос\S* на опасность$/, 'hazard-roll'],
+  [/^брос\S* продвижени\S*$/, 'advance-roll'], [/^брос\S* нападения$/, 'charge-roll'], [/^брос\S* на опасность$/, 'hazard-roll'], [/^провер\S* опасности$/, 'hazard-roll'],
+  // The Dominatus deck's forms (2026-11-03), each already written by hand elsewhere on the site.
+  [/^не связан\S* боем$/, 'unengaged'], [/^связан\S* боем$/, 'engaged'], [/^боевом шоке$/, 'battle-shocked'],
+  [/^област\S* укрытия$/, 'terrain-area'], [/^брос\S* на продвижение$/, 'advance-roll'], [/^оста\S* неподвижн\S*$/, 'remain-stationary'], [/^нача\S* действие$/, 'action'], [/^спас-брос\S*$/, 'save-roll'],
   [/^брос\S* (на )?урон\S*$/, 'damage-roll'], [/^брос\S* на лидерство$/, 'leadership-roll'], [/^псайкерск\S* бросок$/, 'psychic-roll'],
   [/^в боевом шоке$/, 'battle-shocked'], [/^в ближнем бою$/, 'engaged'], [/^не (находящ\S* )?в ближнем бою$/, 'unengaged'],
   [/^цел(ь|и|ью|ей|ям|ями)$/, 'objective'], [/^цел\S* нападения$/, 'charge-target'], [/^закреплён\S*$|^закреплена$/, 'secured-objective'],
@@ -170,8 +173,10 @@ function linkSpan(inner, idOf) {
 // back to plain bold, so re-running the script tidies a file linked before this rule existed.
 // Core abilities are left alone — `[core:…]` is how the rulebook's own emphasis is carried, not an
 // extra, and the emphasis gate reads it.
-export function glossString(str, locale, onSpan = null) {
-  const idOf = locale === 'ru' ? ruId : enId
+export function glossString(str, locale, onSpan = null, { dropEnParen = false, skip = [] } = {}) {
+  const base = locale === 'ru' ? ruId : enId
+  // A text whose word means something else there keeps it plain (`skip`: ids not to link).
+  const idOf = skip.length ? (t) => { const id = base(t); return id && !skip.includes(id) ? id : null } : base
   let linked = 0
   const open = []
   const seen = new Set()
@@ -205,7 +210,18 @@ export function glossString(str, locale, onSpan = null) {
     if (to !== m) onSpan?.(m, to)
     return to
   })
-  return [out, linked, open]
+  // A Russian term the deck wrote as «**рус** (eng)»: once the bold is a popover — or a repeat of
+  // one, plain bold after the section's first — the English in brackets is what the popover already
+  // says, so it goes (the faction texts dropped theirs the same way). Only where the bracket names
+  // the very term the bold resolves to.
+  const final = dropEnParen
+    ? out.replace(/\*\*(\[gloss:([a-z0-9-]+):[^\]]+\]|[^*\n[]+?)\*\* \(([a-z][^()\n]*)\)/g, (m, inner, gid, eng) => {
+      const id = gid || idOf(inner.trim())
+      return id && enId(eng.trim()) === id ? m.slice(0, m.lastIndexOf(' (')) : m
+    })
+    : out
+  if (final !== out) onSpan?.(out, final)
+  return [final, linked, open]
 }
 
 // Every string literal of a JS source, in order: [start, end, quote, parts]. `parts` are the cooked
@@ -252,7 +268,7 @@ export const raw = (text, quote) => text.replace(/\\/g, '\\\\')
 
 // Rewrite one source file literal by literal. A template's `${…}` holes become a sentinel while the
 // text is linked, so a span never runs across one and the section rule still sees the whole string.
-function glossSource(src, locale) {
+function glossSource(src, locale, opts = {}) {
   let out = ''
   let at = 0
   let changed = 0
@@ -260,7 +276,7 @@ function glossSource(src, locale) {
     const cooked = lit.parts.map(cook)
     const joined = cooked.join('\u0000')
     if (!joined.includes('**')) continue
-    const [next] = glossString(joined, locale)
+    const [next] = glossString(joined, locale, null, opts)
     if (next === joined) continue
     const pieces = next.split('\u0000')
     if (pieces.length !== cooked.length) continue
@@ -273,7 +289,7 @@ function glossSource(src, locale) {
   return [out + src.slice(at), changed]
 }
 
-async function processFile(rel, locale, write) {
+async function processFile(rel, locale, write, opts = {}) {
   const file = path.join(DATA, rel)
   if (!fs.existsSync(file)) return { linked: 0, open: [], miss: 0 }
   const mod = await import(`${pathToFileURL(file).href}?${Date.now()}`)
@@ -282,7 +298,7 @@ async function processFile(rel, locale, write) {
   const open = []
   const walk = (v) => {
     if (typeof v === 'string') {
-      const [n, k, o] = glossString(v, locale)
+      const [n, k, o] = glossString(v, locale, null, opts)
       if (n !== v) pairs.set(v, n)
       linked += k
       open.push(...o)
@@ -293,12 +309,12 @@ async function processFile(rel, locale, write) {
   let miss = 0
   if (write && pairs.size) {
     const src = fs.readFileSync(file, 'utf8')
-    const [next] = glossSource(src, locale)
+    const [next] = glossSource(src, locale, opts)
     fs.writeFileSync(file, next)
     // Whatever the module still disagrees on after the rewrite was not a literal of this file.
     const after = await import(`${pathToFileURL(file).href}?after=${Date.now()}`)
     const left = []
-    const check = (v) => { if (typeof v === 'string') { if (glossString(v, locale)[0] !== v) left.push(v) } else if (Array.isArray(v)) v.forEach(check); else if (v && typeof v === 'object') Object.values(v).forEach(check) }
+    const check = (v) => { if (typeof v === 'string') { if (glossString(v, locale, null, opts)[0] !== v) left.push(v) } else if (Array.isArray(v)) v.forEach(check); else if (v && typeof v === 'object') Object.values(v).forEach(check) }
     Object.values(after).forEach(check)
     miss = left.length
     if (process.env.GLOSS_DEBUG) for (const l of left) console.log(`  MISS ${rel}: ${JSON.stringify(l).slice(0, 160)}`)
@@ -315,18 +331,34 @@ export async function glossFaction(slug, { write = true } = {}) {
   return res
 }
 
+// Rule texts that are no faction's, glossed the same way (owner, 2026-11-03: the Dominatus deck —
+// transcribed by hand from photos, it came in with plain bold and «рус (eng)» brackets). `run` takes
+// them with every faction, or alone by name.
+// The deck's "Upgrade" is its own card, not the roster's Upgrade-tagged Enhancement the glossary
+// defines — it stays plain bold.
+const DECK = { skip: ['upgrade'] }
+export const GLOSS_TEXTS = { dominatus: [['dominatus.js', 'en', DECK], ['dominatusRu.js', 'ru', { ...DECK, dropEnParen: true }]] }
+
+export async function glossTexts(name, { write = true } = {}) {
+  await prime()
+  const res = []
+  for (const [rel, loc, opts] of GLOSS_TEXTS[name]) res.push({ rel, ...(await processFile(rel, loc, write, opts)) })
+  return res
+}
+
 export async function run(argv = process.argv.slice(2)) {
   const check = argv.includes('--check')
   const slugs = argv.filter((a) => !a.startsWith('--'))
   let pending = 0
   let missed = 0
   const openAll = new Map()
-  for (const slug of slugs.length ? slugs : GLOSS_SLUGS) {
-    for (const r of await glossFaction(slug, { write: !check })) {
+  const jobs = (slugs.length ? slugs : [...GLOSS_SLUGS, ...Object.keys(GLOSS_TEXTS)])
+  for (const slug of jobs) {
+    for (const r of await (GLOSS_TEXTS[slug] ? glossTexts : glossFaction)(slug, { write: !check })) {
       pending += check ? (r.changed || 0) : 0
       missed += r.miss || 0
       if (!check && r.changed) console.log(`  ${r.rel}: ${r.changed} string(s) linked${r.miss ? `, ${r.miss} NOT written (text not found)` : ''}`)
-      const key = (t) => `${r.rel.includes('/ru/') ? 'ru' : 'en'} · ${t}`
+      const key = (t) => `${/\/ru\/|Ru\.js$/.test(r.rel) ? 'ru' : 'en'} · ${t}`
       for (const t of r.open) openAll.set(key(t), (openAll.get(key(t)) || 0) + 1)
     }
   }

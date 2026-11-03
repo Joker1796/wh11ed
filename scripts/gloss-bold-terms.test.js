@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import { prime, glossString } from './gloss-bold-terms.mjs'
+import { prime, glossString, GLOSS_TEXTS } from './gloss-bold-terms.mjs'
 
 beforeAll(prime)
 const g = (s, l = 'en') => glossString(s, l)[0]
@@ -43,4 +43,32 @@ describe('gloss-bold-terms', () => {
     const once = g('attacks have +1 **S** and are **engaged**')
     expect(g(once)).toBe(once)
   })
+
+  it('drops the English bracket after a Russian term once it is a popover (the deck\'s form)', () => {
+    const d = (x) => glossString(x, 'ru', null, { dropEnParen: true })[0]
+    expect(d('не **видимы** (visible) друг другу')).toBe('не **[gloss:visible:видимы]** друг другу')
+    // …and after a repeat, plain bold; a bracket naming another term, or no term at all, stays.
+    expect(d('**проверку опасности** (hazard roll) и **проверок опасности** (hazard rolls)'))
+      .toBe('**[gloss:hazard-roll:проверку опасности]** и **проверок опасности**')
+    expect(d('**локацией** (location)')).toBe('**локацией** (location)')
+  })
+
+  // The texts that are no faction's are held here rather than by `npm run sync`, which only
+  // reminds: a card added to the deck by hand with a plain bold term, or a «рус (eng)» bracket the
+  // glossary can carry, fails (owner, 2026-11-03 — the deck came in with none of its terms linked).
+  for (const [name, files] of Object.entries(GLOSS_TEXTS)) {
+    it(`every bold glossary term of ${name} is a popover`, async () => {
+      const left = []
+      for (const [rel, loc, opts] of files) {
+        const mod = await import(`../src/data/${rel}`)
+        const walk = (v) => {
+          if (typeof v === 'string') { if (glossString(v, loc, null, opts)[0] !== v) left.push(`${rel}: ${v.slice(0, 90)}`) }
+          else if (Array.isArray(v)) v.forEach(walk)
+          else if (v && typeof v === 'object') Object.values(v).forEach(walk)
+        }
+        Object.values(mod).forEach(walk)
+      }
+      expect(left, 'run `npm run gloss -- ' + name + '`').toEqual([])
+    })
+  }
 })

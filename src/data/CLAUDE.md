@@ -44,6 +44,12 @@ The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. Wh
   inflected forms, and skips what is not a rules term (loadout headers, item names, one-rule states
   like a unit's "quarry"). The generators re-run it after rewriting one of those files, and
   `npm run sync` reminds (⚠, never ✗) when a faction has plain bold the glossary could link. The text-drift checks strip gloss tokens before comparing, so none of this is a finding.
+  **Texts that are no faction's** go through the same pass by name (`GLOSS_TEXTS` in the script; the
+  Dominatus deck since 2026-11-03 — `npm run gloss -- dominatus`), with per-text options: `skip` for a
+  word that means something else there (the deck's "Upgrade" is its card, not the roster's tag) and
+  `dropEnParen` for the deck's RU «**рус** (eng)» brackets, which go once the term is a popover. Those
+  texts are a GATE, not a reminder: `scripts/gloss-bold-terms.test.js` fails on a bold glossary term
+  left plain.
   **One popover per term per section**: the first mention in a string, and again after each `### `
   subheading; a repeat stays plain bold ("боевая доктрина" four times in one list was too much).
   A new faction is covered by having a rules file (`GLOSS_SLUGS` reads the directory); a Russian

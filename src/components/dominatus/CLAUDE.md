@@ -35,7 +35,8 @@ holds every card to having it in both languages and every Briefing to its 3 (pha
 Gates: `src/data/dominatus.test.js` (89 cards, 5/5/1 Honours, 5 Relics an Alliance, every Briefing a
 full 5×5 matrix of its own phase's Agendas, every Primary in the scorable shape);
 `src/data/dominatusParity.test.js` (EN↔RU: markers, `**`, tokens, keywords, measurements, nothing
-left English, a `nameRu` on every card); `missionTiming.test.js` reads every Agenda block's `when`.
+left English, a `nameRu` on every card); the bold rules terms are popovers (`[gloss:…]`, `npm run gloss -- dominatus`,
+held by `scripts/gloss-bold-terms.test.js`; parity compares a popover by its id, the label is each language's); `missionTiming.test.js` reads every Agenda block's `when`.
 
 ## The page
 
@@ -123,7 +124,8 @@ the WARLORD — the list's, by the card's `uid`; a unit typed in is not known to
 entry in the side's CP ledger at round 1, turn 0 (`settleStartCp` in useTracker's `settleSide`, read
 by `upgradeStartCp`) — written when the battle begins, kept in line with the cards, and NOT the
 round's one bonus point: it is had before the battle. The log says "+2 CP at the start of the battle
-(High Strategy)". `agendaAchieved` (0–1, 0–2 for a phase 3 Agenda; set by the players on
+(High Strategy)". `agendaAchieved` (0–1 — a box — or 0–2 for a phase 3 Agenda with "one more" — a count; `DomAgendaRow`, a
+row of the missions frame under the war zone, as the twist and the war zone are — `MissionRuleFold`; set by the players on
 the missions tab — the conditions read the table, not the score). The Primary slug is `dom-<agenda>`
 (`primaryOf` → `src/composables/dominatusMissions.js`); scoring and caps are the ordinary ones (the
 Dominatus Event Companion says 45 / 15 a round). The Location's war zone rules ride on the missions

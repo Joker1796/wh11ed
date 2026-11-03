@@ -25,7 +25,9 @@ function cmp(path, e, r) {
   for (const [n, re] of [['▪', /^▪ /], ['###', /^### /], ['1.', /^\d+\. /]]) if (lines(e, re) !== lines(r, re)) issues.push(`${path}: ${n} ${lines(e, re)} vs ${lines(r, re)}`)
   if (count(r, /\*\*/g) % 2) issues.push(`${path}: odd ** in RU`)
   if (count(e, /\*\*/g) !== count(r, /\*\*/g)) issues.push(`${path}: ** ${count(e, /\*\*/g)} vs ${count(r, /\*\*/g)}`)
-  if (multiset(e, /\[[^\]]+\]/g) !== multiset(r, /\[[^\]]+\]/g)) issues.push(`${path}: [] ${multiset(e, /\[[^\]]+\]/g)} vs ${multiset(r, /\[[^\]]+\]/g)}`)
+  // A popover is the same term in both languages, its label each one's own: compared by its id.
+  const tok = (x) => multiset(x.replace(/\[gloss:([a-z0-9-]+):[^\]]*\]/g, '[gloss:$1]'), /\[[^\]]+\]/g)
+  if (tok(e) !== tok(r)) issues.push(`${path}: [] ${tok(e)} vs ${tok(r)}`)
   if (caps(e) !== caps(r)) issues.push(`${path}: CAPS ${caps(e)} vs ${caps(r)}`)
   if (multiset(e, MEAS) !== multiset(r, MEAS)) issues.push(`${path}: meas ${multiset(e, MEAS)} vs ${multiset(r, MEAS)}`)
 }
