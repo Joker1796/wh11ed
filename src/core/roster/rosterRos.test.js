@@ -236,3 +236,30 @@ describe('every unit’s default loadout reaches the table', () => {
     expect(bare).toEqual([])
   })
 })
+
+// A player's report (2026-11-03): 9 Wolf Guard Terminators, 2 with an assault cannon and a power fist,
+// 7 with a storm shield, reached Yellowscribe as 5 with a shield, 2 with a cannon and a fist and 2 with
+// a fist and a shield. The totals were right; dealing them out split the cannon from its fist and
+// gave a shield to models that had no storm bolter left to trade for it.
+describe('a squad split by its swaps, not by its totals', () => {
+  it('Wolf Guard Terminators: the cannon and the fist on one model, the shields on the others', async () => {
+    const faction = await loadRosterFaction('space-wolves', { allies: true })
+    const ctx = { faction, core, items: rosterItems.items, factionGroups }
+    const roster = {
+      name: 'Report 9f09eb10', faction: 'space-wolves', detachments: [],
+      units: [{ uid: 'w', id: 'wolf-guard-terminators', size: 1, wg: [[0, 0, 1], [1, 0, 2], [3, 0, 7]] }],
+    }
+    const sheets = await loadRosterSheets(roster)
+    const [unit] = yellowscribeRead(buildRosterRos(roster, { ...ctx, sheets }))
+    const kit = (m) => [...m.weapons.keys()].map((w) => w.replace(/ – .*/, '')).filter((w, i, a) => a.indexOf(w) === i).sort().join(' + ')
+    const got = unit.models.map((m) => [m.name, m.number, kit(m)]).sort((a, b) => b[1] - a[1])
+    expect(got).toEqual([
+      ['Wolf Guard Terminator', 7, expect.stringMatching(/Master-crafted Power Weapon/)],
+      ['Wolf Guard Terminator', 2, expect.stringMatching(/Assault Cannon.*Power Fist/)],
+      ['Wolf Guard Terminator Pack Leader', 1, expect.stringMatching(/Relic Greataxe/)],
+    ])
+    expect(got[1][2]).not.toMatch(/Storm Shield|Master-crafted/)
+    const shield = (n) => unit.models.find((m) => m.name === 'Wolf Guard Terminator' && m.number === n).abilities.includes('Storm Shield')
+    expect([shield(7), shield(2)]).toEqual([true, false])
+  })
+})
