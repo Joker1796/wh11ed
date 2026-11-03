@@ -247,6 +247,11 @@ router.beforeResolve((to) => prefetchFor(to))
 // owns the one-time RESTORE below, which must run before the first view mounts so the
 // app never flashes home first.
 
+// Whether this start was sent to the page left last time — main.js opens home instead when that
+// page does not come in time (firstNavigation.js).
+let resumedStart = false
+export const wasResumed = () => resumedStart
+
 if (isStandaloneDisplay()) {
   // One-time restore on the very first navigation, only if we landed on home (no deep link).
   let restored = false
@@ -261,7 +266,10 @@ if (isStandaloneDisplay()) {
     if (!saved || saved === to.fullPath) return
     const resolved = router.resolve(saved)
     // meta.bare (the broadcast overlay) is a capture surface, not a place to resume reading.
-    if (resolved.matched.length && !SKIP_RESTORE.has(stripLocale(resolved.path)) && !resolved.meta?.bare) return saved
+    if (resolved.matched.length && !SKIP_RESTORE.has(stripLocale(resolved.path)) && !resolved.meta?.bare) {
+      resumedStart = true
+      return saved
+    }
   })
 }
 

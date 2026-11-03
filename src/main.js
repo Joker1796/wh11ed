@@ -9,7 +9,8 @@ import { installPressFeedback } from './composables/pressFeedback.js'
 import { installUiSound } from './composables/uiSound.js'
 import { installStateSounds } from './composables/stateSounds.js'
 import { installSegSlider } from './composables/segSlider.js'
-import { router } from './router/index.js'
+import { router, wasResumed } from './router/index.js'
+import { settleFirstNavigation } from './composables/firstNavigation.js'
 import App from './App.vue'
 import './fonts.js'
 import './style.css'
@@ -56,6 +57,7 @@ function boot() {
   // re-scroll, which keys off route.hash) BEFORE that redirect resolves: the hash would
   // still be empty, so the precise scroll-to-section never fires and persist() would
   // transiently clobber the saved location with '/'. Awaiting isReady also removes the
-  // brief home flash before the restore. `finally`: mount even if the guard rejected.
-  router.isReady().finally(() => app.mount('#app'))
+  // brief home flash before the restore. Bounded, and the reopened page gives way to home when it
+  // does not come (firstNavigation.js); mounted whatever happens.
+  settleFirstNavigation(router, { resumed: wasResumed }).catch(() => {}).finally(() => app.mount('#app'))
 }

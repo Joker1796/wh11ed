@@ -95,6 +95,21 @@ describe('startOfflineWarmup', () => {
     expect(localStorage.getItem('wh11ed-offline-warmed')).toBeNull()
   })
 
+  // A player's app behind a VPN, 2026-11-03: the top-up after a release did not get through, the
+  // menu still said "Downloaded for offline", and the app opened blank on a page it did not have.
+  it('stops saying "Downloaded" once a release left files missing and the top-up fails', async () => {
+    localStorage.setItem('wh11ed-offline-warmed', 'an-older-set')
+    vi.stubGlobal('fetch', vi.fn(async (url) => {
+      if (url === '/offline-manifest.json') return { ok: true, json: async () => MANIFEST }
+      throw new Error('the tunnel dropped it')
+    }))
+    const { startOfflineWarmup, useOfflineWarmup } = await fresh()
+    expect(useOfflineWarmup().warmed.value).toBe(true)
+    await startOfflineWarmup()
+    expect(useOfflineWarmup().warmed.value).toBe(false)
+    expect(useOfflineWarmup().status.value).toBe('error')
+  })
+
   it('reports an unreachable manifest instead of hanging on "warming"', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => ({ ok: false, status: 404 })))
     const { startOfflineWarmup, useOfflineWarmup } = await fresh()
