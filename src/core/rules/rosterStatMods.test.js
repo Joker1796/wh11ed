@@ -800,6 +800,25 @@ describe('datasheetEntriesFor — a second Character in the same unit', () => {
     const out = datasheetEntriesFor([honour], { unitId: 'ancient', ledUnitId: 'intercessor-squad', coLeaderUnitIds: ['ancient'] })
     expect(out.map((e) => e.from)).toEqual(['self'])
   })
+
+  // An enhancement worn by the Character beside this one: "models in the bearer's unit" and its aura
+  // reach this card as they reach the Bodyguard (19.04, 22.01) — 2026-11-02, with the Lion Helm.
+  const relic = {
+    kind: 'enhancement',
+    name: 'Fire and Fury',
+    ref: { kind: 'enhancement' },
+    effects: [
+      { on: 'weapon', stat: 'ability', op: 'grant', value: 'SUSTAINED HITS 1', when: null, target: 'led' },
+      { on: 'unit', stat: 'core', op: 'grant', value: 'Stealth', when: null, target: 'aura' },
+    ],
+  }
+  it('hands the other Character’s enhancement to this one, the same as to the Bodyguard', () => {
+    const co = datasheetEntriesFor([relic], { unitId: 'chaplain', ledUnitId: 'intercessor-squad', coLeaderUnitIds: ['canoness'], coLeaderEnhKeys: new Set([enhKey('Fire and Fury')]) })
+    expect(co.map((e) => [e.from, e.effects[0].target])).toEqual([['co', 'led'], ['co', 'aura']])
+    const led = datasheetEntriesFor([relic], { unitId: 'intercessor-squad', leaderUnitIds: ['canoness'], leaderEnhKeys: new Set([enhKey('Fire and Fury')]) })
+    expect(led.map((e) => e.from)).toEqual(['led', 'led'])
+    expect(datasheetEntriesFor([relic], { unitId: 'chaplain', ledUnitId: 'intercessor-squad', coLeaderUnitIds: ['canoness'] })).toEqual([])
+  })
 })
 
 describe('datasheetEntriesFor — wargear', () => {
@@ -1163,6 +1182,8 @@ describe('an aura ability', () => {
     // …not on the bearer's own card, and not where the list already answers (22.01),
     expect(aurasReaching([aura], { ...ctx, unitId: 'triumph-of-saint-katherine', entryUid: 'a' })).toEqual([])
     expect(aurasReaching([aura], { ...ctx, leaderUnitIds: ['triumph-of-saint-katherine'] })).toEqual([])
+    // …nor beside a Character that stands in the same unit, whose aura is at 0" (2026-11-02),
+    expect(aurasReaching([aura], { ...ctx, ledUnitId: 'battle-sisters-squad', coLeaderUnitIds: ['triumph-of-saint-katherine'] })).toEqual([])
     // …and not for a source that is not in this list at all.
     expect(aurasReaching([aura], { ...ctx, rosterUnits: [units[1]] })).toEqual([])
   })

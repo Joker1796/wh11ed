@@ -63,3 +63,41 @@ describe('attachmentContext — what the attached Leaders carry', () => {
     expect(datasheetEntriesFor(orkRecords, ctx).find((e) => /Kustom Force Field/.test(e.name))?.from).toBe('led')
   })
 })
+
+// "This unit has 4+ InSv" on Azrael's Lion Helm is every model in the Attached unit, the second
+// Character included (19.04) — a player's report, 2026-11-02: in Azrael + Lieutenant + Hellblasters
+// only the Hellblasters got it. Wargear and enhancements did not look at the Character beside this
+// one; abilities did (`co`).
+describe('attachmentContext — what the other Character in the unit carries', () => {
+  let da, daRecords
+  beforeAll(async () => {
+    da = await loadRosterFaction('dark-angels')
+    daRecords = usableEntries(await loadRosterModifiersFor('dark-angels'))
+  })
+  const ctxOf = (entry, units) => ({
+    unitId: entry.id,
+    ...attachmentContext(entry, units, { defOf: (u) => da.units.find((d) => d.id === u.id), sheetOf: () => null, items }),
+  })
+  const attached = () => {
+    const hb = E('h', 'hellblaster-squad')
+    const az = E('a', 'azrael', { leaderOf: 'h' })
+    const lt = E('l', 'lieutenant', { leaderOf: 'h' })
+    return { hb, az, lt, units: [az, lt, hb] }
+  }
+
+  it('the Lieutenant beside Azrael gets the Lion Helm, as the Hellblasters do', () => {
+    const { hb, lt, units } = attached()
+    const helm = (e) => datasheetEntriesFor(daRecords, ctxOf(e, units)).filter((x) => /Lion Helm/.test(x.name))
+    expect(helm(hb).map((x) => x.from)).toEqual(['led'])
+    expect(helm(lt).map((x) => x.from)).toEqual(['co'])
+    expect(helm(lt)[0].effects).toEqual([expect.objectContaining({ stat: 'inv', value: '4+' })])
+  })
+
+  it('Azrael himself gets it once, and a Lieutenant leading another unit not at all', () => {
+    const { az, units } = attached()
+    expect(datasheetEntriesFor(daRecords, ctxOf(az, units)).filter((x) => /Lion Helm/.test(x.name)).map((x) => x.from)).toEqual(['self'])
+    const alone = E('l2', 'lieutenant', { leaderOf: 'x' })
+    const other = [...units, E('x', 'intercessor-squad'), alone]
+    expect(datasheetEntriesFor(daRecords, ctxOf(alone, other)).some((x) => /Lion Helm/.test(x.name))).toBe(false)
+  })
+})
