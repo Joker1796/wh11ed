@@ -825,7 +825,14 @@ export function useTracker() {
   function setUpgrades(pi, list) {
     const pl = current.value?.players[pi]
     if (!pl) return
-    pl.upgrades = (list || []).filter((u) => u && u.slug).map((u) => ({ slug: u.slug, unit: String(u.unit || '') }))
+    // `unit` is the unit's name as the table reads it; `uid` (and `mi`, the army in doubles) the
+    // list's unit it went to, when the side has a list (DomUpgradesEditor).
+    pl.upgrades = (list || []).filter((u) => u && u.slug).map((u) => ({
+      slug: u.slug,
+      unit: String(u.unit || ''),
+      ...(typeof u.uid === 'string' && u.uid ? { uid: u.uid } : {}),
+      ...(Number.isInteger(u.mi) ? { mi: u.mi } : {}),
+    }))
   }
 
   // The balance's "−" where stratagems are not paid for here (`stratSpendCp` off): a point spent,

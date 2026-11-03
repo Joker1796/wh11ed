@@ -1,0 +1,64 @@
+import { describe, it, expect } from 'vitest'
+import { upgradeNeedsUnit, upgradeUnitBlock, upgradeBonusKeywords, upgradeBonusApplies, upgradeLimit } from './upgrades.js'
+import { getDominatus } from '../../data/dominatus.js'
+
+const deck = getDominatus('en').upgrades
+const card = (slug) => deck.find((c) => c.slug === slug)
+const captain = { kws: ['Character', 'Infantry', 'Imperium'] }
+const boyz = { kws: ['Infantry', 'Mob'] }
+const ghazghkull = { kws: ['Character', 'Epic Hero', 'Monster'] }
+
+// The readings are only as good as the phrasings they know: every card of the deck must be one.
+describe('Upgrade cards — every card is read', () => {
+  it('names who takes it in a phrasing upgradeUnitBlock reads', () => {
+    const known = new Set(['', 'One CHARACTER model.', 'One CHARACTER model (excluding EPIC HEROES).'])
+    expect(deck.filter((c) => !known.has(c.who)).map((c) => `${c.slug}: ${c.who}`)).toEqual([])
+  })
+  it('asks its bonus of keywords upgradeBonusApplies knows', () => {
+    const known = new Set(['MONSTER', 'VEHICLE', 'INFANTRY', 'MOUNTED', 'WARLORD'])
+    const bad = deck.flatMap((c) => upgradeBonusKeywords(c).filter((k) => !known.has(k)).map((k) => `${c.slug}: ${k}`))
+    expect(bad).toEqual([])
+    expect(deck.filter((c) => c.bonus).length).toBeGreaterThan(10)
+  })
+})
+
+describe('upgradeUnitBlock', () => {
+  it('gives a card to a CHARACTER only', () => {
+    expect(upgradeUnitBlock(card('kingslayer'), captain)).toBe(null)
+    expect(upgradeUnitBlock(card('kingslayer'), boyz)).toBe('notCharacter')
+  })
+  it('keeps the no-hero Relics off an EPIC HERO, and lets other cards go to one', () => {
+    expect(upgradeUnitBlock(card('temporal-talisman'), ghazghkull)).toBe('epicHero')
+    expect(upgradeUnitBlock(card('temporal-talisman'), captain)).toBe(null)
+    expect(upgradeUnitBlock(card('kingslayer'), ghazghkull)).toBe(null)
+  })
+  it('asks no unit of a card no unit carries', () => {
+    expect(upgradeNeedsUnit(card('path-to-conquest'))).toBe(false)
+    expect(upgradeNeedsUnit(card('kingslayer'))).toBe(true)
+    expect(upgradeUnitBlock(card('path-to-conquest'), boyz)).toBe(null)
+  })
+})
+
+describe('upgradeBonusApplies', () => {
+  it('reads "/" as either keyword, in any case', () => {
+    expect(upgradeBonusKeywords(card('fire-and-fury'))).toEqual(['MONSTER', 'VEHICLE'])
+    expect(upgradeBonusApplies(card('fire-and-fury'), { kws: ['Character', 'Vehicle'] })).toBe(true)
+    expect(upgradeBonusApplies(card('fire-and-fury'), captain)).toBe(false)
+    expect(upgradeBonusApplies(card('born-survivor'), captain)).toBe(true)
+  })
+  it('reads WARLORD as the army\'s Warlord, not a printed keyword', () => {
+    expect(upgradeBonusApplies(card('high-strategy'), captain)).toBe(false)
+    expect(upgradeBonusApplies(card('high-strategy'), { ...captain, warlord: true })).toBe(true)
+  })
+  it('a card without a bonus never applies one', () => {
+    expect(upgradeBonusApplies(card('kingslayer'), ghazghkull)).toBe(false)
+  })
+})
+
+describe('upgradeLimit', () => {
+  it('is 3, and 4 at Titangrave', () => {
+    expect(upgradeLimit({ location: 'titangrave' })).toBe(4)
+    expect(upgradeLimit({ location: 'cerbera-base' })).toBe(3)
+    expect(upgradeLimit(null)).toBe(3)
+  })
+})

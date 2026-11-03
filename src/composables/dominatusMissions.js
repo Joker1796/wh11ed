@@ -102,10 +102,3 @@ export function domUpgrades(locale = 'en') {
   return dominatusDeck(locale)?.upgrades || []
 }
 
-/**
- * Upgrades a side may give out this battle: 3, or 4 under Titangrave's Vermillion Sanction.
- * @param {{ location?: string | null } | null | undefined} dominatus
- */
-export function domUpgradeLimit(dominatus) {
-  return dominatus?.location === 'titangrave' ? 4 : 3
-}

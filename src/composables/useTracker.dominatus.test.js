@@ -68,12 +68,14 @@ describe('Dominatus battle', () => {
   })
 
   it('records the Upgrades given out, up to four at Titangrave', async () => {
-    const { domUpgradeLimit } = await import('./dominatusMissions.js')
+    const { upgradeLimit: domUpgradeLimit } = await import('../core/dominatus/upgrades.js')
     expect(domUpgradeLimit({ location: 'titangrave' })).toBe(4)
     expect(domUpgradeLimit({ location: 'cerbera-base' })).toBe(3)
     tracker.newGame(domGame())
     tracker.setUpgrades(0, [{ slug: 'kingslayer', unit: 'Captain' }, { slug: '' }])
     expect(tracker.current.value.players[0].upgrades).toEqual([{ slug: 'kingslayer', unit: 'Captain' }])
+    tracker.setUpgrades(0, [{ slug: 'kingslayer', unit: 'Captain', uid: 'u7', mi: 0 }, { slug: 'fire-and-fury', unit: 'X', uid: 5 }])
+    expect(tracker.current.value.players[0].upgrades).toEqual([{ slug: 'kingslayer', unit: 'Captain', uid: 'u7', mi: 0 }, { slug: 'fire-and-fury', unit: 'X' }])
   })
 })
 

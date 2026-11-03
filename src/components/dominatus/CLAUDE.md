@@ -90,8 +90,14 @@ the Agenda it names.
 
 `settings.dominatus = { phase, location }` (setup step 2, before the twist — no twist with it:
 the Agenda IS the Primary). Per player: `alliance`, `declineAgenda` (Declining Agendas → the mission
-deck's Primary, an ordinary game for that player), `upgrades: [{ slug, unit }]` (pre-battle step 7,
-up to 3, 4 at Titangrave), `agendaAchieved` (0–1, 0–2 for a phase 3 Agenda; set by the players on
+deck's Primary, an ordinary game for that player), `upgrades: [{ slug, unit, uid?, mi? }]` (pre-battle
+step 7, up to 3, 4 at Titangrave — `src/core/dominatus/upgrades.js`). With a list attached the unit is
+one of its units (`dominatusUpgradeUnits.js` reads their keywords and the Warlord; `uid`/`mi` name it):
+a unit the card's `who` excludes — not a CHARACTER, an EPIC HERO for the no-hero Relics — or one already
+carrying another card is greyed in the picker with why, a card changed under a unit it no longer fits
+says so under the row, and the bonus effect says when it applies (its keywords, WARLORD = the list's
+Warlord). `upgrades.test.js` holds every card of the deck to the phrasings the core reads. Without a
+list the unit is typed in (owner, 2026-11-03). `agendaAchieved` (0–1, 0–2 for a phase 3 Agenda; set by the players on
 the missions tab — the conditions read the table, not the score). The Primary slug is `dom-<agenda>`
 (`primaryOf` → `src/composables/dominatusMissions.js`); scoring and caps are the ordinary ones (the
 Dominatus Event Companion says 45 / 15 a round). The Location's war zone rules ride on the missions
