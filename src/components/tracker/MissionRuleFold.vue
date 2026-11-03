@@ -1,25 +1,37 @@
 <template>
   <div class="mrule">
-    <button
-      type="button"
-      class="mrule-head"
-      :title="`${label} · ${name}`"
-      :aria-expanded="open"
-      @click="open = !open"
-    >
-      <ChevronIcon
-        class="mrule-chev"
-        :turned="open"
-      />
-      <i
-        v-if="icon"
-        class="wi mrule-icon"
-        :class="`wi-${icon}`"
-        aria-hidden="true"
-      />
-      <span class="mrule-label">{{ label }}</span>
-      <span class="mrule-name">{{ name }}</span>
-    </button>
+    <div class="mrule-line">
+      <button
+        type="button"
+        class="mrule-head"
+        :title="name ? `${label} · ${name}` : label"
+        :aria-expanded="open"
+        @click="open = !open"
+      >
+        <ChevronIcon
+          class="mrule-chev"
+          :turned="open"
+        />
+        <i
+          v-if="icon"
+          class="wi mrule-icon"
+          :class="`wi-${icon}`"
+          aria-hidden="true"
+        />
+        <span class="mrule-label">{{ label }}</span>
+        <span
+          v-if="name"
+          class="mrule-name"
+        >{{ name }}</span>
+      </button>
+      <!-- What the row sets, beside the fold and outside its button (the Agenda Achieved cards). -->
+      <div
+        v-if="$slots.aside"
+        class="mrule-aside"
+      >
+        <slot name="aside" />
+      </div>
+    </div>
     <CollapseTransition :show="open">
       <div class="mrule-body">
         <slot />
@@ -31,7 +43,8 @@
 <script setup>
 // A rule over the whole battle — the twist, a Dominatus Location's war zone — as the first row of
 // the missions frame (owner, 2026-11-03: a box of its own between the tab and the frame broke the
-// join of the tab with what it shows). Folded to one row; opened, its text unfolds in place.
+// join of the tab with what it shows), and a Dominatus Agenda's Agenda Achieved cards under them, with
+// their box or count in the row's `aside`. Folded to one row; opened, its text unfolds in place.
 import { ref } from 'vue'
 import ChevronIcon from '../ChevronIcon.vue'
 import CollapseTransition from '../CollapseTransition.vue'
@@ -52,11 +65,14 @@ const open = ref(false)
   border-bottom: 1px solid var(--border);
 }
 .mrule + .mrule { margin-top: -0.5rem; }
+.mrule-line { display: flex; align-items: center; }
+.mrule-aside { flex-shrink: 0; display: flex; align-items: center; gap: 0.5rem; padding-right: 0.7rem; }
 .mrule-head {
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  width: 100%;
   min-height: 44px;
   padding: 0.55rem 0.7rem;
   border: 0;

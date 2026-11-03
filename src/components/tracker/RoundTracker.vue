@@ -314,6 +314,14 @@
             <RuleBody :body="w.body" />
           </template>
         </MissionRuleFold>
+        <!-- Dominatus: the Agenda Achieved cards this battle earns the side shown, a row of the same
+             shape under the war zone (owner, 2026-11-03). Its own control greys for a side another
+             phone plays; its conditions stay readable. -->
+        <DomAgendaRow
+          v-if="isDomMissionSlug(current.players[missionSide].primarySlug)"
+          :pi="missionSide"
+          :editable="canEdit(missionSide)"
+        />
         <!-- In a shared game a side another phone plays is shown as it is, greyed, with the
              reason under its title — never hidden: what the opponent has scored is exactly what a
              player wants to see. The lock is on what SCORES — the primary's stepper, the deck's
@@ -356,12 +364,6 @@
                    "/ 15" then, a figure past it would read as an error. -->
               <span class="mc-vp">{{ current.players[i].rounds[shownRound - 1].primary }}{{ current.players[i].rounds[shownRound - 1].primary > PRIMARY_ROUND_CAP ? '' : ` / ${PRIMARY_ROUND_CAP}` }} VP</span>
             </button>
-            <!-- Dominatus: the Agenda Achieved cards this battle earns, under the Agenda it is. -->
-            <DomAgendaRow
-              v-if="isDomMissionSlug(current.players[i].primarySlug)"
-              :pi="i"
-              :editable="canEdit(i)"
-            />
             <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no
                  card to tick. The missions themselves are not optional — see trackerOptions.js. -->
             <div
