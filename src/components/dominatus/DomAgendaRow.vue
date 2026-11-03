@@ -24,6 +24,7 @@
         class="dagr-body"
         :achieved="mission.achieved"
         :primary-label="false"
+        :label="false"
       />
     </CollapseTransition>
   </div>

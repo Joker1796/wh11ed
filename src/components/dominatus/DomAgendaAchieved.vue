@@ -1,6 +1,9 @@
 <template>
   <div class="dachieved">
-    <div class="dach-label">
+    <div
+      v-if="label"
+      class="dach-label"
+    >
       {{ labels.domAgendaAchieved }}
     </div>
     <p class="dach-lead">
@@ -45,6 +48,8 @@ defineProps({
   achieved: { type: Object, required: true },
   // The "Primary Mission" line under the conditions — for a card that goes on to print it.
   primaryLabel: { type: Boolean, default: true },
+  // The "Agenda Achieved" heading — off where the row over it already says so (DomAgendaRow).
+  label: { type: Boolean, default: true },
 })
 const { labels } = useDominatus()
 </script>
