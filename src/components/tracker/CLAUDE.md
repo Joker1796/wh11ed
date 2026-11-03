@@ -165,8 +165,9 @@ only the fill and the panel's slide are left. In order, each the owner's own dra
 `.wi-*` in style.css — see components/CLAUDE.md): Missions `wi-missions`, Phase / Turn `wi-phase`
 (with its count in the corner), CP `wi-cp`, Armies `wi-army`, Roster `wi-rosters` (the bottom nav's) (only when an
 army carries a list), Log `wi-log`, Stats `wi-stats`. Switching is animated (owner's mock, 2026-09-30:
-the old fill drains, the new one fills from the bottom, the word rises, the panel slides in from
-the tab's side; timed off `--motion-tab`). **Every panel is built once and kept** (`v-show`): the
+the old fill drains, the new one fills from the bottom, the word rises; timed off `--motion-tab`), and
+the panel fades in — it slid in from the tab's side until 2026-11-03, when the owner had it replaced by
+the fade every other page switches with. **Every panel is built once and kept** (`v-show`): the
 open one at once, the rest one per idle moment — a switch shows, it never builds. The strip stands on a 2px accent line;
 the open tab is filled with the accent, so it reads as attached to the panel. One panel at a time;
 **every new turn opens on Missions** (a watch on round + turn), because a turn starts by drawing and

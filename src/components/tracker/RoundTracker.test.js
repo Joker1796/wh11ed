@@ -117,7 +117,7 @@ describe('RoundTracker — the tabs', () => {
     expect(back.findComponent({ name: 'ArmiesPanel' }).props('side')).toBe(1)
   })
 
-  // Nothing is built in the frame a panel slides in: the rest are built while idle, then shown.
+  // Nothing is built in the frame a panel fades in: the rest are built while idle, then shown.
   it('builds the other panels while idle and keeps each one it switches away from', async () => {
     vi.useFakeTimers()
     try {
@@ -137,16 +137,16 @@ describe('RoundTracker — the tabs', () => {
     }
   })
 
-  // The new panel slides in from the side its tab stands on.
-  it('slides the panel in from the side of the tab opened', async () => {
+  // A panel opened by a switch fades in — only a fade, whichever way the tab lies (owner, 2026-11-03).
+  it('fades the panel in after a switch, not on opening the game', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     const w = mountTracker()
     expect(w.find('.round-tracker').classes()).not.toContain('tab-moved') // opening the game is not a switch
     await openTab(w, 'Log')
-    expect(w.find('.round-tracker').classes()).not.toContain('tab-back') // to the right: from the right
-    await openTab(w, 'CP')
-    expect(w.find('.round-tracker').classes()).toContain('tab-back') // to the left: from the left
     expect(w.find('.round-tracker').classes()).toContain('tab-moved')
+    await openTab(w, 'CP')
+    expect(w.find('.round-tracker').classes()).toContain('tab-moved')
+    expect(w.find('.round-tracker').classes()).not.toContain('tab-back')
   })
 })
 

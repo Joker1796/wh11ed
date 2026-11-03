@@ -6,7 +6,7 @@
   <div
     ref="rootEl"
     class="round-tracker side-colored turn-colored"
-    :class="{ 'turn-opp': turnOpp, 'tab-moved': panelFrom, 'tab-back': panelFrom < 0 }"
+    :class="{ 'turn-opp': turnOpp, 'tab-moved': tabMoved }"
     :style="[sideColors, fillPx ? { minHeight: `${fillPx}px` } : null]"
   >
     <!-- Where the game is, in one line above the score: the round and whose turn. The turn is
@@ -229,7 +229,7 @@
          on the missions (watch below) — that is where a turn starts.
          Switching (owner's mock, 2026-09-30): the old tab's fill drains down while the strip
          re-divides, then the new one fills from the bottom and its word rises into it; the panel
-         slides in from the side the tab is on. -->
+         fades in (it slid in from the tab's side until 2026-11-03). -->
     <!-- Over a framed panel (the side picked on the score cards) the strip wears that side's
          colour rather than the turn's, so the open tab, its line and the frame are one colour. -->
     <GameTabs
@@ -243,7 +243,7 @@
 
     <!-- Every panel is built once and kept (v-show): the missions at once, the rest while the
          browser is idle right after, so a switch only shows what is already there — nothing is
-         built in the frame the panel slides in (owner, 2026-09-30). The CP panel first came up
+         built in the frame the panel fades in (owner, 2026-09-30). The CP panel first came up
          empty for a frame while its decks loaded and the page jumped (2026-09-29). -->
     <!-- Before the battle: the Mission Sequence's steps from the secondaries to the pre-battle rules
          (PreBattle.vue), a tab of its own in front of the missions while the battle has not begun
@@ -836,13 +836,11 @@ async function openRoster({ pi, mi, uid }) {
   else rosterEl.value?.openUnit({ pi, mi, uid })
 }
 const armyKey = ref(null)
-// Where the new panel slides in from: the side the tab stands on, relative to the old one
-// (1 from the right, -1 from the left; 0 until the first switch).
-const panelFrom = ref(0)
-watch(tab, (t, old) => {
+// After the first switch a panel coming into view fades in (the page's first panel just is).
+const tabMoved = ref(false)
+watch(tab, (t) => {
   built.value.add(t)
-  const ids = tabs.value.map((x) => x.id)
-  panelFrom.value = ids.indexOf(t) < ids.indexOf(old) ? -1 : 1
+  tabMoved.value = true
 })
 let gone = false
 onBeforeUnmount(() => { gone = true })
@@ -1384,20 +1382,15 @@ function onEndBattle(reason) {
 .phase-side { --side: var(--side-you); display: flex; flex-direction: column; }
 .phase-side.opp { --side: var(--side-opponent); }
 .panel-empty { margin: 0; font-size: 0.85rem; color: var(--text-dim); }
-/* After the first switch, a panel coming into view slides in from the side its tab stands on
-   (.tab-back: from the left); the one it replaces is already hidden. v-show restarts the animation each time
-   display comes back, so no Transition is needed. */
-/* It waits for the tab's fill to start, then fades and glides slower than the tab itself, on a soft
-   ease-out (owner, 2026-09-30: at the tab's own pace it "appeared and moved too fast"). */
+/* After the first switch, a panel coming into view fades in; the one it replaces is already hidden.
+   v-show restarts the animation each time display comes back, so no Transition is needed. It waits
+   for the tab's fill to start, slower than the tab itself (owner, 2026-09-30: at the tab's own pace
+   it "appeared too fast"). Only a fade (owner, 2026-11-03): the slide in from the tab's side, there
+   since 2026-09-30, had annoyed him for long — the tracker's tabs now switch as every other page's. */
 .tab-moved > .panel {
-  animation:
-    panel-fade calc(var(--motion-tab) * 1.4) ease-out calc(var(--motion-tab) * 0.25) backwards,
-    panel-slide calc(var(--motion-tab) * 1.8) cubic-bezier(0.33, 1, 0.68, 1) calc(var(--motion-tab) * 0.25) backwards;
+  animation: panel-fade calc(var(--motion-tab) * 1.4) ease-out calc(var(--motion-tab) * 0.25) backwards;
 }
-.tab-moved { --panel-from: 32px; }
-.tab-back { --panel-from: -32px; }
 @keyframes panel-fade { from { opacity: 0; } }
-@keyframes panel-slide { from { transform: translateX(var(--panel-from)); } }
 
 
 
