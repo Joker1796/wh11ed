@@ -3,12 +3,19 @@
     <button
       type="button"
       class="mrule-head"
+      :title="`${label} · ${name}`"
       :aria-expanded="open"
       @click="open = !open"
     >
       <ChevronIcon
         class="mrule-chev"
         :turned="open"
+      />
+      <i
+        v-if="icon"
+        class="wi mrule-icon"
+        :class="`wi-${icon}`"
+        aria-hidden="true"
       />
       <span class="mrule-label">{{ label }}</span>
       <span class="mrule-name">{{ name }}</span>
@@ -32,6 +39,8 @@ import CollapseTransition from '../CollapseTransition.vue'
 defineProps({
   label: { type: String, required: true },
   name: { type: String, default: '' },
+  // What the row is at a glance, before its word: `dom-location` (the deck's Location mark), `lightning`.
+  icon: { type: String, default: '' },
 })
 const open = ref(false)
 </script>
@@ -45,7 +54,7 @@ const open = ref(false)
 .mrule + .mrule { margin-top: -0.5rem; }
 .mrule-head {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0.4rem;
   width: 100%;
   min-height: 44px;
@@ -57,16 +66,22 @@ const open = ref(false)
   color: var(--text-primary);
   cursor: pointer;
 }
-.mrule-chev { flex-shrink: 0; font-size: 0.7rem; color: var(--text-muted); align-self: center; }
+.mrule-chev { flex-shrink: 0; font-size: 0.7rem; color: var(--text-muted); }
+.mrule-icon { flex-shrink: 0; margin-inline: 0; font-size: 0.95rem; color: var(--accent-ink); }
 .mrule-label {
-  flex-shrink: 0;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: 0.66rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--accent-ink);
 }
-.mrule-name { min-width: 0; font-size: 0.86rem; font-weight: 600; }
+/* One row at any width: the name stays whole and the label gives way to it (an ellipsis at
+   320px) — the icon before it already says what the row is. */
+.mrule-name { flex-shrink: 0; max-width: 70%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 0.86rem; font-weight: 600; }
 .mrule-body {
   padding: 0 0.7rem 0.6rem;
   font-size: 0.85rem;

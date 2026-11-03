@@ -295,13 +295,15 @@
         <MissionRuleFold
           v-if="activeTwist"
           :label="labels.trackerTwist"
+          icon="lightning"
           :name="activeTwist.title"
         >
           <RuleBody :body="activeTwist.body" />
         </MissionRuleFold>
         <MissionRuleFold
           v-if="domLocation"
-          :label="labels.trackerDomWarZone"
+          :label="labels.trackerDomWarZoneShort"
+          icon="dom-location"
           :name="domLocation.name"
         >
           <template
