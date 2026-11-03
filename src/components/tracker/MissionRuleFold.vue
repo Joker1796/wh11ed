@@ -83,7 +83,7 @@ const open = ref(false)
   cursor: pointer;
 }
 .mrule-chev { flex-shrink: 0; font-size: 0.7rem; color: var(--text-muted); }
-.mrule-icon { flex-shrink: 0; margin-inline: 0; font-size: 0.95rem; color: var(--accent-ink); }
+.mrule-icon { flex-shrink: 0; margin-inline: 0; font-size: 1.3rem; color: var(--accent-ink); }
 .mrule-label {
   min-width: 0;
   overflow: hidden;
