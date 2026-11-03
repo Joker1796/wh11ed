@@ -73,6 +73,14 @@
         >
           {{ labels.trackerNewGame }}
         </button>
+        <!-- On a phone "New game" stands beside "Resume" and the rest goes to the next line: two
+             rows, not three (owner, 2026-11-03). With no game in play the break follows the primary
+             ("New game") alone. New game puts the game in play away with its score, so it is safe
+             beside Resume. -->
+        <span
+          class="cta-break"
+          aria-hidden="true"
+        />
         <!-- Joining someone else's table. Starting a shared game is no longer a door of its own: the
              new game's wizard invites from the opponent's card (owner, 2026-10-25), so this is the
              one thing left here — and it needs no account. -->
@@ -716,6 +724,19 @@ function footLine(g) {
     font-size: 0.8rem;
     white-space: nowrap;
   }
+}
+/* Two rows up to the phone breakpoint (owner, 2026-11-03, a narrow phone; up to 900px because the
+   column layout made three rows up to ~600px in Russian): the quiet row's buttons join the primary's
+   flow, "New game" right after it, the break ending that line. Rows are spaced by the buttons' own
+   margins, not row-gap: the break's empty line would have taken a gap on each side. A line's buttons
+   stretch to one height (the primary has no border, Statistics only an icon). */
+.cta-break { display: none; }
+@media (max-width: 900px) {
+  .cta { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: stretch; column-gap: 0.4rem; row-gap: 0; }
+  .cta-quiet { display: contents; }
+  .cta > .cta-main,
+  .cta-quiet > .btn-ghost { margin-block: 0.25rem; }
+  .cta-break { display: block; flex-basis: 100%; height: 0; }
 }
 /* …and on a 320px phone, where even then "Shared game" in Russian pushes the row to two lines,
    the buttons give up a little side padding (measured 2026-10-15: two rows at 320–325px). */
