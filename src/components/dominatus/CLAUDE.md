@@ -105,9 +105,13 @@ under "Upgrades this battle", each folded like a rule — the deck, the name, th
 said to apply or not on this unit. A "(Once per battle)" card (`upgradeOncePerBattle`, five in the
 deck) is one of the card's "Once per battle" chips, kept as any unit's use (`setUnitUse`, id
 `dom:<card>`) and under the same option (`trackUnitStates`). The phase reminder (`usePhaseRules`)
-lists a card in the phase its English text names, under the unit, and the Location's war zone rules
-for both sides (opening the missions tab, where they are printed) — read by `phaseEntryOf`, the
-core function the generated phase index is made of.
+lists a card in the phase its English text names, under the unit (read by `phaseEntryOf`, the
+core function the generated phase index is made of), and the Location's war zone rules for both sides
+(opening the missions tab, where they are printed). Those are read BY HAND
+(`src/data/dominatusWarZonePhases.js`, owner 2026-11-04): 16 of the 19 name an action, not a phase,
+and never showed; "the end of the battle round" (Orbital Lance Bombardment) is at the end of the turn
+closing it, and Vermillion Sanction has no phase (pre-battle). `dominatusWarZonePhases.test.js` holds
+every rule to an entry and an entry to the phase the rule's words name.
 **The numbers** (3b): `src/data/dominatusUpgradeMods.js` is the deck read by hand into the modifier
 layer's effect shape — no `target` the bearer, `target: 'unit'` the unit and the Attached unit it is
 in (19.04); a bonus `replace`s where the card says "instead", else adds; a card with nothing a number

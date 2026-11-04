@@ -20,6 +20,7 @@ import { cardMoments } from '../core/game/missionTiming.js'
 import { tracks } from '../data/trackerOptions.js'
 import { usableInSlot, BATTLE_PHASES, phaseLabel, phaseEntryOf } from '../core/rules/stratagemPhases.js'
 import { domUpgrades, domLocation } from './dominatusMissions.js'
+import { warZonePhases } from '../data/dominatusWarZonePhases.js'
 import { allySourceOf } from '../core/roster/rosterEngine.js'
 import { detachmentSources } from '../data/detachmentSources.js'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
@@ -193,12 +194,13 @@ export function usePhaseRules() {
       }
     })
 
-    // …and the Location's war zone rules, which bind both sides (their words say whose phase). They
-    // are read where they are printed, on the missions tab.
+    // …and the Location's war zone rules, which bind both sides. Most name no phase but an action
+    // (an ingress move, a charge, a ranged attack), so their phases are read by hand
+    // (dominatusWarZonePhases.js); they are read where they are printed, on the missions tab.
     for (const w of warZoneOf()) {
-      const e = phaseEntryOf(w.name, w.body)
-      if (!e || !usableInSlot(e.p, e.s, ph, mine)) continue
-      out.push({ key: `wz|${w.name}`, kind: 'card', pi, mi: 0, name: w.name, what: labels.value.trackerPhaseWarZone, when: momentOf(e, ph), sub: null })
+      const e = warZonePhases[w.name]
+      if (!e?.p || !usableInSlot(e.p, e.s, ph, mine)) continue
+      out.push(warZoneRow(w, pi, momentOf(e, ph)))
     }
     return out
   }
@@ -206,6 +208,14 @@ export function usePhaseRules() {
   function upgradesOf(pl, mi) {
     if (!current.value?.settings?.dominatus) return []
     return (pl.upgrades || []).filter((u) => u.uid && (u.mi ?? 0) === mi)
+  }
+  function warZoneRow(w, pi, when) {
+    return { key: `wz|${w.name}`, kind: 'card', pi, mi: 0, name: w.name, what: labels.value.trackerPhaseWarZone, when, sub: null }
+  }
+  // A war zone rule of the end of the battle round: at the end of the turn that closes it.
+  function roundEndWarZone(pi) {
+    if (!current.value || current.value.phase !== 'playing' || turnIndex(current.value) !== 1) return []
+    return warZoneOf().filter((w) => warZonePhases[w.name]?.at === 'round-end').map((w) => warZoneRow(w, pi, 'end'))
   }
   function warZoneOf() {
     const loc = current.value?.settings?.dominatus?.location
@@ -320,7 +330,7 @@ export function usePhaseRules() {
         })),
       })
     }
-    if (phases[phases.length - 1] === 'fight') out.push({ key: 'turn-end', title: L.trackerStepTurnEnd, steps: [{ id: 'turn-end', label: null, rows: cards.filter((c) => c.at === 'turn-end') }] })
+    if (phases[phases.length - 1] === 'fight') out.push({ key: 'turn-end', title: L.trackerStepTurnEnd, steps: [{ id: 'turn-end', label: null, rows: [...roundEndWarZone(pi), ...cards.filter((c) => c.at === 'turn-end')] }] })
     return out
   }
 

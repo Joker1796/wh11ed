@@ -270,4 +270,28 @@ describe('PhaseRules — a Dominatus battle', () => {
     expect(w.text()).not.toContain('Strategic Laurels')
     expect(w.findAll('.pr-side')[0].text()).toContain('Landing Craft')
   })
+
+  // Most war zone rules name an action, not a phase (owner, 2026-11-04): read by hand, they are
+  // there in the phase they bite in — and the end of the round's at the end of the turn closing it.
+  it('reminds of a war zone rule that names no phase, and of one of the end of the round', async () => {
+    const { loadDominatusDeck } = await import('../../composables/dominatusMissions.js')
+    await loadDominatusDeck()
+    startGame({ alliance: 'liberators' }, { alliance: 'oppressors' }, { dominatus: { phase: 2, location: 'the-morpheon-line' } })
+    const w = await mountBlock()
+    expect(w.text()).not.toContain('Defence Networks')
+    tracker.goToPhase(0, 'shooting')
+    await flushPromises()
+    // "While a unit has the benefit of cover… against ranged attacks" — both sides' Shooting phase.
+    for (const side of w.findAll('.pr-side')) expect(side.text()).toContain('Defence Networks')
+
+    startGame({ alliance: 'liberators' }, { alliance: 'oppressors' }, { dominatus: { phase: 2, location: 'eyes-of-the-emperor-observatory' } })
+    tracker.goToPhase(0, 'fight')
+    await flushPromises()
+    expect(w.text()).not.toContain('Orbital Lance Bombardment')
+    tracker.goToPhase(1, 'fight')
+    await flushPromises()
+    // The turn's end is a fold of its own, with no step heads inside.
+    const li = w.findAll('.pr-list > li').find((x) => x.text().includes('Orbital Lance Bombardment'))
+    expect(li?.element.closest('.phase-group').querySelector('.phase-name').textContent.trim()).toBe('End of turn')
+  })
 })
