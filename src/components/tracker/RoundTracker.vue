@@ -566,6 +566,18 @@
       @confirm="confirmEnd"
       @close="pendingEnd = null"
     />
+    <TurnEndCheckModal
+      v-if="lateOpen && lateChecks.length"
+      :checks="lateChecks"
+      :names="playerNames"
+      :round="lateTurn.round"
+      :turn="lateTurn.turn"
+      :heading="labels.trackerLateCheckTitle"
+      :subheading="labels.trackerLateCheckSub"
+      :confirm-label="labels.trackerLateCheckGo"
+      @confirm="lateOpen = false"
+      @close="lateOpen = false"
+    />
     <GameEndModal
       v-if="endModalOpen"
       @confirm="onEndBattle"
@@ -585,6 +597,12 @@
     />
   </div>
 </template>
+
+<script>
+// The turns the late check (below) was asked for on this device: once each, not again when the
+// screen is built anew (a datasheet visited and back).
+const lateAsked = new Set()
+</script>
 
 <script setup>
 import ExpandTransition from '../ExpandTransition.vue'
@@ -627,6 +645,7 @@ import { usePhaseRules } from '../../composables/usePhaseRules.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { blockLocked, fixTurnOf, turnEndChecks } from '../../core/game/missionTiming.js'
+import { previousTurn, lateScoreOpen, isStrict } from '../../core/game/strictRules.js'
 import { bonusIn } from '../../core/game/cpLedger.js'
 import { gameSideColorStyle } from '../../composables/sideColors.js'
 import { provideModalScope } from '../../composables/modalScope.js'
@@ -1108,6 +1127,36 @@ const turnChecks = computed(() => {
   )
 })
 const pendingEnd = ref(null) // { final }
+
+// The check of the turn the OTHER phone just ended (Mikhail, 2026-11-04): its "end of your
+// opponent's turn" conditions fall due as that phone ends its turn, and there this side is shown,
+// not scored. So this phone, the side's own, asks for them once the turn has passed — into that
+// turn, which strict rules keep open until the side does anything in the new one (lateScoreOpen).
+const lateTurn = computed(() => {
+  const g = current.value
+  const side = g?.party?.side
+  const prev = g?.phase === 'playing' && side != null ? previousTurn(g) : null
+  return prev && prev.turn !== side ? prev : null
+})
+const lateChecks = computed(() => {
+  const g = current.value
+  const t = lateTurn.value
+  if (!t) return []
+  return turnEndChecks(
+    { ...g, currentRound: t.round, currentTurn: t.turn },
+    (slug, role, round) => scorableBlocks(slug, role, round, locale.value),
+    (slug, role) => missionBySlug(slug, role),
+  ).filter((c) => c.pi === g.party.side)
+})
+const lateOpen = ref(false)
+watch(() => (lateTurn.value ? `${current.value.id}:${lateTurn.value.round}:${lateTurn.value.turn}` : null), (key) => {
+  lateOpen.value = false
+  const g = current.value
+  if (!key || lateAsked.has(key) || !lateChecks.value.length || !tracks(g.settings, 'trackMissionAids')) return
+  lateAsked.add(key)
+  if (isStrict(g) && !lateScoreOpen(g, g.party.side, lateTurn.value.round, lateTurn.value.turn)) return
+  lateOpen.value = true
+}, { immediate: true })
 function requestEndTurn() {
   const end = { final: !canEndTurn() }
   // The check before the turn passes, unless the game switched the mission help off (`trackMissionAids`).
