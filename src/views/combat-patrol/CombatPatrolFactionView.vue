@@ -449,13 +449,6 @@ watch(() => route.hash, (hash) => {
   padding: 2px 7px;
 }
 
-.faction-flavor {
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  line-height: 1.5;
-  margin-bottom: 0.75rem;
-}
 
 .strat-grid {
   display: grid;

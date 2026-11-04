@@ -35,10 +35,6 @@
     "src/views/combat-patrol/CombatPatrolFactionView.vue",
     "src/views/faction/FactionRuleView.vue"
   ],
-  ".faction-flavor { font-style: italic; color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.75rem; }": [
-    "src/views/combat-patrol/CombatPatrolFactionView.vue",
-    "src/views/faction/FactionRuleView.vue"
-  ],
   ".help-view { padding-top: 0.5rem; padding-bottom: 2rem; }": [
     "src/views/HelpTopicView.vue",
     "src/views/HelpView.vue"

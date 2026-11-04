@@ -848,6 +848,15 @@ strong {
 
 /* Plain text whose line breaks are part of it — a lore passage of several paragraphs. */
 .lines { white-space: pre-line; }
+/* A faction's, a detachment's or an enhancement's lore line over its rule: on the faction pages
+   and the Combat Patrol box's page alike (the lore face, muted). Hidden with the lore setting. */
+.faction-flavor {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
 
 .example-block {
   background: var(--bg-secondary);

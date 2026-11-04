@@ -272,13 +272,6 @@ const isLong = (body) => (Array.isArray(body) ? body.join('\n') : String(body ||
   scroll-margin-top: var(--header-total);
 }
 
-.faction-flavor {
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  line-height: 1.5;
-  margin-bottom: 0.75rem;
-}
 
 /* Two columns on the desktop, like the Core Rules' chapters: the page is widened for it (App.vue,
    isFactionPageRoute), and a block of the text never splits across the two. */
