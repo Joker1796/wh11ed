@@ -245,6 +245,8 @@ on a tie nothing breaks.
   home's card, `finishHere`) it is sent once both sides are the campaign players it was started for.
   The campaign is read first: the other phone of a shared game may have sent it, and a duplicate
   refusal from that race is not said. Any other refusal or a failed request is, and the button stays.
+  Once the battle is in the campaign the screen says so in the open, not in the fold — sent, counted
+  or turned down, the campaign's name a link to it (`campSent*`, owner 2026-11-04).
   The history screen sends by the button only. The Warmaster still counts it (`approve`).
 - **A player's membership follows their account** (owner, 2026-11-03; API migration 007): joined
   signed in, the campaign is in `GET /campaigns` on every device (`refreshAccount`) and opening the

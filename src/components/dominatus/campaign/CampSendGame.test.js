@@ -80,6 +80,20 @@ describe('CampSendGame — the battle goes back to its campaign', () => {
     expect(toast(w)).toBe('refused: no roster')
   })
 
+  // Owner, 2026-11-04: folded, a battle sent by itself looked as if nothing had happened.
+  it('says in the open that the battle is in the campaign, and where it stands there', async () => {
+    log.value = { battles: [{ id: 'g-G1', status: 'pending' }], rejected: [] }
+    const w = mount(CampSendGame, { props: { game: game(), auto: true }, global: { stubs: { RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' } } } })
+    await flushPromises()
+    expect(appendEvent).not.toHaveBeenCalled()
+    expect(w.find('.csend-done').text()).toBe('The battle went to the campaign «Armageddon». The Warmaster will count it.')
+    expect(w.find('.csend-done a').attributes('href')).toBe('/tracker/campaigns/C')
+    expect(w.findComponent({ name: 'CampFold' }).exists()).toBe(false)
+    log.value = { battles: [{ id: 'g-G1', status: 'approved' }], rejected: [] }
+    await flushPromises()
+    expect(w.find('.csend-done').text()).toBe('The battle is counted in the campaign «Armageddon».')
+  })
+
   it('waits for the button where the game is not a campaign\'s, or on the history screen', async () => {
     mount(CampSendGame, { props: { game: game(null), auto: true } })
     mount(CampSendGame, { props: { game: game() } })

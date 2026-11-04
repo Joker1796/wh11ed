@@ -3,9 +3,20 @@
     v-if="options.length"
     class="csend"
   >
+    <!-- Sent: said in the open, the campaign named and one tap away (owner, 2026-11-04: folded,
+         a battle sent by itself looked as if nothing had happened). -->
+    <p
+      v-if="sent"
+      class="csend-done"
+    >
+      <span>{{ sentText[0] }}</span><RouterLink :to="`/tracker/campaigns/${cid}`">
+        {{ campaignName }}
+      </RouterLink><span>{{ sentText[1] }}</span>
+    </p>
     <CampFold
+      v-else
       :label="labels.campSend"
-      :start-open="!!linked && !inCampaign"
+      :start-open="!!linked"
     >
       <div class="csend-body">
         <label class="field">
@@ -30,10 +41,10 @@
         </label>
         <button
           class="btn-primary"
-          :disabled="!pick[0] || !pick[1] || pick[0] === pick[1] || busy || inCampaign"
+          :disabled="!pick[0] || !pick[1] || pick[0] === pick[1] || busy"
           @click="send()"
         >
-          {{ inCampaign ? labels.campSent : labels.campSend }}
+          {{ labels.campSend }}
         </button>
       </div>
     </CampFold>
@@ -89,7 +100,17 @@ watch(options, (o) => {
 const entry = computed(() => campaigns.value.find((c) => c.id === cid.value) || null)
 const state = computed(() => (cid.value ? stateOf(cid.value) : null))
 // Sent already (from this phone or the other player's): the campaign has a battle under the game's id.
-const inCampaign = computed(() => !!state.value?.battles.some((b) => b.id === `g-${props.game.id}`))
+const sent = computed(() => state.value?.battles.find((b) => b.id === `g-${props.game.id}`) || null)
+const inCampaign = computed(() => !!sent.value)
+const campaignName = computed(() => `«${entry.value?.name || cid.value}»`)
+// The line around the campaign's name, by where the battle stands there: waiting for the Warmaster,
+// counted, or turned down. `{name}` splits it so the name can be a link.
+const sentText = computed(() => {
+  const l = labels.value
+  const key = sent.value?.status === 'approved' ? 'campSentCounted' : sent.value?.status === 'rejected' ? 'campSentRefused' : 'campSentPending'
+  const [before, after = ''] = l[key].split('{name}')
+  return [before, after]
+})
 // A member's own side is their player; the Warmaster may enter anyone.
 function playersFor(i) {
   const s = state.value
@@ -139,6 +160,7 @@ watch(ready, async (go) => {
 
 <style scoped>
 .csend { margin: 1rem 0; border: 1px solid var(--border); background: var(--bg-card); padding: 0 0.75rem; }
+.csend-done { margin: 0; padding: 0.6rem 0; }
 .csend :deep(.cfold) { margin-top: 0; border-top: none; }
 .csend-body { display: grid; gap: 0.5rem; justify-items: start; }
 .csend-body .field { width: 100%; }
