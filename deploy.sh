@@ -34,6 +34,15 @@ CDN_RESOURCE_ID="${CDN_RESOURCE_ID-}"
 YC_BIN="${YC_BIN:-$(command -v yc || echo "$HOME/yandex-cloud/bin/yc")}"
 
 aws() { command aws --endpoint-url="$ENDPOINT" --profile "$AWS_PROFILE" "$@"; }
+# 20 requests at once instead of the CLI's 10 (owner, 2026-11-04). The 4467 search-engine pages are
+# ~11 KB each, and they went up at ~9 a second: the time is the wait for each answer, not the
+# bandwidth (the images in the same run went at 5x the rate). Set on a temporary copy of the CLI's
+# config, so the owner's ~/.aws/config is never written; removed at exit (step 3b's trap too).
+AWS_TMP_CONFIG="$(mktemp)"
+cp "${AWS_CONFIG_FILE:-$HOME/.aws/config}" "$AWS_TMP_CONFIG" 2>/dev/null || true
+AWS_CONFIG_FILE="$AWS_TMP_CONFIG" command aws configure set s3.max_concurrent_requests 20 --profile "$AWS_PROFILE"
+export AWS_CONFIG_FILE="$AWS_TMP_CONFIG"
+trap 'rm -f "$AWS_TMP_CONFIG"' EXIT
 
 # 0) Bump the patch version (package.json) before building, so each deploy ships a
 #    new version number. Override the segment with BUMP=minor|major ./deploy.sh.
@@ -280,7 +289,7 @@ if [ -f dist/.seo-routes.txt ] && [ -f dist/index.html ]; then
   # prefix of other keys ("parents", a handful) upload one-by-one via `cp`, and the
   # leaf keys go through a single fast `sync` from a temp mirror.
   MIRROR="$(mktemp -d)"
-  trap 'rm -rf "$MIRROR"' EXIT
+  trap 'rm -rf "$MIRROR"; rm -f "$AWS_TMP_CONFIG"' EXIT
   PARENTS=0
   MISSING=0
   while IFS= read -r route; do
