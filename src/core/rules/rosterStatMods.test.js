@@ -171,13 +171,21 @@ describe('applyStatMods', () => {
     expect(out.notes.some((n) => n.applied)).toBe(false)
   })
 
-  it('leaves a value it cannot compute alone but still reports the modifier', () => {
+  // A whole number added to dice goes on the bonus (dice.js; report 7651339d, Tzagulla on Infernal
+  // Gaze's D6 Attacks). Doubling dice is not arithmetic on a number: that row stays as printed, and
+  // the note says the modifier reached only some of the rows.
+  it('adds a whole number to dice, leaves a value it cannot compute alone and says so', () => {
     const dmg = { ...coldFervour, effects: [{ scope: 0, on: 'melee', stat: 'd', op: 'add', value: 1, when: null }] }
-    const s = sheet()
-    const out = applyStatMods(s, [dmg], destroyer)
-    expect(out.sheet.melee[0].d).toBe('3') // "2" is computable
-    expect(out.sheet.melee[1].d).toBe('D3') // "D3" is not — untouched
+    const out = applyStatMods(sheet(), [dmg], destroyer)
+    expect(out.sheet.melee[0].d).toBe('3')
+    expect(out.sheet.melee[1].d).toBe('D3+1')
     expect(out.notes).toHaveLength(1)
+    expect(out.notes[0].partial).toBeUndefined()
+    const dbl = { ...coldFervour, effects: [{ scope: 0, on: 'melee', stat: 'd', op: 'mul', value: 2, when: null }] }
+    const out2 = applyStatMods(sheet(), [dbl], destroyer)
+    expect(out2.sheet.melee[0].d).toBe('4')
+    expect(out2.sheet.melee[1].d).toBe('D3') // "D3" doubled is not computed — untouched
+    expect(out2.notes[0]).toMatchObject({ applied: true, partial: true })
   })
 
   it('applies an enhancement to its bearer without consulting the keyword layer', () => {

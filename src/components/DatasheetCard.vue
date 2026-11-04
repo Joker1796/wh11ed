@@ -309,6 +309,12 @@
                     v-if="n.via"
                     class="wi wi-lightning"
                   /> {{ n.when[locale] || n.when.en }}</span>
+                  <!-- Applied, but one of the rows it covers did not move (a doubled "D6"): said on
+                   the same line, so "applied" never stands beside a weapon that kept its number. -->
+                  <span
+                    v-if="n.partial"
+                    class="ds-mod-cond"
+                  >{{ labels.modPartial }}</span>
                 </li>
               </template>
               <!-- Inside the list, above its closing rule: it explains the lines it follows, and

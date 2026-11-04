@@ -14,13 +14,16 @@
 // than presenting a context-dependent number as if it were printed. 40k modifiers are overwhelmingly conditional — a phase, a range, an aura, once per
 // battle — and a card showing T6 when the +1 only applies while a Waaagh! is running is worse
 // than a card showing T5 with a note. The same goes for a value this file cannot compute (a
-// Damage of "D6+2" with "+1"): it degrades to an annotation rather than inventing arithmetic.
+// doubled "D6", a "D3" minus 1): it degrades to an annotation rather than inventing arithmetic. A
+// whole number added to Attacks or Damage written as dice is not invented — "D6" +1 is "D6+1"
+// (dice.js) — and is applied.
 //
 // Scope comes from ruleTargets.js, never from the record — see the generator's header for why.
 
 import { ruleScopes, scopesMisread, scopeHits } from './ruleTargets.js'
 import { enhKey, itemKey, loadoutItemCopies, weaponRowClaimer, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
 import { detKey } from '../shared/slugify.js'
+import { addToDice } from './dice.js'
 import { modelsPerMini, mandatoryEnhancementFor } from '../roster/rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from './conditions.js'
@@ -152,10 +155,13 @@ const LEAST = { t: 1, a: 1, s: 1, d: 1, oc: 0, m: 1, range: 1 }
 // "Characteristics of '-', '*' and 'N/A' can never be modified" (02.02.01) — a TORRENT weapon's BS
 // stays '-' whatever sets it (Auto-divinatory Targeting on the Kastelan Robots' incendine combustor).
 const UNMODIFIABLE = /^(?:-|\*|N\/A)$/i
+// The characteristics the datasheets write as dice (Attacks, Damage) — see applyValue.
+const DICE_STATS = new Set(['a', 'd'])
 
 // Arithmetic on a printed characteristic, or null when it can't be done honestly.
 // Characteristics come in four printed shapes: a plain number ("5"), a distance ('6"'), a
-// skill/save roll ("3+") and a dice expression ("D6+2"). Only the first three are computable.
+// skill/save roll ("3+") and a dice expression ("D6+2"). The first three are computable; dice only
+// in Attacks and Damage, and only by adding a whole number (DICE_STATS, dice.js).
 /**
  * @param {unknown} current
  * @param {string} op
@@ -220,7 +226,12 @@ export function applyValue(current, op, value, stat = null, best = null) {
     return String(Math.max(LEAST[stat ?? ''] ?? -Infinity, next))
   }
 
-  return null // "D6+2", "N/A", a range like "18-36" — annotate instead of guessing
+  // Attacks or Damage written as dice — "D6", "D3+3", "2D6": a whole number goes on the bonus
+  // ("D6" +1 → "D6+1", "D3+3" −1 → "D3+2"). Doubling dice, adding dice, or a bonus that would go
+  // below zero stays an annotation (dice.js says why).
+  if (op === 'add' && DICE_STATS.has(stat ?? '')) return addToDice(raw, Number(value))
+
+  return null // a dice value elsewhere, "N/A", a range like "18-36" — annotate instead of guessing
 }
 
 // The number inside a weapon ability: "RAPID FIRE 2" → 2. Abilities that carry one always print it
@@ -569,6 +580,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       const markPrefix = (t) => (t === 'profiles' ? 'profile' : t)
 
       let changed = false
+      let missed = false
       for (const table of tables) {
         const rows = current()[table] || []
         for (let i = 0; i < rows.length; i++) {
@@ -578,6 +590,9 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           const stat = effect.stat || ''
           const before = current()[table][i][stat]
           const next = applyValue(before, effect.op, effect.value, stat, effect.best)
+          // A row the rule covers whose value could not be computed — "-" and the like are not that:
+          // the rules say those never change (02.02.01).
+          if (next == null && String(before ?? '').trim() && !UNMODIFIABLE.test(String(before).trim())) missed = true
           if (next == null || next === String(before)) continue
           target()[table][i][stat] = next
           marks.add(`${markPrefix(table)}:${stat}:${i}`)
@@ -586,7 +601,11 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       }
       // Nothing computable (every value was a dice expression, or the unit has no such row) —
       // report it as an annotation rather than dropping the modifier on the floor.
-      notes.push(noteOf(entry, effect, changed, via))
+      // `partial` — applied, but not to every row it covers: one of them is a value this file does not
+      // compute (a doubled "D6"). The card says so: a bare "applied" beside a row that did not move is
+      // what made report 7651339d read Tzagulla as not working at all. Present only when true.
+      const note = noteOf(entry, effect, changed, via)
+      notes.push(changed && missed ? { ...note, partial: true } : note)
     }
   }
 
