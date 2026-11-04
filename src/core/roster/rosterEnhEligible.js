@@ -74,10 +74,17 @@ export function enhEligible(enh, def, granted = []) {
   const lc = (x) => String(x || '').toLowerCase()
   /** @param {string} k */
   const has = (k) => hasKeyword(def, k) || granted.some((g) => lc(g) === lc(k))
-  if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => has(k))
-  if (enh.lockDs?.length) return !!def.sid && enh.lockDs.includes(def.sid) && !enh.exclKw?.some((k) => has(k))
+  // A Character, or a unit the enhancement is flagged for. A lock to one unit does NOT lift this:
+  // it overrides the generic noEnh / Epic Hero gates, but "enhancements go on Characters" is the
+  // core rule, and appdata says so per enhancement (isEquipableByNonCharacterUnit). Trygon Prime
+  // ("TRYGON model only") matched the Trygon by name and went on one that was no CHARACTER — the
+  // Subterranean Assault choice that makes it one is what the enhancement waits for (2026-11-04,
+  // report cb76e0e4: the bearer then could not be the Warlord, rightly).
+  const isChar = !!def.flags?.char || !!enh.nonCharOk || granted.some((g) => lc(g) === 'character')
+  if (lockedToExactUnit(enh, def)) return isChar && !enh.exclKw?.some((k) => has(k))
+  if (enh.lockDs?.length) return isChar && !!def.sid && enh.lockDs.includes(def.sid) && !enh.exclKw?.some((k) => has(k))
   if (def.flags?.noEnh) return false
-  if (!def.flags?.char && !enh.nonCharOk && !granted.some((g) => lc(g) === 'character')) return false
+  if (!isChar) return false
   if (def.flags?.epic && !enh.epicOk) return false
   if (enh.exclKw?.some((k) => has(k))) return false
   if (enh.req?.length) {
