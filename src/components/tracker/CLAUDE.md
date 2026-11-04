@@ -877,6 +877,10 @@ action, then says what the thing is, in the names the screen prints.
 
 - **A step lights an element by its `data-tour` value**, never a CSS class — a restyle must not
   lose the tour. A list repeats the attribute on every row; the overlay lights the first visible one.
+- **A tap on the light ends the chapter and reaches the element** (`tapThrough`, owner 2026-11-04):
+  the dim swallows every other tap, but each step starts with an action, and a player who tapped
+  the name field it lit met a screen that "hung" (report `2faa29a6`). A field gets the focus inside
+  the tap (so the phone's keyboard opens), anything else its click. `TourOverlay.test.js` holds it.
 - **A step can put the screen in the state it tells about** — `show: { tab: 'cp', side: 'opp' }`.
   The screen that owns the state answers with `useTourShow(key, apply)`: the game screen (`tab`,
   `side`), the roster list (`listTab`), the roster page (`viewTab`), the catalogue (`filters`), the
