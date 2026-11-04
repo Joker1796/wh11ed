@@ -302,6 +302,7 @@ export const ui = {
     // A dice modifier (+1 to the Hit roll) is listed but never written into the table — see rosterStatMods.js.
     dsModifiersRollHint: 'Modifiers to the Hit and Wound rolls do not change the table above — add them when you roll.',
     modToHit: 'to Hit',
+    modPartial: 'not on every weapon',
     modToWound: 'to Wound',
     // A modifier on an attack made against the unit (rosterModNotes' modDelta).
     modIncoming: 'Attacks against this unit',
@@ -2464,6 +2465,7 @@ export const ui = {
     dsModifiersPossibleHint: 'Пока не действует ничего: это изменения, которые внесут правила, влияющие на этот отряд, когда выполнится их условие.',
     dsModifiersRollHint: 'Модификаторы бросков на попадание и ранение не меняют характеристики в таблице — прибавляйте их при броске.',
     modToHit: 'к попаданию',
+    modPartial: 'не на всё оружие',
     modToWound: 'к ранению',
     modIncoming: 'Атаки по этому отряду',
     modIncomingMelee: 'Атаки ближнего боя по этому отряду',

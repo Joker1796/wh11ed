@@ -57,6 +57,7 @@
     "src/core/roster/rosterValidation.js",
     "src/core/rules/rosterModifiers.js",
     "src/core/roster/rosterExport.js",
+    "src/core/rules/dice.js",
     "src/core/rules/rosterStatMods.js",
     "src/composables/rosterHold.js",
     "src/composables/rosterSummary.js",

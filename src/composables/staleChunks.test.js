@@ -1,7 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
-import { _resetStaleChunks, importQuietly, installStaleChunkRecovery, isChunkLoadError, recoverFromStaleChunk } from './staleChunks.js'
+import { START_LOCATION } from 'vue-router'
+import { _resetStaleChunks, importQuietly, installStaleChunkRecovery, isChunkLoadError, recoverFromStaleChunk, routeChunk } from './staleChunks.js'
 
 describe('isChunkLoadError', () => {
   it('knows each engine’s wording for a failed dynamic import', () => {
@@ -121,6 +122,70 @@ describe('importQuietly', () => {
     await importQuietly(load, { wait: noWait, recover: vi.fn() })
     await new Promise((r) => setTimeout(r, 10))
     expect(sessionStorage.getItem('wh-stale-chunk-reload')).toBeNull()
+  })
+})
+
+// A tap on a section whose chunk does not come did nothing for as long as the request hung (a
+// player's Android behind a VPN, 2026-11-03). Bounded, retried like a faction's data, and the
+// router's handler takes what is left.
+describe('routeChunk', () => {
+  const fetchFail = () => new TypeError('Failed to fetch dynamically imported module: https://wh-rules.ru/assets/TrackerStatsView-x1.js')
+  const noWait = () => Promise.resolve()
+  beforeEach(() => { _resetStaleChunks() })
+
+  it('gives up on a chunk that never answers, with an error the router recovers from, and does not ask again', async () => {
+    vi.useFakeTimers()
+    const load = vi.fn(() => new Promise(() => {}))
+    const got = routeChunk(load, { ms: 50, wait: noWait })().catch((e) => e)
+    await vi.advanceTimersByTimeAsync(60)
+    const err = await got
+    vi.useRealTimers()
+    expect(isChunkLoadError(err)).toBe(true)
+    expect(load).toHaveBeenCalledTimes(1)
+  })
+
+  it('asks again after a chunk that failed, and the page gets it', async () => {
+    const load = vi.fn().mockRejectedValueOnce(fetchFail()).mockResolvedValueOnce({ default: 'View' })
+    await expect(routeChunk(load, { wait: noWait })()).resolves.toEqual({ default: 'View' })
+    expect(load).toHaveBeenCalledTimes(2)
+  })
+
+  it('reloads nothing itself: the router’s handler has the address the reader was going to', async () => {
+    sessionStorage.clear()
+    const load = vi.fn().mockRejectedValue(fetchFail())
+    await expect(routeChunk(load, { delays: [1], wait: noWait })()).rejects.toThrow(/Failed to fetch/)
+    expect(sessionStorage.getItem('wh-stale-chunk-reload')).toBeNull()
+  })
+})
+
+// One owner per failure: a start's first page that does not load is firstNavigation.js's (it opens
+// home), and nothing reloads for it — both answering it, the start went home and the reload brought
+// the broken page back (2026-11-03).
+describe('installStaleChunkRecovery — who answers a route that failed', () => {
+  let onError
+  const router = { onError: (fn) => { onError = fn }, resolve: (to) => ({ href: to }) }
+  beforeEach(() => {
+    _resetStaleChunks()
+    sessionStorage.clear()
+    installStaleChunkRecovery(router)
+  })
+  const err = () => new TypeError('Failed to fetch dynamically imported module: https://wh-rules.ru/assets/A-x1.js')
+
+  it('leaves the start’s first navigation to the start — no reload, not even through the preload event', async () => {
+    window.dispatchEvent(new Event('vite:preloadError'))
+    onError(err(), '/ru/tracker/stats', START_LOCATION)
+    await new Promise((r) => setTimeout(r, 10))
+    expect(sessionStorage.getItem('wh-stale-chunk-reload')).toBeNull()
+  })
+
+  it('recovers a page the reader went to once the app is up — once', async () => {
+    vi.stubGlobal('navigator', { onLine: true })
+    const assign = vi.fn()
+    vi.stubGlobal('location', { ...window.location, assign })
+    onError(err(), '/ru/tracker/stats', { path: '/ru' })
+    await new Promise((r) => setTimeout(r, 10))
+    expect(sessionStorage.getItem('wh-stale-chunk-reload')).not.toBeNull()
+    vi.unstubAllGlobals()
   })
 })
 

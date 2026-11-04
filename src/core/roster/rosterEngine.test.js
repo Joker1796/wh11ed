@@ -350,6 +350,16 @@ describe('enhEligible', () => {
     expect(enhEligible(lockedEnh, namedShard)).toBe(false) // not this unit — normal gates apply, and fail
     expect(enhEligible({ ...lockedEnh, exclKw: ['Transcendent C’tan'] }, ctan)).toBe(false) // still honours exclKw
   })
+  // …but not the CHARACTER rule (report cb76e0e4, 2026-11-04): Trygon Prime is "TRYGON model only",
+  // and the Trygon matched it by name with no CHARACTER keyword. It takes it once Subterranean
+  // Assault's allegiance choice has made it a Character.
+  it('a unit-locked enhancement still needs a Character, printed or granted', () => {
+    const trygon = { name: 'Trygon', kws: ['Monster', 'Trygon'], flags: {} }
+    const prime = { name: 'Trygon Prime', req: [{ kw: ['Trygon'] }] }
+    expect(enhEligible(prime, trygon)).toBe(false)
+    expect(enhEligible(prime, trygon, ['Character'])).toBe(true)
+    expect(enhEligible({ ...prime, nonCharOk: true }, trygon)).toBe(true)
+  })
 })
 
 describe('enhancementPoints / unitPoints with enhancement', () => {

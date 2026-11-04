@@ -14,13 +14,16 @@
 // than presenting a context-dependent number as if it were printed. 40k modifiers are overwhelmingly conditional — a phase, a range, an aura, once per
 // battle — and a card showing T6 when the +1 only applies while a Waaagh! is running is worse
 // than a card showing T5 with a note. The same goes for a value this file cannot compute (a
-// Damage of "D6+2" with "+1"): it degrades to an annotation rather than inventing arithmetic.
+// doubled "D6", a "D3" minus 1): it degrades to an annotation rather than inventing arithmetic. A
+// whole number added to Attacks or Damage written as dice is not invented — "D6" +1 is "D6+1"
+// (dice.js) — and is applied.
 //
 // Scope comes from ruleTargets.js, never from the record — see the generator's header for why.
 
 import { ruleScopes, scopesMisread, scopeHits } from './ruleTargets.js'
 import { enhKey, itemKey, loadoutItemCopies, weaponRowClaimer, loadoutItemNames, wargearConditions } from './rosterModifiers.js'
 import { detKey } from '../shared/slugify.js'
+import { addToDice } from './dice.js'
 import { modelsPerMini, mandatoryEnhancementFor } from '../roster/rosterEngine.js'
 import { phasesOf, phaseSidesOf } from './stratagemPhases.js'
 import { conditions } from './conditions.js'
@@ -152,10 +155,13 @@ const LEAST = { t: 1, a: 1, s: 1, d: 1, oc: 0, m: 1, range: 1 }
 // "Characteristics of '-', '*' and 'N/A' can never be modified" (02.02.01) — a TORRENT weapon's BS
 // stays '-' whatever sets it (Auto-divinatory Targeting on the Kastelan Robots' incendine combustor).
 const UNMODIFIABLE = /^(?:-|\*|N\/A)$/i
+// The characteristics the datasheets write as dice (Attacks, Damage) — see applyValue.
+const DICE_STATS = new Set(['a', 'd'])
 
 // Arithmetic on a printed characteristic, or null when it can't be done honestly.
 // Characteristics come in four printed shapes: a plain number ("5"), a distance ('6"'), a
-// skill/save roll ("3+") and a dice expression ("D6+2"). Only the first three are computable.
+// skill/save roll ("3+") and a dice expression ("D6+2"). The first three are computable; dice only
+// in Attacks and Damage, and only by adding a whole number (DICE_STATS, dice.js).
 /**
  * @param {unknown} current
  * @param {string} op
@@ -220,7 +226,12 @@ export function applyValue(current, op, value, stat = null, best = null) {
     return String(Math.max(LEAST[stat ?? ''] ?? -Infinity, next))
   }
 
-  return null // "D6+2", "N/A", a range like "18-36" — annotate instead of guessing
+  // Attacks or Damage written as dice — "D6", "D3+3", "2D6": a whole number goes on the bonus
+  // ("D6" +1 → "D6+1", "D3+3" −1 → "D3+2"). Doubling dice, adding dice, or a bonus that would go
+  // below zero stays an annotation (dice.js says why).
+  if (op === 'add' && DICE_STATS.has(stat ?? '')) return addToDice(raw, Number(value))
+
+  return null // a dice value elsewhere, "N/A", a range like "18-36" — annotate instead of guessing
 }
 
 // The number inside a weapon ability: "RAPID FIRE 2" → 2. Abilities that carry one always print it
@@ -571,6 +582,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       const markPrefix = (t) => (t === 'profiles' ? 'profile' : t)
 
       let changed = false
+      let missed = false
       for (const table of tables) {
         const rows = current()[table] || []
         for (let i = 0; i < rows.length; i++) {
@@ -580,6 +592,9 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
           const stat = effect.stat || ''
           const before = current()[table][i][stat]
           const next = applyValue(before, effect.op, effect.value, stat, effect.best)
+          // A row the rule covers whose value could not be computed — "-" and the like are not that:
+          // the rules say those never change (02.02.01).
+          if (next == null && String(before ?? '').trim() && !UNMODIFIABLE.test(String(before).trim())) missed = true
           if (next == null || next === String(before)) continue
           target()[table][i][stat] = next
           marks.add(`${markPrefix(table)}:${stat}:${i}`)
@@ -588,7 +603,11 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       }
       // Nothing computable (every value was a dice expression, or the unit has no such row) —
       // report it as an annotation rather than dropping the modifier on the floor.
-      notes.push(noteOf(entry, effect, changed, via))
+      // `partial` — applied, but not to every row it covers: one of them is a value this file does not
+      // compute (a doubled "D6"). The card says so: a bare "applied" beside a row that did not move is
+      // what made report 7651339d read Tzagulla as not working at all. Present only when true.
+      const note = noteOf(entry, effect, changed, via)
+      notes.push(changed && missed ? { ...note, partial: true } : note)
     }
   }
 
@@ -824,10 +843,10 @@ export function attachedEnhKeys(entry, units, enhOf) {
 
 /**
  * @param {ModEntry[] | null | undefined} records
- * @param {{ unitId?: string, leaderUnitIds?: string[], ledUnitId?: string | null, coLeaderUnitIds?: string[], joinedUnitIds?: string[], itemNames?: Set<string> | null, leaderItemNames?: Set<string> | null, partGear?: Map<string, Set<string>> | null, leaderEnhKeys?: Set<string> | null, attachedEnhKeys?: Set<string> | null, auraOn?: Set<string> | null, detIds?: Set<string> | null }} [opts]
+ * @param {{ unitId?: string, leaderUnitIds?: string[], ledUnitId?: string | null, coLeaderUnitIds?: string[], joinedUnitIds?: string[], itemNames?: Set<string> | null, leaderItemNames?: Set<string> | null, coLeaderItemNames?: Set<string> | null, partGear?: Map<string, Set<string>> | null, leaderEnhKeys?: Set<string> | null, coLeaderEnhKeys?: Set<string> | null, attachedEnhKeys?: Set<string> | null, auraOn?: Set<string> | null, detIds?: Set<string> | null }} [opts]
  * @returns {ModEntry[]}
  */
-export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], joinedUnitIds = [], itemNames = null, leaderItemNames = null, partGear = null, leaderEnhKeys = null, attachedEnhKeys = null, auraOn = null, detIds = null } = {}) {
+export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], joinedUnitIds = [], itemNames = null, leaderItemNames = null, coLeaderItemNames = null, partGear = null, leaderEnhKeys = null, coLeaderEnhKeys = null, attachedEnhKeys = null, auraOn = null, detIds = null } = {}) {
   const out = []
   for (const rec of records || []) {
     // A DETACHMENT RULE's aura radiates from a keyword, not from an entry ("friendly IMPERIAL
@@ -854,6 +873,11 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       // reaches the unit he joined, which is the card the wearer is not on.
       const led = (rec.effects || []).filter((e) => e.target === 'led')
       if (led.length && leaderEnhKeys?.has(enhKey(rec.name))) out.push({ ...rec, body: '', effects: led, from: 'led' })
+      // …and the other Character beside the bearer in that unit is one of its models too (19.04),
+      // as with an ability below — "models in the bearer's unit" and "this unit" alike, since no
+      // enhancement addresses the Bodyguard alone.
+      const coEnh = coLeaderEnhKeys?.has(enhKey(rec.name)) && !leaderEnhKeys?.has(enhKey(rec.name))
+      if (led.length && coEnh) out.push({ ...rec, body: '', effects: led, from: 'co' })
       // "This unit…" — an Upgrade's own wording (`target: 'unit'`): every card of the Attached unit
       // its bearer is part of, whichever end of the attachment the bearer is (attachedEnhKeys).
       const whole = (rec.effects || []).filter((e) => e.target === 'unit')
@@ -862,6 +886,7 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       if (!aura.length) continue
       const scopes = rec.ref.scopes || null
       if (leaderEnhKeys?.has(enhKey(rec.name))) out.push({ ...rec, body: '', effects: aura, from: 'led', scopes })
+      else if (coEnh) out.push({ ...rec, body: '', effects: aura, from: 'co', scopes })
       else if (auraOn?.has(rec.sid)) out.push({ ...rec, body: '', effects: aura, from: 'aura', scopes })
       continue
     }
@@ -883,12 +908,19 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
       if (led.length && leaderUnitIds.includes(rec.ref.unit) && leaderItemNames?.has(rec.ref.item)) {
         out.push({ ...rec, body: '', effects: led, ...split, from: 'led' })
       }
+      // Worn by the other Character in the unit this one leads (Azrael's Lion Helm, the Lieutenant
+      // beside him): "this unit" is every model in it, Characters included (19.04). A player's
+      // report, 2026-11-02: the Lieutenant missed the 4+ InSv the Hellblasters had.
+      const coWorn = !!ledUnitId && coLeaderUnitIds.includes(rec.ref.unit) && !!coLeaderItemNames?.has(rec.ref.item)
+        && !(rec.ref.unit === unitId && itemNames?.has(rec.ref.item))
       const whole = (rec.effects || []).filter((e) => e.target === 'unit')
       if (whole.length) {
         if (rec.ref.unit === unitId && itemNames?.has(rec.ref.item) && ledUnitId) {
           out.push({ ...rec, body: '', effects: whole, ...split, from: 'self' })
         } else if (leaderUnitIds.includes(rec.ref.unit) && leaderItemNames?.has(rec.ref.item)) {
           out.push({ ...rec, body: '', effects: whole, ...split, from: 'led' })
+        } else if (coWorn) {
+          out.push({ ...rec, body: '', effects: whole, ...split, from: 'co' })
         }
       }
       // A wargear AURA (a Plague Marine's Icon of Despair) reaches units around the model wearing
@@ -900,6 +932,8 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
           out.push({ ...rec, body: '', effects: aura, ...split, from: 'self', scopes })
         } else if (leaderUnitIds.includes(rec.ref.unit) && leaderItemNames?.has(rec.ref.item)) {
           out.push({ ...rec, body: '', effects: aura, ...split, from: 'led', scopes })
+        } else if (coWorn) {
+          out.push({ ...rec, body: '', effects: aura, ...split, from: 'co', scopes })
         } else if (rec.ref.unit !== unitId && auraOn?.has(rec.sid)) {
           out.push({ ...rec, body: '', effects: aura, ...split, from: 'aura', scopes })
         }
@@ -980,15 +1014,16 @@ export function datasheetEntriesFor(records, { unitId, leaderUnitIds = [], ledUn
 // `rosterUnits` is the list as the caller holds it: `{ uid, id, name }` per entry.
 /**
  * @param {ModEntry[] | null | undefined} records
- * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, keywords?: UnitKeywords, factionKeywordSets?: KeywordSets, vocabulary?: Vocabulary, active?: IdSet, chosen?: IdSet, leaderEnhKeys?: Set<string> | null, detIds?: Set<string> | null }} [opts]
+ * @param {{ unitId?: string, entryUid?: string, rosterUnits?: Array<{ uid: string, id: string, name?: string, enh?: string }>, leaderUnitIds?: string[], ledUnitId?: string | null, coLeaderUnitIds?: string[], coLeaderEnhKeys?: Set<string> | null, keywords?: UnitKeywords, factionKeywordSets?: KeywordSets, vocabulary?: Vocabulary, active?: IdSet, chosen?: IdSet, leaderEnhKeys?: Set<string> | null, detIds?: Set<string> | null }} [opts]
  */
 export function aurasReaching(records, {
-  unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null,
+  unitId, entryUid, rosterUnits = [], leaderUnitIds = [], ledUnitId = null, coLeaderUnitIds = [], coLeaderEnhKeys = null,
   keywords = [], factionKeywordSets = null, vocabulary = null, active = null, chosen = null, leaderEnhKeys = null,
   detIds = null,
 } = {}) {
   const out = []
-  const automatic = new Set([unitId, ...leaderUnitIds, ledUnitId].filter(Boolean))
+  // The other Characters in the unit this one leads are certain too: their aura stands at 0".
+  const automatic = new Set([unitId, ...leaderUnitIds, ledUnitId, ...(ledUnitId ? coLeaderUnitIds : [])].filter(Boolean))
   // An aura whose own rule is not running changes nothing if marked: the Triumph's Fiery Heart
   // does nothing until it is one of the two relics picked this round. Offering the chip anyway is
   // offering a switch that moves no number, which is exactly what this layer refuses to do
@@ -1021,7 +1056,7 @@ export function aurasReaching(records, {
     // cases (the bearer itself, and the unit the bearer is attached to) are skipped by entry rather
     // than by unit id.
     if (ref.kind === 'enhancement') {
-      if (leaderEnhKeys?.has(enhKey(rec.name)) && !picked) continue
+      if ((leaderEnhKeys?.has(enhKey(rec.name)) || coLeaderEnhKeys?.has(enhKey(rec.name))) && !picked) continue
       if (!reaching.some((e) => effectApplies(e, ref.scopes, keywords, rec.kind, factionKeywordSets, false, vocabulary))) continue
       for (const u of rosterUnits) {
         if (!u.enh || enhKey(u.enh) !== enhKey(rec.name) || u.uid === entryUid) continue
@@ -1595,6 +1630,16 @@ export function attachmentContext(entry, units, { defOf, sheetOf, items, detachm
   // What each OTHER part's models prove, by datasheet id — the parts whose records reach this card
   // as `led` (its Leaders) or `co` (the Characters beside it in the unit it leads).
   const coLeaders = entry.leaderOf ? list.filter((u) => u.leaderOf === entry.leaderOf && u.uid !== entry.uid) : []
+  // What the other Characters in that unit carry and wear: their "this unit" gear and relics reach
+  // this card as `co`, as their abilities do.
+  const coLeaderItemNames = new Set()
+  const coLeaderEnhKeys = new Set()
+  for (const u of coLeaders) {
+    if (defOf(u)?.joins) continue
+    for (const n of loadoutItemNames(defOf(u), u, items) || []) coLeaderItemNames.add(n)
+    const n = enhOf(u)
+    if (n) coLeaderEnhKeys.add(enhKey(n))
+  }
   /** @type {Map<string, Set<string>>} */
   const partGear = new Map()
   for (const u of [...at.leaders, ...coLeaders]) {
@@ -1616,6 +1661,8 @@ export function attachmentContext(entry, units, { defOf, sheetOf, items, detachm
     // list and a record spell the name apart (an apostrophe, an "(Upgrade)").
     leaderItemNames,
     leaderEnhKeys,
+    coLeaderItemNames,
+    coLeaderEnhKeys,
     partGear,
     // …and what every other member of this Attached unit carries, for an Upgrade's "This unit…".
     attachedEnhKeys: attachedEnhKeys(entry, list, enhOf),

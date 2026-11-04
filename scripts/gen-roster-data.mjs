@@ -3699,7 +3699,8 @@ function genIndex() {
 // editor only pulls the faction being built (PWA entry-chunk stays clean — see CLAUDE.md).
 // Glob only the faction files — exclude core/items/index and the test file (the latter pulls
 // in node: builtins and would break the browser build once this loader is bundled).
-const loaders = import.meta.glob(['./*.js', '!./core.js', '!./items.js', '!./index.js', '!./*.test.js'], { import: 'default' })
+import { quietLoaders } from '../../composables/staleChunks.js'
+const loaders = quietLoaders(import.meta.glob(['./*.js', '!./core.js', '!./items.js', '!./index.js', '!./*.test.js'], { import: 'default' }))
 
 const load = (slug) => {
   const loader = loaders[\`./\${slug}.js\`]
@@ -3814,7 +3815,7 @@ async function loadFactionData(slug, { allies = false } = {}) {
 // A Combat Patrol box fielded as a list (the tracker's Combat Patrol game): its fixed units and its
 // one detachment, a chunk per box in ./combat-patrol/ — a folder the faction glob above never
 // reaches, so no catalogue offers these units. Only a list that names its box (\`cp\`) asks.
-const boxLoaders = import.meta.glob('./combat-patrol/*.js', { import: 'default' })
+const boxLoaders = quietLoaders(import.meta.glob('./combat-patrol/*.js', { import: 'default' }))
 
 /**
  * @param {string} slug

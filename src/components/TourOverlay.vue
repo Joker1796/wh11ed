@@ -10,10 +10,11 @@
         aria-modal="true"
         aria-labelledby="tour-title"
       >
-        <!-- Taps land here, not on the screen under the dim: the tour is read, then left. -->
+        <!-- Taps land here, not on the screen under the dim: the tour is read, then left. A tap
+             on the lit element is the exception (tapThrough): it ends the chapter and reaches it. -->
         <div
           class="tour-block"
-          @click.stop
+          @click.stop="tapThrough"
         />
         <div
           class="tour-hole"
@@ -239,6 +240,29 @@ watch(step, async (s) => {
   await nextTick()
   nextBtn.value?.focus({ preventScroll: true })
 }, { immediate: true })
+
+// A tap on the lit element ends the chapter and reaches the element (owner, 2026-11-04). Every step
+// starts with an action — "enter your name", "press" — and a player who did as told met a dim that
+// swallowed the tap: the setup's name field "hung" (report 2faa29a6). Elsewhere the dim still
+// holds; on the light the player has stopped reading and started playing, so the tour steps aside.
+// A field gets the focus (the keyboard opens, still inside the tap), anything else its click.
+const FIELD = 'input:not([type=checkbox]):not([type=radio]):not([type=button]):not([type=submit]), textarea, select, [contenteditable]'
+function tapThrough(e) {
+  const r = rect.value
+  if (!el || !r) return
+  const { clientX: x, clientY: y } = e
+  if (x < r.x || x > r.x + r.w || y < r.y || y > r.y + r.h) return
+  const layer = e.currentTarget.parentElement
+  layer.style.pointerEvents = 'none'
+  const under = document.elementFromPoint(x, y)
+  layer.style.pointerEvents = ''
+  const lit = el
+  finish()
+  if (!under || !lit.contains(under)) return
+  const field = under.closest(FIELD)
+  if (field) field.focus()
+  else (under.closest('button, a, label, [role="button"], [tabindex]') || under).click()
+}
 
 // The page stands still while a step is up (owner, 2026-10-09): a finger dragged on the dim moved
 // the page, the lit element slid under the sticky header, and the light framed the header. Not a

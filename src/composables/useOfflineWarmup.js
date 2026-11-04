@@ -111,6 +111,11 @@ async function runOnce({ force = false } = {}) {
   }
 
   isUpdate.value = !force && localStorage.getItem(DONE_KEY) !== null
+  // Files are missing, so the set on the device is not the whole app any more — a release renamed
+  // part of it, or the browser evicted some. Until this run has fetched them all the menu does not
+  // say "Downloaded": a player's app behind a VPN read "Downloaded for offline" after a top-up
+  // that never got through, and opened blank on a page it did not have (2026-11-03).
+  warmed.value = false
   total.value = todo.length
   done.value = 0
   status.value = 'warming'
