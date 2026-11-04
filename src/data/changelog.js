@@ -22,6 +22,18 @@
 
 export const changelog = [
   {
+    version: '2.10.12',
+    date: '2026-11-04',
+    en: [
+      { h: 'Answers to bug reports' },
+      '**In a game with strict rules you can score a mission that counts at the end of your opponent’s turn.** Defend Stronghold is one. In a game on two devices, your device asks about it when your opponent ends the turn. You can tick it until you do anything in your own turn. Before, such a mission could not be scored in that game.',
+    ],
+    ru: [
+      { h: 'Ответы на баг-репорты' },
+      '**В игре по строгим правилам можно засчитать миссию, которая засчитывается в конце хода соперника.** Например, Defend Stronghold. В игре на двух устройствах ваше устройство само спросит о ней, когда соперник завершит ход. Отметить её можно, пока вы ничего не сделали в своём ходу. Раньше в такой игре её нельзя было засчитать.',
+    ],
+  },
+  {
     version: '2.10.11',
     date: '2026-11-04',
     en: [

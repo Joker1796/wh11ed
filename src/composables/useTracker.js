@@ -30,7 +30,7 @@ import { SM_FAMILY } from '../core/shared/smChapters.js'
 import { statusRecord, setupReserves } from '../core/game/unitStatus.js'
 import { TRACKER_GEN } from '../core/game/trackerGen.js'
 import { pushAct, pushValueAct, pushUndo, ledgerEvent, discardEvent, COALESCE_MS } from '../core/game/actionLog.js'
-import { isStrict, isLatest, canClockBack } from '../core/game/strictRules.js'
+import { isStrict, isLatest, canClockBack, lateScoreOpen } from '../core/game/strictRules.js'
 import { cardBlocksOf, canBeFixed, numericVp, orSiblingKeys } from '../core/game/missionCards.js'
 import { turnIndex } from '../core/game/clock.js'
 
@@ -669,20 +669,28 @@ export function useTracker() {
   //   'choose' · 'return' · 'pencil' — refused outright;
   //   'round' (arg: the round written into, arg2: the turn, when known) — a round already over,
   //     or a turn of the live round already played;
-  //   'hand' (arg: the card) — a tactical card not in the hand;
+  //   'hand' (arg: the card, arg2/arg3: the round and turn scored into) — a tactical card not in the
+  //     hand; in the late turn (lateScoreOpen) also one the clock set aside as achieved at its end;
   //   'undo' (arg: when the act taken back was made) — only the side's last act;
   //   'clock' — the clock back, one step and only right after it moved.
-  function strictWhy(action, pi, arg, arg2 = null) {
+  function strictWhy(action, pi, arg, arg2 = null, arg3 = null) {
     const g = current.value
     if (!isStrict(g)) return null
     switch (action) {
       case 'choose': return 'random'
       case 'return': return 'noReturn'
       case 'pencil': return 'noPencil'
-      case 'round': return isCorrection(arg, arg2) ? (arg < g.currentRound ? 'pastRound' : 'pastTurn') : null
+      case 'round':
+        if (!isCorrection(arg, arg2) || lateScoreOpen(g, pi, arg, arg2)) return null
+        return arg < g.currentRound ? 'pastRound' : 'pastTurn'
       case 'hand': {
         const pl = g.players[pi]
-        return pl?.secondaryMode === 'tactical' && !pl.secondary?.hand?.includes(arg) ? 'notInHand' : null
+        if (pl?.secondaryMode !== 'tactical' || pl.secondary?.hand?.includes(arg)) return null
+        // Scored late, the card left the hand as achieved at the end of that turn (settleSide); the
+        // next tick on it, in the same late turn, is still the same score being entered.
+        const setAsideThen = arg2 != null && lateScoreOpen(g, pi, arg2, arg3)
+          && (pl.secondary?.discarded || []).some((d) => d?.slug === arg && d.round === arg2 && d.auto === arg3)
+        return setAsideThen ? null : 'notInHand'
       }
       case 'undo': return isLatest(g, pi, arg) ? null : 'lastOnly'
       case 'clock': return canClockBack(g) ? null : 'clockBack'
@@ -1334,7 +1342,7 @@ export function useTracker() {
   // to have been achieved in a past round is achieved — it leaves the hand, as it would have at
   // the end of that turn (setAsideAchieved).
   function scoreSecondaryRow(pi, slug, blockIdx, rowIdx, count, round = current.value.currentRound, turn = null) {
-    if (strictWhy('round', pi, round, turn) || strictWhy('hand', pi, slug)) return
+    if (strictWhy('round', pi, round, turn) || strictWhy('hand', pi, slug, round, turn)) return
     const s = current.value.players[pi].secondary
     let entry = s.scored.find(e => e.slug === slug && e.round === round)
     if (!entry) { entry = { slug, round, picks: {}, vp: 0 }; s.scored.push(entry) }

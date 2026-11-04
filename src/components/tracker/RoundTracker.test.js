@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
-import { mount, flushPromises, enableAutoUnmount } from '@vue/test-utils'
+import { mount, flushPromises, enableAutoUnmount, DOMWrapper } from '@vue/test-utils'
 
 // The tracker store is a module singleton — reset it (and the component that binds to it)
 // between cases so each test mounts against its own game.
@@ -689,5 +689,40 @@ describe('RoundTracker — the tab before the battle', () => {
     await flushPromises()
     expect(tabLabels(w)).not.toContain('Before the battle')
     expect(w.find('.gt-tab.on').text()).toBe('Missions')
+  })
+})
+
+// Mikhail, 2026-11-04: "end of your opponent's turn" falls due as the other phone ends its turn,
+// where this side is shown, not scored — so this phone asks for it once the turn has passed, and
+// the ticks go into that turn (strict rules keep it open until the side acts in the new one).
+describe('RoundTracker — the turn the other phone ended', () => {
+  function play(side) {
+    startGame({ secondaryMode: 'tactical', fixedSecondaries: [] }, {}, { strictRules: true, trackMissionAids: true })
+    const g = tracker.current.value
+    tracker.endTurn(); tracker.endTurn() // round 2, Me first
+    const s = g.players[0].secondary
+    s.deck = s.deck.filter((x) => x !== 'defend-stronghold')
+    s.hand = ['defend-stronghold']
+    s.drawn = { ...s.drawn, 'defend-stronghold': 2 }
+    tracker.endTurn(); tracker.endTurn() // round 3: Opp's turn of round 2 has just ended
+    g.party = { id: 'p', token: 't', side, mi: null, host: false, seq: 1, versions: {} }
+  }
+  const body = () => new DOMWrapper(document.body)
+
+  it('asks the side whose card fell due, and scores into the turn that ended', async () => {
+    play(0)
+    mountTracker()
+    await flushPromises()
+    expect(body().text()).toContain('Your opponent ended the turn')
+    expect(body().text()).toContain('Defend Stronghold')
+    await body().find('.modal input[type=checkbox]').setValue(true)
+    expect(tracker.current.value.players[0].secondary.scored.find((e) => e.round === 2)?.vp).toBe(3)
+  })
+
+  it('asks nothing on the phone that ended the turn', async () => {
+    play(1)
+    mountTracker()
+    await flushPromises()
+    expect(body().text()).not.toContain('Your opponent ended the turn')
   })
 })
