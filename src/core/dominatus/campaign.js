@@ -38,7 +38,8 @@
  * @typedef {{ phase: number }} AgendaCard
  * @typedef {{ code: string, name: string, points: number, faction: string | null }} RosterSnapshot
  * @typedef {{ id: string, name: string, alliance: string | null, faction: string | null, member: string | null, upgrades: string[], agenda: AgendaCard[], roster: RosterSnapshot | null, factionAsk?: string | null }} Player
- * @typedef {{ id: string, phase: number, a: string, b: string, victor: 'a' | 'b' | null, achieved: { a: number, b: number }, status: 'pending' | 'approved' | 'rejected', by: string, edited: boolean }} Battle
+ * @typedef {{ side: 'a' | 'b', slug: string, unit: string }} BattleUpgrade
+ * @typedef {{ id: string, phase: number, a: string, b: string, victor: 'a' | 'b' | null, achieved: { a: number, b: number }, upgrades: BattleUpgrade[], status: 'pending' | 'approved' | 'rejected', by: string, edited: boolean }} Battle
  * @typedef {{ id: string, player: string, kind: string, phase: number, draw: number, battle: string | null, drawn: string[] | null }} Reward
  * @typedef {{ seq: number, payload: object | null }} Amendment
  * @typedef {{ control: string | null, tie: boolean, honours: Record<string, number>, ascendancy: string[], np: Record<string, number> }} PhaseResult
@@ -304,6 +305,53 @@ function rewardEdits(live, rewards) {
     .map((e) => ({ seq: e.seq, payload: null }))
 }
 
+// The Upgrades a battle was played with, for the chronicle ("Ann: Fire and Fury → Leman Russ"): a
+// record, not a rule — nothing in the campaign is worked out from them, so an entry the deck does not
+// know is dropped rather than the battle refused. At most UPGRADES_PER_SIDE a side (4 at Titangrave,
+// upgrades.js `upgradeLimit`).
+export const UPGRADES_PER_SIDE = 4
+/**
+ * @param {unknown} list @param {Deck} deck
+ * @returns {BattleUpgrade[]}
+ */
+function battleUpgrades(list, deck) {
+  if (!Array.isArray(list)) return []
+  /** @type {BattleUpgrade[]} */
+  const out = []
+  for (const u of list) {
+    const side = u?.side
+    if ((side !== 'a' && side !== 'b') || !deck.upgrades.some((c) => c.slug === u.slug)) continue
+    if (out.filter((x) => x.side === side).length >= UPGRADES_PER_SIDE) continue
+    out.push({ side, slug: u.slug, unit: typeof u.unit === 'string' ? u.unit.trim().slice(0, 80) : '' })
+  }
+  return out
+}
+
+/**
+ * The `battle` event a finished tracker game makes, as campaign players `a` and `b` (its first and
+ * second side): the victor, each side's Agenda Achieved cards, the phase it was played in (sent after
+ * that phase ended, the campaign refuses it rather than counting it in the next one) and the Upgrades
+ * each side gave its units. Its id is the game's, so the same game sent twice — by both phones of a
+ * shared game — counts once.
+ * @param {any} game a finished tracker game
+ * @param {string} a @param {string} b
+ * @param {0 | 1 | null} winner the side ahead (gameScoring.js `leader`), null on a draw
+ */
+export function battleEvent(game, a, b, winner) {
+  const phase = game.settings?.dominatus?.phase
+  /** @type {Array<'a' | 'b'>} */
+  const sides = ['a', 'b']
+  return {
+    id: `g-${game.id}`,
+    ...(phase ? { phase } : {}),
+    a,
+    b,
+    victor: winner === 0 ? 'a' : winner === 1 ? 'b' : null,
+    achieved: { a: game.players[0].agendaAchieved || 0, b: game.players[1].agendaAchieved || 0 },
+    upgrades: sides.flatMap((side, i) => (game.players[i].upgrades || []).map((/** @type {any} */ u) => ({ side, slug: u.slug, unit: u.unit || '' }))),
+  }
+}
+
 /**
  * The amend that corrects a counted battle's result, or takes the battle out (`change` null).
  * Taken out, its review and every card drawn for it go too. Corrected, a side whose reward changes
@@ -513,7 +561,7 @@ function apply(s, deck, e) {
       /** @param {any} n */
       const ach = (n) => Math.max(0, Math.min(cap, Math.floor(Number(n) || 0)))
       /** @type {Battle} */
-      const battle = { id: p.id, phase: s.phase, a: a.id, b: b.id, victor: p.victor, achieved: { a: ach(p.achieved?.a), b: ach(p.achieved?.b) }, status: 'pending', by: e.author, edited: !!e.amended }
+      const battle = { id: p.id, phase: s.phase, a: a.id, b: b.id, victor: p.victor, achieved: { a: ach(p.achieved?.a), b: ach(p.achieved?.b) }, upgrades: battleUpgrades(p.upgrades, deck), status: 'pending', by: e.author, edited: !!e.amended }
       s.battles.push(battle)
       // The Warmaster's own entry needs no second look, nor any under a campaign that counts at once.
       if (owner || s.approve === 'auto') approveBattle(s, battle)

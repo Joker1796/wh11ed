@@ -31,7 +31,7 @@
         <button
           class="btn-primary"
           :disabled="!pick[0] || !pick[1] || pick[0] === pick[1] || busy || inCampaign"
-          @click="send"
+          @click="send()"
         >
           {{ inCampaign ? labels.campSent : labels.campSend }}
         </button>
@@ -48,23 +48,31 @@
 
 <script setup>
 // A finished Dominatus battle sent to a campaign this device takes part in: which campaign, which
-// of its players each side was. The battle carries the victor and each side's Agenda Achieved cards
-// from the game; its id is the game's, so sending twice is refused by the campaign's fold.
+// of its players each side was. The battle carries the victor, each side's Agenda Achieved cards and
+// the Upgrades on its units (campaign.js `battleEvent`); its id is the game's, so sending twice is
+// refused by the campaign's fold.
+//
+// `auto` (the finished game's screen): a battle started from a campaign goes back to it by itself
+// (owner, 2026-11-03) — once both sides are the campaign players it was started for. Both phones of
+// a shared game do so; the second finds it there (read first) or is refused as a duplicate, and says
+// nothing. Any other refusal or a failed request is said as for the button, which stays.
 import { ref, reactive, computed, watch } from 'vue'
 import AppToast from '../../AppToast.vue'
 import CampFold from './CampFold.vue'
 import CampPick from './CampPick.vue'
 import { useCampaigns, refusalText } from '../../../composables/useCampaigns.js'
+import { battleEvent } from '../../../core/dominatus/campaign.js'
 import { leader } from '../../../core/game/gameScoring.js'
 import { ui } from '../../../i18n/ui.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
 const props = defineProps({
   game: { type: Object, required: true },
+  auto: { type: Boolean, default: false },
 })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { campaigns, stateOf, myPlayer, appendEvent } = useCampaigns()
+const { campaigns, stateOf, myPlayer, appendEvent, syncCampaign } = useCampaigns()
 
 const options = computed(() => campaigns.value.filter((c) => c.role === 'owner' || c.role === 'member'))
 const cid = ref(null)
@@ -99,30 +107,34 @@ watch([state, () => props.game], () => {
   }
 }, { immediate: true })
 
-async function send() {
+async function send(quietDuplicate = false) {
   busy.value = true
   error.value = ''
-  const w = leader(props.game)
   try {
-    await appendEvent(cid.value, 'battle', {
-      id: `g-${props.game.id}`,
-      // The phase the game was played in: sent after that phase ended, the campaign refuses it
-      // rather than counting it in the next one.
-      ...(props.game.settings?.dominatus?.phase ? { phase: props.game.settings.dominatus.phase } : {}),
-      a: pick[0],
-      b: pick[1],
-      victor: w === 0 ? 'a' : w === 1 ? 'b' : null,
-      achieved: { a: props.game.players[0].agendaAchieved || 0, b: props.game.players[1].agendaAchieved || 0 },
-    })
+    await appendEvent(cid.value, 'battle', battleEvent(props.game, pick[0], pick[1], leader(props.game)))
     // The server keeps every entry; whether the campaign took it is the fold's word.
     const why = stateOf(cid.value)?.rejected.find((r) => r.seq === entry.value?.seq)?.reason
-    if (why) error.value = refusalText(labels.value, why)
+    if (why && !(quietDuplicate && why === 'duplicate battle')) error.value = refusalText(labels.value, why)
   } catch (e) {
     error.value = labels.value.campFailed.replace('{code}', e.code || 'network')
   } finally {
     busy.value = false
   }
 }
+
+// Each game once per visit of the screen: a refusal is said once, the button is there for another try.
+const tried = ref(false)
+const ready = computed(() => {
+  if (!props.auto || tried.value || !linked.value || cid.value !== linked.value || !state.value) return false
+  return [0, 1].every((i) => props.game.players[i]?.campaignPlayer && pick[i] === props.game.players[i].campaignPlayer)
+})
+watch(ready, async (go) => {
+  if (!go) return
+  tried.value = true
+  // The other phone of a shared game may have sent it already: read the campaign first.
+  try { await syncCampaign(cid.value) } catch { /* offline: the send below says so */ }
+  if (!inCampaign.value) await send(true)
+}, { immediate: true })
 </script>
 
 <style scoped>

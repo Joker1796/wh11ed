@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { campaignState, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, PATH_TO_CONQUEST } from './campaign.js'
+import { campaignState, battleEvent, UPGRADES_PER_SIDE, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, PATH_TO_CONQUEST } from './campaign.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en')
@@ -448,3 +448,51 @@ describe('Dominatus campaign — what waits for the reader', () => {
   })
 })
 
+
+describe('Dominatus campaign — the Upgrades a battle was played with', () => {
+  const [c1, c2] = deck.upgrades.map((u) => u.slug)
+  const game = {
+    id: 'G1',
+    settings: { dominatus: { phase: 1, campaign: 'C' } },
+    players: [
+      { agendaAchieved: 1, upgrades: [{ slug: c1, unit: 'Leman Russ', uid: 'u1' }] },
+      { agendaAchieved: 0, upgrades: [{ slug: c2, unit: '' }] },
+    ],
+  }
+
+  it('makes the battle event from the finished game, Upgrades by side', () => {
+    expect(battleEvent(game, 'ann', 'cid', 1)).toEqual({
+      id: 'g-G1', phase: 1, a: 'ann', b: 'cid', victor: 'b', achieved: { a: 1, b: 0 },
+      upgrades: [{ side: 'a', slug: c1, unit: 'Leman Russ' }, { side: 'b', slug: c2, unit: '' }],
+    })
+    expect(battleEvent({ ...game, settings: {} }, 'ann', 'cid', null)).toMatchObject({ victor: null, a: 'ann' })
+    expect(battleEvent({ ...game, settings: {} }, 'ann', 'cid', null)).not.toHaveProperty('phase')
+  })
+
+  it('keeps them on the battle, dropping what the deck does not know, never refusing the battle', () => {
+    const ups = [
+      { side: 'a', slug: c1, unit: '  Leman Russ  ' },
+      { side: 'b', slug: 'no-such-card', unit: 'X' },
+      { side: 'c', slug: c2, unit: 'X' },
+      ...Array.from({ length: UPGRADES_PER_SIDE + 1 }, () => ({ side: 'b', slug: c2, unit: 'Y'.repeat(100) })),
+    ]
+    const s = campaignState([...base(), ev('owner', 'battle', { id: 'b1', a: 'ann', b: 'cid', victor: 'a', achieved: { a: 0, b: 0 }, upgrades: ups })], deck)
+    expect(s.rejected).toEqual([])
+    const kept = s.battles[0].upgrades
+    expect(kept[0]).toEqual({ side: 'a', slug: c1, unit: 'Leman Russ' })
+    expect(kept.filter((u) => u.side === 'b')).toHaveLength(UPGRADES_PER_SIDE)
+    expect(kept[1].unit).toHaveLength(80)
+    expect(kept).toHaveLength(1 + UPGRADES_PER_SIDE)
+  })
+
+  it('reads an older battle without them as none', () => {
+    const s = campaignState([...base(), battle('owner', 'b1', 'ann', 'cid', 'a')], deck)
+    expect(s.battles[0].upgrades).toEqual([])
+  })
+
+  it('a corrected result keeps them', () => {
+    const evs = [...base(), ev('owner', 'battle', battleEvent(game, 'ann', 'cid', 0))]
+    const [edit] = battleAmend(evs, 'g-G1', { victor: 'b', achieved: { a: 0, b: 0 } })
+    expect(edit.payload.upgrades).toHaveLength(2)
+  })
+})

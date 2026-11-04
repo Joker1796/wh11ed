@@ -49,6 +49,7 @@
       <CampSendGame
         v-if="current.settings?.dominatus"
         :game="current"
+        auto
       />
       <!-- A shared game reopens only from the host's phone (the server refuses everyone else);
            a guest sees the button disabled with the reason. "Back to tracker" archives the game

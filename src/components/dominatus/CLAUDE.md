@@ -232,6 +232,16 @@ on a tie nothing breaks.
   `?join=` signed in (`account: true`), else a guest's member token, the view token from `?t=`),
   pages `src/views/tracker/Campaign(s)View.vue`, blocks in `campaign/`. A finished
   Dominatus game is sent from its screen (`CampSendGame`, battle id `g-<game id>` so it counts once).
+  The event is core's `battleEvent`: the victor, Agenda Achieved, the phase, and the Upgrades each
+  side gave its units (`upgrades: [{ side, slug, unit }]` — a record for the chronicle, "Fire and Fury
+  → Leman Russ (Ann)"; the fold keeps the deck's cards, at most 4 a side, and never refuses a battle
+  over them; the API stores payloads as they come, so it needed no change).
+- **A battle started from a campaign goes back by itself** (owner, 2026-11-03, stage 4): on the
+  finished screen (`CampSendGame auto`, TrackerGameView — also reached by "Finish" on the tracker
+  home's card, `finishHere`) it is sent once both sides are the campaign players it was started for.
+  The campaign is read first: the other phone of a shared game may have sent it, and a duplicate
+  refusal from that race is not said. Any other refusal or a failed request is, and the button stays.
+  The history screen sends by the button only. The Warmaster still counts it (`approve`).
 - **A player's membership follows their account** (owner, 2026-11-03; API migration 007): joined
   signed in, the campaign is in `GET /campaigns` on every device (`refreshAccount`) and opening the
   link again returns the same member. A device that already plays in a campaign never calls `/join`
