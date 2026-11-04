@@ -186,13 +186,7 @@ function helpText(o) {
   column-gap: 0.75rem;
   margin: 0 0 0.6rem;
 }
-.block-head {
-  font-family: var(--font-display);
-  font-size: 1.21rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  margin: 0;
-}
+.block-head { margin: 0; }
 .opt-fold { margin: 0.5rem 0 0 1.1rem; }
 .opt-fold + :deep(.opt-row) { margin-top: 0.5rem; }
 .opt-fold-head {

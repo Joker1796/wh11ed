@@ -210,6 +210,11 @@ on a tie nothing breaks.
   pre-battle Upgrades offer only the cards that campaign player holds (`DomUpgradesEditor`, when this
   device knows the campaign), and `CampSendGame` opens on that campaign and those players, sends the
   phase, and says why the campaign refused it if it did.
+- **The settings page wears the game setup's look** (owner, 2026-11-04: "so the inheritance shows"):
+  the title over an accent line (`.setup-head`), blocks as cards with display-face headings
+  (`.setup-card`, `.block-head`), two columns past 700px as the setup's steps 3–4, captions as the
+  setup's (`.field > span`, "?" inside), and Cancel / Save in the setup's sticky row
+  (`.setup-actions`). Those classes live in style.css, shared with GameSetup — not copied.
 - **The settings are a page** (owner, 2026-11-01): `/tracker/campaigns/new` starts a campaign with
   them and `/tracker/campaigns/:id/settings` changes them (`CampaignSettingsView` + `CampSettingsForm`,
   each setting a `CampSettingSeg` with its "?"; the old dialog and Rename are gone — the name is a

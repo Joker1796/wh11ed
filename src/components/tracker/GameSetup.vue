@@ -678,7 +678,7 @@
       </ExpandTransition>
       <div
         v-if="!guest"
-        class="actions"
+        class="actions setup-actions"
       >
         <button
           class="btn-ghost"
@@ -1101,7 +1101,7 @@
 
       <div
         v-if="!guest"
-        class="actions"
+        class="actions setup-actions"
       >
         <button
           class="btn-ghost"
@@ -1123,7 +1123,7 @@
            nothing typed here has left the phone. -->
       <div
         v-if="guest"
-        class="actions"
+        class="actions setup-actions"
       >
         <button
           class="btn-ghost"
@@ -1321,7 +1321,7 @@
         </div>
       </div>
 
-      <div class="actions">
+      <div class="actions setup-actions">
         <button
           class="btn-ghost"
           @click="step = 2"
@@ -1405,7 +1405,7 @@
       <!-- A campaign played with lists (its "Rosters" setting at required) refuses a battle with a
            side short of one, so the setup says so here rather than letting the game be sent back
            and turned away (Dominatus, owner 2026-11-03). -->
-      <div class="actions">
+      <div class="actions setup-actions">
         <!-- In the pinned bar, over the buttons: the line beside the grey button it explains. -->
         <ExpandTransition>
           <p
@@ -2604,23 +2604,6 @@ function cancel() {
   from { opacity: 0; transform: translateY(8px); }
 }
 
-.setup-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
-  margin-bottom: 1rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 2px solid var(--accent);
-}
-.setup-title {
-  font-family: var(--font-display);
-  font-size: 1.65rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin: 0;
-}
 .steps {
   display: flex;
   align-items: center;
@@ -2797,13 +2780,7 @@ function cancel() {
     margin: 0 auto;
   }
 }
-.block-head {
-  font-family: var(--font-display);
-  font-size: 1.21rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  margin: 0 0 0.3rem;
-}
+.block-head { margin: 0 0 0.3rem; }
 .deploy-card .layout-note { margin: 0.4rem 0 0; }
 .deploy-card .layout-tabs { margin-bottom: 0; }
 .layout-note {
@@ -3272,32 +3249,7 @@ function cancel() {
   padding: 0 0.35rem;
 }
 
-/* A step's Back / Next stay at the bottom of the screen while the step scrolls (owner,
-   2026-09-29: the long steps put them a screen away), and are one size down from the page's
-   buttons. Sticky, not fixed: at the step's end they settle in place, and the step owns them. */
-.actions {
-  position: sticky;
-  bottom: var(--safe-bottom, 0px);
-  z-index: 5;
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 0.6rem;
-  padding: 0.5rem 0;
-  background: var(--bg-primary);
-  border-top: 1px solid var(--border);
-}
-.actions .btn-primary,
-.actions .btn-ghost { padding: 0.45rem 0.95rem; font-size: 0.85rem; }
-.actions { flex-wrap: wrap; }
 .actions .start-why { flex-basis: 100%; margin: 0; text-align: right; }
-/* Clear of the mobile bottom nav (52px, as .rc-sticky). */
-@media (max-width: 900px) {
-  /* The utility bar's buttons ("to top", "back to the game") float in the bottom-right corner, and
-     the bar is stuck there or ends beside them: the buttons step left of that corner while it is
-     shown (--mobile-bar-h, App.vue) — "Go to the game" sat under "to top" (acceptance, 2026-10-18). */
-  .actions { bottom: calc(52px + var(--safe-bottom, 0px)); padding-right: var(--mobile-bar-h, 0px); }
-}
 @media (max-width: 700px) {
   .players { grid-template-columns: minmax(0, 1fr); }
 }

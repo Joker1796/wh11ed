@@ -1,6 +1,6 @@
 <template>
-  <div class="camp-set">
-    <span class="camp-set-label">{{ label }}<CampHelpButton @click="emit('help')" /></span>
+  <div class="field camp-field">
+    <span>{{ label }}<CampHelpButton @click="emit('help')" /></span>
     <div class="seg camp-set-seg">
       <button
         v-for="o in options"
@@ -16,8 +16,9 @@
 </template>
 
 <script setup>
-// One either/or of the campaign's settings: its name with the "?" beside it, and the choices as a
-// joined control across the form's width. `options` = [{ value, label }].
+// One either/or of the campaign's settings, as the game's setup draws one (owner, 2026-11-04: the
+// two forms read as one family): its caption with the "?" in it, then the choices as a joined
+// control across the card's width. `options` = [{ value, label }].
 import CampHelpButton from './CampHelpButton.vue'
 
 defineProps({

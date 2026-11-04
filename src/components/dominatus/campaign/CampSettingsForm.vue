@@ -3,143 +3,160 @@
     class="camp-settings"
     @submit.prevent="emit('submit', { ...form, schedule: [...form.schedule] })"
   >
-    <section class="fsection">
-      <h2 class="fsection-title">
-        {{ labels.campSetMain }}
-      </h2>
-      <label class="camp-set">
-        <span class="camp-set-label">{{ labels.campName }}</span>
-        <input
-          v-model.trim="form.name"
-          class="form-input"
-          type="text"
-          maxlength="80"
-          :placeholder="labels.campName"
-        >
-      </label>
-      <CampSettingSeg
-        v-model="form.format"
-        :label="labels.campFormat"
-        :options="[{ value: 'deck', label: labels.campFormatDeck }, { value: 'event', label: labels.campFormatEvent }]"
-        @help="help = 'format'"
-      />
-    </section>
-
-    <section class="fsection">
-      <h2 class="fsection-title">
-        {{ labels.campSetPlayers }}
-      </h2>
-      <CampSettingSeg
-        v-model="form.join"
-        :label="labels.campJoin"
-        :options="[{ value: 'open', label: labels.campJoinOpen }, { value: 'closed', label: labels.campJoinClosed }]"
-        @help="help = 'join'"
-      />
-      <CampSettingSeg
-        v-model="form.allianceBy"
-        :label="labels.campAllianceBy"
-        :options="[{ value: 'player', label: labels.campAllianceByPlayer }, { value: 'warmaster', label: labels.campAllianceByWarmaster }]"
-        @help="help = 'allianceBy'"
-      />
-      <CampSettingSeg
-        v-model="form.factionLock"
-        :label="labels.campFactionLock"
-        :options="[{ value: true, label: labels.campFactionLocked }, { value: false, label: labels.campFactionFree }]"
-        @help="help = 'factionLock'"
-      />
-      <CampSettingSeg
-        v-model="form.roster"
-        :label="labels.campRosterSetting"
-        :options="[{ value: 'none', label: labels.campRosterNone }, { value: 'optional', label: labels.campRosterOptional }, { value: 'required', label: labels.campRosterRequired }]"
-        @help="help = 'roster'"
-      />
-    </section>
-
-    <section class="fsection">
-      <h2 class="fsection-title">
-        {{ labels.campSetBattles }}
-      </h2>
-      <div class="camp-set">
-        <span class="camp-set-label">{{ labels.campSchedule }}<HelpButton @click="help = 'schedule'" /></span>
-        <div class="camp-sched">
-          <label
-            v-for="n in [1, 2, 3]"
-            :key="n"
-            class="camp-num"
-          >
-            <span>{{ phaseLabel(n) }}</span>
-            <NumberStepper
-              :model-value="form.schedule[n - 1]"
-              :min="0"
-              :max="20"
-              @update:model-value="(v) => (form.schedule[n - 1] = v)"
-            />
+    <!-- The game's setup in look (owner, 2026-11-04): its blocks as cards with display-face
+         headings, two columns on a desk (the setup's threshold), Cancel / Save kept at the bottom
+         of the screen. Left, what the campaign is and who plays it; right, how it is played. -->
+    <div class="camp-cols">
+      <div class="camp-col">
+        <section class="setup-card camp-set-block">
+          <h3 class="block-head">
+            {{ labels.campSetMain }}
+          </h3>
+          <label class="field camp-field">
+            <span>{{ labels.campName }}</span>
+            <input
+              v-model.trim="form.name"
+              class="form-input"
+              type="text"
+              maxlength="80"
+              :placeholder="labels.campName"
+            >
           </label>
-        </div>
+          <CampSettingSeg
+            v-model="form.format"
+            :label="labels.campFormat"
+            :options="[{ value: 'deck', label: labels.campFormatDeck }, { value: 'event', label: labels.campFormatEvent }]"
+            @help="help = 'format'"
+          />
+        </section>
+
+        <section class="setup-card camp-set-block">
+          <h3 class="block-head">
+            {{ labels.campSetPlayers }}
+          </h3>
+          <CampSettingSeg
+            v-model="form.join"
+            :label="labels.campJoin"
+            :options="[{ value: 'open', label: labels.campJoinOpen }, { value: 'closed', label: labels.campJoinClosed }]"
+            @help="help = 'join'"
+          />
+          <CampSettingSeg
+            v-model="form.allianceBy"
+            :label="labels.campAllianceBy"
+            :options="[{ value: 'player', label: labels.campAllianceByPlayer }, { value: 'warmaster', label: labels.campAllianceByWarmaster }]"
+            @help="help = 'allianceBy'"
+          />
+          <CampSettingSeg
+            v-model="form.factionLock"
+            :label="labels.campFactionLock"
+            :options="[{ value: true, label: labels.campFactionLocked }, { value: false, label: labels.campFactionFree }]"
+            @help="help = 'factionLock'"
+          />
+          <CampSettingSeg
+            v-model="form.roster"
+            :label="labels.campRosterSetting"
+            :options="[{ value: 'none', label: labels.campRosterNone }, { value: 'optional', label: labels.campRosterOptional }, { value: 'required', label: labels.campRosterRequired }]"
+            @help="help = 'roster'"
+          />
+        </section>
+
+        <!-- The player the Warmaster plays as: only once there are players to be. -->
+        <section
+          v-if="players.length"
+          class="setup-card camp-set-block"
+        >
+          <h3 class="block-head">
+            {{ labels.campSetWarmaster }}
+          </h3>
+          <div class="field camp-field">
+            <span>{{ labels.campMe }}<HelpButton @click="help = 'me'" /></span>
+            <CampPick
+              v-model="form.me"
+              :placeholder="labels.campMeNone"
+              :options="[{ value: null, label: labels.campMeNone }, ...players]"
+            />
+          </div>
+        </section>
       </div>
-      <CampSettingSeg
-        v-model="form.size"
-        :label="labels.campSize"
-        :options="BATTLE_SIZES.map((b) => ({ value: b.id, label: b.name }))"
-        @help="help = 'size'"
-      />
-      <CampSettingSeg
-        v-model="form.battlesBy"
-        :label="labels.campBattlesBy"
-        :options="[{ value: 'players', label: labels.campBattlesByPlayers }, { value: 'warmaster', label: labels.campBattlesByWarmaster }]"
-        @help="help = 'battlesBy'"
-      />
-      <CampSettingSeg
-        v-model="form.approve"
-        :label="labels.campApproveSetting"
-        :options="[{ value: 'warmaster', label: labels.campApproveWarmaster }, { value: 'auto', label: labels.campApproveAuto }]"
-        @help="help = 'approve'"
-      />
-    </section>
 
-    <section class="fsection">
-      <h2 class="fsection-title">
-        {{ labels.campSetRewards }}
-      </h2>
-      <CampSettingSeg
-        v-model="form.draw"
-        :label="labels.campDrawSetting"
-        :options="[{ value: 'app', label: labels.campDrawApp }, { value: 'manual', label: labels.campDrawManual }]"
-        @help="help = 'draw'"
-      />
-      <CampSettingSeg
-        v-model="form.rewardsBy"
-        :label="labels.campRewardsBy"
-        :options="[{ value: 'players', label: labels.campRewardsByPlayers }, { value: 'warmaster', label: labels.campRewardsByWarmaster }]"
-        @help="help = 'rewardsBy'"
-      />
-    </section>
+      <div class="camp-col">
+        <section class="setup-card camp-set-block">
+          <h3 class="block-head">
+            {{ labels.campSetBattles }}
+          </h3>
+          <div class="field camp-field">
+            <span>{{ labels.campSchedule }}<HelpButton @click="help = 'schedule'" /></span>
+            <div class="camp-sched">
+              <label
+                v-for="n in [1, 2, 3]"
+                :key="n"
+                class="camp-num"
+              >
+                <span>{{ phaseLabel(n) }}</span>
+                <NumberStepper
+                  :model-value="form.schedule[n - 1]"
+                  :min="0"
+                  :max="20"
+                  @update:model-value="(v) => (form.schedule[n - 1] = v)"
+                />
+              </label>
+            </div>
+          </div>
+          <CampSettingSeg
+            v-model="form.size"
+            :label="labels.campSize"
+            :options="BATTLE_SIZES.map((b) => ({ value: b.id, label: b.name }))"
+            @help="help = 'size'"
+          />
+          <CampSettingSeg
+            v-model="form.battlesBy"
+            :label="labels.campBattlesBy"
+            :options="[{ value: 'players', label: labels.campBattlesByPlayers }, { value: 'warmaster', label: labels.campBattlesByWarmaster }]"
+            @help="help = 'battlesBy'"
+          />
+          <CampSettingSeg
+            v-model="form.approve"
+            :label="labels.campApproveSetting"
+            :options="[{ value: 'warmaster', label: labels.campApproveWarmaster }, { value: 'auto', label: labels.campApproveAuto }]"
+            @help="help = 'approve'"
+          />
+        </section>
 
-    <!-- The player the Warmaster plays as: only once there are players to be. -->
-    <section
-      v-if="players.length"
-      class="fsection"
-    >
-      <h2 class="fsection-title">
-        {{ labels.campSetWarmaster }}
-      </h2>
-      <div class="camp-set">
-        <span class="camp-set-label">{{ labels.campMe }}<HelpButton @click="help = 'me'" /></span>
-        <CampPick
-          v-model="form.me"
-          :placeholder="labels.campMeNone"
-          :options="[{ value: null, label: labels.campMeNone }, ...players]"
-        />
+        <section class="setup-card camp-set-block">
+          <h3 class="block-head">
+            {{ labels.campSetRewards }}
+          </h3>
+          <CampSettingSeg
+            v-model="form.draw"
+            :label="labels.campDrawSetting"
+            :options="[{ value: 'app', label: labels.campDrawApp }, { value: 'manual', label: labels.campDrawManual }]"
+            @help="help = 'draw'"
+          />
+          <CampSettingSeg
+            v-model="form.rewardsBy"
+            :label="labels.campRewardsBy"
+            :options="[{ value: 'players', label: labels.campRewardsByPlayers }, { value: 'warmaster', label: labels.campRewardsByWarmaster }]"
+            @help="help = 'rewardsBy'"
+          />
+        </section>
       </div>
-    </section>
+    </div>
 
-    <button
-      class="btn-primary btn-lg camp-settings-save"
-      type="submit"
-      :disabled="!form.name || busy"
-    >
-      {{ submitLabel }}
-    </button>
+    <div class="setup-actions">
+      <RouterLink
+        class="btn-ghost"
+        :to="cancelTo"
+      >
+        {{ labels.trackerCancel }}
+      </RouterLink>
+      <button
+        class="btn-primary"
+        type="submit"
+        :disabled="!form.name || busy"
+      >
+        {{ submitLabel }}
+      </button>
+    </div>
 
     <OptionHelpModal
       v-if="help"
@@ -170,6 +187,8 @@ const props = defineProps({
   // The campaign's players as picker options (the Warmaster may play as one of them).
   players: { type: Array, default: () => [] },
   submitLabel: { type: String, required: true },
+  // Where Cancel goes: the campaign, or the list for a new one.
+  cancelTo: { type: String, required: true },
   busy: { type: Boolean, default: false },
 })
 const emit = defineEmits(['submit'])
@@ -187,9 +206,17 @@ const TITLES = {
 </script>
 
 <style scoped>
-.camp-settings { display: grid; gap: 1.25rem; }
-.camp-settings .fsection { display: grid; gap: 0.75rem; }
-.camp-settings .fsection-title { margin: 0; }
+.camp-settings { --stack-gap: 1rem; }
+.camp-cols,
+.camp-col { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--stack-gap); align-content: start; }
+.camp-set-block { display: grid; gap: 0.75rem; }
+.camp-field { display: grid; gap: 0.3rem; }
+.camp-field > span { display: inline-flex; align-items: center; gap: 0.1rem; }
 .camp-sched { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
-.camp-settings-save { justify-self: start; }
+@media (min-width: 701px) {
+  .camp-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .camp-settings { --stack-gap: 0.55rem; }
+}
 </style>

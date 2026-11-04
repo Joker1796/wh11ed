@@ -1,13 +1,15 @@
 <template>
   <div class="campaign-settings">
-    <div class="camp-hero">
-      <RouterLink
-        :to="id ? `/tracker/campaigns/${id}` : '/tracker/campaigns'"
-        class="back"
-      >
-        ← {{ id ? entry?.name || labels.campTitle : labels.campTitle }}
-      </RouterLink>
-      <h1>{{ id ? labels.campSettings : labels.campNew }}</h1>
+    <RouterLink
+      :to="id ? `/tracker/campaigns/${id}` : '/tracker/campaigns'"
+      class="back"
+    >
+      ← {{ id ? entry?.name || labels.campTitle : labels.campTitle }}
+    </RouterLink>
+    <div class="setup-head">
+      <h1 class="setup-title">
+        {{ id ? labels.campSettings : labels.campNew }}
+      </h1>
     </div>
     <p
       v-if="!initial"
@@ -21,6 +23,7 @@
       :initial="initial"
       :players="players"
       :submit-label="id ? labels.campSettingsSave : labels.campCreate"
+      :cancel-to="id ? `/tracker/campaigns/${id}` : '/tracker/campaigns'"
       :busy="busy"
       @submit="save"
     />
@@ -115,6 +118,7 @@ async function save(values) {
 </script>
 
 <style scoped>
-.campaign-settings { max-width: 640px; margin: 0 auto; padding-top: 0.5rem; }
-.campaign-settings .camp-hero { margin-bottom: 1rem; }
+/* As wide as the campaign's own pages: the form is two columns on a desk. */
+.campaign-settings { max-width: 760px; margin: 0 auto; padding-top: 0.5rem; }
+.campaign-settings > .back { display: inline-block; margin-bottom: 0.5rem; }
 </style>

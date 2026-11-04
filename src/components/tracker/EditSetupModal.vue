@@ -638,13 +638,7 @@ function save() {
   font-size: 0.9rem;
   font-family: var(--font-sans);
 }
-.block-head {
-  font-family: var(--font-display);
-  font-size: 1.21rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  margin: 0 0 0.6rem;
-}
+.block-head { margin: 0 0 0.6rem; }
 
 .modal-foot {
   display: flex;

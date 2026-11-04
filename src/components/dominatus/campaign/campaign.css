@@ -194,8 +194,7 @@
 .camp-num > .seg > button { flex: 1 1 0; min-width: 0; }
 .camp-battle-actions .copen.copen { margin-top: 0; }
 
-/* A setting of the campaign's settings page: its name (with the "?"), then the control. */
-.camp-set { display: grid; gap: 0.3rem; }
+/* A caption over a control on the campaign's page (the phase tab's pickers). */
 .camp-set-label { display: inline-flex; align-items: center; gap: 0.1rem; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); }
 .camp-set-seg { display: flex; width: 100%; }
 .camp-set-seg > button { flex: 1 1 0; }

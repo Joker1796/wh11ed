@@ -1510,6 +1510,65 @@ strong {
 
 @media (hover: hover) { .help-btn:hover { color: var(--accent-ink); } }
 
+/* ── A settings form: the game's setup and the campaign's (owner, 2026-11-04: the campaign's
+   settings wear the setup's look, so the two read as one family). The page's title over an accent
+   line, blocks as cards with a display-face heading, and the Back / Next (Cancel / Save) row kept
+   at the bottom of the screen while the form scrolls. A screen's own margins stay scoped. ── */
+.setup-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--accent);
+}
+.setup-title {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+}
+.setup-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1rem;
+}
+/* A phone's card pads as the setup's own cards do there (GameSetup's --pc-pad). */
+@media (max-width: 560px) { .setup-card { padding: 0.6rem; } }
+.block-head {
+  font-family: var(--font-display);
+  font-size: 1.21rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: 0;
+}
+/* Sticky, not fixed (owner, 2026-09-29: the long steps put the buttons a screen away): at the form's
+   end it settles in place. One size down from the page's buttons. */
+.setup-actions {
+  position: sticky;
+  bottom: var(--safe-bottom, 0px);
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  padding: 0.5rem 0;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+}
+.setup-actions .btn-primary,
+.setup-actions .btn-ghost { padding: 0.45rem 0.95rem; font-size: 0.85rem; }
+/* Clear of the mobile bottom nav (52px, as .rc-sticky); the utility bar's buttons ("to top", "back
+   to the game") float in the bottom-right corner, so the row steps left of them while they are
+   shown (--mobile-bar-h, App.vue — acceptance, 2026-10-18). */
+@media (max-width: 900px) {
+  .setup-actions { bottom: calc(52px + var(--safe-bottom, 0px)); padding-right: var(--mobile-bar-h, 0px); }
+}
+
 /* A link handed over to be copied: a read-only field beside its Copy button. Two dialogs share
    it (the broadcast overlay's link, a shared game's invite); the field is mono so a URL reads as
    one, and the touch-screen 16px rule below covers it like any input. */
