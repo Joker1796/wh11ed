@@ -303,6 +303,12 @@ export function knownCampaignState(id) {
   return stateOf(id)
 }
 
+/** The campaign's player this device is — the Warmaster's own (`me`) or a member's — or null. */
+export function campaignPlayerOf(id) {
+  const st = stateOf(id)
+  return myPlayer(byId(id), st)
+}
+
 /** Does anything wait in a campaign this device knows, as last noted (no deck loaded)? */
 export function campaignsWaiting() {
   return campaigns.value.some((c) => (c.waiting || 0) > 0)

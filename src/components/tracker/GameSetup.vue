@@ -752,6 +752,22 @@
                 {{ labels.trackerDomUnlink }}
               </button>
             </div>
+            <!-- Or a campaign this device plays in, picked here (stage 5, owner 2026-11-04): the same
+                 battle as "Play a battle" on its page gives — its phase and Location, each side a
+                 campaign player — and the finished game goes back to it. -->
+            <label
+              v-if="!settings.dominatus.campaign && domCampaignOptions.length"
+              class="field"
+            >
+              <span>{{ labels.trackerDomCampaignPick }}</span>
+              <CampPick
+                :model-value="null"
+                :title="labels.trackerDomCampaignPick"
+                :placeholder="labels.trackerDomNoCampaign"
+                :options="domCampaignOptions"
+                @update:model-value="linkCampaign"
+              />
+            </label>
             <div
               v-if="!settings.dominatus.campaign"
               class="field"
@@ -994,6 +1010,20 @@
                 class="dom-side"
                 :inert="editable(i) ? undefined : true"
               >
+                <!-- In a campaign the side is one of its players, and the player's Alliance is the side's. -->
+                <label
+                  v-if="settings.dominatus.campaign"
+                  class="field"
+                >
+                  <span>{{ labels.trackerDomCampaignPlayer }}</span>
+                  <CampPick
+                    :model-value="p.campaignPlayer"
+                    :title="labels.trackerDomCampaignPlayer"
+                    :placeholder="labels.trackerDomPickPlayer"
+                    :options="domPlayerOptions(i)"
+                    @update:model-value="(id) => setCampaignPlayer(i, id)"
+                  />
+                </label>
                 <div class="field">
                   <span>{{ labels.trackerDomAlliance }}</span>
                   <div class="seg seg-fill">
@@ -1001,6 +1031,7 @@
                       v-for="a in domAllianceList"
                       :key="a.id"
                       :class="{ on: p.alliance === a.id }"
+                      :disabled="!!(settings.dominatus.campaign && p.campaignPlayer)"
                       @click="p.alliance = a.id"
                     >
                       {{ a.name }}
@@ -1565,7 +1596,8 @@ import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import { combatPatrolRoster, defaultCombatPatrolEnhancement } from '../../core/roster/combatPatrolRoster.js'
 import { domAlliances, domLocationsOf, domLocation as domLocationOf, loadDominatusDeck } from '../../composables/dominatusMissions.js'
 import DomAgendaAchieved from '../dominatus/DomAgendaAchieved.vue'
-import { knownCampaigns as campaignsHere, knownCampaignState } from '../../composables/useCampaigns.js'
+import { knownCampaigns as campaignsHere, knownCampaignState, campaignPlayerOf } from '../../composables/useCampaigns.js'
+import CampPick from '../dominatus/campaign/CampPick.vue'
 import { loadRosterFaction } from '../../data/roster/index.js'
 import RosterPickerModal from './RosterPickerModal.vue'
 import { useRosters, uid as newRosterUid } from '../../composables/useRosters.js'
@@ -2081,6 +2113,44 @@ const domRosterMissing = computed(() => {
   if (!id || knownCampaignState(id)?.roster !== 'required') return false
   return players.some(p => p.campaignPlayer && !p.roster)
 })
+// The campaigns a battle can be entered in from here: the Warmaster's and the ones this device plays
+// in (a watcher's view link enters nothing), each once its log is read.
+const domCampaignOptions = computed(() => campaignsHere()
+  .filter((c) => (c.role === 'owner' || c.role === 'member') && knownCampaignState(c.id))
+  .map((c) => ({ value: c.id, label: c.name || c.id })))
+// The campaign's players a side may be: those with an Alliance; the side that is "you" on a
+// player's own device is their own player (as the finished game's send says, CampSendGame).
+function domPlayerOptions(i) {
+  const id = settings.dominatus?.campaign
+  const st = id ? knownCampaignState(id) : null
+  if (!st) return []
+  const mine = i === 0 ? campaignPlayerOf(id) : null
+  const list = mine && campaignsHere().find((c) => c.id === id)?.role === 'member' ? [mine] : st.players.filter((cp) => cp.alliance)
+  return list.map((cp) => ({ value: cp.id, label: cp.name }))
+}
+function setCampaignPlayer(i, id) {
+  const st = knownCampaignState(settings.dominatus?.campaign)
+  const cp = st?.players.find((x) => x.id === id)
+  if (!cp) return
+  const p = players[i]
+  p.campaignPlayer = cp.id
+  p.alliance = cp.alliance
+  // One campaign player is one side.
+  players.forEach((o, j) => { if (j !== i && o.campaignPlayer === cp.id) o.campaignPlayer = null })
+}
+// The campaign's phase and its Location, and each side a player: "you" your own, else whoever is
+// named as the side is (owner, 2026-11-04: by the name when it matches, else picked from the list).
+function linkCampaign(id) {
+  const st = id ? knownCampaignState(id) : null
+  if (!st) return
+  settings.dominatus = { phase: st.phase, location: st.locations?.[st.phase] || null, campaign: id }
+  const same = (a, b) => !!a && !!b && a.trim().toLowerCase() === b.trim().toLowerCase()
+  players.forEach((p, i) => {
+    p.campaignPlayer = null
+    const cp = (i === 0 && campaignPlayerOf(id)) || st.players.find((x) => x.alliance && same(x.name, p.name))
+    if (cp) setCampaignPlayer(i, cp.id)
+  })
+}
 function unlinkCampaign() {
   settings.dominatus = { phase: settings.dominatus.phase, location: settings.dominatus.location }
   for (const p of players) p.campaignPlayer = null

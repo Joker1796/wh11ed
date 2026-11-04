@@ -199,6 +199,13 @@ on a tie nothing breaks.
 - **A battle is played from the campaign** (`campaignHandoff.js`, "Play a battle" on the battles
   tab): the tracker's setup draft gets the phase, the Location, both players with their factions and
   Alliances, `settings.dominatus.campaign` and each side's `campaignPlayer` (carried by `makePlayer`).
+  **Or from the setup itself** (stage 5, owner 2026-11-04): a Dominatus game's step 2 offers the
+  campaigns this device plays in (`domCampaignOptions` — owner or member, its log read; a watcher's
+  view link enters nothing); picked, it takes the campaign's phase and that phase's Location, and
+  each side a campaign player — "you" your own (`campaignPlayerOf`), the other by the name when it
+  matches, else picked from the list under the side (a member's own side offers only their player).
+  The player's Alliance is the side's (the Alliance buttons grey). The lists already attached on
+  step 1 stay — a campaign with rosters required greys Start as before.
   The setup shows the campaign in place of the phase and Location pickers ("Unlink" drops it), the
   pre-battle Upgrades offer only the cards that campaign player holds (`DomUpgradesEditor`, when this
   device knows the campaign), and `CampSendGame` opens on that campaign and those players, sends the
