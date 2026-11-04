@@ -16,6 +16,13 @@
           :vals="{ n: progress.due, k: playedAll, m: progress.rows.length }"
         />
       </p>
+      <p
+        v-if="phaseDeadline"
+        class="camp-line"
+        :class="{ 'camp-late': phaseDeadline.late }"
+      >
+        {{ phaseDeadline.text }}
+      </p>
 
       <!-- The phase's Location is its card folded to its head (the war zone is a screen high on a
            phone); a tap opens it, as in the Location picker. -->
@@ -314,7 +321,7 @@ import CampChronicle from './CampChronicle.vue'
 import { campaignState, reopenable, reopenPhase, scheduleProgress, pairingsNow, standings } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, phaseLabel, remembered, onAsk } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, phaseLabel, remembered, onAsk, phaseDeadline } = useCampaignView()
 const override = ref(null)
 
 const phaseLocations = computed(() => deck.value?.locations.filter((l) => l.phase === state.value.phase) || [])

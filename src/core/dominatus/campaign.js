@@ -37,9 +37,9 @@
  * @typedef {{ seq: number, author: string, type: string, payload: any }} CampaignEvent
  * @typedef {{ phase: number }} AgendaCard
  * @typedef {{ code: string, name: string, points: number, faction: string | null }} RosterSnapshot
- * @typedef {{ id: string, name: string, alliance: string | null, faction: string | null, member: string | null, upgrades: string[], agenda: AgendaCard[], roster: RosterSnapshot | null, factionAsk?: string | null }} Player
+ * @typedef {{ id: string, name: string, alliance: string | null, faction: string | null, member: string | null, upgrades: string[], agenda: AgendaCard[], roster: RosterSnapshot | null, factionAsk?: string | null, allianceAsk?: string | null }} Player
  * @typedef {{ side: 'a' | 'b', slug: string, unit: string }} BattleUpgrade
- * @typedef {{ id: string, phase: number, a: string, b: string, victor: 'a' | 'b' | null, achieved: { a: number, b: number }, upgrades: BattleUpgrade[], status: 'pending' | 'approved' | 'rejected', by: string, edited: boolean }} Battle
+ * @typedef {{ id: string, phase: number, a: string, b: string, victor: 'a' | 'b' | null, achieved: { a: number, b: number }, upgrades: BattleUpgrade[], alliances: { a: string | null, b: string | null }, status: 'pending' | 'approved' | 'rejected', by: string, edited: boolean }} Battle
  * @typedef {{ id: string, player: string, kind: string, phase: number, draw: number, battle: string | null, drawn: string[] | null }} Reward
  * @typedef {{ seq: number, payload: object | null }} Amendment
  * @typedef {{ control: string | null, tie: boolean, honours: Record<string, number>, ascendancy: string[], np: Record<string, number> }} PhaseResult
@@ -47,9 +47,11 @@
  * @typedef {{
  *   name: string, draw: 'app' | 'manual', phase: number, finished: boolean,
  *   approve: 'warmaster' | 'auto', format: 'deck' | 'event', schedule: number[], me: string | null,
- *   join: 'open' | 'closed', allianceBy: 'player' | 'warmaster', factionLock: boolean,
- *   roster: 'none' | 'optional' | 'required', size: string, battlesBy: 'players' | 'warmaster',
- *   rewardsBy: 'players' | 'warmaster',
+ *   join: 'open' | 'closed', allianceBy: 'player' | 'warmaster', factionLock: boolean, allianceLock: boolean,
+ *   roster: 'none' | 'optional' | 'required', size: string | string[], battlesBy: 'players' | 'warmaster',
+ *   rewardsBy: 'players' | 'warmaster', strict: boolean, pairBy: 'free' | 'warmaster' | 'random',
+ *   phaseEnd: 'warmaster' | 'auto', deadlines: Array<string | null>, drawExtra: number, upgradeLimit: number,
+ *   hands: 'open' | 'hidden',
  *   pairings: Pairing[],
  *   locations: Record<number, string | null>, control: Record<string, string>,
  *   players: Player[], battles: Battle[], pending: Reward[],
@@ -73,11 +75,33 @@ export const MAX_ROSTER_CODE = 7000
 // or the Warmaster's; the faction kept from the first battle (the booklet) or free; a roster none /
 // optional / required (a snapshot everyone sees); the battle size; battles entered by the players or
 // the Warmaster alone; rewards taken by the players or handed out by the Warmaster.
+//
+// And what the booklet's "Modifying Dominatus" offers and more (owner, 2026-11-04): the battle size
+// one for the campaign or one a phase (`size`, a string or three); the Alliance kept from the first
+// battle (`allianceLock` — after it a change is an ask, as the faction's); battles under strict rules
+// (`strict`); who plays whom — anyone, the Warmaster's pairings, or pairings the app draws (`pairBy`);
+// the end of a phase by the Warmaster's hand or by itself once the schedule is played (`phaseEnd`);
+// a date each phase is played by (`deadlines`); cards more to choose from on every reward
+// (`drawExtra`); Upgrades a battle (`upgradeLimit`, the booklet's 3 — Titangrave's +1 on top); the
+// players' cards open to all or each to their own player and the Warmaster (`hands`).
+export const UPGRADE_LIMIT = 3
 export const SETTINGS_DEFAULTS = Object.freeze({
   draw: 'app', approve: 'warmaster', format: 'deck', schedule: DEFAULT_SCHEDULE, me: null,
-  join: 'open', allianceBy: 'player', factionLock: true, roster: 'none', size: 'strikeForce',
-  battlesBy: 'players', rewardsBy: 'players',
+  join: 'open', allianceBy: 'player', factionLock: true, allianceLock: true, roster: 'none', size: 'strikeForce',
+  battlesBy: 'players', rewardsBy: 'players', strict: false, pairBy: 'free', phaseEnd: 'warmaster',
+  deadlines: [null, null, null], drawExtra: 0, upgradeLimit: UPGRADE_LIMIT, hands: 'open',
 })
+const MAX_DRAW_EXTRA = 2
+const UPGRADE_LIMITS = [1, 5]
+const DATE = /^\d{4}-\d{2}-\d{2}$/
+
+/**
+ * The battle size of a phase: the campaign's one, or that phase's.
+ * @param {CampaignState} s @param {number} [phase]
+ */
+export function sizeOf(s, phase = s.phase) {
+  return Array.isArray(s.size) ? s.size[phase - 1] || SETTINGS_DEFAULTS.size : s.size
+}
 
 // Location bonuses the fold applies (the rest are read where they act: Staging Post by the
 // Warmaster's next-Location step, Auspicious Augury as a reward its player reports).
@@ -95,7 +119,7 @@ const DRAWN = ['honour', 'skill', 'relic', 'fresh']
 function empty() {
   return {
     name: '', phase: 1, finished: false,
-    ...SETTINGS_DEFAULTS, schedule: [...DEFAULT_SCHEDULE],
+    ...SETTINGS_DEFAULTS, schedule: [...DEFAULT_SCHEDULE], deadlines: [null, null, null],
     pairings: [],
     locations: { 1: null, 2: null, 3: null }, control: {},
     players: [], battles: [], pending: [], results: {}, rejected: [],
@@ -106,6 +130,9 @@ function empty() {
 const playerById = (s, id) => s.players.find((p) => p.id === id) || null
 /** A battle of theirs is in the campaign (counted or waiting): the faction is kept from then. @param {CampaignState} s @param {string} id */
 const hasPlayed = (s, id) => s.battles.some((b) => b.status !== 'rejected' && (b.a === id || b.b === id))
+
+/** The two are paired this phase (the Warmaster's pairings or the app's). @param {CampaignState} s @param {string} a @param {string} b */
+const paired = (s, a, b) => s.pairings.some((x) => x.phase === s.phase && ((x.a === a && x.b === b) || (x.a === b && x.b === a)))
 
 /** @param {CampaignState} s @param {string | null} alliance @param {string} kind */
 function extraDraw(s, alliance, kind) {
@@ -159,7 +186,7 @@ function approveBattle(s, b) {
       continue
     }
     const kind = b.victor === side ? 'honour' : 'skill'
-    const draw = 1 + (b.achieved[side] > 0 ? 1 : 0) + extraDraw(s, p.alliance, kind)
+    const draw = 1 + (b.achieved[side] > 0 ? 1 : 0) + extraDraw(s, p.alliance, kind) + s.drawExtra
     s.pending.push({ id: `${b.id}:${side}`, player: p.id, kind, phase: b.phase, draw, battle: b.id, drawn: null })
   }
 }
@@ -170,10 +197,28 @@ function honoursBy(s, phase, battles) {
   const out = {}
   for (const b of battles) {
     if (b.status !== 'approved' || (phase && b.phase !== phase) || !b.victor) continue
-    const a = playerById(s, b[b.victor])?.alliance
+    // The Alliance the victor fought for: a player who changed Alliance since takes no Honour along.
+    const a = b.alliances?.[b.victor] ?? playerById(s, b[b.victor])?.alliance
     if (a) out[a] = (out[a] || 0) + 1
   }
   return out
+}
+
+/**
+ * Take Control's candidates: the Alliances with most Battle Honours this phase, a tie broken by the
+ * campaign's; more than one left is the Warmaster's word.
+ * @param {CampaignState} s @param {number} phase
+ */
+function controlCandidates(s, phase) {
+  const inPhase = honoursBy(s, phase, s.battles)
+  const top = Math.max(0, ...Object.values(inPhase))
+  let tied = Object.keys(inPhase).filter((a) => inPhase[a] === top && top > 0)
+  if (tied.length > 1) {
+    const overall = honoursBy(s, 0, s.battles)
+    const best = Math.max(...tied.map((a) => overall[a] || 0))
+    tied = tied.filter((a) => (overall[a] || 0) === best)
+  }
+  return tied
 }
 
 /**
@@ -184,15 +229,8 @@ function honoursBy(s, phase, battles) {
  */
 function endPhase(s, deck, phase, override) {
   const loc = s.locations[phase]
-  const inPhase = honoursBy(s, phase, s.battles)
-  const overall = honoursBy(s, 0, s.battles)
   // I. Take Control
-  const top = Math.max(0, ...Object.values(inPhase))
-  let tied = Object.keys(inPhase).filter((a) => inPhase[a] === top && top > 0)
-  if (tied.length > 1) {
-    const best = Math.max(...tied.map((a) => overall[a] || 0))
-    tied = tied.filter((a) => (overall[a] || 0) === best)
-  }
+  const tied = controlCandidates(s, phase)
   const tie = tied.length > 1
   const control = tied.length === 1 ? tied[0] : (override && tied.includes(override) ? override : null)
   if (control && loc) {
@@ -222,13 +260,13 @@ function endPhase(s, deck, phase, override) {
   if (phase < 3) {
     for (const p of s.players) {
       if (!p.agenda.length) continue
-      const draw = p.agenda.length + extraDraw(s, p.alliance, 'relic')
+      const draw = p.agenda.length + extraDraw(s, p.alliance, 'relic') + s.drawExtra
       s.pending.push({ id: `p${phase}:relic:${p.id}`, player: p.id, kind: 'relic', phase, draw, battle: null, drawn: null })
     }
   }
   // V. Discard the Agenda Achieved cards of previous phases.
   for (const p of s.players) p.agenda = p.agenda.filter((c) => c.phase >= phase)
-  s.results[phase] = { control, tie, honours: inPhase, ascendancy, np }
+  s.results[phase] = { control, tie, honours: honoursBy(s, phase, s.battles), ascendancy, np }
   if (phase === 3) s.finished = true
   else s.phase = phase + 1
 }
@@ -307,9 +345,9 @@ function rewardEdits(live, rewards) {
 
 // The Upgrades a battle was played with, for the chronicle ("Ann: Fire and Fury → Leman Russ"): a
 // record, not a rule — nothing in the campaign is worked out from them, so an entry the deck does not
-// know is dropped rather than the battle refused. At most UPGRADES_PER_SIDE a side (4 at Titangrave,
-// upgrades.js `upgradeLimit`).
-export const UPGRADES_PER_SIDE = 4
+// know is dropped rather than the battle refused. At most UPGRADES_PER_SIDE a side: the largest limit
+// a campaign may set, 5, and Titangrave's one more (upgrades.js `upgradeLimit`).
+export const UPGRADES_PER_SIDE = 6
 /**
  * @param {unknown} list @param {Deck} deck
  * @returns {BattleUpgrade[]}
@@ -349,6 +387,8 @@ export function battleEvent(game, a, b, winner) {
     victor: winner === 0 ? 'a' : winner === 1 ? 'b' : null,
     achieved: { a: game.players[0].agendaAchieved || 0, b: game.players[1].agendaAchieved || 0 },
     upgrades: sides.flatMap((side, i) => (game.players[i].upgrades || []).map((/** @type {any} */ u) => ({ side, slug: u.slug, unit: u.unit || '' }))),
+    // Played under strict rules: a campaign that asks for them takes a member's battle only so.
+    strict: !!game.settings?.strictRules,
   }
 }
 
@@ -473,6 +513,15 @@ function apply(s, deck, e) {
       if (typeof p.factionLock === 'boolean') s.factionLock = p.factionLock
       if (p.roster === 'none' || p.roster === 'optional' || p.roster === 'required') s.roster = p.roster
       if (CAMPAIGN_SIZES.includes(p.size)) s.size = p.size
+      else if (Array.isArray(p.size) && p.size.length === 3 && p.size.every((/** @type {any} */ x) => CAMPAIGN_SIZES.includes(x))) s.size = [...p.size]
+      if (typeof p.allianceLock === 'boolean') s.allianceLock = p.allianceLock
+      if (typeof p.strict === 'boolean') s.strict = p.strict
+      if (p.pairBy === 'free' || p.pairBy === 'warmaster' || p.pairBy === 'random') s.pairBy = p.pairBy
+      if (p.phaseEnd === 'warmaster' || p.phaseEnd === 'auto') s.phaseEnd = p.phaseEnd
+      if (Array.isArray(p.deadlines) && p.deadlines.length === 3) s.deadlines = p.deadlines.map((/** @type {any} */ d) => (typeof d === 'string' && DATE.test(d) ? d : null))
+      if (Number.isInteger(p.drawExtra)) s.drawExtra = Math.max(0, Math.min(MAX_DRAW_EXTRA, p.drawExtra))
+      if (Number.isInteger(p.upgradeLimit)) s.upgradeLimit = Math.max(UPGRADE_LIMITS[0], Math.min(UPGRADE_LIMITS[1], p.upgradeLimit))
+      if (p.hands === 'open' || p.hands === 'hidden') s.hands = p.hands
       if (p.battlesBy === 'players' || p.battlesBy === 'warmaster') s.battlesBy = p.battlesBy
       if (p.rewardsBy === 'players' || p.rewardsBy === 'warmaster') s.rewardsBy = p.rewardsBy
       return null
@@ -487,11 +536,18 @@ function apply(s, deck, e) {
       // the player (`factionAsk`) until the Warmaster sets a faction or turns it down (`factionAsk:
       // null`); the player asking for the faction they have takes the ask back.
       let ask = false
+      let allianceAsk = false
       if (!owner) {
         const mine = memberPlayer(s, e)
         if (was ? was.member !== e.author : !!mine) return 'not your player'
         if (!was && s.join === 'closed') return 'registration closed'
-        if (s.allianceBy === 'warmaster' && p.alliance !== undefined && (p.alliance || null) !== (was?.alliance || null)) return 'alliance by the warmaster'
+        const newAlliance = p.alliance !== undefined && (p.alliance || null) !== (was?.alliance || null)
+        if (s.allianceBy === 'warmaster' && newAlliance) return 'alliance by the warmaster'
+        // The Alliance, like the faction, is kept from the first battle: after it, a change is an ask.
+        if (s.allianceLock && was && newAlliance && hasPlayed(s, was.id)) {
+          if (!p.alliance) return 'alliance locked'
+          allianceAsk = true
+        }
         if (s.factionLock && was && p.faction !== undefined && (p.faction || null) !== was.faction && hasPlayed(s, was.id)) {
           if (!p.faction) return 'faction locked'
           ask = true
@@ -500,7 +556,12 @@ function apply(s, deck, e) {
       /** @type {Player} */
       const row = was || { id: p.id, name: '', alliance: null, faction: null, member: owner ? null : e.author, upgrades: [], agenda: [], roster: null }
       if (typeof p.name === 'string') row.name = p.name.slice(0, 40)
-      if (p.alliance !== undefined) row.alliance = p.alliance
+      if (allianceAsk) row.allianceAsk = p.alliance
+      else if (p.alliance !== undefined) {
+        row.alliance = p.alliance
+        if (row.allianceAsk) row.allianceAsk = null
+      }
+      if (owner && p.allianceAsk === null && row.allianceAsk) row.allianceAsk = null
       if (ask) row.factionAsk = p.faction
       else if (p.faction !== undefined) {
         row.faction = p.faction || null
@@ -556,12 +617,14 @@ function apply(s, deck, e) {
       if (!owner && a.member !== e.author && b.member !== e.author) return 'not your battle'
       if (!owner && s.battlesBy === 'warmaster') return 'battles by the warmaster'
       if (!owner && s.roster === 'required' && (!a.roster || !b.roster)) return 'no roster'
+      if (!owner && s.strict && p.strict !== true) return 'not strict rules'
+      if (!owner && s.pairBy !== 'free' && !paired(s, a.id, b.id)) return 'not paired'
       if (p.victor !== 'a' && p.victor !== 'b' && p.victor !== null) return 'bad victor'
       const cap = s.phase === 3 ? 2 : 1
       /** @param {any} n */
       const ach = (n) => Math.max(0, Math.min(cap, Math.floor(Number(n) || 0)))
       /** @type {Battle} */
-      const battle = { id: p.id, phase: s.phase, a: a.id, b: b.id, victor: p.victor, achieved: { a: ach(p.achieved?.a), b: ach(p.achieved?.b) }, upgrades: battleUpgrades(p.upgrades, deck), status: 'pending', by: e.author, edited: !!e.amended }
+      const battle = { id: p.id, phase: s.phase, a: a.id, b: b.id, victor: p.victor, achieved: { a: ach(p.achieved?.a), b: ach(p.achieved?.b) }, upgrades: battleUpgrades(p.upgrades, deck), alliances: { a: a.alliance, b: b.alliance }, status: 'pending', by: e.author, edited: !!e.amended }
       s.battles.push(battle)
       // The Warmaster's own entry needs no second look, nor any under a campaign that counts at once.
       if (owner || s.approve === 'auto') approveBattle(s, battle)
@@ -709,7 +772,7 @@ export function pairingsNow(s) {
 }
 
 /**
- * @typedef {{ kind: string, todo: boolean, tab: string, n?: number, player?: string, reward?: Reward, battle?: Battle, faction?: string }} NextStep
+ * @typedef {{ kind: string, todo: boolean, tab: string, n?: number, player?: string, reward?: Reward, battle?: Battle, faction?: string, alliance?: string }} NextStep
  */
 
 /**
@@ -743,8 +806,12 @@ export function nextSteps(s, me, owner) {
     const toGive = s.pending.filter((x) => x.player !== me?.id).length
     if (toGive && s.rewardsBy === 'warmaster') todo.push({ kind: 'give', todo: true, tab: 'rewards', n: toGive })
     for (const p of s.players.filter((x) => x.factionAsk)) todo.push({ kind: 'factionAsk', todo: true, tab: 'players', player: p.id, faction: p.factionAsk || undefined })
+    for (const p of s.players.filter((x) => x.allianceAsk)) todo.push({ kind: 'allianceAsk', todo: true, tab: 'players', player: p.id, alliance: p.allianceAsk || undefined })
+    // The app's pairings are the Warmaster's to draw, once a phase has its Location.
+    if (s.pairBy === 'random' && located && !s.pairings.some((x) => x.phase === s.phase)) todo.push({ kind: 'drawPairs', todo: true, tab: 'battles' })
   }
   if (!owner && me?.factionAsk) wait.push({ kind: 'factionAskWait', todo: false, tab: 'players', player: me.id, faction: me.factionAsk || undefined })
+  if (!owner && me?.allianceAsk) wait.push({ kind: 'allianceAskWait', todo: false, tab: 'players', player: me.id, alliance: me.allianceAsk || undefined })
   if (me && me.alliance) {
     for (const b of s.battles.filter((x) => x.phase === s.phase && x.status === 'pending' && (x.a === me.id || x.b === me.id))) {
       wait.push({ kind: 'waitCount', todo: false, tab: 'battles', battle: b, player: other(b, me.id) })
@@ -755,7 +822,9 @@ export function nextSteps(s, me, owner) {
     if (left > 0 && !located && !owner) wait.push({ kind: 'waitLocation', todo: false, tab: 'phase' })
     else if (left > 0 && located && !(s.battlesBy === 'warmaster' && !owner)) {
       for (const x of paired.slice(0, left)) todo.push({ kind: 'play', todo: true, tab: 'battles', player: x.a === me.id ? x.b : x.a })
-      if (left > paired.length) todo.push({ kind: 'playMore', todo: true, tab: 'battles', n: left - paired.length })
+      // Under pairings a battle is played only with the paired opponent.
+      if (left > paired.length && s.pairBy === 'free') todo.push({ kind: 'playMore', todo: true, tab: 'battles', n: left - paired.length })
+      else if (!paired.length && s.pairBy !== 'free') wait.push({ kind: 'waitPairs', todo: false, tab: 'battles' })
     } else if (left <= 0 && due > 0 && !owner) wait.push({ kind: 'phaseDone', todo: false, tab: 'phase' })
   }
   if (owner && scheduleProgress(s).done) todo.push({ kind: 'endPhase', todo: true, tab: 'phase' })
@@ -792,4 +861,44 @@ export function standings(s) {
     np: Object.values(s.results).reduce((n, r) => n + (r.np[a] || 0), 0),
     locations: Object.entries(s.control).filter(([, x]) => x === a).map(([loc]) => loc),
   }))
+}
+
+/**
+ * Pairings the app draws for this phase (`pairBy: 'random'`): every player in an Alliance, each with
+ * an opponent of another Alliance, as evenly as the Alliances allow — the largest Alliance's players
+ * first, each against the opponent with the fewest pairings so far. A player left without one (an
+ * odd count) plays whoever the Warmaster adds. Returns `{ a, b }` pairs.
+ * @param {CampaignState} s @param {() => number} [random]
+ */
+export function randomPairings(s, random = Math.random) {
+  const shuffle = (/** @type {Player[]} */ xs) => {
+    const a = [...xs]
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] }
+    return a
+  }
+  const left = shuffle(s.players.filter((p) => p.alliance))
+  /** @type {Array<{ a: string, b: string }>} */
+  const out = []
+  while (left.length > 1) {
+    // The player of the largest Alliance still left, so no Alliance is left with only itself.
+    const count = (/** @type {string | null} */ al) => left.filter((p) => p.alliance === al).length
+    left.sort((x, y) => count(y.alliance) - count(x.alliance))
+    const a = left.shift()
+    const i = left.findIndex((p) => p.alliance !== a?.alliance)
+    if (!a || i < 0) break
+    const [b] = left.splice(i, 1)
+    out.push({ a: a.id, b: b.id })
+  }
+  return out
+}
+
+/**
+ * The phase ends by itself (`phaseEnd: 'auto'`): the schedule is played and counted, and nothing
+ * waits for the Warmaster's word — no tie for control that the rules cannot break. The Warmaster's
+ * device then writes the end (an event of theirs, as by the button).
+ * @param {CampaignState} s
+ */
+export function phaseEndsByItself(s) {
+  if (s.phaseEnd !== 'auto' || !s.locations[s.phase] || !scheduleProgress(s).done) return false
+  return controlCandidates(s, s.phase).length <= 1
 }

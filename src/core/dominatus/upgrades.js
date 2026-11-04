@@ -113,9 +113,11 @@ export function upgradeModEntries(cards, mods, unit, { unitOnly = false } = {}) 
 }
 
 /**
- * Upgrades a side may give out this battle: 3, or 4 under Titangrave's Vermillion Sanction.
- * @param {{ location?: string | null } | null | undefined} dominatus
+ * Upgrades a side may give out this battle: the campaign's limit (`limit`, the booklet's 3 when the
+ * game says none — campaign.js `upgradeLimit`), one more under Titangrave's Vermillion Sanction.
+ * @param {{ location?: string | null, limit?: number } | null | undefined} dominatus
  */
 export function upgradeLimit(dominatus) {
-  return dominatus?.location === 'titangrave' ? 4 : 3
+  const base = Number.isInteger(dominatus?.limit) && (dominatus?.limit ?? 0) > 0 ? Number(dominatus?.limit) : 3
+  return base + (dominatus?.location === 'titangrave' ? 1 : 0)
 }

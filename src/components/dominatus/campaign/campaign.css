@@ -215,3 +215,9 @@
 .camp-num-cell { font-family: var(--font-num); }
 /* The pairings on the battles tab, between its buttons and the battles. */
 .camp-pairings { margin-bottom: 1rem; }
+
+/* The app's draw of the phase's pairs, above the Warmaster's own "Add a pair". */
+.camp-draw-pairs { margin: 0 0 0.5rem; }
+/* A phase played past its date: said in the warning colour, nothing more. */
+.camp-late,
+.camp-next li.is-late .camp-next-text { color: var(--warning); }

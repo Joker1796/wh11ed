@@ -4,7 +4,7 @@
        that does it (opens its tab and there its dialog, or the row it names); then what they wait
        for. Nothing for a reader who only watches. -->
   <section
-    v-if="steps.length"
+    v-if="steps.length || phaseDeadline"
     class="camp-next"
     :aria-label="labels.campNextTitle"
   >
@@ -36,6 +36,17 @@
           {{ labels[`campDo_${x.kind}`] }}
         </button>
       </li>
+      <!-- The date the phase is to be played by, last: a reminder, not a step. -->
+      <li
+        v-if="phaseDeadline && entry?.role !== 'viewer'"
+        :class="{ 'is-late': phaseDeadline.late }"
+      >
+        <span
+          class="camp-next-dot"
+          aria-hidden="true"
+        />
+        <span class="camp-next-text">{{ phaseDeadline.text }}</span>
+      </li>
     </ul>
   </section>
 </template>
@@ -49,7 +60,7 @@ import { useCampaignView } from './useCampaignView.js'
 
 defineEmits(['go'])
 
-const { entry, state, isOwner, mine, labels, playerName, rewardName } = useCampaignView()
+const { entry, state, isOwner, mine, labels, playerName, rewardName, allianceName, phaseDeadline } = useCampaignView()
 // The steps whose button opens a dialog.
 const OPENS_DIALOG = new Set(['play', 'playMore', 'location', 'endPhase', 'register'])
 const steps = computed(() => (entry.value?.role === 'viewer' ? [] : nextSteps(state.value, mine.value, isOwner.value)))
@@ -61,6 +72,7 @@ function sentence(x) {
     .replace('{p}', x.player ? playerName(x.player) : '')
     .replace('{what}', x.reward ? rewardName(x.reward) : '')
     .replace('{f}', x.faction ? factionIndexBySlug(x.faction)?.name || x.faction : '')
+    .replace('{a}', x.alliance ? allianceName(x.alliance) : '')
 }
 </script>
 

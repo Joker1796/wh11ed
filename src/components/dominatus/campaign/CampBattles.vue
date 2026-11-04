@@ -257,7 +257,7 @@ import CampPick from './CampPick.vue'
 import CampBattleResult from './CampBattleResult.vue'
 import CampFold from './CampFold.vue'
 import CampPairings from './CampPairings.vue'
-import { battleAmend, battleLocked, likelyDuplicates, pairingsNow } from '../../../core/dominatus/campaign.js'
+import { battleAmend, battleLocked, likelyDuplicates, pairingsNow, sizeOf } from '../../../core/dominatus/campaign.js'
 import { useRouter } from 'vue-router'
 import { useCampaignView } from './useCampaignView.js'
 
@@ -294,9 +294,14 @@ const groups = computed(() => {
 const dupes = computed(() => likelyDuplicates(state.value))
 // A member fights as their own player; the Warmaster enters anyone's battle.
 const choosable = computed(() => (isOwner.value ? state.value.players : mine.value ? [mine.value] : []))
+// Under pairings (`pairBy` not 'free') a member's battle is with their pair this phase — the
+// campaign refuses any other; the Warmaster enters anyone's.
 const opponentsOf = (id) => {
   const me = state.value.players.find((p) => p.id === id)
-  return state.value.players.filter((p) => p.id !== id && p.alliance && p.alliance !== me?.alliance)
+  const all = state.value.players.filter((p) => p.id !== id && p.alliance && p.alliance !== me?.alliance)
+  if (isOwner.value || state.value.pairBy === 'free') return all
+  const pairs = pairingsNow(state.value).filter((x) => x.a === id || x.b === id).map((x) => (x.a === id ? x.b : x.a))
+  return all.filter((p) => pairs.includes(p.id))
 }
 function outcome(x) {
   if (!x.victor) return labels.value.campDraw
@@ -363,6 +368,6 @@ async function play() {
   const s = state.value
   const side = (id) => s.players.find((p) => p.id === id)
   const { playCampaignBattle } = await import('../../../composables/campaignHandoff.js')
-  await playCampaignBattle({ campaignId: entry.value.id, phase: s.phase, location: s.locations[s.phase], size: s.size, a: side(pa.value), b: side(pb.value) }, router, () => { playing.value = false })
+  await playCampaignBattle({ campaignId: entry.value.id, phase: s.phase, location: s.locations[s.phase], size: sizeOf(s), strict: s.strict, upgradeLimit: s.upgradeLimit, a: side(pa.value), b: side(pb.value) }, router, () => { playing.value = false })
 }
 </script>

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { campaignState, battleEvent, UPGRADES_PER_SIDE, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, PATH_TO_CONQUEST } from './campaign.js'
+import { campaignState, battleEvent, UPGRADES_PER_SIDE, sizeOf, randomPairings, phaseEndsByItself, SETTINGS_DEFAULTS, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, PATH_TO_CONQUEST } from './campaign.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en')
@@ -464,6 +464,7 @@ describe('Dominatus campaign — the Upgrades a battle was played with', () => {
     expect(battleEvent(game, 'ann', 'cid', 1)).toEqual({
       id: 'g-G1', phase: 1, a: 'ann', b: 'cid', victor: 'b', achieved: { a: 1, b: 0 },
       upgrades: [{ side: 'a', slug: c1, unit: 'Leman Russ' }, { side: 'b', slug: c2, unit: '' }],
+      strict: false,
     })
     expect(battleEvent({ ...game, settings: {} }, 'ann', 'cid', null)).toMatchObject({ victor: null, a: 'ann' })
     expect(battleEvent({ ...game, settings: {} }, 'ann', 'cid', null)).not.toHaveProperty('phase')
@@ -494,5 +495,85 @@ describe('Dominatus campaign — the Upgrades a battle was played with', () => {
     const evs = [...base(), ev('owner', 'battle', battleEvent(game, 'ann', 'cid', 0))]
     const [edit] = battleAmend(evs, 'g-G1', { victor: 'b', achieved: { a: 0, b: 0 } })
     expect(edit.payload.upgrades).toHaveLength(2)
+  })
+})
+
+// What the booklet's "Modifying Dominatus" offers and more (owner, 2026-11-04).
+describe('Dominatus campaign — the settings a Warmaster may change', () => {
+  const set = (payload) => O('settings', payload)
+
+  it('keeps every new setting at its default, and takes a valid one', () => {
+    const s0 = campaignState(base(), deck)
+    for (const k of ['allianceLock', 'strict', 'pairBy', 'phaseEnd', 'deadlines', 'drawExtra', 'upgradeLimit', 'hands']) expect(s0[k]).toEqual(SETTINGS_DEFAULTS[k])
+    const s = campaignState([...base(), set({ strict: true, pairBy: 'random', phaseEnd: 'auto', deadlines: ['2026-11-15', 'not a date', null], drawExtra: 9, upgradeLimit: 0, hands: 'hidden' })], deck)
+    expect(s).toMatchObject({ strict: true, pairBy: 'random', phaseEnd: 'auto', deadlines: ['2026-11-15', null, null], drawExtra: 2, upgradeLimit: 1, hands: 'hidden' })
+    expect(campaignState([...base(), ev('m1', 'settings', { strict: true })], deck).strict).toBe(false)
+  })
+
+  it('plays a size a phase, or one for the campaign', () => {
+    const one = campaignState([...base(), set({ size: 'onslaught' })], deck)
+    expect([sizeOf(one, 1), sizeOf(one, 3)]).toEqual(['onslaught', 'onslaught'])
+    const grow = campaignState([...base(), set({ size: ['incursion', 'strikeForce', 'onslaught'] })], deck)
+    expect([1, 2, 3].map((n) => sizeOf(grow, n))).toEqual(['incursion', 'strikeForce', 'onslaught'])
+    expect(campaignState([...base(), set({ size: ['incursion', 'huge', 'onslaught'] })], deck).size).toBe('strikeForce')
+  })
+
+  it('keeps the Alliance after the first battle: a change is an ask the Warmaster answers', () => {
+    const played = [...base(), battle('owner', 'b1', 'ben', 'cid', 'a')]
+    const ask = campaignState([...played, ev('m1', 'player', { id: 'ben', alliance: 'raiders' })], deck)
+    expect(ask.players.find((p) => p.id === 'ben')).toMatchObject({ alliance: 'liberators', allianceAsk: 'raiders' })
+    const yes = campaignState([...played, ev('m1', 'player', { id: 'ben', alliance: 'raiders' }), O('player', { id: 'ben', alliance: 'raiders' })], deck)
+    expect(yes.players.find((p) => p.id === 'ben')).toMatchObject({ alliance: 'raiders', allianceAsk: null })
+    const no = campaignState([...played, ev('m1', 'player', { id: 'ben', alliance: 'raiders' }), O('player', { id: 'ben', allianceAsk: null })], deck)
+    expect(no.players.find((p) => p.id === 'ben')).toMatchObject({ alliance: 'liberators', allianceAsk: null })
+    // Not locked, or before a battle: changed at once.
+    expect(campaignState([...base(), ev('m1', 'player', { id: 'ben', alliance: 'raiders' })], deck).players.find((p) => p.id === 'ben').alliance).toBe('raiders')
+    expect(campaignState([...played, set({ allianceLock: false }), ev('m1', 'player', { id: 'ben', alliance: 'raiders' })], deck).players.find((p) => p.id === 'ben').alliance).toBe('raiders')
+  })
+
+  it('leaves an Honour with the Alliance it was won for', () => {
+    const evs = [...base(), battle('owner', 'b1', 'ann', 'cid', 'a'), O('player', { id: 'ann', alliance: 'raiders' })]
+    const s = campaignState(evs, deck)
+    expect(s.battles[0].alliances).toEqual({ a: 'liberators', b: 'oppressors' })
+    expect(standings(s).find((x) => x.alliance === 'liberators').honours).toBe(1)
+    expect(standings(s).find((x) => x.alliance === 'raiders').honours).toBe(0)
+  })
+
+  it('takes a member\'s battle under strict rules only when it was played so', () => {
+    const strict = [...base(), set({ strict: true })]
+    expect(campaignState([...strict, ev('m1', 'battle', { id: 'b1', a: 'ben', b: 'cid', victor: 'a', achieved: { a: 0, b: 0 } })], deck).rejected[0].reason).toBe('not strict rules')
+    expect(campaignState([...strict, ev('m1', 'battle', { id: 'b1', a: 'ben', b: 'cid', victor: 'a', achieved: { a: 0, b: 0 }, strict: true })], deck).battles).toHaveLength(1)
+    expect(campaignState([...strict, battle('owner', 'b1', 'ben', 'cid', 'a')], deck).battles).toHaveLength(1)
+  })
+
+  it('takes a member\'s battle only between paired players when the phase is paired', () => {
+    const evs = [...base(), set({ pairBy: 'warmaster' }), O('pairing', { id: 'p1', phase: 1, a: 'ben', b: 'dee' })]
+    expect(campaignState([...evs, battle('m1', 'b1', 'ben', 'cid', 'a')], deck).rejected[0].reason).toBe('not paired')
+    expect(campaignState([...evs, battle('m1', 'b1', 'dee', 'ben', 'a')], deck).battles).toHaveLength(1)
+  })
+
+  it('draws pairings across the Alliances, each player once', () => {
+    const s = campaignState([...base(), ev('m2', 'player', { id: 'eve', name: 'Eve', alliance: 'raiders' })], deck)
+    let seed = 0
+    const pairs = randomPairings(s, () => ((seed = (seed * 9301 + 49297) % 233280) / 233280))
+    const all = pairs.flatMap((x) => [x.a, x.b])
+    expect(new Set(all).size).toBe(all.length)
+    expect(pairs).toHaveLength(2)
+    const alliance = (id) => s.players.find((p) => p.id === id).alliance
+    for (const x of pairs) expect(alliance(x.a)).not.toBe(alliance(x.b))
+  })
+
+  it('draws more cards on every reward', () => {
+    const s = campaignState([...base(), set({ drawExtra: 2 }), battle('owner', 'b1', 'ann', 'cid', 'a')], deck)
+    expect(s.pending.map((r) => r.draw)).toEqual([3, 3])
+  })
+
+  it('ends a phase by itself once the schedule is played, unless the Warmaster must break a tie', () => {
+    const evs = [...base(), set({ phaseEnd: 'auto', schedule: [1, 1, 1] }), battle('owner', 'b1', 'ann', 'cid', 'a'), battle('owner', 'b2', 'ben', 'dee', 'a')]
+    expect(phaseEndsByItself(campaignState(evs, deck))).toBe(true)
+    expect(phaseEndsByItself(campaignState([...evs.slice(0, -1)], deck))).toBe(false)
+    const tie = [...base(), set({ phaseEnd: 'auto', schedule: [1, 1, 1] }), battle('owner', 'b1', 'ann', 'cid', 'a'), battle('owner', 'b2', 'ben', 'dee', 'b')]
+    expect(phaseEndsByItself(campaignState(tie, deck))).toBe(false)
+    expect(phaseEndsByItself(campaignState([...base(), set({ schedule: [1, 1, 1] }), battle('owner', 'b1', 'ann', 'cid', 'a'), battle('owner', 'b2', 'ben', 'dee', 'a')], deck))).toBe(false)
   })
 })

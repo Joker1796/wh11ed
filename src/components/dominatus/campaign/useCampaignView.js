@@ -34,6 +34,26 @@ export function useCampaignView() {
   const allianceName = (id) => deck.value?.alliances.find((a) => a.id === id)?.name || id || '—'
   const playerName = (id) => ctx.state.value?.players.find((p) => p.id === id)?.name || id
   const playerOption = (p) => playerOptionOf(p, allianceName)
+  // A player's cards are shown to this reader (the `hands` setting, owner 2026-11-04): open to all,
+  // or each to their own player and the Warmaster — a watcher sees none. The log itself is every
+  // member's to read: this keeps the table's secret on screen, it does not lock the data.
+  const handOpen = (playerId) => {
+    const s = ctx.state.value
+    if (!s || s.hands !== 'hidden') return true
+    return !!ctx.isOwner?.value || ctx.mine?.value?.id === playerId
+  }
+  // The date the running phase is to be played by (the `deadlines` setting), said in words, and
+  // whether it has passed — the line "What next" and the phase tab carry. Null without one.
+  const phaseDeadline = computed(() => {
+    const s = ctx.state.value
+    const d = s && !s.finished ? s.deadlines?.[s.phase - 1] : null
+    if (!d) return null
+    const at = new Date(`${d}T23:59:59`)
+    const l = labels.value
+    const date = new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { day: 'numeric', month: 'long' }).format(at)
+    const late = Date.now() > at.getTime()
+    return { late, text: (late ? l.campDeadlinePast : l.campDeadlineLine).replace('{date}', date) }
+  })
   // A reward by its kind: the card pile it draws from, or the Location bonus with what it asks;
   // `rewardName` the short form, the name alone.
   const rewardKind = (r) => {
@@ -79,5 +99,5 @@ export function useCampaignView() {
     instantly(() => el.scrollIntoView({ block: 'center' }))
     el.querySelector('button')?.focus({ preventScroll: true })
   }
-  return { ...ctx, onAsk, bringIntoView, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, phaseLabel, rewardKind, rewardName, showUpgrade, remembered }
+  return { ...ctx, onAsk, bringIntoView, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, handOpen, phaseDeadline, phaseLabel, rewardKind, rewardName, showUpgrade, remembered }
 }

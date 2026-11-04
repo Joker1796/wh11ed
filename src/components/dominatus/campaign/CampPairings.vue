@@ -29,6 +29,16 @@
         </li>
       </ul>
     </template>
+    <!-- The app draws the phase's pairs (pairBy 'random'), once the phase has its Location. -->
+    <button
+      v-if="canDraw"
+      type="button"
+      class="btn-primary camp-draw-pairs"
+      :disabled="drawing"
+      @click="drawPairs"
+    >
+      {{ labels.campDrawPairs }}
+    </button>
     <CampOpenForm
       v-if="isOwner"
       v-slot="{ close }"
@@ -68,10 +78,10 @@
 import { ref, computed } from 'vue'
 import CampPick from './CampPick.vue'
 import CampOpenForm from './CampOpenForm.vue'
-import { pairingsNow, amendments } from '../../../core/dominatus/campaign.js'
+import { pairingsNow, amendments, randomPairings } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, act, labels, playerName, playerOption } = useCampaignView()
+const { entry, state, isOwner, act, labels, playerName, playerOption, onAsk } = useCampaignView()
 
 const pairings = computed(() => pairingsNow(state.value))
 const pa = ref(null)
@@ -86,6 +96,22 @@ async function addPairing() {
   pb.value = null
   return true
 }
+// The draw: written as the Warmaster's pairings, one event each, so each is taken back the same way.
+const canDraw = computed(() => isOwner.value && state.value.pairBy === 'random' && !!state.value.locations[state.value.phase] && !pairings.value.length)
+const drawing = ref(false)
+async function drawPairs() {
+  if (!canDraw.value) return
+  drawing.value = true
+  try {
+    const stamp = Date.now().toString(36)
+    for (const [i, x] of randomPairings(state.value).entries()) {
+      if (!(await act('pairing', { id: `r${stamp}${i}`, phase: state.value.phase, a: x.a, b: x.b }))) break
+    }
+  } finally {
+    drawing.value = false
+  }
+}
+onAsk({ drawPairs: () => drawPairs() })
 function removePairing(x) {
   const events = entry.value.events || []
   const am = amendments(events)

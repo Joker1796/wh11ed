@@ -1208,6 +1208,7 @@
             <div class="seg">
               <button
                 :class="{ on: !settings.strictRules }"
+                :disabled="domStrict"
                 @click="settings.strictRules = false"
               >
                 {{ labels.trackerStrictFree }}
@@ -1219,6 +1220,13 @@
                 {{ labels.trackerStrictOn }}
               </button>
             </div>
+            <!-- A campaign that plays its battles strictly takes a player's battle only so. -->
+            <p
+              v-if="domStrict"
+              class="layout-note"
+            >
+              {{ labels.trackerDomStrict }}
+            </p>
           </div>
           <div
             class="field"
@@ -2143,7 +2151,8 @@ function setCampaignPlayer(i, id) {
 function linkCampaign(id) {
   const st = id ? knownCampaignState(id) : null
   if (!st) return
-  settings.dominatus = { phase: st.phase, location: st.locations?.[st.phase] || null, campaign: id }
+  settings.dominatus = { phase: st.phase, location: st.locations?.[st.phase] || null, campaign: id, limit: st.upgradeLimit }
+  if (st.strict) settings.strictRules = true
   const same = (a, b) => !!a && !!b && a.trim().toLowerCase() === b.trim().toLowerCase()
   players.forEach((p, i) => {
     p.campaignPlayer = null
@@ -2151,6 +2160,11 @@ function linkCampaign(id) {
     if (cp) setCampaignPlayer(i, cp.id)
   })
 }
+// The campaign plays its battles with strict rules (its `strict` setting, owner 2026-11-04).
+const domStrict = computed(() => {
+  const id = settings.dominatus?.campaign
+  return !!(id && knownCampaignState(id)?.strict)
+})
 function unlinkCampaign() {
   settings.dominatus = { phase: settings.dominatus.phase, location: settings.dominatus.location }
   for (const p of players) p.campaignPlayer = null

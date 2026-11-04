@@ -150,6 +150,7 @@ import { provideCampaignView } from '../../components/dominatus/campaign/useCamp
 import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns, setCampaignPref } from '../../composables/useCampaigns.js'
+import { phaseEndsByItself } from '../../core/dominatus/campaign.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -218,6 +219,18 @@ async function act(type, payload) {
   }
 }
 provideCampaignView({ entry, state, isOwner, mine, act, ask })
+
+// A campaign whose phases end by themselves (`phaseEnd: 'auto'`, owner 2026-11-04): the Warmaster's
+// device writes the end once the schedule is played and counted and no tie waits for their word —
+// the same event as the phase tab's button. Once a phase: a phase the Warmaster reopened (its end
+// taken back) stays open until they end it again by hand.
+const endingPhase = ref(0)
+watch(() => (isOwner.value && state.value && !loading.value && phaseEndsByItself(state.value) ? state.value.phase : 0), async (phase) => {
+  if (!phase || endingPhase.value === phase) return
+  if ((entry.value?.events || []).some((e) => e.type === 'endPhase' && e.payload?.phase === phase)) return
+  endingPhase.value = phase
+  await act('endPhase', { phase })
+})
 
 let timer = null
 onMounted(async () => {

@@ -28,20 +28,26 @@ async function sideOf(p) {
 }
 
 /**
- * @param {{ campaignId: string, phase: number, location: string | null, size?: string, a: object, b: object }} battle
+ * The campaign's battle size of its phase, its strict rules (owner, 2026-11-04: "Play a battle"
+ * turns them on) and its Upgrade limit go along; the setup still lets the players change the size.
+ * @param {{ campaignId: string, phase: number, location: string | null, size?: string, strict?: boolean, upgradeLimit?: number, a: object, b: object }} battle
  * @param {import('vue-router').Router} router
  * @param {() => void} [leaving] closes the caller's dialog — in the same tick as the push, after the
  *   lists are read: a dialog closed before it steps the history back (useBackToClose) a beat later,
  *   and that step cancelled the push still waiting on the tracker's chunk.
  */
-export async function playCampaignBattle({ campaignId, phase, location, size, a, b }, router, leaving) {
+export async function playCampaignBattle({ campaignId, phase, location, size, strict, upgradeLimit, a, b }, router, leaving) {
   const { setupDraft, current } = useTracker()
   const players = await Promise.all([sideOf(a), sideOf(b)])
   setupDraft.value = {
     step: 1,
     players,
     // The campaign's battle size (a campaign setting); the setup still lets the players change it.
-    settings: { ...(size ? { battleSize: size } : {}), dominatus: { phase, location: location || null, campaign: campaignId } },
+    settings: {
+      ...(size ? { battleSize: size } : {}),
+      ...(strict ? { strictRules: true } : {}),
+      dominatus: { phase, location: location || null, campaign: campaignId, ...(upgradeLimit ? { limit: upgradeLimit } : {}) },
+    },
   }
   leaving?.()
   await router.push(current.value ? '/tracker' : '/tracker/game')

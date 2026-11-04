@@ -60,6 +60,10 @@ describe('upgradeLimit', () => {
     expect(upgradeLimit({ location: 'titangrave' })).toBe(4)
     expect(upgradeLimit({ location: 'cerbera-base' })).toBe(3)
     expect(upgradeLimit(null)).toBe(3)
+    // A campaign's own limit (owner, 2026-11-04), Titangrave's one on top.
+    expect(upgradeLimit({ location: 'cerbera-base', limit: 2 })).toBe(2)
+    expect(upgradeLimit({ location: 'titangrave', limit: 5 })).toBe(6)
+    expect(upgradeLimit({ location: 'cerbera-base', limit: 0 })).toBe(3)
   })
 })
 

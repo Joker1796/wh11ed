@@ -136,6 +136,32 @@
                 class="camp-dim"
               >{{ labels.campFactionAskWaiting }}</span>
             </div>
+            <!-- The same for the Alliance, when the campaign keeps it (allianceLock). -->
+            <div
+              v-if="p.allianceAsk"
+              class="camp-faction-ask"
+            >
+              <span class="camp-warn">{{ labels.campAllianceAsk.replace('{a}', allianceName(p.allianceAsk)) }}</span>
+              <span
+                v-if="isOwner"
+                class="camp-actions"
+              >
+                <button
+                  type="button"
+                  class="btn-ghost"
+                  @click="act('player', { id: p.id, alliance: p.allianceAsk })"
+                >{{ labels.campFactionAskYes }}</button>
+                <button
+                  type="button"
+                  class="btn-ghost"
+                  @click="act('player', { id: p.id, allianceAsk: null })"
+                >{{ labels.campFactionAskNo }}</button>
+              </span>
+              <span
+                v-else
+                class="camp-dim"
+              >{{ labels.campFactionAskWaiting }}</span>
+            </div>
             <!-- The roster attached, as a snapshot anyone in the campaign opens; missing where the
                  campaign requires one. -->
             <a
@@ -163,9 +189,14 @@
               v-if="p.agenda.length"
               class="camp-badge"
             >{{ labels.domAgendaAchieved }} {{ p.agenda.length }}</span>
-            <!-- Each card held opens its text, as a card's corner mark does. -->
+            <!-- Each card held opens its text, as a card's corner mark does. A hand the campaign keeps
+                 to its player (`hands: 'hidden'`) is a count to everyone else. -->
+            <span
+              v-if="p.upgrades.length && !handOpen(p.id)"
+              class="camp-badge"
+            >{{ labels.campCardsHidden.replace('{n}', p.upgrades.length) }}</span>
             <p
-              v-if="p.upgrades.length"
+              v-else-if="p.upgrades.length"
               class="camp-cards"
             >
               <button
@@ -275,10 +306,11 @@
         >
           {{ labels.campFactionLockedNote }}
         </p>
-        <!-- Grouping the players is the Warmaster's (the Event Companion: they may require a player
-             to change their Alliance). -->
+        <!-- The Alliance: the Warmaster's to change, or the player's own where the campaign leaves it
+             to them (the Event Companion: the Warmaster may require a player to change it). Kept
+             after the first battle, a player's change is an ask (allianceLock). -->
         <div
-          v-if="isOwner"
+          v-if="pickAlliance"
           class="camp-num"
         >
           <span>{{ labels.campAlliance }}</span>
@@ -296,6 +328,12 @@
               />
             </button>
           </div>
+          <p
+            v-if="allianceLocked"
+            class="camp-dim"
+          >
+            {{ labels.campAllianceLockedNote }}
+          </p>
         </div>
         <!-- Who speaks for the player (`member`): the Warmaster gives the player to the entry a
              player's new device made, when the old one is lost (a guest's member lives on one
@@ -470,12 +508,13 @@ import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade, onAsk, bringIntoView } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade, onAsk, bringIntoView, handOpen } = useCampaignView()
 // "What next": signing up opens the form.
 const joinForm = ref(null)
 onAsk({
   register: () => joinForm.value?.show(),
   factionAsk: (x) => bringIntoView(`[data-player="${x.player}"]`),
+  allianceAsk: (x) => bringIntoView(`[data-player="${x.player}"]`),
 })
 const factionName = (slug) => factionIndexBySlug(slug)?.name || slug
 const { locale } = useLocale()
@@ -499,8 +538,9 @@ const groups = computed(() => {
 // What the campaign leaves to the player: the Alliance (or the Warmaster's), the faction once
 // they have played (when the campaign keeps it).
 const pickAlliance = computed(() => isOwner.value || state.value.allianceBy !== 'warmaster')
-const factionLocked = computed(() => !isOwner.value && state.value.factionLock && !!editing.value
-  && state.value.battles.some((b) => b.status !== 'rejected' && (b.a === editing.value.id || b.b === editing.value.id)))
+const playedYet = () => !!editing.value && state.value.battles.some((b) => b.status !== 'rejected' && (b.a === editing.value.id || b.b === editing.value.id))
+const factionLocked = computed(() => !isOwner.value && state.value.factionLock && playedYet())
+const allianceLocked = computed(() => !isOwner.value && state.value.allianceLock && playedYet())
 
 // A roster attached as a snapshot (the share code): this device's saved lists, the player's
 // faction first. Its points as the builder last counted them.
@@ -543,7 +583,7 @@ const menuFor = ref(null)
 const editing = ref(null)
 const edit = reactive({ name: '', faction: null, alliance: null, member: '' })
 function startEdit(p) {
-  Object.assign(edit, { name: p.name, faction: p.factionAsk || p.faction, alliance: p.alliance, member: p.member || '' })
+  Object.assign(edit, { name: p.name, faction: p.factionAsk || p.faction, alliance: p.allianceAsk || p.alliance, member: p.member || '' })
   menuFor.value = null
   editing.value = p
 }
@@ -554,6 +594,8 @@ async function saveEdit() {
   // they have takes the ask back.
   if (!factionLocked.value || (edit.faction && edit.faction !== (p.factionAsk || p.faction))) payload.faction = edit.faction
   if (isOwner.value) payload.alliance = edit.alliance
+  // A player's own: only a change is sent (an ask, once kept — the fold), as for the faction.
+  else if (pickAlliance.value && edit.alliance && edit.alliance !== (p.allianceAsk || p.alliance)) payload.alliance = edit.alliance
   if (isOwner.value && edit.member !== (p.member || '')) payload.member = edit.member || null
   if (await act('player', payload)) editing.value = null
 }

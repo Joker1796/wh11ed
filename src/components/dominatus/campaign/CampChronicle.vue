@@ -59,7 +59,7 @@ import { useCampaignView } from './useCampaignView.js'
 import { useLocale } from '../../../composables/useLocale.js'
 import { refusalText } from '../../../composables/useCampaigns.js'
 
-const { entry, state, isOwner, labels, playerName, upgradeName, locationName, phaseLabel } = useCampaignView()
+const { entry, state, isOwner, labels, playerName, upgradeName, locationName, phaseLabel, handOpen } = useCampaignView()
 const { locale } = useLocale()
 const all = ref(false)
 const SHOWN = 20
@@ -114,7 +114,8 @@ function describe(e, seenPlayers) {
       return (p.ok ? l.campChrCounted : l.campChrRefused).replace('{pair}', pair)
     }
     case 'draw': return l.campChrDraw.replace('{p}', playerName(rewardPlayer(p.reward))).replace('{n}', (p.cards || []).length)
-    case 'claim': return p.kept
+    // A card kept names itself only where the player's hand is shown (`hands`).
+    case 'claim': return p.kept && handOpen(rewardPlayer(p.reward))
       ? l.campChrKept.replace('{p}', playerName(rewardPlayer(p.reward))).replace('{card}', upgradeName(p.kept))
       : l.campChrClaimed.replace('{p}', playerName(rewardPlayer(p.reward)))
     case 'endPhase': return l.campChrEndPhase.replace('{phase}', phaseLabel(p.phase))

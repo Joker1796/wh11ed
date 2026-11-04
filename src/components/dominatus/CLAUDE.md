@@ -215,6 +215,23 @@ on a tie nothing breaks.
   (`.setup-card`, `.block-head`), two columns past 700px as the setup's steps 3–4, captions as the
   setup's (`.field > span`, "?" inside), and Cancel / Save in the setup's sticky row
   (`.setup-actions`). Those classes live in style.css, shared with GameSetup — not copied.
+- **More settings** (owner, 2026-11-04, "all of them" — the booklet's "Modifying Dominatus" and more;
+  `SETTINGS_DEFAULTS` in core, each enforced there): the battle size one for the campaign or one a
+  phase (`size` a string or three; `sizeOf`, "Play a battle" plays the phase's); the Alliance kept
+  from the first battle (`allianceLock` — a player's change is an ask, `allianceAsk`, answered on
+  Players and in What next; a battle keeps the Alliances it was fought for, `alliances`, so an
+  Honour stays with the Alliance it was won for); battles under strict rules (`strict` — "Play a
+  battle" and the setup's campaign link turn them on, the setup greys "Free", a member's battle
+  without them is refused; the battle event says `strict`); who plays whom (`pairBy`: anyone, the
+  Warmaster's pairings, or pairings the app draws — `randomPairings`, "Draw" in What next and on the
+  battles tab; with pairs a member's battle is with their pair only, and "Play a battle" offers only
+  them); the end of a phase by itself (`phaseEnd: 'auto'` — `phaseEndsByItself`; the Warmaster's
+  device writes the end, never on a tie the rules cannot break nor on a phase reopened); the date
+  each phase is played by (`deadlines` — `phaseDeadline`, What next and the phase tab, in the
+  warning colour once past); cards more on every reward (`drawExtra`, 0–2); Upgrades a battle
+  (`upgradeLimit`, 1–5, carried to the game as `settings.dominatus.limit`, Titangrave's +1 on top);
+  players' cards open or each to their own (`hands` — `handOpen`; the chronicle's kept card unnamed
+  too; a screen's discretion, the log stays every member's to read).
 - **The settings are a page** (owner, 2026-11-01): `/tracker/campaigns/new` starts a campaign with
   them and `/tracker/campaigns/:id/settings` changes them (`CampaignSettingsView` + `CampSettingsForm`,
   each setting a `CampSettingSeg` with its "?"; the old dialog and Rename are gone — the name is a

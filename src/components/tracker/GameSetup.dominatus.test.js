@@ -10,17 +10,17 @@ const players = [
   { id: 'dee', name: 'Dee', alliance: 'raiders' },
   { id: 'new', name: 'New', alliance: null },
 ]
-let role = 'owner', me = null
+let role = 'owner', me = null, strict = false
 vi.mock('../../composables/useCampaigns.js', () => ({
   knownCampaigns: () => [{ id: 'C', name: 'Armageddon', role }, { id: 'W', name: 'Watched', role: 'viewer' }],
-  knownCampaignState: (id) => (id === 'C' ? { phase: 2, locations: { 1: 'the-mannheim-gap', 2: 'cerbera-base' }, players, roster: 'optional' } : null),
+  knownCampaignState: (id) => (id === 'C' ? { phase: 2, locations: { 1: 'the-mannheim-gap', 2: 'cerbera-base' }, players, roster: 'optional', strict, upgradeLimit: 4 } : null),
   campaignPlayerOf: () => (me ? players.find((p) => p.id === me) : null),
 }))
 
 let GameSetup
 beforeEach(async () => {
   localStorage.clear()
-  role = 'owner'; me = null
+  role = 'owner'; me = null; strict = false
   GameSetup = (await import('./GameSetup.vue')).default
 })
 afterEach(async () => { await vi.dynamicImportSettled(); document.body.innerHTML = '' })
@@ -43,7 +43,7 @@ describe('GameSetup — a Dominatus battle of a campaign', () => {
   it('takes the campaign\'s phase and Location, and each side by its name', () => {
     const s = setup('ann ', 'Cid')
     s.linkCampaign('C')
-    expect(s.settings.dominatus).toEqual({ phase: 2, location: 'cerbera-base', campaign: 'C' })
+    expect(s.settings.dominatus).toEqual({ phase: 2, location: 'cerbera-base', campaign: 'C', limit: 4 })
     expect(s.players.map((p) => [p.campaignPlayer, p.alliance])).toEqual([['ann', 'liberators'], ['cid', 'oppressors']])
     // A player with no Alliance yet is not offered.
     expect(s.domPlayerOptions(1).map((o) => o.value)).toEqual(['ann', 'cid', 'dee'])
@@ -59,6 +59,15 @@ describe('GameSetup — a Dominatus battle of a campaign', () => {
     // One player is one side: picked for the other, it leaves the first.
     s.setCampaignPlayer(1, 'dee')
     expect(s.players.map((p) => p.campaignPlayer)).toEqual([null, 'dee'])
+  })
+
+  it('turns strict rules on for a campaign that plays its battles so, and keeps them on', () => {
+    strict = true
+    const s = setup('Ann', 'Cid')
+    s.settings.strictRules = false
+    s.linkCampaign('C')
+    expect(s.settings.strictRules).toBe(true)
+    expect(s.domStrict).toBe(true)
   })
 
   it('gives a member\'s own side only their player', () => {
