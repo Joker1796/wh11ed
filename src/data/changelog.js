@@ -155,34 +155,6 @@ export const changelog = [
       'Кнопка «Установить приложение» ничего не делает? Скорее всего, сайт открыт внутри другого приложения, например Яндекс или ВК. Такие браузеры не умеют устанавливать приложения. Откройте wh-rules.ru в Chrome или Яндекс Браузере и установите приложение оттуда.',
     ],
   },
-  {
-    version: '2.10.6',
-    date: '2026-10-26',
-    en: [
-      { h: 'Roster builder' },
-      '**[Tempestus Scions](/factions/astra-militarum/datasheets/tempestus-scions) led by a [Militarum Tempestus Command Squad](/factions/astra-militarum/datasheets/militarum-tempestus-command-squad) have [SUSTAINED HITS 1] on their ranged weapons.** The Tempestor Prime is in the Command Squad, and the card did not see him. Krieg units led by a Quartermaster Cadre with Medicae Servitors get Medi-packs the same way.',
-      '**What an attached Leader carries reaches the card of the unit it leads.** For example, a Big Mek’s Kustom Force Field gives the Meganobz card its 4+ invulnerable save. Before, only the row in the list showed it.',
-      '**A unit’s row in the list shows the weapon abilities its detachment gives, as its card does.** For example, in Darkflight Pursuit the ranged weapons of a Land Speeder or a Stormtalon Gunship have [IGNORES COVER]. Before, only the card showed it.',
-      '**Two Shield Drones on one model add 2 to its Wounds.** On a Shas’ui in a Strike, Breacher or Pathfinder Team the card showed the bonus on two models, +1 W each. The same was true for Broadside and Crisis teams of several models.',
-      '**When you print a roster, identical units share one unit card marked “×2”.** A unit in an attached unit always gets a card of its own.',
-      { h: 'Tracker' },
-      '**After the roll for the first turn, the Army tab shows each player their own army.** Before, if the second player won the roll, the army rule, the detachment rules and the list stayed with the other player.',
-      { h: 'Answers to bug reports' },
-      'Do Wulfen with [Wolf-Touched](/factions/space-wolves#enh-saga-of-the-beastslayer-wolf-touched) stay at 9” M? I could not reproduce it. When the character with Wolf-Touched is attached to [Wulfen](/factions/space-wolves/datasheets/wulfen) in your list, they have 11”. If it keeps happening for you, please send a bug report with more details.',
-    ],
-    ru: [
-      { h: 'Конструктор ростеров' },
-      '**[Tempestus Scions](/factions/astra-militarum/datasheets/tempestus-scions) под [Militarum Tempestus Command Squad](/factions/astra-militarum/datasheets/militarum-tempestus-command-squad) получают [SUSTAINED HITS 1] на дальнобойное оружие.** Tempestor Prime стоит в Command Squad, и карточка его не видела. Отряды Krieg под Quartermaster Cadre с Medicae Servitors так же получают Medi-packs.',
-      '**Снаряжение присоединённого лидера видно на карточке отряда, который он ведёт.** Например, Kustom Force Field у Big Mek даёт карточке Meganobz 4+ InSv. Раньше это было видно только в строке списка.',
-      '**Строка юнита в списке показывает способности оружия от детачмента, как и его карточка.** Например, в Darkflight Pursuit у Land Speeder и Stormtalon Gunship дальнобойное оружие получает [IGNORES COVER]. Раньше это было видно только на карточке.',
-      '**Два Shield Drone на одной модели дают ей +2 W.** У Shas’ui в Strike, Breacher и Pathfinder Team карточка показывала бонус на двух моделях, по +1 W. То же было у Broadside и Crisis, если в отряде несколько моделей.',
-      '**При печати ростера одинаковые юниты получают одну общую карточку с пометкой «×2».** Юнит в присоединённом отряде всегда печатается на своей карточке.',
-      { h: 'Трекер' },
-      '**После броска за первый ход вкладка «Армия» показывает каждому игроку его армию.** Раньше, если бросок выигрывал второй игрок, правило армии, правила детачментов и ростер оставались у соперника.',
-      { h: 'Ответы на баг-репорты' },
-      'Wulfen с [Wolf-Touched](/factions/space-wolves#enh-saga-of-the-beastslayer-wolf-touched) остаются на 9” M? Я не смог это воспроизвести. Если персонаж с Wolf-Touched прикреплён к [Wulfen](/factions/space-wolves/datasheets/wulfen) в списке, у них 11”. Если у вас это повторяется, напишите, пожалуйста, подробнее в отчёте об ошибке.',
-    ],
-  },
 ]
 
 // The latest entry drives the banner + the stored "last seen version". Exported so the composable
