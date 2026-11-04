@@ -27,10 +27,12 @@ export const changelog = [
     en: [
       { h: 'Answers to bug reports' },
       '**In a game with strict rules you can score a mission that counts at the end of your opponent’s turn.** Defend Stronghold is one. In a game on two devices, your device asks about it when your opponent ends the turn. You can tick it until you do anything in your own turn. Before, such a mission could not be scored in that game.',
+      '**[Watch Master](/factions/imperial-agents/datasheets/watch-master) in an Imperial Agents army can lead [Deathwatch Terminator Squad](/factions/imperial-agents/datasheets/deathwatch-terminator-squad).** Its Leader rule says so. But for Imperial Agents this unit is Legends. The GW app does not have it, and events usually do not allow it. [Watch Master](/factions/deathwatch/datasheets/watch-master) in a Deathwatch army does not lead Terminators.',
     ],
     ru: [
       { h: 'Ответы на баг-репорты' },
       '**В игре по строгим правилам можно засчитать миссию, которая засчитывается в конце хода соперника.** Например, Defend Stronghold. В игре на двух устройствах ваше устройство само спросит о ней, когда соперник завершит ход. Отметить её можно, пока вы ничего не сделали в своём ходу. Раньше в такой игре её нельзя было засчитать.',
+      '**[Watch Master](/factions/imperial-agents/datasheets/watch-master) в армии Imperial Agents может вести [Deathwatch Terminator Squad](/factions/imperial-agents/datasheets/deathwatch-terminator-squad).** Так написано в его правиле Leader. Но у Imperial Agents это юнит Legends. В приложении GW его нет, и на турнирах его обычно не разрешают. [Watch Master](/factions/deathwatch/datasheets/watch-master) в армии Deathwatch терминаторов не ведёт.',
     ],
   },
   {
