@@ -3,8 +3,8 @@
     :label="foldLabel"
     :start-open="isOwner && state.rejected.length > 0"
   >
-    <!-- A cogitator screen (owner, 2026-11-03): the one place on the campaign pages drawn as a
-         device, so it keeps its own dark phosphor panel in both themes. -->
+    <!-- A cogitator's log (owner, 2026-11-03): the lore face and its lines, in the site's own
+         colours and both themes (owner, 2026-11-04 — the green panel went). -->
     <div class="camp-chron">
       <ol>
         <li
@@ -152,14 +152,15 @@ const foldLabel = computed(() => {
 </script>
 
 <style scoped>
-/* Phosphor green on near-black: dark in both themes, since it is a screen, not a page surface.
-   The amber of a refusal is the dark theme's --warning, which reads on this panel. */
+/* The site's own colours (owner, 2026-11-04: the phosphor green of 03.11 back to the project's): a
+   card's surface and border, the text and its muted tone, a refusal in the warning colour. The lore
+   face and the terminal's lines stay. */
 .camp-chron {
-  --chr-bg: #0d140f;
-  --chr-line: #24452c;
-  --chr-fg: #7ee08f;
-  --chr-dim: #4f9a5d;
-  --chr-alert: #e3b341;
+  --chr-bg: var(--bg-card);
+  --chr-line: var(--border);
+  --chr-fg: var(--text-primary);
+  --chr-dim: var(--text-muted);
+  --chr-alert: var(--warning);
   margin: 0 0 0.5rem;
   padding: 0.5rem 0.65rem;
   background: var(--chr-bg);
@@ -168,12 +169,11 @@ const foldLabel = computed(() => {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   line-height: 1.45;
-  text-shadow: 0 0 4px rgba(126, 224, 143, 0.35);
 }
 .camp-chron ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
 .camp-chron-meta { color: var(--chr-dim); text-transform: uppercase; }
 .camp-chron-text, .camp-chron-why { padding-left: 2ch; }
-.camp-chron-text::before { content: '> '; margin-left: -2ch; }
+.camp-chron-text::before { content: '> '; margin-left: -2ch; color: var(--accent-ink); }
 .camp-chron-tag { font-weight: 700; text-transform: uppercase; color: var(--chr-dim); margin-right: 1ch; }
 .camp-chron-tag.is-refused, .camp-chron-why { color: var(--chr-alert); }
 .camp-chron-why { font-size: 0.72rem; }
