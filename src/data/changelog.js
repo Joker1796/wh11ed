@@ -23,7 +23,7 @@
 export const changelog = [
   {
     version: '2.10.11',
-    date: '2026-11-03',
+    date: '2026-11-04',
     en: [
       { h: 'Answers to bug reports' },
       '**When two Characters lead one unit, the gear and enhancements of each reach the other too.** The Lion Helm on Azrael gives a 4+ InSv to the whole unit, the Lieutenant with him included. Before, only the Bodyguard models got it.',
