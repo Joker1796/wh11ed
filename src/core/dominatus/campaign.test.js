@@ -422,6 +422,9 @@ describe('Dominatus campaign — who may do what, and rosters', () => {
     const s = campaignState([...base(), O('settings', { roster: 'required' }), ev('m1', 'roster', { player: 'ben', code, name: 'Speed', points: 1995 }), ev('m1', 'roster', { player: 'cid', code }), battle('m1', 'b1', 'ben', 'cid', 'a')], deck)
     expect(s.players.find((p) => p.id === 'ben').roster).toMatchObject({ code, name: 'Speed', points: 1995 })
     expect(s.rejected.map((r) => r.reason)).toEqual(['not your player', 'no roster'])
+    // The copy carries the day it was made, from the server's stamp.
+    const dated = campaignState([...base(), O('settings', { roster: 'optional' }), { ...ev('m1', 'roster', { player: 'ben', code }), at: '2026-11-05T10:00:00.000Z' }], deck)
+    expect(dated.players.find((p) => p.id === 'ben').roster.at).toBe('2026-11-05T10:00:00.000Z')
   })
 })
 

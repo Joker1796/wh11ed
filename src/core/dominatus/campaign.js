@@ -34,9 +34,9 @@
  * @typedef {{ slug: string, kind: 'honour' | 'skill' | 'relic', phase?: number, alliance?: string }} UpgradeCard
  * @typedef {{ slug: string, phase: number }} LocationCard
  * @typedef {{ upgrades: UpgradeCard[], locations: LocationCard[] }} Deck
- * @typedef {{ seq: number, author: string, type: string, payload: any }} CampaignEvent
+ * @typedef {{ seq: number, author: string, type: string, payload: any, at?: string }} CampaignEvent
  * @typedef {{ phase: number }} AgendaCard
- * @typedef {{ code: string, name: string, points: number, faction: string | null }} RosterSnapshot
+ * @typedef {{ code: string, name: string, points: number, faction: string | null, at: string | null }} RosterSnapshot
  * @typedef {{ id: string, name: string, alliance: string | null, faction: string | null, member: string | null, upgrades: string[], agenda: AgendaCard[], roster: RosterSnapshot | null, factionAsk?: string | null, allianceAsk?: string | null }} Player
  * @typedef {{ side: 'a' | 'b', slug: string, unit: string }} BattleUpgrade
  * @typedef {{ id: string, phase: number, a: string, b: string, victor: 'a' | 'b' | null, achieved: { a: number, b: number }, upgrades: BattleUpgrade[], alliances: { a: string | null, b: string | null }, status: 'pending' | 'approved' | 'rejected', by: string, edited: boolean }} Battle
@@ -595,7 +595,9 @@ function apply(s, deck, e) {
       if (p.code == null) { pl.roster = null; return null }
       if (s.roster === 'none') return 'rosters off'
       if (typeof p.code !== 'string' || !p.code || p.code.length > MAX_ROSTER_CODE) return 'roster too long'
-      pl.roster = { code: p.code, name: String(p.name || '').slice(0, 60), points: Math.max(0, Math.floor(Number(p.points) || 0)), faction: typeof p.faction === 'string' ? p.faction : null }
+      // `at` — when the copy was made (the server's stamp): a list changed in the builder since is
+      // not this one, and the line says so by its date (owner, 2026-11-05).
+      pl.roster = { code: p.code, name: String(p.name || '').slice(0, 60), points: Math.max(0, Math.floor(Number(p.points) || 0)), faction: typeof p.faction === 'string' ? p.faction : null, at: typeof e.at === 'string' ? e.at : null }
       return null
     }
 

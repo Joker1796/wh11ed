@@ -588,7 +588,19 @@ const { activeRosters } = useRosters()
 const rosterFor = ref(null)
 const attaching = ref(false)
 const pts = (n) => countLabel(n, labels.value.campPointsForms)
-const rosterLine = (r) => labels.value.campRosterLine.replace('{name}', r.name).replace('{pts}', pts(r.points))
+// The roster is a copy made when it was attached; its date says so beside it.
+const rosterLine = (r) => {
+  const line = labels.value.campRosterLine.replace('{name}', r.name).replace('{pts}', pts(r.points))
+  const day = r.at ? copyDay(r.at) : ''
+  return day ? `${line} · ${labels.value.campRosterCopyOf.replace('{when}', day)}` : line
+}
+function copyDay(at) {
+  try {
+    return new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { day: '2-digit', month: '2-digit' }).format(new Date(at))
+  } catch {
+    return ''
+  }
+}
 const rosterChoices = computed(() => {
   const f = rosterFor.value?.faction
   return [...activeRosters.value].sort((a, b) => (b.faction === f) - (a.faction === f))
