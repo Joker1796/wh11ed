@@ -8,7 +8,7 @@
 
   <p class="dom-cta">
     <RouterLink
-      to="/tracker/campaigns"
+      to="/campaigns"
       class="btn-ghost"
     >
       {{ labels.domRunCampaign }}
@@ -22,7 +22,7 @@
 
 <script setup>
 // The booklet, in its own sections. No lead paragraph of ours: the booklet's first section is the
-// introduction. The campaign itself is run in the tracker (/tracker/campaigns) — the link up top.
+// introduction. The campaign itself is run in the Campaigns section (/campaigns) — the link up top.
 import { computed } from 'vue'
 import EventProseBlocks from '../event/EventProseBlocks.vue'
 import { useDominatus } from './useDominatus.js'

@@ -20,6 +20,38 @@ export function playerOptionOf(p, allianceName) {
   }
 }
 
+/**
+ * The names of a campaign's things in the reader's language, and the sentence a "What next" step
+ * says — for the campaign's own page (useCampaignView) and for the list of campaigns, which has
+ * only each one's folded state (owner, 2026-11-05: the list says what each campaign asks of you).
+ * @param {() => any} getState the campaign's folded state
+ * @param {import('vue').Ref<'en'|'ru'>} locale
+ */
+export function campaignWords(getState, locale) {
+  const labels = computed(() => ui[locale.value])
+  const deck = computed(() => dominatusDeck(locale.value))
+  const allianceName = (id) => deck.value?.alliances.find((a) => a.id === id)?.name || id || '—'
+  const playerName = (id) => getState()?.players.find((p) => p.id === id)?.name || id
+  // A reward by its kind: the card pile it draws from, or the Location bonus with what it asks;
+  // `rewardName` the short form, the name alone.
+  const rewardKind = (r) => {
+    const l = labels.value
+    return { honour: l.domHonours, skill: l.domSkills, relic: l.domRelics, fresh: l.campFresh, mettle: l.campMettle, augury: l.campAugury }[r.kind] || r.kind
+  }
+  const rewardName = (r) => rewardKind(r).split(':')[0]
+  /** A step of `nextSteps` as its sentence; `{n}` is left for CountText. */
+  const stepText = (x) => {
+    const l = labels.value
+    const key = x.kind === 'reward' && !x.player ? 'campNext_rewardPhase' : `campNext_${x.kind}`
+    return (l[key] || x.kind)
+      .replace('{p}', x.player ? playerName(x.player) : '')
+      .replace('{what}', x.reward ? rewardName(x.reward) : '')
+      .replace('{f}', x.faction ? factionIndexBySlug(x.faction)?.name || x.faction : '')
+      .replace('{a}', x.alliance ? allianceName(x.alliance) : '')
+  }
+  return { labels, deck, allianceName, playerName, rewardKind, rewardName, stepText }
+}
+
 export function provideCampaignView(ctx) {
   provide(KEY, ctx)
 }
@@ -27,12 +59,9 @@ export function provideCampaignView(ctx) {
 export function useCampaignView() {
   const ctx = inject(KEY)
   const { locale } = useLocale()
-  const labels = computed(() => ui[locale.value])
-  const deck = computed(() => dominatusDeck(locale.value))
+  const { labels, deck, allianceName, playerName, rewardKind, rewardName, stepText } = campaignWords(() => ctx.state.value, locale)
   const upgradeName = (slug) => deck.value?.upgrades.find((u) => u.slug === slug)?.name || slug
   const locationName = (slug) => deck.value?.locations.find((l) => l.slug === slug)?.name || slug
-  const allianceName = (id) => deck.value?.alliances.find((a) => a.id === id)?.name || id || '—'
-  const playerName = (id) => ctx.state.value?.players.find((p) => p.id === id)?.name || id
   const playerOption = (p) => playerOptionOf(p, allianceName)
   // A player's cards are shown to this reader (the `hands` setting, owner 2026-11-04): open to all,
   // or each to their own player and the Warmaster — a watcher sees none. The log itself is every
@@ -54,13 +83,6 @@ export function useCampaignView() {
     const late = Date.now() > at.getTime()
     return { late, text: (late ? l.campDeadlinePast : l.campDeadlineLine).replace('{date}', date) }
   })
-  // A reward by its kind: the card pile it draws from, or the Location bonus with what it asks;
-  // `rewardName` the short form, the name alone.
-  const rewardKind = (r) => {
-    const l = labels.value
-    return { honour: l.domHonours, skill: l.domSkills, relic: l.domRelics, fresh: l.campFresh, mettle: l.campMettle, augury: l.campAugury }[r.kind] || r.kind
-  }
-  const rewardName = (r) => rewardKind(r).split(':')[0]
   const phaseLabel = (n) => labels.value.domPhase.replace('{n}', ['I', 'II', 'III'][n - 1] || n)
   // An Upgrade card named on the page opens its text in the rules popover, as the card prints it:
   // who may take it, what it does, its bonus effect.
@@ -99,5 +121,5 @@ export function useCampaignView() {
     instantly(() => el.scrollIntoView({ block: 'center' }))
     el.querySelector('button')?.focus({ preventScroll: true })
   }
-  return { ...ctx, onAsk, bringIntoView, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, handOpen, phaseDeadline, phaseLabel, rewardKind, rewardName, showUpgrade, remembered }
+  return { ...ctx, onAsk, bringIntoView, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, handOpen, phaseDeadline, phaseLabel, rewardKind, rewardName, stepText, showUpgrade, remembered }
 }

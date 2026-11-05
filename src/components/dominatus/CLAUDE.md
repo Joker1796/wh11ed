@@ -152,7 +152,24 @@ tracker or roster screens load; `shellImports.test.js` keeps it out of the app s
 `missionTiming.js` learned one moment for this deck: **"End of the battle round"** (`round-end`, the
 turn that closes the round). Before that it read as "any turn" without a word.
 
-## The campaign (`/tracker/campaigns`)
+## The Campaigns section (`/campaigns`)
+
+**Campaigns are a top-level section** (owner, 2026-11-05), beside the tracker in the navbar and the
+drawer (not in the bottom nav: its five items are fixed). `/campaigns` (`views/campaigns/
+CampaignsView.vue`) shows the decks a campaign is played with and the campaigns this device knows:
+the Dominatus card — the emblem off the booklet's cover (`src/assets/dominatus/dom-logo.svg`,
+traced by `scripts/trace-dominatus-emblems.py logo`, 18 KB so a file of its own, not a `.wi`), the
+deck rules and **How it works** (the player's path in six steps, `campHowText`) — and a dimmed
+**Your own deck**, coming later. One deck so far, so it is open from the start: from 901px the
+decks are a column on the left and its campaigns the right column, on a phone the deck card, its
+campaigns, then the dimmed card. Each campaign row says the first thing its **What next** asks of
+this reader (`campaignWords().stepText`, the sentence `CampNext` prints, from `useCampaignView.js`).
+A campaign lives under its deck: `campaignPath(id, sub)` in `router/nav.js` —
+`/campaigns/dominatus/:id`, `…/new`, `…/:id/settings`; the invite and view links are built from it.
+`/tracker/campaigns…` (where they lived on the branch before) redirects, query and all. The pages
+carry `meta.section: 'campaigns'` (`isCampaignsRoute`), with no subnav.
+
+## The campaign (`/campaigns/dominatus/:id`)
 
 A campaign is an **append-only event log** on the server (`wh11ed-api` `/campaigns`, README
 "Dominatus campaigns") folded on every device by `src/core/dominatus/campaign.js` — players and
@@ -240,8 +257,8 @@ on a tie nothing breaks.
   (`upgradeLimit`, 1–5, carried to the game as `settings.dominatus.limit`, Titangrave's +1 on top);
   players' cards open or each to their own (`hands` — `handOpen`; the chronicle's kept card unnamed
   too; a screen's discretion, the log stays every member's to read).
-- **The settings are a page** (owner, 2026-11-01): `/tracker/campaigns/new` starts a campaign with
-  them and `/tracker/campaigns/:id/settings` changes them (`CampaignSettingsView` + `CampSettingsForm`,
+- **The settings are a page** (owner, 2026-11-01): `/campaigns/dominatus/new` starts a campaign with
+  them and `/campaigns/dominatus/:id/settings` changes them (`CampaignSettingsView` + `CampSettingsForm`,
   each setting a `CampSettingSeg` with its "?"; the old dialog and Rename are gone — the name is a
   setting). The core holds the defaults (`SETTINGS_DEFAULTS`) and enforces each: joining by the link
   (`join`), the Alliance the player's or the Warmaster's (`allianceBy`), the faction kept from the
@@ -271,7 +288,7 @@ on a tie nothing breaks.
 - Device side: `src/composables/useCampaigns.js` (the campaigns this device knows, with its
   credential for each — the account for the owner and for a member, the view token from `?t=` or
   from an invite opened signed out, which keeps the link as `invite`),
-  pages `src/views/tracker/Campaign(s)View.vue`, blocks in `campaign/`. A finished
+  pages `src/views/campaigns/Campaign(s)View.vue`, blocks in `campaign/`. A finished
   Dominatus game is sent from its screen (`CampSendGame`, battle id `g-<game id>` so it counts once).
   The event is core's `battleEvent`: the victor, Agenda Achieved, the phase, and the Upgrades each
   side gave its units (`upgrades: [{ side, slug, unit }]` — a record for the chronicle, "Fire and Fury

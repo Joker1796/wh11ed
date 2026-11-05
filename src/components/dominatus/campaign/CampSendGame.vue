@@ -9,7 +9,7 @@
       v-if="sent"
       class="csend-done"
     >
-      <span>{{ sentText[0] }}</span><RouterLink :to="`/tracker/campaigns/${cid}`">
+      <span>{{ sentText[0] }}</span><RouterLink :to="campaignPath(cid)">
         {{ campaignName }}
       </RouterLink><span>{{ sentText[1] }}</span>
     </p>
@@ -74,6 +74,7 @@ import CampPick from './CampPick.vue'
 import { useCampaigns, refusalText } from '../../../composables/useCampaigns.js'
 import { battleEvent } from '../../../core/dominatus/campaign.js'
 import { leader } from '../../../core/game/gameScoring.js'
+import { campaignPath } from '../../../router/nav.js'
 import { ui } from '../../../i18n/ui.js'
 import { useLocale } from '../../../composables/useLocale.js'
 

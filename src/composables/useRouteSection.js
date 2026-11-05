@@ -28,6 +28,9 @@ export function useRouteSection() {
   const isTrackerRoute = computed(() => route.meta.section === 'tracker')
   // Roster Builder — its own top-level section next to Tracker, not folded into it.
   const isRosterRoute = computed(() => route.meta.section === 'roster')
+  // Campaigns — the decks and the campaigns played with them, a section beside the tracker (owner,
+  // 2026-11-05); their rules stay in the Rules umbrella (Dominatus).
+  const isCampaignsRoute = computed(() => route.meta.section === 'campaigns')
   // GameSetup (wizard) and the active/finished game screen both render on this one route —
   // the footer would otherwise push below the fold under the fixed "Back to game" bar / bottom nav.
   const isTrackerGameRoute = computed(() => stripLocale(route.path) === '/tracker/game')
@@ -59,6 +62,7 @@ export function useRouteSection() {
     isTrackerGameRoute,
     isGameRosterRoute,
     isRosterRoute,
+    isCampaignsRoute,
     isCoreRoute,
     isRulesRoute,
   }

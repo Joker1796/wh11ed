@@ -101,6 +101,13 @@
           {{ labels.navTracker }}
         </RouterLink>
         <RouterLink
+          to="/campaigns"
+          class="nav-link"
+          :class="{ active: isCampaignsRoute }"
+        >
+          {{ labels.navCampaigns }}
+        </RouterLink>
+        <RouterLink
           to="/roster"
           class="nav-link"
           :class="{ active: isRosterRoute }"
@@ -392,7 +399,7 @@ function toggleErrorReports() {
   setErrorReports(errorReports.value)
 }
 const { canInstall, isStandalone, iosInstall, installElsewhere, promptInstall } = useInstallPrompt()
-const { isRulesRoute, isFactionRoute, isTrackerRoute, isRosterRoute } = useRouteSection()
+const { isRulesRoute, isFactionRoute, isTrackerRoute, isRosterRoute, isCampaignsRoute } = useRouteSection()
 const isPatchesRoute = computed(() => stripLocale(route.path) === '/patches')
 const {
   status: accountStatus,

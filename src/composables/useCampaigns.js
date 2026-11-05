@@ -16,6 +16,7 @@
 // what it showed last time, offline included.
 import { ref, computed } from 'vue'
 import { API_BASE_URL } from '../config.js'
+import { campaignPath } from '../router/nav.js'
 import { useAuth } from './useAuth.js'
 import { campaignState } from '../core/dominatus/campaign.js'
 import { loadDominatusDeck, dominatusDeck } from './dominatusMissions.js'
@@ -201,7 +202,7 @@ function stateOf(id) {
 
 /** The links to hand out, in the reader's language path. */
 function linksOf(c, origin, prefix = '') {
-  const base = `${origin}${prefix}/tracker/campaigns/${c.id}`
+  const base = `${origin}${prefix}${campaignPath(c.id)}`
   return {
     view: c.viewToken ? `${base}?t=${c.viewToken}` : '',
     join: c.joinToken ? `${base}?join=${c.joinToken}` : '',

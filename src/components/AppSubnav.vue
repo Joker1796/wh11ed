@@ -1,10 +1,11 @@
 <template>
-  <!-- Subnav: core rules links (hidden on the section-less landing & links pages). Not on a
+  <!-- Subnav: core rules links (hidden on the section-less landing & links pages, and on the
+       Campaigns section, which has no chapters). Not on a
        faction page: its per-unit page reaches Rules / Units / FAQ by the corner buttons
        (FactionLayout, owner 2026-10-01), the other faction pages by their own tabs. -->
   <Transition name="fade">
     <nav
-      v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && !isRosterRoute && !isFactionRoute && !isPatchesRoute"
+      v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && !isRosterRoute && !isCampaignsRoute && !isFactionRoute && !isPatchesRoute"
       class="subnav"
     >
       <div class="subnav-inner">
@@ -62,7 +63,7 @@ const { navigateTo } = useRefNavigation()
 const {
   isLanding, isLinksRoute, isRulesLandingRoute, isCombatPatrolRoute,
   isFactionRoute,
-  isEventRoute, isDominatusRoute, isTrackerRoute, isStratagemsRoute, isRosterRoute,
+  isEventRoute, isDominatusRoute, isTrackerRoute, isStratagemsRoute, isRosterRoute, isCampaignsRoute,
 } = useRouteSection()
 
 const labels = computed(() => ui[locale.value])

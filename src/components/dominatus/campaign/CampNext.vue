@@ -23,7 +23,7 @@
         />
         <CountText
           class="camp-next-text"
-          :text="sentence(x)"
+          :text="stepText(x)"
           :vals="{ n: x.n || 0 }"
         />
         <button
@@ -55,25 +55,15 @@
 import { computed } from 'vue'
 import CountText from '../../CountText.vue'
 import { nextSteps } from '../../../core/dominatus/campaign.js'
-import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 
 defineEmits(['go'])
 
-const { entry, state, isOwner, mine, labels, playerName, rewardName, allianceName, phaseDeadline } = useCampaignView()
+const { entry, state, isOwner, mine, labels, stepText, phaseDeadline } = useCampaignView()
 // The steps whose button opens a dialog.
 const OPENS_DIALOG = new Set(['play', 'playMore', 'location', 'endPhase', 'register'])
 const steps = computed(() => (entry.value?.role === 'viewer' ? [] : nextSteps(state.value, mine.value, isOwner.value)))
 
-function sentence(x) {
-  const l = labels.value
-  const key = x.kind === 'reward' && !x.player ? 'campNext_rewardPhase' : `campNext_${x.kind}`
-  return (l[key] || x.kind)
-    .replace('{p}', x.player ? playerName(x.player) : '')
-    .replace('{what}', x.reward ? rewardName(x.reward) : '')
-    .replace('{f}', x.faction ? factionIndexBySlug(x.faction)?.name || x.faction : '')
-    .replace('{a}', x.alliance ? allianceName(x.alliance) : '')
-}
 </script>
 
 <style scoped>

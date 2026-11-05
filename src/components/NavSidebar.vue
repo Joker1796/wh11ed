@@ -98,7 +98,7 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { stripLocale } from '../router/locale.js'
-import { CORE_PATH, EVENT_PATH, DOMINATUS_PATH } from '../router/nav.js'
+import { CORE_PATH, EVENT_PATH, DOMINATUS_PATH, CAMPAIGNS_PATH } from '../router/nav.js'
 import { useNavGroups } from '../composables/useNavGroups.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
@@ -162,6 +162,7 @@ const navSections = computed(() => {
     { key: 'roster',        label: l.navRoster,         groups: localizedRosterGroups.value },
     { key: 'factions',      label: l.navFactions,       groups: localizedFactionGroups.value },
     { key: 'tracker',       label: l.navTracker,        groups: localizedTrackerGroups.value },
+    { key: 'campaigns',     label: l.navCampaigns,      groups: [{ label: l.navCampaigns, path: CAMPAIGNS_PATH, sections: [] }] },
     { key: 'patches',       label: l.navPatches,        groups: [{ label: l.navPatches, path: '/patches', sections: [] }] },
   ]
 })
@@ -178,6 +179,7 @@ const currentSection = computed(() => {
   if (under(p, COMBAT_PATROL_PATH)) return 'combat-patrol'
   if (under(p, '/tracker') || p === '/stratagems') return 'tracker'
   if (under(p, '/roster')) return 'roster'
+  if (under(p, CAMPAIGNS_PATH)) return 'campaigns'
   if (under(p, '/factions')) return 'factions'
   if (p === '/patches') return 'patches'
   return null

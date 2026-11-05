@@ -278,6 +278,12 @@ export const eventGroupsRu = [
 // built like the Event Companion: chapters as anchors on one path.
 export const DOMINATUS_PATH = '/dominatus'
 
+// Campaigns — a section of their own (owner, 2026-11-05): the decks a campaign is played with on
+// /campaigns, a campaign under its deck. One deck so far; the path carries it so another can join.
+export const CAMPAIGNS_PATH = '/campaigns'
+/** A Dominatus campaign's page, or one under it (`settings`); `new` starts one. */
+export const campaignPath = (id, sub = '') => `${CAMPAIGNS_PATH}/dominatus/${id}${sub ? `/${sub}` : ''}`
+
 export const dominatusGroups = [
   {
     label: 'Campaign Rules', path: DOMINATUS_PATH, hash: '#dom-chapter-rules',

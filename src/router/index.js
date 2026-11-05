@@ -6,7 +6,7 @@ import { routeChunk } from '../composables/staleChunks.js'
 import LandingView from '../views/LandingView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
 import { LOCALE_SEGMENT, localePath, stripLocale } from './locale.js'
-import { CORE_PATH, CORE_CHAPTER_ANCHORS, EVENT_PATH, EVENT_CHAPTER_ANCHORS, DOMINATUS_PATH, LAST_ROUTE_KEY, SKIP_RESTORE } from './nav.js'
+import { CORE_PATH, CORE_CHAPTER_ANCHORS, EVENT_PATH, EVENT_CHAPTER_ANCHORS, DOMINATUS_PATH, CAMPAIGNS_PATH, campaignPath, LAST_ROUTE_KEY, SKIP_RESTORE } from './nav.js'
 
 // The nav tables and path constants live in nav.js; re-exported for the tests and anyone reading
 // the router as the map of the site. The app itself imports them from nav.js — see there why.
@@ -27,9 +27,9 @@ const EmailVerifyView   = routeChunk(() => import('../views/account/EmailVerifyV
 const PasswordResetView = routeChunk(() => import('../views/account/PasswordResetView.vue'))
 const TrackerHistoryView = routeChunk(() => import('../views/tracker/TrackerHistoryView.vue'))
 const TrackerStatsView  = routeChunk(() => import('../views/tracker/TrackerStatsView.vue'))
-const CampaignsView     = routeChunk(() => import('../views/tracker/CampaignsView.vue'))
-const CampaignView      = routeChunk(() => import('../views/tracker/CampaignView.vue'))
-const CampaignSettingsView = routeChunk(() => import('../views/tracker/CampaignSettingsView.vue'))
+const CampaignsView     = routeChunk(() => import('../views/campaigns/CampaignsView.vue'))
+const CampaignView      = routeChunk(() => import('../views/campaigns/CampaignView.vue'))
+const CampaignSettingsView = routeChunk(() => import('../views/campaigns/CampaignSettingsView.vue'))
 // The list and a saved roster's page are one screen on a wide window (RosterDeskView), and the
 // same two pages as before on a phone.
 const RosterDeskView    = routeChunk(() => import('../views/tracker/RosterDeskView.vue'))
@@ -107,6 +107,16 @@ const localeRoutes = [
     })),
     { path: EVENT_PATH, component: EventCompanionView, meta: { section: 'event' } },
     { path: DOMINATUS_PATH, component: DominatusView, meta: { section: 'dominatus' } },
+    // Campaigns, a section of their own (owner, 2026-11-05; src/components/dominatus/CLAUDE.md): the
+    // decks and the device's campaigns, and one campaign under its deck — also what an invite
+    // (`?join=`) or a view link (`?t=`) opens. Private like /tracker/game: none in STATIC_ROUTES.
+    // `/tracker/campaigns…` was where they lived on the branch before; kept as a way in.
+    { path: CAMPAIGNS_PATH, component: CampaignsView, meta: { section: 'campaigns' } },
+    { path: `${CAMPAIGNS_PATH}/dominatus`, redirect: CAMPAIGNS_PATH },
+    { path: campaignPath('new'), component: CampaignSettingsView, meta: { section: 'campaigns' } },
+    { path: campaignPath(':id'), component: CampaignView, meta: { section: 'campaigns' } },
+    { path: campaignPath(':id', 'settings'), component: CampaignSettingsView, meta: { section: 'campaigns' } },
+    { path: '/tracker/campaigns/:rest(.*)*', redirect: (to) => ({ path: `${CAMPAIGNS_PATH}${to.params.rest?.length ? `/dominatus/${to.params.rest.join('/')}` : ''}`, query: to.query }) },
     // The six former chapter routes. They stay valid forever — old bookmarks, shared
     // links and the stale SEO keys still in the bucket all land on the right chapter.
     ...Object.entries(EVENT_CHAPTER_ANCHORS).map(([path, anchor]) => ({
@@ -143,12 +153,6 @@ const localeRoutes = [
     // Your battle record, read out of the same history. Private like /tracker/game: it is a view
     // of this device's games, so it is neither in STATIC_ROUTES nor in the sitemap.
     { path: '/tracker/stats', component: TrackerStatsView, meta: { section: 'tracker' } },
-    // Dominatus campaigns (src/components/dominatus/CLAUDE.md): the device's list, and one campaign —
-    // also what an invite (`?join=`) or a view link (`?t=`) opens.
-    { path: '/tracker/campaigns', component: CampaignsView, meta: { section: 'tracker' } },
-    { path: '/tracker/campaigns/new', component: CampaignSettingsView, meta: { section: 'tracker' } },
-    { path: '/tracker/campaigns/:id', component: CampaignView, meta: { section: 'tracker' } },
-    { path: '/tracker/campaigns/:id/settings', component: CampaignSettingsView, meta: { section: 'tracker' } },
     // The same list, read out of a FINISHED game — the snapshot is what makes that possible at all.
     // On a wide screen the game's own desk: every list of it, and units compared across them.
     { path: '/tracker/history/:gid/roster/:pi/:mi?', component: GameHistoryDesk, meta: { section: 'tracker' } },

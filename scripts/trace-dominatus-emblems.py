@@ -12,6 +12,7 @@
 #   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py decks ../sources/dominatus/deck-icons.png src/assets/icons
 #   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py relic ../sources/dominatus/5/66905a52-4ba9-4956-ac43-7473289c2c3c.jpeg src/assets/icons
 #   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py skill ../sources/dominatus/5/500cadd3-e825-49c1-b710-bc037071fdb0.jpeg src/assets/icons
+#   /tmp/trace/bin/python scripts/trace-dominatus-emblems.py logo ../sources/dominatus/rules/a917afab-d706-47f8-ab59-f68eae9b4d03.jpeg src/assets/dominatus
 #
 # What it does: crops each emblem (BOXES, pixels of that photo), scales it ×6 and blurs a little
 # so the threshold gives smooth edges, keeps ink midway between the photo's ink and paper, drops
@@ -37,6 +38,10 @@ SETS = {
     # it is drawn from the cards' measurements (draw-dominatus-marks.py).
     # Fate-Forged Weapon's corner, the clearest of the twelve Relic cards on the owner's photos.
     'relic': {'relic': (458, 1673, 608, 1823)},
+    # The pack's own emblem (winged skull in the gear, "armageddon" round the ring), off the
+    # booklet's cover: the campaigns section's deck card (owner, 2026-11-05). Printed light on a
+    # dark cover, so read inverted.
+    'logo': {'logo': (370, 890, 1130, 1530)},
 }
 BOXES = SETS[SET]
 # The decks photo was taken at an angle: a frame's left side leans 0.083 px right per px down and
@@ -44,6 +49,24 @@ BOXES = SETS[SET]
 # shear about (cx, cy) before anything is cut out, so the frames trace square.
 SHEAR = {'decks': (0.083, -0.022, 90, 220)}
 K = 6  # upscale before thresholding: smoother edges for the tracer
+# The cover's emblem is ten times the area of a deck mark: a smaller upscale keeps the pure-Python
+# component pass to seconds, and it is drawn big enough not to need more.
+KS = {'logo': 2}
+# Light ink on a dark ground.
+INVERT = {'logo'}
+# Ink by local contrast instead of one threshold: (radius in photo pixels, how much darker than its
+# surroundings). The cover is lit from the top and printed on a mottled ground — one threshold lost
+# the lower ring and its letters with the ground.
+LOCAL = {'logo': (40, 20)}
+# Where the mark is, in pixels of the crop, when the ground around it is as busy as the mark: the
+# ring's circle (cx, cy, r) and the wings' band (left, top, right, bottom). Ink outside is ground.
+# It stands in for the largest-piece rule, which cut the ring's lower letters off the cover's mark.
+CLIP = {'logo': ((378, 322, 314), (10, 80, 750, 260))}
+# The smallest ink kept and the largest hole filled, in photo pixels: the cover is worn, its
+# scratches and scuffs bigger than a card's grain (the Δ's opening, the smallest hole drawn, is
+# well above it).
+SPECK = {'logo': 150}
+HOLE = {'logo': 90}
 # How much to soften before thresholding, in photo pixels: the Relic card is a worn print shot from
 # further off, and at the booklet's 0.6 its edges came out wavy with the grain.
 BLUR = {'relic': 1.1, 'skill': 1.6}
@@ -69,21 +92,32 @@ photo = Image.open(SRC).convert('L')
 if SET in SHEAR:
     a, b, cx0, cy0 = SHEAR[SET]
     photo = photo.transform(photo.size, Image.AFFINE, (1, a, -a * cy0, b, 1, -b * cx0), resample=Image.BICUBIC, fillcolor=255)
+K = KS.get(SET, K)
+if SET in INVERT:
+    photo = photo.point(lambda v: 255 - v)
 for name, box in BOXES.items():
     im = photo.crop(box)
     im = im.resize((im.width * K, im.height * K), Image.LANCZOS).filter(ImageFilter.GaussianBlur(K * BLUR.get(SET, 0.6)))
     a = np.asarray(im, dtype=np.float32)
-    ink = a < (np.percentile(a, 5) + np.percentile(a, 95)) / 2   # midway between ink and paper
+    if SET in LOCAL:
+        r, t = LOCAL[SET]
+        ink = a < np.asarray(im.filter(ImageFilter.GaussianBlur(r * K)), dtype=np.float32) - t
+    else:
+        ink = a < (np.percentile(a, 5) + np.percentile(a, 95)) / 2   # midway between ink and paper
     h, w = ink.shape
+    if SET in CLIP:
+        (ccx, ccy, cr), (bl, bt, br, bb) = CLIP[SET]
+        yy, xx = np.mgrid[0:h, 0:w] / K
+        ink &= ((xx - ccx) ** 2 + (yy - ccy) ** 2 <= cr * cr) | ((xx >= bl) & (xx <= br) & (yy >= bt) & (yy <= bb))
     # ink: drop what touches the crop's edge (the text box's frame lines) and specks
     keep = np.zeros_like(ink)
     for c in components(ink):
         ys, xs = c[:, 0], c[:, 1]
         if ys.min() == 0 or xs.min() == 0 or ys.max() == h - 1 or xs.max() == w - 1: continue
-        if len(c) < (K * K) * 12: continue
+        if len(c) < (K * K) * SPECK.get(SET, 12): continue
         keep[ys, xs] = True
     # and whatever lies outside the mark itself (its largest piece): a card's edge, worn print
-    pieces = [c for c in components(keep)]
+    pieces = [] if SET in CLIP else [c for c in components(keep)]
     if pieces:
         big = max(pieces, key=len); by0, by1, bx0, bx1 = big[:, 0].min(), big[:, 0].max(), big[:, 1].min(), big[:, 1].max()
         for c in pieces:
@@ -93,7 +127,7 @@ for name, box in BOXES.items():
     for c in components(~keep):
         ys, xs = c[:, 0], c[:, 1]
         if ys.min() == 0 or xs.min() == 0 or ys.max() == h - 1 or xs.max() == w - 1: continue
-        if len(c) < (K * K) * 20: keep[ys, xs] = True
+        if len(c) < (K * K) * HOLE.get(SET, 20): keep[ys, xs] = True
     ys, xs = np.nonzero(keep)
     x0, x1, y0, y1 = xs.min(), xs.max(), ys.min(), ys.max()
     path = potrace.Bitmap(~keep).trace(turdsize=K * K * 6, alphamax=ALPHAMAX.get(SET, 1.0), opticurve=True, opttolerance=0.5)

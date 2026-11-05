@@ -78,7 +78,7 @@ const ROUTES = [
   '/dominatus',
   '/tracker',
   // Signed out it is the sign-in note; the create form and the campaign page need the API (stand).
-  '/tracker/campaigns',
+  '/campaigns',
   '/roster',
   '/roster/new',
   '/help',

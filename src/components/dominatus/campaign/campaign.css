@@ -12,7 +12,6 @@
 }
 .camp-hero .back { flex-basis: 100%; }
 .camp-hero h1 { margin: 0; font-family: var(--font-display); font-size: 2.2rem; font-weight: 400; }
-.camp-rules { font-size: 0.85rem; color: var(--accent-ink); }
 /* The tabs hang over the blocks as a faction page's do (0.6rem, the canon under a strip). */
 .camp-tabs { margin-bottom: 0.6rem; }
 /* Five tabs on a phone. PageTabs gives each an equal share there, and "Rewards ⚠" was cut while

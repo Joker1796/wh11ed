@@ -108,7 +108,7 @@
              from the Dominatus page) — a door most players never need is not on everyone's screen. -->
         <RouterLink
           v-if="knownCampaigns"
-          to="/tracker/campaigns"
+          to="/campaigns"
           class="btn-ghost"
         >
           {{ labels.campHomeLink }}<span

@@ -1,10 +1,10 @@
 <template>
   <div class="campaign-settings">
     <RouterLink
-      :to="id ? `/tracker/campaigns/${id}` : '/tracker/campaigns'"
+      :to="id ? campaignPath(id) : '/campaigns'"
       class="back"
     >
-      ← {{ id ? entry?.name || labels.campTitle : labels.campTitle }}
+      ← {{ id ? entry?.name || labels.campTitle : labels.navCampaigns }}
     </RouterLink>
     <div class="setup-head">
       <h1 class="setup-title">
@@ -23,7 +23,7 @@
       :initial="initial"
       :players="players"
       :submit-label="id ? labels.campSettingsSave : labels.campCreate"
-      :cancel-to="id ? `/tracker/campaigns/${id}` : '/tracker/campaigns'"
+      :cancel-to="id ? campaignPath(id) : '/campaigns'"
       :busy="busy"
       @submit="save"
     />
@@ -37,8 +37,8 @@
 </template>
 
 <script setup>
-// A campaign's settings on a page of their own (owner, 2026-11-01): `/tracker/campaigns/new` starts
-// a campaign with them, `/tracker/campaigns/:id/settings` changes them. Only the Warmaster's; one
+// A campaign's settings on a page of their own (owner, 2026-11-01): `/campaigns/dominatus/new` starts
+// a campaign with them, `/campaigns/dominatus/:id/settings` changes them. Only the Warmaster's; one
 // `settings` event carries what differs from the defaults (new) or from the campaign (edit).
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -51,6 +51,7 @@ import { SETTINGS_DEFAULTS } from '../../core/dominatus/campaign.js'
 import { dominatusDeck } from '../../composables/dominatusMissions.js'
 import { useCampaigns } from '../../composables/useCampaigns.js'
 import { useAuth } from '../../composables/useAuth.js'
+import { campaignPath } from '../../router/nav.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -102,12 +103,12 @@ async function save(values) {
       const c = await createCampaign(values.name, values.draw)
       const rest = Object.fromEntries(KEYS.filter((k) => k !== 'draw' && !same(values[k], SETTINGS_DEFAULTS[k])).map((k) => [k, values[k]]))
       if (Object.keys(rest).length) await appendEvent(c.id, 'settings', rest)
-      router.replace(`/tracker/campaigns/${c.id}`)
+      router.replace(campaignPath(c.id))
     } else {
       const was = initial.value
       const changed = Object.fromEntries(['name', ...KEYS].filter((k) => !same(values[k], was[k])).map((k) => [k, values[k]]))
       if (Object.keys(changed).length) await appendEvent(id.value, 'settings', changed)
-      router.push(`/tracker/campaigns/${id.value}`)
+      router.push(campaignPath(id.value))
     }
   } catch (e) {
     error.value = labels.value.campFailed.replace('{code}', e.code || 'network')

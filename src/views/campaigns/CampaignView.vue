@@ -2,10 +2,10 @@
   <div class="campaign">
     <div class="camp-hero">
       <RouterLink
-        to="/tracker/campaigns"
+        to="/campaigns"
         class="back"
       >
-        ← {{ labels.campTitle }}
+        ← {{ labels.navCampaigns }}
       </RouterLink>
       <h1>{{ entry?.name || labels.campTitle }}</h1>
       <span
@@ -42,7 +42,7 @@
           <button
             v-if="isOwner && state"
             class="act-btn"
-            @click="menuOpen = false; router.push(`/tracker/campaigns/${id}/settings`)"
+            @click="menuOpen = false; router.push(campaignPath(id, 'settings'))"
           >
             {{ labels.campSettings }}
           </button>
@@ -159,6 +159,7 @@ import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns, setCampaignPref } from '../../composables/useCampaigns.js'
 import { phaseEndsByItself } from '../../core/dominatus/campaign.js'
 import { useAuth } from '../../composables/useAuth.js'
+import { campaignPath } from '../../router/nav.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -284,11 +285,11 @@ async function remove() {
     return
   }
   confirmDelete.value = false
-  router.push('/tracker/campaigns')
+  router.push('/campaigns')
 }
 function forget() {
   forgetCampaign(id.value)
-  router.push('/tracker/campaigns')
+  router.push('/campaigns')
 }
 </script>
 

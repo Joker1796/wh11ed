@@ -87,7 +87,7 @@ describe('CampSendGame — the battle goes back to its campaign', () => {
     await flushPromises()
     expect(appendEvent).not.toHaveBeenCalled()
     expect(w.find('.csend-done').text()).toBe('The battle went to the campaign «Armageddon». The Warmaster will count it.')
-    expect(w.find('.csend-done a').attributes('href')).toBe('/tracker/campaigns/C')
+    expect(w.find('.csend-done a').attributes('href')).toBe('/campaigns/dominatus/C')
     expect(w.findComponent({ name: 'CampFold' }).exists()).toBe(false)
     log.value = { battles: [{ id: 'g-G1', status: 'approved' }], rejected: [] }
     await flushPromises()

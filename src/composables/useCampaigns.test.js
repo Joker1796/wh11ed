@@ -87,7 +87,7 @@ describe('campaigns on this device', () => {
   it('hands out the links with their tokens, in the reader\'s path', () => {
     const c = mod.useCampaigns()
     const links = c.linksOf({ id: 'c1', viewToken: 'v', joinToken: 'j' }, 'https://wh-rules.ru', '/ru')
-    expect(links).toEqual({ view: 'https://wh-rules.ru/ru/tracker/campaigns/c1?t=v', join: 'https://wh-rules.ru/ru/tracker/campaigns/c1?join=j' })
+    expect(links).toEqual({ view: 'https://wh-rules.ru/ru/campaigns/dominatus/c1?t=v', join: 'https://wh-rules.ru/ru/campaigns/dominatus/c1?join=j' })
   })
 
   it('signed out, the invite makes a reader that keeps the link and joins nobody', async () => {
