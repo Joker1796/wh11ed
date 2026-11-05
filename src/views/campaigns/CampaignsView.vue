@@ -237,8 +237,8 @@ const rows = computed(() => campaigns.value.map((c) => {
 /* The deck's own emblem, off the booklet's cover (scripts/trace-dominatus-emblems.py): drawn in
    the text colour, so it follows the theme. */
 .camps-logo {
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 6.5rem;
+  height: 6.5rem;
   background: var(--text-primary);
   mask: url('../../assets/dominatus/dom-logo.svg') center / contain no-repeat;
 }
@@ -251,7 +251,8 @@ const rows = computed(() => campaigns.value.map((c) => {
 }
 
 .camps-deck.is-soon { opacity: 0.6; }
-.camps-soon-mark { width: 2rem; height: 2rem; margin: 0 1.25rem; color: var(--text-muted); }
+/* As wide as the emblem above, so both cards' text starts on one line. */
+.camps-soon-mark { width: 2rem; height: 2rem; margin: 0 2.25rem; color: var(--text-muted); }
 .camps-soon {
   font-family: var(--font-sans);
   font-size: 0.7rem;
