@@ -49,24 +49,28 @@
         class="camps-list"
         aria-labelledby="camps-yours"
       >
-        <h2
-          id="camps-yours"
-          class="dgroup-label"
-        >
-          {{ labels.campYours }}
-        </h2>
-        <!-- A new campaign is the Warmaster's, set up on a page of its own: its settings are a screenful. -->
-        <RouterLink
-          v-if="status === 'authed'"
-          :to="campaignPath('new')"
-          class="btn-primary camp-new"
-        >
-          {{ labels.campNew }}
-        </RouterLink>
+        <!-- On a desk the button stands on the heading's line, right of it (owner, 2026-11-05); on a
+             phone it is the first thing under the heading. -->
+        <div class="camps-list-head">
+          <h2
+            id="camps-yours"
+            class="dgroup-label"
+          >
+            {{ labels.campYours }}
+          </h2>
+          <!-- A new campaign is the Warmaster's, set up on a page of its own: its settings are a screenful. -->
+          <RouterLink
+            v-if="status === 'authed'"
+            :to="campaignPath('new')"
+            class="btn-primary camp-new"
+          >
+            {{ labels.campNew }}
+          </RouterLink>
+        </div>
         <!-- Signed out: why an account, and the way in, where the campaign would start (owner,
              2026-11-01 — the ⚙ menu alone was not enough of a hint). -->
         <CampSignIn
-          v-else-if="status !== 'idle'"
+          v-if="status !== 'authed' && status !== 'idle'"
           :text="labels.campSignInToLead"
         />
         <ul
@@ -324,8 +328,16 @@ const battlesText = (m) => labels.value.campRowBattles.replace('{n}', m.played).
   padding: 0.05rem 0.35rem;
 }
 
-.camps-list > .dgroup-label { margin-top: 0; }
+.camps-list-head > .dgroup-label { margin-top: 0; }
 .camp-new { margin-bottom: 1rem; }
+@media (min-width: 901px) {
+  .camps-list-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);
+  }
+  .camps-list-head > .dgroup-label { margin: 0; padding: 0; border: 0; }
+  .camp-new { margin: 0; }
+}
 .camp-index { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
 .camp-index-main { display: flex; gap: 0.7rem; padding: 0.6rem 0.75rem; }
 .camp-index-phase { flex: none; width: 2.5rem; height: 2.5rem; margin: 0.1rem 0 0; }
