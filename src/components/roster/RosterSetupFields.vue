@@ -105,11 +105,12 @@
             name="fade"
             mode="out-in"
           >
-            <span
+            <DispositionName
               v-if="dispositionCands.length === 1"
               key="one"
               class="ch-value disp-one"
-            >{{ dispositionCands[0] }}</span>
+              :name="dispositionCands[0]"
+            />
             <div
               v-else
               key="many"
@@ -121,7 +122,7 @@
                 :class="{ on: disposition === d }"
                 @click="$emit('update:disposition', d)"
               >
-                {{ d }}
+                <DispositionName :name="d" />
               </button>
             </div>
           </Transition>
@@ -286,6 +287,7 @@
 // The desk has its own one-line version of the same answers (RosterSettingsBar).
 import { computed, ref } from 'vue'
 import ExpandTransition from '../ExpandTransition.vue'
+import DispositionName from './DispositionName.vue'
 import DetachmentPicker from '../tracker/DetachmentPicker.vue'
 import AdaptivePicker from '../AdaptivePicker.vue'
 import RosterChapterList from './RosterChapterList.vue'
@@ -424,6 +426,8 @@ const campaignPickerOpen = ref(false)
    own words rather than stretching the row. */
 .disp-opts { margin-top: 0.15rem; align-self: flex-start; }
 .disp-opts button { font-size: 0.78rem; padding: 0.2rem 0.5rem; }
+/* The symbol a step smaller inside the small buttons. */
+.disp-opts :deep(.dname-icon) { width: 1rem; height: 1rem; }
 
 
 

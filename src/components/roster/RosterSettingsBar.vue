@@ -133,15 +133,11 @@
         <span>{{ dispositionCands.length > 1 ? labels.rosterDispositionDeclared : labels.trackerDisposition }}</span>
         <!-- The card's own symbol before its name (owner, 2026-11-06), here, on the trigger and in
              the list alike. -->
-        <span
+        <DispositionName
           v-if="dispositionCands.length === 1"
-          class="rw-static rw-dispo"
-        ><img
-          v-if="dispositionIcon(dispositionCands[0])"
-          :src="dispositionIcon(dispositionCands[0])"
-          alt=""
-          class="rw-dispo-icon"
-        >{{ dispositionCands[0] }}</span>
+          class="rw-static"
+          :name="dispositionCands[0]"
+        />
         <PickerDropdown
           v-else
           v-model:open="dispositionPickerOpen"
@@ -157,18 +153,15 @@
               aria-haspopup="dialog"
               @click="toggle"
             >
-              <span
+              <DispositionName
                 v-if="dispositionCands.includes(disposition)"
-                class="rw-dispo"
-              ><img
-                v-if="dispositionIcon(disposition)"
-                :src="dispositionIcon(disposition)"
-                alt=""
-                class="rw-dispo-icon"
-              ><span
-                class="tone tone-chip"
-                :style="toneVars(dispositionColor(disposition))"
-              >{{ disposition }}</span></span>
+                :name="disposition"
+              >
+                <span
+                  class="tone tone-chip"
+                  :style="toneVars(dispositionColor(disposition))"
+                >{{ disposition }}</span>
+              </DispositionName>
               <span
                 v-else
                 class="placeholder"
@@ -185,16 +178,12 @@
               :class="{ on: disposition === d }"
               @click="dispositionPickerOpen = false; $emit('update:disposition', d)"
             >
-              <img
-                v-if="dispositionIcon(d)"
-                :src="dispositionIcon(d)"
-                alt=""
-                class="rw-dispo-icon"
-              >
-              <span
-                class="tone tone-chip"
-                :style="toneVars(dispositionColor(d))"
-              >{{ d }}</span>
+              <DispositionName :name="d">
+                <span
+                  class="tone tone-chip"
+                  :style="toneVars(dispositionColor(d))"
+                >{{ d }}</span>
+              </DispositionName>
             </button>
           </div>
         </PickerDropdown>
@@ -359,7 +348,7 @@ import DetachmentPicker from '../tracker/DetachmentPicker.vue'
 import RosterChapterList from './RosterChapterList.vue'
 import { toneVars } from '../../utils/tone.js'
 import { dispositionColor } from '../../data/dispositionColors.js'
-import { dispositionIcon } from '../../data/dispositions.js'
+import DispositionName from './DispositionName.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { ROSTER_NOTES_MAX, UNLIMITED_BATTLE } from '../../core/roster/rosterEngine.js'
@@ -492,7 +481,6 @@ const campaignOpen = ref(false)
 .rw-fd-opt {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
   min-height: 30px;
   padding: 0.2rem 0.4rem;
   background: var(--bg-secondary);
@@ -503,8 +491,6 @@ const campaignOpen = ref(false)
 @media (hover: hover) { .rw-fd-opt:hover { border-color: var(--accent); } }
 
 .rw-static { font-size: 0.9rem; color: var(--text-primary); padding: 0.35rem 0; }
-.rw-dispo { display: inline-flex; align-items: center; gap: 0.4rem; }
-.rw-dispo-icon { flex: none; width: 1.6rem; height: 1.6rem; object-fit: contain; }
 
 /* A square the height of the fields beside it — the same 0.9rem type, 1.5 line and 0.35rem padding
    their boxes are made of — so its bottom edge is theirs (owner, 2026-10-03: it sat lower and
