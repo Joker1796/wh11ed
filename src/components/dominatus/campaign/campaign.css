@@ -77,7 +77,8 @@
 .camp-form > .form-input,
 .camp-form > .camp-pair,
 .camp-form > .cpick,
-.camp-form > .camp-row { justify-self: stretch; }
+.camp-form > .camp-row,
+.camp-form > .camp-num { justify-self: stretch; }
 .camp-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; }
 .camp-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
 .camp-num { display: grid; gap: 0.2rem; font-size: 0.78rem; color: var(--text-muted); }
