@@ -16,13 +16,31 @@
         :key="g.id || 'none'"
         class="camp-ally"
       >
-        <h3 class="camp-ally-head">
-          <DomAllianceName
-            :id="g.id"
-            :name="g.id ? allianceName(g.id) : '—'"
-            big
-          />
-        </h3>
+        <!-- The Alliance's standing under its name (owner, 2026-11-05: a tab of its own held one
+             short table): Battle Honours this phase over the campaign's, Agenda Achieved, NP, and
+             the Locations it controls. -->
+        <header class="camp-ally-head">
+          <h3>
+            <DomAllianceName
+              :id="g.id"
+              :name="g.id ? allianceName(g.id) : '—'"
+              big
+            />
+          </h3>
+          <p
+            v-if="g.score"
+            class="camp-ally-score"
+          >
+            <span :title="labels.campHonoursTitle">{{ labels.campHonoursPhase }} <b>{{ g.score.honours }}</b><span class="camp-dim"> / {{ g.score.totalHonours }}</span></span>
+            <span>{{ labels.domAgendaAchieved }} <b>{{ g.score.agendaAchieved }}</b></span>
+            <span :title="labels.campNpTitle">{{ labels.campNpShort }} <b>{{ g.score.np }}</b></span>
+            <span
+              v-for="l in g.score.locations"
+              :key="l"
+              class="camp-ally-loc"
+            ><i class="wi wi-dom-location" />{{ locationName(l) }}</span>
+          </p>
+        </header>
         <ul class="camp-list">
           <li
             v-for="p in g.players"
@@ -533,12 +551,12 @@ import { encodeRoster } from '../../../composables/rosterShare.js'
 import { countLabel } from '../../../utils/plural.js'
 import CampFactionPick from './CampFactionPick.vue'
 import FactionBadge from '../../FactionBadge.vue'
-import { recordOf, removable, removePlayer, playedIn, takeablePlayers, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
+import { recordOf, removable, removePlayer, standings, playedIn, takeablePlayers, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
 import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade, onAsk, bringIntoView, handOpen } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, upgradeName, showUpgrade, onAsk, bringIntoView, handOpen } = useCampaignView()
 // The players this member may take as theirs (entered by the Warmaster, no one speaking for them).
 const takeable = computed(() => takeablePlayers(state.value))
 const canTake = computed(() => !isOwner.value && entry.value?.role === 'member' && !mine.value && takeable.value.length > 0)
@@ -570,7 +588,8 @@ const alliances = computed(() => deck.value?.alliances || [])
 // The Alliances that have players, in the deck's order; anyone not yet in one last.
 const groups = computed(() => {
   const players = state.value.players
-  const out = alliances.value.map((a) => ({ id: a.id, players: players.filter((p) => p.alliance === a.id) }))
+  const score = new Map(standings(state.value).map((r) => [r.alliance, r]))
+  const out = alliances.value.map((a) => ({ id: a.id, players: players.filter((p) => p.alliance === a.id), score: score.get(a.id) }))
   out.push({ id: null, players: players.filter((p) => !p.alliance) })
   return out.filter((g) => g.players.length)
 })

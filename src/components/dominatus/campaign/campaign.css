@@ -143,6 +143,9 @@
   margin: 0 0 0.5rem;
   padding-bottom: 0.35rem;
   border-bottom: 1px solid var(--border);
+}
+.camp-ally-head > h3 {
+  margin: 0;
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 400;
@@ -150,6 +153,13 @@
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
+.camp-ally-score {
+  display: flex; flex-wrap: wrap; gap: 0.1rem 0.75rem; margin: 0.3rem 0 0;
+  font-size: 0.82rem; color: var(--text-muted);
+}
+.camp-ally-score b { font-family: var(--font-num); font-weight: 700; color: var(--text-primary); }
+.camp-ally-loc { display: inline-flex; align-items: center; gap: 0.25rem; }
+.camp-ally-loc .wi { flex: none; width: 1rem; height: 1rem; margin: 0; }
 .camp-player-actions { margin-top: 0.9rem; align-items: flex-start; }
 /* "This is me": the players a new member may take, above the sign-up form. */
 .camp-take { display: grid; gap: 0.4rem; margin-top: 0.9rem; }

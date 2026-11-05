@@ -822,7 +822,7 @@ export function nextSteps(s, me, owner) {
   const todo = []
   /** @type {NextStep[]} */
   const wait = []
-  if (s.finished) return [{ kind: 'finished', todo: false, tab: 'standings' }]
+  if (s.finished) return [{ kind: 'finished', todo: false, tab: 'phase' }]
   // Speaking for no one yet: take the player the Warmaster entered by name, or sign up.
   if (!owner && !me) {
     if (takeablePlayers(s).length) return [{ kind: 'take', todo: true, tab: 'players' }]

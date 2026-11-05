@@ -102,7 +102,6 @@
         @enter="bringTabsIntoView"
       >
         <CampPhase v-if="tab === 'phase'" />
-        <CampStandings v-else-if="tab === 'standings'" />
         <CampBattles v-else-if="tab === 'battles'" />
         <CampPlayers v-else-if="tab === 'players'" />
         <CampRewards v-else />
@@ -147,7 +146,6 @@ import ActionMenu from '../../components/ActionMenu.vue'
 import PageTabs from '../../components/PageTabs.vue'
 import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import AppToast from '../../components/AppToast.vue'
-import CampStandings from '../../components/dominatus/campaign/CampStandings.vue'
 import CampNext from '../../components/dominatus/campaign/CampNext.vue'
 import CampSignIn from '../../components/dominatus/campaign/CampSignIn.vue'
 import CampPhase from '../../components/dominatus/campaign/CampPhase.vue'
@@ -196,7 +194,10 @@ watch(waiting, (w) => { if (state.value) noteWaiting(id.value, w.rewards + w.bat
 const picked = ref(null)
 const helpOpen = ref(false)
 // With nothing waiting it opens on the tab the reader had last (this device, setCampaignPref).
-const tab = computed(() => picked.value || (rewardsWaiting.value ? 'rewards' : battlesWaiting.value ? 'battles' : entry.value?.prefs?.tab || 'phase'))
+// A tab remembered from before it went (the Alliances', 2026-11-05) opens the phase.
+const TAB_KEYS = ['phase', 'battles', 'players', 'rewards']
+const savedTab = computed(() => (TAB_KEYS.includes(entry.value?.prefs?.tab) ? entry.value.prefs.tab : 'phase'))
+const tab = computed(() => picked.value || (rewardsWaiting.value ? 'rewards' : battlesWaiting.value ? 'battles' : savedTab.value))
 function pickTab(key) {
   picked.value = key
   setCampaignPref(id.value, 'tab', key)
@@ -216,8 +217,6 @@ const tabs = computed(() => {
     { key: 'battles', label: l.campBattles, warn: battlesWaiting.value ? l.campWaiting : '' },
     { key: 'players', label: l.campPlayers },
     { key: 'rewards', label: l.campRewardsTab, warn: rewardsWaiting.value ? l.campWaiting : '' },
-    // The Alliances' standing last (owner, 2026-11-01).
-    { key: 'standings', label: l.campStandings },
   ].map((t) => ({ ...t, active: tab.value === t.key }))
 })
 
