@@ -82,10 +82,11 @@
          the first such tab. -->
     <template v-else>
       <!-- The invite opened signed out: the campaign reads, and taking part asks for an account
-           (owner, 2026-11-05); signed in, the device joins by itself (refreshAccount). -->
+           (owner, 2026-11-05); signed in, the device joins by itself (refreshAccount). The
+           Warmaster's or a player's session gone: what they can do needs it back. -->
       <CampSignIn
-        v-if="entry.invite && status !== 'idle' && status !== 'authed'"
-        :text="labels.campSignInToPlay"
+        v-if="signInText"
+        :text="signInText"
       />
       <CampNext
         @go="goStep"
@@ -173,6 +174,11 @@ const { status, ensureSession } = useAuth()
 const id = computed(() => route.params.id)
 const entry = computed(() => byId(id.value))
 const state = computed(() => (entry.value ? stateOf(id.value) : null))
+const signedOut = computed(() => status.value === 'anon' && ['owner', 'member'].includes(entry.value?.role))
+const signInText = computed(() => {
+  if (entry.value?.invite) return status.value !== 'idle' && status.value !== 'authed' ? labels.value.campSignInToPlay : ''
+  return signedOut.value ? labels.value.campSignedOut : ''
+})
 const isOwner = computed(() => entry.value?.role === 'owner')
 const mine = computed(() => myPlayer(entry.value, state.value))
 const error = ref('')
@@ -222,7 +228,8 @@ async function act(type, payload) {
     await appendEvent(id.value, type, payload)
     return true
   } catch (e) {
-    error.value = labels.value.campFailed.replace('{code}', e.code || 'network')
+    // Signed out, the server hides the campaign behind not_found: the words for it, not the code.
+    error.value = signedOut.value ? labels.value.campSignedOut : labels.value.campFailed.replace('{code}', e.code || 'network')
     return false
   }
 }
@@ -250,7 +257,9 @@ onMounted(async () => {
     if (typeof join === 'string') await joinCampaign(id.value, join)
     else if (typeof t === 'string') await watchCampaign(id.value, t)
     if (join || t) router.replace({ query: {} })
-    if (byId(id.value)) await syncCampaign(id.value)
+    // Reading again fails quietly (owner, 2026-11-02): the page shows what the device has, and a
+    // session gone says so above the tabs. The server answers a signed-out Warmaster not_found.
+    if (byId(id.value)) await syncCampaign(id.value).catch(() => {})
   } catch (e) {
     error.value = labels.value.campFailed.replace('{code}', e.code || 'network')
   } finally {

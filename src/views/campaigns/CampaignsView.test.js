@@ -60,6 +60,19 @@ describe('campaign pages wait for the session', () => {
     expect(syncCampaign).toHaveBeenCalledWith('c1')
   })
 
+  it('a session gone: the page asks to sign in and shows no code', async () => {
+    status.value.value = 'anon'
+    byId.mockImplementation(() => ({ id: 'c1', role: 'owner' }))
+    syncCampaign.mockImplementationOnce(async () => { throw Object.assign(new Error('not_found'), { code: 'not_found' }) })
+    const w = mount(CampaignView, { global: { stubs } })
+    await flushPromises()
+    expect(w.text()).not.toContain('not_found')
+    expect(w.vm.signInText).toMatch(/sign in again/i)
+    status.value.value = 'authed'
+    await flushPromises()
+    expect(w.vm.signInText).toBe('')
+  })
+
   it('a known campaign is read only after the session is back', async () => {
     const order = []
     let release
