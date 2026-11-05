@@ -159,6 +159,37 @@ export function warZoneRulesOn(warZone, table, unit) {
 }
 
 /**
+ * The pins a list brings to a battle, before pinnedUpgrades reads them card by card. A battle outside
+ * a campaign takes the list's as they are. A battle of a campaign takes them only from a side that is
+ * one of its players (`held`, the cards that player holds: with none known, nothing says the cards
+ * are theirs) and from a list not marked for another campaign.
+ * @param {{ campaign?: string | null, upgrades?: Array<{ slug?: string, uid?: string }> } | null | undefined} mark the roster's `dominatus`
+ * @param {string | null | undefined} campaign the battle's campaign
+ * @param {string[] | null | undefined} held the cards the side's campaign player holds
+ */
+export function battlePins(mark, campaign, held) {
+  if (!mark?.upgrades?.length) return []
+  if (!campaign) return mark.upgrades
+  if (!held || (mark.campaign && mark.campaign !== campaign)) return []
+  return mark.upgrades
+}
+
+/**
+ * The list a player of a campaign plays its battles with: the one they marked for that campaign, of
+ * the faction they keep there, the last one saved if there are several. Each save sends its copy to
+ * the campaign, so that is the copy the campaign has.
+ * @template {{ dominatus?: { campaign?: string | null } | null, faction?: string, units?: unknown[], updatedAt?: number }} L
+ * @param {L[]} lists the device's saved lists
+ * @param {string} campaign
+ * @param {string | null | undefined} faction the faction the player keeps, if any yet
+ * @returns {L | null}
+ */
+export function campaignList(lists, campaign, faction) {
+  const fits = lists.filter((r) => r.dominatus?.campaign === campaign && r.units?.length && (!faction || r.faction === faction))
+  return fits.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))[0] || null
+}
+
+/**
  * The Upgrade cards a list carries pinned (the roster's `dominatus.upgrades`, given out in the
  * builder, owner 2026-11-05) as a battle's Declare Battle Formations to start from: a card still
  * held (any, when `held` is null), once, on a unit still in the list, one card a unit, up to

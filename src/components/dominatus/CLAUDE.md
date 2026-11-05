@@ -192,9 +192,13 @@ table does not; the battle starts with them given (`useRosterCampaign.js`).
 - **The campaign's copy** goes as the editor saves (`sendCopy`), not on the mark: an edit taken back
   by Cancel sends nothing; nothing while the campaign's copy is this one, or the campaign takes no
   rosters.
-- **The battle**: `GameSetup.start()` brings the cards in (`pinnedFor` → core's `pinnedUpgrades`):
-  a list marked for another campaign brings none; only cards the side's campaign player still holds,
-  on units still in the snapshot, up to the battle's limit. `makePlayer` keeps them
+- **The battle**: `GameSetup.start()` brings the cards in (`pinnedFor` → core's `battlePins`, then
+  `pinnedUpgrades`): in a campaign's battle a list marked for another campaign brings none, nor a side
+  that is no player of it; only cards the side's campaign player still holds, on units still in the
+  snapshot, up to the battle's limit. "Play a battle" gives this device's own player the list itself
+  (`campaignList` in `campaignHandoff.js`: marked for the campaign, its faction, the last saved) and
+  not the campaign's copy: a share code carries neither the list's id nor its cards, so a battle
+  started from the copy had none (found on the stand, 2026-11-05). `makePlayer` keeps them
   (`cleanUpgrades`), and the pre-battle step names their units once the list is read
   (`DomUpgradesEditor`) and changes them like any other.
 

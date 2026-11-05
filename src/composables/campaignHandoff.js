@@ -10,11 +10,23 @@
 // roster builder's "play this list" attaches one (rosterHandoff.js) — the setup's roster button
 // still swaps it for one of the player's own (owner, 2026-11-03). A list of another faction than the
 // campaign keeps for the player is left behind: the campaign's faction is the one played.
+//
+// This device's own player brings the list itself when it is here, marked for the campaign
+// (`campaignList`): a share code carries neither the list's id nor its cards, and the battle starts
+// with the cards pinned on that list (GameSetup.pinnedFor), so from the copy it started with none.
 import { useTracker } from './useTracker.js'
 import { decodeRoster } from './rosterShare.js'
 import { armyFromRoster } from './rosterHandoff.js'
+import { rosterSnapshot } from './rosterGameLink.js'
+import { useRosters } from './useRosters.js'
+import { campaignPlayerOf } from './useCampaigns.js'
+import { campaignList } from '../core/dominatus/upgrades.js'
 
-async function sideOf(p) {
+async function sideOf(p, campaignId) {
+  const own = p?.id && campaignPlayerOf(campaignId)?.id === p.id
+    ? campaignList(useRosters().activeRosters.value, campaignId, p.faction)
+    : null
+  if (own) return { name: p.name || '', ...armyFromRoster(own, rosterSnapshot(own)), alliance: p.alliance || null, campaignPlayer: p.id }
   const snap = p?.roster?.code ? await decodeRoster(p.roster.code) : null
   const army = snap && (!p.faction || snap.faction === p.faction) ? armyFromRoster(snap, snap) : null
   return {
@@ -38,7 +50,7 @@ async function sideOf(p) {
  */
 export async function playCampaignBattle({ campaignId, phase, location, size, strict, upgradeLimit, a, b }, router, leaving) {
   const { setupDraft, current } = useTracker()
-  const players = await Promise.all([sideOf(a), sideOf(b)])
+  const players = await Promise.all([sideOf(a, campaignId), sideOf(b, campaignId)])
   setupDraft.value = {
     step: 1,
     players,

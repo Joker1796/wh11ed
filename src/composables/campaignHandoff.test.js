@@ -50,4 +50,20 @@ describe('playCampaignBattle', () => {
     await mod.playCampaignBattle(battle(player({ roster: { code: '1.broken' } }), player({ id: 'p2' })), router)
     expect(tracker.setupDraft.value.players[0].roster).toBeUndefined()
   })
+
+  it('this device\'s own player brings the list marked for the campaign, so its pinned cards come too', async () => {
+    const campaigns = await import('./useCampaigns.js')
+    vi.spyOn(campaigns, 'campaignPlayerOf').mockReturnValue({ id: 'p1' })
+    const { useRosters } = await import('./useRosters.js')
+    const mine = useRosters().importRoster(list, 'Mine')
+    useRosters().updateRoster(mine.id, { dominatus: { campaign: 'c1', upgrades: [{ slug: 'kingslayer', uid: 'u1' }] } })
+    const code = await share.encodeRoster(list)
+    await mod.playCampaignBattle(battle(player({ roster: { code } }), player({ id: 'p2', roster: { code } })), router)
+    const [a, b] = tracker.setupDraft.value.players
+    expect(a.rosterId).toBe(mine.id)
+    expect(a.campaignPlayer).toBe('p1')
+    expect(a.roster.units[0].uid).toBe('u1')
+    expect(b.rosterId).toBeNull() // the other side's list stays the campaign's copy
+    expect(b.roster.units[0].uid).toBe('u1')
+  })
 })

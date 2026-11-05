@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { upgradeNeedsUnit, upgradeUnitBlock, upgradeBonusKeywords, upgradeBonusApplies, upgradeLimit, upgradeOncePerBattle, upgradeStartCp, pinnedUpgrades } from './upgrades.js'
+import { upgradeNeedsUnit, upgradeUnitBlock, upgradeBonusKeywords, upgradeBonusApplies, upgradeLimit, upgradeOncePerBattle, upgradeStartCp, pinnedUpgrades, battlePins, campaignList } from './upgrades.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en').upgrades
@@ -100,5 +100,47 @@ describe('pinnedUpgrades — the cards a list carries pinned, as a battle starts
   })
   it('nothing pinned, nothing given', () => {
     expect(pinnedUpgrades(null, cards, uids, null, 3)).toEqual([])
+  })
+})
+
+describe('battlePins — whose pins a battle takes', () => {
+  const upgrades = [{ slug: 'a', uid: 'u1' }]
+  const mark = (campaign) => ({ campaign, upgrades })
+  it('an ordinary Dominatus game takes the list\'s, its mark whatever it says', () => {
+    expect(battlePins(mark(null), null, null)).toEqual(upgrades)
+    expect(battlePins(mark('c1'), null, null)).toEqual(upgrades)
+  })
+  it('a campaign\'s battle takes the list marked for it, and the whole deck\'s', () => {
+    expect(battlePins(mark('c1'), 'c1', ['a'])).toEqual(upgrades)
+    expect(battlePins(mark(null), 'c1', ['a'])).toEqual(upgrades)
+  })
+  it('takes nothing from a list marked for another campaign', () => {
+    expect(battlePins(mark('c2'), 'c1', ['a'])).toEqual([])
+  })
+  it('takes nothing from a side that is no player of the campaign', () => {
+    expect(battlePins(mark('c1'), 'c1', null)).toEqual([])
+    expect(battlePins(mark(null), 'c1', undefined)).toEqual([])
+  })
+  it('no mark, no pins', () => {
+    expect(battlePins(null, 'c1', ['a'])).toEqual([])
+    expect(battlePins({ campaign: 'c1', upgrades: [] }, 'c1', ['a'])).toEqual([])
+  })
+})
+
+describe('campaignList — the list a player brings to a campaign\'s battle', () => {
+  const list = (id, over) => ({ id, faction: 'orks', units: [{}], updatedAt: 1, dominatus: { campaign: 'c1', upgrades: [] }, ...over })
+  it('the one marked for the campaign', () => {
+    const lists = [list('other', { dominatus: { campaign: 'c2' } }), list('deck', { dominatus: { campaign: null } }), list('plain', { dominatus: undefined }), list('mine')]
+    expect(campaignList(lists, 'c1', 'orks')?.id).toBe('mine')
+  })
+  it('of the faction the player keeps; any, while they keep none', () => {
+    expect(campaignList([list('mine')], 'c1', 'necrons')).toBeNull()
+    expect(campaignList([list('mine')], 'c1', null)?.id).toBe('mine')
+  })
+  it('the last saved of several, an empty one not at all', () => {
+    expect(campaignList([list('old'), list('new', { updatedAt: 9 }), list('empty', { updatedAt: 20, units: [] })], 'c1', 'orks')?.id).toBe('new')
+  })
+  it('none marked, none brought', () => {
+    expect(campaignList([], 'c1', 'orks')).toBeNull()
   })
 })

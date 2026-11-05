@@ -4,6 +4,7 @@
     icon="dom-achieved"
   >
     <DomAgendaAchieved
+      v-if="mission?.achieved"
       :achieved="mission.achieved"
       :primary-label="false"
       :label="false"
