@@ -103,8 +103,13 @@ async function ensureSession() {
   if (status.value === 'idle') await refresh()
 }
 
-// Bearer fetch against the API with a single transparent refresh+retry on 401.
+// Bearer fetch against the API with a single transparent refresh+retry on 401. Holding no token
+// while not known signed out (the server was down for a moment — a restart — or the session is
+// still being restored), it refreshes FIRST: sent with no Bearer at all, a request is a stranger's,
+// and a route that also reads (campaigns) answered it `forbidden`, which nothing retries
+// (2026-11-05, a Warmaster's save on the stand after the API restarted).
 async function authedFetch(path, opts = {}) {
+  if (!accessToken && status.value !== 'anon') await refresh()
   const doFetch = () =>
     fetch(api(path), {
       ...opts,
