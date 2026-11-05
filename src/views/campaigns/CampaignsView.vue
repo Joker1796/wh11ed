@@ -62,7 +62,7 @@
           <RouterLink
             v-if="status === 'authed'"
             :to="campaignPath('new')"
-            class="btn-primary camp-new"
+            class="btn-primary btn-sm camp-new"
           >
             {{ labels.campNew }}
           </RouterLink>
