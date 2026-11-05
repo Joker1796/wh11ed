@@ -216,6 +216,28 @@
       </section>
     </div>
 
+    <!-- A player who joined by the link and speaks for no one yet may be one the Warmaster entered
+         by name: they take that player instead of signing up a second one (owner, 2026-11-05). -->
+    <div
+      v-if="canTake"
+      class="camp-take"
+    >
+      <p class="camp-dim">
+        {{ labels.campTakeNote }}
+      </p>
+      <div class="camp-row">
+        <button
+          v-for="p in takeable"
+          :key="p.id"
+          type="button"
+          class="btn-ghost"
+          aria-haspopup="dialog"
+          @click="taking = p"
+        >
+          {{ p.name || p.id }}
+        </button>
+      </div>
+    </div>
     <!-- On one line: add a player (the Warmaster anyone, a player who joined by the link
          themselves, once) and hand out the links. -->
     <div class="camp-row camp-player-actions">
@@ -335,9 +357,8 @@
             {{ labels.campAllianceLockedNote }}
           </p>
         </div>
-        <!-- Who speaks for the player (`member`): the Warmaster gives the player to the entry a
-             player's new device made, when the old one is lost (a guest's member lives on one
-             device; an account's follows them). -->
+        <!-- Who speaks for the player (`member`): the Warmaster gives the player to an account that
+             joined by the link — one they entered by name, or a player who signed up twice. -->
         <template v-if="isOwner && memberOptions.length > 1">
           <span class="camp-dim">{{ labels.campPlayerMember }}</span>
           <CampPick
@@ -471,6 +492,15 @@
       @close="adding = false"
     />
     <ConfirmModal
+      v-if="taking"
+      :title="labels.campTakeTitle"
+      :message="labels.campTakeConfirm.replace('{p}', taking.name || taking.id)"
+      :confirm-label="labels.campTakeYes"
+      :cancel-label="labels.trackerCancel"
+      @confirm="take"
+      @close="taking = null"
+    />
+    <ConfirmModal
       v-if="removing"
       :title="labels.campRemovePlayer"
       :message="labels.campRemovePlayerConfirm.replace('{p}', removing.name || removing.id)"
@@ -503,16 +533,26 @@ import { encodeRoster } from '../../../composables/rosterShare.js'
 import { countLabel } from '../../../utils/plural.js'
 import CampFactionPick from './CampFactionPick.vue'
 import FactionBadge from '../../FactionBadge.vue'
-import { recordOf, removable, removePlayer, playedIn, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
+import { recordOf, removable, removePlayer, playedIn, takeablePlayers, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
 import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
 const { entry, state, isOwner, mine, act, labels, deck, allianceName, upgradeName, showUpgrade, onAsk, bringIntoView, handOpen } = useCampaignView()
-// "What next": signing up opens the form.
+// The players this member may take as theirs (entered by the Warmaster, no one speaking for them).
+const takeable = computed(() => takeablePlayers(state.value))
+const canTake = computed(() => !isOwner.value && entry.value?.role === 'member' && !mine.value && takeable.value.length > 0)
+const taking = ref(null)
+async function take() {
+  const p = taking.value
+  taking.value = null
+  await act('player', { id: p.id, member: entry.value.memberId })
+}
+// "What next": signing up opens the form; taking a player shows the players to take.
 const joinForm = ref(null)
 onAsk({
   register: () => joinForm.value?.show(),
+  take: () => bringIntoView('.camp-take'),
   factionAsk: (x) => bringIntoView(`[data-player="${x.player}"]`),
   allianceAsk: (x) => bringIntoView(`[data-player="${x.player}"]`),
 })
@@ -600,8 +640,8 @@ async function saveEdit() {
   if (await act('player', payload)) editing.value = null
 }
 
-// The entries a player can be given to (the server's member list, the Warmaster's only): those not
-// speaking for another player, newest first — the one a lost device's owner just made is on top.
+// The entries a player can be given to (the server's member list, the Warmaster's only — named by
+// their account): those not speaking for another player, newest first.
 const joinedFmt = computed(() => new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }))
 function joinedAt(at) {
   try {
@@ -619,7 +659,7 @@ const memberOptions = computed(() => {
     ...free.map((m) => ({
       value: m.memberId,
       label: m.name || l.campMemberJoined.replace('{when}', joinedAt(m.joinedAt)),
-      sub: m.account ? l.campMemberAccount : l.campMemberDevice,
+      ...(m.name ? { sub: l.campMemberJoined.replace('{when}', joinedAt(m.joinedAt)) } : {}),
     })),
   ]
 })

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { campaignState, battleEvent, UPGRADES_PER_SIDE, sizeOf, randomPairings, phaseEndsByItself, SETTINGS_DEFAULTS, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, PATH_TO_CONQUEST } from './campaign.js'
+import { campaignState, battleEvent, UPGRADES_PER_SIDE, sizeOf, randomPairings, phaseEndsByItself, SETTINGS_DEFAULTS, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, takeablePlayers, PATH_TO_CONQUEST } from './campaign.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en')
@@ -26,6 +26,22 @@ describe('Dominatus campaign — players and rights', () => {
     const s = campaignState([...base(), ev('m1', 'player', { id: 'ben2', name: 'Again' }), ev('m1', 'player', { id: 'cid', name: 'Hijack' })], deck)
     expect(s.players.map((p) => p.name)).toEqual(['Ann', 'Ben', 'Cid', 'Dee'])
     expect(s.rejected.map((r) => r.reason)).toEqual(['not your player', 'not your player'])
+  })
+
+  it('lets a member who speaks for no one take a player the Warmaster entered — once, and only that one', () => {
+    const events = [...base(), O('player', { id: 'eve', name: 'Eve', alliance: 'raiders' }), O('settings', { me: 'ann', join: 'closed' })]
+    expect(takeablePlayers(campaignState(events, deck)).map((p) => p.id)).toEqual(['cid', 'eve'])
+    const s = campaignState([...events,
+      ev('m3', 'player', { id: 'eve', member: 'm3' }),
+      ev('m3', 'player', { id: 'cid', member: 'm3' }), // a second one: they speak for Eve now
+      ev('m4', 'player', { id: 'ann', member: 'm4' }), // the Warmaster's own player
+      ev('m4', 'player', { id: 'ben', member: 'm4' }), // another member's
+      ev('m4', 'player', { id: 'cid', member: 'm1' }), // for someone else
+    ], deck)
+    expect(s.players.find((p) => p.id === 'eve').member).toBe('m3')
+    expect(s.players.find((p) => p.id === 'cid').member).toBe(null)
+    expect(s.rejected.map((r) => r.reason)).toEqual(['not your player', 'not your player', 'not your player', 'not your player'])
+    expect(nextSteps(campaignState(events, deck), null, false).map((x) => x.kind)).toEqual(['take'])
   })
 
   it('takes a member\'s battle only if they fought it, and holds it for the Warmaster', () => {
@@ -325,7 +341,7 @@ describe('Dominatus campaign — the schedule, pairings and settings', () => {
     const evs = [...base(), O('endPhase', { phase: 1 }), O('location', { phase: 2, slug: 'blackfire-death-pits' })]
     const s = fold([...evs, ev('owner', 'battle', { id: 'g1', phase: 1, a: 'ann', b: 'cid', victor: 'a', achieved: { a: 0, b: 0 } })])
     expect(s.battles).toEqual([])
-    expect(s.rejected.map((r) => r.reason)).toEqual(['not the current phase'])
+    expect(s.rejected.map((r) => r.reason)).toEqual(['phase ended'])
   })
 
   it('counts a member\'s battle at once when the campaign says so', () => {
@@ -425,10 +441,14 @@ describe('Dominatus campaign — what waits for the reader', () => {
     expect(kinds(nextSteps(s2, me(s2, 'ben'), false))).toEqual(['playMore:1', 'waitCount:dee'])
   })
 
-  it('says a member with their battles played is waiting for the end of the phase, and one not yet registered to sign up', () => {
+  it('says a member with their battles played is waiting for the end of the phase, and one not yet registered to take a player or sign up', () => {
     const s = campaignState([...base(), battle('m1', 'b1', 'ben', 'cid', null), battle('m1', 'b2', 'ben', 'dee', null), O('review', { battle: 'b1', ok: true }), O('review', { battle: 'b2', ok: true })], deck)
     expect(kinds(nextSteps(s, me(s, 'ben'), false)).filter((k) => !k.startsWith('reward'))).toEqual(['phaseDone'])
-    expect(kinds(nextSteps(s, null, false))).toEqual(['register'])
+    // Ann and Cid were entered by the Warmaster: one of them may be this reader.
+    expect(kinds(nextSteps(s, null, false))).toEqual(['take'])
+    seq = 0
+    const signedUp = campaignState([O('created', { name: 'X' }), ev('m1', 'player', { id: 'ben', name: 'Ben', alliance: 'oppressors' })], deck)
+    expect(kinds(nextSteps(signedUp, null, false))).toEqual(['register'])
   })
 
   it('waits for the Location before a member can play, and gives the Warmaster theirs to choose', () => {

@@ -112,6 +112,10 @@ core function the generated phase index is made of), and the Location's war zone
 and never showed; "the end of the battle round" (Orbital Lance Bombardment) is at the end of the turn
 closing it, and Vermillion Sanction has no phase (pre-battle). `dominatusWarZonePhases.test.js` holds
 every rule to an entry and an entry to the phase the rule's words name.
+**The head of each card says how much of it the app applies** (`upgradeCoverage`, owner
+2026-11-05 — a player would take every card for counted): counted, counted in part (the rest is
+theirs), apply it yourself — read from the hand-read table below (`note`, `noteOf: 'bonus'`,
+`elsewhere` for High Strategy's CP).
 **The numbers** (3b): `src/data/dominatusUpgradeMods.js` is the deck read by hand into the modifier
 layer's effect shape — no `target` the bearer, `target: 'unit'` the unit and the Attached unit it is
 in (19.04); a bonus `replace`s where the card says "instead", else adds; a card with nothing a number
@@ -261,8 +265,8 @@ on a tie nothing breaks.
   tracker home's door show ⚠ without folding the log; the list reads every campaign again on entry
   (`syncAll`) and shows each one's phase.
 - Device side: `src/composables/useCampaigns.js` (the campaigns this device knows, with its
-  credential for each — the account for the owner, a member by the account when the player opened
-  `?join=` signed in (`account: true`), else a guest's member token, the view token from `?t=`),
+  credential for each — the account for the owner and for a member, the view token from `?t=` or
+  from an invite opened signed out, which keeps the link as `invite`),
   pages `src/views/tracker/Campaign(s)View.vue`, blocks in `campaign/`. A finished
   Dominatus game is sent from its screen (`CampSendGame`, battle id `g-<game id>` so it counts once).
   The event is core's `battleEvent`: the victor, Agenda Achieved, the phase, and the Upgrades each
@@ -277,13 +281,20 @@ on a tie nothing breaks.
   Once the battle is in the campaign the screen says so in the open, not in the fold — sent, counted
   or turned down, the campaign's name a link to it (`campSent*`, owner 2026-11-04).
   The history screen sends by the button only. The Warmaster still counts it (`approve`).
-- **A player's membership follows their account** (owner, 2026-11-03; API migration 007): joined
-  signed in, the campaign is in `GET /campaigns` on every device (`refreshAccount`) and opening the
-  link again returns the same member. A device that already plays in a campaign never calls `/join`
-  again (a guest would get a second member, and the player in the log stays with the first); a
-  guest's member is bound to the account on sign-in (`claimMember`). A guest who lost their device
-  joins again and the Warmaster gives their player to the new entry in the player's Edit
-  ("Who enters for the player" — a `player` event with `member`).
+- **Playing needs an account** (owner, 2026-11-05; API migration 008 — 007 had guests): a member
+  IS an account, the campaign is in `GET /campaigns` on every device (`refreshAccount`) and opening
+  the link again returns the same member. Guests went because their membership lived in one
+  browser: the link opened inside a messenger, then in the app, made two members, the second unable
+  to speak for the first. Signed out, the invite only reads — the device is a reader that keeps the
+  link (`invite`), the page asks to sign in (`CampSignIn`, the same block the list uses to start a
+  campaign) and joins by itself once the session is there. Viewing by the view link needs no account.
+- **"This is me"** (owner, 2026-11-05): the Warmaster may enter a player by name for someone who has
+  not opened the link; that player, joining, takes the entry (`takeablePlayers` — no member, not the
+  Warmaster's own; a `player` event with `member` = themselves, which the fold allows a member who
+  speaks for no one, once) instead of signing up a second one. Players shows them above the sign-up
+  form, with a ConfirmModal; "What next"'s sign-up step leads there, closed joining included. The
+  Warmaster can still give a player to any member in the player's Edit ("Who enters for the player",
+  the members named by their account).
 - **"What next" above the tabs** (`CampNext`, owner 2026-11-03: a player did not know what was
   asked of them): the core's `nextSteps(state, me, owner)` lists this reader's steps — what they can
   do first (a reward with the battle it came from, the pairing to play, battles to count, the

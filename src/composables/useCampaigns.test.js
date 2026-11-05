@@ -27,11 +27,11 @@ beforeEach(async () => {
     const headers = opts.headers || {}
     log.push({ path: u.pathname + u.search, method: opts.method || 'GET', headers })
     if (u.pathname.endsWith('/join')) {
+      // Signed out the link only reads (owner, 2026-11-05: playing needs an account).
       return headers.Authorization
-        ? new Response(JSON.stringify({ role: 'member', memberId: 'm1', account: true, viewToken: 'V'.repeat(22) }), { status: 201 })
-        : new Response(JSON.stringify({ role: 'member', memberId: 'm1', memberToken: 'T'.repeat(43), viewToken: 'V'.repeat(22) }), { status: 201 })
+        ? new Response(JSON.stringify({ role: 'member', memberId: 'm1', viewToken: 'V'.repeat(22) }), { status: 201 })
+        : new Response(JSON.stringify({ role: 'viewer', viewToken: 'V'.repeat(22) }), { status: 200 })
     }
-    if (u.pathname.endsWith('/claim')) return new Response(JSON.stringify({ memberId: 'm1' }), { status: 200 })
     if (u.pathname === '/campaigns') return new Response(JSON.stringify({ campaigns: [{ campaignId: 'c2', role: 'member', memberId: 'm7', name: 'Hive War', seq: 3, viewToken: 'W'.repeat(22) }] }), { status: 200 })
     if (u.pathname.endsWith('/events') && opts.method !== 'POST') {
       const since = Number(u.searchParams.get('since'))
@@ -50,12 +50,14 @@ beforeEach(async () => {
 })
 
 describe('campaigns on this device', () => {
-  it('joins by the invite, reads the log with the member token and folds it', async () => {
+  it('joins by the invite signed in, reads the log by the account and folds it', async () => {
+    auth.status.value = 'authed'
     const c = mod.useCampaigns()
     await c.joinCampaign('c1', 'J'.repeat(22))
     const entry = c.byId('c1')
     expect(entry).toMatchObject({ role: 'member', memberId: 'm1', seq: 3 })
-    expect(log[1].headers['X-Campaign-Member']).toBe('T'.repeat(43))
+    expect(log[0].headers.Authorization).toBe('Bearer A')
+    expect(log[1].headers.Authorization).toBe('Bearer A')
     const state = c.stateOf('c1')
     expect(state.players.map((p) => p.name)).toEqual(['Ann', 'Ben'])
     expect(c.myPlayer(entry, state).name).toBe('Ben')
@@ -63,6 +65,7 @@ describe('campaigns on this device', () => {
   })
 
   it('keeps the reader\'s choices with the campaign, and a sync leaves them alone', async () => {
+    auth.status.value = 'authed'
     const c = mod.useCampaigns()
     await c.joinCampaign('c1', 'J'.repeat(22))
     mod.setCampaignPref('c1', 'briefing', 'raiders')
@@ -73,6 +76,7 @@ describe('campaigns on this device', () => {
   })
 
   it('asks only for what is after the last seq, and a 204 changes nothing', async () => {
+    auth.status.value = 'authed'
     const c = mod.useCampaigns()
     await c.joinCampaign('c1', 'J'.repeat(22))
     await c.syncCampaign('c1')
@@ -86,31 +90,32 @@ describe('campaigns on this device', () => {
     expect(links).toEqual({ view: 'https://wh-rules.ru/ru/tracker/campaigns/c1?t=v', join: 'https://wh-rules.ru/ru/tracker/campaigns/c1?join=j' })
   })
 
-  it('joins signed in by the account: no token, the session speaks', async () => {
-    auth.status.value = 'authed'
+  it('signed out, the invite makes a reader that keeps the link and joins nobody', async () => {
     const c = mod.useCampaigns()
     await c.joinCampaign('c1', 'J'.repeat(22))
-    expect(log[0].headers.Authorization).toBe('Bearer A')
-    expect(c.byId('c1')).toMatchObject({ role: 'member', memberId: 'm1', account: true })
-    expect(c.byId('c1').memberToken).toBeUndefined()
-    expect(log[1].headers.Authorization).toBe('Bearer A')
+    expect(c.byId('c1')).toMatchObject({ role: 'viewer', viewToken: 'V'.repeat(22), invite: 'J'.repeat(22) })
+    expect(log[1].headers['X-Campaign-View']).toBe('V'.repeat(22))
+    expect(c.myPlayer(c.byId('c1'), c.stateOf('c1'))).toBeNull()
   })
 
   it('opening the invite again on a device that plays there mints no second member', async () => {
+    auth.status.value = 'authed'
     const c = mod.useCampaigns()
     await c.joinCampaign('c1', 'J'.repeat(22))
     await c.joinCampaign('c1', 'J'.repeat(22))
     expect(log.filter((x) => x.path.endsWith('/join'))).toHaveLength(1)
   })
 
-  it('binds a guest\'s member to the account on sign-in, and brings the campaigns the account plays in', async () => {
+  it('takes up the invite on sign-in, and brings the campaigns the account plays in', async () => {
     const c = mod.useCampaigns()
     await c.joinCampaign('c1', 'J'.repeat(22))
     auth.status.value = 'authed'
     await c.refreshAccount()
-    const claim = log.find((x) => x.path === '/campaigns/c1/claim')
-    expect(claim.headers['X-Campaign-Member']).toBe('T'.repeat(43))
-    expect(c.byId('c1')).toMatchObject({ role: 'member', memberId: 'm1', account: true })
-    expect(c.byId('c2')).toMatchObject({ role: 'member', memberId: 'm7', account: true, name: 'Hive War' })
+    const joins = log.filter((x) => x.path === '/campaigns/c1/join')
+    expect(joins).toHaveLength(2)
+    expect(joins[1].headers.Authorization).toBe('Bearer A')
+    expect(c.byId('c1')).toMatchObject({ role: 'member', memberId: 'm1' })
+    expect(c.byId('c1').invite).toBeUndefined()
+    expect(c.byId('c2')).toMatchObject({ role: 'member', memberId: 'm7', name: 'Hive War' })
   })
 })

@@ -8,8 +8,15 @@
 //   bonus   — the effects of its bonus, when the bonus applies on the unit
 //             (core/dominatus/upgrades.js upgradeBonusApplies): `replace` where the card says
 //             "instead", else added to the card's own.
-//   note    — why a card has no effects: what it does is not a number this card prints (a re-roll,
-//             a mortal wound, a choice in the moment, CP, a rule of the campaign).
+//   note    — what of the card no number carries (a re-roll, a mortal wound, a choice in the
+//             moment, CP, a rule of the campaign): the player applies that part themselves.
+//   noteOf  — 'bonus' when the note is about the bonus alone: on a unit the bonus does not apply
+//             to, the card is counted whole.
+//   elsewhere — the app counts the card outside the unit's card (High Strategy: the CP ledger).
+//
+// What the player is told on the unit's card follows from these (core upgradeCoverage): counted,
+// counted in part, or theirs to apply (owner, 2026-11-05: a player would take the app to have
+// applied every card).
 //
 // `src/core/dominatus/upgradeMods.test.js` holds every card of the deck to an entry here, and every
 // number and every granted name to the card's English text.
@@ -17,7 +24,7 @@
 const when = (en, ru) => ({ en, ru })
 const NOT_SHOCKED = { when: when('while this unit is not battle-shocked', 'пока отряд не Battle-shocked'), cond: ['unit-not-battle-shocked'] }
 
-/** @type {Record<string, { effects: object[], bonus?: { replace: boolean, effects: object[] }, note?: string }>} */
+/** @type {Record<string, { effects: object[], bonus?: { replace: boolean, effects: object[] }, note?: string, noteOf?: 'bonus', elsewhere?: boolean }>} */
 export const dominatusUpgradeMods = {
   // ── Battle Honours ──
   'kingslayer': {
@@ -30,12 +37,14 @@ export const dominatusUpgradeMods = {
       { on: 'ranged', target: 'unit', stat: 'ability', op: 'grant', value: 'HEAVY', when: null },
     ],
     note: 'the bonus is a re-roll of 1s',
+    noteOf: 'bonus',
   },
   'shadow-stalker': { effects: [{ on: 'unit', target: 'unit', stat: 'core', op: 'grant', value: 'Stealth', when: null }] },
   'undying-duty': { effects: [], note: 'mortal wounds after an enemy fights' },
   'grim-veterans': {
     effects: [{ on: 'profile', target: 'unit', stat: 'oc', op: 'add', value: 1, ...NOT_SHOCKED }],
     note: 'the bonus is a re-roll of leadership rolls',
+    noteOf: 'bonus',
   },
   'wraith-of-ruin': { effects: [], note: 'visibility beyond 18"' },
   'swift-as-the-wind': {
@@ -55,7 +64,7 @@ export const dominatusUpgradeMods = {
   'tempered-in-battle': { effects: [], note: 'what the unit may do after falling back' },
   'front-line-champion': { effects: [], note: 're-rolling hits within 9"' },
   'fortunes-favoured': { effects: [], note: 'once per battle, used as attacks come in' },
-  'high-strategy': { effects: [], note: 'CP at the start of the battle (the CP ledger, settleStartCp)' },
+  'high-strategy': { effects: [], note: 'CP at the start of the battle (the CP ledger, settleStartCp)', elsewhere: true },
   'natural-leader': { effects: [], note: 'an aura on other units' },
   'lead-from-the-front': {
     effects: [{ on: 'unit', target: 'unit', stat: 'core', op: 'grant', value: 'Scouts 6"', when: null }],

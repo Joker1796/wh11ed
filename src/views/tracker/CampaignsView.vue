@@ -21,19 +21,10 @@
     </template>
     <!-- Signed out: why an account, and the way in, where the campaign would start (owner,
          2026-11-01 — the ⚙ menu alone was not enough of a hint). -->
-    <div
+    <CampSignIn
       v-else-if="status !== 'idle'"
-      class="camp-signin"
-    >
-      <p>{{ labels.campSignInToLead }}</p>
-      <button
-        class="btn-primary"
-        aria-haspopup="dialog"
-        @click="signIn"
-      >
-        {{ labels.signInTitle }}
-      </button>
-    </div>
+      :text="labels.campSignInToLead"
+    />
 
     <h2 class="dgroup-label">
       {{ labels.campYours }}
@@ -79,14 +70,13 @@ import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
 import { useCampaigns } from '../../composables/useCampaigns.js'
 import { useAuth } from '../../composables/useAuth.js'
-import { useAccountActions } from '../../composables/useAccountActions.js'
+import CampSignIn from '../../components/dominatus/campaign/CampSignIn.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { status } = useAuth()
-const { signIn } = useAccountActions()
 const { campaigns, refreshAccount, stateOf, syncAll } = useCampaigns()
 
 // The session comes back after the page does (a refresh on load), so ask once it is there; then
@@ -108,8 +98,6 @@ function phaseOf(c) {
 <style scoped>
 .campaigns { max-width: 760px; margin: 0 auto; padding-top: 0.5rem; }
 .camp-new { margin-bottom: 1.25rem; }
-.camp-signin { display: grid; gap: 0.6rem; justify-items: start; margin-bottom: 1.25rem; }
-.camp-signin p { margin: 0; font-size: 0.9rem; }
 .camp-index { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
 .camp-index-name { display: grid; gap: 0.1rem; min-width: 0; }
 .camp-index-side { display: grid; justify-items: end; gap: 0.1rem; }

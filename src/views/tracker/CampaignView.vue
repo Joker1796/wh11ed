@@ -81,6 +81,12 @@
          that holds something this reader has to do carries the warning mark, and the page opens on
          the first such tab. -->
     <template v-else>
+      <!-- The invite opened signed out: the campaign reads, and taking part asks for an account
+           (owner, 2026-11-05); signed in, the device joins by itself (refreshAccount). -->
+      <CampSignIn
+        v-if="entry.invite && status !== 'idle' && status !== 'authed'"
+        :text="labels.campSignInToPlay"
+      />
       <CampNext
         @go="goStep"
       />
@@ -142,6 +148,7 @@ import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import AppToast from '../../components/AppToast.vue'
 import CampStandings from '../../components/dominatus/campaign/CampStandings.vue'
 import CampNext from '../../components/dominatus/campaign/CampNext.vue'
+import CampSignIn from '../../components/dominatus/campaign/CampSignIn.vue'
 import CampPhase from '../../components/dominatus/campaign/CampPhase.vue'
 import CampRewards from '../../components/dominatus/campaign/CampRewards.vue'
 import CampBattles from '../../components/dominatus/campaign/CampBattles.vue'
@@ -252,11 +259,11 @@ onMounted(async () => {
 })
 onUnmounted(() => clearInterval(timer))
 // A campaign this device has not seen, opened signed in (the Warmaster's, or one the account plays
-// in): the account knows it, once the session is back. And a guest's member here, now signed in,
-// is bound to the account (refreshAccount) — so it follows them to their other devices.
+// in): the account knows it, once the session is back. And an invite opened here signed out is
+// taken up once the reader signs in (refreshAccount), so they play at once.
 watch(status, async (s) => {
   const c = byId(id.value)
-  if (s !== 'authed' || (c && !(c.role === 'member' && c.memberToken && !c.account))) return
+  if (s !== 'authed' || (c && !c.invite)) return
   try {
     await refreshAccount()
     if (byId(id.value)) await syncCampaign(id.value)

@@ -277,6 +277,13 @@ function endPhase(s, deck, phase, override) {
  */
 const memberPlayer = (s, e) => s.players.find((p) => p.member === e.author) || null
 
+/** The players a member who speaks for no one may take as theirs: entered by the Warmaster, spoken
+ * for by no one, and not the one the Warmaster plays as.
+ * @param {CampaignState} s @returns {Player[]} */
+export function takeablePlayers(s) {
+  return s.players.filter((p) => !p.member && p.id !== s.me)
+}
+
 /**
  * Fold the log into the campaign.
  * @param {CampaignEvent[]} events — in `seq` order
@@ -527,7 +534,10 @@ function apply(s, deck, e) {
       return null
 
     case 'player': {
-      // The Warmaster adds or edits anyone; a member registers or edits the one player they are.
+      // The Warmaster adds or edits anyone; a member registers or edits the one player they are — or,
+      // speaking for no one yet, takes a player the Warmaster entered by name and no one speaks for
+      // ("This is me", owner 2026-11-05: the Warmaster wrote "Bob" in, Bob opened the link and was a
+      // second Bob). Taking is the member alone; the Warmaster gives a player to another entry.
       if (typeof p.id !== 'string' || !p.id) return 'no player id'
       if (p.alliance != null && !ALLIANCES.includes(p.alliance)) return 'unknown alliance'
       const was = playerById(s, p.id)
@@ -537,9 +547,11 @@ function apply(s, deck, e) {
       // null`); the player asking for the faction they have takes the ask back.
       let ask = false
       let allianceAsk = false
+      let takes = false
       if (!owner) {
         const mine = memberPlayer(s, e)
-        if (was ? was.member !== e.author : !!mine) return 'not your player'
+        takes = !!was && takeablePlayers(s).includes(was) && !mine && p.member === e.author
+        if (was ? was.member !== e.author && !takes : !!mine) return 'not your player'
         if (!was && s.join === 'closed') return 'registration closed'
         const newAlliance = p.alliance !== undefined && (p.alliance || null) !== (was?.alliance || null)
         if (s.allianceBy === 'warmaster' && newAlliance) return 'alliance by the warmaster'
@@ -569,6 +581,7 @@ function apply(s, deck, e) {
       }
       if (owner && p.factionAsk === null && row.factionAsk) row.factionAsk = null
       if (owner && p.member !== undefined) row.member = p.member || null
+      if (takes) row.member = e.author
       if (!was) s.players.push(row)
       return null
     }
@@ -608,7 +621,9 @@ function apply(s, deck, e) {
     case 'battle': {
       if (s.finished) return 'campaign finished'
       // A battle says which phase it was played in (a game sent after the phase it belongs to has
-      // ended must not land in the next one); an older entry without it is the current phase's.
+      // ended must not land in the next one); an older entry without it is the current phase's. A
+      // late one says so in its own words: the Warmaster may reopen the phase (owner, 2026-11-05).
+      if (p.phase != null && p.phase < s.phase) return 'phase ended'
       if (p.phase != null && p.phase !== s.phase) return 'not the current phase'
       if (typeof p.id !== 'string' || s.battles.some((b) => b.id === p.id)) return 'duplicate battle'
       const a = playerById(s, p.a), b = playerById(s, p.b)
@@ -789,7 +804,11 @@ export function nextSteps(s, me, owner) {
   /** @type {NextStep[]} */
   const wait = []
   if (s.finished) return [{ kind: 'finished', todo: false, tab: 'standings' }]
-  if (!owner && !me) return s.join === 'open' ? [{ kind: 'register', todo: true, tab: 'players' }] : []
+  // Speaking for no one yet: take the player the Warmaster entered by name, or sign up.
+  if (!owner && !me) {
+    if (takeablePlayers(s).length) return [{ kind: 'take', todo: true, tab: 'players' }]
+    return s.join === 'open' ? [{ kind: 'register', todo: true, tab: 'players' }] : []
+  }
   const other = (/** @type {Battle} */ b, /** @type {string} */ id) => (b.a === id ? b.b : b.a)
   // Rewards: a player's own (or handed out by the Warmaster); the Warmaster's, everyone's they hand out.
   for (const r of s.pending.filter((x) => me && x.player === me.id)) {

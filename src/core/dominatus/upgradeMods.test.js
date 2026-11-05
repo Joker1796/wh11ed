@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { getDominatus } from '../../data/dominatus.js'
 import { dominatusUpgradeMods as mods } from '../../data/dominatusUpgradeMods.js'
-import { upgradeModEntries } from './upgrades.js'
+import { upgradeModEntries, upgradeCoverage } from './upgrades.js'
 
 const deck = getDominatus('en').upgrades
 const card = (slug) => deck.find((c) => c.slug === slug)
@@ -13,6 +13,21 @@ const plain = (s) => String(s || '').replace(/\[core:([^\]]+)\]/g, '$1').replace
 describe('Dominatus Upgrade cards in the modifier layer', () => {
   it('reads every card of the deck, and nothing else', () => {
     expect(Object.keys(mods).sort()).toEqual(deck.map((c) => c.slug).sort())
+  })
+
+  it('tells the player how much of each card the app applies', () => {
+    const plainUnit = { kws: ['INFANTRY'], warlord: false }
+    const tank = { kws: ['VEHICLE'], warlord: false }
+    expect(upgradeCoverage(card('undying-duty'), mods, plainUnit)).toBe('none')
+    expect(upgradeCoverage(card('kingslayer'), mods, plainUnit)).toBe('part')
+    expect(upgradeCoverage(card('shadow-stalker'), mods, plainUnit)).toBe('all')
+    // CP the battle starts with is the CP ledger's, not the unit card's.
+    expect(upgradeCoverage(card('high-strategy'), mods, plainUnit)).toBe('all')
+    // A note about the bonus alone matters only where the bonus applies.
+    expect(upgradeCoverage(card('fire-and-fury'), mods, plainUnit)).toBe('all')
+    expect(upgradeCoverage(card('fire-and-fury'), mods, tank)).toBe('part')
+    // A note about the bonus is that, and nothing else: its card carries a bonus.
+    for (const [slug, m] of Object.entries(mods)) if (m.noteOf === 'bonus') expect(card(slug).bonus, slug).toBeTruthy()
   })
 
   it('says why a card changes no number', () => {

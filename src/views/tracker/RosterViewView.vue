@@ -674,7 +674,7 @@ import ExpandTransition from '../../components/ExpandTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterUnitRulesCard from '../../components/roster/RosterUnitRulesCard.vue'
 import { domUpgrades } from '../../composables/dominatusMissions.js'
-import { upgradeBonusApplies, upgradeOncePerBattle, upgradeModEntries } from '../../core/dominatus/upgrades.js'
+import { upgradeBonusApplies, upgradeOncePerBattle, upgradeModEntries, upgradeCoverage } from '../../core/dominatus/upgrades.js'
 import { dominatusUpgradeMods } from '../../data/dominatusUpgradeMods.js'
 import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
@@ -1779,7 +1779,7 @@ function upgradesOf(entry) {
     .filter((u) => u.uid === entry.uid && (u.mi ?? 0) === mi)
     .map((u) => {
       const card = deck.find((c) => c.slug === u.slug)
-      return card && { slug: card.slug, kind: card.kind, name: card.name, body: card.body, bonus: card.bonus || null, bonusOn: upgradeBonusApplies(card, unit) }
+      return card && { slug: card.slug, kind: card.kind, name: card.name, body: card.body, bonus: card.bonus || null, bonusOn: upgradeBonusApplies(card, unit), coverage: upgradeCoverage(card, dominatusUpgradeMods, unit) }
     })
     .filter(Boolean)
 }

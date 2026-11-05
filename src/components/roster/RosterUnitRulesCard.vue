@@ -235,7 +235,8 @@
            and opening the container can't dump four long rule bodies at once. -->
         <!-- Dominatus: the Upgrade cards this unit carries this battle (gameCtx.upgrades), each
              folded like a rule — its deck by name, the card, its text, and its bonus said to apply
-             or not on this unit (owner, 2026-11-03). Their numbers are not applied yet. -->
+             or not on this unit (owner, 2026-11-03). The head says how much of it the app applies
+             (`coverage`): a player would take every card for counted (owner, 2026-11-05). -->
         <section
           v-if="gameCtx?.upgrades?.length"
           class="rum-rules"
@@ -262,6 +263,10 @@
                   <span class="rum-rule-text">
                     <span class="rum-rule-src">{{ upgradeKindName(u.kind) }}</span>
                     <span class="rum-rule-name">{{ u.name }}</span>
+                    <span
+                      class="rum-upg-cover"
+                      :class="`is-${u.coverage}`"
+                    >{{ labels[`domUpgradeCover_${u.coverage}`] }}</span>
                   </span>
                   <ChevronIcon
                     class="rum-chev"
@@ -273,6 +278,9 @@
               </template>
               <div class="rum-rule-body">
                 <RuleBody :body="u.body" />
+                <p class="rum-upg-cover-note">
+                  {{ labels[`domUpgradeCoverNote_${u.coverage}`] }}
+                </p>
                 <p
                   v-if="u.bonus"
                   class="rum-upg-bonus"
@@ -762,6 +770,11 @@ defineExpose({
 .rum-rule--off .rum-rule-body { color: var(--text-muted); }
 .rum-rule-off { font-size: 0.75rem; color: var(--text-muted); }
 .rum-upg-bonus { margin: 0.35rem 0 0; }
+/* How much of the card the app applies: counted is quiet, the player's share asks for an eye. */
+.rum-upg-cover { font-size: 0.75rem; color: var(--text-muted); }
+.rum-upg-cover.is-part,
+.rum-upg-cover.is-none { color: var(--warning); }
+.rum-upg-cover-note { margin: 0.35rem 0 0; font-size: 0.85rem; color: var(--text-muted); }
 .rum-upg-bonus.off { color: var(--text-muted); }
 .rum-upg-bonus strong { margin-right: 0.3rem; }
 .rum-chev { font-size: 0.7rem; color: var(--text-muted); flex-shrink: 0; }

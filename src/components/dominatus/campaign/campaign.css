@@ -152,6 +152,9 @@
   letter-spacing: 0.03em;
 }
 .camp-player-actions { margin-top: 0.9rem; align-items: flex-start; }
+/* "This is me": the players a new member may take, above the sign-up form. */
+.camp-take { display: grid; gap: 0.4rem; margin-top: 0.9rem; }
+.camp-take > p { margin: 0; }
 .camp-player-actions .copen.copen { margin-top: 0; }
 /* A form in the Warmaster's correction dialogs (a battle's result, a player, a player's cards). */
 .camp-modal-form { margin-top: 0; padding: 0.9rem 1rem 1.1rem; }

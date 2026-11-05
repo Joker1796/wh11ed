@@ -113,6 +113,27 @@ export function upgradeModEntries(cards, mods, unit, { unitOnly = false } = {}) 
 }
 
 /**
+ * How much of an Upgrade card the app applies on this unit, for the line under it on the unit's
+ * card: 'all' (its numbers are on the card, or the app counts it elsewhere — High Strategy's CP),
+ * 'part' (some numbers are, the rest — a re-roll, a mortal wound — is the player's) or 'none' (the
+ * player applies it). Read from the hand-read table: `note` is what no number carries, `noteOf:
+ * 'bonus'` a note about the bonus alone, `elsewhere` counted outside the card.
+ * @param {UpgradeCard & { slug: string }} card
+ * @param {Record<string, { effects: object[], bonus?: { effects: object[] }, note?: string, noteOf?: string, elsewhere?: boolean }>} mods
+ * @param {UpgradeUnit} unit the bearer
+ * @returns {'all' | 'part' | 'none'}
+ */
+export function upgradeCoverage(card, mods, unit) {
+  const m = mods[card.slug]
+  if (!m) return 'none'
+  if (m.elsewhere) return 'all'
+  const bonusOn = upgradeBonusApplies(card, unit)
+  if (!m.effects.length && !(bonusOn && m.bonus?.effects.length)) return 'none'
+  if (!m.note || (m.noteOf === 'bonus' && !bonusOn)) return 'all'
+  return 'part'
+}
+
+/**
  * Upgrades a side may give out this battle: the campaign's limit (`limit`, the booklet's 3 when the
  * game says none — campaign.js `upgradeLimit`), one more under Titangrave's Vermillion Sanction.
  * @param {{ location?: string | null, limit?: number } | null | undefined} dominatus

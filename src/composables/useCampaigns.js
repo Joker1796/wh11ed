@@ -4,11 +4,12 @@
 // src/core/dominatus/campaign.js over that log and the deck.
 //
 // A device holds one of three credentials per campaign: the Warmaster's account (the owner — no
-// token stored, the session's access token speaks), a member (a player who opened the invite
-// link: by their account when signed in — `account: true`, the session speaks again and the
-// campaign follows them to every device — or, a guest, by a member token for this device), or the
-// view token (a reader). The links carry the tokens: `?join=` and `?t=`. A guest's member is bound
-// to the account once the device signs in (`claim`), so it is never minted twice.
+// token stored, the session's access token speaks), a member (a player who opened the invite link
+// signed in: their account again, so the campaign follows them to every device), or the view token
+// (a reader). The links carry the tokens: `?join=` and `?t=`. Playing needs an account (owner,
+// 2026-11-05): an invite opened signed out makes a reader that keeps the link (`invite`) and joins
+// by itself once the device signs in — a guest's membership lived in one browser, and the same
+// player opening the link in a messenger and then in the app was two members.
 //
 // The log only grows, so a sync asks for what is after the last `seq` it has, and a write is an
 // append followed by that sync. Kept in localStorage (`wh11ed-campaigns`) so the page opens with
@@ -49,36 +50,19 @@ function upsert(entry) {
   return byId(entry.id)
 }
 
-// The request with the credential this device holds for the campaign. An account's member also
-// sends the view token: signed out, they still read.
+// The request with the credential this device holds for the campaign. A member also sends the view
+// token: signed out, they still read.
 async function call(c, path, opts = {}) {
   const { authedFetch } = useAuth()
   if (c.role === 'owner') return authedFetch(path, opts)
   const headers = { ...(opts.headers || {}) }
-  if (c.memberToken) headers['X-Campaign-Member'] = c.memberToken
-  else if (c.viewToken) headers['X-Campaign-View'] = c.viewToken
-  if (c.account) return authedFetch(path, { ...opts, headers })
+  if (c.viewToken) headers['X-Campaign-View'] = c.viewToken
+  if (c.role === 'member') return authedFetch(path, { ...opts, headers })
   if (opts.body) headers['Content-Type'] = 'application/json'
   return fetch(api(path), { ...opts, headers })
 }
 
 const signedIn = () => useAuth().status.value === 'authed'
-
-/** Bind this device's guest member to the account now signed in. The account already playing there
- * as another member keeps that one: the device switches to it. Anything else leaves it as it was. */
-async function claimMember(c) {
-  const { authedFetch } = useAuth()
-  const res = await authedFetch(`/campaigns/${encodeURIComponent(c.id)}/claim`, { method: 'POST', headers: { 'X-Campaign-Member': c.memberToken } })
-  let r = {}
-  try {
-    r = await res.json()
-  } catch {
-    // no body
-  }
-  if (res.ok) return upsert({ id: c.id, account: true, memberId: r.memberId })
-  if (res.status === 409 && r.error === 'already_member' && r.memberId) return upsert({ id: c.id, account: true, memberId: r.memberId, memberToken: undefined })
-  return c
-}
 
 export class CampaignError extends Error {
   constructor(code, status) {
@@ -109,16 +93,15 @@ async function createCampaign(name, draw = 'app') {
 }
 
 /** The account's campaigns merged into the list (signed in only): its own, and those it plays in —
- * after this device's guest members are bound to it, so a campaign joined here as a guest comes
- * back as the same player. */
+ * after the invites this device opened signed out are taken up, so the player is a member at once. */
 async function refreshAccount() {
   const { authedFetch } = useAuth()
   if (!signedIn()) return
-  for (const c of campaigns.value.filter((x) => x.role === 'member' && x.memberToken && !x.account)) {
+  for (const c of campaigns.value.filter((x) => x.role === 'viewer' && x.invite)) {
     try {
-      await claimMember(c)
+      await joinCampaign(c.id, c.invite)
     } catch {
-      // offline: next time
+      // offline, or the link was changed: the reader stays a reader
     }
   }
   const res = await authedFetch('/campaigns')
@@ -126,23 +109,19 @@ async function refreshAccount() {
   for (const r of (await res.json()).campaigns || []) {
     if (r.role === 'member') {
       if (byId(r.campaignId)?.role === 'owner') continue
-      const was = byId(r.campaignId)
-      upsert({ id: r.campaignId, name: r.name, role: 'member', account: true, memberId: r.memberId, viewToken: r.viewToken, memberToken: was?.memberId === r.memberId ? was.memberToken : undefined })
+      upsert({ id: r.campaignId, name: r.name, role: 'member', memberId: r.memberId, viewToken: r.viewToken, invite: undefined })
     } else {
       upsert({ id: r.campaignId, name: r.name, role: 'owner', viewToken: r.viewToken, joinToken: r.joinToken })
     }
   }
 }
 
-/** Open an invite link: a member by the account when signed in, else a member token for this
- * device. A device that already plays there joins nothing new — the server would mint a second
- * member, and the player in the log stays with the first. */
+/** Open an invite link. Signed in: a member by the account (the same one on every device — the
+ * server returns it again). Signed out: a reader that keeps the link and joins once the device signs
+ * in (`refreshAccount`). A device that already plays or runs it asks nothing. */
 async function joinCampaign(id, joinToken, name = '') {
   const was = byId(id)
-  // An owner opening their own invite stays the owner.
-  if (was?.role === 'owner') return was
-  if (was?.role === 'member') {
-    if (signedIn() && was.memberToken && !was.account) await claimMember(was)
+  if (was?.role === 'owner' || was?.role === 'member') {
     await syncCampaign(id)
     return byId(id)
   }
@@ -154,8 +133,10 @@ async function joinCampaign(id, joinToken, name = '') {
   if (!res.ok) throw await failure(res)
   const r = await res.json()
   const c = r.role === 'owner'
-    ? upsert({ id, role: 'owner', viewToken: r.viewToken })
-    : upsert({ id, role: 'member', memberId: r.memberId, account: !!r.account, memberToken: r.memberToken, viewToken: r.viewToken })
+    ? upsert({ id, role: 'owner', viewToken: r.viewToken, invite: undefined })
+    : r.role === 'member'
+      ? upsert({ id, role: 'member', memberId: r.memberId, viewToken: r.viewToken, invite: undefined })
+      : upsert({ id, role: 'viewer', viewToken: r.viewToken, invite: joinToken })
   await syncCampaign(id)
   return c
 }
