@@ -162,8 +162,11 @@ traced by `scripts/trace-dominatus-emblems.py logo`, 18 KB so a file of its own,
 deck rules and **How it works** (the player's path in six steps, `campHowText`) — and a dimmed
 **Your own deck**, coming later. One deck so far, so it is open from the start: from 901px the
 decks are a column on the left and its campaigns the right column, on a phone the deck card, its
-campaigns, then the dimmed card. Each campaign row says the first thing its **What next** asks of
-this reader (`campaignWords().stepText`, the sentence `CampNext` prints, from `useCampaignView.js`).
+campaigns, then the dimmed card. A campaign's row (owner, 2026-11-05): the phase's numeral, the
+Location, and, where the reader has a player, their Alliance, cards by deck and this phase's battles
+(`playerStanding`); under it, on a strip of its own since it comes and goes, the first thing its
+**What next** asks of this reader (`campaignWords().stepText`, the sentence `CampNext` prints, from
+`useCampaignView.js`), tinted when it is theirs to do.
 A campaign lives under its deck: `campaignPath(id, sub)` in `router/nav.js` —
 `/campaigns/dominatus/:id`, `…/new`, `…/:id/settings`; the invite and view links are built from it.
 `/tracker/campaigns…` (where they lived on the branch before) redirects, query and all. The pages

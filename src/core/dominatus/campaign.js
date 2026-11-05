@@ -766,6 +766,23 @@ export function playedIn(s, playerId, phase = s.phase) {
 }
 
 /**
+ * A player's standing as the campaign list says it: the Alliance, the cards they hold by deck, and
+ * this phase's battles against the schedule.
+ * @param {CampaignState} s
+ * @param {{ id: string, alliance?: string | null, upgrades?: string[] }} player
+ * @param {Array<{ slug: string, kind: string }>} cards the deck's Upgrade cards
+ */
+export function playerStanding(s, player, cards) {
+  const count = (/** @type {string} */ kind) => (player.upgrades || []).filter((u) => cards.find((c) => c.slug === u)?.kind === kind).length
+  return {
+    alliance: player.alliance || null,
+    cards: { honour: count('honour'), skill: count('skill'), relic: count('relic') },
+    played: playedIn(s, player.id),
+    due: s.schedule[s.phase - 1] ?? 0,
+  }
+}
+
+/**
  * The Battle Schedule this phase: each player in an Alliance, battles played and due; `done` once
  * every one of them has played theirs (and the Warmaster has counted them all).
  * @param {CampaignState} s

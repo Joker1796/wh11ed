@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { campaignState, battleEvent, UPGRADES_PER_SIDE, sizeOf, randomPairings, phaseEndsByItself, SETTINGS_DEFAULTS, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, takeablePlayers, PATH_TO_CONQUEST } from './campaign.js'
+import { campaignState, battleEvent, UPGRADES_PER_SIDE, sizeOf, randomPairings, phaseEndsByItself, SETTINGS_DEFAULTS, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, playerStanding, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, takeablePlayers, PATH_TO_CONQUEST } from './campaign.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en')
@@ -598,5 +598,23 @@ describe('Dominatus campaign — the settings a Warmaster may change', () => {
     const tie = [...base(), set({ phaseEnd: 'auto', schedule: [1, 1, 1] }), battle('owner', 'b1', 'ann', 'cid', 'a'), battle('owner', 'b2', 'ben', 'dee', 'b')]
     expect(phaseEndsByItself(campaignState(tie, deck))).toBe(false)
     expect(phaseEndsByItself(campaignState([...base(), set({ schedule: [1, 1, 1] }), battle('owner', 'b1', 'ann', 'cid', 'a'), battle('owner', 'b2', 'ben', 'dee', 'a')], deck))).toBe(false)
+  })
+})
+
+describe('playerStanding — a player on the campaign list', () => {
+  const cards = [{ slug: 'h1', kind: 'honour' }, { slug: 'h2', kind: 'honour' }, { slug: 's1', kind: 'skill' }, { slug: 'r1', kind: 'relic' }]
+  const s = { phase: 2, schedule: [2, 3, 1], battles: [
+    { phase: 2, status: 'approved', a: 'p1', b: 'p2' },
+    { phase: 2, status: 'rejected', a: 'p1', b: 'p2' },
+    { phase: 1, status: 'approved', a: 'p1', b: 'p2' },
+    { phase: 2, status: 'approved', a: 'p2', b: 'p3' },
+  ] }
+  it('counts the cards by deck and this phase\'s battles against its schedule', () => {
+    expect(playerStanding(s, { id: 'p1', alliance: 'raiders', upgrades: ['h1', 'h2', 'r1', 'gone'] }, cards)).toEqual({
+      alliance: 'raiders', cards: { honour: 2, skill: 0, relic: 1 }, played: 1, due: 3,
+    })
+  })
+  it('a player with no Alliance and no cards yet', () => {
+    expect(playerStanding(s, { id: 'p9' }, cards)).toEqual({ alliance: null, cards: { honour: 0, skill: 0, relic: 0 }, played: 0, due: 3 })
   })
 })
