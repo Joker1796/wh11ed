@@ -49,7 +49,21 @@ export function campaignWords(getState, locale) {
       .replace('{f}', x.faction ? factionIndexBySlug(x.faction)?.name || x.faction : '')
       .replace('{a}', x.alliance ? allianceName(x.alliance) : '')
   }
-  return { labels, deck, allianceName, playerName, rewardKind, rewardName, stepText }
+  // An Upgrade card named on a page opens its text in the rules popover, as the card prints it:
+  // who may take it, what it does, its bonus effect (the campaign's pages, the roster builder).
+  const { openRule } = useKeywordPopover()
+  function showUpgrade(slug, e) {
+    const u = deck.value?.upgrades.find((x) => x.slug === slug)
+    if (!u) return
+    const l = labels.value
+    const text = [
+      u.who && `**${l.domWho}** ${u.who}`,
+      u.body,
+      u.bonus && `**${l.domBonusEffect}: ${u.bonus.label}**\n${u.bonus.body}`,
+    ].filter(Boolean).join('\n')
+    openRule(u.name, text, e.currentTarget.getBoundingClientRect(), u.nameRu || null)
+  }
+  return { labels, deck, allianceName, playerName, rewardKind, rewardName, stepText, showUpgrade }
 }
 
 export function provideCampaignView(ctx) {
@@ -59,7 +73,7 @@ export function provideCampaignView(ctx) {
 export function useCampaignView() {
   const ctx = inject(KEY)
   const { locale } = useLocale()
-  const { labels, deck, allianceName, playerName, rewardKind, rewardName, stepText } = campaignWords(() => ctx.state.value, locale)
+  const { labels, deck, allianceName, playerName, rewardKind, rewardName, stepText, showUpgrade } = campaignWords(() => ctx.state.value, locale)
   const upgradeName = (slug) => deck.value?.upgrades.find((u) => u.slug === slug)?.name || slug
   const locationName = (slug) => deck.value?.locations.find((l) => l.slug === slug)?.name || slug
   const playerOption = (p) => playerOptionOf(p, allianceName)
@@ -84,20 +98,6 @@ export function useCampaignView() {
     return { late, text: (late ? l.campDeadlinePast : l.campDeadlineLine).replace('{date}', date) }
   })
   const phaseLabel = (n) => labels.value.domPhase.replace('{n}', ['I', 'II', 'III'][n - 1] || n)
-  // An Upgrade card named on the page opens its text in the rules popover, as the card prints it:
-  // who may take it, what it does, its bonus effect.
-  const { openRule } = useKeywordPopover()
-  function showUpgrade(slug, e) {
-    const u = deck.value?.upgrades.find((x) => x.slug === slug)
-    if (!u) return
-    const l = labels.value
-    const text = [
-      u.who && `**${l.domWho}** ${u.who}`,
-      u.body,
-      u.bonus && `**${l.domBonusEffect}: ${u.bonus.label}**\n${u.bonus.body}`,
-    ].filter(Boolean).join('\n')
-    openRule(u.name, text, e.currentTarget.getBoundingClientRect(), u.nameRu || null)
-  }
   // A choice this reader makes again and again here, kept with the campaign on this device
   // (`setCampaignPref`): read and written like a ref, null until first made.
   const remembered = (key) => computed({

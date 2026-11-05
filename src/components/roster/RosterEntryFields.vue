@@ -22,6 +22,9 @@
     :leader-sources="leaderSources"
     :leader-candidates="leaderCandidates"
     :leader-hosts="leaderHosts"
+    :upgrade-options="upgradeOptions"
+    @set-upgrade="(slug) => $emit('set-upgrade', entry.uid, slug)"
+    @upgrade-info="showUpgrade"
     @toggle-warlord="$emit('toggle-warlord', entry.uid)"
     @add-leader="(id) => $emit('add-leader', id, entry.uid)"
     @add-host="(id) => $emit('add-host', id, entry.uid)"
@@ -37,6 +40,12 @@ import {
 } from '../../core/roster/rosterEngine.js'
 import { useRosterPrefs } from '../../composables/useRosterPrefs.js'
 import { useCollection } from '../../composables/useCollection.js'
+import { useRosterCampaign } from '../../composables/useRosterCampaign.js'
+import { domUpgrades } from '../../composables/dominatusMissions.js'
+import { campaignWords } from '../dominatus/campaign/useCampaignView.js'
+import { upgradeUnitBlock, upgradeBonusApplies } from '../../core/dominatus/upgrades.js'
+import { ui } from '../../i18n/ui.js'
+import { useLocale } from '../../composables/useLocale.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -56,8 +65,11 @@ const props = defineProps({
   dupBlocked: { type: Function, default: () => false },
   // Points still unspent (null: no limit to read) — for the catalogue's "Fits the points left".
   remaining: { type: Number, default: null },
+  // The list's Dominatus mark (`roster.dominatus`, useRosterCampaign.js): the pool its units take
+  // Upgrade cards from and the cards they hold. Null for any other list.
+  dominatus: { type: Object, default: null },
 })
-defineEmits(['toggle-warlord', 'add-leader', 'add-host'])
+defineEmits(['toggle-warlord', 'add-leader', 'add-host', 'set-upgrade'])
 
 const def = computed(() => props.defOf(props.entry.id))
 // An ally is never the Warlord and takes no enhancement unless its group says otherwise — asked of
@@ -116,4 +128,33 @@ const leaderCandidates = computed(() => leaderCandidatesFor(
 const leaderHosts = computed(() => leaderHostsFor(
   props.entry.uid, props.units, props.catalogue, props.defOf, props.detachments,
 ).map(withSheet).filter(offered))
+
+// The Upgrade cards this unit may be given: the pool the list is marked for, each card checked
+// against this unit's datasheet (the English text is what upgradeUnitBlock reads), against the unit
+// holding it elsewhere in the list, and against how many a battle gives.
+const { locale } = useLocale()
+const { poolOf, limitOf } = useRosterCampaign()
+const { showUpgrade } = campaignWords(() => null, locale)
+const upgradeOptions = computed(() => {
+  const dom = props.dominatus
+  if (!dom || !def.value) return []
+  const l = ui[locale.value]
+  const en = new Map(domUpgrades().map((c) => [c.slug, c]))
+  const pins = dom.upgrades || []
+  const mine = pins.find((x) => x.uid === props.entry.uid)?.slug || null
+  const full = !mine && pins.length >= limitOf(dom)
+  const unit = { kws: def.value.kws || [], warlord: props.entry.warlord === true }
+  return poolOf(dom, locale.value).map((c) => {
+    const card = en.get(c.slug) || c
+    const on = mine === c.slug
+    const block = upgradeUnitBlock(card, unit)
+    const holder = pins.find((x) => x.slug === c.slug && x.uid !== props.entry.uid)
+    const holderName = holder && (props.defOf(props.units.find((u) => u.uid === holder.uid)?.id)?.name || '')
+    const tag = block ? l[`trackerDomUnitWhy_${block}`]
+      : holder ? l.rosterUpgradeHeld.replace('{unit}', holderName)
+        : !on && full ? l.rosterUpgradeFull.replace('{n}', String(limitOf(dom)))
+          : upgradeBonusApplies(card, unit) ? l.rosterUpgradeBonus : ''
+    return { slug: c.slug, name: c.name, on, disabled: !on && !!(block || holder || full), tag }
+  })
+})
 </script>

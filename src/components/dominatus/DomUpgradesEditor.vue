@@ -157,6 +157,14 @@ const units = ref([])
 watch(() => JSON.stringify((current.value.players[props.pi].members || [current.value.players[props.pi]]).map((m) => m?.roster?.units?.length ? m.rosterId || m.roster.name || 1 : null)), async () => {
   const { loadUpgradeUnits } = await import('../../composables/dominatusUpgradeUnits.js')
   units.value = await loadUpgradeUnits(current.value.players[props.pi])
+  // Cards brought in pinned on the list (GameSetup) name their unit by uid alone: the name is the
+  // list's, read here with its datasheets, and the table says it.
+  if (props.editable && list.value.some((u) => u.uid && !u.unit)) {
+    setUpgrades(props.pi, list.value.map((u) => {
+      const x = u.uid && !u.unit && units.value.find((y) => y.uid === u.uid)
+      return x ? { ...u, unit: x.name, mi: x.mi } : u
+    }))
+  }
 }, { immediate: true })
 
 const cardOf = (slug) => domUpgrades().find((c) => c.slug === slug) || null

@@ -77,6 +77,14 @@ describe('Dominatus battle', () => {
     tracker.setUpgrades(0, [{ slug: 'kingslayer', unit: 'Captain', uid: 'u7', mi: 0 }, { slug: 'fire-and-fury', unit: 'X', uid: 5 }])
     expect(tracker.current.value.players[0].upgrades).toEqual([{ slug: 'kingslayer', unit: 'Captain', uid: 'u7', mi: 0 }, { slug: 'fire-and-fury', unit: 'X' }])
   })
+
+  it('starts with the Upgrades the setup brings in — the cards a list carries pinned', () => {
+    const g = domGame()
+    g.players[0].upgrades = [{ slug: 'kingslayer', uid: 'u7', unit: '' }, { slug: '' }]
+    tracker.newGame(g)
+    expect(tracker.current.value.players.find((p) => p.name === 'Me').upgrades).toEqual([{ slug: 'kingslayer', uid: 'u7', unit: '' }])
+    expect(tracker.current.value.players.find((p) => p.name === 'Opp').upgrades).toEqual([])
+  })
 })
 
 describe('Dominatus deck on demand', () => {

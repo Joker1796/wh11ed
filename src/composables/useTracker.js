@@ -363,6 +363,19 @@ function secondaryState(role, mode, fixed = []) {
   }
 }
 
+// The Upgrades given to units in a Dominatus battle: [{ slug, unit, uid?, mi? }] — `unit` the
+// unit's name as the table says it; `uid` (and `mi`, the army in doubles) the list's unit it went
+// to, when the side has a list (DomUpgradesEditor). A setup may bring them in already given: the
+// cards the side's list carries pinned (GameSetup, pinnedUpgrades).
+function cleanUpgrades(list) {
+  return (Array.isArray(list) ? list : []).filter((u) => u && u.slug).map((u) => ({
+    slug: u.slug,
+    unit: String(u.unit || ''),
+    ...(typeof u.uid === 'string' && u.uid ? { uid: u.uid } : {}),
+    ...(Number.isInteger(u.mi) ? { mi: u.mi } : {}),
+  }))
+}
+
 function makePlayer(p, opponent, settings, isYou = false) {
   const primary = primaryOf(p, opponent, settings)
   const secondaryMode = p.secondaryMode || 'tactical'
@@ -407,7 +420,7 @@ function makePlayer(p, opponent, settings, isYou = false) {
     // cards the battle earned (told at Determine Victor); in a battle of a campaign, the campaign's
     // player this side is (campaignHandoff.js).
     ...(settings.dominatus
-      ? { alliance: p.alliance || null, declineAgenda: !!p.declineAgenda, upgrades: [], agendaAchieved: 0, ...(settings.dominatus.campaign && p.campaignPlayer ? { campaignPlayer: p.campaignPlayer } : {}) }
+      ? { alliance: p.alliance || null, declineAgenda: !!p.declineAgenda, upgrades: cleanUpgrades(p.upgrades), agendaAchieved: 0, ...(settings.dominatus.campaign && p.campaignPlayer ? { campaignPlayer: p.campaignPlayer } : {}) }
       : {}),
     cp: 0,
     cpBase: 0,
@@ -844,18 +857,11 @@ export function useTracker() {
     const max = !card ? 0 : card.achieved.more ? 2 : 1
     pl.agendaAchieved = Math.max(0, Math.min(max, Math.floor(Number(n) || 0)))
   }
-  // The Upgrades given to units this battle: [{ slug, unit }] — `unit` a name as the table says it.
+  // The Upgrades given to units this battle (cleanUpgrades).
   function setUpgrades(pi, list) {
     const pl = current.value?.players[pi]
     if (!pl) return
-    // `unit` is the unit's name as the table reads it; `uid` (and `mi`, the army in doubles) the
-    // list's unit it went to, when the side has a list (DomUpgradesEditor).
-    pl.upgrades = (list || []).filter((u) => u && u.slug).map((u) => ({
-      slug: u.slug,
-      unit: String(u.unit || ''),
-      ...(typeof u.uid === 'string' && u.uid ? { uid: u.uid } : {}),
-      ...(Number.isInteger(u.mi) ? { mi: u.mi } : {}),
-    }))
+    pl.upgrades = cleanUpgrades(list)
   }
 
   // The balance's "−" where stratagems are not paid for here (`stratSpendCp` off): a point spent,

@@ -142,3 +142,28 @@ export function upgradeLimit(dominatus) {
   const base = Number.isInteger(dominatus?.limit) && (dominatus?.limit ?? 0) > 0 ? Number(dominatus?.limit) : 3
   return base + (dominatus?.location === 'titangrave' ? 1 : 0)
 }
+
+/**
+ * The Upgrade cards a list carries pinned (the roster's `dominatus.upgrades`, given out in the
+ * builder, owner 2026-11-05) as a battle's Declare Battle Formations to start from: a card still
+ * held (any, when `held` is null), once, on a unit still in the list, one card a unit, up to
+ * `limit`. Whether the unit may take the card was the builder's to say, with its datasheet.
+ * @param {Array<{ slug?: string, uid?: string }> | null | undefined} pins
+ * @param {Array<{ slug: string }>} cards the deck's Upgrade cards
+ * @param {Set<string>} uids the list's units
+ * @param {Set<string> | null} held the cards the campaign's player holds
+ * @param {number} limit
+ * @returns {Array<{ slug: string, uid: string, unit: string }>}
+ */
+export function pinnedUpgrades(pins, cards, uids, held, limit) {
+  /** @type {Array<{ slug: string, uid: string, unit: string }>} */
+  const out = []
+  for (const p of pins || []) {
+    if (out.length >= limit) break
+    const slug = p?.slug, uid = p?.uid
+    if (!slug || !uid || !cards.some((c) => c.slug === slug) || (held && !held.has(slug))) continue
+    if (!uids.has(uid) || out.some((o) => o.slug === slug || o.uid === uid)) continue
+    out.push({ slug, uid, unit: '' })
+  }
+  return out
+}

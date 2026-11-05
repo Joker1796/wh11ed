@@ -2803,6 +2803,11 @@ from the running build, its card kept the day-of-last-edit total, and a player c
 froze prices (2026-09-30). **Prices are always the current ones**; keeping a list at the prices of
 a fixed tournament ruleset is a separate feature, not yet designed (hub journal, paused).
 
+**A list played in a Dominatus campaign** (`roster.dominatus`, 2026-11-05): the campaign it is
+marked for and the Upgrade cards its units carry into that campaign's battles — a field of the
+editor's settings, a section of a unit's fields. Not in `rosterShare`'s `PICK`. See
+`src/components/dominatus/CLAUDE.md` → "A list played in a campaign".
+
 ## Cloud sync (`src/composables/useRosterSync.js`)
 
 Lists sync to `wh11ed-api` (`/rosters`, the same four routes `/games` has), layered over

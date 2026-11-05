@@ -169,6 +169,35 @@ A campaign lives under its deck: `campaignPath(id, sub)` in `router/nav.js` —
 `/tracker/campaigns…` (where they lived on the branch before) redirects, query and all. The pages
 carry `meta.section: 'campaigns'` (`isCampaignsRoute`), with no subnav.
 
+## A list played in a campaign (`roster.dominatus`, owner 2026-11-05)
+
+The builder marks a list for Dominatus and gives its units Upgrade cards before the battle, so the
+table does not; the battle starts with them given (`useRosterCampaign.js`).
+
+- **The mark** is `roster.dominatus = { campaign, upgrades: [{ slug, uid }] }` — `campaign` the id
+  of a campaign this account plays in as a player of its own (`choices`: owner or member, with
+  `myPlayer`), or null for the whole deck (to try cards on). Absent on every other list; synced with
+  the list (the backend passes the key through), never in a share code or a game snapshot.
+- **Where it is set**: `RosterCampaignField` — the editor's Settings mode on a phone, the desk's
+  "…" until the list has a mark, then a field on the settings line with the deck's emblem
+  (`RosterSettingsBar`'s `campaignLabel` + `campaign` slot). Changing the campaign drops the cards
+  the new player does not hold.
+- **The cards**: a unit's fields have "Upgrade card" under the enhancement (`RosterEntryFields`
+  computes the options): the pool (the player's cards, or the deck's unit cards), one card a unit, a
+  card once, up to the battle's limit (`limitOf`: the campaign's, 3 for the deck); a card the unit
+  may not take, or another unit holds, stays listed and says why (`upgradeUnitBlock`).
+- **The view** reads the pinned cards outside a game exactly as it reads a battle's
+  (`upgradesHere` in `RosterViewView`): the modifiers on the card, and the "Upgrade cards for the
+  campaign" block with each card's coverage (`ctx.upgrades`; `gameCtx.upgrades` in a game).
+- **The campaign's copy** goes as the editor saves (`sendCopy`), not on the mark: an edit taken back
+  by Cancel sends nothing; nothing while the campaign's copy is this one, or the campaign takes no
+  rosters.
+- **The battle**: `GameSetup.start()` brings the cards in (`pinnedFor` → core's `pinnedUpgrades`):
+  a list marked for another campaign brings none; only cards the side's campaign player still holds,
+  on units still in the snapshot, up to the battle's limit. `makePlayer` keeps them
+  (`cleanUpgrades`), and the pre-battle step names their units once the list is read
+  (`DomUpgradesEditor`) and changes them like any other.
+
 ## The campaign (`/campaigns/dominatus/:id`)
 
 A campaign is an **append-only event log** on the server (`wh11ed-api` `/campaigns`, README

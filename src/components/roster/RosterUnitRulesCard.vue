@@ -236,16 +236,17 @@
         <!-- Dominatus: the Upgrade cards this unit carries this battle (gameCtx.upgrades), each
              folded like a rule — its deck by name, the card, its text, and its bonus said to apply
              or not on this unit (owner, 2026-11-03). The head says how much of it the app applies
-             (`coverage`): a player would take every card for counted (owner, 2026-11-05). -->
+             (`coverage`): a player would take every card for counted (owner, 2026-11-05). Outside a
+             game, the cards the saved list carries pinned for its campaign (`ctx.upgrades`). -->
         <section
-          v-if="gameCtx?.upgrades?.length"
+          v-if="shownUpgrades.length"
           class="rum-rules"
         >
           <h4 class="rum-rules-h">
-            {{ labels.domUpgradesOnUnit }}
+            {{ gameCtx?.upgrades ? labels.domUpgradesOnUnit : labels.domUpgradesPinned }}
           </h4>
           <div
-            v-for="u in gameCtx.upgrades"
+            v-for="u in shownUpgrades"
             :key="u.slug"
             class="rum-rule"
           >
@@ -495,6 +496,8 @@ const props = defineProps({
   // the opponent's army, and the collection is kept on the faction pages and in the builder.
   ownable: { type: Boolean, default: true },
 })
+// The Upgrade cards on this unit: the battle's, or the ones its saved list carries pinned.
+const shownUpgrades = computed(() => props.gameCtx?.upgrades || props.ctx?.upgrades || [])
 defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick', 'toggle-use', 'compare', 'close'])
 
 const { locale } = useLocale()

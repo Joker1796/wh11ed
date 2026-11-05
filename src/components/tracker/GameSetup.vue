@@ -1602,7 +1602,8 @@ import { useTracker, DISPOSITIONS, BATTLE_SIZES, CUSTOM_BATTLE, CUSTOM_RANGES, b
 import { FACTIONS, detachmentsFor, detachmentInfo, mfmDetachmentNames } from '../../composables/trackerFactions.js'
 import { rosterSnapshot } from '../../composables/rosterGameLink.js'
 import { combatPatrolRoster, defaultCombatPatrolEnhancement } from '../../core/roster/combatPatrolRoster.js'
-import { domAlliances, domLocationsOf, domLocation as domLocationOf, loadDominatusDeck } from '../../composables/dominatusMissions.js'
+import { domAlliances, domLocationsOf, domLocation as domLocationOf, loadDominatusDeck, domUpgrades } from '../../composables/dominatusMissions.js'
+import { pinnedUpgrades, upgradeLimit } from '../../core/dominatus/upgrades.js'
 import DomAgendaAchieved from '../dominatus/DomAgendaAchieved.vue'
 import { knownCampaigns as campaignsHere, knownCampaignState, campaignPlayerOf } from '../../composables/useCampaigns.js'
 import CampPick from '../dominatus/campaign/CampPick.vue'
@@ -2578,7 +2579,7 @@ async function start() {
   if (starting.value) return
   starting.value = true
   try {
-    const out = players.map(p => ({ ...p }))
+    const out = players.map(p => ({ ...p, upgrades: pinnedFor(p) }))
     if (settings.combatPatrol) {
       for (const p of out) {
         p.roster = await combatPatrolRosterFor(p)
@@ -2595,6 +2596,19 @@ async function start() {
   } finally {
     starting.value = false
   }
+}
+// A Dominatus battle starts with the Upgrade cards the side's list carries pinned (owner,
+// 2026-11-05: given out in the builder, so the table does not do it again) — the list's own
+// campaign's or the whole deck's, the cards its player still holds, on units still in the list, up
+// to the battle's limit. The pre-battle step shows them and changes them.
+function pinnedFor(p) {
+  const dom = settings.dominatus
+  const pins = dom && !settings.combatPatrol && p.rosterId ? rosterById(p.rosterId)?.dominatus : null
+  if (!pins?.upgrades?.length || !p.roster?.units?.length) return []
+  if (pins.campaign && dom.campaign && pins.campaign !== dom.campaign) return []
+  const cp = dom.campaign && p.campaignPlayer ? knownCampaignState(dom.campaign)?.players.find((x) => x.id === p.campaignPlayer) : null
+  const held = cp ? new Set(cp.upgrades) : null
+  return pinnedUpgrades(pins.upgrades, domUpgrades(), new Set(p.roster.units.map((u) => u.uid)), held, upgradeLimit(dom))
 }
 // The custom numbers travel only with a custom size: a Strike Force game carrying a stale
 // `custom` would hand the next setup numbers nobody chose for it.

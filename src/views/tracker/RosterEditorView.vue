@@ -33,6 +33,7 @@
       :check-legality="roster.checkLegality !== false"
       :archived="!!roster.archived"
       :notes="roster.notes || ''"
+      :campaign-label="campaignLabel"
       @update:name="rename"
       @update:limit="setLimit"
       @update:disposition="setDisposition"
@@ -42,7 +43,26 @@
       @pick-faction="pickFaction"
       @toggle-detachment="toggleDetachment"
       @clear-detachments="clearDetachments"
-    />
+    >
+      <!-- The list's campaign (owner, 2026-11-05): behind the "…" until the list is marked for one,
+           then on the line (`campaign-label`), where it says which — the line has no room for a
+           field nobody uses. -->
+      <template
+        v-if="!roster.dominatus"
+        #more
+      >
+        <RosterCampaignField
+          :dominatus="null"
+          @update="setDominatus"
+        />
+      </template>
+      <template #campaign="{ close }">
+        <RosterCampaignField
+          :dominatus="roster.dominatus"
+          @update="(v) => { setDominatus(v); if (!v) close() }"
+        />
+      </template>
+    </RosterSettingsBar>
 
 
     <!-- A phone's two modes change with a plain fade. They slid a little sideways toward their
@@ -114,6 +134,10 @@
             @pick-faction="factionPickerOpen = true"
             @toggle-detachment="toggleDetachment"
             @clear-detachments="clearDetachments"
+          />
+          <RosterCampaignField
+            :dominatus="roster.dominatus || null"
+            @update="setDominatus"
           />
         </div>
       </div>
@@ -189,6 +213,7 @@
                     @toggle-warlord="toggleWarlord"
                     @add-leader="addLeaderTo"
                     @add-host="addHostFor"
+                    @set-upgrade="setUpgrade"
                   />
                 </template>
               </RosterUnitList>
@@ -202,6 +227,7 @@
                 @toggle-warlord="toggleWarlord"
                 @add-leader="addLeaderTo"
                 @add-host="addHostFor"
+                @set-upgrade="setUpgrade"
               />
             </template>
           </RosterWorkbench>
@@ -361,6 +387,8 @@ import RosterUnitList from '../../components/roster/RosterUnitList.vue'
 import RosterRulesModal from '../../components/roster/RosterRulesModal.vue'
 import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
 import RosterSetupFields from '../../components/roster/RosterSetupFields.vue'
+import RosterCampaignField from '../../components/roster/RosterCampaignField.vue'
+import { useRosterCampaign } from '../../composables/useRosterCampaign.js'
 import RosterPointsTally from '../../components/roster/RosterPointsTally.vue'
 import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
@@ -446,6 +474,9 @@ watch(desk, () => { paneTab.value = tab.value })
 // leaves the list queued for the next visit rather than blocking the navigation.
 function save() {
   saveToCloud(roster.value.id)
+  // A list marked for a campaign sends it its copy as it is saved (useRosterCampaign); a failure
+  // leaves the campaign's older copy, which its date already tells apart.
+  sendCopy(roster.value).catch(() => {})
   router.push(`/roster/${roster.value.id}/view`)
 }
 
@@ -546,6 +577,28 @@ function setNotes(v) {
   touch()
 }
 function setLimit(v) { applyLimit(roster.value, v); touch() }
+// The Dominatus campaign the list is played in, and its units' Upgrade cards (useRosterCampaign).
+const { choiceOf, sendCopy } = useRosterCampaign()
+const campaignLabel = computed(() => {
+  const dom = roster.value?.dominatus
+  if (!dom) return ''
+  return dom.campaign ? choiceOf(dom)?.name || labels.value.rosterCampaignUnknown : labels.value.rosterCampaignDeck
+})
+function setDominatus(v) {
+  if (v) roster.value.dominatus = v
+  else delete roster.value.dominatus
+  touch()
+}
+// One card a unit: a card ticked on a unit replaces its own, unticked comes off; a card on a unit
+// no longer in the list goes with it.
+function setUpgrade(uid, slug) {
+  const dom = roster.value.dominatus
+  if (!dom) return
+  const here = new Set(roster.value.units.map((u) => u.uid))
+  const rest = (dom.upgrades || []).filter((u) => u.uid !== uid && here.has(u.uid))
+  dom.upgrades = slug ? [...rest, { slug, uid }] : rest
+  touch()
+}
 function setCheckLegality(v) { roster.value.checkLegality = v; touch() }
 function setDisposition(fd) { roster.value.disposition = fd; touch() }
 // The Chapter: what the list settles itself is shown, not stored; '' takes a declaration back.

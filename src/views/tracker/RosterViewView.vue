@@ -673,7 +673,7 @@ import CollapseTransition from '../../components/CollapseTransition.vue'
 import ExpandTransition from '../../components/ExpandTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterUnitRulesCard from '../../components/roster/RosterUnitRulesCard.vue'
-import { domUpgrades } from '../../composables/dominatusMissions.js'
+import { domUpgrades, loadDominatusDeck } from '../../composables/dominatusMissions.js'
 import { upgradeBonusApplies, upgradeOncePerBattle, upgradeModEntries, upgradeCoverage } from '../../core/dominatus/upgrades.js'
 import { dominatusUpgradeMods } from '../../data/dominatusUpgradeMods.js'
 import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
@@ -897,6 +897,14 @@ const activeFor = (entry) => (inGame.value
   : rosterConditions(entry, roster.value?.units, sheetOfId, unitRulesOf(entry).proves))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
+// The Dominatus Upgrade cards on this list's units: a Dominatus battle's, given at Declare Battle
+// Formations; outside a game, the ones the builder pinned on the saved list for its campaign
+// (`roster.dominatus`, owner 2026-11-05) — what a unit's card will read in that battle.
+const upgradesHere = computed(() => {
+  if (game.value) return game.value.settings?.dominatus ? gameSide.value?.upgrades || [] : []
+  return roster.value?.dominatus?.upgrades || []
+})
+watch(() => upgradesHere.value.length > 0, (on) => { if (on) loadDominatusDeck() }, { immediate: true })
 // The game desk's height (see gameDesk): measured once the page and its list are there.
 const rootEl = ref(null)
 const { measure: measureFill } = useViewportFill(rootEl)
@@ -1181,6 +1189,9 @@ function cardOf(key) {
       // What reaches this unit from the rest of its Attached unit — the parts still standing.
       units: sourceUnits.value,
       defOf,
+      // Outside a game, the Upgrade cards the list carries pinned for its campaign (in a game they
+      // are the battle's, in gameCtx).
+      ...(inGame.value ? {} : { upgrades: upgradesOf(entry) }),
     },
     gameCtx: gameCtxOf(entry),
   }
@@ -1276,8 +1287,8 @@ function recordsFor(entry) {
 // its own cards whole, and the "this unit" half of the cards another part of its Attached unit
 // carries (19.04), from a part still on the table. Read by the plates and the card alike.
 function upgradeEntriesFor(entry) {
-  const ups = gameSide.value?.upgrades
-  if (!game.value?.settings?.dominatus || !ups?.length || !entry) return []
+  const ups = upgradesHere.value
+  if (!ups.length || !entry) return []
   const mi = gameMi.value ?? 0
   const deck = domUpgrades()
   const cardsOn = (uid) => ups.filter((u) => u.uid === uid && (u.mi ?? 0) === mi).map((u) => deck.find((c) => c.slug === u.slug)).filter(Boolean)
@@ -1769,8 +1780,8 @@ function upgradeUsesOf(entry) {
   })
 }
 function upgradesOf(entry) {
-  const ups = gameSide.value?.upgrades
-  if (!game.value?.settings?.dominatus || !ups?.length) return []
+  const ups = upgradesHere.value
+  if (!ups.length) return []
   const mi = gameMi.value ?? 0
   const def = defOf(entry.id)
   const unit = { kws: def?.kws || [], warlord: !!entry.warlord }

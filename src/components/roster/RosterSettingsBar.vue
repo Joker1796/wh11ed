@@ -221,6 +221,45 @@
       </div>
     </ExpandTransition>
 
+    <!-- The Dominatus campaign the list is marked for (the editor's, owner 2026-11-05): said on the
+         line once there is one, its field in the dropdown (the `campaign` slot). -->
+    <ExpandTransition>
+      <div
+        v-if="campaignLabel"
+        class="rw-field"
+      >
+        <span>{{ labels.rosterCampaign }}</span>
+        <PickerDropdown
+          v-model:open="campaignOpen"
+          width="20rem"
+          align="right"
+          :label="labels.rosterCampaign"
+        >
+          <template #trigger="{ toggle, open }">
+            <button
+              class="rw-choose"
+              :aria-expanded="open"
+              aria-haspopup="dialog"
+              @click="toggle"
+            >
+              <span
+                class="rw-dom-mark"
+                aria-hidden="true"
+              />
+              <span>{{ campaignLabel }}</span>
+              <i class="wi wi-chevron-down" />
+            </button>
+          </template>
+          <div class="rw-campaign">
+            <slot
+              name="campaign"
+              :close="() => (campaignOpen = false)"
+            />
+          </div>
+        </PickerDropdown>
+      </div>
+    </ExpandTransition>
+
     <!-- The notes and the legality switch are decided once and then left alone; giving each a
          permanent slot would spend the line on the two things nobody looks at twice. The points
          and the way out are not on this line: they are the fixed bar's at the bottom, where they
@@ -245,6 +284,8 @@
         </button>
       </template>
       <div class="rw-more-body">
+        <!-- What the caller adds to the "…" (the editor's campaign field). -->
+        <slot name="more" />
         <label class="field">
           <span>{{ labels.rosterNotes }}</span>
           <textarea
@@ -328,6 +369,8 @@ defineProps({
   checkLegality: { type: Boolean, default: true },
   archived: { type: Boolean, default: false },
   notes: { type: String, default: '' },
+  // The Dominatus campaign the list is marked for, as the line names it ('' for none).
+  campaignLabel: { type: String, default: '' },
 })
 defineEmits([
   'update:name', 'update:limit', 'update:disposition', 'update:chapter',
@@ -344,6 +387,7 @@ const detachmentPickerOpen = ref(false)
 const dispositionPickerOpen = ref(false)
 const chapterPickerOpen = ref(false)
 const moreOpen = ref(false)
+const campaignOpen = ref(false)
 </script>
 
 <style scoped>
@@ -459,6 +503,15 @@ const moreOpen = ref(false)
 @media (hover: hover) { .rw-more:hover { color: var(--accent-ink); border-color: var(--accent); } }
 
 .rw-more-body { padding: 0.5rem; display: flex; flex-direction: column; gap: 1rem; }
+.rw-campaign { padding: 0.5rem; }
+/* The deck's emblem before the campaign's name (src/assets/dominatus, as on /campaigns). */
+.rw-dom-mark {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  background: currentColor;
+  mask: url('../../assets/dominatus/dom-logo.svg') center / contain no-repeat;
+}
 .rw-more-body textarea {
   width: 100%;
   background: var(--bg-secondary);

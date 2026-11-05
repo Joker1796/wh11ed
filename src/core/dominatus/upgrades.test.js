@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { upgradeNeedsUnit, upgradeUnitBlock, upgradeBonusKeywords, upgradeBonusApplies, upgradeLimit, upgradeOncePerBattle, upgradeStartCp } from './upgrades.js'
+import { upgradeNeedsUnit, upgradeUnitBlock, upgradeBonusKeywords, upgradeBonusApplies, upgradeLimit, upgradeOncePerBattle, upgradeStartCp, pinnedUpgrades } from './upgrades.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en').upgrades
@@ -78,5 +78,27 @@ describe('upgradeStartCp', () => {
     expect(upgradeStartCp(card('high-strategy'), captain)).toBe(1)
     expect(upgradeStartCp(card('high-strategy'), { ...captain, warlord: true })).toBe(2)
     expect(deck.filter((c) => upgradeStartCp(c, { kws: [], warlord: true }) > 0).map((c) => c.slug)).toEqual(['high-strategy'])
+  })
+})
+
+describe('pinnedUpgrades — the cards a list carries pinned, as a battle starts', () => {
+  const cards = [{ slug: 'a' }, { slug: 'b' }, { slug: 'c' }, { slug: 'd' }]
+  const uids = new Set(['u1', 'u2', 'u3', 'u4'])
+  const pins = [{ slug: 'a', uid: 'u1' }, { slug: 'b', uid: 'u2' }, { slug: 'c', uid: 'u3' }, { slug: 'd', uid: 'u4' }]
+  it('keeps the pins up to the limit, units left for the table to name', () => {
+    expect(pinnedUpgrades(pins, cards, uids, null, 3)).toEqual([
+      { slug: 'a', uid: 'u1', unit: '' }, { slug: 'b', uid: 'u2', unit: '' }, { slug: 'c', uid: 'u3', unit: '' },
+    ])
+  })
+  it('drops a card the player no longer holds, a unit gone from the list, an unknown card', () => {
+    const out = pinnedUpgrades([...pins, { slug: 'x', uid: 'u1' }], cards, new Set(['u1', 'u3', 'u4']), new Set(['a', 'c', 'd']), 4)
+    expect(out.map((u) => u.slug)).toEqual(['a', 'c', 'd'])
+  })
+  it('gives a card once and a unit one card', () => {
+    const out = pinnedUpgrades([{ slug: 'a', uid: 'u1' }, { slug: 'a', uid: 'u2' }, { slug: 'b', uid: 'u1' }], cards, uids, null, 3)
+    expect(out).toEqual([{ slug: 'a', uid: 'u1', unit: '' }])
+  })
+  it('nothing pinned, nothing given', () => {
+    expect(pinnedUpgrades(null, cards, uids, null, 3)).toEqual([])
   })
 })

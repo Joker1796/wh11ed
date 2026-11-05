@@ -355,6 +355,54 @@
       </section>
     </ExpandTransition>
 
+    <!-- Dominatus (owner, 2026-11-05): the Upgrade card this unit carries into the list's campaign
+         battles, from the pool the list is marked for (RosterCampaignField) — one a unit, a card
+         once in the list, as many as a battle gives. Ticked as an enhancement is; a card this unit
+         may not take, or that another unit holds, stays listed and says why. -->
+    <ExpandTransition>
+      <section
+        v-if="upgradeOptions.length"
+        class="ues-sec"
+      >
+        <h4 class="ues-h">
+          {{ labels.rosterUpgradeCard }}
+        </h4>
+        <div class="opt-col">
+          <div
+            v-for="u in upgradeOptions"
+            :key="u.slug"
+            class="opt-tile"
+            :class="{ on: u.on, disabled: u.disabled }"
+          >
+            <label class="opt-select">
+              <input
+                type="checkbox"
+                :checked="u.on"
+                :disabled="u.disabled"
+                @change="$emit('set-upgrade', u.on ? null : u.slug)"
+              >
+              <span class="opt-name">
+                {{ u.name }}
+                <span
+                  v-if="u.tag"
+                  class="opt-tag"
+                >{{ u.tag }}</span>
+              </span>
+            </label>
+            <button
+              type="button"
+              class="opt-info"
+              data-press
+              :aria-label="labels.rosterViewInfo"
+              @click="$emit('upgrade-info', u.slug, $event)"
+            >
+              <i class="wi wi-info" />
+            </button>
+          </div>
+        </div>
+      </section>
+    </ExpandTransition>
+
     <!-- Leader attachment — no separate "not attached" tile: unticking the selected checkbox
          already means that (same logic as the enhancement list above). -->
     <ExpandTransition>
@@ -593,6 +641,9 @@ const props = defineProps({
   canWarlord: { type: Boolean, default: false },
   isWarlord: { type: Boolean, default: false },
   enhOptions: { type: Array, default: () => [] },
+  // The Dominatus Upgrade cards this unit may be given ({ slug, name, on, disabled, tag }), empty
+  // for a list not marked for a campaign (RosterEntryFields).
+  upgradeOptions: { type: Array, default: () => [] },
   leaderTargets: { type: Array, default: () => [] },
   // rosterEngine's leaderSourcesFor: the entries that could be attached to this one.
   leaderSources: { type: Array, default: () => [] },
@@ -614,7 +665,7 @@ const joinHint = computed(() => {
     ? labels.value.rosterJoinNeedsLeader.replace('{by}', names(j.by))
     : labels.value.rosterJoinNeedsUnit.replace('{to}', names(j.to))
 })
-const emit = defineEmits(['toggle-warlord', 'add-leader', 'add-host'])
+const emit = defineEmits(['toggle-warlord', 'add-leader', 'add-host', 'set-upgrade', 'upgrade-info'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
