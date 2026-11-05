@@ -503,8 +503,7 @@ function onEdit(id) {
   router.push(`/roster/${id}`)
 }
 function onPlay(r) {
-  menuFor.value = null
-  playRoster(r, router)
+  playRoster(r, router, () => { menuFor.value = null })
 }
 function onDuplicate(id) {
   menuFor.value = null

@@ -1929,8 +1929,7 @@ function goPrint() {
 }
 // Into the tracker's setup with this list in place (playRoster.js).
 function playThisList() {
-  menuOpen.value = false
-  playRoster(roster.value, router)
+  playRoster(roster.value, router, () => { menuOpen.value = false })
 }
 // A finished game's list into the reader's own (owner, 2026-10-29): the snapshot as the game kept
 // it, under the name it had, marked with the game and side it came from. The same side saved
