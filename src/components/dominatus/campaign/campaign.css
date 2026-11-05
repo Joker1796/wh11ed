@@ -57,7 +57,9 @@
 .camp-record { margin-left: auto; font-family: var(--font-num); font-size: 0.82rem; color: var(--text-muted); }
 .camp-faction { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.15rem; font-size: 0.82rem; color: var(--text-muted); }
 .camp-faction-ask { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: 0.3rem; font-size: 0.85rem; }
-.camp-badge { font-size: 0.72rem; font-weight: 700; color: var(--accent-ink); }
+.camp-badge { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.72rem; font-weight: 700; color: var(--accent-ink); }
+.camp-badge .wi { flex: none; width: 1.1rem; height: 1.1rem; margin: 0; color: var(--text-primary); }
+.camp-badge:has(.wi) { font-family: var(--font-num); font-size: 0.9rem; color: var(--text-primary); }
 .camp-battle { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; align-items: center; font-size: 0.88rem; }
 .camp-battle.is-rejected { opacity: 0.6; text-decoration: line-through; }
 .camp-actions { display: flex; gap: 0.4rem; margin-left: auto; }
@@ -101,15 +103,18 @@
 /* A card a player holds: its name, a tap opens its text. */
 .camp-cards { display: flex; flex-wrap: wrap; gap: 0.15rem 0.6rem; margin: 0.15rem 0 0; font-size: 0.82rem; color: var(--text-muted); }
 .camp-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   padding: 0;
   border: none;
   background: none;
   font: inherit;
   color: inherit;
-  text-decoration: underline dotted;
-  text-underline-offset: 0.2em;
   cursor: help;
 }
+.camp-card > span { text-decoration: underline dotted; text-underline-offset: 0.2em; }
+.camp-card > .wi { flex: none; width: 1.1rem; height: 1.1rem; margin: 0; color: var(--text-primary); }
 /* Cards drawn by the app, each with its Keep under it; two abreast where they fit, as on the rules page. */
 .camp-drawn { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1rem; }
 /* The card takes the row's height and the Keep sits under it, level with its neighbour's. */

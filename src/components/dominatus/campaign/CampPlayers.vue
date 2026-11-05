@@ -32,7 +32,14 @@
             class="camp-ally-score"
           >
             <span :title="labels.campHonoursTitle">{{ labels.campHonoursPhase }} <b>{{ g.score.honours }}</b><span class="camp-dim"> / {{ g.score.totalHonours }}</span></span>
-            <span>{{ labels.domAgendaAchieved }} <b>{{ g.score.agendaAchieved }}</b></span>
+            <span
+              class="camp-ally-loc"
+              :title="labels.domAgendaAchieved"
+            ><i
+              class="wi wi-dom-achieved"
+              role="img"
+              :aria-label="labels.domAgendaAchieved"
+            /><b>{{ g.score.agendaAchieved }}</b></span>
             <span :title="labels.campNpTitle">{{ labels.campNpShort }} <b>{{ g.score.np }}</b></span>
             <span
               v-for="l in g.score.locations"
@@ -203,10 +210,17 @@
               :text="labels.campPlayedWaiting"
               :vals="{ n: waitingOf(p.id) }"
             /></template></span>
+            <!-- The deck's own marks (owner, 2026-11-05): Agenda Achieved by its mark and count,
+                 each Upgrade card by its deck's. -->
             <span
               v-if="p.agenda.length"
               class="camp-badge"
-            >{{ labels.domAgendaAchieved }} {{ p.agenda.length }}</span>
+              :title="labels.domAgendaAchieved"
+            ><i
+              class="wi wi-dom-achieved"
+              role="img"
+              :aria-label="labels.domAgendaAchieved"
+            />{{ p.agenda.length }}</span>
             <!-- Each card held opens its text, as a card's corner mark does. A hand the campaign keeps
                  to its player (`hands: 'hidden'`) is a count to everyone else. -->
             <span
@@ -226,7 +240,12 @@
                 aria-haspopup="dialog"
                 @click.stop="showUpgrade(slug, $event)"
               >
-                {{ upgradeName(slug) }}
+                <i
+                  v-if="upgradeKind(slug)"
+                  class="wi"
+                  :class="`wi-dom-${upgradeKind(slug)}`"
+                  aria-hidden="true"
+                /><span>{{ upgradeName(slug) }}</span>
               </button>
             </p>
           </li>
@@ -556,7 +575,7 @@ import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
-const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, upgradeName, showUpgrade, onAsk, bringIntoView, handOpen } = useCampaignView()
+const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, upgradeName, upgradeKind, showUpgrade, onAsk, bringIntoView, handOpen } = useCampaignView()
 // The players this member may take as theirs (entered by the Warmaster, no one speaking for them).
 const takeable = computed(() => takeablePlayers(state.value))
 const canTake = computed(() => !isOwner.value && entry.value?.role === 'member' && !mine.value && takeable.value.length > 0)

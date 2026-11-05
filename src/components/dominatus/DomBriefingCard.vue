@@ -2,6 +2,7 @@
   <article
     :id="`briefing-${briefing.alliance}-${briefing.phase}`"
     class="dcard dom-deck-briefing"
+    :class="{ 'is-foldable': folded !== null, 'is-folded': folded }"
   >
     <header class="dcard-head">
       <span class="dcard-tag">{{ tag }}</span>
@@ -9,114 +10,118 @@
         {{ phaseLabel(briefing.phase) }}
       </h3>
     </header>
-    <div class="bbody">
-      <div class="bfront">
-        <p
-          v-if="briefing.intro"
-          class="dcard-lore lines"
-        >
-          {{ briefing.intro }}
-        </p>
-
-        <div class="bmatrix">
-          <div class="bhead">
-            <span>{{ labels.domYourDispo }}</span>
-            <span>{{ labels.domTheirDispo }}</span>
-            <span>{{ labels.domYourAgenda }}</span>
-          </div>
-          <div
-            v-for="(row, ri) in briefing.rows"
-            :key="ri"
-            class="brow"
+    <!-- In a campaign the card folds to its head and marks, as the Location does (owner,
+         2026-11-05); the deck's page shows it whole (folded null). -->
+    <CollapseTransition :show="!folded">
+      <div class="bbody">
+        <div class="bfront">
+          <p
+            v-if="briefing.intro"
+            class="dcard-lore lines"
           >
-            <div class="bmine">
-              <template
-                v-for="(id, i) in row.mine"
-                :key="id"
-              >
-                <span
-                  v-if="i"
-                  class="bor"
-                >{{ labels.trackerOr }}</span>
-                <img
-                  :src="dispo(id).icon"
-                  :alt="dispo(id).name"
-                  :title="dispo(id).name"
-                  class="dispo-icon"
-                >
-              </template>
+            {{ briefing.intro }}
+          </p>
+
+          <div class="bmatrix">
+            <div class="bhead">
+              <span>{{ labels.domYourDispo }}</span>
+              <span>{{ labels.domTheirDispo }}</span>
+              <span>{{ labels.domYourAgenda }}</span>
             </div>
-            <div class="bbranches">
-              <div
-                v-for="b in row.branches"
-                :key="b.agenda"
-                class="bbranch"
-              >
-                <span class="bvs">
+            <div
+              v-for="(row, ri) in briefing.rows"
+              :key="ri"
+              class="brow"
+            >
+              <div class="bmine">
+                <template
+                  v-for="(id, i) in row.mine"
+                  :key="id"
+                >
+                  <span
+                    v-if="i"
+                    class="bor"
+                  >{{ labels.trackerOr }}</span>
                   <img
-                    v-for="id in b.vs"
-                    :key="id"
                     :src="dispo(id).icon"
                     :alt="dispo(id).name"
                     :title="dispo(id).name"
                     class="dispo-icon"
                   >
-                </span>
-                <a
-                  class="bagenda"
-                  :href="`#mission-${b.agenda}`"
-                  @click.prevent="openAgenda(b.agenda)"
-                >{{ agendaBySlug[b.agenda].name }}</a>
+                </template>
+              </div>
+              <div class="bbranches">
+                <div
+                  v-for="b in row.branches"
+                  :key="b.agenda"
+                  class="bbranch"
+                >
+                  <span class="bvs">
+                    <img
+                      v-for="id in b.vs"
+                      :key="id"
+                      :src="dispo(id).icon"
+                      :alt="dispo(id).name"
+                      :title="dispo(id).name"
+                      class="dispo-icon"
+                    >
+                  </span>
+                  <a
+                    class="bagenda"
+                    :href="`#mission-${b.agenda}`"
+                    @click.prevent="openAgenda(b.agenda)"
+                  >{{ agendaBySlug[b.agenda].name }}</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- The reverse of the card: what this phase's Narrative Points mean for the Alliance. Lore,
+        <!-- The reverse of the card: what this phase's Narrative Points mean for the Alliance. Lore,
            read once at the phase's end, so on a phone it starts folded; a desk lays the card out
            landscape, as printed, and shows them beside the chart. -->
-      <div
-        v-if="outcomes.length"
-        class="dcard-outcomes"
-      >
         <div
-          v-if="wide"
-          class="dout-toggle"
+          v-if="outcomes.length"
+          class="dcard-outcomes"
         >
-          {{ labels.domOutcome }}
-        </div>
-        <button
-          v-else
-          type="button"
-          class="dout-toggle"
-          :aria-expanded="open"
-          @click="open = !open"
-        >
-          {{ labels.domOutcome }}
-          <ChevronIcon :turned="open" />
-        </button>
-        <CollapseTransition :show="open || wide">
-          <p class="dout-lead">
-            {{ briefing.phase === 3 ? labels.domOutcomeLead3 : labels.domOutcomeLead1 }}
-          </p>
-          <div class="dout-list">
-            <div
-              v-for="o in outcomes"
-              :key="o.np"
-              class="dout"
-            >
-              <div class="dout-np">
-                {{ labels[`domNarrative${o.np}`] }}
-              </div>
-              <p class="dout-text lines">
-                {{ o.text }}
-              </p>
-            </div>
+          <div
+            v-if="wide"
+            class="dout-toggle"
+          >
+            {{ labels.domOutcome }}
           </div>
-        </CollapseTransition>
+          <button
+            v-else
+            type="button"
+            class="dout-toggle"
+            :aria-expanded="open"
+            @click="open = !open"
+          >
+            {{ labels.domOutcome }}
+            <ChevronIcon :turned="open" />
+          </button>
+          <CollapseTransition :show="open || wide">
+            <p class="dout-lead">
+              {{ briefing.phase === 3 ? labels.domOutcomeLead3 : labels.domOutcomeLead1 }}
+            </p>
+            <div class="dout-list">
+              <div
+                v-for="o in outcomes"
+                :key="o.np"
+                class="dout"
+              >
+                <div class="dout-np">
+                  {{ labels[`domNarrative${o.np}`] }}
+                </div>
+                <p class="dout-text lines">
+                  {{ o.text }}
+                </p>
+              </div>
+            </div>
+          </CollapseTransition>
+        </div>
       </div>
-    </div>
+    </CollapseTransition>
     <DomCardMark
       kind="briefing"
       :phase="briefing.phase"
@@ -140,6 +145,7 @@ import { useDominatus, useAgendaFilter } from './useDominatus.js'
 
 const props = defineProps({
   briefing: { type: Object, required: true },
+  folded: { type: Boolean, default: null },
 })
 const { labels, phaseLabel, agendaBySlug, dispo, cardTag } = useDominatus()
 const tag = computed(() => cardTag({ kind: 'briefing', alliance: props.briefing.alliance }))
@@ -319,6 +325,11 @@ async function openAgenda(slug) {
   }
   .bbody,
   .bfront { display: contents; }
+  /* A card that folds keeps its body in one box, so the marks go up beside the head, where they
+     stay while it is folded. */
+  .dcard.is-foldable { grid-template-areas: 'head mark' 'body body'; align-items: center; }
+  .dcard.is-foldable > .collapse { grid-area: body; }
+  .dcard.is-foldable .dcard-lore { margin-top: 0.6rem; }
   /* One line in one face and size (owner, 2026-10-31): the tag keeps its deck colour, a dot between. */
   .dcard-head { grid-area: head; flex-wrap: nowrap; gap: 0.5rem; padding-right: 0; }
   .dcard-tag,

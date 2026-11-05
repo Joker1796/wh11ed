@@ -86,11 +86,23 @@
             {{ allianceName(b.alliance) }}
           </button>
         </div>
-        <DomBriefingCard
+        <!-- Folded to its head as the Location is (owner, 2026-11-05); a tap opens it. -->
+        <div
           v-if="shownBriefing"
-          :key="shownBriefing.alliance"
-          :briefing="shownBriefing"
-        />
+          class="camp-card-pick"
+          data-press
+          role="button"
+          tabindex="0"
+          :aria-expanded="!!briefOpen"
+          @click="toggleBrief"
+          @keydown.enter.space.self.prevent="briefOpen = !briefOpen"
+        >
+          <DomBriefingCard
+            :key="shownBriefing.alliance"
+            :briefing="shownBriefing"
+            :folded="!briefOpen"
+          />
+        </div>
       </div>
     </template>
 
@@ -347,9 +359,13 @@ const shownBriefing = computed(() => briefings.value.find((b) => b.alliance === 
 // The Location card opens on a tap and stays as the reader left it; a tap on a keyword or a mark
 // inside it is theirs.
 const locOpen = remembered('locationOpen')
+const briefOpen = remembered('briefingOpen')
+const insideTap = (ev) => ev.target.closest('.keyword, [data-kw-open], a, button')
 function toggleLoc(ev) {
-  if (ev.target.closest('.keyword, [data-kw-open], a, button')) return
-  locOpen.value = !locOpen.value
+  if (!insideTap(ev)) locOpen.value = !locOpen.value
+}
+function toggleBrief(ev) {
+  if (!insideTap(ev)) briefOpen.value = !briefOpen.value
 }
 
 // The opponent the Warmaster paired this device's player with, while the battle is still to play.

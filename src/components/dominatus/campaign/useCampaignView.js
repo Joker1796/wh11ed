@@ -75,6 +75,8 @@ export function useCampaignView() {
   const { locale } = useLocale()
   const { labels, deck, allianceName, playerName, rewardKind, rewardName, stepText, showUpgrade } = campaignWords(() => ctx.state.value, locale)
   const upgradeName = (slug) => deck.value?.upgrades.find((u) => u.slug === slug)?.name || slug
+  // The deck a card is from (honour / skill / relic), for its mark.
+  const upgradeKind = (slug) => deck.value?.upgrades.find((u) => u.slug === slug)?.kind || null
   const locationName = (slug) => deck.value?.locations.find((l) => l.slug === slug)?.name || slug
   const playerOption = (p) => playerOptionOf(p, allianceName)
   // A player's cards are shown to this reader (the `hands` setting, owner 2026-11-04): open to all,
@@ -121,5 +123,5 @@ export function useCampaignView() {
     instantly(() => el.scrollIntoView({ block: 'center' }))
     el.querySelector('button')?.focus({ preventScroll: true })
   }
-  return { ...ctx, onAsk, bringIntoView, labels, deck, upgradeName, locationName, allianceName, playerName, playerOption, handOpen, phaseDeadline, phaseLabel, rewardKind, rewardName, stepText, showUpgrade, remembered }
+  return { ...ctx, onAsk, bringIntoView, labels, deck, upgradeName, upgradeKind, locationName, allianceName, playerName, playerOption, handOpen, phaseDeadline, phaseLabel, rewardKind, rewardName, stepText, showUpgrade, remembered }
 }
