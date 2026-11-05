@@ -32,14 +32,10 @@
             class="camp-ally-score"
           >
             <span :title="labels.campHonoursTitle">{{ labels.campHonoursPhase }} <b>{{ g.score.honours }}</b><span class="camp-dim"> / {{ g.score.totalHonours }}</span></span>
-            <span
-              class="camp-ally-loc"
-              :title="labels.domAgendaAchieved"
-            ><i
-              class="wi wi-dom-achieved"
-              role="img"
-              :aria-label="labels.domAgendaAchieved"
-            /><b>{{ g.score.agendaAchieved }}</b></span>
+            <DomMarkCount
+              kind="achieved"
+              :n="g.score.agendaAchieved"
+            />
             <span :title="labels.campNpTitle">{{ labels.campNpShort }} <b>{{ g.score.np }}</b></span>
             <span
               v-for="l in g.score.locations"
@@ -240,15 +236,12 @@
                 :text="labels.campPlayedWaiting"
                 :vals="{ n: waitingOf(p.id) }"
               /></template></span>
-              <span
+              <DomMarkCount
                 v-if="p.agenda.length"
                 class="camp-player-agenda"
-                :title="labels.domAgendaAchieved"
-              ><i
-                class="wi wi-dom-achieved"
-                role="img"
-                :aria-label="labels.domAgendaAchieved"
-              />{{ p.agenda.length }}</span>
+                kind="achieved"
+                :n="p.agenda.length"
+              />
             </div>
           </li>
         </ul>
@@ -562,6 +555,7 @@ import BaseModal from '../../BaseModal.vue'
 import ConfirmModal from '../../ConfirmModal.vue'
 import NumberStepper from '../../tracker/NumberStepper.vue'
 import DomAllianceName from '../DomAllianceName.vue'
+import DomMarkCount from '../DomMarkCount.vue'
 import CampOpenForm from './CampOpenForm.vue'
 import CampShare from './CampShare.vue'
 import CampCardPicker from './CampCardPicker.vue'

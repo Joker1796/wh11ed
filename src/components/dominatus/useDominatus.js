@@ -15,6 +15,7 @@ export const MARK_SOURCE = {
   skill: ['dom-upgrades', 1],
   honour: ['dom-upgrades', 2],
   relic: ['dom-upgrades', 3],
+  achieved: ['dom-agenda-achieved', 0],
 }
 
 export function useDominatus() {
@@ -24,7 +25,7 @@ export function useDominatus() {
   const allianceName = (id) => deck.value.alliances.find((a) => a.id === id)?.name || id
   const agendaBySlug = computed(() => Object.fromEntries(deck.value.agendas.map((a) => [a.slug, a])))
   const phaseLabel = (n) => labels.value.domPhase.replace('{n}', ['I', 'II', 'III'][n - 1])
-  const KIND_LABEL = { agenda: 'domKindAgenda', briefing: 'domKindBriefing', honour: 'domKindHonour', skill: 'domKindSkill', relic: 'domKindRelic', location: 'domKindLocation' }
+  const KIND_LABEL = { agenda: 'domKindAgenda', briefing: 'domKindBriefing', honour: 'domKindHonour', skill: 'domKindSkill', relic: 'domKindRelic', location: 'domKindLocation', achieved: 'domAgendaAchieved' }
   const kindName = (kind) => labels.value[KIND_LABEL[kind]]
   // The card's tag line, as the deck prints it up its spine: "Liberators · Agenda",
   // "Battle Honour", "Location 1–2".

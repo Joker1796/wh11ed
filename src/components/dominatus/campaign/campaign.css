@@ -67,8 +67,7 @@
   background: color-mix(in srgb, var(--text-muted) 16%, var(--bg-card)); border-top: 1px solid var(--border);
 }
 .camp-player-foot.is-todo { background: color-mix(in srgb, var(--accent) 18%, var(--bg-card)); }
-.camp-player-agenda { display: inline-flex; align-items: center; gap: 0.25rem; margin-left: auto; font-family: var(--font-num); font-size: 0.9rem; font-weight: 700; }
-.camp-player-agenda .wi { flex: none; width: 1.1rem; height: 1.1rem; margin: 0; }
+.camp-player-agenda { margin-left: auto; font-size: 0.9rem; }
 .camp-battle { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; align-items: center; font-size: 0.88rem; }
 .camp-battle.is-rejected { opacity: 0.6; text-decoration: line-through; }
 .camp-actions { display: flex; gap: 0.4rem; margin-left: auto; }

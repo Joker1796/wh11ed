@@ -4,7 +4,7 @@ import { describe, it, expect } from 'vitest'
 import { getDominatus } from '../../data/dominatus.js'
 import { MARK_SOURCE } from './useDominatus.js'
 
-const NAME = { briefing: 'Briefing', location: 'Location', agenda: 'Agenda', skill: 'Battle Skill', honour: 'Battle Honour', relic: 'Relic' }
+const NAME = { briefing: 'Briefing', location: 'Location', agenda: 'Agenda', skill: 'Battle Skill', honour: 'Battle Honour', relic: 'Relic', achieved: 'Agenda Achieved' }
 
 describe('Dominatus card marks', () => {
   for (const locale of ['en', 'ru']) {
