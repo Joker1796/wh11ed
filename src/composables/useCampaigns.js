@@ -11,10 +11,17 @@
 // by itself once the device signs in — a guest's membership lived in one browser, and the same
 // player opening the link in a messenger and then in the app was two members.
 //
+// A Warmaster's or a player's credential is the ACCOUNT's, so the entry remembers whose it is
+// (`account`, `accountName`). Another account signed in on the device: the entry reads as a reader
+// (`role: 'viewer'`) and keeps what it held (`heldRole`), back the moment that account signs in again
+// (owner, 2026-11-05 — the page showed the Warmaster's forms to whoever was signed in, and the server
+// refused every save). The server's `you.role` on each read is the truth; the account id only lets
+// the page switch before the read comes back.
+//
 // The log only grows, so a sync asks for what is after the last `seq` it has, and a write is an
 // append followed by that sync. Kept in localStorage (`wh11ed-campaigns`) so the page opens with
 // what it showed last time, offline included.
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { API_BASE_URL } from '../config.js'
 import { campaignPath } from '../router/nav.js'
 import { useAuth } from './useAuth.js'
@@ -43,6 +50,33 @@ function save() {
 const api = (path) => `${API_BASE_URL}${path}`
 const byId = (id) => campaigns.value.find((c) => c.id === id) || null
 
+// The signed-in account, as the entries record it.
+const accountNow = () => {
+  const u = useAuth().user.value
+  return u?.id ? { account: u.id, accountName: u.displayName || u.email || '' } : null
+}
+// The entry speaks for this account again (or for the first time): what it held comes back.
+const mineAgain = (c, role, extra = {}) => Object.assign(c, { role, heldRole: undefined, ...accountNow(), ...extra })
+// Another account signed in: a reader until its own comes back.
+function holdFor(c) {
+  if (c.role === 'viewer') return
+  c.heldRole = c.role
+  c.role = 'viewer'
+}
+/** Match every entry to the account now signed in — by the account each recorded. Signed out
+ * changes nothing: the page asks the same account to sign in again. */
+function matchAccount(id) {
+  if (!id) return
+  let changed = false
+  for (const c of campaigns.value) {
+    if (!c.account) continue
+    if (c.account !== id && c.role !== 'viewer') { holdFor(c); changed = true }
+    else if (c.account === id && c.heldRole) { mineAgain(c, c.heldRole); changed = true }
+  }
+  if (changed) save()
+}
+let matching = false
+
 function upsert(entry) {
   const was = byId(entry.id)
   if (was) Object.assign(was, entry)
@@ -53,12 +87,13 @@ function upsert(entry) {
 
 // The request with the credential this device holds for the campaign. A member also sends the view
 // token: signed out, they still read.
+// The account speaks whenever one is signed in, the view token beside it: the server answers with
+// the best of the two, and its `you.role` says which (a held entry learns it is this account's).
 async function call(c, path, opts = {}) {
   const { authedFetch } = useAuth()
-  if (c.role === 'owner') return authedFetch(path, opts)
   const headers = { ...(opts.headers || {}) }
   if (c.viewToken) headers['X-Campaign-View'] = c.viewToken
-  if (c.role === 'member') return authedFetch(path, { ...opts, headers })
+  if (c.role !== 'viewer' || c.heldRole || signedIn()) return authedFetch(path, { ...opts, headers })
   if (opts.body) headers['Content-Type'] = 'application/json'
   return fetch(api(path), { ...opts, headers })
 }
@@ -88,7 +123,7 @@ async function createCampaign(name, draw = 'app') {
   const res = await authedFetch('/campaigns', { method: 'POST', body: JSON.stringify({ name, draw }) })
   if (!res.ok) throw await failure(res)
   const r = await res.json()
-  const c = upsert({ id: r.campaignId, name, role: 'owner', viewToken: r.viewToken, joinToken: r.joinToken })
+  const c = upsert({ id: r.campaignId, name, role: 'owner', viewToken: r.viewToken, joinToken: r.joinToken, ...accountNow() })
   await syncCampaign(c.id)
   return c
 }
@@ -110,11 +145,12 @@ async function refreshAccount() {
   for (const r of (await res.json()).campaigns || []) {
     if (r.role === 'member') {
       if (byId(r.campaignId)?.role === 'owner') continue
-      upsert({ id: r.campaignId, name: r.name, role: 'member', memberId: r.memberId, viewToken: r.viewToken, invite: undefined })
+      upsert({ id: r.campaignId, name: r.name, role: 'member', memberId: r.memberId, viewToken: r.viewToken, invite: undefined, heldRole: undefined, ...accountNow() })
     } else {
-      upsert({ id: r.campaignId, name: r.name, role: 'owner', viewToken: r.viewToken, joinToken: r.joinToken })
+      upsert({ id: r.campaignId, name: r.name, role: 'owner', viewToken: r.viewToken, joinToken: r.joinToken, heldRole: undefined, ...accountNow() })
     }
   }
+  save()
 }
 
 /** Open an invite link. Signed in: a member by the account (the same one on every device — the
@@ -134,9 +170,9 @@ async function joinCampaign(id, joinToken, name = '') {
   if (!res.ok) throw await failure(res)
   const r = await res.json()
   const c = r.role === 'owner'
-    ? upsert({ id, role: 'owner', viewToken: r.viewToken, invite: undefined })
+    ? upsert({ id, role: 'owner', viewToken: r.viewToken, invite: undefined, heldRole: undefined, ...accountNow() })
     : r.role === 'member'
-      ? upsert({ id, role: 'member', memberId: r.memberId, viewToken: r.viewToken, invite: undefined })
+      ? upsert({ id, role: 'member', memberId: r.memberId, viewToken: r.viewToken, invite: undefined, heldRole: undefined, ...accountNow() })
       : upsert({ id, role: 'viewer', viewToken: r.viewToken, invite: joinToken })
   await syncCampaign(id)
   return c
@@ -155,10 +191,20 @@ async function watchCampaign(id, viewToken) {
 async function syncCampaign(id) {
   const c = byId(id)
   if (!c) return null
-  const res = await call(c, `/campaigns/${encodeURIComponent(id)}/events?since=${c.seq || 0}`)
+  // Signed in as an account the entry has not seen answer for it, the read takes the last event
+  // again: a 204 carries no `you`, and the role is what the read is for.
+  const unsure = signedIn() && c.account !== accountNow()?.account
+  const since = unsure ? Math.max(0, (c.seq || 0) - 1) : c.seq || 0
+  const res = await call(c, `/campaigns/${encodeURIComponent(id)}/events?since=${since}`)
   if (res.status === 204) return c
   if (!res.ok) throw await failure(res)
   const r = await res.json()
+  // Who the server says this device is, while an account is signed in: its own again, or a reader
+  // for now (an entry from before the account was recorded learns it here).
+  const you = r.you?.role
+  if (signedIn() && (you === 'owner' || you === 'member')) {
+    if (c.role !== you || c.heldRole || c.account !== accountNow()?.account) mineAgain(c, you, you === 'member' ? { memberId: r.you.memberId } : {})
+  } else if (signedIn() && you === 'viewer') holdFor(c)
   c.name = r.campaign.name
   if (r.campaign.joinToken) c.joinToken = r.campaign.joinToken
   c.events = [...(c.events || []), ...r.events.filter((e) => e.seq > (c.seq || 0))]
@@ -298,6 +344,10 @@ export function campaignsWaiting() {
 
 export function useCampaigns() {
   loadDominatusDeck()
+  if (!matching) {
+    matching = true
+    watch(() => useAuth().user.value?.id, matchAccount, { immediate: true })
+  }
   return {
     campaigns: computed(() => campaigns.value),
     byId,

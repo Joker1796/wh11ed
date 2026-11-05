@@ -362,6 +362,16 @@ on a tie nothing breaks.
   to speak for the first. Signed out, the invite only reads — the device is a reader that keeps the
   link (`invite`), the page asks to sign in (`CampSignIn`, the same block the list uses to start a
   campaign) and joins by itself once the session is there. Viewing by the view link needs no account.
+- **A credential is an account's, and the entry says whose** (owner, 2026-11-05: the Warmaster's
+  forms showed under whatever account was signed in, and the server refused every save as
+  `forbidden`). An owner's or member's entry records `account` / `accountName`; another account
+  signed in turns it into a reader that keeps what it held (`heldRole`) — at once by the id
+  (`matchAccount`, a watch on the signed-in user), and by the server's `you.role` on each read,
+  which is the truth (an entry from before the field learns it there; a read for an account it has
+  not confirmed takes the last event again, since a 204 carries no `you`). The view token goes
+  beside the account on every request. The page says whose the campaign is and offers to sign in to
+  another account (`CampSignIn switchAccount`); that account back, the entry is the Warmaster's
+  again with nothing reopened.
 - **"This is me"** (owner, 2026-11-05): the Warmaster may enter a player by name for someone who has
   not opened the link; that player, joining, takes the entry (`takeablePlayers` — no member, not the
   Warmaster's own; a `player` event with `member` = themselves, which the fold allows a member who

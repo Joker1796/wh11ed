@@ -4,9 +4,9 @@
     <button
       class="btn-primary"
       aria-haspopup="dialog"
-      @click="signIn"
+      @click="go"
     >
-      {{ labels.signInTitle }}
+      {{ switchAccount ? labels.campSwitchAccount : labels.signInTitle }}
     </button>
   </div>
 </template>
@@ -20,10 +20,18 @@ import { useAccountActions } from '../../../composables/useAccountActions.js'
 import { ui } from '../../../i18n/ui.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
-defineProps({ text: { type: String, required: true } })
+// `switchAccount`: signed in to the wrong account — out of it first, then the way in.
+const props = defineProps({
+  text: { type: String, required: true },
+  switchAccount: { type: Boolean, default: false },
+})
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { signIn } = useAccountActions()
+const { signIn, signOut } = useAccountActions()
+async function go() {
+  if (props.switchAccount) await signOut()
+  signIn()
+}
 </script>
 
 <style scoped>

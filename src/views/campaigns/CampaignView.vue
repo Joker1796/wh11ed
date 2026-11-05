@@ -87,6 +87,7 @@
       <CampSignIn
         v-if="signInText"
         :text="signInText"
+        :switch-account="otherAccount"
       />
       <CampNext
         @go="goStep"
@@ -173,8 +174,13 @@ const id = computed(() => route.params.id)
 const entry = computed(() => byId(id.value))
 const state = computed(() => (entry.value ? stateOf(id.value) : null))
 const signedOut = computed(() => status.value === 'anon' && ['owner', 'member'].includes(entry.value?.role))
+// Another account signed in where this device holds the campaign for one (`heldRole`): it reads
+// until that account is back, and says whose it is.
+const otherAccount = computed(() => !!entry.value?.heldRole && status.value === 'authed')
 const signInText = computed(() => {
-  if (entry.value?.invite) return status.value !== 'idle' && status.value !== 'authed' ? labels.value.campSignInToPlay : ''
+  const e = entry.value
+  if (otherAccount.value) return e.accountName ? labels.value.campOtherAccount.replace('{name}', e.accountName) : labels.value.campOtherAccountNoName
+  if (e?.invite) return status.value !== 'idle' && status.value !== 'authed' ? labels.value.campSignInToPlay : ''
   return signedOut.value ? labels.value.campSignedOut : ''
 })
 const isOwner = computed(() => entry.value?.role === 'owner')
