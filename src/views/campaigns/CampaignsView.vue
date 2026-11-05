@@ -252,7 +252,7 @@ const rows = computed(() => campaigns.value.map((c) => {
 
 .camps-deck.is-soon { opacity: 0.6; }
 /* As wide as the emblem above, so both cards' text starts on one line. */
-.camps-soon-mark { width: 2rem; height: 2rem; margin: 0 2.25rem; color: var(--text-muted); }
+.camps-soon-mark { width: 3.5rem; height: 3.5rem; margin: 0 1.5rem; color: var(--text-muted); }
 .camps-soon {
   font-family: var(--font-sans);
   font-size: 0.7rem;
