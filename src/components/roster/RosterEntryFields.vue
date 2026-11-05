@@ -129,9 +129,10 @@ const leaderHosts = computed(() => leaderHostsFor(
   props.entry.uid, props.units, props.catalogue, props.defOf, props.detachments,
 ).map(withSheet).filter(offered))
 
-// The Upgrade cards this unit may be given: the pool the list is marked for, each card checked
-// against this unit's datasheet (the English text is what upgradeUnitBlock reads), against the unit
-// holding it elsewhere in the list, and against how many a battle gives.
+// The Upgrade cards this unit may be given: the pool the list is marked for, the cards its datasheet
+// may take (the English text is what upgradeUnitBlock reads — the rest are not listed, as an
+// enhancement the unit is not eligible for is not: ten greyed "not a CHARACTER" rows on a squad
+// were noise, owner 2026-11-05), each against another unit holding it and how many a battle gives.
 const { locale } = useLocale()
 const { poolOf, limitOf } = useRosterCampaign()
 const { showUpgrade } = campaignWords(() => null, locale)
@@ -144,17 +145,16 @@ const upgradeOptions = computed(() => {
   const mine = pins.find((x) => x.uid === props.entry.uid)?.slug || null
   const full = !mine && pins.length >= limitOf(dom)
   const unit = { kws: def.value.kws || [], warlord: props.entry.warlord === true }
-  return poolOf(dom, locale.value).map((c) => {
+  // A card already on the unit stays, whatever it may take now, so it can come off.
+  return poolOf(dom, locale.value).filter((c) => c.slug === mine || !upgradeUnitBlock(en.get(c.slug) || c, unit)).map((c) => {
     const card = en.get(c.slug) || c
     const on = mine === c.slug
-    const block = upgradeUnitBlock(card, unit)
     const holder = pins.find((x) => x.slug === c.slug && x.uid !== props.entry.uid)
     const holderName = holder && (props.defOf(props.units.find((u) => u.uid === holder.uid)?.id)?.name || '')
-    const tag = block ? l[`trackerDomUnitWhy_${block}`]
-      : holder ? l.rosterUpgradeHeld.replace('{unit}', holderName)
+    const tag = holder ? l.rosterUpgradeHeld.replace('{unit}', holderName)
         : !on && full ? l.rosterUpgradeFull.replace('{n}', String(limitOf(dom)))
           : upgradeBonusApplies(card, unit) ? l.rosterUpgradeBonus : ''
-    return { slug: c.slug, name: c.name, on, disabled: !on && !!(block || holder || full), tag }
+    return { slug: c.slug, name: c.name, on, disabled: !on && !!(holder || full), tag }
   })
 })
 </script>

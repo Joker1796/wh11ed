@@ -357,8 +357,9 @@
 
     <!-- Dominatus (owner, 2026-11-05): the Upgrade card this unit carries into the list's campaign
          battles, from the pool the list is marked for (RosterCampaignField) — one a unit, a card
-         once in the list, as many as a battle gives. Ticked as an enhancement is; a card this unit
-         may not take, or that another unit holds, stays listed and says why. -->
+         once in the list, as many as a battle gives. Ticked as an enhancement is; a card the unit's
+         datasheet may not take is not listed (as an enhancement it is not eligible for), one another
+         unit holds, or past the limit, stays and says why. -->
     <ExpandTransition>
       <section
         v-if="upgradeOptions.length"
@@ -393,6 +394,7 @@
               type="button"
               class="opt-info"
               data-press
+              data-kw-open
               :aria-label="labels.rosterViewInfo"
               @click="$emit('upgrade-info', u.slug, $event)"
             >
@@ -1035,6 +1037,9 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
   .ues-top { flex-direction: column; align-items: stretch; gap: 0.35rem; }
 }
 .ues-default { font-size: 0.85rem; margin: 0.15rem 0; }
+/* The model a line of fixed wargear belongs to, in its own spelling: in capitals at the text's size
+   (unitEditorFields.css) it read larger than the weapons after it (owner, 2026-11-05). */
+.ues-default .ues-mini { text-transform: none; letter-spacing: 0; }
 /* The default loadout is a tile like the options under it (owner, 2026-10-01): the same frame and
    ground, its info button in the same right-hand column. Inside a tile the names read at full
    strength — muted text in a frame reads as a disabled pick. The button keeps a floor so a one-line
