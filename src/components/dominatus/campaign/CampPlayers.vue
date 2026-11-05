@@ -198,29 +198,6 @@
               v-else-if="state.roster === 'required'"
               class="camp-warn"
             >{{ labels.campRosterMissing }}</span>
-            <!-- The Battle Schedule: this phase's battles played of those due. -->
-            <span
-              v-if="!state.finished && p.alliance && state.schedule[state.phase - 1]"
-              class="camp-dim camp-played"
-              :class="{ 'is-done': playedIn(state, p.id) >= state.schedule[state.phase - 1] }"
-            ><CountText
-              :text="labels.campPlayedOf"
-              :vals="{ k: playedIn(state, p.id), n: state.schedule[state.phase - 1] }"
-            /><template v-if="waitingOf(p.id)"> · <CountText
-              :text="labels.campPlayedWaiting"
-              :vals="{ n: waitingOf(p.id) }"
-            /></template></span>
-            <!-- The deck's own marks (owner, 2026-11-05): Agenda Achieved by its mark and count,
-                 each Upgrade card by its deck's. -->
-            <span
-              v-if="p.agenda.length"
-              class="camp-badge"
-              :title="labels.domAgendaAchieved"
-            ><i
-              class="wi wi-dom-achieved"
-              role="img"
-              :aria-label="labels.domAgendaAchieved"
-            />{{ p.agenda.length }}</span>
             <!-- Each card held opens its text, as a card's corner mark does. A hand the campaign keeps
                  to its player (`hands: 'hidden'`) is a count to everyone else. -->
             <span
@@ -248,6 +225,31 @@
                 /><span>{{ upgradeName(slug) }}</span>
               </button>
             </p>
+            <!-- The foot of the card, a strip as on the list of campaigns (owner, 2026-11-05): this
+                 phase's battles played of those due — tinted while some are still to play — and the
+                 Agenda Achieved cards held, by the deck's mark. -->
+            <div
+              v-if="dueNow(p) || p.agenda.length"
+              class="camp-player-foot"
+              :class="{ 'is-todo': dueNow(p) && playedIn(state, p.id) < dueNow(p) }"
+            >
+              <span v-if="dueNow(p)"><CountText
+                :text="labels.campPlayedOf"
+                :vals="{ k: playedIn(state, p.id), n: dueNow(p) }"
+              /><template v-if="waitingOf(p.id)"> · <CountText
+                :text="labels.campPlayedWaiting"
+                :vals="{ n: waitingOf(p.id) }"
+              /></template></span>
+              <span
+                v-if="p.agenda.length"
+                class="camp-player-agenda"
+                :title="labels.domAgendaAchieved"
+              ><i
+                class="wi wi-dom-achieved"
+                role="img"
+                :aria-label="labels.domAgendaAchieved"
+              />{{ p.agenda.length }}</span>
+            </div>
           </li>
         </ul>
       </section>
@@ -602,6 +604,9 @@ const factionOf = (p) => (p.faction ? factionIndexBySlug(p.faction) : null)
 // Battles counted toward the schedule that the Warmaster has not counted yet — why "2 of 2" can sit
 // beside a record with one battle.
 const waitingOf = (id) => state.value.battles.filter((b) => b.phase === state.value.phase && b.status === 'pending' && (b.a === id || b.b === id)).length
+// The battles this phase's schedule asks of a player (none once the campaign is over, or for a
+// player in no Alliance yet).
+const dueNow = (p) => (!state.value.finished && p.alliance && state.value.schedule[state.value.phase - 1]) || 0
 const recordLine = (id) => { const r = recordOf(state.value, id); return `${r.won}–${r.drawn}–${r.lost}` }
 const alliances = computed(() => deck.value?.alliances || [])
 // The Alliances that have players, in the deck's order; anyone not yet in one last.

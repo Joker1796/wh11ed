@@ -57,9 +57,18 @@
 .camp-record { margin-left: auto; font-family: var(--font-num); font-size: 0.82rem; color: var(--text-muted); }
 .camp-faction { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.15rem; font-size: 0.82rem; color: var(--text-muted); }
 .camp-faction-ask { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: 0.3rem; font-size: 0.85rem; }
-.camp-badge { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.72rem; font-weight: 700; color: var(--accent-ink); }
-.camp-badge .wi { flex: none; width: 1.1rem; height: 1.1rem; margin: 0; color: var(--text-primary); }
-.camp-badge:has(.wi) { font-family: var(--font-num); font-size: 0.9rem; color: var(--text-primary); }
+.camp-badge { font-size: 0.72rem; font-weight: 700; color: var(--accent-ink); }
+/* The card's foot, across it under everything else: a step off the card, the accent's tint while
+   battles of this phase are still to play (the list of campaigns' strip). */
+.camp-player-foot {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.2rem 0.75rem;
+  margin: 0.55rem -0.75rem -0.65rem; padding: 0.35rem 0.75rem;
+  font-size: 0.82rem; color: var(--text-primary);
+  background: color-mix(in srgb, var(--text-muted) 16%, var(--bg-card)); border-top: 1px solid var(--border);
+}
+.camp-player-foot.is-todo { background: color-mix(in srgb, var(--accent) 18%, var(--bg-card)); }
+.camp-player-agenda { display: inline-flex; align-items: center; gap: 0.25rem; margin-left: auto; font-family: var(--font-num); font-size: 0.9rem; font-weight: 700; }
+.camp-player-agenda .wi { flex: none; width: 1.1rem; height: 1.1rem; margin: 0; }
 .camp-battle { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; align-items: center; font-size: 0.88rem; }
 .camp-battle.is-rejected { opacity: 0.6; text-decoration: line-through; }
 .camp-actions { display: flex; gap: 0.4rem; margin-left: auto; }
@@ -196,8 +205,6 @@
 }
 /* "you" beside this device's own player; the schedule's count under a player, lit once met. */
 .camp-you { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--accent-ink); }
-.camp-played { display: block; margin-top: 0.1rem; }
-.camp-played.is-done { color: var(--text-primary); font-weight: 600; }
 /* A note the Warmaster should not miss on a battle (it looks entered twice). */
 .camp-warn { font-size: 0.78rem; color: var(--warning); }
 /* "Play a battle" over the battles; the player filter beside the phases. */
