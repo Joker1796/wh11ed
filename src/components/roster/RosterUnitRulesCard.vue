@@ -261,13 +261,20 @@
                   :aria-expanded="open"
                   @click="toggle"
                 >
-                  <span class="rum-rule-text">
-                    <span class="rum-rule-src">{{ upgradeKindName(u.kind) }}</span>
-                    <span class="rum-rule-name">{{ u.name }}</span>
-                    <span
-                      class="rum-upg-cover"
-                      :class="`is-${u.coverage}`"
-                    >{{ labels[`domUpgradeCover_${u.coverage}`] }}</span>
+                  <span class="rum-upg-head">
+                    <i
+                      class="wi rum-upg-mark"
+                      :class="`wi-dom-${u.kind}`"
+                      aria-hidden="true"
+                    />
+                    <span class="rum-rule-text">
+                      <span class="rum-rule-src">{{ upgradeKindName(u.kind) }}</span>
+                      <span class="rum-rule-name">{{ u.name }}</span>
+                      <span
+                        class="rum-upg-cover"
+                        :class="`is-${u.coverage}`"
+                      >{{ labels[`domUpgradeCover_${u.coverage}`] }}</span>
+                    </span>
                   </span>
                   <ChevronIcon
                     class="rum-chev"
@@ -289,6 +296,66 @@
                 >
                   <strong>{{ (u.bonusOn ? labels.domBonusOn : labels.domBonusOff).replace('{kw}', u.bonus.label) }}</strong>
                   <span v-safe-html="renderRichText(u.bonus.body)" />
+                </p>
+              </div>
+            </DsAccordion>
+          </div>
+        </section>
+        <!-- Dominatus: the battle's Location rules that bear on this unit (gameCtx.warZone), under
+             its mark, the campaign's marks being what says a rule comes from the campaign (owner,
+             2026-11-05). Read, not applied: the app counts none of them. -->
+        <section
+          v-if="shownWarZone.length"
+          class="rum-rules"
+        >
+          <h4 class="rum-rules-h">
+            {{ labels.domWarZone }}
+          </h4>
+          <div
+            v-for="w in shownWarZone"
+            :key="w.name"
+            class="rum-rule"
+          >
+            <DsAccordion
+              collapsible
+              :start-open="false"
+            >
+              <template #header="{ open, toggle }">
+                <button
+                  type="button"
+                  class="rum-rule-btn"
+                  :aria-expanded="open"
+                  @click="toggle"
+                >
+                  <span class="rum-upg-head">
+                    <i
+                      class="wi rum-upg-mark wi-dom-location"
+                      aria-hidden="true"
+                    />
+                    <span class="rum-rule-text">
+                      <span class="rum-rule-src">{{ w.location }}</span>
+                      <span class="rum-rule-name">{{ w.name }}</span>
+                      <span class="rum-upg-cover is-none">{{ labels.domUpgradeCover_none }}</span>
+                    </span>
+                  </span>
+                  <ChevronIcon
+                    class="rum-chev"
+                    :turned="open"
+                    from="right"
+                    to="down"
+                  />
+                </button>
+              </template>
+              <div class="rum-rule-body">
+                <p
+                  v-if="w.nameRu"
+                  class="rum-upg-cover-note"
+                >
+                  {{ w.nameRu }}
+                </p>
+                <RuleBody :body="w.body" />
+                <p class="rum-upg-cover-note">
+                  {{ labels.domWarZoneCoverNote }}
                 </p>
               </div>
             </DsAccordion>
@@ -498,6 +565,7 @@ const props = defineProps({
 })
 // The Upgrade cards on this unit: the battle's, or the ones its saved list carries pinned.
 const shownUpgrades = computed(() => props.gameCtx?.upgrades || props.ctx?.upgrades || [])
+const shownWarZone = computed(() => props.gameCtx?.warZone || [])
 defineEmits(['toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick', 'toggle-use', 'compare', 'close'])
 
 const { locale } = useLocale()
@@ -773,6 +841,10 @@ defineExpose({
 .rum-rule--off .rum-rule-body { color: var(--text-muted); }
 .rum-rule-off { font-size: 0.75rem; color: var(--text-muted); }
 .rum-upg-bonus { margin: 0.35rem 0 0; }
+/* An Upgrade card's row wears its deck's mark, the same one the card prints. Beside the text, so
+   the row grows no taller. */
+.rum-upg-head { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
+.rum-upg-mark { width: 2.25rem; height: 2.25rem; margin: 0; flex-shrink: 0; }
 /* How much of the card the app applies: counted is quiet, the player's share asks for an eye. */
 .rum-upg-cover { font-size: 0.75rem; color: var(--text-muted); }
 .rum-upg-cover.is-part,

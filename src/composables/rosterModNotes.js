@@ -40,7 +40,7 @@ export function groupModNotes(notes, l) {
   for (const n of notes || []) {
     const label = modSourceLabel(n, l)
     let g = byKey.get(label)
-    if (!g) { g = { key: label, label, notes: [] }; byKey.set(label, g); out.push(g) }
+    if (!g) { g = { key: label, label, notes: [], ...(n.upgradeKind ? { mark: `wi-dom-${n.upgradeKind}` } : {}) }; byKey.set(label, g); out.push(g) }
     g.notes.push(n)
   }
   return out

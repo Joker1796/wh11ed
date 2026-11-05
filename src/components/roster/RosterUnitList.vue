@@ -148,6 +148,7 @@
                   :points="pointsOf(e) || 0"
                   :detachments="detachments"
                   :role="roleOf(e)"
+                  :upgrades="upgradesOf(e)"
                 />
                 <ChevronIcon
                   v-if="!inPane"
@@ -319,6 +320,8 @@ const props = defineProps({
   pointsOf: { type: Function, default: () => 0 },
   // "Leader" / "Support" for an attached character — the caller knows the host, this doesn't.
   roleOf: { type: Function, default: () => '' },
+  // The Dominatus Upgrade cards pinned on an entry — the caller holds the list's mark.
+  upgradesOf: { type: Function, default: () => [] },
   // Which faction's bundle an entry belongs to (an ally's is not the army's) — only for the
   // modal's accent scope.
   slugOf: { type: Function, default: () => '' },

@@ -34,7 +34,7 @@
     <span class="rur-pts">{{ points }}</span>
     <ExpandTransition>
       <span
-        v-if="chips.length || entry.warlord"
+        v-if="chips.length || entry.warlord || upgrades.length"
         class="rur-chips"
       >
         <!-- The Warlord leads the chip line: the name above stays a name (owner's ask, 2026-09-26). -->
@@ -46,6 +46,7 @@
             :aria-label="labels.rosterWarlord"
           ><i class="wi wi-flag" /></span>
         </ExpandTransition>
+        <RosterUpgradeMarks :cards="upgrades" />
         <span
           v-for="c in chips"
           :key="c.key"
@@ -65,6 +66,7 @@
 
 <script setup>
 import ExpandTransition from '../ExpandTransition.vue'
+import RosterUpgradeMarks from './RosterUpgradeMarks.vue'
 import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -81,6 +83,8 @@ const props = defineProps({
   // "Leader" / "Support" when this entry is a character attached to the unit above it. Passed in
   // rather than derived: the caller already knows the host, this component only knows the entry.
   role: { type: String, default: '' },
+  // The Dominatus Upgrade cards pinned on this entry ([{ slug, kind, name }]), by their marks.
+  upgrades: { type: Array, default: () => [] },
 })
 
 const { locale } = useLocale()
@@ -126,7 +130,7 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
 /* Lighter than the name it follows, so the row still reads name-first at a glance. */
 .rur-note { font-weight: 400; font-size: 0.85em; color: var(--text-muted); }
 
-.rur-chips { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.rur-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; }
 /* Same bordered chip as a wargear group's "up to 2" allowance (UnitEditorFields' .ues-cap). */
 .rur-chip {
   padding: 0.05rem 0.35rem;

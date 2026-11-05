@@ -107,7 +107,7 @@ export function upgradeModEntries(cards, mods, unit, { unitOnly = false } = {}) 
     let effects = bonus ? (bonus.replace ? bonus.effects : [...m.effects, ...bonus.effects]) : m.effects
     if (unitOnly) effects = effects.filter((/** @type {any} */ e) => e.target === 'unit')
     if (!effects.length) continue
-    out.push({ sid: `dom:${card.slug}`, kind: 'enhancement', upgrade: true, name: card.name, body: '', reviewed: true, effects, ...(unitOnly ? { from: 'unit' } : {}) })
+    out.push({ sid: `dom:${card.slug}`, kind: 'enhancement', upgrade: true, upgradeKind: card.kind, name: card.name, body: '', reviewed: true, effects, ...(unitOnly ? { from: 'unit' } : {}) })
   }
   return out
 }
@@ -141,6 +141,21 @@ export function upgradeCoverage(card, mods, unit) {
 export function upgradeLimit(dominatus) {
   const base = Number.isInteger(dominatus?.limit) && (dominatus?.limit ?? 0) > 0 ? Number(dominatus?.limit) : 3
   return base + (dominatus?.location === 'titangrave' ? 1 : 0)
+}
+
+/**
+ * The Location's war zone rules that belong on this unit's card (the hand-read table,
+ * data/dominatusWarZoneUnits.js): every unit's, the ones its keywords reach, the Warlord's.
+ * @param {Array<{ name: string }> | null | undefined} warZone
+ * @param {Record<string, { all?: true, kws?: string[], warlord?: true, none?: string }>} table
+ * @param {{ kws: string[], warlord: boolean }} unit
+ */
+export function warZoneRulesOn(warZone, table, unit) {
+  const has = new Set((unit.kws || []).map((k) => k.toLowerCase()))
+  return (warZone || []).filter((w) => {
+    const e = table[w.name]
+    return !!e && !!(e.all || (e.warlord && unit.warlord) || e.kws?.some((k) => has.has(k.toLowerCase())))
+  })
 }
 
 /**

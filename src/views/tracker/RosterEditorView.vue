@@ -198,6 +198,7 @@
                 :detachments="curDetachments"
                 :points-of="(e) => entryMeta.get(e.uid)?.points"
                 :role-of="attachRole"
+                :upgrades-of="pinnedOn"
                 :slug-of="slugFor"
                 :dup-blocked="dupBlocked"
                 :open-uid="openUid"
@@ -389,6 +390,7 @@ import RosterSettingsBar from '../../components/roster/RosterSettingsBar.vue'
 import RosterSetupFields from '../../components/roster/RosterSetupFields.vue'
 import RosterCampaignField from '../../components/roster/RosterCampaignField.vue'
 import { useRosterCampaign } from '../../composables/useRosterCampaign.js'
+import { domUpgrades } from '../../composables/dominatusMissions.js'
 import RosterPointsTally from '../../components/roster/RosterPointsTally.vue'
 import RosterWorkbench from '../../components/roster/RosterWorkbench.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
@@ -584,6 +586,13 @@ const campaignLabel = computed(() => {
   if (!dom) return ''
   return dom.campaign ? choiceOf(dom)?.name || labels.value.rosterCampaignUnknown : labels.value.rosterCampaignDeck
 })
+// The cards pinned on a unit, for its row's marks.
+function pinnedOn(entry) {
+  const pins = roster.value?.dominatus?.upgrades
+  if (!pins?.length) return []
+  const deck = domUpgrades(locale.value)
+  return pins.filter((p) => p.uid === entry.uid).map((p) => deck.find((c) => c.slug === p.slug)).filter(Boolean)
+}
 function setDominatus(v) {
   if (v) roster.value.dominatus = v
   else delete roster.value.dominatus

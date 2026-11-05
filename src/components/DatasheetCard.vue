@@ -273,7 +273,12 @@
                 :key="g.key"
               >
                 <li class="ds-mod-src-h">
-                  {{ g.label }}
+                  <i
+                    v-if="g.mark"
+                    class="wi ds-mod-mark"
+                    :class="g.mark"
+                    aria-hidden="true"
+                  />{{ g.label }}
                 </li>
                 <li
                   v-for="(n, i) in g.notes"
@@ -1772,6 +1777,7 @@ function abilityStateLabel(st) {
 .ds-mod-src { color: var(--text-primary); }
 /* The source a group of notes came from. Same quiet ALL-CAPS plate the rule block above uses, so
    "detachment · Creations of Bile" reads the same wherever it appears on the card. */
+.ds-mod-mark { width: 1.3em; height: 1.3em; margin: 0 0.3em 0 0; color: var(--text-primary); }
 .ds-mod-src-h {
   margin-top: 0.35rem; color: var(--text-muted);
   font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;

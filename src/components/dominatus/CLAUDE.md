@@ -198,6 +198,23 @@ table does not; the battle starts with them given (`useRosterCampaign.js`).
   (`cleanUpgrades`), and the pre-battle step names their units once the list is read
   (`DomUpgradesEditor`) and changes them like any other.
 
+## What comes from the campaign wears its mark (owner, 2026-11-05)
+
+A rule of the campaign that bears on a unit says so by the deck's mark. Only those: the army's own
+rules (detachment, enhancement, Leader) carry none.
+
+- **An Upgrade card**: its kind's mark (`wi-dom-honour/skill/relic`) on its row in the unit's card, on
+  its group in the card's modifier list (`upgradeKind` on the note, `mark` from `groupModNotes`), and on
+  the unit's row in a list, the editor's and the view's (`RosterUpgradeMarks`).
+- **A Location's war zone rule**: a block on the unit's card with `wi-dom-location`, in a battle with a
+  Location only (a list outside a battle has none). Which rules reach which unit is read by hand:
+  `src/data/dominatusWarZoneUnits.js`, through `warZoneRulesOn`; a rule about the table, a move any unit
+  may make or a stratagem's price stays off the cards, its reason written there, and
+  `dominatusWarZoneUnits.test.js` holds every rule of the deck to one entry. Text only, marked
+  "apply it yourself". No mark on the list's rows: Defence Networks would stand on every unit.
+- **Not marked**: an Agenda's roles (champion, prime target) are about scoring, and a Location's bonus
+  is about drawing cards.
+
 ## The campaign (`/campaigns/dominatus/:id`)
 
 A campaign is an **append-only event log** on the server (`wh11ed-api` `/campaigns`, README

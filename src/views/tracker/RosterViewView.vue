@@ -406,7 +406,10 @@
                        summary that does not fit beside the name wraps under it rather than being cut. -->
                         <span class="rvunit-head">
                           <span class="rvunit-name">
-                            {{ defOf(e.id)?.name || e.id }}
+                            <RosterUpgradeMarks
+                              class="rvunit-marks"
+                              :cards="upgradesOf(e)"
+                            />{{ defOf(e.id)?.name || e.id }}
                             <!-- The player's own note (rosterEngine's note helpers) — what they wrote to
                          read HERE, at the table, which is why it is on the row rather than behind
                          the card this row opens. -->
@@ -673,9 +676,11 @@ import CollapseTransition from '../../components/CollapseTransition.vue'
 import ExpandTransition from '../../components/ExpandTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import RosterUnitRulesCard from '../../components/roster/RosterUnitRulesCard.vue'
-import { domUpgrades, loadDominatusDeck } from '../../composables/dominatusMissions.js'
-import { upgradeBonusApplies, upgradeOncePerBattle, upgradeModEntries, upgradeCoverage } from '../../core/dominatus/upgrades.js'
+import { domUpgrades, domLocation, loadDominatusDeck } from '../../composables/dominatusMissions.js'
+import { upgradeBonusApplies, upgradeOncePerBattle, upgradeModEntries, upgradeCoverage, warZoneRulesOn } from '../../core/dominatus/upgrades.js'
 import { dominatusUpgradeMods } from '../../data/dominatusUpgradeMods.js'
+import { warZoneUnits } from '../../data/dominatusWarZoneUnits.js'
+import RosterUpgradeMarks from '../../components/roster/RosterUpgradeMarks.vue'
 import RosterCloudToast from '../../components/roster/RosterCloudToast.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
@@ -904,7 +909,8 @@ const upgradesHere = computed(() => {
   if (game.value) return game.value.settings?.dominatus ? gameSide.value?.upgrades || [] : []
   return roster.value?.dominatus?.upgrades || []
 })
-watch(() => upgradesHere.value.length > 0, (on) => { if (on) loadDominatusDeck() }, { immediate: true })
+const battleLocation = computed(() => (game.value ? game.value.settings?.dominatus?.location || null : null))
+watch(() => upgradesHere.value.length > 0 || !!battleLocation.value, (on) => { if (on) loadDominatusDeck() }, { immediate: true })
 // The game desk's height (see gameDesk): measured once the page and its list are there.
 const rootEl = ref(null)
 const { measure: measureFill } = useViewportFill(rootEl)
@@ -1763,6 +1769,7 @@ function gameCtxOf(entry) {
       : [],
     upgrades: upgradesOf(entry),
     upgradeEntries: upgradeEntriesFor(entry),
+    warZone: warZoneOf(entry),
   }
 }
 // Dominatus: the Upgrade cards this unit was given in Declare Battle Formations (DomUpgradesEditor
@@ -1778,6 +1785,16 @@ function upgradeUsesOf(entry) {
     const used = gamePlayer.value?.ctx?.uses?.[entry.uid]?.[id] != null
     return { id, label: { en: u.name, ru: u.name }, on: used, live: false, spent: used, auto: false, blocked: false, blockedBy: null, duration: null, once: 'unit', info: { name: u.name, text: u.body } }
   })
+}
+// Dominatus: the battle's Location rules that bear on this unit (data/dominatusWarZoneUnits.js),
+// with the Location's name. Text only: the card says the app does not apply them.
+function warZoneOf(entry) {
+  const loc = battleLocation.value && domLocation(battleLocation.value, locale.value)
+  if (!loc) return []
+  const def = defOf(entry.id)
+  const kws = [...(def?.kws || []), ...grantedKeywords(def, entry, curDetachments.value)]
+  return warZoneRulesOn(loc.warZone, warZoneUnits, { kws, warlord: !!entry.warlord })
+    .map((w) => ({ name: w.name, nameRu: w.nameRu || '', body: w.body, location: loc.name }))
 }
 function upgradesOf(entry) {
   const ups = upgradesHere.value
@@ -2250,6 +2267,12 @@ const nowSlot = computed(() => {
 .rvunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
 .rvunit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
 /* The slot an attached character fills, after its name. */
+/* The campaign's mark before the name, its foot on the letters' line (owner, 2026-11-05). */
+.rvunit-marks { margin-right: 0.2rem; vertical-align: baseline; }
+.rvunit-marks :deep(.wi) { width: 0.95rem; height: 0.95rem; transform: translateY(3px); }
+/* The drawings' ink ends at different heights: all three stand on the Battle Skill gear's line, by pixels. */
+.rvunit-marks :deep(.wi-dom-honour),
+.rvunit-marks :deep(.wi-dom-relic) { transform: translateY(2.25px); }
 .rvunit-role { margin-left: 0.35rem; font-weight: 400; font-size: 0.74rem; color: var(--accent-ink); }
 /* The attached block: the tiles touch, and the army's colour runs down the left of all of them —
    the host's tile included, so the edge starts where the block does. Drawn HERE rather than from

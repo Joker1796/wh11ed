@@ -322,7 +322,7 @@ function noteOf(entry, effect, applied, via = null, live = true) {
     owner: entry.owner || null,
     from: entry.from || null,
     // A Dominatus Upgrade card, read as an enhancement but named as itself (core/dominatus/upgrades.js).
-    ...(entry.upgrade ? { upgrade: true } : {}),
+    ...(entry.upgrade ? { upgrade: true, upgradeKind: entry.upgradeKind } : {}),
     on: effect.on,
     stat: effect.stat,
     op: effect.op,
