@@ -126,6 +126,9 @@
             :detachment-options="detachmentOptions"
             :detachments="roster.detachments || []"
             :max-dp="effBattle.dp"
+            :campaign-options="optionsOf(roster.dominatus, labels)"
+            :campaign="valueOf(roster.dominatus)"
+            :campaign-note="noteOf(roster.dominatus, labels)"
             @update:limit="setLimit"
             @update:disposition="setDisposition"
             @update:chapter="setChapter"
@@ -133,11 +136,8 @@
             @update:check-legality="setCheckLegality"
             @pick-faction="factionPickerOpen = true"
             @toggle-detachment="toggleDetachment"
+            @update:campaign="(v) => setDominatus(markFor(roster.dominatus, v))"
             @clear-detachments="clearDetachments"
-          />
-          <RosterCampaignField
-            :dominatus="roster.dominatus || null"
-            @update="setDominatus"
           />
         </div>
       </div>
@@ -578,7 +578,7 @@ function setNotes(v) {
 }
 function setLimit(v) { applyLimit(roster.value, v); touch() }
 // The Dominatus campaign the list is played in, and its units' Upgrade cards (useRosterCampaign).
-const { choiceOf, sendCopy } = useRosterCampaign()
+const { choiceOf, sendCopy, optionsOf, valueOf, noteOf, markFor } = useRosterCampaign()
 const campaignLabel = computed(() => {
   const dom = roster.value?.dominatus
   if (!dom) return ''

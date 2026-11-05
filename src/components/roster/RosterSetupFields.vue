@@ -177,6 +177,52 @@
         </div>
       </ExpandTransition>
 
+      <!-- The Dominatus campaign the list is played in (the editor's, owner 2026-11-05): the pool
+           its units take Upgrade cards from in their own fields (useRosterCampaign). -->
+      <div
+        v-if="campaignOptions.length"
+        class="choice pick"
+      >
+        <span class="ch-label">{{ labels.rosterCampaign }}</span>
+        <AdaptivePicker
+          v-model:open="campaignPickerOpen"
+          class="ch-picker"
+          panel-width="18rem"
+          :title="labels.rosterCampaign"
+        >
+          <template #trigger="{ toggle, open }">
+            <button
+              type="button"
+              class="ch-pick"
+              :aria-expanded="open"
+              aria-haspopup="dialog"
+              @click="toggle"
+            >
+              <span
+                class="ch-value"
+                :class="{ placeholder: !campaign }"
+              >{{ campaignOptions.find((o) => o.value === campaign)?.label || campaignOptions[0].label }}</span>
+            </button>
+          </template>
+          <template #default="{ bodyClass, close }">
+            <RosterChapterList
+              :class="bodyClass"
+              :options="campaignOptions"
+              :chapter="campaign"
+              @pick="(v) => { close(); $emit('update:campaign', v) }"
+            />
+          </template>
+        </AdaptivePicker>
+        <i class="wi wi-chevron-down" />
+        <ExpandTransition>
+          <em
+            v-if="campaignNote"
+            :key="campaignNote"
+            class="ch-note"
+          >{{ campaignNote }}</em>
+        </ExpandTransition>
+      </div>
+
       <!-- The player's plan for this list, in their own words: read at the table (the view screen
            shows it above its tabs, in a game as well as out of one), never read by a rule. Where the
            list is edited, not where it is started. -->
@@ -278,9 +324,14 @@ defineProps({
   notes: { type: String, default: '' },
   checkLegality: { type: Boolean, default: true },
   archived: { type: Boolean, default: false },
+  // The Dominatus campaign tile (the editor's; none in the wizard): its answers ({ value, label }),
+  // the chosen one, and what it says under the value (useRosterCampaign).
+  campaignOptions: { type: Array, default: () => [] },
+  campaign: { type: String, default: '' },
+  campaignNote: { type: String, default: '' },
 })
 defineEmits([
-  'update:name', 'update:limit', 'update:disposition', 'update:chapter',
+  'update:name', 'update:limit', 'update:disposition', 'update:chapter', 'update:campaign',
   'update:notes', 'update:checkLegality', 'pick-faction', 'toggle-detachment', 'clear-detachments',
 ])
 
@@ -290,6 +341,7 @@ const labels = computed(() => ui[locale.value])
 const { showPointsLeft } = useRosterPrefs()
 const detachmentPickerOpen = ref(false)
 const chapterPickerOpen = ref(false)
+const campaignPickerOpen = ref(false)
 </script>
 
 <style scoped>

@@ -58,5 +58,38 @@ export function useRosterCampaign() {
     return true
   }
 
-  return { choices, choiceOf, heldOf, limitOf, poolOf, sendCopy }
+  /**
+   * The field's answers as one list ('' none, 'deck' the whole deck, else a campaign id), a
+   * campaign marked on another device and not read here yet named as such.
+   * @param {any} dom @param {Record<string, string>} l the reader's labels
+   */
+  function optionsOf(dom, l) {
+    const list = [
+      { value: '', label: l.rosterCampaignNone },
+      { value: 'deck', label: `Dominatus · ${l.rosterCampaignDeck}` },
+      ...choices.value.map((c) => ({ value: c.id, label: `Dominatus · ${c.name}` })),
+    ]
+    const id = dom?.campaign
+    if (id && !choices.value.some((c) => c.id === id)) list.push({ value: id, label: `Dominatus · ${l.rosterCampaignUnknown}` })
+    return list
+  }
+  /** The field's value for a mark. */
+  const valueOf = (dom) => (!dom ? '' : dom.campaign || 'deck')
+  /** What the field says under it: where the cards are given and how many, where the copy goes. */
+  function noteOf(dom, l) {
+    if (!dom) return ''
+    const ch = choiceOf(dom)
+    return [l.rosterCampaignNote.replace('{n}', String(limitOf(dom))), ch && ch.st.roster !== 'none' ? l.rosterCampaignCopyNote : '']
+      .filter(Boolean).join(' ')
+  }
+  /** The mark a choice makes (null: none) — the cards the new pool does not hold come off. */
+  function markFor(dom, value) {
+    if (!value) return null
+    const next = { campaign: value === 'deck' ? null : value, upgrades: [...(dom?.upgrades || [])] }
+    const held = heldOf(next)
+    if (held) next.upgrades = next.upgrades.filter((u) => held.has(u.slug))
+    return next
+  }
+
+  return { choices, choiceOf, heldOf, limitOf, poolOf, sendCopy, optionsOf, valueOf, noteOf, markFor }
 }

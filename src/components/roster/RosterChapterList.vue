@@ -1,16 +1,17 @@
 <template>
   <!-- The rows of the Chapter picker — "not stated" first, then the faction's Chapters. One list for
-       the phone's tile (AdaptivePicker) and the desk's settings line (PickerDropdown). -->
+       the phone's tile (AdaptivePicker) and the desk's settings line (PickerDropdown). Given
+       `options` ({ value, label }), it lists those instead: the phone's campaign tile. -->
   <div class="modal-list rcl">
     <button
-      v-for="c in ['', ...chapters]"
-      :key="c"
+      v-for="o in rows"
+      :key="o.value"
       type="button"
       class="rcl-opt"
-      :class="{ on: chapter === c }"
-      @click="$emit('pick', c)"
+      :class="{ on: chapter === o.value }"
+      @click="$emit('pick', o.value)"
     >
-      {{ c || labels.rosterChapterNone }}
+      {{ o.label }}
     </button>
   </div>
 </template>
@@ -20,15 +21,17 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
-defineProps({
+const props = defineProps({
   chapters: { type: Array, default: () => [] },
-  // The declared Chapter, '' for none.
+  // The declared Chapter, '' for none (the chosen option's value, with `options`).
   chapter: { type: String, default: '' },
+  options: { type: Array, default: null },
 })
 defineEmits(['pick'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const rows = computed(() => props.options || ['', ...props.chapters].map((c) => ({ value: c, label: c || labels.value.rosterChapterNone })))
 </script>
 
 <style scoped>
