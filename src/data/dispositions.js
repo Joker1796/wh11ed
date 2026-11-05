@@ -9,3 +9,9 @@ export const DISPOSITIONS = DISPOSITION_NAMES.map((name) => {
   const id = slugify(name)
   return { id, name, icon: `/images/event/dispo-${id}.webp` }
 })
+
+/** The icon of a disposition named as a detachment spells it (case aside), or ''. */
+export function dispositionIcon(name) {
+  const k = String(name || '').toLowerCase()
+  return DISPOSITIONS.find((d) => d.name.toLowerCase() === k)?.icon || ''
+}
