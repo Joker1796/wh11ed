@@ -1051,8 +1051,13 @@ a.nd-link:hover {
 /* Just above the phone layout the RU links ("Изменения приложения GW") need the room the bar's own
    padding and gaps take at full width. */
 @media (min-width: 901px) and (max-width: 1023px) {
-  .navbar-inner { padding: 0 1rem; gap: 1rem; }
+  .navbar-inner { padding: 0 1rem; gap: 0.75rem; }
   .nav-link { padding: 0.4rem 0.6rem; }
+}
+/* With "Campaigns" in the bar (2026-11-06) the gear ran off its end up to 1053px: there the search
+   button drops its "Ctrl K" hint (Ctrl+K still opens it). Measured, EN and RU, 901–1400px. */
+@media (min-width: 901px) and (max-width: 1080px) {
+  .search-hint { display: none; }
 }
 
 @media (max-width: 900px) {
