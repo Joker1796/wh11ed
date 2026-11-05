@@ -124,6 +124,31 @@ describe('authedFetch', () => {
     expect(opts.headers.Authorization).toBe('Bearer t1')
   })
 
+  it('with no token yet (the server was down a moment), refreshes before the request', async () => {
+    global.fetch = vi.fn().mockRejectedValueOnce(new TypeError('fetch failed')) // refresh while the API restarts
+    await load()
+    await auth.refresh()
+    expect(auth.status.value).toBe('down')
+    global.fetch.mockReset()
+    global.fetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ accessToken: 't3' }) }) // refresh
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'u' }) }) // /me
+      .mockResolvedValueOnce({ status: 201, ok: true }) // the request
+    const res = await auth.authedFetch('/campaigns/x/events', { method: 'POST', body: '{}' })
+    expect(res.status).toBe(201)
+    expect(global.fetch.mock.calls[2][1].headers.Authorization).toBe('Bearer t3')
+  })
+
+  it('signed out, sends the request as it is, without asking the server first', async () => {
+    global.fetch = vi.fn().mockResolvedValueOnce({ ok: false, status: 401 }) // refresh: no session
+    await load()
+    await auth.refresh()
+    global.fetch.mockReset()
+    global.fetch.mockResolvedValueOnce({ status: 404, ok: false })
+    await auth.authedFetch('/campaigns/x/events')
+    expect(global.fetch.mock.calls.length).toBe(1)
+  })
+
   it('on 401 refreshes once and retries the request', async () => {
     global.fetch = vi
       .fn()
