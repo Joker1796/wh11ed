@@ -26,6 +26,10 @@ holds every card to having it in both languages and every Briefing to its 3 (pha
   `dominatusRu.js` (cards by slug, blocks by id, rows by position — the shapes are in the file's
   header). Card names, Alliances, Force Dispositions and ALL-CAPS keywords stay English; RU adds
   `nameRu` as a subline.
+- **The role is "Warmaster" in Russian too** (owner, 2026-11-05), on the rules page and in the
+  campaign's screens alike — never «ведущий» (the screens had both, 52 to 18). Declined with the
+  apostrophe where a sentence needs it (`Warmaster’а`); a sentence is rephrased to the nominative
+  first where it reads as well.
 - An Agenda's `primary` is exactly a `missions.js` primary card (`briefing` + `blocks`), so the page
   draws it with `MissionCard` (its default slot carries the Agenda Achieved conditions,
   `DomAgendaAchieved.vue`) and the tracker scores it like any primary.
