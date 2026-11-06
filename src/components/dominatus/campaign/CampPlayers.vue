@@ -577,7 +577,7 @@
 // cards. A player who joined by the link registers themselves here; the fold lets a member speak
 // for that one player only. Each player's "…": edit (name, faction; the Alliance the Warmaster's),
 // and for the Warmaster the player's cards by hand and taking out a player with no battles.
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import ActionMenu from '../../ActionMenu.vue'
 import BaseModal from '../../BaseModal.vue'
 import ConfirmModal from '../../ConfirmModal.vue'
@@ -597,6 +597,7 @@ import FactionBadge from '../../FactionBadge.vue'
 import { recordOf, removable, removePlayer, standings, playedIn, takeablePlayers, MAX_AGENDA_ACHIEVED } from '../../../core/dominatus/campaign.js'
 import { factionIndexBySlug } from '../../../data/factionsIndex.js'
 import { useCampaignView } from './useCampaignView.js'
+import { useAuth } from '../../../composables/useAuth.js'
 import { useLocale } from '../../../composables/useLocale.js'
 
 const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, upgradeName, upgradeKind, showUpgrade, onAsk, bringIntoView, handOpen } = useCampaignView()
@@ -623,6 +624,12 @@ const factionName = (slug) => factionIndexBySlug(slug)?.name || slug
 const { locale } = useLocale()
 const name = ref('')
 const isMe = ref(false)
+// A member signing up starts from their account's name (stand walkthrough, 2026-11-06: the form
+// came up empty); the Warmaster adds other people, so theirs stays blank.
+const { user } = useAuth()
+watch([() => isOwner.value, () => user.value?.displayName], () => {
+  if (!isOwner.value && !name.value && user.value?.displayName) name.value = user.value.displayName.slice(0, 40)
+}, { immediate: true })
 const alliance = ref(null)
 const faction = ref(null)
 const factionOf = (p) => (p.faction ? factionIndexBySlug(p.faction) : null)

@@ -1515,6 +1515,18 @@ strong {
   font-size: 0.9rem;
   line-height: 1;
   vertical-align: middle;
+  position: relative;
+}
+/* The glyph is ~15px; the finger's target is at least 24×24 around it, drawn by nothing, so the
+   line it sits in keeps its height (stand walkthrough, 2026-11-06: the campaign's "?" was 21×15). */
+.help-btn::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, 24px);
+  height: max(100%, 24px);
+  transform: translate(-50%, -50%);
 }
 
 @media (hover: hover) { .help-btn:hover { color: var(--accent-ink); } }

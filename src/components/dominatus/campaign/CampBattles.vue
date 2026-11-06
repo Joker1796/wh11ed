@@ -314,7 +314,9 @@ function outcome(x) {
   return labels.value.campWon.replace('{p}', playerName(x[x.victor]))
 }
 async function add() {
-  if (!(await act('battle', { id: `b${Date.now().toString(36)}`, a: a.value, b: b.value, victor: victor.value, achieved: { ...achieved.value } }))) return false
+  // The phase it is entered for, as a battle from the tracker says: one sent after the phase ended
+  // is refused instead of landing in the next (stand walkthrough, 2026-11-06).
+  if (!(await act('battle', { id: `b${Date.now().toString(36)}`, phase: state.value.phase, a: a.value, b: b.value, victor: victor.value, achieved: { ...achieved.value } }))) return false
   a.value = mine.value?.id || null
   b.value = pairedWith(a.value)
   victor.value = 'a'

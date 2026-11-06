@@ -58,6 +58,16 @@ describe('router matching with the locale prefix', () => {
   it('sends an unknown Russian path to the 404 view, not to an English page', () => {
     expect(router.resolve('/ru/no-such-page').name).toBe('not-found')
   })
+
+  it('shows that 404 in Russian, and an English one in English, without touching the preference', async () => {
+    const { locale, readStoredLocale } = await import('../composables/useLocale.js')
+    setLocale('en')
+    await router.push('/ru/no-such-page')
+    expect(locale.value).toBe('ru')
+    expect(readStoredLocale()).not.toBe('ru')
+    await router.push('/no-such-page')
+    expect(locale.value).toBe('en')
+  })
 })
 
 describe('links written before the move', () => {

@@ -335,5 +335,8 @@ router.beforeEach((to, from) => {
 //    English page can't quietly undo a choice the reader made.
 router.beforeEach((to) => {
   if (to.params.lang === 'ru') setLocale('ru')
+  // The catch-all has no `lang`: a dead Russian address still shows the 404 in Russian (stand
+  // walkthrough, 2026-11-06), without touching the preference.
+  else if (to.name === 'not-found' && /^\/ru(\/|$)/.test(to.path)) activeLocale.value = 'ru'
   else activeLocale.value = 'en'
 })
