@@ -679,9 +679,13 @@ function rename(name) {
 .red-mode + .rc-sticky-actions { margin-left: 0; }
 .red-mode button { position: relative; padding: 0.45rem 0.7rem; font-size: 1rem; line-height: 1; }
 .red-cancel-icon { display: none; }
-@media (max-width: 400px) {
+/* Cancel as its icon up to 520px, not 400px (2026-11-06): with the points' marks in (own limits,
+   a count of errors) the row ran 13–24px past the screen edge just above each step, 401px and 481px. */
+@media (max-width: 520px) {
   .red-cancel-icon { display: inline; }
   .red-cancel-text { display: none; }
+}
+@media (max-width: 400px) {
   .red-mode button { padding: 0.45rem 0.55rem; }
   .rc-sticky-actions .btn-primary,
   .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.55rem; }
@@ -698,6 +702,17 @@ function rename(name) {
 }
 @media (max-width: 340px) {
   .rc-sticky-inner { padding-left: calc(0.35rem + var(--safe-left)); padding-right: calc(0.35rem + var(--safe-right)); }
+}
+/* …and once the points carry their marks (own limits, a count of errors) Save ran up to 17px past
+   the screen edge at 320px, 10px at 341px and 4px at 375px in Russian (measured 2026-11-06 over the
+   test lists): up to 400px the switch, Cancel, Save and the gaps each give up a little — Save keeps
+   its word, the switch's icons stay 24px. */
+@media (max-width: 400px) {
+  .rc-sticky-inner { gap: 0.15rem; }
+  .rc-sticky-actions { gap: 0.15rem; }
+  .red-mode button { padding: 0.4rem 0.35rem; }
+  .rc-sticky-actions .btn-primary,
+  .rc-sticky-actions .btn-ghost { padding-inline: 0.3rem; font-size: 0.74rem; }
 }
 .red-mode-warn {
   position: absolute;
