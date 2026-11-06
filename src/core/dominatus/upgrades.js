@@ -11,7 +11,7 @@
 // phrasing fails there instead of being read as "anyone".
 
 /**
- * @typedef {{ who?: string, bonus?: { label: string } | null }} UpgradeCard
+ * @typedef {{ who?: string, kind?: string, bonus?: { label: string } | null }} UpgradeCard
  * @typedef {{ kws: string[], warlord?: boolean }} UpgradeUnit keywords as the datasheet prints them
  */
 

@@ -400,7 +400,7 @@
  * A modifier record as the overlay applies it: the generated record plus what the caller resolved
  * — the prose `body`, the unit it is printed on (`owner`) and the direction it reached this card
  * from (`from`), an aura's keyword gate (`scopes`), a stratagem's `slot` and `targetScopes`.
- * @typedef {ModifierRecord & { body?: string, owner?: string | null, from?: string | null, scopes?: RuleScope[] | null, slot?: { phases: string[], sides: Record<string, string> } | null, targetScopes?: RuleScope[] | null, proves?: Set<string> | null, upgrade?: boolean }} ModEntry
+ * @typedef {ModifierRecord & { body?: string, owner?: string | null, from?: string | null, scopes?: RuleScope[] | null, slot?: { phases: string[], sides: Record<string, string> } | null, targetScopes?: RuleScope[] | null, proves?: Set<string> | null, upgrade?: boolean, upgradeKind?: string }} ModEntry
  */
 
 /** Resolves a datasheet id to its facts. @typedef {(id: string) => RosterUnit | null | undefined} DefOf */
