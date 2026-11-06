@@ -6,25 +6,19 @@ the scoped `CLAUDE.md` files it lists. Read the one for the directory you touch.
 
 ## Running it locally
 
-You need **Node 22+** and, for anything that talks to the server, **Docker** (Compose v2). Clone
-both repositories side by side; the full walkthrough — test players, several "phones", Swagger,
-what to do when a port is taken — is [`wh11ed-api/DEVELOPMENT.md`](https://github.com/Joker1796/wh11ed-api/blob/main/DEVELOPMENT.md).
+You need **Node 22+**.
 
 ```bash
 git clone https://github.com/Joker1796/wh11ed.git
-git clone https://github.com/Joker1796/wh11ed-api.git
-
-cd wh11ed-api
-npm run stand          # PostgreSQL, the API, a stand-in for Yandex sign-in, Mailpit — in Docker
-npm run stand:seed     # test players Алиса / Боб / Вера
-
-cd ../wh11ed
+cd wh11ed
 npm ci
-npm run dev            # http://localhost:5173 (/ru for Russian), already pointed at the local API
+npm run dev            # http://localhost:5173 (/ru for Russian)
 ```
 
-- **Without the backend** the site still runs: rules, the roster builder and a local game work;
-  sign-in, cloud sync and shared games need the stand.
+- **Without the backend** the site runs in full except sign-in, cloud sync and shared games: rules,
+  the roster builder and a local game all work. The backend (`wh11ed-api`) is a private
+  repository; maintainers run it as a docker stand (its `DEVELOPMENT.md`) and check anything behind
+  a sign-in there. If your change touches those features, say so in the PR.
 - **Checks:** `npm run lint`, `npm test` and `npm run build` work straight after `npm ci`.
   `npm run smoke` and `npm run a11y` drive the **Google Chrome installed on your machine**
   (playwright-core, no bundled browser) against a fresh `npm run build`.

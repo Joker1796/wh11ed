@@ -330,6 +330,15 @@ is the side's last action** — the owner's "variant A": the undo buttons stay w
 were, and the older ones grey with the reason (`trackerStrict_<why>`), never hide. The clock goes
 back one step, and only before anyone has done anything since it moved.
 
+**The turn the other side just ended stays open to a late score** (Mikhail, 2026-11-04,
+`lateScoreOpen`): "end of your opponent's turn" falls due as the OTHER side ends its turn — in a
+shared game on its phone, where this side is shown, not scored — and the next moment it was a
+played turn. So a side may still score into the turn before the clock, if that turn was the other
+side's, until it does anything in the new one (its own late scores do not close it; a card the
+clock set aside as achieved then may be ticked again). In a shared game this side's phone asks for
+those conditions once the turn has passed (`RoundTracker`'s late check — `TurnEndCheckModal` with
+`round`/`turn`, `lateAsked` once per turn on the device).
+
 "The last action" is not recorded apart: it is read from the stamps the game already keeps (`t` on
 ledger entries, scorings, discards, draws, acts — `sideNewest`), plus `clockAt`, written by
 `moveClock`. What the clock does by itself (Core CP, cards an ended turn sets aside) is left out:

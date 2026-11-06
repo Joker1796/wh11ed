@@ -12,8 +12,8 @@ welcome
 > The site used to live at `wh11ed.ru`. That domain is frozen on its last build and redirects
 > here; everything ships to `wh-rules.ru` now.
 
-This repo is the frontend, and the frontend is ~99% of the product. See
-[wh-rules.ru](https://github.com/Joker1796/wh-rules.ru) for how the whole project fits together.
+This repo is the frontend, and the frontend is ~99% of the product. It is the only public part of
+[WH Rules](https://wh-rules.ru): the backend and the project's planning notes are private.
 
 ## What's in it
 
@@ -65,7 +65,7 @@ This repo is the frontend, and the frontend is ~99% of the product. See
 - **Optional account** — signing in (Yandex) keeps your lists, game history, favourite units, pinned
   factions and model collection in step across devices, and is what a shared game's host needs.
   Signed out, everything else works; the data simply stays on the one device. The server side is
-  [wh11ed-api](https://github.com/Joker1796/wh11ed-api).
+  `wh11ed-api`, a private repository.
 - **What's new** (`/changelog`), **help** (`/help`) and an in-app bug report form.
 
 ## Offline
@@ -113,11 +113,11 @@ npm run build    # production build → dist/ (+ sitemap and the per-route SEO p
 npm run preview  # preview the production build
 ```
 
-Sign-in, cloud sync and shared games are the only features that need
-[wh11ed-api](https://github.com/Joker1796/wh11ed-api): `VITE_API_BASE_URL` points at it and
+Sign-in, cloud sync and shared games are the only features that need the backend (`wh11ed-api`,
+private): `VITE_API_BASE_URL` points at it and
 defaults to a local server (`http://localhost:8787`). Without it, sign-in simply fails and the
-rest of the app is unaffected. To work on anything behind a sign-in, run the API's docker stand
-(its DEVELOPMENT.md): "Sign in" then goes through the real sign-in code to a stand-in Yandex page.
+rest of the app is unaffected. With access to the backend, anything behind a sign-in runs on its docker
+stand (its DEVELOPMENT.md): "Sign in" then goes through the real sign-in code to a stand-in Yandex page.
 For a shared game on several "phones", open the app on ports 5173–5175.
 
 ## Checks

@@ -1,7 +1,7 @@
 <template>
   <BaseModal
-    :title="final ? labels.trackerCheckTitleFinal : labels.trackerCheckTitle"
-    :subtitle="final ? labels.trackerCheckSubFinal : labels.trackerCheckSub"
+    :title="heading || (final ? labels.trackerCheckTitleFinal : labels.trackerCheckTitle)"
+    :subtitle="subheading || (final ? labels.trackerCheckSubFinal : labels.trackerCheckSub)"
     max-width="480px"
     @close="$emit('close')"
   >
@@ -51,11 +51,17 @@ import { useParty } from '../../composables/useParty.js'
 // side's "end of your opponent's turn" secondaries, and on the battle's last turn every End of
 // Battle condition (missionTiming.turnEndChecks decides which). Ticked here as on the cards; a
 // side another phone plays is shown, not scored. Mikhail's prototype.
-defineProps({
+// `round` / `turn`: the turn the ticks go into, when it is not the live one — the turn the other
+// phone just ended, on the phone of the side whose cards fell due then (RoundTracker's late check).
+const props = defineProps({
   checks: { type: Array, required: true },
   names: { type: Array, required: true },
   final: { type: Boolean, default: false },
   confirmLabel: { type: String, required: true },
+  heading: { type: String, default: '' },
+  subheading: { type: String, default: '' },
+  round: { type: Number, default: null },
+  turn: { type: Number, default: null },
 })
 defineEmits(['confirm', 'close'])
 const { locale } = useLocale()
@@ -63,17 +69,17 @@ const labels = computed(() => ui[locale.value])
 const { current, primaryRowCount, setPrimaryRow, secondaryRowCount, scoreSecondaryRow } = useTracker()
 const { canEdit } = useParty()
 
-const round = computed(() => current.value.currentRound)
+const round = computed(() => props.round ?? current.value.currentRound)
 function title(c) {
   const pl = current.value.players[c.pi]
   return missionBySlug(c.slug || (c.mi == null ? pl : pl.members[c.mi]).primarySlug, c.slug ? pl.role : null, locale.value)?.name || ''
 }
 function count(c, bi, ri) {
-  return c.slug ? secondaryRowCount(c.pi, c.slug, bi, ri) : primaryRowCount(c.pi, round.value - 1, bi, ri, c.mi ?? null)
+  return c.slug ? secondaryRowCount(c.pi, c.slug, bi, ri, round.value) : primaryRowCount(c.pi, round.value - 1, bi, ri, c.mi ?? null)
 }
 function set(c, bi, ri, n) {
-  if (c.slug) scoreSecondaryRow(c.pi, c.slug, bi, ri, n)
-  else setPrimaryRow(c.pi, round.value - 1, bi, ri, n, null, c.mi ?? null)
+  if (c.slug) scoreSecondaryRow(c.pi, c.slug, bi, ri, n, round.value, props.turn)
+  else setPrimaryRow(c.pi, round.value - 1, bi, ri, n, props.turn, c.mi ?? null)
 }
 </script>
 

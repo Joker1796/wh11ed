@@ -12,7 +12,8 @@
 //                 lets the hand be redrawn until it suits;
 //   'noPencil'  — the CP count set by hand: CP come from Core CP, the bonus and spends only;
 //   'pastRound' — scoring written into a round already over;
-//   'pastTurn'  — scoring written into a turn of the live round already played;
+//   'pastTurn'  — scoring written into a turn of the live round already played — except the turn
+//                 that just ended, while the side has done nothing in the new one (lateScoreOpen);
 //   'lastOnly'  — taking back anything but the side's last action (a stratagem, the bonus point,
 //                 a card set aside, a unit destroyed, an army-rule use);
 //   'clockBack' — the clock moved back further than one step, or after anything was done since.
@@ -21,6 +22,8 @@
 // when it was made (`t`), so the side's newest stamp IS its last action. What the clock does by
 // itself is left out — Core CP and the cards an ended turn sets aside are the clock's, and the
 // phone that writes them may be seconds behind the one that moved it.
+
+import { turnIndex } from './clock.js'
 
 // Acts of one tap land a few ms apart (a stratagem played on a unit: the spend, then the unit's
 // mark); two taps by a hand are further apart than this.
@@ -34,18 +37,19 @@ export function isStrict(g) {
   return !!g?.settings?.strictRules
 }
 
-// When this side last did something.
-/** @param {TrackerPlayer | null | undefined} pl */
-export function sideNewest(pl) {
+// When this side last did something. `scores: false` leaves its scoring out — a score, and the
+// correction act a score into a played turn writes (lateScoreOpen).
+/** @param {TrackerPlayer | null | undefined} pl @param {{ scores?: boolean }} [opts] */
+export function sideNewest(pl, { scores = true } = {}) {
   let t = 0
   /** @param {unknown} x */
   const at = (x) => { if (typeof x === 'number' && x > t) t = x }
   for (const e of pl?.cpLog || []) if (e.kind !== 'core') at(e.t)
-  for (const r of pl?.rounds || []) at(r?.t)
-  for (const a of pl?.acts || []) at(a.t)
+  if (scores) for (const r of pl?.rounds || []) at(r?.t)
+  for (const a of pl?.acts || []) if (scores || a.type !== 'fix') at(a.t)
   const s = pl?.secondary
   if (s) {
-    for (const e of s.scored || []) at(e.t)
+    if (scores) for (const e of s.scored || []) at(e.t)
     // A card stored as its bare slug (an older game) carries no time.
     for (const d of s.discarded || []) {
       const card = typeof d === 'string' ? null : d
@@ -75,4 +79,38 @@ export function canClockBack(g) {
   if (!clockAt) return true
   if (g.clockBack) return false
   return (g.players || []).every((pl) => sideNewest(pl) <= clockAt + SAME_ACT_MS)
+}
+
+// The turn before the live one — `turn` a player index, as the clock keeps it — or null in the
+// battle's first turn.
+/** @param {TrackerGame | null | undefined} g */
+export function previousTurn(g) {
+  if (!g?.currentRound) return null
+  if (turnIndex(g) === 1) return { round: g.currentRound, turn: 0 }
+  return g.currentRound > 1 ? { round: g.currentRound - 1, turn: 1 } : null
+}
+
+// When the live turn began: the newest 'turn' act the clock wrote for it (actionLog), 0 if none.
+/** @param {TrackerGame | null | undefined} g */
+function turnBeganAt(g) {
+  if (!g) return 0
+  const R = g.currentRound, T = turnIndex(g)
+  let t = 0
+  for (const a of g.acts || []) if (a.type === 'turn' && a.round === R && a.turn === T && typeof a.t === 'number' && a.t > t) t = a.t
+  return t
+}
+
+// May this side still score into the turn that just ended? A condition scored "at the end of your
+// opponent's turn" falls due as the OTHER side ends it — in a shared game on the other phone, where
+// this side is shown, not scored (Mikhail, 2026-11-04: Defend Stronghold could not be scored at all
+// under strict rules). So the side has until it does anything in the new turn — a draw, a CP, a
+// stratagem; its own late scores do not close it. Only that one turn, only while it is the one
+// before the clock, and only the OTHER side's: a side's own turn it ended itself, past the check
+// before the turn passes (TurnEndCheckModal).
+/** @param {TrackerGame | null | undefined} g @param {number} pi @param {number} round @param {number | null | undefined} turn */
+export function lateScoreOpen(g, pi, round, turn) {
+  const prev = previousTurn(g)
+  if (!prev || prev.round !== round || prev.turn !== turn || turn === pi) return false
+  const began = turnBeganAt(g)
+  return began > 0 && sideNewest(g?.players?.[pi], { scores: false }) <= began + SAME_ACT_MS
 }

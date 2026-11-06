@@ -128,6 +128,51 @@ describe('strict rules', () => {
     expect(tracker.strictWhy('round', 1, 1, 1)).toBe(null) // the live turn
   })
 
+  // Mikhail, 2026-11-04: "end of your opponent's turn" falls due as the OTHER side ends its turn —
+  // in a shared game on its phone, where this side is shown, not scored — and the next moment it was
+  // a played turn, refused. The side keeps that turn open until it does anything in the new one.
+  it('scores the end of the opponent\'s turn just ended, until the side acts in the new turn', () => {
+    start()
+    later(); tracker.endTurn() // round 1: the opponent's turn
+    later(); tracker.endTurn() // round 2: Me first
+    const s = pl(0).secondary
+    s.deck = s.deck.filter((x) => x !== 'defend-stronghold')
+    s.hand = ['defend-stronghold']
+    s.drawn = { ...s.drawn, 'defend-stronghold': 2 }
+    later(); tracker.endTurn() // round 2: the opponent's turn
+    later(); tracker.endTurn() // round 3: Me — the opponent's turn of round 2 has just ended
+    later()
+    expect(tracker.strictWhy('round', 0, 2, 1)).toBe(null)
+    expect(tracker.strictWhy('round', 0, 2, 0)).toBe('pastRound') // Me's own turn: not this way
+    expect(tracker.strictWhy('round', 1, 2, 1)).toBe('pastRound') // the opponent's own, ended by itself
+    tracker.scoreSecondaryRow(0, 'defend-stronghold', 0, 0, 1, 2, 1)
+    later()
+    tracker.scoreSecondaryRow(0, 'defend-stronghold', 0, 1, 1, 2, 1) // a second tick: its own late score does not close it
+    expect(s.scored.find((e) => e.round === 2)?.vp).toBe(5)
+    // Anything in the new turn closes it.
+    later()
+    tracker.gainBonusCp(0)
+    expect(tracker.strictWhy('round', 0, 2, 1)).toBe('pastRound')
+  })
+
+  it('keeps the late turn closed in the first turn of the battle and a turn back', () => {
+    start()
+    expect(tracker.strictWhy('round', 0, 1, 1)).toBe('pastTurn') // no turn before the battle's first
+    later(); tracker.endTurn()
+    later(); tracker.endTurn()
+    later(); tracker.endTurn() // round 2, the opponent's turn
+    expect(tracker.strictWhy('round', 0, 1, 1)).toBe('pastRound') // two turns back
+  })
+
+  it('keeps it closed in a game that never wrote when its turn began', () => {
+    start()
+    later(); tracker.endTurn()
+    later(); tracker.endTurn() // round 2, Me: the opponent's turn of round 1 has just ended
+    expect(tracker.strictWhy('round', 0, 1, 1)).toBe(null)
+    tracker.current.value.acts = tracker.current.value.acts.filter((a) => a.type !== 'turn')
+    expect(tracker.strictWhy('round', 0, 1, 1)).toBe('pastRound')
+  })
+
   it('a destroyed unit comes back only as the last action', () => {
     start()
     later()

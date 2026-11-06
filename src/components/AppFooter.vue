@@ -122,7 +122,7 @@ const fbLabel = computed(() => ui[locale.value].feedbackMenu)
 
 const contactEmail = 'gorlovevgeni9617@gmail.com'
 // The umbrella repo (not this one): explains how the frontend, API and glossary fit together.
-const repoUrl = 'https://github.com/Joker1796/wh-rules.ru'
+const repoUrl = 'https://github.com/Joker1796/wh11ed'
 // The project's VK group — news, and the place to talk about a bug report.
 const vkUrl = VK_URL
 const tgUrl = TG_URL
