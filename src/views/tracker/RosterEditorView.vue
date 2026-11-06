@@ -314,12 +314,17 @@
             <i class="wi wi-undo red-cancel-icon" />
             <span class="red-cancel-text">{{ labels.rosterCancel }}</span>
           </button>
+          <!-- Save gives way to a tick on a 320–350px phone (owner, 2026-11-06): with the points'
+               marks in, the row did not fit there any other way. -->
           <button
             class="btn-primary"
             data-tour="rw-save"
+            :aria-label="labels.rosterSave"
+            :title="labels.rosterSave"
             @click="guardFd(save)"
           >
-            {{ labels.rosterSave }}
+            <i class="wi wi-check red-save-icon" />
+            <span class="red-save-text">{{ labels.rosterSave }}</span>
           </button>
         </div>
       </div>
@@ -678,7 +683,8 @@ function rename(name) {
 .red-mode { flex-shrink: 0; margin: 0 auto; }
 .red-mode + .rc-sticky-actions { margin-left: 0; }
 .red-mode button { position: relative; padding: 0.45rem 0.7rem; font-size: 1rem; line-height: 1; }
-.red-cancel-icon { display: none; }
+.red-cancel-icon,
+.red-save-icon { display: none; }
 /* Cancel as its icon up to 520px, not 400px (2026-11-06): with the points' marks in (own limits,
    a count of errors) the row ran 13–24px past the screen edge just above each step, 401px and 481px. */
 @media (max-width: 520px) {
@@ -692,7 +698,7 @@ function rename(name) {
 }
 
 /* The narrowest phones, measured with the web fonts in (2026-09-24): everything a notch smaller
-   rather than anything gone — Save keeps its word, the points their limit. */
+   rather than anything gone — Save keeps its word down to 341px, the points their limit. */
 @media (max-width: 360px) {
   .rc-sticky-inner { gap: 0.3rem; }
   .rc-sticky-actions { gap: 0.25rem; }
@@ -702,6 +708,12 @@ function rename(name) {
 }
 @media (max-width: 340px) {
   .rc-sticky-inner { padding-left: calc(0.35rem + var(--safe-left)); padding-right: calc(0.35rem + var(--safe-right)); }
+}
+/* Save as a tick (owner, 2026-11-06): up to 350px, since a list with its own limits still ran 1px
+   past the edge at 341px with the word. */
+@media (max-width: 350px) {
+  .red-save-icon { display: inline; }
+  .red-save-text { display: none; }
 }
 /* …and once the points carry their marks (own limits, a count of errors) Save ran up to 17px past
    the screen edge at 320px, 10px at 341px and 4px at 375px in Russian (measured 2026-11-06 over the
