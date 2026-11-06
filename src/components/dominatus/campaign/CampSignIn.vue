@@ -35,6 +35,10 @@ async function go() {
 </script>
 
 <style scoped>
-.camp-signin { display: grid; gap: 0.6rem; justify-items: start; margin-bottom: 1.25rem; }
+/* A card of its own (owner, 2026-11-06): loose under the heading it read as the list's caption. */
+.camp-signin {
+  display: grid; gap: 0.6rem; justify-items: start; margin-bottom: 1.25rem;
+  padding: 0.85rem; border: 1px solid var(--border); background: var(--bg-card);
+}
 .camp-signin p { margin: 0; font-size: 0.9rem; }
 </style>
