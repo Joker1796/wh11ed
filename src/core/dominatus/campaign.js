@@ -838,6 +838,11 @@ export function nextSteps(s, me, owner) {
   }
   const located = !!s.locations[s.phase]
   if (owner) {
+    // A new Warmaster's first steps (stand walkthrough, 2026-11-06): the players come by the invite,
+    // and a player the Warmaster entered for themselves is anyone's to take as "This is me" until
+    // the campaign knows it is theirs.
+    if (s.players.length < 2) todo.push({ kind: 'invite', todo: true, tab: 'players' })
+    if (!s.me && takeablePlayers(s).length) todo.push({ kind: 'claimMe', todo: true, tab: 'players' })
     if (!located) todo.push({ kind: 'location', todo: true, tab: 'phase' })
     const toCount = s.battles.filter((b) => b.status === 'pending').length
     if (toCount) todo.push({ kind: 'count', todo: true, tab: 'battles', n: toCount })

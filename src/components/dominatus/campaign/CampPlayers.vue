@@ -329,6 +329,18 @@
               />
             </button>
           </div>
+          <!-- The Warmaster entering themselves says so, or the player is anyone's to take as
+               "This is me" (stand walkthrough, 2026-11-06). -->
+          <label
+            v-if="isOwner && !state.me"
+            class="check"
+          >
+            <input
+              v-model="isMe"
+              type="checkbox"
+            >
+            <span>{{ labels.campIsMe }}</span>
+          </label>
           <button
             class="btn-primary"
             type="submit"
@@ -397,6 +409,16 @@
         </div>
         <!-- Who speaks for the player (`member`): the Warmaster gives the player to an account that
              joined by the link — one they entered by name, or a player who signed up twice. -->
+        <label
+          v-if="canBeMe(editing)"
+          class="check"
+        >
+          <input
+            v-model="edit.isMe"
+            type="checkbox"
+          >
+          <span>{{ labels.campIsMe }}</span>
+        </label>
         <template v-if="isOwner && memberOptions.length > 1">
           <span class="camp-dim">{{ labels.campPlayerMember }}</span>
           <CampPick
@@ -598,6 +620,7 @@ onAsk({
 const factionName = (slug) => factionIndexBySlug(slug)?.name || slug
 const { locale } = useLocale()
 const name = ref('')
+const isMe = ref(false)
 const alliance = ref(null)
 const faction = ref(null)
 const factionOf = (p) => (p.faction ? factionIndexBySlug(p.faction) : null)
@@ -667,6 +690,8 @@ async function add() {
   const payload = { id, name: name.value, faction: faction.value }
   if (pickAlliance.value) payload.alliance = alliance.value
   if (!(await act('player', payload))) return false
+  if (isOwner.value && isMe.value) await act('settings', { me: id })
+  isMe.value = false
   name.value = ''
   alliance.value = null
   faction.value = null
@@ -676,9 +701,11 @@ async function add() {
 const menuFor = ref(null)
 // The menu hands over to the dialog in one tick (a swap, BaseModal's modalLeave).
 const editing = ref(null)
-const edit = reactive({ name: '', faction: null, alliance: null, member: '' })
+const edit = reactive({ name: '', faction: null, alliance: null, member: '', isMe: false })
+// The Warmaster's own player: one no member speaks for, while the campaign names no other as theirs.
+const canBeMe = (p) => isOwner.value && !p.member && (!state.value.me || state.value.me === p.id)
 function startEdit(p) {
-  Object.assign(edit, { name: p.name, faction: p.factionAsk || p.faction, alliance: p.allianceAsk || p.alliance, member: p.member || '' })
+  Object.assign(edit, { name: p.name, faction: p.factionAsk || p.faction, alliance: p.allianceAsk || p.alliance, member: p.member || '', isMe: state.value.me === p.id })
   menuFor.value = null
   editing.value = p
 }
@@ -692,7 +719,9 @@ async function saveEdit() {
   // A player's own: only a change is sent (an ask, once kept — the fold), as for the faction.
   else if (pickAlliance.value && edit.alliance && edit.alliance !== (p.allianceAsk || p.alliance)) payload.alliance = edit.alliance
   if (isOwner.value && edit.member !== (p.member || '')) payload.member = edit.member || null
-  if (await act('player', payload)) editing.value = null
+  if (!(await act('player', payload))) return
+  if (canBeMe(p) && edit.isMe !== (state.value.me === p.id) && !(await act('settings', { me: edit.isMe ? p.id : null }))) return
+  editing.value = null
 }
 
 // The entries a player can be given to (the server's member list, the Warmaster's only — named by

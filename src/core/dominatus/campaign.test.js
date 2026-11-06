@@ -458,15 +458,27 @@ describe('Dominatus campaign — what waits for the reader', () => {
     seq = 0
     const s = campaignState([O('created', { name: 'X' }), O('player', { id: 'ann', name: 'Ann', alliance: 'liberators' }), ev('m1', 'player', { id: 'ben', name: 'Ben', alliance: 'oppressors' })], deck)
     expect(kinds(nextSteps(s, me(s, 'ben'), false))).toEqual(['waitLocation'])
-    expect(kinds(nextSteps(s, null, true))).toEqual(['location'])
+    // Ann, entered by the Warmaster and no one's yet, is anyone's to take until marked theirs.
+    expect(kinds(nextSteps(s, null, true))).toEqual(['claimMe', 'location'])
+  })
+
+  it('tells a new Warmaster to invite the players and to mark the player that is them', () => {
+    seq = 0
+    const bare = campaignState([O('created', { name: 'X' })], deck)
+    expect(kinds(nextSteps(bare, null, true))).toEqual(['invite', 'location'])
+    const own = [O('created', { name: 'X' }), O('player', { id: 'ann', name: 'Ann', alliance: 'liberators' })]
+    expect(kinds(nextSteps(campaignState(own, deck), null, true))).toEqual(['invite', 'claimMe', 'location'])
+    const marked = campaignState([...own, O('settings', { me: 'ann' }), ev('m1', 'player', { id: 'ben', name: 'Ben', alliance: 'oppressors' })], deck)
+    expect(kinds(nextSteps(marked, null, true))).toEqual(['location'])
+    expect(takeablePlayers(marked)).toEqual([])
   })
 
   it('asks the Warmaster to count, to hand out rewards when the campaign leaves them to them, and to end a played phase', () => {
     const s = campaignState([...base(), O('settings', { rewardsBy: 'warmaster' }), battle('m1', 'b1', 'ben', 'cid', 'a')], deck)
-    expect(kinds(nextSteps(s, null, true))).toEqual(['count:1'])
+    expect(kinds(nextSteps(s, null, true)).filter((k) => k !== 'claimMe')).toEqual(['count:1'])
     expect(kinds(nextSteps(s, me(s, 'ben'), false))).toEqual(['playMore:1', 'waitCount:cid'])
     const done = campaignState([...base(), O('settings', { rewardsBy: 'warmaster', schedule: [1, 1, 1] }), battle('owner', 'b1', 'ann', 'cid', 'a'), battle('owner', 'b2', 'ben', 'dee', 'a')], deck)
-    expect(kinds(nextSteps(done, null, true))).toEqual([`give:${done.pending.length}`, 'endPhase'])
+    expect(kinds(nextSteps(done, null, true)).filter((k) => k !== 'claimMe')).toEqual([`give:${done.pending.length}`, 'endPhase'])
     expect(kinds(nextSteps(done, me(done, 'ben'), false))[0]).toBe('rewardWait:dee')
   })
 })
