@@ -309,10 +309,6 @@ export function setCampaignPref(id, key, value) {
   save()
 }
 
-/** Does this device know any campaign? — for a door that shows only then (no deck loaded). */
-export function hasKnownCampaigns() {
-  return campaigns.value.length > 0
-}
 
 /** A reason the campaign's fold refused an entry, in the reader's words (ui.js `campWhy_<reason>`);
  * an unknown one as the fold wrote it. */
