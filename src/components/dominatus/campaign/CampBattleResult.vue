@@ -29,13 +29,13 @@
     </div>
     <div class="camp-pair">
       <label
-        v-for="side in ['a', 'b']"
+        v-for="(name, side) in (Object.keys(names).length ? names : { a: nameA, b: nameB })"
         :key="side"
         class="camp-num"
       >
-        <span>{{ labels.domAgendaAchieved }} · {{ (side === 'a' ? nameA : nameB) || '—' }}</span>
+        <span>{{ labels.domAgendaAchieved }} · {{ name || '—' }}</span>
         <NumberStepper
-          :model-value="achieved[side]"
+          :model-value="achieved[side] || 0"
           :min="0"
           :max="cap"
           @update:model-value="(v) => (achieved = { ...achieved, [side]: v })"
@@ -52,6 +52,7 @@ import NumberStepper from '../../tracker/NumberStepper.vue'
 import { useCampaignView } from './useCampaignView.js'
 
 defineProps({
+  names: { type: Object, default: () => ({}) },
   nameA: { type: String, default: '' },
   nameB: { type: String, default: '' },
   // A phase 3 Agenda gives up to 2.
@@ -61,7 +62,3 @@ const victor = defineModel('victor', { type: [String, null], default: 'a' })
 const achieved = defineModel('achieved', { type: Object, default: () => ({ a: 0, b: 0 }) })
 const { labels } = useCampaignView()
 </script>
-
-<style scoped>
-.camp-form-part { display: grid; gap: 0.5rem; justify-self: stretch; }
-</style>

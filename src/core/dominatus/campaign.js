@@ -38,12 +38,13 @@
  * @typedef {{ phase: number }} AgendaCard
  * @typedef {{ code: string, name: string, points: number, faction: string | null, at: string | null }} RosterSnapshot
  * @typedef {{ id: string, name: string, alliance: string | null, faction: string | null, member: string | null, upgrades: string[], agenda: AgendaCard[], roster: RosterSnapshot | null, factionAsk?: string | null, allianceAsk?: string | null }} Player
- * @typedef {{ side: 'a' | 'b', slug: string, unit: string }} BattleUpgrade
- * @typedef {{ id: string, phase: number, a: string, b: string, victor: 'a' | 'b' | null, achieved: { a: number, b: number }, upgrades: BattleUpgrade[], alliances: { a: string | null, b: string | null }, status: 'pending' | 'approved' | 'rejected', by: string, edited: boolean }} Battle
+ * @typedef {{ side: 'a' | 'a2' | 'b' | 'b2', slug: string, unit: string }} BattleUpgrade
+ * @typedef {{ player: string, kind: 'honour' | 'skill' | 'conquest' | 'none', draw: number }} TeamReward
+ * @typedef {{ id: string, phase: number, a: string, b: string, a2?: string, b2?: string, victor: 'a' | 'b' | null, achieved: Record<string, number>, upgrades: BattleUpgrade[], alliances: Record<string, string | null>, status: 'pending' | 'approved' | 'rejected', by: string, edited: boolean, rewards?: TeamReward[] | null }} Battle
  * @typedef {{ id: string, player: string, kind: string, phase: number, draw: number, battle: string | null, drawn: string[] | null }} Reward
  * @typedef {{ seq: number, payload: object | null }} Amendment
  * @typedef {{ control: string | null, tie: boolean, honours: Record<string, number>, ascendancy: string[], np: Record<string, number> }} PhaseResult
- * @typedef {{ id: string, phase: number, a: string, b: string }} Pairing
+ * @typedef {{ id: string, phase: number, a: string, b: string, a2?: string, b2?: string }} Pairing
  * @typedef {{
  *   name: string, draw: 'app' | 'manual', phase: number, finished: boolean,
  *   approve: 'warmaster' | 'auto', format: 'deck' | 'event', schedule: number[], me: string | null,
@@ -51,7 +52,7 @@
  *   roster: 'none' | 'optional' | 'required', size: string | string[], battlesBy: 'players' | 'warmaster',
  *   rewardsBy: 'players' | 'warmaster', strict: boolean, pairBy: 'free' | 'warmaster' | 'random',
  *   phaseEnd: 'warmaster' | 'auto', deadlines: Array<string | null>, drawExtra: number, upgradeLimit: number,
- *   hands: 'open' | 'hidden',
+ *   hands: 'open' | 'hidden', teamAlliance: 'same' | 'any',
  *   pairings: Pairing[],
  *   locations: Record<number, string | null>, control: Record<string, string>,
  *   players: Player[], battles: Battle[], pending: Reward[],
@@ -89,9 +90,11 @@ export const SETTINGS_DEFAULTS = Object.freeze({
   draw: 'app', approve: 'warmaster', format: 'deck', schedule: DEFAULT_SCHEDULE, me: null,
   join: 'open', allianceBy: 'player', factionLock: true, allianceLock: true, roster: 'none', size: 'strikeForce',
   battlesBy: 'players', rewardsBy: 'players', strict: false, pairBy: 'free', phaseEnd: 'warmaster',
-  deadlines: [null, null, null], drawExtra: 0, upgradeLimit: UPGRADE_LIMIT, hands: 'open',
+  deadlines: [null, null, null], drawExtra: 0, upgradeLimit: UPGRADE_LIMIT, hands: 'open', teamAlliance: 'same',
 })
 const MAX_DRAW_EXTRA = 2
+// The most cards a team battle's reward may draw (1, +1 an Agenda Achieved, +2 the campaign's, +1 a Location).
+const MAX_TEAM_DRAW = 5
 const UPGRADE_LIMITS = [1, 5]
 const DATE = /^\d{4}-\d{2}-\d{2}$/
 
@@ -109,9 +112,35 @@ export function sizeOf(s, phase = s.phase) {
 const EXTRA_DRAW = { 'the-mannheim-gap': 'skill', 'the-morpheon-line': 'honour', 'volcanus-archipelago': 'relic' }
 /** @type {Array<'a' | 'b'>} */
 const SIDES = ['a', 'b']
+// A team battle (Doubles, owner 2026-11-06): two players a side, `a` + `a2` against `b` + `b2`. It
+// counts whole for each of the four; its rewards are the Warmaster's to hand out (`teamRewards`).
+/** @type {Array<'a' | 'a2' | 'b' | 'b2'>} */
+const SLOTS = ['a', 'a2', 'b', 'b2']
+/** The places a battle or a pairing fills. @param {any} b */
+const slotsOf = (b) => SLOTS.filter((k) => b?.[k])
+/** A battle or pairing of two a side. @param {any} b */
+export const isTeam = (b) => !!(b?.a2 && b?.b2)
+/** Everyone in a battle or pairing. @param {any} b @returns {string[]} */
+export const battlePlayers = (b) => slotsOf(b).map((k) => b[k])
+/** The place a player has in a battle or pairing, null when not in it. @param {any} b @param {string} id */
+export const slotOf = (b, id) => slotsOf(b).find((k) => b[k] === id) || null
+/** The side ('a' | 'b') a player is on. @param {any} b @param {string} id */
+export const sideOf = (b, id) => slotOf(b, id)?.[0] || null
+/** Who a player faced. @param {any} b @param {string} id @returns {string[]} */
+export const opponentsOf = (b, id) => {
+  const side = sideOf(b, id)
+  return side ? slotsOf(b).filter((k) => k[0] !== side).map((k) => b[k]) : []
+}
+/** A side's players. @param {any} b @param {'a' | 'b'} side */
+const teamOf = (b, side) => slotsOf(b).filter((k) => k[0] === side).map((k) => b[k])
+/** One side against the other, either way round. @param {any} x @param {string[]} A @param {string[]} B */
+const sameSides = (x, A, B) => {
+  const eq = (/** @type {string[]} */ p, /** @type {string[]} */ q) => p.length === q.length && p.every((id) => q.includes(id))
+  return (eq(teamOf(x, 'a'), A) && eq(teamOf(x, 'b'), B)) || (eq(teamOf(x, 'a'), B) && eq(teamOf(x, 'b'), A))
+}
 // What an `amend` may touch: the events that describe the campaign. Not an amend (a correction is
 // itself corrected by a newer amend of the same event), not the campaign's creation.
-const AMENDABLE = ['settings', 'player', 'location', 'pairing', 'battle', 'review', 'claim', 'draw', 'endPhase', 'adjust']
+const AMENDABLE = ['teamRewards', 'settings', 'player', 'location', 'pairing', 'battle', 'review', 'claim', 'draw', 'endPhase', 'adjust']
 // The rewards that are drawn from a deck (the rest ask the player something).
 const DRAWN = ['honour', 'skill', 'relic', 'fresh']
 
@@ -129,10 +158,45 @@ function empty() {
 /** @param {CampaignState} s @param {string} id */
 const playerById = (s, id) => s.players.find((p) => p.id === id) || null
 /** A battle of theirs is in the campaign (counted or waiting): the faction is kept from then. @param {CampaignState} s @param {string} id */
-const hasPlayed = (s, id) => s.battles.some((b) => b.status !== 'rejected' && (b.a === id || b.b === id))
+const hasPlayed = (s, id) => s.battles.some((b) => b.status !== 'rejected' && !!slotOf(b, id))
 
-/** The two are paired this phase (the Warmaster's pairings or the app's). @param {CampaignState} s @param {string} a @param {string} b */
-const paired = (s, a, b) => s.pairings.some((x) => x.phase === s.phase && ((x.a === a && x.b === b) || (x.a === b && x.b === a)))
+/** The sides are paired this phase (the Warmaster's pairings or the app's). @param {CampaignState} s @param {string[]} A @param {string[]} B */
+const paired = (s, A, B) => s.pairings.some((x) => x.phase === s.phase && sameSides(x, A, B))
+
+/**
+ * Who may stand against whom: one player a side from two Alliances; two a side, each side one
+ * Alliance against another unless the campaign lets a team mix them (`teamAlliance: 'any'`).
+ * @param {CampaignState} s @param {Player[]} A @param {Player[]} B
+ */
+function sidesRule(s, A, B) {
+  if ([...A, ...B].some((p) => !p.alliance)) return 'players of one Alliance'
+  if (A.length === 1) return A[0].alliance === B[0].alliance ? 'players of one Alliance' : null
+  if (s.teamAlliance === 'any') return null
+  const one = (/** @type {Player[]} */ t) => t.every((p) => p.alliance === t[0].alliance)
+  if (!one(A) || !one(B)) return 'team of two Alliances'
+  return A[0].alliance === B[0].alliance ? 'players of one Alliance' : null
+}
+/**
+ * The players a payload names, a side each: `a` (+ `a2`) against `b` (+ `b2`); null where one is
+ * unknown, named twice, or a side has a second player and the other not.
+ * @param {CampaignState} s @param {any} p
+ */
+function sidesOf(s, p) {
+  const team = 'a2' in p || 'b2' in p
+  if (team && !(p.a2 && p.b2)) return null
+  const ids = team ? [p.a, p.a2, p.b, p.b2] : [p.a, p.b]
+  const ps = ids.map((id) => playerById(s, id))
+  if (ps.some((x) => !x) || new Set(ids).size !== ids.length) return null
+  const all = ps.filter((p) => p != null)
+  return team ? { A: [all[0], all[1]], B: [all[2], all[3]], team } : { A: [all[0]], B: [all[1]], team }
+}
+
+/** The same side checks for the campaign's pickers and its event fold.
+ * @param {CampaignState} s @param {any} p */
+export function battleSidesReason(s, p) {
+  const sides = sidesOf(s, p)
+  return sides ? sidesRule(s, sides.A, sides.B) : 'unknown players'
+}
 
 /** @param {CampaignState} s @param {string | null} alliance @param {string} kind */
 function extraDraw(s, alliance, kind) {
@@ -177,6 +241,14 @@ export function drawFor(deck, p, r, random = Math.random) {
 /** @param {CampaignState} s @param {Battle} b */
 function approveBattle(s, b) {
   b.status = 'approved'
+  // A team battle: each player's Agenda Achieved is theirs; the cards wait for the Warmaster.
+  if (isTeam(b)) {
+    for (const k of slotsOf(b)) {
+      const p = playerById(s, b[k] || '')
+      if (p) gainAgenda(p, b.achieved[k] || 0, b.phase)
+    }
+    return
+  }
   for (const side of SIDES) {
     const p = playerById(s, b[side])
     if (!p) continue
@@ -191,12 +263,41 @@ function approveBattle(s, b) {
   }
 }
 
+/**
+ * What the booklet would give each player of a team battle, as one battle of their own: the
+ * victors a Battle Honour (Path to Conquest in phase 3), the others a Battle Skill (nothing in
+ * phase 3), a draw a Skill each, and one card more to draw with an Agenda Achieved. The Warmaster's
+ * window starts from it (owner, 2026-11-06).
+ * @param {CampaignState} s @param {Battle} b @returns {TeamReward[]}
+ */
+export function teamRewardsSuggested(s, b) {
+  return slotsOf(b).map((k) => {
+    const id = b[k] || ''
+    const p = playerById(s, id)
+    const won = b.victor === k[0]
+    if (b.phase === 3) return { player: id, kind: won ? 'conquest' : 'none', draw: 0 }
+    const kind = won ? 'honour' : 'skill'
+    return { player: id, kind, draw: 1 + ((b.achieved[k] || 0) > 0 ? 1 : 0) + extraDraw(s, p?.alliance ?? null, kind) + s.drawExtra }
+  })
+}
+
 /** @param {CampaignState} s @param {number} phase @param {Battle[]} battles */
 function honoursBy(s, phase, battles) {
   /** @type {Record<string, number>} */
   const out = {}
   for (const b of battles) {
-    if (b.status !== 'approved' || (phase && b.phase !== phase) || !b.victor) continue
+    if (b.status !== 'approved' || (phase && b.phase !== phase)) continue
+    // A team battle counts the Honours the Warmaster handed out, for the Alliance each went to.
+    if (isTeam(b)) {
+      for (const r of b.rewards || []) {
+        if (r.kind !== 'honour' && r.kind !== 'conquest') continue
+        const k = slotOf(b, r.player)
+        const a = (k && b.alliances?.[k]) ?? playerById(s, r.player)?.alliance
+        if (a) out[a] = (out[a] || 0) + 1
+      }
+      continue
+    }
+    if (!b.victor) continue
     // The Alliance the victor fought for: a player who changed Alliance since takes no Honour along.
     const a = b.alliances?.[b.victor] ?? playerById(s, b[b.victor])?.alliance
     if (a) out[a] = (out[a] || 0) + 1
@@ -365,7 +466,7 @@ function battleUpgrades(list, deck) {
   const out = []
   for (const u of list) {
     const side = u?.side
-    if ((side !== 'a' && side !== 'b') || !deck.upgrades.some((c) => c.slug === u.slug)) continue
+    if (!SLOTS.includes(side) || !deck.upgrades.some((c) => c.slug === u.slug)) continue
     if (out.filter((x) => x.side === side).length >= UPGRADES_PER_SIDE) continue
     out.push({ side, slug: u.slug, unit: typeof u.unit === 'string' ? u.unit.trim().slice(0, 80) : '' })
   }
@@ -381,8 +482,9 @@ function battleUpgrades(list, deck) {
  * @param {any} game a finished tracker game
  * @param {string} a @param {string} b
  * @param {0 | 1 | null} winner the side ahead (gameScoring.js `leader`), null on a draw
+ * @param {string | null} [a2] @param {string | null} [b2]
  */
-export function battleEvent(game, a, b, winner) {
+export function battleEvent(game, a, b, winner, a2 = null, b2 = null) {
   const phase = game.settings?.dominatus?.phase
   /** @type {Array<'a' | 'b'>} */
   const sides = ['a', 'b']
@@ -392,8 +494,11 @@ export function battleEvent(game, a, b, winner) {
     a,
     b,
     victor: winner === 0 ? 'a' : winner === 1 ? 'b' : null,
-    achieved: { a: game.players[0].agendaAchieved || 0, b: game.players[1].agendaAchieved || 0 },
-    upgrades: sides.flatMap((side, i) => (game.players[i].upgrades || []).map((/** @type {any} */ u) => ({ side, slug: u.slug, unit: u.unit || '' }))),
+    ...(a2 && b2 ? { a2, b2 } : {}),
+    achieved: a2 && b2
+      ? Object.fromEntries(sides.flatMap((side, i) => [0, 1].map((mi) => [mi ? `${side}2` : side, game.players[i].members?.[mi]?.agendaAchieved || 0])))
+      : { a: game.players[0].agendaAchieved || 0, b: game.players[1].agendaAchieved || 0 },
+    upgrades: sides.flatMap((side, i) => (game.players[i].upgrades || []).map((/** @type {any} */ u) => ({ side: a2 && b2 && u.mi === 1 ? `${side}2` : side, slug: u.slug, unit: u.unit || '' }))),
     // Played under strict rules: a campaign that asks for them takes a member's battle only so.
     strict: !!game.settings?.strictRules,
   }
@@ -406,7 +511,9 @@ export function battleEvent(game, a, b, winner) {
  * again; a side whose reward stays keeps its card.
  * @param {CampaignEvent[]} events
  * @param {string} battleId
- * @param {{ victor: 'a' | 'b' | null, achieved: { a: number, b: number } } | null} change
+ * A team battle corrected loses the Warmaster's hand-out and the cards drawn for it: they hand the
+ * cards out again.
+ * @param {{ victor: 'a' | 'b' | null, achieved: Record<string, number> } | null} change
  * @returns {Amendment[]}
  */
 export function battleAmend(events, battleId, change) {
@@ -414,15 +521,18 @@ export function battleAmend(events, battleId, change) {
   const be = live.find((e) => e.type === 'battle' && e.payload?.id === battleId)
   if (!be) return []
   const rewardOf = (/** @type {string} */ side) => `${battleId}:${side}`
+  const handOut = live.filter((e) => e.type === 'teamRewards' && e.payload?.battle === battleId).map((e) => ({ seq: e.seq, payload: null }))
   if (!change) {
     return [
       { seq: be.seq, payload: null },
       ...live.filter((e) => e.type === 'review' && e.payload?.battle === battleId).map((e) => ({ seq: e.seq, payload: null })),
-      ...rewardEdits(live, SIDES.map(rewardOf)),
+      ...handOut,
+      ...rewardEdits(live, SLOTS.map(rewardOf)),
     ]
   }
   const was = be.payload
-  const next = { ...was, victor: change.victor, achieved: { a: change.achieved.a, b: change.achieved.b } }
+  const next = { ...was, victor: change.victor, achieved: Object.fromEntries(slotsOf(was).map((k) => [k, Number(change.achieved?.[k]) || 0])) }
+  if (isTeam(was)) return [{ seq: be.seq, payload: next }, ...handOut, ...rewardEdits(live, SLOTS.map(rewardOf))]
   /** @param {any} b @param {string} side */
   const reward = (b, side) => `${b.victor === side ? 'honour' : 'skill'}:${(Number(b.achieved?.[side]) || 0) > 0}`
   const changed = SIDES.filter((side) => reward(was, side) !== reward(next, side)).map(rewardOf)
@@ -483,7 +593,7 @@ export function reopenPhase(events, s) {
  * @param {CampaignState} s @param {string} playerId
  */
 export function removable(s, playerId) {
-  return !s.battles.some((b) => b.a === playerId || b.b === playerId) && !s.pending.some((r) => r.player === playerId)
+  return !s.battles.some((b) => !!slotOf(b, playerId)) && !s.pending.some((r) => r.player === playerId)
 }
 
 /**
@@ -515,6 +625,7 @@ function apply(s, deck, e) {
       if (p.format === 'deck' || p.format === 'event') s.format = p.format
       if (Array.isArray(p.schedule) && p.schedule.length === 3) s.schedule = p.schedule.map((/** @type {any} */ n) => Math.max(0, Math.min(MAX_SCHEDULE, Math.floor(Number(n) || 0))))
       if (p.me !== undefined) s.me = typeof p.me === 'string' && p.me ? p.me : null
+      if (p.teamAlliance === 'same' || p.teamAlliance === 'any') s.teamAlliance = p.teamAlliance
       if (p.join === 'open' || p.join === 'closed') s.join = p.join
       if (p.allianceBy === 'player' || p.allianceBy === 'warmaster') s.allianceBy = p.allianceBy
       if (typeof p.factionLock === 'boolean') s.factionLock = p.factionLock
@@ -613,10 +724,12 @@ function apply(s, deck, e) {
       if (!owner) return 'owner only'
       if (s.finished || p.phase !== s.phase) return 'not the current phase'
       if (typeof p.id !== 'string' || !p.id || s.pairings.some((x) => x.id === p.id)) return 'duplicate pairing'
-      const a = playerById(s, p.a), b = playerById(s, p.b)
-      if (!a || !b || a === b) return 'unknown players'
-      if (!a.alliance || !b.alliance || a.alliance === b.alliance) return 'players of one Alliance'
-      s.pairings.push({ id: p.id, phase: s.phase, a: a.id, b: b.id })
+      const sides = sidesOf(s, p)
+      if (!sides) return 'unknown players'
+      const why = sidesRule(s, sides.A, sides.B)
+      if (why) return why
+      const [a, a2] = sides.A, [b, b2] = sides.B
+      s.pairings.push({ id: p.id, phase: s.phase, a: a.id, b: b.id, ...(sides.team ? { a2: a2.id, b2: b2.id } : {}) })
       return null
     }
 
@@ -628,23 +741,58 @@ function apply(s, deck, e) {
       if (p.phase != null && p.phase < s.phase) return 'phase ended'
       if (p.phase != null && p.phase !== s.phase) return 'not the current phase'
       if (typeof p.id !== 'string' || s.battles.some((b) => b.id === p.id)) return 'duplicate battle'
-      const a = playerById(s, p.a), b = playerById(s, p.b)
-      if (!a || !b || a === b) return 'unknown players'
-      if (!a.alliance || !b.alliance || a.alliance === b.alliance) return 'players of one Alliance'
-      if (!owner && a.member !== e.author && b.member !== e.author) return 'not your battle'
+      const sides = sidesOf(s, p)
+      if (!sides) return 'unknown players'
+      const why = sidesRule(s, sides.A, sides.B)
+      if (why) return why
+      const everyone = [...sides.A, ...sides.B]
+      if (!owner && !everyone.some((x) => x.member === e.author)) return 'not your battle'
       if (!owner && s.battlesBy === 'warmaster') return 'battles by the warmaster'
-      if (!owner && s.roster === 'required' && (!a.roster || !b.roster)) return 'no roster'
+      if (!owner && s.roster === 'required' && everyone.some((x) => !x.roster)) return 'no roster'
       if (!owner && s.strict && p.strict !== true) return 'not strict rules'
-      if (!owner && s.pairBy !== 'free' && !paired(s, a.id, b.id)) return 'not paired'
+      if (!owner && s.pairBy !== 'free' && !paired(s, sides.A.map((x) => x.id), sides.B.map((x) => x.id))) return 'not paired'
       if (p.victor !== 'a' && p.victor !== 'b' && p.victor !== null) return 'bad victor'
       const cap = s.phase === 3 ? 2 : 1
       /** @param {any} n */
       const ach = (n) => Math.max(0, Math.min(cap, Math.floor(Number(n) || 0)))
+      const [a, a2] = sides.A, [b, b2] = sides.B
+      const slots = sides.team ? { a, a2, b, b2 } : { a, b }
       /** @type {Battle} */
-      const battle = { id: p.id, phase: s.phase, a: a.id, b: b.id, victor: p.victor, achieved: { a: ach(p.achieved?.a), b: ach(p.achieved?.b) }, upgrades: battleUpgrades(p.upgrades, deck), alliances: { a: a.alliance, b: b.alliance }, status: 'pending', by: e.author, edited: !!e.amended }
+      const battle = {
+        id: p.id, phase: s.phase, a: a.id, b: b.id, ...(sides.team ? { a2: a2.id, b2: b2.id, rewards: null } : {}), victor: p.victor,
+        achieved: Object.fromEntries(Object.keys(slots).map((k) => [k, ach(p.achieved?.[k])])),
+        upgrades: battleUpgrades(p.upgrades, deck),
+        alliances: Object.fromEntries(Object.entries(slots).map(([k, x]) => [k, x.alliance])),
+        status: 'pending', by: e.author, edited: !!e.amended,
+      }
       s.battles.push(battle)
       // The Warmaster's own entry needs no second look, nor any under a campaign that counts at once.
       if (owner || s.approve === 'auto') approveBattle(s, battle)
+      return null
+    }
+
+    case 'teamRewards': {
+      // The Warmaster hands out a counted team battle's cards, one reward a player, once.
+      if (!owner) return 'owner only'
+      const b = s.battles.find((x) => x.id === p.battle)
+      if (!b || !isTeam(b) || b.status !== 'approved') return 'no team battle'
+      if (b.rewards) return 'rewards given'
+      if (b.phase !== s.phase || s.finished) return 'phase ended'
+      const list = Array.isArray(p.rewards) ? p.rewards : []
+      const ids = list.map((/** @type {any} */ r) => r?.player)
+      if (list.length !== 4 || new Set(ids).size !== 4 || ids.some((/** @type {any} */ id) => !slotOf(b, id))) return 'bad rewards'
+      const KINDS = b.phase === 3 ? ['conquest', 'none'] : ['honour', 'skill', 'none']
+      if (list.some((/** @type {any} */ r) => !KINDS.includes(r.kind))) return 'bad rewards'
+      /** @type {TeamReward[]} */
+      const rewards = list.map((/** @type {any} */ r) => ({ player: r.player, kind: r.kind, draw: r.kind === 'honour' || r.kind === 'skill' ? Math.max(1, Math.min(MAX_TEAM_DRAW, Math.floor(Number(r.draw) || 1))) : 0 }))
+      for (const r of rewards) {
+        const k = slotOf(b, r.player)
+        const pl = playerById(s, r.player)
+        if (!pl || !k) continue
+        if (r.kind === 'conquest' && !pl.upgrades.includes(PATH_TO_CONQUEST)) pl.upgrades.push(PATH_TO_CONQUEST)
+        if (r.kind === 'honour' || r.kind === 'skill') s.pending.push({ id: `${b.id}:${k}`, player: pl.id, kind: r.kind, phase: b.phase, draw: r.draw, battle: b.id, drawn: null })
+      }
+      b.rewards = rewards
       return null
     }
 
@@ -715,6 +863,7 @@ function apply(s, deck, e) {
       if (!owner) return 'owner only'
       if (s.finished || p.phase !== s.phase) return 'not the current phase'
       if (!s.locations[s.phase]) return 'no Location chosen'
+      if (s.battles.some((b) => b.phase === s.phase && isTeam(b) && b.status === 'approved' && !b.rewards)) return 'team rewards pending'
       endPhase(s, deck, s.phase, typeof p.control === 'string' ? p.control : null)
       return null
 
@@ -748,7 +897,7 @@ export function recordOf(s, playerId) {
   const r = { won: 0, drawn: 0, lost: 0 }
   for (const b of s.battles) {
     if (b.status !== 'approved') continue
-    const side = b.a === playerId ? 'a' : b.b === playerId ? 'b' : null
+    const side = sideOf(b, playerId)
     if (!side) continue
     if (!b.victor) r.drawn++
     else if (b.victor === side) r.won++
@@ -762,7 +911,7 @@ export function recordOf(s, playerId) {
  * @param {CampaignState} s @param {string} playerId @param {number} [phase]
  */
 export function playedIn(s, playerId, phase = s.phase) {
-  return s.battles.filter((b) => b.phase === phase && b.status !== 'rejected' && (b.a === playerId || b.b === playerId)).length
+  return s.battles.filter((b) => b.phase === phase && b.status !== 'rejected' && !!slotOf(b, playerId)).length
 }
 
 /**
@@ -790,7 +939,7 @@ export function playerStanding(s, player, cards) {
 export function scheduleProgress(s) {
   const due = s.schedule[s.phase - 1] ?? 0
   const rows = s.players.filter((p) => p.alliance).map((p) => ({ player: p.id, played: playedIn(s, p.id), due }))
-  const waiting = s.battles.some((b) => b.phase === s.phase && b.status === 'pending')
+  const waiting = s.battles.some((b) => b.phase === s.phase && (b.status === 'pending' || (isTeam(b) && b.status === 'approved' && !b.rewards)))
   return { due, rows, done: !s.finished && due > 0 && rows.length > 0 && rows.every((r) => r.played >= due) && !waiting }
 }
 
@@ -801,12 +950,12 @@ export function scheduleProgress(s) {
 export function pairingsNow(s) {
   return s.pairings.filter((x) => x.phase === s.phase).map((x) => ({
     ...x,
-    played: s.battles.some((b) => b.phase === x.phase && b.status !== 'rejected' && ((b.a === x.a && b.b === x.b) || (b.a === x.b && b.b === x.a))),
+    played: s.battles.some((b) => b.phase === x.phase && b.status !== 'rejected' && sameSides(b, teamOf(x, 'a'), teamOf(x, 'b'))),
   }))
 }
 
 /**
- * @typedef {{ kind: string, todo: boolean, tab: string, n?: number, player?: string, reward?: Reward, battle?: Battle, faction?: string, alliance?: string }} NextStep
+ * @typedef {{ kind: string, todo: boolean, tab: string, n?: number, player?: string, players?: string[], reward?: Reward, battle?: Battle, faction?: string, alliance?: string }} NextStep
  */
 
 /**
@@ -828,11 +977,15 @@ export function nextSteps(s, me, owner) {
     if (takeablePlayers(s).length) return [{ kind: 'take', todo: true, tab: 'players' }]
     return s.join === 'open' ? [{ kind: 'register', todo: true, tab: 'players' }] : []
   }
-  const other = (/** @type {Battle} */ b, /** @type {string} */ id) => (b.a === id ? b.b : b.a)
+  // Who a player faced: `player` the first, `players` all of them (a team battle's two).
+  const against = (/** @type {any} */ b, /** @type {string} */ id) => {
+    const them = opponentsOf(b, id)
+    return { player: them[0], ...(them.length > 1 ? { players: them } : {}) }
+  }
   // Rewards: a player's own (or handed out by the Warmaster); the Warmaster's, everyone's they hand out.
   for (const r of s.pending.filter((x) => me && x.player === me.id)) {
     const battle = s.battles.find((b) => b.id === r.battle)
-    const step = { kind: 'reward', tab: 'rewards', reward: r, ...(battle && me ? { player: other(battle, me.id) } : {}) }
+    const step = { kind: 'reward', tab: 'rewards', reward: r, ...(battle && me ? against(battle, me.id) : {}) }
     if (owner || s.rewardsBy !== 'warmaster') todo.push({ ...step, todo: true })
     else wait.push({ ...step, kind: 'rewardWait', todo: false })
   }
@@ -850,6 +1003,8 @@ export function nextSteps(s, me, owner) {
     if (!located) todo.push(stagingBy ? { kind: 'locationBy', todo: true, tab: 'phase', alliance: stagingBy } : { kind: 'location', todo: true, tab: 'phase' })
     const toCount = s.battles.filter((b) => b.status === 'pending').length
     if (toCount) todo.push({ kind: 'count', todo: true, tab: 'battles', n: toCount })
+    const toHandOut = s.battles.filter((b) => isTeam(b) && b.status === 'approved' && !b.rewards).length
+    if (toHandOut) todo.push({ kind: 'teamRewards', todo: true, tab: 'battles', n: toHandOut })
     const toGive = s.pending.filter((x) => x.player !== me?.id).length
     if (toGive && s.rewardsBy === 'warmaster') todo.push({ kind: 'give', todo: true, tab: 'rewards', n: toGive })
     for (const p of s.players.filter((x) => x.factionAsk)) todo.push({ kind: 'factionAsk', todo: true, tab: 'players', player: p.id, faction: p.factionAsk || undefined })
@@ -860,18 +1015,24 @@ export function nextSteps(s, me, owner) {
   if (!owner && me?.factionAsk) wait.push({ kind: 'factionAskWait', todo: false, tab: 'players', player: me.id, faction: me.factionAsk || undefined })
   if (!owner && me?.allianceAsk) wait.push({ kind: 'allianceAskWait', todo: false, tab: 'players', player: me.id, alliance: me.allianceAsk || undefined })
   if (me && me.alliance) {
-    for (const b of s.battles.filter((x) => x.phase === s.phase && x.status === 'pending' && (x.a === me.id || x.b === me.id))) {
-      wait.push({ kind: 'waitCount', todo: false, tab: 'battles', battle: b, player: other(b, me.id) })
+    for (const b of s.battles.filter((x) => x.phase === s.phase && x.status === 'pending' && !!slotOf(x, me.id))) {
+      wait.push({ kind: 'waitCount', todo: false, tab: 'battles', battle: b, ...against(b, me.id) })
+    }
+    // A counted team battle whose cards the Warmaster has not handed out yet.
+    if (!owner) {
+      for (const b of s.battles.filter((x) => isTeam(x) && x.status === 'approved' && !x.rewards && !!slotOf(x, me.id))) {
+        wait.push({ kind: 'teamRewardsWait', todo: false, tab: 'battles', battle: b, ...against(b, me.id) })
+      }
     }
     const due = s.schedule[s.phase - 1] ?? 0
     const left = due - playedIn(s, me.id)
-    const paired = pairingsNow(s).filter((x) => !x.played && (x.a === me.id || x.b === me.id))
+    const paired = pairingsNow(s).filter((x) => !x.played && !!slotOf(x, me.id))
     if (left > 0 && !located && !owner) {
       if (stagingBy && stagingBy === me.alliance) todo.push({ kind: 'chooseLocation', todo: true, tab: 'phase', alliance: stagingBy })
       else wait.push(stagingBy ? { kind: 'waitLocationBy', todo: false, tab: 'phase', alliance: stagingBy } : { kind: 'waitLocation', todo: false, tab: 'phase' })
     }
     else if (left > 0 && located && !(s.battlesBy === 'warmaster' && !owner)) {
-      for (const x of paired.slice(0, left)) todo.push({ kind: 'play', todo: true, tab: 'battles', player: x.a === me.id ? x.b : x.a })
+      for (const x of paired.slice(0, left)) todo.push({ kind: 'play', todo: true, tab: 'battles', ...against(x, me.id) })
       // Under pairings a battle is played only with the paired opponent.
       if (left > paired.length && s.pairBy === 'free') todo.push({ kind: 'playMore', todo: true, tab: 'battles', n: left - paired.length })
       else if (!paired.length && s.pairBy !== 'free') wait.push({ kind: 'waitPairs', todo: false, tab: 'battles' })
@@ -888,7 +1049,8 @@ export function nextSteps(s, me, owner) {
  * @returns {Set<string>}
  */
 export function likelyDuplicates(s) {
-  const key = (/** @type {Battle} */ b) => `${b.phase}:${[b.a, b.b].sort().join('|')}`
+  // The same sides, either way round: each side's players sorted, the two sides sorted.
+  const key = (/** @type {Battle} */ b) => `${b.phase}:${[teamOf(b, 'a').sort().join('+'), teamOf(b, 'b').sort().join('+')].sort().join('|')}`
   /** @type {Map<string, number>} */
   const n = new Map()
   for (const b of s.battles) if (b.status !== 'rejected') n.set(key(b), (n.get(key(b)) || 0) + 1)

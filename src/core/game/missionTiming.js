@@ -22,6 +22,7 @@
 // "(or the end of your turn in the fifth battle round)": in round 5 the moment can also come at
 // the end of the round itself, whoever's turn closes it.
 import { turnIndex } from './clock.js'
+import { primaryEntries } from './gameScoring.js'
 
 /** @typedef {import('./missionCards.js').MissionBlock} MissionBlock */
 /** @typedef {import('./missionCards.js').Mission} Mission */
@@ -153,22 +154,23 @@ export function turnEndChecks(game, scorable, missionEn, discarding = null) {
   const R = game.currentRound
   const T = turnIndex(game)
   const last = R === 5 && T === 1
-  /** @type {Array<{ pi: number, slug: string | null, blocks: ScoringBlock[] }>} */
+  /** @type {Array<{ pi: number, slug: string | null, blocks: ScoringBlock[], mi?: number }>} */
   const out = []
   /**
    * @param {number} pi
    * @param {string} slug
    * @param {string | null | undefined} role
    * @param {(m: ScoringMoment | null) => boolean} keep
+   * @param {number | null} [mi]
    */
-  const pick = (pi, slug, role, keep) => {
+  const pick = (pi, slug, role, keep, mi = null) => {
     const pl = game.players[pi]
     const en = missionEn(slug, role)
     const blocks = scorable(slug, role, R).filter((b) => {
       if (role && pl.secondaryMode && b.kind && b.kind !== pl.secondaryMode) return false
       return keep(scoringMoment(en?.blocks[b.bi]))
     })
-    if (blocks.length) out.push({ pi, slug: role ? slug : null, blocks })
+    if (blocks.length) out.push({ pi, slug: role ? slug : null, blocks, ...(mi == null ? {} : { mi }) })
   }
   game.players.forEach((pl, pi) => {
     const opp = pi !== T
@@ -185,7 +187,7 @@ export function turnEndChecks(game, scorable, missionEn, discarding = null) {
       return false
     }
     for (const slug of pl.secondary?.hand || []) if (!leaving.some((d) => d?.pi === pi && d.slug === slug)) pick(pi, slug, pl.role, due)
-    if (pl.primarySlug) pick(pi, pl.primarySlug, null, due)
+    for (const { player, mi } of primaryEntries(pl)) if (player.primarySlug) pick(pi, player.primarySlug, null, due, mi)
   })
   return out
 }
@@ -222,10 +224,10 @@ export function cardMoments(game, pi, scorable, missionEn, missionName) {
     if (m.at === 'any-turn') return 'turn-end'
     return null
   }
-  /** @type {Array<{ at: string, slug: string | null, name: string }>} */
+  /** @type {Array<{ at: string, slug: string | null, name: string, mi?: number }>} */
   const out = []
-  /** @param {string} slug @param {string | null | undefined} role */
-  const pick = (slug, role) => {
+  /** @param {string} slug @param {string | null | undefined} role @param {number | null} [mi] */
+  const pick = (slug, role, mi = null) => {
     const en = missionEn(slug, role)
     const at = new Set()
     for (const b of scorable(slug, role, R)) {
@@ -233,9 +235,9 @@ export function cardMoments(game, pi, scorable, missionEn, missionName) {
       const s = stepOf(scoringMoment(en?.blocks[b.bi]))
       if (s) at.add(s)
     }
-    for (const s of at) out.push({ at: s, slug: role ? slug : null, name: missionName(slug, role) })
+    for (const s of at) out.push({ at: s, slug: role ? slug : null, name: missionName(slug, role), ...(mi == null ? {} : { mi }) })
   }
-  if (pl.primarySlug) pick(pl.primarySlug, null)
+  for (const { player, mi } of primaryEntries(pl)) if (player.primarySlug) pick(player.primarySlug, null, mi)
   for (const slug of pl.secondary?.hand || []) pick(slug, pl.role)
   return out
 }

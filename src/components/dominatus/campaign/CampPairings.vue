@@ -15,7 +15,7 @@
           :key="x.id"
           class="camp-battle"
         >
-          <span>{{ labels.campPairLine.replace('{a}', playerName(x.a)).replace('{b}', playerName(x.b)) }}</span>
+          <span>{{ labels.campPairLine.replace('{a}', sideName(x, 'a')).replace('{b}', sideName(x, 'b')) }}</span>
           <span class="camp-dim">{{ x.played ? labels.campPairPlayed : labels.campPairWaiting }}</span>
           <button
             v-if="isOwner && !x.played"
@@ -48,22 +48,14 @@
         class="camp-form"
         @submit.prevent="addPairing().then((ok) => ok && close())"
       >
-        <div class="camp-pair">
-          <CampPick
-            v-model="pa"
-            :placeholder="labels.campSideA"
-            :options="state.players.filter((p) => p.alliance).map(playerOption)"
-          />
-          <CampPick
-            v-model="pb"
-            :placeholder="labels.campSideB"
-            :options="opponentsOf(pa).map(playerOption)"
-          />
-        </div>
+        <CampBattleSides
+          v-model="sides"
+          pairing
+        />
         <button
           class="btn-primary"
           type="submit"
-          :disabled="!pa || !pb"
+          :disabled="!!battleSidesReason(state, sides)"
         >
           {{ labels.campPairAdd }}
         </button>
@@ -76,24 +68,19 @@
 // Pairings of the running phase, on the battles tab beside the battles they are for: set by the
 // Warmaster, taken back by an amend of the event that set it.
 import { ref, computed } from 'vue'
-import CampPick from './CampPick.vue'
+import CampBattleSides from './CampBattleSides.vue'
 import CampOpenForm from './CampOpenForm.vue'
-import { pairingsNow, amendments, randomPairings } from '../../../core/dominatus/campaign.js'
+import { pairingsNow, amendments, randomPairings, battleSidesReason } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 
-const { entry, state, isOwner, act, labels, playerName, playerOption, onAsk } = useCampaignView()
+const { entry, state, isOwner, act, labels, playerName, onAsk } = useCampaignView()
 
 const pairings = computed(() => pairingsNow(state.value))
-const pa = ref(null)
-const pb = ref(null)
-const opponentsOf = (id) => {
-  const me = state.value.players.find((p) => p.id === id)
-  return state.value.players.filter((p) => p.id !== id && p.alliance && p.alliance !== me?.alliance)
-}
+const sides = ref({ a: null, b: null })
+const sideName = (p, side) => [p[side], p[`${side}2`]].filter(Boolean).map(playerName).join(' + ')
 async function addPairing() {
-  if (!(await act('pairing', { id: `x${Date.now().toString(36)}`, phase: state.value.phase, a: pa.value, b: pb.value }))) return false
-  pa.value = null
-  pb.value = null
+  if (!(await act('pairing', { id: `x${Date.now().toString(36)}`, phase: state.value.phase, ...sides.value }))) return false
+  sides.value = { a: null, b: null }
   return true
 }
 // The draw: written as the Warmaster's pairings, one event each, so each is taken back the same way.

@@ -121,6 +121,7 @@ import { useLocale } from '../../composables/useLocale.js'
 
 const props = defineProps({
   pi: { type: Number, required: true },
+  mi: { type: Number, default: null },
   editable: { type: Boolean, default: true },
 })
 const { locale } = useLocale()
@@ -132,14 +133,19 @@ const { byId, stateOf } = useCampaigns()
 // other battle offers the whole deck (the players say what they hold).
 const held = computed(() => {
   const cid = current.value.settings?.dominatus?.campaign
-  const pid = current.value.players[props.pi].campaignPlayer
+  const side = current.value.players[props.pi]
+  const pid = (props.mi == null ? side : side.members?.[props.mi])?.campaignPlayer
   if (!cid || !pid || !byId(cid)) return null
   const p = stateOf(cid)?.players.find((x) => x.id === pid)
   return p ? new Set(p.upgrades) : null
 })
 const offered = (ups) => (held.value ? ups.filter((u) => held.value.has(u.slug)) : ups)
 
-const list = computed(() => current.value.players[props.pi].upgrades || [])
+const list = computed(() => (current.value.players[props.pi].upgrades || []).filter((u) => props.mi == null || (u.mi ?? 0) === props.mi))
+function write(list) {
+  const other = (current.value.players[props.pi].upgrades || []).filter((u) => props.mi != null && (u.mi ?? 0) !== props.mi)
+  setUpgrades(props.pi, [...other, ...list.map((u) => props.mi == null ? u : { ...u, mi: props.mi })])
+}
 const limit = computed(() => upgradeLimit(current.value.settings?.dominatus))
 const taken = computed(() => new Set(list.value.map((u) => u.slug)))
 const groups = computed(() => {
@@ -156,11 +162,11 @@ const groups = computed(() => {
 const units = ref([])
 watch(() => JSON.stringify((current.value.players[props.pi].members || [current.value.players[props.pi]]).map((m) => m?.roster?.units?.length ? m.rosterId || m.roster.name || 1 : null)), async () => {
   const { loadUpgradeUnits } = await import('../../composables/dominatusUpgradeUnits.js')
-  units.value = await loadUpgradeUnits(current.value.players[props.pi])
+  units.value = (await loadUpgradeUnits(current.value.players[props.pi])).filter((u) => props.mi == null || u.mi === props.mi)
   // Cards brought in pinned on the list (GameSetup) name their unit by uid alone: the name is the
   // list's, read here with its datasheets, and the table says it.
   if (props.editable && list.value.some((u) => u.uid && !u.unit)) {
-    setUpgrades(props.pi, list.value.map((u) => {
+    write(list.value.map((u) => {
       const x = u.uid && !u.unit && units.value.find((y) => y.uid === u.uid)
       return x ? { ...u, unit: x.name, mi: x.mi } : u
     }))
@@ -199,15 +205,15 @@ function rowNote(u) {
 }
 
 function set(k, patch) {
-  setUpgrades(props.pi, list.value.map((u, i) => (i === k ? { ...u, ...patch } : u)))
+  write(list.value.map((u, i) => (i === k ? { ...u, ...patch } : u)))
 }
 function remove(k) {
-  setUpgrades(props.pi, list.value.filter((_, i) => i !== k))
+  write(list.value.filter((_, i) => i !== k))
 }
 const hasFree = computed(() => offered(domUpgrades()).some((u) => !taken.value.has(u.slug)))
 function add() {
   const free = offered(domUpgrades()).find((u) => !taken.value.has(u.slug))
-  if (free) setUpgrades(props.pi, [...list.value, { slug: free.slug, unit: '' }])
+  if (free) write([...list.value, { slug: free.slug, unit: '' }])
 }
 </script>
 

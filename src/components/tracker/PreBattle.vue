@@ -135,9 +135,23 @@
               :style="sideColor(i)"
             >{{ name(i) }}</span>
             <DomUpgradesEditor
+              v-if="!p.members"
               :pi="i"
               :editable="canEdit(i)"
             />
+            <template v-else>
+              <div
+                v-for="(m, mi) in p.members"
+                :key="mi"
+              >
+                <span class="pb-player">{{ m.name }}</span>
+                <DomUpgradesEditor
+                  :pi="i"
+                  :mi="mi"
+                  :editable="canEdit(i)"
+                />
+              </div>
+            </template>
           </div>
         </div>
       </li>

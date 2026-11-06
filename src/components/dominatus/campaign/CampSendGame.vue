@@ -28,7 +28,7 @@
           />
         </label>
         <label
-          v-for="(p, i) in game.players"
+          v-for="(p, i) in entrants"
           :key="i"
           class="field"
         >
@@ -42,7 +42,7 @@
         <button
           type="button"
           class="btn-primary"
-          :disabled="!pick[0] || !pick[1] || pick[0] === pick[1] || busy"
+          :disabled="!validPicks || busy"
           @click="send()"
         >
           {{ labels.campSend }}
@@ -89,7 +89,16 @@ const { campaigns, stateOf, myPlayer, appendEvent, syncCampaign } = useCampaigns
 
 const options = computed(() => campaigns.value.filter((c) => c.role === 'owner' || c.role === 'member'))
 const cid = ref(null)
-const pick = reactive({ 0: null, 1: null })
+const pick = reactive({ 0: null, 1: null, 2: null, 3: null })
+const doubles = computed(() => props.game.settings?.gameType === 'doubles')
+// Interleaved by side, so [0,1] stay a/b and [2,3] are a2/b2.
+const entrants = computed(() => doubles.value
+  ? [props.game.players[0].members?.[0], props.game.players[1].members?.[0], props.game.players[0].members?.[1], props.game.players[1].members?.[1]].map((p) => p || {})
+  : props.game.players)
+const validPicks = computed(() => {
+  const ids = entrants.value.map((_, i) => pick[i])
+  return ids.every(Boolean) && new Set(ids).size === ids.length
+})
 const busy = ref(false)
 const error = ref('')
 // A battle started from a campaign goes back to it, as the players it was started for.
@@ -118,15 +127,15 @@ function playersFor(i) {
   const s = state.value
   if (!s) return []
   const mine = myPlayer(entry.value, s)
-  const all = s.players.filter((p) => p.alliance === props.game.players[i].alliance || !props.game.players[i].alliance)
-  return mine && props.game.players[i].isYou ? [mine] : all
+  const all = s.players.filter((p) => p.alliance === entrants.value[i].alliance || !entrants.value[i].alliance)
+  return mine && (doubles.value ? entrants.value[i].campaignPlayer === mine.id : props.game.players[i].isYou) ? [mine] : all
 }
 watch([state, () => props.game], () => {
-  for (const i of [0, 1]) {
+  for (const i of entrants.value.keys()) {
     const list = playersFor(i)
-    const byName = list.find((p) => p.name && p.name === props.game.players[i].name)
-    const byLink = cid.value === linked.value ? list.find((p) => p.id === props.game.players[i].campaignPlayer) : null
-    if (!pick[i]) pick[i] = (byLink || (list.length === 1 ? list[0] : byName))?.id || null
+    const byName = list.find((p) => p.name && p.name === entrants.value[i].name)
+    const byLink = cid.value === linked.value ? list.find((p) => p.id === entrants.value[i].campaignPlayer) : null
+    if (!pick[i] || !list.some((p) => p.id === pick[i])) pick[i] = (byLink || (list.length === 1 ? list[0] : byName))?.id || null
   }
 }, { immediate: true })
 
@@ -134,7 +143,7 @@ async function send(quietDuplicate = false) {
   busy.value = true
   error.value = ''
   try {
-    await appendEvent(cid.value, 'battle', battleEvent(props.game, pick[0], pick[1], leader(props.game)))
+    await appendEvent(cid.value, 'battle', battleEvent(props.game, pick[0], pick[1], leader(props.game), doubles.value ? pick[2] : null, doubles.value ? pick[3] : null))
     // The server keeps every entry; whether the campaign took it is the fold's word.
     const why = stateOf(cid.value)?.rejected.find((r) => r.seq === entry.value?.seq)?.reason
     if (why && !(quietDuplicate && why === 'duplicate battle')) error.value = refusalText(labels.value, why)
@@ -149,7 +158,7 @@ async function send(quietDuplicate = false) {
 const tried = ref(false)
 const ready = computed(() => {
   if (!props.auto || tried.value || !linked.value || cid.value !== linked.value || !state.value) return false
-  return [0, 1].every((i) => props.game.players[i]?.campaignPlayer && pick[i] === props.game.players[i].campaignPlayer)
+  return validPicks.value && entrants.value.every((p, i) => p.campaignPlayer && pick[i] === p.campaignPlayer)
 })
 watch(ready, async (go) => {
   if (!go) return

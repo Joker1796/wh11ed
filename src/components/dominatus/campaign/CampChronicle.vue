@@ -87,6 +87,7 @@ function rewardPlayer(id) {
   const b = state.value.battles.find((x) => x.id === head)
   return b ? b[kind] : ''
 }
+const sideName = (p, side) => [p[side], p[`${side}2`]].filter(Boolean).map(playerName).join(' + ')
 const why = (reason) => refusalText(labels.value, reason)
 function describe(e, seenPlayers) {
   const l = labels.value
@@ -100,18 +101,19 @@ function describe(e, seenPlayers) {
       return (fresh ? l.campChrPlayerNew : l.campChrPlayerEdit).replace('{p}', playerName(p.id))
     }
     case 'location': return l.campChrLocation.replace('{phase}', phaseLabel(p.phase)).replace('{loc}', locationName(p.slug))
-    case 'pairing': return l.campChrPairing.replace('{phase}', phaseLabel(p.phase)).replace('{a}', playerName(p.a)).replace('{b}', playerName(p.b))
+    case 'pairing': return l.campChrPairing.replace('{phase}', phaseLabel(p.phase)).replace('{a}', sideName(p, 'a')).replace('{b}', sideName(p, 'b'))
     case 'battle': {
-      const res = p.victor ? l.campWon.replace('{p}', playerName(p[p.victor])) : l.campDrawRes
-      const line = l.campChrBattle.replace('{a}', playerName(p.a)).replace('{b}', playerName(p.b)).replace('{res}', res)
+      const res = p.victor ? l.campWon.replace('{p}', sideName(p, p.victor)) : l.campDrawRes
+      const line = l.campChrBattle.replace('{a}', sideName(p, 'a')).replace('{b}', sideName(p, 'b')).replace('{res}', res)
       // The Upgrades it was played with: which card went to which unit, and whose.
-      const ups = (Array.isArray(p.upgrades) ? p.upgrades : []).filter((u) => u?.side === 'a' || u?.side === 'b').map((u) => (u.unit ? l.campChrUpgrade : l.campChrUpgradeBare)
+      const ups = (Array.isArray(p.upgrades) ? p.upgrades : []).filter((u) => ['a', 'a2', 'b', 'b2'].includes(u?.side)).map((u) => (u.unit ? l.campChrUpgrade : l.campChrUpgradeBare)
         .replace('{card}', upgradeName(u.slug)).replace('{unit}', u.unit).replace('{p}', playerName(p[u.side])))
       return ups.length ? l.campChrUpgrades.replace('{line}', line).replace('{list}', ups.join(', ')) : line
     }
+    case 'teamRewards': return l.campChrTeamRewards.replace('{p}', (p.rewards || []).map((r) => playerName(r.player)).join(', '))
     case 'review': {
       const b = state.value.battles.find((x) => x.id === p.battle)
-      const pair = b ? `${playerName(b.a)} — ${playerName(b.b)}` : ''
+      const pair = b ? `${sideName(b, 'a')} — ${sideName(b, 'b')}` : ''
       return (p.ok ? l.campChrCounted : l.campChrRefused).replace('{pair}', pair)
     }
     case 'draw': return l.campChrDraw.replace('{p}', playerName(rewardPlayer(p.reward))).replace('{n}', (p.cards || []).length)

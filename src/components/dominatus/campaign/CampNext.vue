@@ -61,7 +61,7 @@ defineEmits(['go'])
 
 const { entry, state, isOwner, mine, labels, stepText, phaseDeadline } = useCampaignView()
 // The steps whose button opens a dialog.
-const OPENS_DIALOG = new Set(['play', 'playMore', 'location', 'locationBy', 'endPhase', 'register'])
+const OPENS_DIALOG = new Set(['play', 'playMore', 'location', 'locationBy', 'endPhase', 'register', 'teamRewards'])
 const steps = computed(() => (entry.value?.role === 'viewer' ? [] : nextSteps(state.value, mine.value, isOwner.value)))
 
 </script>

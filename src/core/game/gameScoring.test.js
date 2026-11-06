@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   PRIMARY_GAME_CAP, FIXED_SECONDARY_CAP, TACTICAL_SECONDARY_CAP, SECONDARY_GAME_CAP, SECONDARY_ROUND_CAP, BATTLE_READY_VP,
-  primaryTotal, secondaryTotal, secondaryRounds, secondaryInRound, grandTotal, leader,
+  primaryEntries, personalPrimaryTotal, primaryTotal, secondaryTotal, secondaryRounds, secondaryInRound, grandTotal, leader,
   battlePointsFromVp, battlePoints, BP_TABLE, concededSide, endReasonFor, roundBreakdown, youIndex,
 } from './gameScoring.js'
 
@@ -23,6 +23,23 @@ function withPrimary(perRound) {
 }
 
 describe('primaryTotal', () => {
+  it('caps each personal Primary before adding the partners, without counting the cached team score', () => {
+    const g = game({ rounds: withPrimary([30, 30, 0, 0, 0]).rounds, members: [withPrimary([15,15,15,15,0]), withPrimary([5,0,0,0,0])] })
+    expect(primaryEntries(g.players[0]).map((e) => e.mi)).toEqual([0,1])
+    expect(personalPrimaryTotal(g.players[0].members[0])).toBe(45)
+    expect(primaryTotal(g,0)).toBe(50)
+    expect(roundBreakdown(g,0)[0].primary).toBe(20)
+    expect(roundBreakdown(g,0)[4].cumulativeVp).toBe(50)
+    expect(grandTotal(g,0)).toBe(50)
+  })
+  it('keeps an older Doubles game’s team Primary and handles missing sides', () => {
+    const g = game({ rounds: withPrimary([15,15,15,15,0]).rounds, members: [{ name:'Ann' },{ name:'Ben' }] })
+    expect(primaryEntries(g.players[0]).map((e) => e.mi)).toEqual([null])
+    expect(primaryTotal(g,0)).toBe(45)
+    expect(primaryEntries(null)).toEqual([])
+    expect(primaryTotal(g,4)).toBe(0)
+  })
+
   it('sums per-round primary VP', () => {
     expect(primaryTotal(game(), 0)).toBe(0)
     const g = { players: [withPrimary([10, 10, 5, 0, 0]), player()] }
@@ -193,6 +210,12 @@ describe('concededSide', () => {
 })
 
 describe('roundBreakdown', () => {
+  it('applies the game caps to running VP as well as the final total', () => {
+    const g = game({ rounds: withPrimary([15,15,15,15,15]).rounds, secondary: { scored: Array.from({length: 15}, (_,i) => ({round: 1 + Math.floor(i/3), vp:5})) } })
+    expect(roundBreakdown(g,0).map((r) => r.cumulativeVp)).toEqual([30,60,90,90,90])
+    expect(roundBreakdown(g,0)[4].cumulativeVp).toBe(grandTotal(g,0))
+  })
+
   it('puts each round\'s primary and capped secondary in its own row, with the running total', () => {
     const g = game({
       rounds: [10, 5, 0, 0, 0].map(v => ({ primary: v, picks: {} })),

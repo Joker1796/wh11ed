@@ -45,29 +45,31 @@
           class="camp-form"
           @submit.prevent="add().then((ok) => ok && close())"
         >
-          <div class="camp-pair">
-            <CampPick
-              v-model="a"
-              :placeholder="labels.campSideA"
-              :options="choosable.map(playerOption)"
-            />
-            <CampPick
-              v-model="b"
-              :placeholder="labels.campSideB"
-              :options="opponentsOf(a).map(playerOption)"
-            />
-          </div>
+          <CampBattleSides
+            v-model="sides"
+            :fixed="isOwner ? null : mine?.id"
+          />
+          <label
+            v-if="state.strict"
+            class="check"
+          >
+            <input
+              v-model="strictPlayed"
+              type="checkbox"
+            ><span>{{ labels.campStrictOn }}</span>
+          </label>
           <CampBattleResult
             v-model:victor="victor"
             v-model:achieved="achieved"
-            :name-a="a ? playerName(a) : ''"
-            :name-b="b ? playerName(b) : ''"
+            :name-a="sideName(sides, 'a')"
+            :name-b="sideName(sides, 'b')"
+            :names="namesOf(sides)"
             :cap="state.phase === 3 ? 2 : 1"
           />
           <button
             class="btn-primary"
             type="submit"
-            :disabled="!a || !b"
+            :disabled="!!battleSidesReason(state, sides) || (state.strict && !strictPlayed)"
           >
             {{ labels.campSendBattle }}
           </button>
@@ -104,7 +106,7 @@
           :class="`is-${x.status}`"
           :data-battle="x.id"
         >
-          <span>{{ labels.campBattleLine.replace('{a}', playerName(x.a)).replace('{b}', playerName(x.b)).replace('{res}', outcome(x)) }}</span>
+          <span>{{ labels.campBattleLine.replace('{a}', sideName(x, 'a')).replace('{b}', sideName(x, 'b')).replace('{res}', outcome(x)) }}</span>
           <span class="camp-dim">{{ labels[`campStatus_${x.status}`] }}<template v-if="x.edited">{{ ' · ' + labels.campEdited }}</template></span>
           <span
             v-if="isOwner && dupes.has(x.id)"
@@ -114,6 +116,14 @@
             v-if="isOwner"
             class="camp-actions"
           >
+            <button
+              v-if="isTeam(x) && x.status === 'approved' && !x.rewards"
+              type="button"
+              class="btn-ghost"
+              aria-haspopup="dialog"
+              :disabled="locked(x)"
+              @click="rewarding = x"
+            >{{ labels.campTeamRewards }}</button>
             <template v-if="x.status === 'pending'">
               <button
                 type="button"
@@ -130,7 +140,7 @@
                  the battle taken out. A closed phase's battles wait for the phase to be reopened. -->
             <ActionMenu
               :open="menuFor === x.id"
-              :title="`${playerName(x.a)} — ${playerName(x.b)}`"
+              :title="`${sideName(x, 'a')} — ${sideName(x, 'b')}`"
               @update:open="(v) => (menuFor = v ? x.id : null)"
             >
               <template #trigger="{ toggle }">
@@ -176,7 +186,7 @@
     <BaseModal
       v-if="editing"
       :title="labels.campEditBattle"
-      :subtitle="`${playerName(editing.a)} — ${playerName(editing.b)}`"
+      :subtitle="`${sideName(editing, 'a')} — ${sideName(editing, 'b')}`"
       @close="editing = null"
     >
       <form
@@ -186,8 +196,9 @@
         <CampBattleResult
           v-model:victor="edit.victor"
           v-model:achieved="edit.achieved"
-          :name-a="playerName(editing.a)"
-          :name-b="playerName(editing.b)"
+          :name-a="sideName(editing, 'a')"
+          :name-b="sideName(editing, 'b')"
+          :names="namesOf(editing)"
           :cap="editing.phase === 3 ? 2 : 1"
         />
         <p class="camp-dim">
@@ -212,31 +223,27 @@
         class="modal-body camp-form camp-modal-form"
         @submit.prevent="play"
       >
-        <div class="camp-pair">
-          <CampPick
-            v-model="pa"
-            :placeholder="labels.campSideA"
-            :disabled="!!fixedSelf"
-            :options="(fixedSelf ? [fixedSelf] : state.players.filter((p) => p.alliance)).map(playerOption)"
-          />
-          <CampPick
-            v-model="pb"
-            :placeholder="labels.campSideB"
-            :options="opponentsOf(pa).map(playerOption)"
-          />
-        </div>
+        <CampBattleSides
+          v-model="playSides"
+          :fixed="fixedSelf?.id"
+        />
         <p class="camp-dim">
           {{ labels.campPlayNote }}
         </p>
         <button
           class="btn-primary"
           type="submit"
-          :disabled="!pa || !pb"
+          :disabled="!!battleSidesReason(state, playSides)"
         >
           {{ labels.campPlayGo }}
         </button>
       </form>
     </BaseModal>
+    <CampTeamRewards
+      v-if="rewarding"
+      :battle="rewarding"
+      @close="rewarding = null"
+    />
     <ConfirmModal
       v-if="removing"
       :title="labels.campDeleteBattle"
@@ -263,24 +270,21 @@ import CampPick from './CampPick.vue'
 import CampBattleResult from './CampBattleResult.vue'
 import CampFold from './CampFold.vue'
 import CampPairings from './CampPairings.vue'
-import { battleAmend, battleLocked, likelyDuplicates, pairingsNow, sizeOf } from '../../../core/dominatus/campaign.js'
+import CampBattleSides from './CampBattleSides.vue'
+import CampTeamRewards from './CampTeamRewards.vue'
+import { battleAmend, battleLocked, likelyDuplicates, pairingsNow, sizeOf, battlePlayers, battleSidesReason, slotOf, isTeam, opponentsOf as pairedOpponents } from '../../../core/dominatus/campaign.js'
 import { useRouter } from 'vue-router'
 import { useCampaignView } from './useCampaignView.js'
 
 const { entry, state, isOwner, mine, act, labels, playerName, playerOption, phaseLabel, remembered, onAsk, bringIntoView } = useCampaignView()
-// The opponent the Warmaster paired a player with this phase, while that battle is still to play.
-function pairedWith(id) {
-  const x = id && pairingsNow(state.value).find((p) => !p.played && (p.a === id || p.b === id))
-  return x ? (x.a === id ? x.b : x.a) : null
-}
 // A battle entered by hand starts from this device's own player and their pairing, when there are.
-const a = ref(null)
-const b = ref(null)
+const sides = ref({ a: null, b: null })
+const a = computed({ get: () => sides.value.a, set: (v) => { sides.value.a = v } })
 watch(() => mine.value?.id, (me) => {
   if (a.value || !me) return
-  a.value = me
-  b.value = pairedWith(me)
+  sides.value = sidesFor(me)
 }, { immediate: true })
+const strictPlayed = ref(false)
 const victor = ref('a')
 const achieved = ref({ a: 0, b: 0 })
 
@@ -292,33 +296,31 @@ const only = computed({
   set: (v) => { remOnly.value = v },
 })
 const groups = computed(() => {
-  const bs = state.value.battles.filter((b) => !only.value || b.a === only.value || b.b === only.value)
+  const bs = state.value.battles.filter((b) => !only.value || battlePlayers(b).includes(only.value))
   return [3, 2, 1]
     .map((phase) => ({ phase, battles: bs.filter((b) => b.phase === phase).reverse() }))
     .filter((g) => g.battles.length)
 })
 const dupes = computed(() => likelyDuplicates(state.value))
-// A member fights as their own player; the Warmaster enters anyone's battle.
-const choosable = computed(() => (isOwner.value ? state.value.players : mine.value ? [mine.value] : []))
-// Under pairings (`pairBy` not 'free') a member's battle is with their pair this phase — the
-// campaign refuses any other; the Warmaster enters anyone's.
-const opponentsOf = (id) => {
-  const me = state.value.players.find((p) => p.id === id)
-  const all = state.value.players.filter((p) => p.id !== id && p.alliance && p.alliance !== me?.alliance)
-  if (isOwner.value || state.value.pairBy === 'free') return all
-  const pairs = pairingsNow(state.value).filter((x) => x.a === id || x.b === id).map((x) => (x.a === id ? x.b : x.a))
-  return all.filter((p) => pairs.includes(p.id))
+const namesOf = (b) => Object.fromEntries(['a', 'a2', 'b', 'b2'].filter((k) => b[k]).map((k) => [k, playerName(b[k])]))
+const sideName = (b, side) => [b[side], b[`${side}2`]].filter(Boolean).map(playerName).join(' + ')
+const rewarding = ref(null)
+function sidesFor(id, against = null) {
+  const p = id && pairingsNow(state.value).find((p) => !p.played && slotOf(p, id) && (!against || (pairedOpponents(p, id).length === against.length && against.every((x) => pairedOpponents(p, id).includes(x)))))
+  if (!p) return { a: id || null, b: null }
+  const side = slotOf(p, id)[0]
+  const other = side === 'a' ? 'b' : 'a'
+  return { a: id, b: p[other], ...(isTeam(p) ? { a2: [p[side], p[`${side}2`]].find((x) => x !== id), b2: p[`${other}2`] } : {}) }
 }
 function outcome(x) {
   if (!x.victor) return labels.value.campDrawRes
-  return labels.value.campWon.replace('{p}', playerName(x[x.victor]))
+  return labels.value.campWon.replace('{p}', sideName(x, x.victor))
 }
 async function add() {
   // The phase it is entered for, as a battle from the tracker says: one sent after the phase ended
   // is refused instead of landing in the next (stand walkthrough, 2026-11-06).
-  if (!(await act('battle', { id: `b${Date.now().toString(36)}`, phase: state.value.phase, a: a.value, b: b.value, victor: victor.value, achieved: { ...achieved.value } }))) return false
-  a.value = mine.value?.id || null
-  b.value = pairedWith(a.value)
+  if (!(await act('battle', { id: `b${Date.now().toString(36)}`, phase: state.value.phase, ...sides.value, strict: strictPlayed.value, victor: victor.value, achieved: { ...achieved.value } }))) return false
+  sides.value = sidesFor(mine.value?.id)
   victor.value = 'a'
   achieved.value = { a: 0, b: 0 }
   return true
@@ -337,7 +339,7 @@ function startEdit(x) {
 }
 const changed = computed(() => {
   const x = editing.value
-  return !!x && (edit.victor !== x.victor || edit.achieved.a !== x.achieved.a || edit.achieved.b !== x.achieved.b)
+  return !!x && (edit.victor !== x.victor || Object.keys(x.achieved).some((k) => edit.achieved[k] !== x.achieved[k]))
 })
 async function saveEdit() {
   const edits = battleAmend(entry.value.events, editing.value.id, { victor: edit.victor, achieved: { ...edit.achieved } })
@@ -354,18 +356,17 @@ async function remove() {
 // if they play), the opponent from another Alliance.
 const router = useRouter()
 const playing = ref(false)
-const pa = ref(null)
-const pb = ref(null)
+const playSides = ref({ a: null, b: null })
 const fixedSelf = computed(() => (isOwner.value ? null : mine.value))
 // A pairing the Warmaster set for this device's player and not yet played names the opponent.
-function startPlay() {
-  pa.value = mine.value?.id || null
-  pb.value = pairedWith(pa.value)
+function startPlay(against = null) {
+  playSides.value = sidesFor(mine.value?.id, Array.isArray(against) ? against : null)
   playing.value = true
 }
 // "What next": the pairing to play opens the dialog with that opponent; battles to count, the first.
 onAsk({
-  play: (x) => { startPlay(); pb.value = x.player },
+  play: (x) => { startPlay(x.players || [x.player]); if (!isTeam(playSides.value)) playSides.value.b = x.player },
+  teamRewards: () => { rewarding.value = state.value.battles.find((b) => isTeam(b) && b.status === 'approved' && !b.rewards) || null },
   playMore: () => startPlay(),
   count: () => {
     const first = state.value.battles.find((x) => x.status === 'pending')
@@ -376,6 +377,6 @@ async function play() {
   const s = state.value
   const side = (id) => s.players.find((p) => p.id === id)
   const { playCampaignBattle } = await import('../../../composables/campaignHandoff.js')
-  await playCampaignBattle({ campaignId: entry.value.id, phase: s.phase, location: s.locations[s.phase], size: sizeOf(s), strict: s.strict, upgradeLimit: s.upgradeLimit, a: side(pa.value), b: side(pb.value) }, router, () => { playing.value = false })
+  await playCampaignBattle({ campaignId: entry.value.id, phase: s.phase, location: s.locations[s.phase], size: sizeOf(s), strict: s.strict, upgradeLimit: s.upgradeLimit, a: side(playSides.value.a), b: side(playSides.value.b), ...(isTeam(playSides.value) ? { a2: side(playSides.value.a2), b2: side(playSides.value.b2) } : {}) }, router, () => { playing.value = false })
 }
 </script>

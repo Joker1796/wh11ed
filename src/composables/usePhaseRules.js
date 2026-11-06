@@ -304,7 +304,7 @@ export function usePhaseRules() {
       (slug, role, round) => scorableBlocks(slug, role, round, locale.value),
       (slug, role) => missionBySlug(slug, role),
       (slug, role) => missionBySlug(slug, role)?.name || slug,
-    ).map((c) => ({ ...c, key: `card|${c.at}|${c.slug || 'primary'}`, kind: 'card', what: c.slug ? labels.value.trackerSecondary : labels.value.trackerPrimary }))
+    ).map((c) => ({ ...c, key: `card|${c.at}|${c.slug || 'primary'}|${c.mi ?? 'side'}`, who: c.mi == null ? null : game.players[pi].members?.[c.mi]?.name, kind: 'card', what: c.slug ? labels.value.trackerSecondary : labels.value.trackerPrimary }))
   }
   function turnOf(pi) {
     const members = membersOf(current.value?.players?.[pi])

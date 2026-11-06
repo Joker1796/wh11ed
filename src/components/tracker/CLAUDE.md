@@ -834,7 +834,7 @@ records", `stratagemPlay.test.js`'s pairing sweep.
 `settings.dominatus` plays a battle of the narrative campaign: each player's Primary is the Agenda
 their Alliance's Briefing gives them (`dom-<agenda>`, served like Combat Patrol's `cp-`), unless
 they decline it. Setup step 2, pre-battle step 7 (Upgrades), the missions tab (war zone rules,
-Agenda Achieved). The deck loads on demand. Everything else: `src/components/dominatus/CLAUDE.md`.
+Agenda Achieved). The deck loads on demand. Dominatus Doubles has a personal Primary and Agenda Achieved per member, summed for the team (older games retain their team Primary). Everything else: `src/components/dominatus/CLAUDE.md`.
 
 ## Scoring
 

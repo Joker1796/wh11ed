@@ -190,6 +190,12 @@
             @help="help = 'pairBy'"
           />
           <CampSettingSeg
+            v-model="form.teamAlliance"
+            :label="labels.campTeamAlliance"
+            :options="[{ value: 'same', label: labels.campTeamSame }, { value: 'any', label: labels.campTeamAny }]"
+            @help="help = 'teamAlliance'"
+          />
+          <CampSettingSeg
             v-model="form.strict"
             :label="labels.campStrict"
             :options="[{ value: false, label: labels.campStrictFree }, { value: true, label: labels.campStrictOn }]"
@@ -328,7 +334,7 @@ const TITLES = {
   roster: 'campRosterSetting', schedule: 'campSchedule', size: 'campSize', battlesBy: 'campBattlesBy',
   approve: 'campApproveSetting', draw: 'campDrawSetting', rewardsBy: 'campRewardsBy', me: 'campMe',
   sizeMode: 'campSizeMode', deadlines: 'campDeadlines', phaseEnd: 'campPhaseEnd', allianceLock: 'campAllianceLock',
-  hands: 'campHands', pairBy: 'campPairBy', strict: 'campStrict', upgradeLimit: 'campUpgradeLimit', drawExtra: 'campDrawExtra',
+  teamAlliance: 'campTeamAlliance', hands: 'campHands', pairBy: 'campPairBy', strict: 'campStrict', upgradeLimit: 'campUpgradeLimit', drawExtra: 'campDrawExtra',
 }
 </script>
 

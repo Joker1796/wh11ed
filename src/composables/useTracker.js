@@ -18,6 +18,7 @@ import {
   leader as leaderOf,
   youIndex,
   mendSide,
+  primaryEntries,
 } from '../core/game/gameScoring.js'
 import { BATTLE_PHASES, usableThisTurn, usableInSlot } from '../core/rules/stratagemPhases.js'
 import { HISTORY_KEY as HIST_KEY } from './gameStats.js'
@@ -381,6 +382,13 @@ function makePlayer(p, opponent, settings, isYou = false) {
   const secondaryMode = p.secondaryMode || 'tactical'
   const doubles = settings.gameType === 'doubles'
   const members = doubles ? [makeMember(p.members?.[0]), makeMember(p.members?.[1])] : null
+  if (members && settings.dominatus) {
+    members.forEach((m, mi) => {
+      const draft = p.members?.[mi] || {}
+      const card = primaryOf({ ...draft, disposition: p.disposition }, opponent, settings)
+      Object.assign(m, { alliance: draft.alliance || null, declineAgenda: !!draft.declineAgenda, campaignPlayer: draft.campaignPlayer || null, primarySlug: card?.slug || null, agendaAchieved: 0, rounds: Array.from({ length: ROUND_COUNT }, () => ({ primary: 0, picks: {} })) })
+    })
+  }
   return {
     isYou: !!isYou,
     // In doubles the side's display name IS the team name — every existing reader of
@@ -778,8 +786,15 @@ export function useTracker() {
   }
   // A correction says so in the log (owner, 2026-10-21): when it was made, which turn it put
   // right and the VP before and after. Steppers and ticks within COALESCE_MS are one act.
-  function logFix(pl, what, slug, round, turn, from, to) {
-    pushValueAct(pl, { ...clk(), type: 'fix', what, slug, at: round, atTurn: turn, from, to }, `${what}:${slug}:${round}:${turn}`)
+  function logFix(pl, what, slug, round, turn, from, to, mi = null) {
+    pushValueAct(pl, { ...clk(), type: 'fix', what, slug, at: round, atTurn: turn, from, to, ...(mi == null ? {} : { mi }) }, `${what}:${slug}:${round}:${turn}${mi == null ? '' : `:${mi}`}`)
+  }
+
+  function settlePrimaryRound(side, roundIdx) {
+    const entries = primaryEntries(side)
+    if (!entries.some((x) => x.mi != null)) return
+    side.rounds[roundIdx].primary = entries.reduce((sum, { player }) => sum + (player.rounds[roundIdx].primary || 0), 0)
+    side.rounds[roundIdx].t = Math.max(...entries.map(({ player }) => player.rounds[roundIdx].t || 0))
   }
 
   // A score changed after it stood for a while is a correction: the old one stays in the log,
@@ -790,15 +805,18 @@ export function useTracker() {
     pushUndo(pl, { ...of, vp: before.vp, t: before.t }, clk())
   }
 
-  function setRoundPrimary(pi, roundIdx, value, turn = null) {
+  function setRoundPrimary(pi, roundIdx, value, turn = null, mi = null) {
     if (strictWhy('round', pi, roundIdx + 1, turn)) return
-    const pl = current.value.players[pi]
+    const side = current.value.players[pi]
+    const pl = mi == null ? side : side.members?.[mi]
+    if (!pl?.rounds?.[roundIdx] || (mi == null && primaryEntries(side).some((x) => x.mi != null))) return
     const round = pl.rounds[roundIdx]
     const before = { vp: round.primary, t: round.t }
     round.primary = Math.max(0, Math.min(value, PRIMARY_ROUND_CAP))
-    if (isCorrection(roundIdx + 1, turn)) logFix(pl, 'primary', pl.primarySlug, roundIdx + 1, turn, before.vp, round.primary)
-    else scoreCorrected(pl, before, round.primary, { type: 'primary', kind: 'points', round: roundIdx + 1, turn: pi, slug: pl.primarySlug })
+    if (isCorrection(roundIdx + 1, turn)) logFix(side, 'primary', pl.primarySlug, roundIdx + 1, turn, before.vp, round.primary, mi)
+    else scoreCorrected(side, before, round.primary, { type: 'primary', kind: 'points', round: roundIdx + 1, turn: pi, slug: pl.primarySlug, ...(mi == null ? {} : { mi }) })
     round.t = Date.now() // when, for the game log
+    settlePrimaryRound(side, roundIdx)
   }
 
   // Record how many times a primary scoring row was achieved this round; the round's
@@ -807,9 +825,11 @@ export function useTracker() {
   // battle are not subject to the 15VP per battle round scoring limit") — twelve primaries score
   // one, and the fifth round's cap was eating it.
   // `turn` — the turn on screen when it is not the live one (a correction, logged as such).
-  function setPrimaryRow(pi, roundIdx, blockIdx, rowIdx, count, turn = null) {
+  function setPrimaryRow(pi, roundIdx, blockIdx, rowIdx, count, turn = null, mi = null) {
     if (strictWhy('round', pi, roundIdx + 1, turn)) return
-    const pl = current.value.players[pi]
+    const side = current.value.players[pi]
+    const pl = mi == null ? side : side.members?.[mi]
+    if (!pl?.rounds?.[roundIdx] || (mi == null && primaryEntries(side).some((x) => x.mi != null))) return
     const round = pl.rounds[roundIdx]
     const before = { vp: round.primary, t: round.t }
     if (!round.picks) round.picks = {}
@@ -829,13 +849,15 @@ export function useTracker() {
       }
     }
     round.primary = Math.min(raw, PRIMARY_ROUND_CAP) + end
-    if (isCorrection(roundIdx + 1, turn)) logFix(pl, 'primary', pl.primarySlug, roundIdx + 1, turn, before.vp, round.primary)
-    else scoreCorrected(pl, before, round.primary, { type: 'primary', kind: 'points', round: roundIdx + 1, turn: pi, slug: pl.primarySlug })
+    if (isCorrection(roundIdx + 1, turn)) logFix(side, 'primary', pl.primarySlug, roundIdx + 1, turn, before.vp, round.primary, mi)
+    else scoreCorrected(side, before, round.primary, { type: 'primary', kind: 'points', round: roundIdx + 1, turn: pi, slug: pl.primarySlug, ...(mi == null ? {} : { mi }) })
     round.t = Date.now() // when, for the game log
+    settlePrimaryRound(side, roundIdx)
   }
 
-  function primaryRowCount(pi, roundIdx, blockIdx, rowIdx) {
-    const picks = current.value.players[pi].rounds[roundIdx].picks
+  function primaryRowCount(pi, roundIdx, blockIdx, rowIdx, mi = null) {
+    const side = current.value.players[pi]
+    const picks = (mi == null ? side : side.members?.[mi])?.rounds?.[roundIdx]?.picks
     return picks ? (picks[`${blockIdx}:${rowIdx}`] || 0) : 0
   }
 
@@ -850,8 +872,9 @@ export function useTracker() {
   // ── Dominatus: what a battle of the campaign leaves a player with ──
   // Agenda Achieved cards are the players' to judge at Determine Victor (the conditions read the
   // table, not the score): 0–1, or 0–2 for a phase 3 Agenda, whose card offers one more.
-  function setAgendaAchieved(pi, n) {
-    const pl = current.value?.players[pi]
+  function setAgendaAchieved(pi, n, mi = null) {
+    const side = current.value?.players[pi]
+    const pl = mi == null ? side : side?.members?.[mi]
     if (!pl) return
     const card = isDomMissionSlug(pl.primarySlug) ? domMissionBySlug(pl.primarySlug) : null
     const max = !card ? 0 : card.achieved.more ? 2 : 1

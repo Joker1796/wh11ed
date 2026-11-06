@@ -19,6 +19,14 @@ const bpRow = (w) => {
 }
 
 describe('ScoreBreakdown — the Battle Points row', () => {
+  it('shows each partner’s own Primary rounds and independent cap', () => {
+    const g = game()
+    g.players[0].members = [{ ...player([15, 15, 15, 15, 0]), name: 'Ann' }, { ...player([5, 0, 0, 0, 0]), name: 'Ben' }]
+    const w = mount(ScoreBreakdown, { props: { game: g, expanded: true, side: 0 } })
+    expect(w.findAll('.g-label').map((c) => c.text())).toEqual(expect.arrayContaining(['Ann', 'Ben']))
+    expect(w.findAll('.g-total').map((c) => c.text())).toEqual(expect.arrayContaining(['45/45', '5/45']))
+  })
+
   // Misha, 2026-10-10: round 3 not begun, yet it already read 11.
   it('leaves the rounds not yet begun empty', () => {
     const row = bpRow(mount(ScoreBreakdown, { props: { game: game(), expanded: true, side: 0 } }))

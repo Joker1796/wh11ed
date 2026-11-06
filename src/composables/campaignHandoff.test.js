@@ -16,6 +16,17 @@ const player = (over) => ({ id: 'p1', name: 'Alice', faction: 'orks', alliance: 
 const battle = (a, b) => ({ campaignId: 'c1', phase: 2, location: null, a, b })
 
 describe('playCampaignBattle', () => {
+  it('hands all four campaign players and their own lists to Doubles', async () => {
+    const code = await share.encodeRoster(list)
+    await mod.playCampaignBattle({ ...battle(player({ roster: { code } }), player({ id: 'p3' })), a2: player({ id: 'p2', name: 'Partner', roster: { code } }), b2: player({ id: 'p4', name: 'Other' }) }, router)
+    const d = tracker.setupDraft.value
+    expect(d.settings.gameType).toBe('doubles')
+    expect(d.players[0].members.map((m) => m.campaignPlayer)).toEqual(['p1', 'p2'])
+    expect(d.players[1].members.map((m) => m.campaignPlayer)).toEqual(['p3', 'p4'])
+    expect(d.players[0].members[1].roster.name).toBe(list.name)
+    expect(d.players[0].teamName).toBe('Alice + Partner')
+  })
+
   it('attaches the list the player keeps in the campaign', async () => {
     const code = await share.encodeRoster(list)
     await mod.playCampaignBattle(battle(player({ roster: { code } }), player({ id: 'p2', name: 'Bob' })), router)

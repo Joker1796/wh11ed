@@ -64,21 +64,25 @@
             </div>
             <div class="g-total" />
 
-            <!-- Primary — named as what it is; the disposition beside the name read as a mission. -->
-            <div class="g-label">
-              {{ labels.trackerPrimary }}
-            </div>
-            <div
-              v-for="r in ROUND_COUNT"
-              :key="'pr'+r"
-              class="g-cell"
+            <template
+              v-for="{ player: primary, mi } in primaryEntries(pl)"
+              :key="`primary-${mi}`"
             >
-              {{ pl.rounds[r - 1].primary || '-' }}
-            </div>
-            <div class="g-total">
-              {{ primaryTotal(i) }}/{{ PRIMARY_GAME_CAP }}
-            </div>
-
+              <!-- Primary — named as what it is; the disposition beside the name read as a mission. -->
+              <div class="g-label">
+                {{ mi == null ? labels.trackerPrimary : primary.name }}
+              </div>
+              <div
+                v-for="r in ROUND_COUNT"
+                :key="'pr'+r"
+                class="g-cell"
+              >
+                {{ primary.rounds[r - 1].primary || '-' }}
+              </div>
+              <div class="g-total">
+                {{ personalPrimaryTotal(primary) }}/{{ PRIMARY_GAME_CAP }}
+              </div>
+            </template>
             <!-- Secondary missions: the sum per round and the game's total on a line of their own
                  (with every cap applied — secondaryRounds), then each card's own scores under it.
                  The total used to sit on the first card's line, as if it were that card's. -->
@@ -193,7 +197,7 @@ import {
   battlePoints,
   battlePointsFromVp,
   leader as leaderOf,
-  primaryTotal as primaryTotalOf,
+  primaryEntries, personalPrimaryTotal,
   roundBreakdown,
   secondaryTotal as secondaryTotalOf,
   secondaryRounds,
@@ -254,7 +258,6 @@ function spendName(pl, e) {
   }
   return e.name || ''
 }
-const primaryTotal = (i) => primaryTotalOf(game.value, i)
 const secondaryTotal = (i) => secondaryTotalOf(game.value, i)
 const secRounds = (pl) => secondaryRounds(pl)
 const open = ref(false)

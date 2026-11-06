@@ -60,7 +60,7 @@
         v-if="myOpponent"
         class="camp-line"
       >
-        {{ labels.campMyPairing.replace('{p}', playerName(myOpponent)) }}
+        {{ labels.campMyPairing.replace('{p}', myOpponent) }}
       </p>
 
       <!-- Step 1 of every phase: the players read their Alliance's Briefing card. One at a time,
@@ -186,7 +186,16 @@
       @close="ending = false"
     >
       <div class="modal-body camp-end-body">
-        <p class="camp-line">
+        <p
+          v-if="endBlocked"
+          class="camp-dim"
+        >
+          {{ refusalText(labels, endBlocked) }}
+        </p>
+        <p
+          v-else
+          class="camp-line"
+        >
           {{ preview }}
         </p>
         <table
@@ -238,7 +247,7 @@
         <button
           type="button"
           class="btn-primary"
-          :disabled="tied.length > 1 && !override"
+          :disabled="!!endBlocked || (tied.length > 1 && !override)"
           @click="endPhase"
         >
           {{ labels.campEndPhase.replace('{n}', phaseLabel(state.phase)) }}
@@ -334,8 +343,9 @@ import CampFold from './CampFold.vue'
 import BaseModal from '../../BaseModal.vue'
 import CampOutcomeCard from './CampOutcomeCard.vue'
 import CampChronicle from './CampChronicle.vue'
-import { campaignState, reopenable, reopenPhase, scheduleProgress, pairingsNow, standings } from '../../../core/dominatus/campaign.js'
+import { campaignState, reopenable, reopenPhase, scheduleProgress, pairingsNow, standings, slotOf, opponentsOf } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
+import { refusalText } from '../../../composables/useCampaigns.js'
 import { countPieces } from '../../../utils/plural.js'
 
 const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, phaseLabel, remembered, onAsk, phaseDeadline } = useCampaignView()
@@ -376,8 +386,8 @@ function toggleBrief(ev) {
 // The opponent the Warmaster paired this device's player with, while the battle is still to play.
 const myOpponent = computed(() => {
   const me = mine.value?.id
-  const x = me && pairingsNow(state.value).find((p) => !p.played && (p.a === me || p.b === me))
-  return x ? (x.a === me ? x.b : x.a) : null
+  const x = me && pairingsNow(state.value).find((p) => !p.played && !!slotOf(p, me))
+  return x ? opponentsOf(x, me).map(playerName).join(' + ') : null
 })
 
 // The end of the phase, folded ahead of time — and what it hands out.
@@ -386,6 +396,7 @@ const aheadState = computed(() => {
   const evs = [...(entry.value.events || []), { seq: Infinity, author: 'owner', type: 'endPhase', payload: { phase: state.value.phase } }]
   return campaignState(evs, deck.value)
 })
+const endBlocked = computed(() => aheadState.value?.rejected.find((r) => r.seq === Infinity)?.reason || null)
 const ahead = computed(() => aheadState.value?.results[state.value.phase] || null)
 const relicDraws = computed(() => (aheadState.value?.pending || [])
   .filter((r) => r.kind === 'relic' && r.phase === state.value.phase)
@@ -415,6 +426,7 @@ async function setLocation(slug) {
   if (slug === location.value?.slug || (await act('location', { phase: state.value.phase, slug }))) choosing.value = false
 }
 function endPhase() {
+  if (endBlocked.value) return
   act('endPhase', { phase: state.value.phase, ...(override.value ? { control: override.value } : {}) })
   override.value = null
   ending.value = false

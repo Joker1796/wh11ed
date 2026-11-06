@@ -409,3 +409,32 @@ and discarded at ITS end (step V "from previous phases"); the Event Companion's 
 Discard at the next phase's first battle) is not modelled — the Warmaster's `adjust` covers it.
 `adjust` keeps the Agenda Achieved cards it leaves in place with their own phase (a card from the
 last phase is still discarded at the end of this one); only the cards it adds are of this phase.
+
+
+## Campaign team battles (owner, 2026-11-07)
+
+A battle or pairing is `a` + `a2` against `b` + `b2`, or the original `a` against `b`.
+Each of the four counts the whole battle. `teamAlliance: 'same' | 'any'` controls partners;
+`CampBattleSides` is the shared picker for a manual result, a pairing and the tracker hand-off.
+Random pairing still draws singles; team pairings are the Warmaster's manual choice.
+
+Team rewards are separate from approval. `teamRewards` is owner-only, one hand-out per counted
+battle with four recipients (`honour`, `skill`, `conquest`, `none`); `CampTeamRewards` begins with
+the booklet's guidance and `teamRewardsSuggested`. Each player keeps their own Agenda Achieved;
+control counts actual Honour awards against the Alliances recorded at the battle. Corrections
+remove the hand-out and its claims/draws. End phase waits for every counted team's hand-out.
+
+Every partner plays their own Agenda and Primary. Their Alliance reads the Briefing against the
+two teams' Force Dispositions; declining gives that partner the mission deck's Primary. The setup
+previews both cards, the missions tab scores both independently, and turn-end checks and reminders
+carry `mi`. A member stores `primarySlug`, `rounds`, `agendaAchieved`, `campaignPlayer`, `alliance`.
+Primary limits (15/round, 45/game) apply per member; the two capped totals add to the team's result.
+The side's round Primary is a cached sum for existing readers. `primaryEntries`/`personalPrimaryTotal`
+in gameScoring are the common readers; older Doubles games without member rounds keep the team
+Primary they were played with. The two-side saved envelope and party slices are unchanged.
+
+Campaign hand-off brings all four players and lists into Doubles. Upgrade selection is per member,
+stored on the side with `mi` as existing modifiers expect. `CampSendGame` maps each member back to
+`a/a2/b/b2` even after a first-turn swap and sends all four achievements; Upgrade records carry the
+same slot names for the chronicle. Each partner's Primary is also separate in the game log and
+score breakdown. Team secondaries, CP and Battle Ready retain the Doubles behavior.

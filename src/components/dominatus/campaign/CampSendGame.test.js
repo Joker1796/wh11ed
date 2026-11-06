@@ -11,14 +11,14 @@ const players = [
 ]
 // The log as the device holds it: a sync or a send changes it, and the folded state follows.
 const log = ref({ battles: [], rejected: [] })
-let appendEvent, syncCampaign
+let appendEvent, syncCampaign, ownPlayer
 const campaigns = ref([{ id: 'C', name: 'Armageddon', role: 'member', seq: 7 }])
 
 vi.mock('../../../composables/useCampaigns.js', () => ({
   useCampaigns: () => ({
     campaigns,
     stateOf: () => ({ players, ...log.value }),
-    myPlayer: () => null,
+    myPlayer: () => ownPlayer,
     appendEvent: (...a) => appendEvent(...a),
     syncCampaign: (...a) => syncCampaign(...a),
   }),
@@ -40,9 +40,39 @@ const toast = (w) => w.findComponent({ name: 'AppToast' }).props('text')
 
 describe('CampSendGame — the battle goes back to its campaign', () => {
   beforeEach(() => {
+    ownPlayer = null
     log.value = { battles: [], rejected: [] }
     syncCampaign = vi.fn(async () => {})
     appendEvent = vi.fn(async () => {})
+  })
+
+  it('keeps a member’s own player fixed when sending an unlinked singles game', async () => {
+    ownPlayer = players[0]
+    players.push({ id:'ben', name:'Ben', alliance:'liberators' })
+    try {
+      const g = game(null)
+      g.players[0].isYou = true
+      g.players[0].name = 'Local name'
+      const w = mount(CampSendGame, { props:{ game:g } })
+      await flushPromises()
+      expect(w.vm.$.setupState.playersFor(0).map((p) => p.id)).toEqual(['ann'])
+      w.unmount()
+    } finally { players.splice(2) }
+  })
+
+  it('automatically sends a Doubles battle as all four campaign players', async () => {
+    const extra = [{ id: 'ben', name: 'Ben', alliance: 'liberators' }, { id: 'dee', name: 'Dee', alliance: 'oppressors' }]
+    players.push(...extra)
+    try {
+      const g = game()
+      g.settings.gameType = 'doubles'
+      g.players = g.players.map((p, i) => ({ name: `Team ${i}`, members: [p, { name: extra[i].name, alliance: extra[i].alliance, campaignPlayer: extra[i].id, agendaAchieved: 1 }] }))
+      const w = mount(CampSendGame, { props: { game: g, auto: true } })
+      await flushPromises()
+      expect(appendEvent).toHaveBeenCalledTimes(1)
+      expect(appendEvent.mock.calls[0][2]).toMatchObject({ a: 'ann', a2: 'ben', b: 'cid', b2: 'dee', achieved: { a: 1, a2: 1, b: 0, b2: 1 } })
+      w.unmount()
+    } finally { players.splice(2) }
   })
 
   it('sends it once, with the Upgrades, as the campaign players it was started for', async () => {

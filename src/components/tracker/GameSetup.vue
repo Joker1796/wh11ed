@@ -337,6 +337,35 @@
               :key="mi"
               :class="{ 'member-block': isDoubles }"
             >
+              <div
+                v-if="isDoubles && settings.dominatus"
+                class="dom-side"
+              >
+                <label
+                  v-if="settings.dominatus.campaign"
+                  class="field"
+                >
+                  <span>{{ labels.trackerDomCampaignPlayer }}</span>
+                  <CampPick
+                    :model-value="m.campaignPlayer"
+                    :options="domPlayerOptions(i, mi)"
+                    @update:model-value="(id) => setCampaignPlayer(i, id, mi)"
+                  />
+                </label>
+                <label class="field">
+                  <span>{{ labels.trackerDomAlliance }}</span>
+                  <CampPick
+                    :model-value="m.alliance"
+                    :disabled="!!(settings.dominatus.campaign && m.campaignPlayer)"
+                    :options="domAllianceList.map((a) => ({ value: a.id, label: a.name }))"
+                    @update:model-value="(id) => m.alliance = id"
+                  />
+                </label>
+                <label class="check"><input
+                  v-model="m.declineAgenda"
+                  type="checkbox"
+                ><span>{{ labels.trackerDomDecline }}</span></label>
+              </div>
               <h4
                 v-if="isDoubles"
                 class="member-head"
@@ -732,7 +761,7 @@
            (primaryOf), so — like the twist — it is asked before the cards it decides. The phase's
            Location brings war zone rules every battle of the phase is fought under. -->
       <div
-        v-if="!guest && !settings.combatPatrol && !isDoubles"
+        v-if="!guest && !settings.combatPatrol"
         class="settings dom-block"
       >
         <h3 class="block-head">
@@ -1026,7 +1055,7 @@
             <!-- Dominatus: the Alliance picks the Briefing the two dispositions are read on. -->
             <ExpandTransition>
               <div
-                v-if="settings.dominatus"
+                v-if="settings.dominatus && !isDoubles"
                 class="dom-side"
                 :inert="editable(i) ? undefined : true"
               >
@@ -1096,18 +1125,24 @@
             >
               <span class="primary-label">{{ labels.trackerPrimaryPreview }}</span>
               <div
+                v-for="(preview, mi) in primaryPreviews(i)"
+                :key="mi"
                 class="primary-card"
                 data-tour="setup-primary"
               >
+                <span
+                  v-if="preview.name"
+                  class="primary-label"
+                >{{ preview.name }}</span>
                 <MissionCard
-                  :mission="primaryCards[i]"
+                  :mission="preview.mission"
                   :show-lore="false"
                   collapsible
                   :default-open="false"
                 >
                   <DomAgendaAchieved
-                    v-if="primaryCards[i].achieved"
-                    :achieved="primaryCards[i].achieved"
+                    v-if="preview.mission.achieved"
+                    :achieved="preview.mission.achieved"
                   />
                 </MissionCard>
               </div>
@@ -1704,7 +1739,7 @@ const dispositions = DISPOSITIONS
 
 // Defaults (also the shape merged over a restored draft so older drafts gain new fields).
 function defaultMember() {
-  return { name: '', factionSlug: null, detachments: [], rosterId: null, roster: null }
+  return { name: '', factionSlug: null, detachments: [], rosterId: null, roster: null, alliance: null, declineAgenda: false, campaignPlayer: null }
 }
 function defaultPlayer(role, name = '') {
   return {
@@ -2155,7 +2190,7 @@ const domCampaignName = computed(() => {
 const domRosterMissing = computed(() => {
   const id = settings.dominatus?.campaign
   if (!id || knownCampaignState(id)?.roster !== 'required') return false
-  return players.some(p => p.campaignPlayer && !p.roster)
+  return players.some(p => armiesOf(p).some((m) => m.campaignPlayer && !m.roster))
 })
 // The campaigns a battle can be entered in from here: the Warmaster's and the ones this device plays
 // in (a watcher's view link enters nothing), each once its log is read.
@@ -2164,23 +2199,23 @@ const domCampaignOptions = computed(() => campaignsHere()
   .map((c) => ({ value: c.id, label: c.name || c.id })))
 // The campaign's players a side may be: those with an Alliance; the side that is "you" on a
 // player's own device is their own player (as the finished game's send says, CampSendGame).
-function domPlayerOptions(i) {
+function domPlayerOptions(i, mi = null) {
   const id = settings.dominatus?.campaign
   const st = id ? knownCampaignState(id) : null
   if (!st) return []
-  const mine = i === 0 ? campaignPlayerOf(id) : null
+  const mine = i === 0 && (mi == null || mi === 0) ? campaignPlayerOf(id) : null
   const list = mine && campaignsHere().find((c) => c.id === id)?.role === 'member' ? [mine] : st.players.filter((cp) => cp.alliance)
   return list.map((cp) => ({ value: cp.id, label: cp.name }))
 }
-function setCampaignPlayer(i, id) {
+function setCampaignPlayer(i, id, mi = null) {
   const st = knownCampaignState(settings.dominatus?.campaign)
   const cp = st?.players.find((x) => x.id === id)
   if (!cp) return
-  const p = players[i]
+  const p = mi == null ? players[i] : players[i].members[mi]
   p.campaignPlayer = cp.id
   p.alliance = cp.alliance
   // One campaign player is one side.
-  players.forEach((o, j) => { if (j !== i && o.campaignPlayer === cp.id) o.campaignPlayer = null })
+  players.flatMap(armiesOf).forEach((o) => { if (o !== p && o.campaignPlayer === cp.id) o.campaignPlayer = null })
 }
 // The campaign's phase and its Location, and each side a player: "you" your own, else whoever is
 // named as the side is (owner, 2026-11-04: by the name when it matches, else picked from the list).
@@ -2191,9 +2226,11 @@ function linkCampaign(id) {
   if (st.strict) settings.strictRules = true
   const same = (a, b) => !!a && !!b && a.trim().toLowerCase() === b.trim().toLowerCase()
   players.forEach((p, i) => {
-    p.campaignPlayer = null
-    const cp = (i === 0 && campaignPlayerOf(id)) || st.players.find((x) => x.alliance && same(x.name, p.name))
-    if (cp) setCampaignPlayer(i, cp.id)
+    armiesOf(p).forEach((m, mi) => {
+      m.campaignPlayer = null
+      const cp = (i === 0 && mi === 0 && campaignPlayerOf(id)) || st.players.find((x) => x.alliance && same(x.name, m.name))
+      if (cp) setCampaignPlayer(i, cp.id, isDoubles.value ? mi : null)
+    })
   })
 }
 // The campaign plays its battles with strict rules (its `strict` setting, owner 2026-11-04).
@@ -2203,7 +2240,7 @@ const domStrict = computed(() => {
 })
 function unlinkCampaign() {
   settings.dominatus = { phase: settings.dominatus.phase, location: settings.dominatus.location }
-  for (const p of players) p.campaignPlayer = null
+  for (const p of players.flatMap(armiesOf)) p.campaignPlayer = null
 }
 // The Warmaster's D6: 1–2, 3–4, 5–6 pick the phase's first, second, third Location.
 function rollDomLocation() {
@@ -2479,10 +2516,20 @@ function armySummary(p, i) {
 function primaryMission(i) {
   const me = players[i], opp = players[i === 0 ? 1 : 0]
   if (!settings.combatPatrol && (!me.disposition || !opp.disposition)) return null
-  return primaryOf(me, opp, settings)
+  const player = settings.dominatus && isDoubles.value ? { ...me.members[0], disposition: me.disposition } : me
+  return primaryOf(player, opp, settings)
 }
 function primaryName(i) {
   return primaryMission(i)?.name || ''
+}
+
+function primaryPreviews(i) {
+  const me = players[i], opp = players[i === 0 ? 1 : 0]
+  if (!settings.dominatus || !isDoubles.value) return primaryCards.value[i] ? [{ name: null, mission: primaryCards.value[i] }] : []
+  return me.members.map((m) => {
+    const card = me.disposition && opp.disposition ? primaryOf({ ...m, disposition: me.disposition }, opp, settings) : null
+    return { name: m.name, mission: card ? missionBySlug(card.slug, null, locale.value) : null }
+  }).filter((x) => x.mission)
 }
 
 // Full localized primary-mission cards for the step-2 preview (one per player).
@@ -2525,7 +2572,7 @@ function missionOkFor(p) {
   // Combat Patrol: the box is the mission — no disposition to choose.
   if (settings.combatPatrol) return !!p.factionSlug
   // Dominatus: the Briefing to read is the Alliance's.
-  if (settings.dominatus && !p.alliance) return false
+  if (settings.dominatus && armiesOf(p).some((m) => !m.alliance)) return false
   return !!p.disposition
 }
 // Both sides, deliberately: the primary mission IS the pair of dispositions, and the layouts on
@@ -2540,7 +2587,8 @@ const canMission = computed(() =>
   canArmies.value &&
   othersReady.value &&
   players.every(missionOkFor) &&
-  !!primaryName(0) && !!primaryName(1)
+  !!primaryName(0) && !!primaryName(1) &&
+  (!settings.dominatus || !isDoubles.value || [0, 1].every((i) => primaryPreviews(i).length === 2))
 )
 // What a guest's "Done" waits for: ITS side only. The primary preview needs both dispositions
 // and the other one may not be in yet — that is the host's gate, never this phone's.
@@ -2614,7 +2662,7 @@ async function start() {
   if (starting.value) return
   starting.value = true
   try {
-    const out = players.map(p => ({ ...p, upgrades: pinnedFor(p) }))
+    const out = players.map(p => ({ ...p, upgrades: isDoubles.value ? p.members.flatMap((m, mi) => pinnedFor(m).map((u) => ({ ...u, mi }))) : pinnedFor(p) }))
     if (settings.combatPatrol) {
       for (const p of out) {
         p.roster = await combatPatrolRosterFor(p)

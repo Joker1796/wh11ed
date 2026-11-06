@@ -697,7 +697,7 @@
  * @typedef {GamePlayer & {
  *   isYou?: boolean, name?: string, role?: string | null, secondaryMode?: 'tactical' | 'fixed',
  *   battleReady?: boolean, primarySlug?: string | null, cp?: number, cpBase?: number, cpLog?: CpEntry[],
- *   rounds?: RoundScore[], secondary?: SecondaryState, unitStatus?: Record<string, UnitStatusRecord>, acts?: GameAct[]
+ *   rounds?: RoundScore[], secondary?: SecondaryState, unitStatus?: Record<string, UnitStatusRecord>, acts?: GameAct[], members?: TrackerPlayer[]
  * }} TrackerPlayer
  */
 

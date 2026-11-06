@@ -190,6 +190,11 @@ function whenDrawnWhy(e) {
 
 // One entry in words. Kept here, not in gameLog.js: the words are the locale's.
 function line(e) {
+  const text = describe(e)
+  const name = e.mi == null ? null : current.value.players[e.pi]?.members?.[e.mi]?.name
+  return name ? `${name} · ${text}` : text
+}
+function describe(e) {
   const l = labels.value
   switch (e.type) {
     case 'primary': return l.trackerLogPrimary.replace('{name}', missionBySlug(e.slug, null, locale.value)?.name || '').replace('{vp}', e.vp)

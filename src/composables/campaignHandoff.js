@@ -42,21 +42,30 @@ async function sideOf(p, campaignId) {
 /**
  * The campaign's battle size of its phase, its strict rules (owner, 2026-11-04: "Play a battle"
  * turns them on) and its Upgrade limit go along; the setup still lets the players change the size.
- * @param {{ campaignId: string, phase: number, location: string | null, size?: string, strict?: boolean, upgradeLimit?: number, a: object, b: object }} battle
+ * @param {{ campaignId: string, phase: number, location: string | null, size?: string, strict?: boolean, upgradeLimit?: number, a: object, b: object, a2?: object, b2?: object }} battle
  * @param {import('vue-router').Router} router
  * @param {() => void} [leaving] closes the caller's dialog — in the same tick as the push, after the
  *   lists are read: a dialog closed before it steps the history back (useBackToClose) a beat later,
  *   and that step cancelled the push still waiting on the tracker's chunk.
  */
-export async function playCampaignBattle({ campaignId, phase, location, size, strict, upgradeLimit, a, b }, router, leaving) {
+export async function playCampaignBattle({ campaignId, phase, location, size, strict, upgradeLimit, a, b, a2, b2 }, router, leaving) {
   const { setupDraft, current } = useTracker()
+  const team = !!(a2 && b2)
   const players = await Promise.all([sideOf(a, campaignId), sideOf(b, campaignId)])
+  if (team) {
+    const partners = await Promise.all([sideOf(a2, campaignId), sideOf(b2, campaignId)])
+    players.forEach((p, i) => {
+      const members = [p, partners[i]]
+      players[i] = { teamName: members.map((m) => m.name).join(' + '), members }
+    })
+  }
   setupDraft.value = {
     step: 1,
     players,
     // The campaign's battle size (a campaign setting); the setup still lets the players change it.
     settings: {
       ...(size ? { battleSize: size } : {}),
+      ...(team ? { gameType: 'doubles' } : {}),
       ...(strict ? { strictRules: true } : {}),
       dominatus: { phase, location: location || null, campaign: campaignId, ...(upgradeLimit ? { limit: upgradeLimit } : {}) },
     },

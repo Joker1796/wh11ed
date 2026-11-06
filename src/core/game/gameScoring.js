@@ -37,11 +37,28 @@ export const TACTICAL_SECONDARY_CAP = 5 // each tactical secondary, per scoring 
 export const SECONDARY_GAME_CAP = 45
 export const BATTLE_READY_VP = 10
 
+/** Primary scores belong to each army in Dominatus Doubles (owner, 2026-11-07).
+ * Older Doubles games have no member rounds and keep their original team Primary.
+ * @param {TrackerPlayer | null | undefined} side
+ * @returns {Array<{ player: TrackerPlayer, mi: number | null }>}
+ */
+export function primaryEntries(side) {
+  if (!side) return []
+  if (side.members?.length && side.members.every((m) => Array.isArray(m.rounds))) {
+    return side.members.map((player, mi) => ({ player, mi }))
+  }
+  return [{ player: side, mi: null }]
+}
+
+/** One player's Primary, capped independently of their partner's.
+ * @param {TrackerPlayer | null | undefined} player */
+export const personalPrimaryTotal = (player) => Math.min((player?.rounds || []).reduce((sum, r) => sum + (r.primary || 0), 0), PRIMARY_GAME_CAP)
+
 /** @param {TrackerGame} game @param {number} pi */
 export function primaryTotal(game, pi) {
   const pl = game.players?.[pi]
   if (!pl) return 0
-  return Math.min((pl.rounds || []).reduce((s, r) => s + (r.primary || 0), 0), PRIMARY_GAME_CAP)
+  return primaryEntries(pl).reduce((sum, { player }) => sum + personalPrimaryTotal(player), 0)
 }
 
 export const SECONDARY_ROUND_CAP = 15 // across all secondaries, per battle round
@@ -101,11 +118,13 @@ export function secondaryInRound(player, round) {
 export function roundBreakdown(game, pi) {
   const pl = game?.players?.[pi]
   const out = []
-  let cumulative = 0
+  let secondaryCumulative = 0
   for (let i = 0; i < ROUND_COUNT; i++) {
-    const primary = pl?.rounds?.[i]?.primary || 0
+    const primary = primaryEntries(pl).reduce((sum, { player }) => sum + (player.rounds?.[i]?.primary || 0), 0)
     const secondary = secondaryInRound(pl, i + 1)
-    cumulative += primary + secondary
+    secondaryCumulative += secondary
+    // Running BP (and the broadcast) must use the same personal game caps as the final score.
+    const cumulative = primaryEntries(pl).reduce((sum, { player }) => sum + personalPrimaryTotal({ rounds: player.rounds?.slice(0, i + 1) }), 0) + Math.min(secondaryCumulative, SECONDARY_GAME_CAP)
     out.push({ round: i + 1, primary, secondary, vp: primary + secondary, cumulativeVp: cumulative })
   }
   return out

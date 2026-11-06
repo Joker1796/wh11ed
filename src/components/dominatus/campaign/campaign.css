@@ -245,3 +245,5 @@
 /* A phase played past its date: said in the warning colour, nothing more. */
 .camp-late,
 .camp-next li.is-late .camp-next-text { color: var(--warning); }
+
+.camp-form-part { display: grid; gap: 0.5rem; justify-self: stretch; }

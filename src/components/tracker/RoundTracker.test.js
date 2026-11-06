@@ -170,6 +170,30 @@ describe('RoundTracker — the missions panel', () => {
 
   // A player's report (2026-10-20): in round 1 the primary's dialog left out the card's "Second
   // Battle Round Onwards" half. The whole card is shown; the other round's half is greyed, named so.
+  it('opens each Doubles partner’s own Agenda and writes only their scoring rows', async () => {
+    await (await import('../../composables/dominatusMissions.js')).loadDominatusDeck()
+    startGame(
+      { teamName: 'A', members: [{ name: 'Ann', alliance: 'liberators' }, { name: 'Ben', alliance: 'raiders' }] },
+      { teamName: 'B', members: [{ name: 'Cid', alliance: 'oppressors' }, { name: 'Dee', alliance: 'oppressors' }] },
+      { gameType: 'doubles', dominatus: { phase: 1, location: 'the-mannheim-gap' } },
+    )
+    const w = mountTracker()
+    await flushPromises()
+    const cards = w.findAll('.mission-card')
+    expect(cards).toHaveLength(2)
+    expect(cards[0].text()).toContain('Ann')
+    expect(cards[1].text()).toContain('Ben')
+    await cards[1].trigger('click')
+    await flushPromises()
+    const modal = w.findComponent({ name: 'ScoringModal' })
+    expect(modal.props('title')).toContain('Ben')
+    const before = tracker.current.value.players[0].members[0].rounds.map((r) => r.primary)
+    modal.vm.$emit('set', 0, 0, 1)
+    await w.vm.$nextTick()
+    expect(tracker.current.value.players[0].members[1].rounds[0].picks['0:0']).toBe(1)
+    expect(tracker.current.value.players[0].members[0].rounds.map((r) => r.primary)).toEqual(before)
+  })
+
   it('shows the primary\'s whole card in round 1, the later half greyed', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' })
     tracker.current.value.players[0].primarySlug = 'determined-acquisition'

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { campaignState, battleEvent, UPGRADES_PER_SIDE, sizeOf, randomPairings, phaseEndsByItself, SETTINGS_DEFAULTS, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, playerStanding, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, takeablePlayers, PATH_TO_CONQUEST } from './campaign.js'
+import { campaignState, battleEvent, UPGRADES_PER_SIDE, sizeOf, randomPairings, phaseEndsByItself, SETTINGS_DEFAULTS, drawPile, drawFor, standings, recordOf, battleAmend, battleLocked, reopenable, reopenPhase, removable, removePlayer, playedIn, playerStanding, scheduleProgress, pairingsNow, likelyDuplicates, nextSteps, takeablePlayers, PATH_TO_CONQUEST, teamRewardsSuggested, opponentsOf, battleSidesReason, isTeam } from './campaign.js'
 import { getDominatus } from '../../data/dominatus.js'
 
 const deck = getDominatus('en')
@@ -639,5 +639,145 @@ describe('playerStanding — a player on the campaign list', () => {
   })
   it('a player with no Alliance and no cards yet', () => {
     expect(playerStanding(s, { id: 'p9' }, cards)).toEqual({ alliance: null, cards: { honour: 0, skill: 0, relic: 0 }, played: 0, due: 3 })
+  })
+})
+
+describe('Dominatus campaign — a team battle (Doubles, owner 2026-11-06)', () => {
+  // Ann + Ben (Liberators) against Cid + Dee (Oppressors); Ben enters it, the Warmaster counts it.
+  const team = (author, id, victor, achieved = {}, more = {}) => ev(author, 'battle', { id, a: 'ann', a2: 'ben', b: 'cid', b2: 'dee', victor, achieved: { a: 0, a2: 0, b: 0, b2: 0, ...achieved }, ...more })
+  const counted = (...extra) => campaignState([...base(), team('m1', 't1', 'a', { a2: 1 }), O('review', { battle: 't1', ok: true }), ...extra], deck)
+
+  it('rejects incomplete teams, including an empty partner on both sides', () => {
+    const s = campaignState(base(), deck)
+    expect(battleSidesReason(s, { a: 'ann', b: 'cid', a2: null, b2: null })).toBe('unknown players')
+    expect(battleSidesReason(s, { a: 'ann', b: 'cid', a2: 'ben' })).toBe('unknown players')
+  })
+
+  it('recognises only a complete team, not a half-filled selection', () => {
+    expect(isTeam({ a2: 'ben' })).toBe(false)
+    expect(isTeam({ b2: 'dee' })).toBe(false)
+    expect(isTeam({ a2: 'ben', b2: 'dee' })).toBe(true)
+  })
+
+  it('rejects a team with just one mixed side, and does not accept half of a pairing', () => {
+    const s = campaignState(base(), deck)
+    s.players.push({ ...s.players[3], id: 'eve', alliance: 'oppressors' })
+    expect(battleSidesReason(s, { a: 'ann', a2: 'cid', b: 'dee', b2: 'eve' })).toBe('team of two Alliances')
+    const evs = [...base(), O('player', { id: 'eve', name: 'Eve', alliance: 'oppressors' }), O('settings', { pairBy: 'warmaster' }), O('pairing', { id: 'p', phase: 1, a: 'ann', a2: 'ben', b: 'cid', b2: 'dee' }), ev('m1', 'battle', { id: 'bad', a: 'ann', a2: 'ben', b: 'cid', b2: 'eve', victor: 'a' })]
+    expect(campaignState(evs, deck).rejected.at(-1).reason).toBe('not paired')
+    const reversed = { seq: ++seq, author: 'm1', type: 'battle', payload: { id: 'bad2', a: 'cid', a2: 'eve', b: 'ann', b2: 'ben', victor: 'b' } }
+    expect(campaignState([...evs.slice(0, -1), reversed], deck).rejected.at(-1).reason).toBe('not paired')
+  })
+
+  it('counts only the actual Honours handed out, for the Alliances fought for', () => {
+    const s = counted()
+    expect(standings(s).map((a) => a.honours)).toEqual([0, 0])
+    const rewards = teamRewardsSuggested(s, s.battles[0])
+    const done = counted(O('teamRewards', { battle: 't1', rewards }), O('player', { id: 'ann', alliance: 'raiders' }))
+    expect(standings(done).map((a) => a.honours)).toEqual([2, 0, 0])
+    const pending = campaignState([...base(), team('m1', 't1', 'a')], deck)
+    expect(standings(pending).map((a) => a.honours)).toEqual([0, 0])
+    const ended = counted(O('teamRewards', { battle: 't1', rewards }), O('endPhase', { phase: 1 }))
+    expect(standings(ended).map((a) => [a.honours, a.totalHonours])).toEqual([[0, 2], [0, 0]])
+  })
+
+  it('includes the Location and campaign bonuses in each suggested draw', () => {
+    const s = counted()
+    s.drawExtra = 2
+    s.control['the-morpheon-line'] = 'liberators'
+    expect(teamRewardsSuggested(s, s.battles[0]).map((r) => r.draw)).toEqual([4, 5, 3, 3])
+    s.battles[0].phase = 3
+    expect(teamRewardsSuggested(s, s.battles[0]).map((r) => r.draw)).toEqual([0, 0, 0, 0])
+  })
+
+  it('counts whole for each of the four, and each keeps their own Agenda Achieved', () => {
+    const s = counted()
+    for (const id of ['ann', 'ben', 'cid', 'dee']) expect(playedIn(s, id)).toBe(1)
+    expect(recordOf(s, 'ben')).toEqual({ won: 1, drawn: 0, lost: 0 })
+    expect(recordOf(s, 'dee')).toEqual({ won: 0, drawn: 0, lost: 1 })
+    expect(s.players.find((p) => p.id === 'ben').agenda).toHaveLength(1)
+    expect(s.players.find((p) => p.id === 'ann').agenda).toHaveLength(0)
+    expect(opponentsOf(s.battles[0], 'ben')).toEqual(['cid', 'dee'])
+  })
+
+  it('does not close a phase before its team rewards have been handed out', () => {
+    const s = counted(O('settings', { schedule: [1, 1, 1] }), O('endPhase', { phase: 1 }))
+    expect(s.phase).toBe(1)
+    expect(scheduleProgress(s).done).toBe(false)
+    expect(s.rejected.at(-1).reason).toBe('team rewards pending')
+  })
+
+  it('owes no cards until the Warmaster hands them out, and tells them so', () => {
+    const s = counted()
+    expect(s.pending).toEqual([])
+    expect(nextSteps(s, null, true).map((x) => x.kind)).toContain('teamRewards')
+    const ben = s.players.find((p) => p.id === 'ben')
+    expect(nextSteps(s, ben, false).find((x) => x.kind === 'teamRewardsWait')?.players).toEqual(['cid', 'dee'])
+  })
+
+  it('suggests the booklet\'s rewards, a card more for an Agenda Achieved', () => {
+    const s = counted()
+    expect(teamRewardsSuggested(s, s.battles[0])).toEqual([
+      { player: 'ann', kind: 'honour', draw: 1 },
+      { player: 'ben', kind: 'honour', draw: 2 },
+      { player: 'cid', kind: 'skill', draw: 1 },
+      { player: 'dee', kind: 'skill', draw: 1 },
+    ])
+  })
+
+  it('hands out what the Warmaster chose, once, and counts the Honours given for Take Control', () => {
+    const rewards = [
+      { player: 'ann', kind: 'honour', draw: 1 }, { player: 'ben', kind: 'skill', draw: 2 },
+      { player: 'cid', kind: 'honour', draw: 1 }, { player: 'dee', kind: 'none', draw: 0 },
+    ]
+    const s = counted(O('teamRewards', { battle: 't1', rewards }), O('teamRewards', { battle: 't1', rewards }), ev('m1', 'teamRewards', { battle: 't1', rewards }))
+    expect(s.pending.map((r) => `${r.player}:${r.kind}:${r.draw}`)).toEqual(['ann:honour:1', 'ben:skill:2', 'cid:honour:1'])
+    expect(s.rejected.map((r) => r.reason)).toEqual(['rewards given', 'owner only'])
+    expect(nextSteps(s, null, true).map((x) => x.kind)).not.toContain('teamRewards')
+    const end = campaignState([...base(), team('m1', 't1', 'a'), O('review', { battle: 't1', ok: true }), O('teamRewards', { battle: 't1', rewards }), O('endPhase', { phase: 1 })], deck)
+    // One Honour each way: a tie the rules break or the Warmaster rules on; both counted.
+    expect(end.results[1].honours).toEqual({ liberators: 1, oppressors: 1 })
+  })
+
+  it('refuses a hand-out that misses a player or names a stranger', () => {
+    const s = counted(O('teamRewards', { battle: 't1', rewards: [{ player: 'ann', kind: 'honour' }, { player: 'ben', kind: 'honour' }, { player: 'cid', kind: 'skill' }] }))
+    expect(s.rejected.map((r) => r.reason)).toEqual(['bad rewards'])
+  })
+
+  it('keeps a team to one Alliance unless the campaign lets them mix, and never Alliance against itself', () => {
+    const mixed = (settings) => campaignState([...base(), ...settings, O('battle', { id: 'x', a: 'ann', a2: 'cid', b: 'ben', b2: 'dee', victor: 'a', achieved: {} })], deck)
+    expect(mixed([]).rejected.map((r) => r.reason)).toEqual(['team of two Alliances'])
+    expect(mixed([O('settings', { teamAlliance: 'any' })]).battles).toHaveLength(1)
+    const same = campaignState([...base(), O('player', { id: 'eve', name: 'Eve', alliance: 'liberators' }), O('battle', { id: 'y', a: 'ann', a2: 'ben', b: 'eve', b2: 'ann', victor: 'a', achieved: {} })], deck)
+    expect(same.rejected.map((r) => r.reason)).toEqual(['unknown players'])
+  })
+
+  it('pairs two a side, and a member\'s team battle then needs that pairing', () => {
+    const s = campaignState([...base(), O('settings', { pairBy: 'warmaster' }), O('pairing', { id: 'p1', phase: 1, a: 'ann', a2: 'ben', b: 'cid', b2: 'dee' }), team('m1', 't1', 'b'), ev('m1', 'battle', { id: 't2', a: 'ben', b: 'cid', victor: 'a', achieved: {} })], deck)
+    expect(s.battles.map((b) => b.id)).toEqual(['t1'])
+    expect(s.rejected.map((r) => r.reason)).toEqual(['not paired'])
+    expect(pairingsNow(s)[0].played).toBe(true)
+  })
+
+  it('corrected, loses the hand-out and the cards drawn for it, to be handed out again', () => {
+    const rewards = teamRewardsSuggested(counted(), counted().battles[0])
+    const events = [...base(), team('m1', 't1', 'a'), O('review', { battle: 't1', ok: true }), O('teamRewards', { battle: 't1', rewards })]
+    const amend = battleAmend(events, 't1', { victor: 'b', achieved: { a: 0, a2: 0, b: 1, b2: 0 } })
+    const s = campaignState([...events, O('amend', { edits: amend })], deck)
+    expect(s.battles[0].victor).toBe('b')
+    expect(s.battles[0].rewards).toBeNull()
+    expect(s.pending).toEqual([])
+    expect(s.players.find((p) => p.id === 'cid').agenda).toHaveLength(1)
+  })
+
+  it('in phase 3 gives the victors Path to Conquest', () => {
+    const s = counted()
+    s.battles[0].phase = 3
+    expect(teamRewardsSuggested(s, s.battles[0]).map((r) => r.kind)).toEqual(['conquest', 'conquest', 'none', 'none'])
+  })
+
+  it('marks two entries of one team battle as likely the same', () => {
+    const s = campaignState([...base(), team('m1', 't1', 'a'), ev('m2', 'battle', { id: 't2', a: 'dee', a2: 'cid', b: 'ben', b2: 'ann', victor: 'b', achieved: {} })], deck)
+    expect([...likelyDuplicates(s)]).toEqual(expect.arrayContaining(['t2']))
   })
 })

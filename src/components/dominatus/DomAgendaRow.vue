@@ -1,6 +1,6 @@
 <template>
   <MissionRuleFold
-    :label="labels.domAgendaAchieved"
+    :label="mi == null ? labels.domAgendaAchieved : `${player.name} · ${labels.domAgendaAchieved}`"
     icon="dom-achieved"
   >
     <DomAgendaAchieved
@@ -20,7 +20,7 @@
           type="checkbox"
           :checked="!!player.agendaAchieved"
           :disabled="!editable"
-          @change="(e) => setAgendaAchieved(pi, e.target.checked ? 1 : 0)"
+          @change="(e) => setAgendaAchieved(pi, e.target.checked ? 1 : 0, mi)"
         >
         <span>{{ labels.trackerDomAchievedGot }}</span>
       </label>
@@ -30,7 +30,7 @@
           :min="0"
           :max="max"
           :disabled="!editable"
-          @update:model-value="(v) => setAgendaAchieved(pi, v)"
+          @update:model-value="(v) => setAgendaAchieved(pi, v, mi)"
         />
         <span class="dagr-max">/ {{ max }}</span>
       </template>
@@ -53,13 +53,14 @@ import { useLocale } from '../../composables/useLocale.js'
 
 const props = defineProps({
   pi: { type: Number, required: true },
+  mi: { type: Number, default: null },
   editable: { type: Boolean, default: true },
 })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, setAgendaAchieved } = useTracker()
 
-const player = computed(() => current.value.players[props.pi])
+const player = computed(() => props.mi == null ? current.value.players[props.pi] : current.value.players[props.pi].members[props.mi])
 const mission = computed(() => missionBySlug(player.value.primarySlug, null, locale.value))
 const max = computed(() => (mission.value?.achieved?.more ? 2 : 1))
 </script>

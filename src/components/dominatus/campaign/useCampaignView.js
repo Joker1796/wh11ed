@@ -44,7 +44,7 @@ export function campaignWords(getState, locale) {
     const l = labels.value
     const key = x.kind === 'reward' && !x.player ? 'campNext_rewardPhase' : `campNext_${x.kind}`
     return (l[key] || x.kind)
-      .replace('{p}', x.player ? playerName(x.player) : '')
+      .replace('{p}', x.players?.length ? x.players.map(playerName).join(' + ') : x.player ? playerName(x.player) : '')
       .replace('{what}', x.reward ? rewardName(x.reward) : '')
       .replace('{f}', x.faction ? factionIndexBySlug(x.faction)?.name || x.faction : '')
       .replace('{a}', x.alliance ? allianceName(x.alliance) : '')

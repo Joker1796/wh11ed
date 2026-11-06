@@ -2,7 +2,7 @@
 // campaign's phase and Location, and each side a campaign player — "you" your own, the other by the
 // name when it matches, else picked — with the player's Alliance.
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { mount, enableAutoUnmount } from '@vue/test-utils'
 
 const players = [
   { id: 'ann', name: 'Ann', alliance: 'liberators' },
@@ -17,9 +17,12 @@ vi.mock('../../composables/useCampaigns.js', () => ({
   campaignPlayerOf: () => (me ? players.find((p) => p.id === me) : null),
 }))
 
+enableAutoUnmount(afterEach)
 let GameSetup
 beforeEach(async () => {
   localStorage.clear()
+  const { useTracker } = await import('../../composables/useTracker.js')
+  useTracker().setupDraft.value = null
   role = 'owner'; me = null; strict = false
   GameSetup = (await import('./GameSetup.vue')).default
 })
@@ -35,6 +38,20 @@ function setup(you, opp) {
 }
 
 describe('GameSetup — a Dominatus battle of a campaign', () => {
+  it('previews a personal Agenda for both partners of a Doubles team', async () => {
+    await (await import('../../composables/dominatusMissions.js')).loadDominatusDeck()
+    const s = setup('Ann', 'Cid')
+    s.setGameMode('doubles')
+    s.players[0].disposition = 'take-and-hold'
+    s.players[1].disposition = 'purge-the-foe'
+    s.players[0].members[0].alliance = 'liberators'
+    s.players[0].members[1].alliance = 'raiders'
+    s.players[0].members[1].name = 'Ben'
+    const previews = s.primaryPreviews(0)
+    expect(previews.map((p) => p.name)).toEqual(['Ann', 'Ben'])
+    expect(previews.map((p) => p.mission.slug)).toEqual(['dom-vital-strongpoint', 'dom-vanguard-recon'])
+  })
+
   it('offers the campaigns this device plays in, not one it only watches', () => {
     const s = setup('Ann', 'Cid')
     expect(s.domCampaignOptions.map((o) => o.value)).toEqual(['C'])

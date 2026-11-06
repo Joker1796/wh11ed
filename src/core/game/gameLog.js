@@ -29,6 +29,7 @@
 //   undone — the entry was taken back: drawn struck through.
 
 import { ledgerEvent, discardEvent, ACT_KIND } from './actionLog.js'
+import { primaryEntries } from './gameScoring.js'
 
 /** @typedef {import('../shared/roster.types.js').TrackerGame} TrackerGame */
 /** @typedef {import('../shared/roster.types.js').GameLogEvent} GameLogEvent */
@@ -38,7 +39,7 @@ import { ledgerEvent, discardEvent, ACT_KIND } from './actionLog.js'
 // a score — is gone once taken back, and a twin still standing (two identical uses, one taken back)
 // must not be mistaken for it.
 /** @param {Record<string, any>} e */
-const sig = (e) => JSON.stringify([e.type, e.t ?? null, e.round ?? null, e.slug ?? null, e.name ?? null, e.amount ?? null, e.vp ?? null, e.uid ?? null, e.id ?? null, e.opt ?? null])
+const sig = (e) => JSON.stringify([e.type, e.mi ?? null, e.t ?? null, e.round ?? null, e.slug ?? null, e.name ?? null, e.amount ?? null, e.vp ?? null, e.uid ?? null, e.id ?? null, e.opt ?? null])
 /** @param {Record<string, any>} e @returns {string} */
 const kindOf = (e) => (e.type === 'undo' ? kindOf(e.of || {}) : e.kind || ACT_KIND[e.type] || 'cp')
 
@@ -48,8 +49,8 @@ export function buildGameLog(game) {
   const out = []
   if (!game?.players) return out
   game.players.forEach((pl, pi) => {
-    pl.rounds?.forEach((r, i) => {
-      if (r?.primary) out.push({ round: i + 1, turn: pi, pi, kind: 'points', type: 'primary', vp: r.primary, slug: pl.primarySlug, t: r.t })
+    for (const { player, mi } of primaryEntries(pl)) player.rounds?.forEach((r, i) => {
+      if (r?.primary) out.push({ round: i + 1, turn: pi, pi, kind: 'points', type: 'primary', vp: r.primary, slug: player.primarySlug, t: r.t, ...(mi == null ? {} : { mi }) })
     })
     const s = pl.secondary || {}
     const redrawn = new Set((pl.cpLog || []).filter((e) => e.kind === 'spend' && e.source === 'redraw').map((e) => e.ref))

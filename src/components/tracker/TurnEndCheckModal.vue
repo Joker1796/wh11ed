@@ -8,12 +8,12 @@
     <div class="modal-body">
       <section
         v-for="c in checks"
-        :key="`${c.pi}:${c.slug || 'primary'}`"
+        :key="`${c.pi}:${c.mi ?? 'side'}:${c.slug || 'primary'}`"
         class="ck"
         :class="{ opp: !isYouSide(current.players[c.pi], c.pi) }"
       >
         <div class="ck-head">
-          <span class="ck-name">{{ names[c.pi] }} · {{ title(c) }}</span>
+          <span class="ck-name">{{ c.mi == null ? names[c.pi] : current.players[c.pi].members[c.mi].name }} · {{ title(c) }}</span>
           <span
             v-if="!canEdit(c.pi)"
             class="ck-phone"
@@ -66,14 +66,14 @@ const { canEdit } = useParty()
 const round = computed(() => current.value.currentRound)
 function title(c) {
   const pl = current.value.players[c.pi]
-  return missionBySlug(c.slug || pl.primarySlug, c.slug ? pl.role : null, locale.value)?.name || ''
+  return missionBySlug(c.slug || (c.mi == null ? pl : pl.members[c.mi]).primarySlug, c.slug ? pl.role : null, locale.value)?.name || ''
 }
 function count(c, bi, ri) {
-  return c.slug ? secondaryRowCount(c.pi, c.slug, bi, ri) : primaryRowCount(c.pi, round.value - 1, bi, ri)
+  return c.slug ? secondaryRowCount(c.pi, c.slug, bi, ri) : primaryRowCount(c.pi, round.value - 1, bi, ri, c.mi ?? null)
 }
 function set(c, bi, ri, n) {
   if (c.slug) scoreSecondaryRow(c.pi, c.slug, bi, ri, n)
-  else setPrimaryRow(c.pi, round.value - 1, bi, ri, n)
+  else setPrimaryRow(c.pi, round.value - 1, bi, ri, n, null, c.mi ?? null)
 }
 </script>
 

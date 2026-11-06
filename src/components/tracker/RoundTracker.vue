@@ -325,10 +325,23 @@
              shape under the war zone (owner, 2026-11-03). Its own control greys for a side another
              phone plays; its conditions stay readable. -->
         <DomAgendaRow
-          v-if="isDomMissionSlug(current.players[missionSide].primarySlug)"
+          v-if="!current.players[missionSide].members && isDomMissionSlug(current.players[missionSide].primarySlug)"
           :pi="missionSide"
           :editable="canEdit(missionSide)"
         />
+        <template v-if="current.settings.dominatus && current.players[missionSide].members">
+          <template
+            v-for="(m, mi) in current.players[missionSide].members"
+            :key="mi"
+          >
+            <DomAgendaRow
+              v-if="isDomMissionSlug(m.primarySlug)"
+              :pi="missionSide"
+              :mi="mi"
+              :editable="canEdit(missionSide)"
+            />
+          </template>
+        </template>
         <!-- In a shared game a side another phone plays is shown as it is, greyed, with the
              reason under its title — never hidden: what the opponent has scored is exactly what a
              player wants to see. The lock is on what SCORES — the primary's stepper, the deck's
@@ -356,45 +369,49 @@
               {{ isHost ? labels.partyOtherSideHost : labels.partyOtherSide }}
             </p>
 
-            <!-- The primary, folded to one line as in the first tracker (owner, 2026-09-29): its name and
+            <template
+              v-for="{ player: pp, mi } in primaryEntries(current.players[i])"
+              :key="mi ?? 'side'"
+            >
+              <!-- The primary, folded to one line as in the first tracker (owner, 2026-09-29): its name and
                  this round's VP; a tap opens it with its conditions to tick (ScoringModal). -->
-            <button
-              v-if="primaryMission(i)"
-              type="button"
-              class="mission-card"
-              data-press
-              @click="openPrimary = i"
-            >
-              <!-- A Dominatus Primary is the player's Agenda: the deck's Agenda mark before its name. -->
-              <i
-                v-if="isDomMissionSlug(current.players[i].primarySlug)"
-                class="wi wi-dom-agenda mc-mark"
-                aria-hidden="true"
-              />
-              <span class="mc-name">{{ primaryName(i) }}</span>
-              <span class="mc-tag">{{ isDomMissionSlug(current.players[i].primarySlug) ? labels.domKindAgenda : labels.trackerPrimary }}</span>
-              <!-- Over the round's 15 only with an End of Battle row, which the cap does not reach: no
+              <button
+                v-if="primaryMission(i, mi)"
+                type="button"
+                class="mission-card"
+                data-press
+                @click="openPrimary = i; openPrimaryMember = mi"
+              >
+                <!-- A Dominatus Primary is the player's Agenda: the deck's Agenda mark before its name. -->
+                <i
+                  v-if="isDomMissionSlug(pp.primarySlug)"
+                  class="wi wi-dom-agenda mc-mark"
+                  aria-hidden="true"
+                />
+                <span class="mc-name">{{ primaryName(i, mi) }}</span>
+                <span class="mc-tag">{{ isDomMissionSlug(pp.primarySlug) ? labels.domKindAgenda : labels.trackerPrimary }}</span>
+                <!-- Over the round's 15 only with an End of Battle row, which the cap does not reach: no
                    "/ 15" then, a figure past it would read as an error. -->
-              <span class="mc-vp">{{ current.players[i].rounds[shownRound - 1].primary }}{{ current.players[i].rounds[shownRound - 1].primary > PRIMARY_ROUND_CAP ? '' : ` / ${PRIMARY_ROUND_CAP}` }} VP</span>
-            </button>
-            <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no
+                <span class="mc-vp">{{ pp.rounds[shownRound - 1].primary }}{{ pp.rounds[shownRound - 1].primary > PRIMARY_ROUND_CAP ? '' : ` / ${PRIMARY_ROUND_CAP}` }} VP</span>
+              </button>
+              <!-- The fallback, and the only one: a disposition the app couldn't resolve leaves no
                  card to tick. The missions themselves are not optional — see trackerOptions.js. -->
-            <div
-              v-else
-              class="score-row"
-              :inert="lock(i)"
-            >
-              <span class="sr-label">{{ labels.trackerPrimary }}</span>
-              <NumberStepper
-                :model-value="current.players[i].rounds[shownRound - 1].primary"
-                :min="0"
-                :max="PRIMARY_ROUND_CAP"
-                :disabled="!!pastWhy"
-                @update:model-value="v => setRoundPrimary(i, shownRound - 1, v, shownTurn)"
-              />
-              <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
-            </div>
-
+              <div
+                v-else
+                class="score-row"
+                :inert="lock(i)"
+              >
+                <span class="sr-label">{{ labels.trackerPrimary }}</span>
+                <NumberStepper
+                  :model-value="pp.rounds[shownRound - 1].primary"
+                  :min="0"
+                  :max="PRIMARY_ROUND_CAP"
+                  :disabled="!!pastWhy"
+                  @update:model-value="v => setRoundPrimary(i, shownRound - 1, v, shownTurn, mi)"
+                />
+                <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
+              </div>
+            </template>
             <!-- Combat Patrol has no secondaries: a player scores their box's mission alone.
                  Before the battle another phone's choice stays hidden until both sides have
                  chosen (PreBattle.vue — the Mission Sequence's secret choice). -->
@@ -551,21 +568,21 @@
     </section>
 
     <ScoringModal
-      v-if="openPrimary >= 0 && primaryMission(openPrimary)"
-      :title="primaryName(openPrimary)"
+      v-if="openPrimary >= 0 && primaryMission(openPrimary, openPrimaryMember)"
+      :title="primaryName(openPrimary, openPrimaryMember)"
       :subtitle="`${labels.trackerPrimary} · ${dispositionName(current.players[openPrimary].disposition)}`"
-      :vp="current.players[openPrimary].rounds[shownRound - 1].primary"
-      :blocks="primaryBlocks(openPrimary)"
-      :briefing="primaryMission(openPrimary).briefing"
-      :count="(bi, ri) => primaryRowCount(openPrimary, shownRound - 1, bi, ri)"
+      :vp="primaryPlayer(openPrimary, openPrimaryMember).rounds[shownRound - 1].primary"
+      :blocks="primaryBlocks(openPrimary, openPrimaryMember)"
+      :briefing="primaryMission(openPrimary, openPrimaryMember).briefing"
+      :count="(bi, ri) => primaryRowCount(openPrimary, shownRound - 1, bi, ri, openPrimaryMember)"
       :readonly="!!pastWhy || !canEdit(openPrimary)"
       :view-only-note="pastWhy || (canEdit(openPrimary) ? null : labels.partyOtherSide)"
-      :locked="b => primaryLocked(openPrimary, b)"
-      :fix="primaryFix(openPrimary)"
+      :locked="b => primaryLocked(openPrimary, b, openPrimaryMember)"
+      :fix="primaryFix(openPrimary, openPrimaryMember)"
       :opp="!isYouSide(current.players[openPrimary], openPrimary)"
       :note="labels.trackerPrimaryCaps.replace('{round}', PRIMARY_ROUND_CAP).replace('{game}', PRIMARY_GAME_CAP)"
-      @set="(bi, ri, c) => setPrimaryRow(openPrimary, shownRound - 1, bi, ri, c, shownTurn)"
-      @fix="openTurn(primaryFixTurn(openPrimary))"
+      @set="(bi, ri, c) => setPrimaryRow(openPrimary, shownRound - 1, bi, ri, c, shownTurn, openPrimaryMember)"
+      @fix="openTurn(primaryFixTurn(openPrimary, openPrimaryMember))"
       @close="openPrimary = -1"
     />
 
@@ -676,6 +693,7 @@ import { turnIndex as turnOf } from '../../core/game/clock.js'
 import MissionRuleFold from './MissionRuleFold.vue'
 import { isDomMissionSlug, domLocation as domLocationOf } from '../../composables/dominatusMissions.js'
 import DomAgendaRow from '../dominatus/DomAgendaRow.vue'
+import { primaryEntries } from '../../core/game/gameScoring.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -1001,6 +1019,7 @@ try {
 watch([tab, clockKey, pickedSide], () => setItem(TAB_KEY, JSON.stringify({ at: clockKey(), tab: tab.value, side: pickedSide.value })))
 
 const cpHelpOpen = ref(false) // the CP tab's "?"
+const openPrimaryMember = ref(null)
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 const endModalOpen = ref(false)
 const editSetupOpen = ref(false)
@@ -1201,32 +1220,36 @@ const activeTwist = computed(() => {
   return getEventContent(locale.value).twists.blocks.find(b => b.id === id) || null
 })
 
-function primaryMission(i) {
-  return missionBySlug(current.value.players[i].primarySlug, null, locale.value)
+function primaryPlayer(i, mi = null) {
+  const side = current.value.players[i]
+  return mi == null ? side : side.members[mi]
 }
-function primaryName(i) {
-  const m = primaryMission(i)
-  return m ? m.name : ''
+function primaryMission(i, mi = null) {
+  return missionBySlug(primaryPlayer(i, mi).primarySlug, null, locale.value)
+}
+function primaryName(i, mi = null) {
+  const m = primaryMission(i, mi)
+  return m ? [mi == null ? null : primaryPlayer(i, mi).name, m.name].filter(Boolean).join(' · ') : ''
 }
 // The primary's whole card for the round on screen; the blocks of other rounds come greyed.
-function primaryBlocks(i) {
-  return cardBlocks(current.value.players[i].primarySlug, null, shownRound.value, locale.value)
+function primaryBlocks(i, mi = null) {
+  return cardBlocks(primaryPlayer(i, mi).primarySlug, null, shownRound.value, locale.value)
 }
 // A primary condition scored in another turn than the one on screen (missionTiming.js), by the EN
 // block: the turn it is scored in, said.
-function primaryLocked(i, b) {
-  const t = blockLocked(current.value, i, shownRound.value, shownTurn.value, missionBySlug(current.value.players[i].primarySlug)?.blocks[b.bi])
+function primaryLocked(i, b, mi = null) {
+  const t = blockLocked(current.value, i, shownRound.value, shownTurn.value, missionBySlug(primaryPlayer(i, mi).primarySlug)?.blocks[b.bi])
   return t == null ? null : labels.value.trackerScoredInTurn.replace('{name}', playerName(t))
 }
 // The turn its locked conditions are put right in — one that has begun, and that strict rules
 // let be corrected — and the dialog's button for it.
-function primaryFixTurn(i) {
-  const en = missionBySlug(current.value.players[i].primarySlug)
-  const t = fixTurnOf(current.value, i, shownRound.value, shownTurn.value, primaryBlocks(i), (bi) => en?.blocks[bi])
+function primaryFixTurn(i, mi = null) {
+  const en = missionBySlug(primaryPlayer(i, mi).primarySlug)
+  const t = fixTurnOf(current.value, i, shownRound.value, shownTurn.value, primaryBlocks(i, mi), (bi) => en?.blocks[bi])
   return t == null || strictWhy('round', i, shownRound.value, t) ? null : t
 }
-function primaryFix(i) {
-  const t = primaryFixTurn(i)
+function primaryFix(i, mi = null) {
+  const t = primaryFixTurn(i, mi)
   return t == null ? '' : labels.value.trackerOpenTurn.replace('{name}', playerName(t))
 }
 function onEndBattle(reason) {

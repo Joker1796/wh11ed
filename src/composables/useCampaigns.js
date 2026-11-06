@@ -25,7 +25,7 @@ import { ref, computed, watch } from 'vue'
 import { API_BASE_URL } from '../config.js'
 import { campaignPath } from '../router/nav.js'
 import { useAuth } from './useAuth.js'
-import { campaignState } from '../core/dominatus/campaign.js'
+import { campaignState, isTeam } from '../core/dominatus/campaign.js'
 import { loadDominatusDeck, dominatusDeck } from './dominatusMissions.js'
 
 const KEY = 'wh11ed-campaigns'
@@ -272,7 +272,7 @@ function waitingFor(c, state) {
   const me = myPlayer(c, state)
   return {
     rewards: state.pending.filter((r) => owner || (me && r.player === me.id && state.rewardsBy !== 'warmaster')).length,
-    battles: owner ? state.battles.filter((b) => b.status === 'pending').length : 0,
+    battles: owner ? state.battles.filter((b) => (b.status === 'pending' || (isTeam(b) && b.status === 'approved' && !b.rewards))).length : 0,
   }
 }
 

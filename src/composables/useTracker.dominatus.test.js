@@ -3,6 +3,7 @@
 // mission deck's card instead, and the battle keeps what the campaign needs from it (Agenda
 // Achieved cards, the Upgrades given out).
 import { beforeEach, describe, it, expect, vi } from 'vitest'
+import { battleEvent } from '../core/dominatus/campaign.js'
 
 let mod, tracker
 
@@ -26,6 +27,83 @@ function domGame({ phase = 1, decline = false } = {}) {
 }
 
 describe('Dominatus battle', () => {
+  it('scores each partner separately, caps each at 45 and adds their Primary to the team', async () => {
+    const g = domGame()
+    g.settings.gameType = 'doubles'
+    g.players.forEach((p, i) => {
+      p.teamName = `Team ${i}`
+      p.members = [0, 1].map((mi) => ({ name: `${i}-${mi}`, alliance: p.alliance }))
+    })
+    tracker.newGame(g)
+    const game = tracker.current.value
+    const [side] = game.players
+    tracker.setPrimaryRow(0, 1, 0, 0, 1, null, 0)
+    expect(tracker.primaryRowCount(0, 1, 0, 0, 0)).toBe(1)
+    expect(tracker.primaryRowCount(0, 1, 0, 0, 1)).toBe(0)
+    expect(side.members[0].rounds[1].primary).toBe(5)
+    expect(side.members[1].rounds[1].primary).toBe(0)
+    tracker.setPrimaryRow(0, 1, 0, 0, 1, null, 1)
+    expect(side.rounds[1].primary).toBe(10)
+    const { buildGameLog } = await import('../core/game/gameLog.js')
+    expect(buildGameLog(game).filter((e) => e.type === 'primary').map((e) => e.mi).sort()).toEqual([0, 1])
+    for (let round = 0; round < 4; round++) {
+      tracker.setRoundPrimary(0, round, 50, null, 0)
+      tracker.setRoundPrimary(0, round, 50, null, 1)
+    }
+    expect(side.rounds[0].primary).toBe(30)
+    expect(side.members[0].rounds[0].primary).toBe(15)
+    expect(tracker.primaryTotal(0)).toBe(90)
+    expect(tracker.grandTotal(0)).toBe(90)
+    // The aggregate is not a third editable mission.
+    tracker.setRoundPrimary(0, 0, 1)
+    expect(side.rounds[0].primary).toBe(30)
+    const { sliceGame, assembleGame } = await import('./gameSlices.js')
+    const restored = assembleGame(sliceGame(game))
+    const { primaryTotal, roundBreakdown } = await import('../core/game/gameScoring.js')
+    expect(primaryTotal(restored, 0)).toBe(90)
+    expect(roundBreakdown(restored, 0)[0].primary).toBe(30)
+  })
+
+  it('reminds each partner of their own Primary at the end of the turn', async () => {
+    const g = domGame()
+    g.settings.gameType = 'doubles'
+    g.players.forEach((p, i) => {
+      p.teamName = `Team ${i}`
+      p.members = [0, 1].map((mi) => ({ name: `${i}-${mi}`, alliance: p.alliance }))
+    })
+    tracker.newGame(g)
+    const game = tracker.current.value
+    game.phase = 'playing'; game.currentRound = 2; game.currentTurn = 0
+    const { turnEndChecks, cardMoments } = await import('../core/game/missionTiming.js')
+    const args = [(slug, role, r) => mod.scorableBlocks(slug, role, r), (slug, role) => mod.missionBySlug(slug, role)]
+    const checks = turnEndChecks(game, ...args).filter((c) => c.pi === 0 && c.slug === null)
+    expect(checks.map((c) => c.mi)).toEqual([0, 1])
+    const moments = cardMoments(game, 0, ...args, (slug) => mod.missionBySlug(slug).name)
+    expect([...new Set(moments.filter((c) => c.slug === null).map((c) => c.mi))]).toEqual([0, 1])
+  })
+
+  it('keeps all four identities and their own Agenda Achieved after a first-turn swap', () => {
+    const g = domGame()
+    g.settings.gameType = 'doubles'
+    g.settings.firstTurn = 2
+    g.settings.dominatus.campaign = 'C'
+    g.players.forEach((p, i) => {
+      p.teamName = `Team ${i}`
+      p.members = [0, 1].map((mi) => ({ name: `${i}-${mi}`, alliance: mi ? 'raiders' : p.alliance, campaignPlayer: `${i}-${mi}` }))
+    })
+    tracker.newGame(g)
+    const ps = tracker.current.value.players
+    expect(ps[0].members.map((m) => m.campaignPlayer)).toEqual(['1-0', '1-1'])
+    expect(ps[1].members.map((m) => m.campaignPlayer)).toEqual(['0-0', '0-1'])
+    expect(ps[1].members[0].primarySlug).toBe('dom-vital-strongpoint')
+    expect(ps[1].members[1].primarySlug).not.toBe(ps[1].members[0].primarySlug)
+    tracker.setAgendaAchieved(1, 2, 1)
+    expect(ps[1].members.map((m) => m.agendaAchieved)).toEqual([0, 1])
+    const { a, a2, b, b2, achieved } = battleEvent(tracker.current.value, ps[0].members[0].campaignPlayer, ps[1].members[0].campaignPlayer, 0, ps[0].members[1].campaignPlayer, ps[1].members[1].campaignPlayer)
+    expect([a, a2, b, b2]).toEqual(['1-0', '1-1', '0-0', '0-1'])
+    expect(achieved).toEqual({ a: 0, a2: 0, b: 0, b2: 1 })
+  })
+
   it("gives each player their Briefing's Agenda as the Primary", () => {
     tracker.newGame(domGame())
     const [me, opp] = tracker.current.value.players
