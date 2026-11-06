@@ -236,7 +236,10 @@ const rows = computed(() => campaigns.value.map((c) => {
   const l = labels.value
   const phase = st.finished ? l.campFinished : l.domPhase.replace('{n}', ['I', 'II', 'III'][st.phase - 1])
   const me = myPlayer(c, st)
-  const steps = c.role === 'viewer' ? [] : nextSteps(st, me, c.role === 'owner')
+  // A player's or Warmaster's rights are their account's: signed out, the row asks nothing of the
+  // reader (the sign-in block above says the way in) — stand walkthrough, 2026-11-06.
+  const acting = c.role !== 'viewer' && (status.value === 'authed' || !c.account)
+  const steps = acting ? nextSteps(st, me, c.role === 'owner') : []
   const first = steps.find((x) => x.todo) || steps[0]
   const words = campaignWords(() => st, locale)
   return {
