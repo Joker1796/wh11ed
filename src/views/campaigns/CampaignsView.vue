@@ -311,6 +311,11 @@ const battlesText = (m) => labels.value.campRowBattles.replace('{n}', m.played).
    column. */
 .camps-deck-acts { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
 .camps-deck-acts .btn-ghost { justify-content: center; padding-inline: 0.5rem; }
+/* A phone's two buttons on one line each (owner, 2026-11-06: "How it works" broke in two up to
+   375px): the size the tracker home and the roster list draw their buttons at this width. */
+@media (max-width: 480px) {
+  .camps-deck-acts .btn-ghost { padding: 0.45rem 0.4rem; font-size: 0.8rem; gap: 0.3rem; white-space: nowrap; }
+}
 @media (min-width: 901px) {
   .camps-deck-acts { grid-template-columns: 1fr; }
 }
