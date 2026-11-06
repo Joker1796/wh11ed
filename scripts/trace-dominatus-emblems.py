@@ -61,6 +61,8 @@ LOCAL = {'logo': (40, 20)}
 # Where the mark is, in pixels of the crop, when the ground around it is as busy as the mark: the
 # ring's circle (cx, cy, r) and the wings' band (left, top, right, bottom). Ink outside is ground.
 # It stands in for the largest-piece rule, which cut the ring's lower letters off the cover's mark.
+# One scratch survives inside the wings' band, a short stroke right of the right wing's tip: it was
+# taken out of dom-logo.svg by hand (owner, 2026-11-06) — a fresh trace brings it back, take it out again.
 CLIP = {'logo': ((378, 322, 314), (10, 80, 750, 260))}
 # The smallest ink kept and the largest hole filled, in photo pixels: the cover is worn, its
 # scratches and scuffs bigger than a card's grain (the Δ's opening, the smallest hole drawn, is
