@@ -102,7 +102,7 @@ function describe(e, seenPlayers) {
     case 'location': return l.campChrLocation.replace('{phase}', phaseLabel(p.phase)).replace('{loc}', locationName(p.slug))
     case 'pairing': return l.campChrPairing.replace('{phase}', phaseLabel(p.phase)).replace('{a}', playerName(p.a)).replace('{b}', playerName(p.b))
     case 'battle': {
-      const res = p.victor ? l.campWon.replace('{p}', playerName(p[p.victor])) : l.campDraw
+      const res = p.victor ? l.campWon.replace('{p}', playerName(p[p.victor])) : l.campDrawRes
       const line = l.campChrBattle.replace('{a}', playerName(p.a)).replace('{b}', playerName(p.b)).replace('{res}', res)
       // The Upgrades it was played with: which card went to which unit, and whose.
       const ups = (Array.isArray(p.upgrades) ? p.upgrades : []).filter((u) => u?.side === 'a' || u?.side === 'b').map((u) => (u.unit ? l.campChrUpgrade : l.campChrUpgradeBare)

@@ -15,7 +15,7 @@
           :key="x.id"
           class="camp-battle"
         >
-          <span>{{ playerName(x.a) }} — {{ playerName(x.b) }}</span>
+          <span>{{ labels.campPairLine.replace('{a}', playerName(x.a)).replace('{b}', playerName(x.b)) }}</span>
           <span class="camp-dim">{{ x.played ? labels.campPairPlayed : labels.campPairWaiting }}</span>
           <button
             v-if="isOwner && !x.played"

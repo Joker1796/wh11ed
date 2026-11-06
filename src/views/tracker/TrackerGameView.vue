@@ -162,7 +162,7 @@ const END_REASON_LABELS = {
 const resultLine = computed(() => {
   const g = current.value
   const w = g ? leaderOf(g) : -1
-  return w === -1 ? '' : `${labels.value.trackerWinner}: ${sideName(g.players[w], w, labels.value)}`
+  return w === -1 ? '' : labels.value.trackerWinnerIs.replace('{p}', sideName(g.players[w], w, labels.value))
 })
 const endReasonLabel = computed(() => {
   const key = END_REASON_LABELS[endReasonFor(current.value)]

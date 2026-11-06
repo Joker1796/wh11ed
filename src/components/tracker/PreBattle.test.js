@@ -40,7 +40,7 @@ describe('PreBattle — one phone', () => {
     expect(w.findAll('.pb-n').map((n) => n.text())).toEqual(['1–5', '6', '7', '8', '9', '10', '11'])
     expect(w.find('.pb-done-steps').text()).toContain('done in the setup')
     expect(step(w, 8).text()).toContain('Opp, the Defender, sets up a unit first')
-    expect(step(w, 9).text()).toContain('Me — the Attacker — first')
+    expect(step(w, 9).text()).toContain('and Me, the Attacker, goes first')
     expect(step(w, 11).text()).toContain('starting with whoever goes first')
   })
 

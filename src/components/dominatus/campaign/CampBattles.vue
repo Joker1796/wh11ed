@@ -104,7 +104,7 @@
           :class="`is-${x.status}`"
           :data-battle="x.id"
         >
-          <span>{{ playerName(x.a) }} — {{ playerName(x.b) }}: {{ outcome(x) }}</span>
+          <span>{{ labels.campBattleLine.replace('{a}', playerName(x.a)).replace('{b}', playerName(x.b)).replace('{res}', outcome(x)) }}</span>
           <span class="camp-dim">{{ labels[`campStatus_${x.status}`] }}<template v-if="x.edited">{{ ' · ' + labels.campEdited }}</template></span>
           <span
             v-if="isOwner && dupes.has(x.id)"
@@ -310,7 +310,7 @@ const opponentsOf = (id) => {
   return all.filter((p) => pairs.includes(p.id))
 }
 function outcome(x) {
-  if (!x.victor) return labels.value.campDraw
+  if (!x.victor) return labels.value.campDrawRes
   return labels.value.campWon.replace('{p}', playerName(x[x.victor]))
 }
 async function add() {

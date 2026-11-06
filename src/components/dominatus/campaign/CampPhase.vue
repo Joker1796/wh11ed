@@ -217,7 +217,7 @@
           v-if="relicDraws.length"
           class="camp-line"
         >
-          {{ labels.campRelicDraws }}: {{ relicDraws.join(', ') }}
+          {{ labels.campRelicDraws.replace('{list}', relicDraws.join(', ')) }}
         </p>
         <template v-if="tied.length > 1">
           <span class="camp-set-label">{{ labels.campTieWho }}</span>
@@ -264,7 +264,7 @@
             :id="r.alliance"
             :name="allianceName(r.alliance)"
           />
-          {{ ' — ' }}<CountText
+          {{ ', ' }}<CountText
             :text="`{n} ${labels.campNpShort}`"
             :vals="{ n: r.np }"
           />
@@ -336,6 +336,7 @@ import CampOutcomeCard from './CampOutcomeCard.vue'
 import CampChronicle from './CampChronicle.vue'
 import { campaignState, reopenable, reopenPhase, scheduleProgress, pairingsNow, standings } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
+import { countPieces } from '../../../utils/plural.js'
 
 const { entry, state, isOwner, mine, act, labels, deck, allianceName, locationName, playerName, phaseLabel, remembered, onAsk, phaseDeadline } = useCampaignView()
 const override = ref(null)
@@ -388,7 +389,7 @@ const aheadState = computed(() => {
 const ahead = computed(() => aheadState.value?.results[state.value.phase] || null)
 const relicDraws = computed(() => (aheadState.value?.pending || [])
   .filter((r) => r.kind === 'relic' && r.phase === state.value.phase)
-  .map((r) => `${playerName(r.player)} ${r.draw}`))
+  .map((r) => countPieces(labels.value.campRelicDrawOf.replace('{p}', playerName(r.player)), { n: r.draw }).map((x) => x.t).join('')))
 const tied = computed(() => {
   const r = ahead.value
   if (!r || !r.tie) return []
