@@ -407,6 +407,7 @@ const ending = ref(false)
 // "What next": the Warmaster's Location and end of the phase open their dialogs.
 onAsk({
   location: () => { choosing.value = true },
+  locationBy: () => { choosing.value = true },
   endPhase: () => { if (location.value) ending.value = true },
 })
 async function setLocation(slug) {

@@ -837,13 +837,17 @@ export function nextSteps(s, me, owner) {
     else wait.push({ ...step, kind: 'rewardWait', todo: false })
   }
   const located = !!s.locations[s.phase]
+  // Staging Post: while an Alliance holds Cerbera Base, its players choose the next Location and the
+  // Warmaster enters it (stand walkthrough, 2026-11-06: What next told them all to wait for the
+  // Warmaster's choice). The same reading as CampPhase's line.
+  const stagingBy = s.phase > 1 ? s.control['cerbera-base'] || null : null
   if (owner) {
     // A new Warmaster's first steps (stand walkthrough, 2026-11-06): the players come by the invite,
     // and a player the Warmaster entered for themselves is anyone's to take as "This is me" until
     // the campaign knows it is theirs.
     if (s.players.length < 2) todo.push({ kind: 'invite', todo: true, tab: 'players' })
     if (!s.me && takeablePlayers(s).length) todo.push({ kind: 'claimMe', todo: true, tab: 'players' })
-    if (!located) todo.push({ kind: 'location', todo: true, tab: 'phase' })
+    if (!located) todo.push(stagingBy ? { kind: 'locationBy', todo: true, tab: 'phase', alliance: stagingBy } : { kind: 'location', todo: true, tab: 'phase' })
     const toCount = s.battles.filter((b) => b.status === 'pending').length
     if (toCount) todo.push({ kind: 'count', todo: true, tab: 'battles', n: toCount })
     const toGive = s.pending.filter((x) => x.player !== me?.id).length
@@ -862,7 +866,10 @@ export function nextSteps(s, me, owner) {
     const due = s.schedule[s.phase - 1] ?? 0
     const left = due - playedIn(s, me.id)
     const paired = pairingsNow(s).filter((x) => !x.played && (x.a === me.id || x.b === me.id))
-    if (left > 0 && !located && !owner) wait.push({ kind: 'waitLocation', todo: false, tab: 'phase' })
+    if (left > 0 && !located && !owner) {
+      if (stagingBy && stagingBy === me.alliance) todo.push({ kind: 'chooseLocation', todo: true, tab: 'phase', alliance: stagingBy })
+      else wait.push(stagingBy ? { kind: 'waitLocationBy', todo: false, tab: 'phase', alliance: stagingBy } : { kind: 'waitLocation', todo: false, tab: 'phase' })
+    }
     else if (left > 0 && located && !(s.battlesBy === 'warmaster' && !owner)) {
       for (const x of paired.slice(0, left)) todo.push({ kind: 'play', todo: true, tab: 'battles', player: x.a === me.id ? x.b : x.a })
       // Under pairings a battle is played only with the paired opponent.

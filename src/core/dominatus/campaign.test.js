@@ -462,6 +462,17 @@ describe('Dominatus campaign — what waits for the reader', () => {
     expect(kinds(nextSteps(s, null, true))).toEqual(['claimMe', 'location'])
   })
 
+  it('under Staging Post, tells the Alliance holding Cerbera Base to choose and the Warmaster to enter their choice', () => {
+    seq = 0
+    const s = campaignState([O('created', { name: 'X' }), O('settings', { me: 'ann' }), O('player', { id: 'ann', name: 'Ann', alliance: 'liberators' }), ev('m1', 'player', { id: 'ben', name: 'Ben', alliance: 'raiders' }), ev('m2', 'player', { id: 'cid', name: 'Cid', alliance: 'oppressors' })], deck)
+    s.phase = 2
+    s.control['cerbera-base'] = 'raiders'
+    expect(kinds(nextSteps(s, null, true))).toEqual(['locationBy'])
+    expect(nextSteps(s, null, true)[0].alliance).toBe('raiders')
+    expect(kinds(nextSteps(s, me(s, 'ben'), false))).toEqual(['chooseLocation'])
+    expect(kinds(nextSteps(s, me(s, 'cid'), false))).toEqual(['waitLocationBy'])
+  })
+
   it('tells a new Warmaster to invite the players and to mark the player that is them', () => {
     seq = 0
     const bare = campaignState([O('created', { name: 'X' })], deck)

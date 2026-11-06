@@ -614,6 +614,8 @@ const joinForm = ref(null)
 onAsk({
   register: () => joinForm.value?.show(),
   take: () => bringIntoView('.camp-take'),
+  invite: () => bringIntoView('.camp-share'),
+  claimMe: () => { if (takeable.value[0]) bringIntoView(`[data-player="${takeable.value[0].id}"]`) },
   factionAsk: (x) => bringIntoView(`[data-player="${x.player}"]`),
   allianceAsk: (x) => bringIntoView(`[data-player="${x.player}"]`),
 })
