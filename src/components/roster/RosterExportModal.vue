@@ -59,6 +59,7 @@
       />
       <div class="rex-actions">
         <button
+          type="button"
           class="rex-btn"
           @click="copy(text, 'text')"
         >
@@ -69,6 +70,7 @@
           {{ copied === 'text' ? labels.rosterCopied : labels.rosterCopyText }}
         </button>
         <button
+          type="button"
           class="rex-btn"
           :disabled="!url"
           @click="copy(url, 'link')"
@@ -84,6 +86,7 @@
            file and nothing else (rosterRos.js). English whatever the locale, as the service is. -->
       <div class="rex-tts">
         <button
+          type="button"
           class="rex-btn"
           :disabled="rosBusy"
           @click="downloadRos"

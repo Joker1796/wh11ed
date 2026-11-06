@@ -56,6 +56,7 @@
            on this phone either way — for a guest that is how the game becomes theirs to keep. -->
       <div class="finished-actions">
         <button
+          type="button"
           class="btn-ghost"
           :disabled="!canResume"
           :title="canResume ? '' : labels.partyResumeHostOnly"
@@ -64,6 +65,7 @@
           {{ labels.trackerResume }}
         </button>
         <button
+          type="button"
           class="btn-primary"
           @click="backToTracker"
         >

@@ -16,6 +16,7 @@
       <button
         v-for="(s, i) in spends"
         :key="i"
+        type="button"
         class="opt"
         data-press
         :disabled="remaining < s.cost"

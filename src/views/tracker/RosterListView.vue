@@ -87,6 +87,7 @@
               <ExpandTransition>
                 <button
                   v-if="isRosterPinned(r.id)"
+                  type="button"
                   class="kebab rpin"
                   :title="labels.favUnpin"
                   :aria-label="labels.favUnpin"
@@ -100,6 +101,7 @@
                sheet, so that one keeps the kebab. -->
               <button
                 v-if="r.draft"
+                type="button"
                 class="kebab danger"
                 :aria-label="labels.trackerDelete"
                 @click.stop="pendingDelete = r.id"
@@ -115,6 +117,7 @@
               >
                 <template #trigger="{ toggle }">
                   <button
+                    type="button"
                     class="kebab"
                     data-tour="roster-card-menu"
                     :aria-label="labels.rosterMoreActions"
@@ -126,6 +129,7 @@
                 <!-- A finished list's first use is a game (playRoster.js). -->
                 <button
                   v-if="!r.draft"
+                  type="button"
                   class="act-btn"
                   :disabled="!r.faction"
                   @click="onPlay(r)"
@@ -133,6 +137,7 @@
                   {{ labels.rosterUseInTracker }}
                 </button>
                 <button
+                  type="button"
                   class="act-btn"
                   @click="onEdit(r.id)"
                 >
@@ -141,6 +146,7 @@
                 <!-- Export from here as well as from the editor: a finished list is passed on far more
                      often than it is edited, and opening the editor to copy it is a detour. -->
                 <button
+                  type="button"
                   class="act-btn"
                   :disabled="exportBusy"
                   @click="onExport(r.id)"
@@ -148,12 +154,14 @@
                   {{ labels.rosterExportTitle }}
                 </button>
                 <button
+                  type="button"
                   class="act-btn"
                   @click="onDuplicate(r.id)"
                 >
                   {{ labels.rosterDuplicate }}
                 </button>
                 <button
+                  type="button"
                   class="act-btn"
                   @click="toggleRosterPin(r.id); menuFor = null"
                 >
@@ -162,12 +170,14 @@
                 <!-- The archive (player request, 2026-10-02): lists kept for reference — every
                      unit owned, the painting queue — step out of the way without being deleted. -->
                 <button
+                  type="button"
                   class="act-btn"
                   @click="onArchive(r.id, !r.archived)"
                 >
                   {{ r.archived ? labels.rosterUnarchive : labels.rosterArchive }}
                 </button>
                 <button
+                  type="button"
                   class="act-btn act-danger"
                   @click="onDelete(r.id)"
                 >

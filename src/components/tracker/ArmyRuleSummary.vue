@@ -4,6 +4,7 @@
     class="army-sum"
   >
     <button
+      type="button"
       class="as-toggle"
       :aria-expanded="open"
       @click="open = !open"

@@ -27,6 +27,7 @@
         <button
           v-for="o in costs"
           :key="o.m"
+          type="button"
           class="act-btn spm-cost"
           data-press
           :class="{ on: o.m === picked }"
@@ -59,6 +60,7 @@
         >
           <span>{{ labels.trackerStratTarget }}: <strong>{{ target.name }}</strong></span>
           <button
+            type="button"
             class="btn-ghost spm-clear"
             @click="target = null"
           >
@@ -67,6 +69,7 @@
         </div>
         <button
           v-else-if="!picking"
+          type="button"
           class="btn-ghost spm-pick"
           @click="openPicker"
         >
@@ -98,6 +101,7 @@
               </li>
               <li>
                 <button
+                  type="button"
                   class="spm-unit"
                   data-press
                   :disabled="!!t.block"
@@ -126,6 +130,7 @@
       </section>
 
       <button
+        type="button"
         class="btn-primary spm-go"
         :disabled="!chosenCost"
         @click="play(chosenCost.cost)"

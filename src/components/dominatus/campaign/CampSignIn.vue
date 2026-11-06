@@ -2,6 +2,7 @@
   <div class="camp-signin">
     <p>{{ text }}</p>
     <button
+      type="button"
       class="btn-primary"
       aria-haspopup="dialog"
       @click="go"

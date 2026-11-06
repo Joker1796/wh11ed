@@ -11,6 +11,7 @@
          Start alone; an icon when the reserves take the row too. -->
     <button
       v-if="invite"
+      type="button"
       class="tr-btn tr-invite"
       :class="{ 'tr-icon': reserves }"
       data-press
@@ -29,6 +30,7 @@
          to mark — without one there is no unit to put in reserve. -->
     <button
       v-if="reserves"
+      type="button"
       class="tr-btn tr-reserves"
       data-press
       data-tour="game-reserves"
@@ -41,6 +43,7 @@
       <span class="tr-label">{{ labels.trackerReservesShort }}</span>
     </button>
     <button
+      type="button"
       class="tr-btn tr-end"
       data-press
       data-tour="game-start"
@@ -60,6 +63,7 @@
     class="tb phased"
   >
     <button
+      type="button"
       class="tr-btn tr-prev tr-icon"
       data-press
       :disabled="!canUndo"
@@ -73,6 +77,7 @@
       />
     </button>
     <button
+      type="button"
       class="tr-step"
       data-press
       :disabled="!canPrev"
@@ -82,6 +87,7 @@
       ‹
     </button>
     <button
+      type="button"
       class="tr-phase"
       data-press
       :title="labels.trackerPhasePick"
@@ -91,6 +97,7 @@
       <span class="tp-name">{{ phaseLabel(phase, labels) }}</span>
     </button>
     <button
+      type="button"
       class="tr-step"
       data-press
       :disabled="!canNext"
@@ -100,6 +107,7 @@
       ›
     </button>
     <button
+      type="button"
       class="tr-btn tr-end"
       data-press
       :class="{ opp, says: canEnd && endLocked && lockedText }"
@@ -115,6 +123,7 @@
     class="tb"
   >
     <button
+      type="button"
       class="tr-btn tr-prev"
       data-press
       :disabled="!canUndo"
@@ -129,6 +138,7 @@
     </button>
     <button
       v-if="canEnd"
+      type="button"
       class="tr-btn tr-end"
       data-press
       :class="{ opp, says: endLocked && lockedText }"
@@ -140,6 +150,7 @@
     </button>
     <button
       v-else
+      type="button"
       class="tr-btn tr-end"
       data-press
       @click="$emit('end')"

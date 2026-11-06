@@ -28,6 +28,7 @@
             @click="navigateNum"
           >{{ activeKeyword.num }}</span>
           <button
+            type="button"
             class="kw-close"
             :class="{ 'kw-close-push': !activeKeyword.num }"
             :aria-label="labels.modalClose"

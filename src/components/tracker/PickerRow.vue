@@ -8,6 +8,7 @@
   >
     <div class="tp-row">
       <button
+        type="button"
         class="tp-toggle"
         :aria-expanded="open"
         @click="$emit('toggle-open')"
@@ -19,6 +20,7 @@
         />
       </button>
       <button
+        type="button"
         class="tp-pick"
         :class="{ on: selected }"
         :disabled="disabled"

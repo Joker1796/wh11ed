@@ -41,6 +41,7 @@
         <!-- Toggle reset lives top-right (compact) once fired, instead of a full-width row. -->
         <button
           v-else-if="view.kind === 'toggle' && usedCount > 0"
+          type="button"
           class="army-head-reset"
           :disabled="!!undoWhy('armyFire', mi)"
           :aria-label="labels.trackerArmyReset"
@@ -73,6 +74,7 @@
       <ExpandTransition>
         <button
           v-if="!bonusApplied"
+          type="button"
           class="army-bonus-btn"
           data-press
           @click="applyBonus"
@@ -85,6 +87,7 @@
         >
           <span><i class="wi wi-ok" /> +{{ view.startBonus.amount }} {{ view.startBonus.label }}</span>
           <button
+            type="button"
             class="army-head-reset"
             data-press
             :disabled="!!undoWhy('armyBonus', mi)"
@@ -107,6 +110,7 @@
       :inert="lock"
     >
       <button
+        type="button"
         class="army-field"
         @click="showSpendPicker = true"
       >
@@ -146,6 +150,7 @@
           <button
             v-for="{ d, di, key } in shownDice"
             :key="key"
+            type="button"
             class="army-die"
             data-press
             :aria-label="`${labels.trackerDiceSpend} (${d})`"
@@ -170,6 +175,7 @@
         <button
           v-for="v in 6"
           :key="v"
+          type="button"
           class="army-die-add"
           data-press
           :aria-label="`${labels.trackerDiceAdd} ${v}`"
@@ -196,6 +202,7 @@
         <button
           v-for="o in view.options"
           :key="o.id"
+          type="button"
           class="army-opt"
           data-press
           :class="{ on: o.id === selectedId, spent: spent(o.id) }"
@@ -224,6 +231,7 @@
       :inert="lock"
     >
       <button
+        type="button"
         class="army-field"
         @click="showBlessingPicker = true"
       >
@@ -249,6 +257,7 @@
       <ExpandTransition>
         <button
           v-if="usedCount === 0"
+          type="button"
           class="army-call"
           data-press
           :inert="lock"
@@ -265,6 +274,7 @@
               class="army-acc"
             >
               <button
+                type="button"
                 class="army-acc-head"
                 :aria-expanded="showActive"
                 @click="showActive = !showActive"
@@ -295,6 +305,7 @@
           <ExpandTransition>
             <button
               v-if="canCallAgain"
+              type="button"
               class="army-again"
               data-press
               :inert="lock"
@@ -316,6 +327,7 @@
       class="army-acc"
     >
       <button
+        type="button"
         class="army-acc-head"
         :aria-expanded="showHowto"
         @click="showHowto = !showHowto"
@@ -356,6 +368,7 @@
     <template v-if="view.kind === 'reference'">
       <div class="army-acc">
         <button
+          type="button"
           class="army-acc-head"
           :aria-expanded="showHowto"
           @click="showHowto = !showHowto"
@@ -389,6 +402,7 @@
       class="army-acc"
     >
       <button
+        type="button"
         class="army-acc-head"
         :aria-expanded="openTexts.includes(t.key)"
         @click="toggleText(t.key)"
@@ -415,6 +429,7 @@
         class="army-acc"
       >
         <button
+          type="button"
           class="army-acc-head"
           :aria-expanded="showResurrected"
           @click="showResurrected = !showResurrected"
@@ -440,6 +455,7 @@
               <span class="army-resurrect-label">{{ r.label }}</span>
               <span class="army-resurrect-cost">−{{ r.cost }}</span>
               <button
+                type="button"
                 class="army-resurrect-undo"
                 data-press
                 :disabled="!!undoWhy('armySpend', i, mi)"
@@ -467,6 +483,7 @@
       >
         <button
           v-if="hasActiveBody"
+          type="button"
           class="army-acc-head"
           :aria-expanded="showActive"
           @click="showActive = !showActive"

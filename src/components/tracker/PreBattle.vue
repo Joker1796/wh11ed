@@ -72,12 +72,14 @@
               <div class="pb-ctl">
                 <div class="seg pb-seg">
                   <button
+                    type="button"
                     :class="{ on: mode(i) === 'tactical' }"
                     @click="setMode(i, 'tactical')"
                   >
                     {{ labels.pbTactical }}
                   </button>
                   <button
+                    type="button"
                     :class="{ on: mode(i) === 'fixed' }"
                     @click="setMode(i, 'fixed')"
                   >
@@ -88,6 +90,7 @@
               <ExpandTransition>
                 <button
                   v-if="mode(i) === 'fixed'"
+                  type="button"
                   class="picker-trigger pb-fixed"
                   data-press
                   aria-haspopup="dialog"
@@ -187,6 +190,7 @@
           <button
             v-for="(i, k) in rollOrder"
             :key="k"
+            type="button"
             role="radio"
             :aria-checked="rolled && i === 0"
             :class="{ on: rolled && i === 0 }"

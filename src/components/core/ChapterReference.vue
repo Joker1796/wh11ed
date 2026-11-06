@@ -46,6 +46,7 @@
     <button
       v-for="f in filters"
       :key="f.value"
+      type="button"
       class="filter-btn"
       :class="{ active: activeFilter === f.value }"
       @click="activeFilter = f.value"

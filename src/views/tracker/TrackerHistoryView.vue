@@ -4,6 +4,7 @@
     class="history-view"
   >
     <button
+      type="button"
       class="back"
       @click="back"
     >

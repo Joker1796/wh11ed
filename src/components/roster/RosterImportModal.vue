@@ -162,6 +162,7 @@
       <div class="rim-actions">
         <button
           v-if="!report"
+          type="button"
           class="rim-btn"
           :disabled="!text.trim() || busy"
           @click="read"
@@ -170,6 +171,7 @@
         </button>
         <button
           v-else
+          type="button"
           class="rim-btn"
           @click="create"
         >

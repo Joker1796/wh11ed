@@ -46,12 +46,14 @@
 
     <footer class="modal-foot">
       <button
+        type="button"
         class="btn-ghost"
         @click="$emit('close')"
       >
         {{ labels.rosterCancel }}
       </button>
       <button
+        type="button"
         class="btn-primary"
         :disabled="!pick || pick === declared"
         @click="$emit('save', pick)"

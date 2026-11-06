@@ -9,6 +9,7 @@
   <div class="dfilters">
     <div class="seg">
       <button
+        type="button"
         :class="{ on: filter.alliance === 'all' }"
         @click="filter.alliance = 'all'"
       >
@@ -17,6 +18,7 @@
       <button
         v-for="a in deck.alliances"
         :key="a.id"
+        type="button"
         :class="{ on: filter.alliance === a.id }"
         @click="filter.alliance = a.id"
       >
@@ -25,6 +27,7 @@
     </div>
     <div class="filter-chips">
       <button
+        type="button"
         class="filter-chip"
         :class="{ on: !filter.phase }"
         @click="filter.phase = 0"
@@ -34,6 +37,7 @@
       <button
         v-for="p in PHASES"
         :key="p"
+        type="button"
         class="filter-chip"
         :class="{ on: filter.phase === p }"
         @click="filter.phase = p"

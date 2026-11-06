@@ -249,6 +249,7 @@
                bar carries the one action the screen ends in. -->
           <template v-if="desk">
             <button
+              type="button"
               class="btn-primary"
               data-tour="rw-save"
               :disabled="!canLeaveStep1"
@@ -259,6 +260,7 @@
           </template>
           <template v-else-if="step === 1">
             <button
+              type="button"
               class="btn-primary"
               data-tour="rc-next"
               :disabled="!canLeaveStep1"
@@ -269,12 +271,14 @@
           </template>
           <template v-else>
             <button
+              type="button"
               class="btn-ghost"
               @click="step = 1"
             >
               ← {{ labels.trackerBack }}
             </button>
             <button
+              type="button"
               class="btn-primary"
               data-tour="rw-save"
               @click="guardFd(finish)"

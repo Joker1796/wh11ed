@@ -20,6 +20,7 @@
 
       <template v-else-if="!enabled">
         <button
+          type="button"
           class="btn-primary bc-enable"
           @click="onEnable"
         >
@@ -37,6 +38,7 @@
             @focus="$event.target.select()"
           >
           <button
+            type="button"
             class="btn-ghost copy-btn"
             @click="copy"
           >
@@ -63,12 +65,14 @@
               <span>{{ labels.trackerBroadcastTheme }}</span>
               <div class="seg">
                 <button
+                  type="button"
                   :class="{ on: theme === 'dark' }"
                   @click="theme = 'dark'"
                 >
                   {{ labels.trackerBroadcastThemeDark }}
                 </button>
                 <button
+                  type="button"
                   :class="{ on: theme === 'light' }"
                   @click="theme = 'light'"
                 >
@@ -110,6 +114,7 @@
                 <button
                   v-for="a in ASPECTS"
                   :key="a"
+                  type="button"
                   :class="{ on: aspect === a }"
                   @click="aspect = a"
                 >
@@ -143,6 +148,7 @@
               @focus="$event.target.select()"
             >
             <button
+              type="button"
               class="btn-ghost copy-btn"
               @click="copyJson"
             >
@@ -164,12 +170,14 @@
 
         <div class="bc-actions">
           <button
+            type="button"
             class="btn-ghost"
             @click="onRegenerate"
           >
             {{ labels.trackerBroadcastRegenerate }}
           </button>
           <button
+            type="button"
             class="btn-ghost bc-off"
             @click="onDisable"
           >

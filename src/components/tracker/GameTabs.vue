@@ -11,6 +11,7 @@
     <button
       v-for="t in tabs"
       :key="t.id"
+      type="button"
       role="tab"
       class="gt-tab"
       :class="{ on: active === t.id }"

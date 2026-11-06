@@ -13,12 +13,14 @@
 
     <footer class="modal-foot">
       <button
+        type="button"
         class="btn-ghost"
         @click="$emit('close')"
       >
         {{ cancelLabel }}
       </button>
       <button
+        type="button"
         class="btn-primary"
         :class="{ 'cm-danger': danger }"
         @click="$emit('confirm')"

@@ -28,6 +28,7 @@
         />
       </section>
       <button
+        type="button"
         class="btn-primary ck-go"
         @click="$emit('confirm')"
       >

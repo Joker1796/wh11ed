@@ -4,6 +4,7 @@
     class="sub-rule"
   >
     <button
+      type="button"
       class="sub-rule-head"
       :aria-expanded="open"
       @click="open = !open"

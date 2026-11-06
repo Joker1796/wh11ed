@@ -6,8 +6,9 @@ import CampSettingsForm from './CampSettingsForm.vue'
 import { SETTINGS_DEFAULTS } from '../../../core/dominatus/campaign.js'
 
 const RouterLink = { props: ['to'], template: '<a :href="to"><slot /></a>' }
-function form(initial = {}) {
+function form(initial = {}, extra = {}) {
   return mount(CampSettingsForm, {
+    ...extra,
     props: { initial: { name: 'A', ...SETTINGS_DEFAULTS, schedule: [...SETTINGS_DEFAULTS.schedule], deadlines: [null, null, null], ...initial }, submitLabel: 'Save', cancelTo: '/c' },
     global: { stubs: { RouterLink } },
   })
@@ -15,6 +16,26 @@ function form(initial = {}) {
 const sent = (w) => w.emitted('submit').at(-1)[0]
 
 describe('CampSettingsForm', () => {
+  // The stand walkthrough, 2026-11-06: a − pressed on "Battles a player" sent the form, and two
+  // presses started two campaigns.
+  it('is sent by its own button only, never by a stepper inside it', async () => {
+    // In the document: jsdom submits only a connected form.
+    const w = form({}, { attachTo: document.body })
+    const steps = w.findAll('.step-btn')
+    expect(steps.length).toBeGreaterThan(0)
+    // A real click: a dispatched event does not run the button's default action in jsdom.
+    for (const b of steps) b.element.click()
+    await w.vm.$nextTick()
+    expect(w.emitted('submit')).toBeUndefined()
+    w.unmount()
+  })
+
+  it('sends nothing without a name, Enter included', async () => {
+    const w = form({ name: '  ' })
+    await w.find('form').trigger('submit')
+    expect(w.emitted('submit')).toBeUndefined()
+  })
+
   it('sends a size a phase, and three equal ones as one', async () => {
     const w = form()
     const s = w.vm.$.setupState

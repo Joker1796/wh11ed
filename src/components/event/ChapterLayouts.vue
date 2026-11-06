@@ -38,6 +38,7 @@
         {{ labels.eventLayoutsKey }}
       </h3>
       <button
+        type="button"
         class="key-toggle"
         :aria-expanded="showKey"
         @click="toggleKey"
@@ -188,6 +189,7 @@
         <button
           v-for="l in matchup.layouts"
           :key="l.id"
+          type="button"
           class="tab"
           :class="{ active: activeLayout === l.id }"
           @click="activeLayout = l.id"
@@ -200,6 +202,7 @@
         </button>
       </div>
       <button
+        type="button"
         class="measurements-toggle"
         data-press="pop"
         :aria-pressed="showMeasurements"

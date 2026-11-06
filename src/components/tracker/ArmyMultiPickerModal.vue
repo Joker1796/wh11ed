@@ -16,6 +16,7 @@
       <button
         v-for="o in options"
         :key="o.id"
+        type="button"
         class="opt"
         :class="{ on: selected.includes(o.id) }"
         data-press="pop"

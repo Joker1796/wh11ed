@@ -6,12 +6,14 @@
     <div class="modal-body">
       <div class="picker-actions">
         <button
+          type="button"
           class="btn-ghost tp-act"
           @click="$emit('random')"
         >
           {{ labels.trackerRandomTwist }}
         </button>
         <button
+          type="button"
           class="tp-act"
           :class="selected ? 'btn-ghost' : 'btn-primary'"
           @click="$emit('none')"

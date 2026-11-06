@@ -13,6 +13,7 @@
         {{ note }}
       </p>
       <button
+        type="button"
         class="btn-primary rc-random"
         @click="$emit('pick', null)"
       >
@@ -29,6 +30,7 @@
             :key="m.slug"
           >
             <button
+              type="button"
               class="rc-item"
               data-press
               @click="$emit('pick', m.slug)"

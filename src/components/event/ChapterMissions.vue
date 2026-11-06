@@ -15,24 +15,28 @@
   <div class="filters">
     <div class="seg">
       <button
+        type="button"
         :class="{ on: typeFilter === 'all' }"
         @click="typeFilter = 'all'"
       >
         {{ labels.filterAll }}
       </button>
       <button
+        type="button"
         :class="{ on: typeFilter === 'primary' }"
         @click="typeFilter = 'primary'"
       >
         {{ labels.missionsTypePrimary }}
       </button>
       <button
+        type="button"
         :class="{ on: typeFilter === 'secondary' }"
         @click="typeFilter = 'secondary'"
       >
         {{ labels.missionsTypeSecondary }}
       </button>
       <button
+        type="button"
         :class="{ on: typeFilter === 'twists' }"
         @click="typeFilter = 'twists'"
       >
@@ -46,6 +50,7 @@
         class="filter-chips"
       >
         <button
+          type="button"
           class="filter-chip"
           :class="{ on: dispoFilter === 'all' }"
           @click="dispoFilter = 'all'"
@@ -55,6 +60,7 @@
         <button
           v-for="d in dispositions"
           :key="d.id"
+          type="button"
           class="filter-chip"
           :class="{ on: dispoFilter === d.id }"
           @click="dispoFilter = d.id"

@@ -6,6 +6,7 @@
     <button
       v-for="l in layouts"
       :key="l.id"
+      type="button"
       class="tab"
       :class="{ active: selected === l.id }"
       @click="$emit('select', l.id)"
@@ -14,6 +15,7 @@
     </button>
     <button
       v-if="custom"
+      type="button"
       class="tab"
       :class="{ active: selected === 'custom' }"
       @click="$emit('custom')"

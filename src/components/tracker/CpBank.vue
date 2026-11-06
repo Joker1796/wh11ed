@@ -9,6 +9,7 @@
          with a tick once taken. A tap takes it or gives it back; one a secondary discard
          gave is undone with the discard, so it shows taken and says where it came from. -->
     <button
+      type="button"
       class="cr-btn"
       :class="{ on: bonus }"
       data-press="pop"
@@ -88,6 +89,7 @@
       </div>
       <div class="modal-footer">
         <button
+          type="button"
           class="btn-primary"
           @click="editOpen = false"
         >

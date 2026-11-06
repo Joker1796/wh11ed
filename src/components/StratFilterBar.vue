@@ -11,6 +11,7 @@
       <button
         v-for="f in filters"
         :key="f.key"
+        type="button"
         :class="{ on: filter === f.key }"
         role="tab"
         :aria-selected="filter === f.key"

@@ -96,6 +96,7 @@
           >
           <button
             v-if="roster.units.length"
+            type="button"
             class="hdr-icon"
             :aria-label="labels.rosterExport"
             @click="exportOpen = true"
@@ -317,6 +318,7 @@
           <!-- Save gives way to a tick on a 320–350px phone (owner, 2026-11-06): with the points'
                marks in, the row did not fit there any other way. -->
           <button
+            type="button"
             class="btn-primary"
             data-tour="rw-save"
             :aria-label="labels.rosterSave"

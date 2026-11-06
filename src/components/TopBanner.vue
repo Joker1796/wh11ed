@@ -9,6 +9,7 @@
         :class="icon"
       />
       <button
+        type="button"
         class="top-banner-close"
         :aria-label="closeLabel"
         @click="$emit('close')"

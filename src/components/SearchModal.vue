@@ -58,6 +58,7 @@
           />
         </div>
         <button
+          type="button"
           class="search-close"
           :aria-label="labels.ariaCloseSearch"
           @click="$emit('close')"
@@ -130,6 +131,7 @@
         <div class="sh-head">
           <span class="sh-title">{{ labels.searchRecent }}</span>
           <button
+            type="button"
             class="btn-ghost sh-clear"
             @click="clearHistory"
           >
@@ -145,12 +147,14 @@
             @mouseenter="selectedIndex = i"
           >
             <button
+              type="button"
               class="sh-pick"
               @click="pick(h)"
             >
               {{ h }}
             </button>
             <button
+              type="button"
               class="sh-forget"
               :aria-label="labels.ariaForgetQuery"
               @click="forget(h)"

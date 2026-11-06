@@ -48,6 +48,7 @@
     </div>
     <footer class="camp-draw-foot">
       <button
+        type="button"
         class="btn-primary"
         :disabled="!picked || picked === current"
         @click="emit('pick', picked)"

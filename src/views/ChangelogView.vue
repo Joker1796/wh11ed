@@ -84,6 +84,7 @@
       </TransitionGroup>
       <button
         v-if="changelog.length > visibleCount"
+        type="button"
         class="show-more"
         @click="showMore"
       >
@@ -99,6 +100,7 @@
           {{ archive.status.value === 'offline' ? labels.changelogArchiveOffline : labels.changelogArchiveError }}
         </p>
         <button
+          type="button"
           class="show-more"
           :disabled="archive.status.value === 'loading'"
           @click="loadOlder"

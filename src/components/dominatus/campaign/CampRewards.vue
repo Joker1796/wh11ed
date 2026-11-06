@@ -64,6 +64,7 @@
             </div>
             <button
               v-if="appDraw(r)"
+              type="button"
               :class="forOther(r) ? 'btn-ghost' : 'btn-primary'"
               class="camp-reward-go"
               data-press
@@ -98,6 +99,7 @@
                 @update:model-value="(v) => (augury[r.id] = v)"
               />
               <button
+                type="button"
                 class="btn-primary"
                 @click="claim(r, { gained: augury[r.id] || 0 })"
               >
@@ -128,6 +130,7 @@
                 />
               </div>
               <button
+                type="button"
                 class="btn-primary"
                 @click="claimMettle(r)"
               >
@@ -153,6 +156,7 @@
                   :options="pileOf(r).map((slug) => ({ value: slug, label: upgradeName(slug) }))"
                 />
                 <button
+                  type="button"
                   class="btn-primary"
                   :disabled="!kept[r.id]"
                   @click="claim(r, { kept: kept[r.id] })"
@@ -162,6 +166,7 @@
               </div>
               <button
                 v-if="!pileOf(r).length"
+                type="button"
                 class="btn-ghost"
                 @click="claim(r, {})"
               >
@@ -208,6 +213,7 @@
           {{ labels.campKeepNote }}
         </p>
         <button
+          type="button"
           class="btn-primary"
           :disabled="!picked"
           @click="keep(drawFor, picked)"

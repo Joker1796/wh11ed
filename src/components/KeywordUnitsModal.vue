@@ -22,6 +22,7 @@
         <div class="kum-pop-head">
           <span class="kum-pop-title">{{ title }}</span>
           <button
+            type="button"
             class="kum-pop-close"
             :aria-label="labels.modalClose"
             @click="$emit('close')"

@@ -161,10 +161,12 @@
           <span>{{ labels.trackerFirstTurn }}</span>
           <div class="seg">
             <button
+              type="button"
               :class="{ on: settings.firstTurn === 1 }"
               @click="settings.firstTurn = 1"
             >{{ labels.trackerYou }}</button>
             <button
+              type="button"
               :class="{ on: settings.firstTurn === 2 }"
               @click="settings.firstTurn = 2"
             >{{ labels.trackerOpponent }}</button>
@@ -184,10 +186,12 @@
           </span>
           <div class="seg">
             <button
+              type="button"
               :class="{ on: settings.scoreMode === 'vp' }"
               @click="settings.scoreMode = 'vp'"
             >{{ labels.trackerScoreVp }}</button>
             <button
+              type="button"
               :class="{ on: settings.scoreMode === 'bp' }"
               @click="settings.scoreMode = 'bp'"
             >{{ labels.trackerScoreBp }}</button>
@@ -200,12 +204,14 @@
           <span>{{ labels.trackerStrictRules }}</span>
           <div class="seg">
             <button
+              type="button"
               disabled
               :class="{ on: !game.settings.strictRules }"
             >
               {{ labels.trackerStrictFree }}
             </button>
             <button
+              type="button"
               disabled
               :class="{ on: !!game.settings.strictRules }"
             >
@@ -288,12 +294,14 @@
 
     <footer class="modal-foot">
       <button
+        type="button"
         class="btn-ghost"
         @click="$emit('close')"
       >
         {{ labels.trackerCancel }}
       </button>
       <button
+        type="button"
         class="btn-primary"
         @click="guardColors(save)"
       >

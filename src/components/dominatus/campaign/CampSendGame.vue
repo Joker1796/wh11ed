@@ -40,6 +40,7 @@
           />
         </label>
         <button
+          type="button"
           class="btn-primary"
           :disabled="!pick[0] || !pick[1] || pick[0] === pick[1] || busy"
           @click="send()"

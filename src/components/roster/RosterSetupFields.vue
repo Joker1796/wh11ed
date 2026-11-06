@@ -119,6 +119,7 @@
               <button
                 v-for="d in dispositionCands"
                 :key="d"
+                type="button"
                 :class="{ on: disposition === d }"
                 @click="$emit('update:disposition', d)"
               >

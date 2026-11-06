@@ -61,6 +61,7 @@
     </div>
     <footer class="camp-draw-foot">
       <button
+        type="button"
         class="btn-primary"
         :disabled="!picked"
         @click="emit('pick', picked)"

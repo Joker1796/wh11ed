@@ -118,6 +118,12 @@ export default [
       // not have, and for four releases the picker showed nothing picked, offered what no longer
       // fit and hid Clear (a player's screenshot, 2026-10-09).
       'vue/no-undef-properties': 'error',
+
+      // A <button> with no type is a submit button, and inside a <form> it sends the form: the
+      // shared NumberStepper's − and + created a Dominatus campaign on the first press, twice for
+      // two presses, and saved a player's cards before they were done (stand walkthrough,
+      // 2026-11-06). Every button says what it is.
+      'vue/html-button-has-type': 'error',
     },
   },
 

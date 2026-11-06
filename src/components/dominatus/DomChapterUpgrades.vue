@@ -11,6 +11,7 @@
       <button
         v-for="k in KINDS"
         :key="k.id"
+        type="button"
         :class="{ on: kind === k.id }"
         @click="kind = k.id"
       >

@@ -32,6 +32,7 @@
               @focus="$event.target.select()"
             >
             <button
+              type="button"
               class="btn-ghost copy-btn"
               @click="copy(l)"
             >

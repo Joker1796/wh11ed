@@ -72,6 +72,7 @@
                 <strong>{{ labels.trackerWhenDrawn }}:</strong> {{ whenDrawnText(m.slug, player.role, locale) }}
               </p>
               <button
+                type="button"
                 class="ti-wd-btn"
                 data-press
                 @click="startRedraw(m.slug, whenDrawnAction(current, pi, m.slug).mode)"
@@ -86,6 +87,7 @@
                (canUntakeSecondaries); the dialog then offers the take again. -->
           <button
             v-if="canUntakeSecondaries(pi)"
+            type="button"
             class="btn-ghost tk-undo"
             :disabled="!!noReturn"
             @click="untakeSecondaries(pi)"
@@ -97,6 +99,7 @@
             {{ labels.trackerTakeUndo }}
           </button>
           <button
+            type="button"
             class="btn-primary tk-main"
             @click="$emit('close')"
           >
@@ -114,6 +117,7 @@
           {{ takeNote }}
         </p>
         <button
+          type="button"
           class="btn-primary tk-main"
           :disabled="picked.length > 0"
           @click="onRandom"
@@ -136,6 +140,7 @@
             class="pick-li"
           >
             <button
+              type="button"
               class="pick-item"
               data-press
               :class="{ on: picked.includes(m.slug) }"
@@ -153,6 +158,7 @@
             </button>
             <!-- The card's full text, without choosing it. -->
             <button
+              type="button"
               class="tk-info"
               :aria-label="`${m.name} — ${labels.trackerCardDetails}`"
               :title="labels.trackerCardDetails"
@@ -172,6 +178,7 @@
       class="tk-foot"
     >
       <button
+        type="button"
         class="btn-primary tk-main"
         :disabled="!!noChoose || picked.length !== need"
         @click="onChosen"

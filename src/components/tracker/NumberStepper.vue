@@ -4,6 +4,7 @@
     :class="{ compact }"
   >
     <button
+      type="button"
       class="step-btn"
       data-press
       :disabled="disabled || modelValue <= min"
@@ -54,6 +55,7 @@
       class="step-unit"
     >{{ unit }}</span>
     <button
+      type="button"
       class="step-btn"
       data-press
       :disabled="disabled || (max != null && modelValue >= max)"

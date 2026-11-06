@@ -124,6 +124,7 @@
           <span>{{ location ? location.name : labels.campNoLocationShort }}</span>
         </span>
         <button
+          type="button"
           class="btn-ghost"
           aria-haspopup="dialog"
           @click="choosing = true"
@@ -140,6 +141,7 @@
           <span :class="{ 'camp-dim': !location }">{{ location ? preview : labels.campEndNeedsLocation }}</span>
         </span>
         <button
+          type="button"
           class="btn-primary"
           aria-haspopup="dialog"
           :disabled="!location"
@@ -159,6 +161,7 @@
           class="camp-dim"
         >{{ labels.campReopenBlocked }}</span>
         <button
+          type="button"
           class="btn-ghost"
           :disabled="back.blocked"
           @click="reopening = true"
@@ -233,6 +236,7 @@
       </div>
       <footer class="camp-draw-foot">
         <button
+          type="button"
           class="btn-primary"
           :disabled="tied.length > 1 && !override"
           @click="endPhase"

@@ -25,6 +25,7 @@
 
       <template v-if="briefing && briefing.length">
         <button
+          type="button"
           class="brief-toggle"
           :aria-expanded="briefingOpen"
           @click="toggleBriefing"
@@ -42,6 +43,7 @@
 
       <button
         v-if="whenDrawn && !readonly"
+        type="button"
         class="redraw-btn"
         data-press
         @click="$emit('redraw', whenDrawn.mode)"

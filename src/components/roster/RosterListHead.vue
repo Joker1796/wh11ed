@@ -8,6 +8,7 @@
     </h1>
     <div class="rlh-cta">
       <button
+        type="button"
         class="btn-primary btn-lg"
         data-tour="roster-new"
         @click="router.push('/roster/new')"
@@ -17,6 +18,7 @@
       <!-- Most players already have their list somewhere else — in the GW app, in New Recruit.
            Pasting it beats rebuilding it, so the second way in sits beside the first. -->
       <button
+        type="button"
         class="btn-ghost"
         data-tour="roster-import"
         @click="importOpen = true"

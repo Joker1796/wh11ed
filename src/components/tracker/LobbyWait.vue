@@ -64,6 +64,7 @@
              simply taken; after that it is a request the host answers. -->
         <button
           v-if="canChange"
+          type="button"
           class="btn-primary"
           data-tour="lobby-change"
           :disabled="myRequestPending"
@@ -73,6 +74,7 @@
         </button>
         <button
           v-else-if="!amEditor"
+          type="button"
           class="btn-ghost"
           data-tour="lobby-takeover"
           @click="takeOverOpen = true"
@@ -80,6 +82,7 @@
           {{ labels.lobbyTakeOver }}
         </button>
         <button
+          type="button"
           class="btn-ghost"
           data-tour="lobby-leave"
           @click="leaveOpen = true"

@@ -43,6 +43,7 @@
         </template>
       </AdaptivePicker>
       <button
+        type="button"
         class="btn-ghost gl-text"
         @click="textOpen = true"
       >
@@ -104,6 +105,7 @@
           @focus="e => e.target.select()"
         />
         <button
+          type="button"
           class="btn-primary gl-copy"
           @click="copy"
         >

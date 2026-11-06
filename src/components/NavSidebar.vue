@@ -7,6 +7,7 @@
     <div class="sidebar-header">
       <span class="sidebar-logo">WH Rules</span>
       <button
+        type="button"
         class="mobile-close"
         :aria-label="labels.ariaCloseMenu"
         @click="$emit('close')"
@@ -25,6 +26,7 @@
         <!-- One tap target per header: it folds the section, or — for a section that is a
              single page — goes there. Never both, so the row says what it does. -->
         <button
+          type="button"
           class="nav-section-header"
           :aria-expanded="isDirect(section) ? undefined : openSection === section.key"
           @click="isDirect(section) ? goToGroup(section.groups[0]) : toggleSection(section.key)"
@@ -49,6 +51,7 @@
             >
               <div class="nav-group-label">
                 <button
+                  type="button"
                   class="nav-group-link"
                   @click="goToGroup(group)"
                 >
@@ -56,6 +59,7 @@
                 </button>
                 <button
                   v-if="group.sections.length"
+                  type="button"
                   class="nav-group-toggle"
                   :aria-expanded="expandedKey === groupKey(group)"
                   :aria-label="labels.ariaToggleSubsections"

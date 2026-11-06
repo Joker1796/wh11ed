@@ -57,6 +57,7 @@
       </RouterLink>
       <button
         v-else
+        type="button"
         class="btn-primary btn-lg cta-main"
         @click="startNew"
       >
@@ -136,6 +137,7 @@
                ask again: a full push+pull now (auto-sync already runs on entry), for pulling in a
                game finished on another phone without leaving the page. -->
           <button
+            type="button"
             class="sync-icon"
             :class="{ spinning: syncing }"
             :disabled="syncing"
@@ -206,6 +208,7 @@
             </span>
             <button
               v-if="!g.live"
+              type="button"
               class="del"
               :title="labels.trackerDelete"
               @click.stop="onDeleteGame(g.id)"
@@ -282,6 +285,7 @@
       <ExpandTransition>
         <button
           v-if="history.length > visibleCount"
+          type="button"
           class="show-more"
           @click="showMore"
         >

@@ -19,6 +19,7 @@
         >
           {{ party.revoked ? labels.partyStatusRevoked : labels.partyStatusEnded }}
           <button
+            type="button"
             class="btn-ghost pt-small"
             @click="onLeave"
           >
@@ -33,6 +34,7 @@
                them looking for the ⚙ menu (owner, 2026-10-19). Coming back lands on this page. -->
           <button
             v-if="authStatus !== 'down'"
+            type="button"
             class="btn-primary pt-share"
             @click="onSignIn"
           >
@@ -41,6 +43,7 @@
         </template>
         <button
           v-else
+          type="button"
           class="btn-primary pt-share"
           :disabled="sharing"
           @click="onShare"
@@ -113,12 +116,14 @@
                   </option>
                 </select>
                 <button
+                  type="button"
                   class="btn-ghost pt-small"
                   @click="onMakeHost(m)"
                 >
                   {{ labels.partyMakeHost }}
                 </button>
                 <button
+                  type="button"
                   class="btn-ghost pt-small pt-danger"
                   @click="confirming = { kind: 'kick', member: m }"
                 >
@@ -151,6 +156,7 @@
         <div class="pt-actions">
           <template v-if="isHost">
             <button
+              type="button"
               class="btn-ghost"
               :title="labels.partyNewLinkHint"
               @click="newInvite({ link: true })"
@@ -158,6 +164,7 @@
               {{ labels.partyNewLink }}
             </button>
             <button
+              type="button"
               class="btn-ghost pt-danger"
               :title="labels.partyEndHint"
               @click="confirming = { kind: 'end' }"
@@ -167,6 +174,7 @@
           </template>
           <button
             v-else
+            type="button"
             class="btn-ghost pt-danger"
             :title="labels.partyLeaveHint"
             @click="onLeave"

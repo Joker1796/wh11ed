@@ -40,6 +40,7 @@
     </div>
     <button
       v-if="rows.length > shown.length"
+      type="button"
       class="btn-ghost"
       @click="all = true"
     >

@@ -31,6 +31,7 @@
         {{ labels.trackerResumeOtherGen }}
       </p>
       <button
+        type="button"
         class="gs-resume"
         data-press
         :disabled="!resumable"

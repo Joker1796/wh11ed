@@ -33,6 +33,7 @@
           </RouterLink>
           <span class="rpv-pages">{{ labels.printPages.replace('{n}', String(pageCount)) }}</span>
           <button
+            type="button"
             class="btn-primary rpv-print"
             @click="print"
           >
@@ -45,6 +46,7 @@
             <button
               v-for="p in ['compact', 'full']"
               :key="p"
+              type="button"
               :class="{ on: preset === p }"
               @click="applyPreset(p)"
             >
@@ -97,6 +99,7 @@
             <button
               v-for="d in PRINT_DENSITIES"
               :key="d.id"
+              type="button"
               :class="{ on: settings.density === d.id }"
               @click="settings.density = d.id"
             >
@@ -107,6 +110,7 @@
             <button
               v-for="o in PRINT_ORIENTATIONS"
               :key="o"
+              type="button"
               :class="{ on: settings.orientation === o }"
               @click="settings.orientation = o"
             >

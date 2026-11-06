@@ -58,6 +58,7 @@
       >
         <template #trigger="{ toggle, open }">
           <button
+            type="button"
             class="rw-choose"
             :aria-expanded="open"
             aria-haspopup="dialog"
@@ -104,6 +105,7 @@
       >
         <template #trigger="{ toggle, open }">
           <button
+            type="button"
             class="rw-choose"
             :disabled="!factionSlug"
             :aria-expanded="open"
@@ -148,6 +150,7 @@
         >
           <template #trigger="{ toggle, open }">
             <button
+              type="button"
               class="rw-choose"
               :aria-expanded="open"
               aria-haspopup="dialog"
@@ -212,6 +215,7 @@
         >
           <template #trigger="{ toggle, open }">
             <button
+              type="button"
               class="rw-choose rw-ch"
               :aria-expanded="open"
               aria-haspopup="dialog"
@@ -246,6 +250,7 @@
         >
           <template #trigger="{ toggle, open }">
             <button
+              type="button"
               class="rw-choose"
               :aria-expanded="open"
               aria-haspopup="dialog"

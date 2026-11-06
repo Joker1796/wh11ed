@@ -13,6 +13,7 @@
       />
       <span class="toast-text">{{ text }}</span>
       <button
+        type="button"
         class="toast-close"
         :aria-label="labels.updateDismiss"
         @click="$emit('close')"

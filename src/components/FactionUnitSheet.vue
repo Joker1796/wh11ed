@@ -140,6 +140,7 @@
           />
           <button
             v-if="sheet.flavor && !proxy"
+            type="button"
             class="act-btn act-ico"
             @click="moreDo(openLoreFromSheet)"
           >
@@ -240,6 +241,7 @@
           @click.stop
         >
           <button
+            type="button"
             class="ds-lore-close"
             :aria-label="labels.modalClose"
             @click="closeLore"

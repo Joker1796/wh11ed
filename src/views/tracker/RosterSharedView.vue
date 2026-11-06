@@ -19,6 +19,7 @@
     <template v-else-if="payload">
       <pre class="rs-preview">{{ preview }}</pre>
       <button
+        type="button"
         class="rs-save"
         @click="save"
       >

@@ -22,6 +22,7 @@
       class="camp-row camp-battle-actions"
     >
       <button
+        type="button"
         class="btn-primary"
         aria-haspopup="dialog"
         :disabled="!state.locations[state.phase]"
@@ -115,10 +116,12 @@
           >
             <template v-if="x.status === 'pending'">
               <button
+                type="button"
                 class="btn-ghost"
                 @click="act('review', { battle: x.id, ok: true })"
               >{{ labels.campApprove }}</button>
               <button
+                type="button"
                 class="btn-ghost"
                 @click="act('review', { battle: x.id, ok: false })"
               >{{ labels.campReject }}</button>
@@ -132,6 +135,7 @@
             >
               <template #trigger="{ toggle }">
                 <button
+                  type="button"
                   class="camp-more"
                   :aria-label="labels.rosterMoreActions"
                   aria-haspopup="menu"
@@ -141,6 +145,7 @@
                 </button>
               </template>
               <button
+                type="button"
                 class="act-btn"
                 :disabled="locked(x)"
                 @click="startEdit(x)"
@@ -148,6 +153,7 @@
                 {{ labels.campEditBattle }}
               </button>
               <button
+                type="button"
                 class="act-btn act-danger"
                 :disabled="locked(x)"
                 @click="menuFor = null; removing = x"

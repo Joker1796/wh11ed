@@ -65,6 +65,7 @@
                is all five slices), but the dialog is still a guest's: it is where this phone's own
                "what to show" switches live (EditSetupModal's guest mode). -->
           <button
+            type="button"
             class="act-btn gm-row"
             @click="close(); editSetupOpen = true"
           >
@@ -73,6 +74,7 @@
           <!-- The shared game (several phones on this one game): always offered — it is how the
                other side gets to score. -->
           <button
+            type="button"
             class="act-btn gm-row"
             @click="close(); partyOpen = true"
           >
@@ -88,6 +90,7 @@
                kind of hidden. -->
           <button
             v-if="broadcastOn || tracks(current.settings, 'trackBroadcast')"
+            type="button"
             class="act-btn gm-row"
             @click="close(); broadcastOpen = true"
           >
@@ -100,6 +103,7 @@
           <!-- The tour of this screen again (useTour.js) — the beta's. -->
           <button
             v-if="TOUR_ON"
+            type="button"
             class="act-btn gm-row"
             @click="close(); startTour('game', tourCtx())"
           >
@@ -108,6 +112,7 @@
           <!-- Finishing the game early: a thing done once, not every turn. The last turn's own
                Finish is the turn bar's; GameEndModal is the confirmation. -->
           <button
+            type="button"
             class="act-btn act-danger gm-row"
             @click="close(); endModalOpen = true"
           >
@@ -212,6 +217,7 @@
       >
         <span>{{ partyHandle.ended ? labels.partyCutEnded : labels.partyCutRevoked }}</span>
         <button
+          type="button"
           class="re-back"
           @click="partyHandle.cutSeen = true"
         >
@@ -272,6 +278,7 @@
         <!-- Strict rules: a played turn is read, not corrected — the banner says so instead. -->
         <span>{{ pastWhy || labels.trackerEditingTurn.replace('{n}', view.round).replace('{name}', playerName(view.turn)) }}</span>
         <button
+          type="button"
           class="re-back"
           @click="view = null"
         >

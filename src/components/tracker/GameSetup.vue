@@ -80,6 +80,7 @@
           :title="modeLocked ? labels.lobbyGameTypeLocked : ''"
         >
           <button
+            type="button"
             :class="{ on: !settings.combatPatrol && !isDoubles }"
             :disabled="modeLocked"
             @click="setGameMode('singles')"
@@ -87,6 +88,7 @@
             {{ labels.trackerGameTypeSingles }}
           </button>
           <button
+            type="button"
             :class="{ on: isDoubles }"
             :disabled="modeLocked"
             @click="setGameMode('doubles')"
@@ -94,6 +96,7 @@
             {{ labels.trackerGameTypeDoubles }}
           </button>
           <button
+            type="button"
             :class="{ on: settings.combatPatrol }"
             :disabled="modeLocked"
             @click="setGameMode('combatPatrol')"
@@ -121,6 +124,7 @@
               <button
                 v-for="b in battleSizes"
                 :key="b.id"
+                type="button"
                 class="bs-btn"
                 data-press
                 :class="{ on: settings.battleSize === b.id }"
@@ -132,6 +136,7 @@
               <!-- A size of the players' own: a local event's points, DP and secondaries per turn
                    (owner, 2026-10-23). Its numbers ride under its name like the printed sizes'. -->
               <button
+                type="button"
                 class="bs-btn"
                 data-press
                 :class="{ on: battle.custom }"
@@ -203,6 +208,7 @@
             <button
               v-for="n in [1, 2, 3]"
               :key="n"
+              type="button"
               :class="{ on: memberMaxDp === n }"
               @click="settings.dpPerPlayer = n === maxDp ? null : n"
             >
@@ -383,6 +389,7 @@
                     >
                       <template #trigger="{ toggle, open }">
                         <button
+                          type="button"
                           class="btn-choose-twist faction-btn"
                           data-press
                           :aria-expanded="open"
@@ -482,6 +489,7 @@
                     >
                       <template #trigger="{ toggle, open }">
                         <button
+                          type="button"
                           class="btn-choose-twist"
                           data-press
                           :aria-expanded="open"
@@ -530,6 +538,7 @@
                     >
                       <template #trigger="{ toggle, open }">
                         <button
+                          type="button"
                           class="btn-choose-twist"
                           :aria-expanded="open"
                           aria-haspopup="dialog"
@@ -621,18 +630,21 @@
                 </span>
                 <div class="seg seg-fill">
                   <button
+                    type="button"
                     :class="{ on: !p.forceType }"
                     @click="p.forceType = null"
                   >
                     {{ labels.trackerForceTypeAuto }}{{ derivedForceLabel(p) }}
                   </button>
                   <button
+                    type="button"
                     :class="{ on: p.forceType === 'unified' }"
                     @click="p.forceType = 'unified'"
                   >
                     Unified
                   </button>
                   <button
+                    type="button"
                     :class="{ on: p.forceType === 'convenience' }"
                     @click="p.forceType = 'convenience'"
                   >
@@ -681,6 +693,7 @@
         class="actions setup-actions"
       >
         <button
+          type="button"
           class="btn-ghost"
           @click="cancel"
         >
@@ -692,6 +705,7 @@
              one). What genuinely needs both sides is the primary mission — the step-2 gate — and
              the start of the game itself. -->
         <button
+          type="button"
           class="btn-primary"
           :disabled="!canArmies"
           @click="askLeaveArmiesStep"
@@ -777,6 +791,7 @@
                 <button
                   v-for="n in [1, 2, 3]"
                   :key="n"
+                  type="button"
                   :class="{ on: settings.dominatus.phase === n }"
                   @click="setDomPhase(n)"
                 >
@@ -793,6 +808,7 @@
                 <button
                   v-for="l in domLocations"
                   :key="l.slug"
+                  type="button"
                   class="filter-chip"
                   :class="{ on: settings.dominatus.location === l.slug }"
                   @click="settings.dominatus.location = l.slug"
@@ -800,6 +816,7 @@
                   {{ l.roll }} · {{ l.name }}
                 </button>
                 <button
+                  type="button"
                   class="filter-chip"
                   data-press
                   @click="rollDomLocation"
@@ -840,6 +857,7 @@
           {{ labels.trackerTwistHeading }}
         </h3>
         <button
+          type="button"
           class="btn-choose-twist"
           data-press
           @click="twistPickerOpen = true"
@@ -868,6 +886,7 @@
           >
             <span>{{ labels.trackerTwistMission }}</span>
             <button
+              type="button"
               class="btn-choose-twist"
               data-press
               @click="mirrorPickerOpen = true"
@@ -985,6 +1004,7 @@
                 <button
                   v-for="id in candidateDispositions(p)"
                   :key="id"
+                  type="button"
                   :class="{ on: p.disposition === id }"
                   @click="p.disposition = id"
                 >{{ dispositionName(id) }}</button>
@@ -1030,6 +1050,7 @@
                     <button
                       v-for="a in domAllianceList"
                       :key="a.id"
+                      type="button"
                       :class="{ on: p.alliance === a.id }"
                       :disabled="!!(settings.dominatus.campaign && p.campaignPlayer)"
                       @click="p.alliance = a.id"
@@ -1104,12 +1125,14 @@
         class="actions setup-actions"
       >
         <button
+          type="button"
           class="btn-ghost"
           @click="backToArmiesStep"
         >
           ← {{ labels.trackerBack }}
         </button>
         <button
+          type="button"
           class="btn-primary"
           :disabled="!canMission"
           :title="canMission || othersReady ? '' : labels.lobbyWaitingGuest"
@@ -1126,12 +1149,14 @@
         class="actions setup-actions"
       >
         <button
+          type="button"
           class="btn-ghost"
           @click="guestLeave"
         >
           {{ labels.lobbyLeave }}
         </button>
         <button
+          type="button"
           class="btn-primary"
           data-tour="lobby-done"
           :disabled="!canConfirmSide"
@@ -1180,10 +1205,12 @@
             </span>
             <div class="seg">
               <button
+                type="button"
                 :class="{ on: settings.scoreMode === 'vp' }"
                 @click="settings.scoreMode = 'vp'"
               >{{ labels.trackerScoreVp }}</button>
               <button
+                type="button"
                 :class="{ on: settings.scoreMode === 'bp' }"
                 @click="settings.scoreMode = 'bp'"
               >{{ labels.trackerScoreBp }}</button>
@@ -1207,6 +1234,7 @@
             </span>
             <div class="seg">
               <button
+                type="button"
                 :class="{ on: !settings.strictRules }"
                 :disabled="domStrict"
                 @click="settings.strictRules = false"
@@ -1214,6 +1242,7 @@
                 {{ labels.trackerStrictFree }}
               </button>
               <button
+                type="button"
                 :class="{ on: !!settings.strictRules }"
                 @click="settings.strictRules = true"
               >
@@ -1246,12 +1275,14 @@
             </span>
             <div class="seg">
               <button
+                type="button"
                 :class="{ on: players[0].role === 'attacker' }"
                 @click="setRole(0, 'attacker')"
               >
                 {{ playerLabel(0) }}
               </button>
               <button
+                type="button"
                 :class="{ on: players[1].role === 'attacker' }"
                 @click="setRole(1, 'attacker')"
               >
@@ -1331,12 +1362,14 @@
 
       <div class="actions setup-actions">
         <button
+          type="button"
           class="btn-ghost"
           @click="step = 2"
         >
           ← {{ labels.trackerBack }}
         </button>
         <button
+          type="button"
           class="btn-primary"
           :disabled="!canBattlefield"
           @click="step = 4"
@@ -1424,12 +1457,14 @@
           </p>
         </ExpandTransition>
         <button
+          type="button"
           class="btn-ghost"
           @click="step = 3"
         >
           ← {{ labels.trackerBack }}
         </button>
         <button
+          type="button"
           class="btn-primary"
           :disabled="!canStart || starting"
           data-tour="setup-start"

@@ -5,6 +5,7 @@
        nothing left on screen to show it — a copy — is said (`say`). -->
   <button
     v-if="marks"
+    type="button"
     class="act-btn act-ico"
     @click="act(() => toggleUnitFavorite(slug, unitId))"
   >
@@ -12,18 +13,21 @@
   </button>
   <button
     v-if="marks"
+    type="button"
     class="act-btn act-ico"
     @click="act(() => toggleOwned(slug, unitId, name))"
   >
     <i :class="owned ? 'wi wi-own-on' : 'wi wi-own'" />{{ owned ? labels.dsOwnRemove : labels.dsOwnAdd }}
   </button>
   <button
+    type="button"
     class="act-btn act-ico"
     @click="act(copyName)"
   >
     <i class="wi wi-copy" />{{ labels.dsCopyName }}
   </button>
   <button
+    type="button"
     class="act-btn act-ico"
     @click="act(share)"
   >

@@ -126,6 +126,7 @@
       <div class="navbar-actions">
         <button
           ref="searchBtn"
+          type="button"
           class="search-btn"
           data-press
           :title="labels.ariaSearchTitle"
@@ -136,6 +137,7 @@
           <span class="search-hint">Ctrl K</span>
         </button>
         <button
+          type="button"
           class="lang-btn"
           data-press
           role="switch"
@@ -165,6 +167,7 @@
           class="settings-wrap"
         >
           <button
+            type="button"
             class="settings-btn"
             data-press
             :class="{ active: settingsOpen }"
@@ -181,6 +184,7 @@
               class="settings-menu"
             >
               <button
+                type="button"
                 class="settings-item"
                 @click="toggleTheme"
               >
@@ -188,6 +192,7 @@
                 <span>{{ theme === 'dark' ? labels.themeToLight : labels.themeToDark }}</span>
               </button>
               <button
+                type="button"
                 class="settings-item"
                 :class="{ active: hideLore }"
                 @click="toggleLore"
@@ -197,6 +202,7 @@
               </button>
               <!-- The interface's sounds (uiSound.js) — off by default. -->
               <button
+                type="button"
                 class="settings-item"
                 :class="{ active: soundOn }"
                 @click="toggleSound"
@@ -206,6 +212,7 @@
               </button>
               <!-- Sending error reports (useErrorLog.js) — off by default, the player's choice. -->
               <button
+                type="button"
                 class="settings-item"
                 :class="{ active: errorReports }"
                 :title="labels.errorReportsHint"
@@ -216,6 +223,7 @@
               </button>
               <button
                 v-if="(canInstall || iosInstall) && !isStandalone"
+                type="button"
                 class="settings-item"
                 @click="onInstallClick"
               >
@@ -239,6 +247,7 @@
                    has none, and offline is what installing gives. -->
               <button
                 v-if="offlineOffered"
+                type="button"
                 class="settings-item"
                 :class="{ active: warmed && warmupStatus !== 'warming' }"
                 :disabled="warmupStatus === 'warming'"
@@ -250,6 +259,7 @@
               <!-- The beta's tutorial: this screen's chapters again (tourScreen.js). -->
               <button
                 v-if="TOUR_ON && tourReady"
+                type="button"
                 class="settings-item"
                 @click="onTour"
               >
@@ -257,6 +267,7 @@
                 <span>{{ labels.tourThisScreen }}</span>
               </button>
               <button
+                type="button"
                 class="settings-item"
                 @click="onFeedback"
               >
@@ -285,6 +296,7 @@
                      the way to ask again — the mail may be in Spam or never have left. -->
                 <button
                   v-if="unconfirmedEmail"
+                  type="button"
                   class="settings-item settings-confirm"
                   :disabled="resendState === 'sending'"
                   @click="onResend"
@@ -295,6 +307,7 @@
                 <!-- A Yandex account can add an email + password as a second way in; an account with
                      one can change the password. Both open the sign-in dialog in that mode. -->
                 <button
+                  type="button"
                   class="settings-item"
                   aria-haspopup="dialog"
                   @click="onAccountLogin"
@@ -303,6 +316,7 @@
                   <span>{{ authUser?.login ? labels.accountChangePassword : labels.accountAddLogin }}</span>
                 </button>
                 <button
+                  type="button"
                   class="settings-item"
                   @click="onSignOut"
                 >
@@ -322,6 +336,7 @@
               </p>
               <button
                 v-else
+                type="button"
                 class="settings-item"
                 :disabled="accountStatus === 'idle'"
                 @click="onSignIn"
@@ -333,6 +348,7 @@
           </Transition>
         </div>
         <button
+          type="button"
           class="hamburger"
           :class="{ open: mobileNavOpen }"
           :aria-expanded="mobileNavOpen"

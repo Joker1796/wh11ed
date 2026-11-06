@@ -8,6 +8,7 @@
            DRAWN rules on offer, and the way to put the pair back. -->
       <button
         v-if="canTake"
+        type="button"
         class="take-btn"
         data-press
         @click="takeOpen = true"
@@ -16,6 +17,7 @@
       </button>
       <button
         v-if="takenNow && editable"
+        type="button"
         class="untake-btn"
         data-press
         @click="takeOpen = true"
@@ -76,6 +78,7 @@
           </button>
           <button
             v-if="editable && live && mode === 'tactical' && inHand(m.slug)"
+            type="button"
             class="manage"
             data-press
             :title="labels.trackerCardActions"
@@ -86,6 +89,7 @@
           </button>
           <button
             v-else-if="editable && live && mode === 'tactical' && isSetAside(m.slug)"
+            type="button"
             class="manage restore"
             data-press
             :disabled="!!restoreWhy(m.slug)"
@@ -153,6 +157,7 @@
       <div class="modal-body act-list">
         <button
           v-if="whenDrawnFor(actionMission)"
+          type="button"
           class="act-btn"
           data-press
           @click="startRedraw(actionMission.slug, whenDrawnFor(actionMission).mode)"
@@ -161,6 +166,7 @@
           <span>{{ whenDrawnFor(actionMission).mode === 'discard' ? labels.trackerDiscardDraw : labels.trackerShuffleDraw }}</span>
         </button>
         <button
+          type="button"
           class="act-btn"
           data-press
           :disabled="!canCpRedraw(pi)"
@@ -173,6 +179,7 @@
              it goes, with the round's bonus CP, when the player ends the turn. -->
         <button
           v-if="canEndTurnDiscard(pi) && isMarkedForTurnEnd(pi, actionMission.slug)"
+          type="button"
           class="act-btn"
           data-press
           @click="markForTurnEnd(pi, actionMission.slug); actionSlug = null"
@@ -182,6 +189,7 @@
         </button>
         <button
           v-else-if="canEndTurnDiscard(pi)"
+          type="button"
           class="act-btn"
           data-press
           :disabled="!canMarkForTurnEnd(pi, actionMission.slug)"
@@ -191,6 +199,7 @@
           <span>{{ secondaryCardVp(pi, actionMission.slug) > 0 ? labels.trackerEotDiscardScored : canGainBonus(pi) ? labels.trackerEotDiscardNote : labels.trackerEotDiscardNoCp }}</span>
         </button>
         <button
+          type="button"
           class="act-btn"
           data-press
           @click="onSetAside(actionMission.slug)"
@@ -199,6 +208,7 @@
           <span>{{ labels.trackerSetAsideNote }}</span>
         </button>
         <button
+          type="button"
           class="act-btn act-danger"
           data-press
           :disabled="!!returnWhy"

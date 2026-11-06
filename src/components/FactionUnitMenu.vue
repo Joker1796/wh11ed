@@ -13,6 +13,7 @@
   >
     <template v-if="unit">
       <button
+        type="button"
         class="act-btn act-ico"
         @click="pick('open-unit')"
       >
@@ -30,6 +31,7 @@
       </a>
       <button
         v-if="canCompare"
+        type="button"
         class="act-btn act-ico"
         @click="pick('compare')"
       >

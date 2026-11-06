@@ -114,6 +114,7 @@
         <button
           v-for="(s, i) in def.sizes"
           :key="i"
+          type="button"
           class="pill"
           data-press
           :class="{ on: (entry.size ?? 0) === i }"
@@ -200,6 +201,7 @@
         <button
           v-for="o in alleg.o"
           :key="o.n"
+          type="button"
           class="pill"
           :class="{ on: entry.alleg === o.n }"
           @click="setAlleg(o.n)"

@@ -95,6 +95,8 @@ onMounted(async () => {
 
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b)
 async function save(values) {
+  // One save at a time: a second press while the first is out would start a second campaign.
+  if (busy.value) return
   busy.value = true
   error.value = ''
   try {

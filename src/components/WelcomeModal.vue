@@ -21,6 +21,7 @@
           {{ labels.welcomeMore + ' →' }}
         </RouterLink>
         <button
+          type="button"
           class="welcome-ok"
           @click="dismiss"
         >

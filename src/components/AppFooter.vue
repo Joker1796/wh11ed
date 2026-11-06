@@ -52,6 +52,7 @@
            default so the footer doesn't dominate the screen. Desktop always shows them
            (forced open, toggle hidden — see the media queries below). -->
       <button
+        type="button"
         class="footer-toggle"
         :aria-expanded="showDetails"
         @click="showDetails = !showDetails"

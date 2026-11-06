@@ -82,6 +82,7 @@
             :key="s.key"
           >
             <button
+              type="button"
               class="pj-seat"
               :class="{ free: !s.takenBy }"
               :disabled="busy || !!s.takenBy"

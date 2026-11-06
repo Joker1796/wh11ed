@@ -9,6 +9,7 @@
   <div class="dfilters">
     <div class="seg">
       <button
+        type="button"
         :class="{ on: alliance === 'all' }"
         @click="alliance = 'all'"
       >
@@ -17,6 +18,7 @@
       <button
         v-for="a in deck.alliances"
         :key="a.id"
+        type="button"
         :class="{ on: alliance === a.id }"
         @click="alliance = a.id"
       >

@@ -9,6 +9,7 @@
         class="picker-actions"
       >
         <button
+          type="button"
           class="btn-ghost tp-act"
           @click="$emit('random')"
         >

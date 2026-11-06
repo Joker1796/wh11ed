@@ -72,6 +72,7 @@
               >
                 <template #trigger="{ toggle }">
                   <button
+                    type="button"
                     class="camp-more"
                     :aria-label="labels.rosterMoreActions"
                     aria-haspopup="menu"
@@ -81,6 +82,7 @@
                   </button>
                 </template>
                 <button
+                  type="button"
                   class="act-btn"
                   @click="startEdit(p)"
                 >
@@ -89,6 +91,7 @@
                 <!-- A roster: attached by the player or the Warmaster when the campaign takes them. -->
                 <button
                   v-if="state.roster !== 'none'"
+                  type="button"
                   class="act-btn"
                   @click="menuFor = null; rosterFor = p"
                 >
@@ -96,6 +99,7 @@
                 </button>
                 <button
                   v-if="p.roster"
+                  type="button"
                   class="act-btn"
                   @click="menuFor = null; act('roster', { player: p.id, code: null })"
                 >
@@ -103,6 +107,7 @@
                 </button>
                 <button
                   v-if="isOwner"
+                  type="button"
                   class="act-btn"
                   @click="startCards(p)"
                 >
@@ -110,6 +115,7 @@
                 </button>
                 <button
                   v-if="isOwner"
+                  type="button"
                   class="act-btn act-danger"
                   :disabled="!removable(state, p.id)"
                   @click="menuFor = null; removing = p"

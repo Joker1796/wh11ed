@@ -4,6 +4,7 @@
     :class="{ locked }"
   >
     <button
+      type="button"
       class="sr-main"
       @click="$emit('open')"
     >
@@ -30,6 +31,7 @@
            changed the cost or the unit matters (Mikhail, 2026-10-19: "a tap spends it, a gear
            beside it sets the price"). The cost button beside it spends at the printed cost. -->
       <button
+        type="button"
         class="sr-adjust"
         data-press
         :disabled="locked"
@@ -44,6 +46,7 @@
       </button>
       <!-- The printed cost: a tap spends it (unless the game asks every time — askStratagems). -->
       <button
+        type="button"
         class="sr-use"
         data-press
         :disabled="locked"
@@ -65,6 +68,7 @@
       >✓ {{ labels.trackerStratUsed.replace('{n}', used) }}</span>
       <button
         v-if="undoable"
+        type="button"
         class="sr-undo"
         data-press
         :disabled="!!undoWhy"

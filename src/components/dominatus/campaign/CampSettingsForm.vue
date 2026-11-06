@@ -255,7 +255,7 @@
       <button
         class="btn-primary"
         type="submit"
-        :disabled="!form.name || busy"
+        :disabled="!form.name?.trim() || busy"
       >
         {{ submitLabel }}
       </button>
@@ -318,6 +318,8 @@ const sizeMode = computed({
 const help = ref(null)
 // Sent as plain values; three equal sizes are one size.
 function submit() {
+  // The button greys without a name; Enter in a field reaches here all the same.
+  if (!form.name?.trim() || props.busy) return
   const size = Array.isArray(form.size) && form.size.every((x) => x === form.size[0]) ? form.size[0] : form.size
   emit('submit', { ...form, schedule: [...form.schedule], deadlines: [...form.deadlines], size: Array.isArray(size) ? [...size] : size })
 }

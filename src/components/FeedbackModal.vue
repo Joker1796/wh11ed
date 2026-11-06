@@ -81,6 +81,7 @@
 
         <div class="fb-actions">
           <button
+            type="button"
             class="btn-primary"
             :disabled="!message.trim() || offline || state === 'sending'"
             @click="send"

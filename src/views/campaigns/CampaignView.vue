@@ -31,6 +31,7 @@
         >
           <template #trigger="{ toggle }">
             <button
+              type="button"
               class="camp-more"
               :aria-label="labels.rosterMoreActions"
               aria-haspopup="menu"
@@ -41,6 +42,7 @@
           </template>
           <button
             v-if="isOwner && state"
+            type="button"
             class="act-btn"
             @click="menuOpen = false; router.push(campaignPath(id, 'settings'))"
           >
@@ -48,6 +50,7 @@
           </button>
           <button
             v-if="isOwner"
+            type="button"
             class="act-btn act-danger"
             @click="menuOpen = false; confirmDelete = true"
           >
@@ -55,6 +58,7 @@
           </button>
           <button
             v-else
+            type="button"
             class="act-btn"
             @click="menuOpen = false; forget()"
           >

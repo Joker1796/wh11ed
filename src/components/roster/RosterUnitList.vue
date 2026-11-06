@@ -196,6 +196,7 @@
                       >
                         <button
                           v-if="hasBlock(e)"
+                          type="button"
                           class="act-btn"
                           @click="startName(e)"
                         >
@@ -203,12 +204,14 @@
                         </button>
                         <button
                           v-if="!dupBlocked(e)"
+                          type="button"
                           class="act-btn"
                           @click="act('duplicate')"
                         >
                           {{ labels.rosterDuplicate }}
                         </button>
                         <button
+                          type="button"
                           class="act-btn act-danger"
                           @click="act('remove')"
                         >

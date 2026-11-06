@@ -11,6 +11,7 @@
           @focus="$event.target.select()"
         >
         <button
+          type="button"
           class="btn-ghost copy-btn"
           @click="copy"
         >
@@ -30,6 +31,7 @@
         class="pi-code"
       >{{ codeText }}</span>
       <button
+        type="button"
         class="btn-ghost"
         @click="newInvite()"
       >

@@ -38,6 +38,7 @@
       #aside
     >
       <button
+        type="button"
         class="measurements-toggle"
         data-press="pop"
         :aria-pressed="modalMeasurements"

@@ -56,6 +56,7 @@
             <LayoutCard :layout="l">
               <template #caption-end>
                 <button
+                  type="button"
                   class="lp-pick"
                   :class="{ on: isSelected(l) }"
                   @click="pick(activeMatchup, l)"

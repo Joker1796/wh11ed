@@ -5,6 +5,7 @@
   >
     <button
       v-if="!expanded"
+      type="button"
       class="bd-toggle"
       :aria-expanded="open"
       @click="open = !open"
