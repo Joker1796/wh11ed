@@ -747,6 +747,9 @@ tr:nth-child(even) td {
      Inter from 2026-10-18 because the monospace then was Courier New, a system face each phone drew
      differently; Kibernetyk Mono is ours, loaded and offline like Inter. */
   font-family: var(--font-mono);
+  /* The mono has no italic: a tag inside an italic passage (an Example block) stays upright
+     instead of the browser slanting it (smoke, 2026-11-07). */
+  font-style: normal;
   letter-spacing: 0;
   /* Never wider than its line (2026-10-27: a granted "Feel No Pain 5+ (против смертельных ран и
      Psychic Attacks)" ran off the card on a phone, `nowrap` held it in one line). An inline-block
