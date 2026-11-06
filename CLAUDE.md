@@ -96,7 +96,7 @@ They are **not** submodules: each versions and deploys independently.
 | Repo | What it is |
 |---|---|
 | **wh11ed** | this repo: the whole app |
-| [wh11ed-api](https://github.com/Joker1796/wh11ed-api) | optional backend — login and cloud backup of tracker history |
+| `wh11ed-api` (private; `../wh11ed-api` if cloned alongside) | optional backend — login and cloud backup of tracker history |
 
 **This repo is self-contained:** it builds, tests and runs with none of the others present. Only
 login and cloud sync need `wh11ed-api` (`VITE_API_BASE_URL`, defaulting to a local dev server), and
