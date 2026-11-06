@@ -187,8 +187,11 @@ table does not; the battle starts with them given (`useRosterCampaign.js`).
   the new player does not hold.
 - **The cards**: a unit's fields have "Upgrade card" under the enhancement (`RosterEntryFields`
   computes the options): the pool (the player's cards, or the deck's unit cards), one card a unit, a
-  card once, up to the battle's limit (`limitOf`: the campaign's, 3 for the deck); a card the unit
-  may not take, or another unit holds, stays listed and says why (`upgradeUnitBlock`).
+  card once, up to the battle's limit (`limitOf`: the campaign's, 3 for the deck); a card another
+  unit holds, or past the limit, stays listed and says why; a card the unit's datasheet may not take
+  (`upgradeUnitBlock`) is not listed, as an enhancement it is not eligible for (owner, 2026-11-05:
+  ten greyed "not a CHARACTER" rows on a squad were noise). With nothing to offer, the field stays
+  with one line saying why — no cards held yet, or none for this unit (`upgradeNote`, 2026-11-06).
 - **The view** reads the pinned cards outside a game exactly as it reads a battle's
   (`upgradesHere` in `RosterViewView`): the modifiers on the card, and the "Upgrade cards for the
   campaign" block with each card's coverage (`ctx.upgrades`; `gameCtx.upgrades` in a game).

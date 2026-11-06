@@ -361,16 +361,26 @@
          battles, from the pool the list is marked for (RosterCampaignField) — one a unit, a card
          once in the list, as many as a battle gives. Ticked as an enhancement is; a card the unit's
          datasheet may not take is not listed (as an enhancement it is not eligible for), one another
-         unit holds, or past the limit, stays and says why. -->
+         unit holds, or past the limit, stays and says why. With nothing to offer, one line says why
+         (`upgradeNote`). -->
     <ExpandTransition>
       <section
-        v-if="upgradeOptions.length"
+        v-if="upgradeOptions.length || upgradeNote"
         class="ues-sec"
       >
         <h4 class="ues-h">
           {{ labels.rosterUpgradeCard }}
         </h4>
-        <div class="opt-col">
+        <p
+          v-if="upgradeNote"
+          class="empty-note"
+        >
+          {{ upgradeNote }}
+        </p>
+        <div
+          v-else
+          class="opt-col"
+        >
           <div
             v-for="u in upgradeOptions"
             :key="u.slug"
@@ -648,6 +658,7 @@ const props = defineProps({
   // The Dominatus Upgrade cards this unit may be given ({ slug, name, on, disabled, tag }), empty
   // for a list not marked for a campaign (RosterEntryFields).
   upgradeOptions: { type: Array, default: () => [] },
+  upgradeNote: { type: String, default: '' },
   leaderTargets: { type: Array, default: () => [] },
   // rosterEngine's leaderSourcesFor: the entries that could be attached to this one.
   leaderSources: { type: Array, default: () => [] },

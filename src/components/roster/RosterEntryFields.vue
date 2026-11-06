@@ -23,6 +23,7 @@
     :leader-candidates="leaderCandidates"
     :leader-hosts="leaderHosts"
     :upgrade-options="upgradeOptions"
+    :upgrade-note="upgradeNote"
     @set-upgrade="(slug) => $emit('set-upgrade', entry.uid, slug)"
     @upgrade-info="showUpgrade"
     @toggle-warlord="$emit('toggle-warlord', entry.uid)"
@@ -156,5 +157,15 @@ const upgradeOptions = computed(() => {
           : upgradeBonusApplies(card, unit) ? l.rosterUpgradeBonus : ''
     return { slug: c.slug, name: c.name, on, disabled: !on && !!(holder || full), tag }
   })
+})
+// A list marked for a campaign with no card to offer this unit says why instead of dropping the
+// field: the player holds none yet, or none of theirs is for this unit (stand walkthrough,
+// 2026-11-06 — a Redemptor's field was simply gone).
+const upgradeNote = computed(() => {
+  const dom = props.dominatus
+  // The deck comes on demand: until it is in, there is nothing to say yet.
+  if (!dom || !def.value || upgradeOptions.value.length || !domUpgrades().length) return ''
+  const l = ui[locale.value]
+  return poolOf(dom, locale.value).length ? l.rosterUpgradeNoneFit : l.rosterUpgradeNoneHeld
 })
 </script>

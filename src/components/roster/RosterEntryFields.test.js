@@ -195,3 +195,29 @@ describe('RosterEntryFields — an ally', () => {
     expect(barred.props('enhOptions').some((o) => o.eligible)).toBe(false)
   })
 })
+
+describe('RosterEntryFields — Upgrade cards of a list marked for Dominatus', () => {
+  const note = (w) => w.findComponent(UnitEditorFields).props('upgradeNote')
+  const options = (w) => w.findComponent(UnitEditorFields).props('upgradeOptions')
+
+  const mountOne = (id) => {
+    const units = [{ uid: 'u1', id, size: 0 }]
+    return mount(RosterEntryFields, {
+      props: { entry: units[0], units, defOf, catalogue: necrons.units, items: rosterItems.items, texts: rosterItems.texts, armySlug: 'necrons', dominatus: { campaign: null, upgrades: [] } },
+      global: { stubs: { Teleport: true } },
+    })
+  }
+
+  // Stand walkthrough, 2026-11-06: a unit no card fits lost the whole field, with no word why.
+  it('offers a CHARACTER the deck\'s cards, and a squad no card fits says so instead of dropping the field', async () => {
+    const { loadDominatusDeck } = await import('../../composables/dominatusMissions.js')
+    await loadDominatusDeck()
+    const lord = mountOne('overlord')
+    expect(options(lord).length).toBeGreaterThan(0)
+    expect(note(lord)).toBe('')
+    const squad = mountOne('necron-warriors')
+    expect(options(squad)).toEqual([])
+    expect(note(squad)).toBe('None of the player’s Upgrade cards is for this unit.')
+  })
+})
+
