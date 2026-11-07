@@ -629,6 +629,7 @@
       <RosterUnitRulesModal
         v-if="viewingCard && !split"
         v-bind="viewingCard"
+        :focus-rule="viewingFocus"
         v-on="viewingHandlers"
         @close="viewingUid = null; viewingCrew = null"
       />
@@ -651,6 +652,7 @@
         v-if="viewingCard"
         :key="viewingUid || viewingCrew"
         v-bind="viewingCard"
+        :focus-rule="viewingFocus"
         inline
         v-on="viewingHandlers"
       />
@@ -817,8 +819,15 @@ const liveGame = computed(() => {
 })
 // The unit whose card is open (see "Unit rules modal" below).
 const viewingUid = ref(!props.inTracker && route.query?.unit ? String(route.query.unit) : null)
+// The rule the card was opened for (the Phase tab's line to it — `{ n, type, slug? }`), lit and
+// scrolled to on the card; any other way of opening a card clears it.
+const viewingFocus = ref(null)
+watch(viewingUid, () => { viewingFocus.value = null }, { flush: 'sync' })
 // The game screen opens a unit's card straight from another tab (RoundTracker).
-defineExpose({ openUnit: (uid) => { viewingUid.value = uid }, cardOf: (key) => cardOf(key) })
+defineExpose({
+  openUnit: (uid, rule = null) => { viewingUid.value = uid; viewingFocus.value = rule },
+  cardOf: (key) => cardOf(key),
+})
 const emit = defineEmits(['unit'])
 // Kept off screen in the game's Roster tab, the page must not redo its whole modifier layer on
 // every tap of the game (a VP, a CP, a phase step): while `frozen` it reads a plain copy of the
@@ -1235,8 +1244,8 @@ function statCellsOf(entry) {
     cell('oc', 'OC', p.oc),
   ]
   // Last plate, marked `inv: true` so the template can colour it distinctly — same idea as
-  // DatasheetCard's own accent-coloured "Invulnerable Save" label, just at the end of the row
-  // instead of straight under SV (no room for that layout in a one-line list row).
+  // DatasheetCard's own accent-coloured "Invulnerable Save" label, at the end of the one row
+  // (RosterStatPlates narrows the plates rather than wrap them).
   if (p.inv) cells.push({ ...cell('inv', 'INV', `${p.inv}${p.invNote ? '*' : ''}`), inv: true })
   return cells
 }
