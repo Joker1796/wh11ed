@@ -8,6 +8,13 @@ import { sizeOf, modelCount } from '../core/roster/rosterEngine.js'
 /** @typedef {import('../core/shared/roster.types.js').RosterIssue} RosterIssue */
 /** The entry a row is drawn for. @typedef {Partial<import('../core/shared/roster.types.js').RosterEntry>} EntryLike */
 
+// An enhancement's name as a screen shows it. The roster data carries an Upgrade's kind in its name
+// ("Gore-stained Veterans (Upgrade)", all 87 of them), the GW app prints it without, and on a
+// unit's chip in a narrow pane the tag was the half that ran out of room (owner, 2026-11-07: drop
+// it). Only on screen: the stored name, the export and every comparison keep the data's spelling.
+/** @param {string | null | undefined} name @returns {string} */
+export const enhLabel = (name) => String(name || '').replace(/\s*\(Upgrade\)\s*$/i, '')
+
 // A one-line summary of an entry's size and enhancement for its list row (the read-only view's).
 // Every noun is passed in: callers pass their current locale's `rosterModelsLabel`/`rosterWarlord`.
 //
@@ -35,7 +42,7 @@ export function entrySummary(e, def, modelsLabel, warlordLabel = '') {
   /** @param {number} k @param {string | ((n: number) => string)} l */
   const count = (k, l) => (typeof l === 'function' ? l(k) : `${k} ${l}`)
   if (size.per[1] > 1) parts.push(count(n, modelsLabel))
-  if (e.enh) parts.push(e.enh)
+  if (e.enh) parts.push(enhLabel(e.enh))
   return parts.join(' · ')
 }
 
@@ -49,5 +56,5 @@ export function entrySummary(e, def, modelsLabel, warlordLabel = '') {
 export function issueText(iss, labels) {
   const tpl = labels[`issue_${iss.code}`] || iss.code
   const p = iss.params || {}
-  return tpl.replace(/\{(\w+)\}/g, (_, k) => String(p[k] ?? ''))
+  return tpl.replace(/\{(\w+)\}/g, (_, k) => (k === 'enh' ? enhLabel(String(p[k] ?? '')) : String(p[k] ?? '')))
 }

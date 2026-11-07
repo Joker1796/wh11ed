@@ -324,7 +324,7 @@
                 @change="toggleEnh(e)"
               >
               <span class="opt-name">
-                {{ e.name }}
+                {{ enhLabel(e.name) }}
                 <span
                   v-if="e.dup"
                   class="opt-tag"
@@ -634,6 +634,7 @@ import ConfirmModal from '../ConfirmModal.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { enhLabel } from '../../composables/rosterText.js'
 import { ENTRY_NOTE_MAX, sizeOf, modelCount, allySourceOf, allegFor, allegSpent, defaultWargearPoints, fixedLoadoutLines, fitWargear, modelsPerMini, setNote } from '../../core/roster/rosterEngine.js'
 
 const props = defineProps({
@@ -712,7 +713,7 @@ const targetHints = computed(() => {
   const parts = (t) => [
     t.blockName,
     t.models ? `${t.models} ${l.rosterModelsLabel}` : '',
-    t.enh,
+    enhLabel(t.enh),
     t.alleg,
     t.picks?.length ? t.picks.join(', ') : '',
     t.warlord ? l.rosterWarlord : '',
@@ -988,7 +989,7 @@ function movePrompt(mover, title, body, extra, confirmLabel, run) {
   const words = {
     '{unit}': props.defOf?.(mover.id)?.name || '',
     '{from}': fromEntry?.blockName || props.defOf?.(fromEntry?.id)?.name || '',
-    '{enh}': mover.enh || '',
+    '{enh}': enhLabel(mover.enh),
     ...extra,
   }
   const fill = (s) => Object.entries(words).reduce((t, [k, v]) => t.replaceAll(k, v), s)

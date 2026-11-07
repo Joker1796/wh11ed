@@ -927,6 +927,12 @@ directory; still part of this feature:
 - `rosterEngine.js` — unit grouping (`UNIT_GROUPS`: epic/characters/battleline/transports/
   other, derived from keywords), points math, leader/warlord/enhancement eligibility, wargear
   group live-state
+- `rosterText.js`'s **`enhLabel`** — an enhancement's name on SCREEN: the roster data bakes the kind
+  into all 87 Upgrades' names ("Gore-stained Veterans (Upgrade)"), the GW app does not print it,
+  and on a unit's chip it was the half that ran out of a narrow pane (owner, 2026-11-07). The chip,
+  the view's summary line, the editor's options and target hints, the card's context line, the
+  enhancement dialog, the print sheet and an issue's `{enh}` all go through it; the stored name,
+  the export and every comparison keep the data's spelling. "(Aura)" / "(Psychic)" stay.
 - `rosterSummary.js` — the cached `{ points, unitCount, issues }` denormalised onto each stored
   roster, who writes it and the repair pass for rosters nobody did (see **Store** below)
 - `rosterValidation.js` — `validateRoster()`. Philosophy: **never block**, like the official

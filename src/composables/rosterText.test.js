@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { entrySummary } from './rosterText.js'
+import { entrySummary, enhLabel, issueText } from './rosterText.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -22,5 +22,19 @@ describe('entrySummary', () => {
   it('says nothing about a unit that is not the Warlord', () => {
     const e = { uid: 'u1', id: 'captain', size: 0 }
     expect(entrySummary(e, captain, 'models', 'Warlord')).toBe('')
+  })
+})
+
+// The data carries an Upgrade's kind in its name; a screen shows the name alone (owner, 2026-11-07).
+describe('enhLabel', () => {
+  it('drops the Upgrade tag, and only that', () => {
+    expect(enhLabel('Gore-stained Veterans (Upgrade)')).toBe('Gore-stained Veterans')
+    expect(enhLabel('Knight of the Opus Machina (Aura)')).toBe('Knight of the Opus Machina (Aura)')
+    expect(enhLabel(null)).toBe('')
+  })
+  it('reaches the summary line and an issue\'s sentence', () => {
+    const e = { size: 0, enh: 'Gore-stained Veterans (Upgrade)' }
+    expect(entrySummary(e, intercessor, 'models')).toBe('5 models · Gore-stained Veterans')
+    expect(issueText({ code: 'x', params: { enh: 'Gore-stained Veterans (Upgrade)' } }, { issue_x: 'Twice: {enh}' })).toBe('Twice: Gore-stained Veterans')
   })
 })
