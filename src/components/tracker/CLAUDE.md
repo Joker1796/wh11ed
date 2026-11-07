@@ -152,9 +152,21 @@ phase (tap → the phase picker), ›, End turn. The arrows stop at Command and 
 changes only by End / Undo turn, so never past the end-of-turn check. The reminder ("in this
 phase", `trackPhaseRules`) is the **Phase** tab of the upper row (the **Turn** tab in a game without the clock), its count on the tab
 (`usePhaseRules.js` counts; `PhaseRules.vue embedded` draws). Its lines stay on the game screen
-(2026-09-30): a rule opens the Army tab on that army with the rule unfolded (`ArmiesPanel.reveal`), a unit of an
-attached list opens its card in the Army tab (`RosterTab.openUnit`), several units — the list; a
-mission card opens the Missions tab. No stratagems line since 2026-10-10 — the CP tab is one tap
+(2026-09-30): a rule (the army rule, a detachment's) opens its text in a dialog over the tab
+(`PhaseRuleModal.vue`, owner 2026-11-07 — it opened the Army tab with the rule's fold unfolded until
+then, and the reader had to find which fold it was; the text comes through `loadArmyRules`, the Army
+tab's own on-demand import, at the tap), a unit of an attached list opens its card over the tab
+(`RosterTab.openUnit`) **with the line's rule lit** (owner, 2026-11-07: the row's `roster.rule` —
+`{ n, type, slug? }` — rides through `RosterViewView.openUnit` to `RosterUnitRulesCard`'s
+`focusRule`: `DatasheetCard` marks a datasheet ability by its English name (its own `focusRule`
+prop), the enhancement and a Dominatus Upgrade card are folds that open for it; the line wears
+`[data-rule-focus]` (style.css: an accent frame that pulses four times, then stays), bound in the
+templates — set by hand it was lost when the game thawed the card and its lines were redrawn — and
+is scrolled to only when off screen; the rest of the card is dimmed (`.rum-spot`, a `:has()`
+selector picking the highest boxes that do not hold the rule) until the first tap, which is spent
+on lifting it unless it lands on the rule — owner, 2026-11-07, after a frame and then a tint did
+not read at a glance), several units — the
+list in the Army tab; a mission card opens the Missions tab. No stratagems line since 2026-10-10 — the CP tab is one tap
 away and already filters to the phase.
 **One strip of tabs** over one panel (owner's calls, 2026-09-27: two rows split by a heavy rule
 read as two menus, and they were one menu). Every CLOSED tab is an icon (`aria-label` + `title`
@@ -685,7 +697,12 @@ under the set's name (which option is up is picked in the game, so all are offer
 "until the start/end of …" is a duration and does not count, and a phase also named any other way is
 during. ~150 starts and ~130 ends over the 960 entries. A row is what you look for at the table (the
 units, or the rule's name) over one small line (what it is · the ability, or the detachment's name;
-a doubles team's army after it).
+a doubles team's army after it). **Names as the unit's card prints them** (owner, 2026-11-07): in
+Russian the card's translated name with the English small in brackets (`nameEn`, `.pr-en`); the
+generator reads each sheet's RU names off `localizeSheet` — the card's own function, global and
+faction name maps included (`ru`, and `setRu` for an ability set's name) — where it read only the
+sheet overlay and found a name for 35 of 958 abilities. Army and detachment rules and enhancements
+stay English, as everywhere.
 
 **Two sides, not one.** 55 of the datasheet abilities that name a phase name their OPPONENT'S ("In
 your opponent's Movement phase, if an enemy unit ends a move within 8"…"), and those are the ones a

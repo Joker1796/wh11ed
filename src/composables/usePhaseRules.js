@@ -95,7 +95,7 @@ export function usePhaseRules() {
         const k = `${src}|${e.n}|${m.factionSlug}`
         if (seen.has(k)) return
         seen.add(k)
-        out.push({ key: k, kind: 'rule', mi: rawMi, src, name: nameOf(e), sub: null, when: momentOf(e, ph), slug: m.factionSlug, at: e.at, det: e.id, army: { pi, mi, rule } })
+        out.push({ key: k, kind: 'rule', mi: rawMi, src, name: nameOf(e), nameEn: nameEnOf(e), sub: null, when: momentOf(e, ph), slug: m.factionSlug, at: e.at, det: e.id, army: { pi, mi, rule } })
       }
 
       if (fac) {
@@ -146,10 +146,11 @@ export function usePhaseRules() {
               kind: 'unit',
               mi: rawMi,
               name: nameOf(e),
+              nameEn: nameEnOf(e),
               // What it is, where an ability of the datasheet would not be the first guess.
               what: type === 'wargear' ? labels.value.trackerPhaseWargear
                 : type === 'enh' ? labels.value.trackerPhaseEnh
-                  : type === 'set' ? e.set : null,
+                  : type === 'set' ? (locale.value === 'ru' && e.setRu) || e.set : null,
               when: momentOf(e, ph),
               units: new Set(),
               // Where this one unit's card is. Dropped for the list as soon as a SECOND entry turns
@@ -157,8 +158,9 @@ export function usePhaseRules() {
               // so the line lets the reader pick. Counted by entry, not by name — three squads of
               // the same datasheet are three cards, even though the line names "Boyz" once.
               to: cardOf(m, pi, mi, u, ally),
-              // The same, inside the game screen (its Roster tab): the unit, or just the list.
-              roster: m.roster ? { pi, mi, uid: u.uid } : null,
+              // The same, inside the game screen (its Roster tab): the unit, or just the list —
+              // and which of its rules the line was about, lit on the card (owner, 2026-11-07).
+              roster: m.roster ? { pi, mi, uid: u.uid, rule: { n: e.n, type } } : null,
               entries: 0,
             })
           }
@@ -189,7 +191,7 @@ export function usePhaseRules() {
           when: momentOf(e, ph),
           sub: u.unit || null,
           to: entry ? cardOf(m, pi, mi, entry, allySourceOf(entry.id)) : listOf(m, pi, mi),
-          roster: m.roster ? { pi, mi, ...(entry ? { uid: entry.uid } : {}) } : null,
+          roster: m.roster ? { pi, mi, ...(entry ? { uid: entry.uid, rule: { n: card.name, type: 'upgrade', slug: u.slug } } : {}) } : null,
         })
       }
     })
@@ -258,8 +260,14 @@ export function usePhaseRules() {
   }
 
   // The RU name where the datasheet overlay had one; rule and unit names stay English by convention.
+  // The name as the unit's card prints it: Russian where the card translates it, with the English
+  // beside it (`nameEn`, small in brackets) — the name said to the opponent and found in the codex
+  // (owner, 2026-11-07: the tab showed English alone in the Russian site).
   function nameOf(e) {
     return locale.value === 'ru' && e.ru ? e.ru : e.n
+  }
+  function nameEnOf(e) {
+    return locale.value === 'ru' && e.ru ? e.n : null
   }
 
   // Where a line leads. A unit goes to its card — inside the attached list when there is one (the

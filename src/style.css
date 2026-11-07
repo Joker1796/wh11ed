@@ -2265,6 +2265,36 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
   a { color: inherit !important; text-decoration: none !important; }
 }
 
+/* ── The rule a card was opened for ─────────────────────────────────────────────
+   The game's Phase tab opens a unit's card on one of its abilities (RosterUnitRulesCard's
+   `focusRule`): that line is FRAMED in the accent and the frame pulses a few times as the dialog
+   rises, then stays (owner, 2026-11-07: a tint and a bar did not read as "this one" at a glance).
+   The frame is drawn inside the line's own box (an inset shadow) — the folds it sits in clip
+   (CollapseTransition), and an outline outside would lose its sides. An attribute, not a class:
+   the lines carry a :class binding Vue rewrites whole, and an added class would not survive it. */
+[data-rule-focus] {
+  padding: 0.35rem 0.5rem;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  box-shadow: inset 0 0 0 2px var(--accent);
+  animation: rule-focus-pulse calc(var(--motion-flash) * 2) ease-in-out 4;
+}
+/* The rest of the card dims around it (`.rum-spot`, until the first tap): every box that does not
+   hold the rule, taken at the highest level that does not — a child of a box that holds it — so
+   the dimming never compounds down a branch. */
+.rum-spot > :not(:has([data-rule-focus])):not([data-rule-focus]),
+.rum-spot :has([data-rule-focus]) > :not(:has([data-rule-focus])):not([data-rule-focus]) {
+  opacity: 0.25;
+  animation: rule-dim-in var(--motion-med) ease-out;
+}
+@keyframes rule-dim-in { from { opacity: 1; } }
+.rum-spot { cursor: pointer; }
+@keyframes rule-focus-pulse {
+  50% {
+    background: color-mix(in srgb, var(--accent) 26%, transparent);
+    box-shadow: inset 0 0 0 3px var(--accent), inset 0 0 0.9rem color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+}
+
 /* ── Weapon profile arrow ────────────────────────────────────────────────────
    The small arrow before each profile of a weapon that has several ("Plasma incinerator" →
    standard / supercharge), wherever weapon rows are drawn: a datasheet's tables and the wargear

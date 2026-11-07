@@ -50,7 +50,6 @@
          its controls inert. -->
     <ArmyTrackerCard
       v-for="c in trackerCards"
-      ref="cardEls"
       :key="c.mi ?? 'side'"
       class="ap-body"
       bare
@@ -100,7 +99,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import FactionEmblem from '../FactionEmblem.vue'
 import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import RosterOwnLimitsMark from '../roster/RosterOwnLimitsMark.vue'
@@ -113,7 +112,6 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { loadArmyRules, armySignature } from '../../composables/gameStratagems.js'
-import { foldName } from '../../core/shared/foldName.js'
 
 // One army's card in the Armies tab (ArmiesPanel keeps one per army, built once): its faction and
 // the way to its units, then what it plays by — the army rule's tracker and the detachment rules.
@@ -184,24 +182,9 @@ const ruleTexts = computed(() => {
   const l = labels.value
   return [
     ...(r.armyRule ? [{ key: 'army', army: true, title: `${l.trackerArmyRuleKind} · ${r.armyRule.name}`, body: r.armyRule.body }] : []),
-    ...r.detachments.map((d) => ({ key: `det:${d.name}`, det: d.name, title: `${l.trackerArmyDetachmentKind} · ${d.name} · ${d.rule.name}`, body: d.rule.body })),
+    ...r.detachments.map((d) => ({ key: `det:${d.name}`, title: `${l.trackerArmyDetachmentKind} · ${d.name} · ${d.rule.name}`, body: d.rule.body })),
   ]
 })
-
-// Unfold one of its rules (the Phase tab's line to it, via ArmiesPanel): 'army' or a detachment's
-// name — once the rules are here.
-const cardEls = ref([])
-const normName = foldName
-async function reveal(rule) {
-  const open = () => {
-    const key = rule === 'army' ? 'army' : ruleTexts.value.find((t) => t.det && normName(t.det) === normName(rule))?.key
-    if (key) cardEls.value.forEach((c) => c?.reveal?.(key))
-  }
-  await nextTick()
-  if (rules.value || !props.army.member.factionSlug) return open()
-  const stop = watch(rules, (r) => { if (r) { stop(); nextTick(open) } })
-}
-defineExpose({ reveal })
 </script>
 
 <style scoped>

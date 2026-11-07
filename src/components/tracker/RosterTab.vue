@@ -118,8 +118,8 @@ const waiting = new Map()
 function setView(key, el) {
   if (!el) { views.delete(key); return }
   views.set(key, el)
-  const uid = waiting.get(key)
-  if (uid) { waiting.delete(key); el.openUnit(uid) }
+  const at = waiting.get(key)
+  if (at) { waiting.delete(key); el.openUnit(at.uid, at.rule) }
 }
 
 // Another army's list fades in (useSwapFade).
@@ -129,16 +129,17 @@ useSwapFade(() => army.value?.key, () => views.get(army.value?.key)?.$el)
 function show({ pi, mi }) {
   sel.value = keyOf(pi, mi)
 }
-// Open one unit's card over whatever tab is on screen (the Phase tab's line to it): that list is
-// built if it was not — frozen, off screen — and the card opens as soon as its screen is up.
-async function openUnit({ pi, mi, uid }) {
+// Open one unit's card over whatever tab is on screen (the Phase tab's line to it, with the rule
+// it was about — `rule`, lit on the card): that list is built if it was not — frozen, off
+// screen — and the card opens as soon as its screen is up.
+async function openUnit({ pi, mi, uid, rule }) {
   const key = keyOf(pi, mi)
   if (!withLists.value.some((a) => a.key === key)) return
   built.value.add(key)
   await nextTick()
   const v = views.get(key)
-  if (v) v.openUnit(uid)
-  else waiting.set(key, uid)
+  if (v) v.openUnit(uid, rule)
+  else waiting.set(key, { uid, rule })
 }
 defineExpose({ show, openUnit })
 </script>

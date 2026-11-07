@@ -784,15 +784,6 @@ const showActive = ref(false)
 const showHowto = ref(false)
 const shownTexts = computed(() => props.texts.filter((t) => !(t.army && view.value?.kind === 'reference')))
 const openTexts = ref([])
-// Open one of the card's rules (the Phase tab's line to it, via ArmiesPanel): a text by its key,
-// or the army rule — its own fold where the card is a tracker, "How it works" where the card is
-// the rule itself.
-function reveal(key) {
-  if (shownTexts.value.some((t) => t.key === key)) {
-    if (!openTexts.value.includes(key)) openTexts.value = [...openTexts.value, key]
-  } else if (key === 'army') showHowto.value = true
-}
-defineExpose({ reveal })
 function toggleText(key) {
   openTexts.value = openTexts.value.includes(key) ? openTexts.value.filter((k) => k !== key) : [...openTexts.value, key]
 }

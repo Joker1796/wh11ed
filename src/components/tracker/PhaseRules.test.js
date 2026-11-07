@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { mount, flushPromises, DOMWrapper } from '@vue/test-utils'
 
 // The store is a module singleton — reset it (and the component bound to it) between cases.
 let PhaseRules, tracker, DISPOSITIONS
@@ -34,8 +34,8 @@ function startGame(p0 = {}, p1 = {}, settings = {}) {
     ],
   })
 }
-async function mountBlock() {
-  const w = mount(PhaseRules, { global: { stubs: { RouterLink } } })
+async function mountBlock(props = {}) {
+  const w = mount(PhaseRules, { props, global: { stubs: { RouterLink } } })
   // The rules wait for the phase index, the one dynamic import usePhaseRules makes. Since the Turn
   // tab draws its steps at once (2026-10-10) the block is on screen BEFORE the rules are, so waiting
   // for the block alone passed at once and, with the whole suite running beside it, the checks then
@@ -235,6 +235,22 @@ describe('PhaseRules — where a line leads', () => {
     const w = await mountBlock()
     await line(w, 'Waaagh!').trigger('click')
     expect(navigateTo).toHaveBeenCalledWith({ route: '/factions/orks', anchor: 'waaagh' })
+  })
+
+  // On the game screen a rule opens its text over the tab (owner, 2026-11-07), not the Army tab.
+  it('opens an army rule\'s text in a dialog on the game screen', async () => {
+    startGame()
+    const w = await mountBlock({ embedded: true })
+    await line(w, 'Waaagh!').trigger('click')
+    const body = new DOMWrapper(document.body)
+    await vi.waitFor(async () => {
+      await flushPromises()
+      expect(body.find('.prm-body').text().length).toBeGreaterThan(50)
+    }, { timeout: 5000 })
+    expect(body.find('.mh-title').text()).toBe('Waaagh!')
+    expect(body.find('.mh-sub').text()).toBe('Army rule')
+    expect(navigateTo).not.toHaveBeenCalled()
+    w.unmount()
   })
 
   it('falls back to the faction datasheet when the player fielded no list', async () => {

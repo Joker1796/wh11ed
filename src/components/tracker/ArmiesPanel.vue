@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import PageTabs from '../PageTabs.vue'
 import ArmyCard from './ArmyCard.vue'
 import { useTracker, isYouSide } from '../../composables/useTracker.js'
@@ -82,20 +82,12 @@ useTourShow('member', (who) => {
 const cards = ref([])
 useSwapFade(sel, () => cards.value[sel.value]?.$el)
 
-// Open an army's rule (the Phase tab's line to it — RoundTracker): its tab, and the rule unfolded.
-async function reveal({ pi, mi, rule }) {
-  const k = armies.value.findIndex((a) => a.pi === pi && (mi == null || a.mi === mi))
-  if (k < 0) return
-  sel.value = k
-  await nextTick()
-  cards.value[k]?.reveal(rule)
-}
 // Show an army (its list under the card): "Mark reserves", the Phase tab's line to several units.
 function show({ pi, mi }) {
   const k = armies.value.findIndex((a) => a.pi === pi && (mi == null || a.mi === mi))
   if (k >= 0) sel.value = k
 }
-defineExpose({ reveal, show })
+defineExpose({ show })
 </script>
 
 <style scoped>

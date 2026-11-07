@@ -376,6 +376,7 @@
               :key="a.name"
               class="ds-ability"
               :class="{ 'ds-ability-idle': abilityState(a)?.on === false }"
+              :data-rule-focus="focusRule && focusRule === (a.nameEn || a.name) ? '' : null"
             >
               <!-- The space after the colon lives INSIDE the strong: the compiler drops whitespace
                    that spans a line break between two elements, so "Name:Text" is what a bare
@@ -439,6 +440,7 @@
               :key="a.name"
               class="ds-ability"
               :class="{ 'ds-ability-idle': abilityState(a)?.on === false }"
+              :data-rule-focus="focusRule && focusRule === (a.nameEn || a.name) ? '' : null"
             >
               <strong>{{ a.name }}<span
                 v-if="a.nameEn"
@@ -499,6 +501,7 @@
               :key="a.name"
               class="ds-ability"
               :class="{ 'ds-ability-idle': abilityState(a)?.on === false }"
+              :data-rule-focus="focusRule && focusRule === (a.nameEn || a.name) ? '' : null"
             >
               <strong>{{ a.name }}<span
                 v-if="a.nameEn"
@@ -568,6 +571,7 @@
               :key="a.name"
               class="ds-ability"
               :class="{ 'ds-ability-idle': abilityState(a)?.on === false }"
+              :data-rule-focus="focusRule && focusRule === (a.nameEn || a.name) ? '' : null"
             >
               <strong>{{ a.name }}<span
                 v-if="a.nameEn"
@@ -1119,6 +1123,9 @@ const props = defineProps({
   // ability name (same key as `abilityStates`). Only in a live game, and only for abilities whose
   // effects name a condition the player may flip; `toggle-cond` reports the click.
   abilitySwitches: { type: Object, default: null },
+  // The ability a card was opened for, by its English name (the game's Phase tab, through
+  // RosterUnitRulesCard's `focusRule`): its line wears `[data-rule-focus]` (style.css).
+  focusRule: { type: String, default: '' },
   // Hide the build-choice blocks (Unit Composition, the default-loadout sentence, Wargear
   // Options). For a datasheet being READ those are the sheet; for a unit already in a roster they
   // are settled questions, and the loadout sentence disagrees with the weapon tables once those

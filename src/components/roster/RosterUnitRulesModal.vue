@@ -32,6 +32,7 @@
         :ctx="ctx"
         :game-ctx="gameCtx"
         :building="building"
+        :focus-rule="focusRule"
         :warlord-in-title="!!gameCtx"
         :attached-in-title="!!gameCtx"
         @toggle-cond="(...a) => $emit('toggle-cond', ...a)"
@@ -62,6 +63,8 @@ defineProps({
   ctx: { type: Object, default: null },
   gameCtx: { type: Object, default: null },
   building: { type: Boolean, default: false },
+  // The rule the card was opened for — RosterUnitRulesCard lights it.
+  focusRule: { type: Object, default: null },
 })
 defineEmits(['close', 'toggle-cond', 'toggle-strat', 'toggle-aura', 'toggle-pick', 'toggle-use'])
 
