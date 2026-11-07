@@ -81,7 +81,7 @@
       {{ labels.campLoading }}
     </p>
 
-    <!-- The campaign in tabs (owner, 2026-11-01), always the same four in the same order; a tab
+    <!-- The campaign in tabs, always in the same order; a tab
          that holds something this reader has to do carries the warning mark, and the page opens on
          the first such tab. -->
     <template v-else>
@@ -109,6 +109,7 @@
         <CampPhase v-if="tab === 'phase'" />
         <CampBattles v-else-if="tab === 'battles'" />
         <CampPlayers v-else-if="tab === 'players'" />
+        <CampChronicle v-else-if="tab === 'chronicle'" />
         <CampRewards v-else />
       </Transition>
     </template>
@@ -157,6 +158,7 @@ import CampPhase from '../../components/dominatus/campaign/CampPhase.vue'
 import CampRewards from '../../components/dominatus/campaign/CampRewards.vue'
 import CampBattles from '../../components/dominatus/campaign/CampBattles.vue'
 import CampPlayers from '../../components/dominatus/campaign/CampPlayers.vue'
+import CampChronicle from '../../components/dominatus/campaign/CampChronicle.vue'
 import { provideCampaignView } from '../../components/dominatus/campaign/useCampaignView.js'
 import '../../components/dominatus/dominatus.css'
 import '../../components/dominatus/campaign/campaign.css'
@@ -205,7 +207,7 @@ const picked = ref(null)
 const helpOpen = ref(false)
 // With nothing waiting it opens on the tab the reader had last (this device, setCampaignPref).
 // A tab remembered from before it went (the Alliances', 2026-11-05) opens the phase.
-const TAB_KEYS = ['phase', 'players', 'battles', 'rewards']
+const TAB_KEYS = ['phase', 'players', 'battles', 'rewards', 'chronicle']
 const savedTab = computed(() => (TAB_KEYS.includes(entry.value?.prefs?.tab) ? entry.value.prefs.tab : 'phase'))
 const tab = computed(() => picked.value || (rewardsWaiting.value ? 'rewards' : battlesWaiting.value ? 'battles' : savedTab.value))
 function pickTab(key) {
@@ -228,6 +230,7 @@ const tabs = computed(() => {
     { key: 'players', label: l.campPlayers },
     { key: 'battles', label: l.campBattles, warn: battlesWaiting.value ? l.campWaiting : '' },
     { key: 'rewards', label: l.campRewardsTab, warn: rewardsWaiting.value ? l.campWaiting : '' },
+    { key: 'chronicle', label: l.campChronicle },
   ].map((t) => ({ ...t, active: tab.value === t.key }))
 })
 

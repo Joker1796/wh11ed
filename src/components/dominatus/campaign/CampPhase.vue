@@ -311,8 +311,6 @@
       </CampFold>
     </div>
 
-    <CampChronicle class="camp-sub" />
-
     <ConfirmModal
       v-if="reopening"
       :title="labels.campReopen.replace('{n}', phaseLabel(back.phase))"
@@ -330,7 +328,7 @@
 // Schedule, its Location, their pairing, the Briefings. Under it the Warmaster's block: the
 // Location (picked or rolled), ending the phase — the result the fold will reach shown in the
 // dialog first, with the Warmaster's word on a tie nothing else breaks — and undoing the last end.
-// Then the Outcomes of the ended phases and the chronicle. (Owner, 2026-11-01: the Warmaster's
+// Then the Outcomes of the ended phases. (Owner, 2026-11-01: the Warmaster's
 // buttons sat between the content, and the forecast read as part of the Briefings.)
 import { ref, computed } from 'vue'
 import DomLocationCard from '../DomLocationCard.vue'
@@ -342,7 +340,6 @@ import ConfirmModal from '../../ConfirmModal.vue'
 import CampFold from './CampFold.vue'
 import BaseModal from '../../BaseModal.vue'
 import CampOutcomeCard from './CampOutcomeCard.vue'
-import CampChronicle from './CampChronicle.vue'
 import { campaignState, reopenable, reopenPhase, scheduleProgress, pairingsNow, standings, slotOf, opponentsOf } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 import { refusalText } from '../../../composables/useCampaigns.js'

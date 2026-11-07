@@ -314,10 +314,10 @@ async function openAgenda(slug) {
    the phase has (2 / 1 / 0, or 3 / 2 / 1 / 0). Same width as `wide` in the script. */
 @media (min-width: 1024px) {
   /* The card's top as Wahapedia sets it, after the printed card: the head one line across the card,
-     larger; under it the lore, the marks large on the right level with it (owner, 2026-10-31). The
+     larger; under it the lore, the marks on the right level with it. The
      wrappers step aside so the head, the lore, the chart and the Outcomes sit on the card's own grid. */
   .dcard {
-    --dmark-size: 4.25rem;
+    --dmark-size: 2.6rem;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas: 'head head' 'lore mark' 'chart chart' 'out out';

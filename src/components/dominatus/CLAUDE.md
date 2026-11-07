@@ -274,9 +274,10 @@ on a tie nothing breaks.
 - **The story is on the page**: the phase tab shows each Alliance's Briefing (`DomBriefingCard`, the
   reader's own first; its Agenda links go to `/dominatus` from here), every ended phase's Outcome per
   Alliance by its Narrative Points (`CampOutcomeCard` — the Briefing's reverse, so its spine and its
-  lore stay when lore is hidden), the final Narrative Points, and the chronicle (`CampChronicle`:
+  lore stay when lore is hidden), and the final Narrative Points. The separate Chronicle tab (`CampChronicle`:
   every entry in words, corrections and refusals marked — refusals in the reader's language,
-  `refusalText` → ui.js `campWhy_<reason>`; a new refusal reason needs its two labels).
+  `refusalText` → ui.js `campWhy_<reason>`; a new refusal reason needs its two labels) shows the latest
+  20 entries first; Show more adds another 20 from the locally cached server log.
 - **A battle is played from the campaign** (`campaignHandoff.js`, "Play a battle" on the battles
   tab): the tracker's setup draft gets the phase, the Location, both players with their factions and
   Alliances, `settings.dominatus.campaign` and each side's `campaignPlayer` (carried by `makePlayer`).

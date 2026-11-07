@@ -198,11 +198,8 @@
 .camp-sub { margin-top: 1.25rem; }
 /* The Battle Schedule met: the phase can end. */
 .camp-ready { color: var(--text-primary); font-weight: 600; }
-/* The Alliances' Outcomes of a phase: one under another on a phone, side by side on a desk. */
+/* Each Alliance's Outcome gets a full row, with room for the story beside its identity. */
 .camp-outcomes { display: grid; gap: 0.75rem; margin-bottom: 0.6rem; }
-@media (min-width: 768px) {
-  .camp-outcomes { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-}
 /* "you" beside this device's own player; the schedule's count under a player, lit once met. */
 .camp-you { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--accent-ink); }
 /* A note the Warmaster should not miss on a battle (it looks entered twice). */
