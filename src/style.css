@@ -2275,8 +2275,9 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 [data-rule-focus] {
   padding: 0.35rem 0.5rem;
   background: color-mix(in srgb, var(--accent) 8%, transparent);
-  box-shadow: inset 0 0 0 2px var(--accent);
-  animation: rule-focus-pulse calc(var(--motion-flash) * 2) ease-in-out 4;
+  box-shadow: inset 0 0 0 1px var(--accent);
+  /* Two slower pulses, 1.5s total; the token also respects reduced motion. */
+  animation: rule-focus-pulse calc(var(--motion-fast) * 5) ease-in-out 2;
 }
 /* The rest of the card dims around it (`.rum-spot`, until the first tap): every box that does not
    hold the rule, taken at the highest level that does not — a child of a box that holds it — so
@@ -2291,7 +2292,7 @@ a.btn-ghost { color: var(--text-muted); text-decoration: none; }
 @keyframes rule-focus-pulse {
   50% {
     background: color-mix(in srgb, var(--accent) 26%, transparent);
-    box-shadow: inset 0 0 0 3px var(--accent), inset 0 0 0.9rem color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: inset 0 0 0 2px var(--accent), inset 0 0 0.9rem color-mix(in srgb, var(--accent) 55%, transparent);
   }
 }
 

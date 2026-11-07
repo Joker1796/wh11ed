@@ -160,7 +160,7 @@ tab's own on-demand import, at the tap), a unit of an attached list opens its ca
 `{ n, type, slug? }` — rides through `RosterViewView.openUnit` to `RosterUnitRulesCard`'s
 `focusRule`: `DatasheetCard` marks a datasheet ability by its English name (its own `focusRule`
 prop), the enhancement and a Dominatus Upgrade card are folds that open for it; the line wears
-`[data-rule-focus]` (style.css: an accent frame that pulses four times, then stays), bound in the
+`[data-rule-focus]` (style.css: a 1px accent frame that pulses twice over 1.5 seconds (2px at the peak), then stays), bound in the
 templates — set by hand it was lost when the game thawed the card and its lines were redrawn — and
 is scrolled to only when off screen; the rest of the card is dimmed (`.rum-spot`, a `:has()`
 selector picking the highest boxes that do not hold the rule) until the first tap, which is spent
