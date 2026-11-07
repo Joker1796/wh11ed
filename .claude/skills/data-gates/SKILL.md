@@ -33,7 +33,7 @@ npm run dupes         # одно тело CSS-правила не скопиро
 npm run a11y          # GATE (после npm run build, ~90 с, нужен Chrome): контраст текста в обеих темах, тап-цели ≥24px, нет бокового скролла; baseline в scripts/lib/a11y-baseline.json
 npm run imghash       # картинку меняли переименованием, а не на месте
 npm run roster:data:check && npm run modifiers:check && npm run translate:check
-npm test && npm run lint && npm run build
+npm test -- --maxWorkers=2 && npm run lint && npm run build
 ```
 
 Что относится к правке — то и гонять; перед релизом — всё.
