@@ -70,7 +70,7 @@
         </div>
         <div class="rv-meta">
           <RouterLink
-            v-if="!inGame"
+            v-if="!inGame && !newer"
             :to="`/roster/${roster.id}`"
             class="hdr-icon"
             data-tour="rv-edit"
@@ -184,6 +184,15 @@
         </div>
       </header>
 
+      <!-- A list written by a newer build (useRosters.js isFromNewerVersion): its wargear and sizes are
+           that build's data, so this one shows it as stored and does not edit it. -->
+      <p
+        v-if="newer"
+        class="rv-newer"
+        role="status"
+      >
+        <i class="wi wi-warning" /> {{ labels.rosterNewerVersion }}
+      </p>
       <!-- Checks switched off: the one line said about legality, where the issues would be. Not on an
            archived list — the archive says that itself. -->
       <p
@@ -629,6 +638,7 @@
       <RosterUnitRulesModal
         v-if="viewingCard && !split"
         v-bind="viewingCard"
+        :focus-rule="viewingFocus"
         v-on="viewingHandlers"
         @close="viewingUid = null; viewingCrew = null"
       />
@@ -651,6 +661,7 @@
         v-if="viewingCard"
         :key="viewingUid || viewingCrew"
         v-bind="viewingCard"
+        :focus-rule="viewingFocus"
         inline
         v-on="viewingHandlers"
       />
@@ -702,7 +713,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useKeywordContext } from '../../composables/useFactionKeywordUnits.js'
-import { useRosters } from '../../composables/useRosters.js'
+import { useRosters, isFromNewerVersion } from '../../composables/useRosters.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { provideModalScope } from '../../composables/modalScope.js'
@@ -817,8 +828,15 @@ const liveGame = computed(() => {
 })
 // The unit whose card is open (see "Unit rules modal" below).
 const viewingUid = ref(!props.inTracker && route.query?.unit ? String(route.query.unit) : null)
+// The rule the card was opened for (the Phase tab's line to it — `{ n, type, slug? }`), lit and
+// scrolled to on the card; any other way of opening a card clears it.
+const viewingFocus = ref(null)
+watch(viewingUid, () => { viewingFocus.value = null }, { flush: 'sync' })
 // The game screen opens a unit's card straight from another tab (RoundTracker).
-defineExpose({ openUnit: (uid) => { viewingUid.value = uid }, cardOf: (key) => cardOf(key) })
+defineExpose({
+  openUnit: (uid, rule = null) => { viewingUid.value = uid; viewingFocus.value = rule },
+  cardOf: (key) => cardOf(key),
+})
 const emit = defineEmits(['unit'])
 // Kept off screen in the game's Roster tab, the page must not redo its whole modifier layer on
 // every tap of the game (a VP, a CP, a phase step): while `frozen` it reads a plain copy of the
@@ -902,6 +920,7 @@ const activeFor = (entry) => (inGame.value
   : rosterConditions(entry, roster.value?.units, sheetOfId, unitRulesOf(entry).proves))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
+const newer = computed(() => isFromNewerVersion(roster.value))
 // The Dominatus Upgrade cards on this list's units: a Dominatus battle's, given at Declare Battle
 // Formations; outside a game, the ones the builder pinned on the saved list for its campaign
 // (`roster.dominatus`, owner 2026-11-05) — what a unit's card will read in that battle.
@@ -1235,8 +1254,8 @@ function statCellsOf(entry) {
     cell('oc', 'OC', p.oc),
   ]
   // Last plate, marked `inv: true` so the template can colour it distinctly — same idea as
-  // DatasheetCard's own accent-coloured "Invulnerable Save" label, just at the end of the row
-  // instead of straight under SV (no room for that layout in a one-line list row).
+  // DatasheetCard's own accent-coloured "Invulnerable Save" label, at the end of the one row
+  // (RosterStatPlates narrows the plates rather than wrap them).
   if (p.inv) cells.push({ ...cell('inv', 'INV', `${p.inv}${p.invNote ? '*' : ''}`), inv: true })
   return cells
 }
@@ -2205,6 +2224,8 @@ const nowSlot = computed(() => {
 }
 .rvi-txt { flex: 1; min-width: 0; }
 .rv-checks-off { display: flex; align-items: center; gap: 0.4rem; margin: 0 0 0.8rem; font-size: 0.8rem; color: var(--text-muted); }
+.rv-newer { display: flex; align-items: flex-start; gap: 0.4rem; margin: 0 0 0.8rem; font-size: 0.85rem; color: var(--warning); }
+.rv-newer .wi { flex: none; margin-top: 0.2em; }
 .rvi-more { color: var(--text-muted); font-weight: 500; }
 .rvi-go { flex: none; opacity: 0.7; }
 

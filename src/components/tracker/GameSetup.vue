@@ -760,174 +760,178 @@
       <!-- Dominatus: a battle of the narrative campaign. Its Agenda replaces the Primary below
            (primaryOf), so — like the twist — it is asked before the cards it decides. The phase's
            Location brings war zone rules every battle of the phase is fought under. -->
+      <!-- One row on a desk: the Dominatus switch and the twist, two cards side by side (owner,
+           2026-11-07). A Dominatus battle takes the twist away, and its card then has the row. -->
       <div
         v-if="!guest && !settings.combatPatrol"
-        class="settings dom-block"
+        class="mission-mods"
       >
-        <h3 class="block-head">
-          {{ labels.trackerDomHeading }}
-        </h3>
-        <label class="check">
-          <input
-            type="checkbox"
-            :checked="!!settings.dominatus"
-            @change="setDominatus($event.target.checked)"
-          >
-          <span>{{ labels.trackerDomToggle }}</span>
-        </label>
-        <ExpandTransition>
-          <div
-            v-if="settings.dominatus"
-            class="dom-fields"
-          >
-            <!-- A battle started from a campaign: its phase and Location are the campaign's, and the
-                 finished game goes back to it. Unlinked, the fields below are this game's own. -->
-            <div
-              v-if="settings.dominatus.campaign"
-              class="dom-campaign"
+        <div class="settings dom-block">
+          <h3 class="block-head">
+            {{ labels.trackerDomHeading }}
+          </h3>
+          <label class="check">
+            <input
+              type="checkbox"
+              :checked="!!settings.dominatus"
+              @change="setDominatus($event.target.checked)"
             >
-              <span>{{ labels.trackerDomFromCampaign.replace('{name}', domCampaignName).replace('{phase}', ['I', 'II', 'III'][settings.dominatus.phase - 1]).replace('{loc}', domLocation?.name || '—') }}</span>
-              <button
-                type="button"
-                class="btn-ghost"
-                @click="unlinkCampaign"
+            <span>{{ labels.trackerDomToggle }}</span>
+          </label>
+          <ExpandTransition>
+            <div
+              v-if="settings.dominatus"
+              class="dom-fields"
+            >
+              <!-- A battle started from a campaign: its phase and Location are the campaign's, and the
+                 finished game goes back to it. Unlinked, the fields below are this game's own. -->
+              <div
+                v-if="settings.dominatus.campaign"
+                class="dom-campaign"
               >
-                {{ labels.trackerDomUnlink }}
-              </button>
-            </div>
-            <!-- Or a campaign this device plays in, picked here (stage 5, owner 2026-11-04): the same
+                <span>{{ labels.trackerDomFromCampaign.replace('{name}', domCampaignName).replace('{phase}', ['I', 'II', 'III'][settings.dominatus.phase - 1]).replace('{loc}', domLocation?.name || '—') }}</span>
+                <button
+                  type="button"
+                  class="btn-ghost"
+                  @click="unlinkCampaign"
+                >
+                  {{ labels.trackerDomUnlink }}
+                </button>
+              </div>
+              <!-- Or a campaign this device plays in, picked here (stage 5, owner 2026-11-04): the same
                  battle as "Play a battle" on its page gives — its phase and Location, each side a
                  campaign player — and the finished game goes back to it. -->
-            <label
-              v-if="!settings.dominatus.campaign && domCampaignOptions.length"
-              class="field"
-            >
-              <span>{{ labels.trackerDomCampaignPick }}</span>
-              <CampPick
-                :model-value="null"
-                :title="labels.trackerDomCampaignPick"
-                :placeholder="labels.trackerDomNoCampaign"
-                :options="domCampaignOptions"
-                @update:model-value="linkCampaign"
-              />
-            </label>
-            <div
-              v-if="!settings.dominatus.campaign"
-              class="field"
-            >
-              <span>{{ labels.trackerDomPhase }}</span>
-              <div class="seg">
-                <button
-                  v-for="n in [1, 2, 3]"
-                  :key="n"
-                  type="button"
-                  :class="{ on: settings.dominatus.phase === n }"
-                  @click="setDomPhase(n)"
-                >
-                  {{ ['I', 'II', 'III'][n - 1] }}
-                </button>
-              </div>
-            </div>
-            <div
-              v-if="!settings.dominatus.campaign"
-              class="field"
-            >
-              <span>{{ labels.trackerDomLocation }}</span>
-              <div class="filter-chips">
-                <button
-                  v-for="l in domLocations"
-                  :key="l.slug"
-                  type="button"
-                  class="filter-chip"
-                  :class="{ on: settings.dominatus.location === l.slug }"
-                  @click="settings.dominatus.location = l.slug"
-                >
-                  {{ l.roll }} · {{ l.name }}
-                </button>
-                <button
-                  type="button"
-                  class="filter-chip"
-                  data-press
-                  @click="rollDomLocation"
-                >
-                  {{ labels.trackerDomRoll }}
-                </button>
-              </div>
-            </div>
-            <ExpandTransition>
-              <details
-                v-if="domLocation"
-                class="twist-chosen"
+              <label
+                v-if="!settings.dominatus.campaign && domCampaignOptions.length"
+                class="field"
               >
-                <summary>{{ labels.trackerDomWarZone }}</summary>
-                <div class="twist-chosen-body">
-                  <template
-                    v-for="w in domLocation.warZone"
-                    :key="w.name"
+                <span>{{ labels.trackerDomCampaignPick }}</span>
+                <CampPick
+                  :model-value="null"
+                  :title="labels.trackerDomCampaignPick"
+                  :placeholder="labels.trackerDomNoCampaign"
+                  :options="domCampaignOptions"
+                  @update:model-value="linkCampaign"
+                />
+              </label>
+              <div
+                v-if="!settings.dominatus.campaign"
+                class="field"
+              >
+                <span>{{ labels.trackerDomPhase }}</span>
+                <div class="seg">
+                  <button
+                    v-for="n in [1, 2, 3]"
+                    :key="n"
+                    type="button"
+                    :class="{ on: settings.dominatus.phase === n }"
+                    @click="setDomPhase(n)"
                   >
-                    <h4 class="dom-rule">
-                      {{ w.name }}
-                    </h4>
-                    <RuleBody :body="w.body" />
-                  </template>
+                    {{ ['I', 'II', 'III'][n - 1] }}
+                  </button>
                 </div>
-              </details>
-            </ExpandTransition>
-          </div>
-        </ExpandTransition>
-      </div>
-
-      <div
-        v-if="!guest && !settings.combatPatrol && !settings.dominatus"
-        class="settings twist-block"
-        data-tour="setup-twist"
-      >
-        <h3 class="block-head">
-          {{ labels.trackerTwistHeading }}
-        </h3>
-        <button
-          type="button"
-          class="btn-choose-twist"
-          data-press
-          @click="twistPickerOpen = true"
-        >
-          <span
-            class="ct-name"
-            :class="{ placeholder: !chosenTwist }"
-          >{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
-          <i class="wi wi-chevron-right ct-chev" />
-        </button>
-        <ExpandTransition>
-          <details
-            v-if="chosenTwist"
-            class="twist-chosen"
-          >
-            <summary>{{ labels.trackerTwistRules }}</summary>
-            <div class="twist-chosen-body">
-              <RuleBody :body="chosenTwist.body" />
+              </div>
+              <div
+                v-if="!settings.dominatus.campaign"
+                class="field"
+              >
+                <span>{{ labels.trackerDomLocation }}</span>
+                <div class="filter-chips">
+                  <button
+                    v-for="l in domLocations"
+                    :key="l.slug"
+                    type="button"
+                    class="filter-chip"
+                    :class="{ on: settings.dominatus.location === l.slug }"
+                    @click="settings.dominatus.location = l.slug"
+                  >
+                    {{ l.roll }} · {{ l.name }}
+                  </button>
+                  <button
+                    type="button"
+                    class="filter-chip"
+                    data-press
+                    @click="rollDomLocation"
+                  >
+                    {{ labels.trackerDomRoll }}
+                  </button>
+                </div>
+              </div>
+              <ExpandTransition>
+                <details
+                  v-if="domLocation"
+                  class="twist-chosen"
+                >
+                  <summary>{{ labels.trackerDomWarZone }}</summary>
+                  <div class="twist-chosen-body">
+                    <template
+                      v-for="w in domLocation.warZone"
+                      :key="w.name"
+                    >
+                      <h4 class="dom-rule">
+                        {{ w.name }}
+                      </h4>
+                      <RuleBody :body="w.body" />
+                    </template>
+                  </div>
+                </details>
+              </ExpandTransition>
             </div>
-          </details>
-        </ExpandTransition>
-        <ExpandTransition>
-          <div
-            v-if="settings.twist === 'mirrored-world'"
-            class="field twist-mission"
+          </ExpandTransition>
+        </div>
+
+        <div
+          v-if="!settings.dominatus"
+          class="settings twist-block"
+          data-tour="setup-twist"
+        >
+          <h3 class="block-head">
+            {{ labels.trackerTwistHeading }}
+          </h3>
+          <button
+            type="button"
+            class="btn-choose-twist"
+            data-press
+            @click="twistPickerOpen = true"
           >
-            <span>{{ labels.trackerTwistMission }}</span>
-            <button
-              type="button"
-              class="btn-choose-twist"
-              data-press
-              @click="mirrorPickerOpen = true"
+            <span
+              class="ct-name"
+              :class="{ placeholder: !chosenTwist }"
+            >{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
+            <i class="wi wi-chevron-right ct-chev" />
+          </button>
+          <ExpandTransition>
+            <details
+              v-if="chosenTwist"
+              class="twist-chosen"
             >
-              <span
-                class="ct-name"
-                :class="{ placeholder: !settings.twistMission }"
-              >{{ mirrorSummary }}</span>
-              <i class="wi wi-chevron-right ct-chev" />
-            </button>
-          </div>
-        </ExpandTransition>
+              <summary>{{ labels.trackerTwistRules }}</summary>
+              <div class="twist-chosen-body">
+                <RuleBody :body="chosenTwist.body" />
+              </div>
+            </details>
+          </ExpandTransition>
+          <ExpandTransition>
+            <div
+              v-if="settings.twist === 'mirrored-world'"
+              class="field twist-mission"
+            >
+              <span>{{ labels.trackerTwistMission }}</span>
+              <button
+                type="button"
+                class="btn-choose-twist"
+                data-press
+                @click="mirrorPickerOpen = true"
+              >
+                <span
+                  class="ct-name"
+                  :class="{ placeholder: !settings.twistMission }"
+                >{{ mirrorSummary }}</span>
+                <i class="wi wi-chevron-right ct-chev" />
+              </button>
+            </div>
+          </ExpandTransition>
+        </div>
       </div>
 
       <!-- Each side in its own colour from here on, as on the game screen (Misha, 2026-10-20): the
@@ -2781,8 +2785,11 @@ function cancel() {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--stack-gap);
 }
-.twist-block,
-.dom-block { margin-bottom: var(--stack-gap); }
+.mission-mods { display: grid; gap: var(--stack-gap); margin: 1rem 0 var(--stack-gap); }
+@media (min-width: 901px) {
+  .mission-mods { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
+}
+.mission-mods > .settings { margin: 0; }
 .player-card,
 .settings {
   /* --pc-pad drives the padding AND the negative margin the mission preview uses to bleed
@@ -2804,7 +2811,8 @@ function cancel() {
 .settings .field { margin-bottom: 0; }
 /* Twist: the heading on the left, the picker beside it, and the rules and Mirrored World's mission
    under the picker in the same column (2026-10-02). The phone stacks it all full width. */
-.settings.twist-block {
+.settings.twist-block,
+.settings.dom-block {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   column-gap: 0.85rem;
@@ -2815,7 +2823,7 @@ function cancel() {
 .dom-block > .block-head { margin: 0; }
 .twist-block > :not(.block-head),
 .dom-block > :not(.block-head) { grid-column: 2; }
-.dom-fields { display: grid; gap: 0.6rem; margin-top: 0.5rem; }
+.dom-fields { display: grid; gap: 0.6rem; }
 .dom-campaign { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.75rem; font-size: 0.88rem; }
 .dom-side { display: grid; gap: 0.5rem; margin-top: 0.6rem; }
 .dom-rule {
@@ -2828,8 +2836,10 @@ function cancel() {
 .twist-block > .twist-chosen,
 .twist-block > .twist-mission { margin-top: 0; }
 @media (max-width: 560px) {
-  .settings.twist-block { grid-template-columns: minmax(0, 1fr); row-gap: 0.45rem; }
-  .twist-block > :not(.block-head) { grid-column: 1; }
+  .settings.twist-block,
+  .settings.dom-block { grid-template-columns: minmax(0, 1fr); row-gap: 0.45rem; }
+  .twist-block > :not(.block-head),
+  .dom-block > :not(.block-head) { grid-column: 1; }
 }
 /* Narrow screens: the container padding (especially with the nested MissionCard in the Mission
    step) wastes a lot of the limited width — tighten it and the inter-card gap. */

@@ -1,4 +1,5 @@
 import { ref, computed, watch, effectScope } from 'vue'
+import { fetchDeadline as fetch } from '../utils/fetchDeadline.js'
 import { useAuth } from './useAuth.js'
 import { useTracker } from './useTracker.js'
 import { sliceGame, assembleGame, stableJson, sideOfSlice, SLICE_NAMES } from './gameSlices.js'

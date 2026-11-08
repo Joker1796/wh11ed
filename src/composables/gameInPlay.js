@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { localData } from './localData.js'
 
 // Is a tracker game being played right now — the one thing the app shell needs to know about the
 // tracker (App.vue's "Back to game" chip). It used to ask useTracker itself, and that one static
@@ -24,7 +25,7 @@ export function isValidGame(g) {
 
 function savedGameInPlay() {
   try {
-    const g = JSON.parse(localStorage.getItem(CUR_KEY) || 'null')
+    const g = JSON.parse(localData.getItem(CUR_KEY) || 'null')
     return isValidGame(g) && g.phase === 'playing'
   } catch {
     return false
@@ -32,3 +33,4 @@ function savedGameInPlay() {
 }
 
 export const gameInPlay = ref(savedGameInPlay())
+localData.subscribe(() => { gameInPlay.value = savedGameInPlay() })

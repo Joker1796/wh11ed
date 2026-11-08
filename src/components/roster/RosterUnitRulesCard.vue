@@ -1,5 +1,10 @@
 <template>
-  <FactionAccentScope :faction-slug="factionSlug">
+  <FactionAccentScope
+    ref="rootEl"
+    :faction-slug="factionSlug"
+    :class="{ 'rum-spot': spot }"
+    @click.capture="unspot"
+  >
     <!-- Its own title row when it stands in a page instead of a dialog (the rosters desk's unit
          column); in a dialog BaseModal draws the title and the star goes in its header. -->
     <div
@@ -61,7 +66,7 @@
         v-if="view.context.enhancement"
         class="rum-chip"
       >
-        {{ labels.rosterEnhancement }}: <strong>{{ view.context.enhancement.name }}</strong>
+        {{ labels.rosterEnhancement }}: <strong>{{ enhLabel(view.context.enhancement.name) }}</strong>
         <span
           v-if="view.context.enhancement.pts"
           class="rum-chip-pts"
@@ -219,6 +224,7 @@
       :hide-leader="!!gameCtx"
       :ability-states="abilityStates"
       :ability-switches="abilitySwitches"
+      :focus-rule="focusRule && !['enh', 'upgrade'].includes(focusRule.type) ? focusRule.n : ''"
       collapsible
       @toggle-cond="$emit('toggle-cond', $event)"
       @faction-rule-click="openArmyRule"
@@ -249,10 +255,11 @@
             v-for="u in shownUpgrades"
             :key="u.slug"
             class="rum-rule"
+            :data-rule-focus="focusOn('upgrade', u.slug) ? '' : null"
           >
             <DsAccordion
               collapsible
-              :start-open="false"
+              :start-open="focusOn('upgrade', u.slug)"
             >
               <template #header="{ open, toggle }">
                 <button
@@ -373,10 +380,11 @@
             :key="b.key"
             class="rum-rule"
             :class="{ 'rum-rule--off': b.off }"
+            :data-rule-focus="focusOn('enh', b.key) ? '' : null"
           >
             <DsAccordion
               collapsible
-              :start-open="false"
+              :start-open="focusOn('enh', b.key)"
             >
               <template #header="{ open, toggle }">
                 <button
@@ -510,7 +518,7 @@
 // ancestor of DatasheetCard with no teleport in between.
 import ExpandTransition from '../ExpandTransition.vue'
 import ChevronIcon from '../ChevronIcon.vue'
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import RosterOwnedStar from './RosterOwnedStar.vue'
 import DatasheetCard from '../DatasheetCard.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
@@ -521,6 +529,7 @@ import RuleBody from '../RuleBody.vue'
 import RuleExtras from '../RuleExtras.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { enhLabel } from '../../composables/rosterText.js'
 import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 // What the card SAYS — the printed sheet, the roster's overlay and the prose behind it — is
@@ -562,6 +571,10 @@ const props = defineProps({
   // The "I own this" star. Not on a finished game's desk (owner, 2026-10-29): half its cards are
   // the opponent's army, and the collection is kept on the faction pages and in the builder.
   ownable: { type: Boolean, default: true },
+  // The rule the card was opened for (the game's Phase tab, owner 2026-11-07): `{ n, type, slug? }`
+  // — an ability by its English name (`type` ability / wargear / set), the unit's enhancement
+  // (`enh`), a Dominatus Upgrade card (`upgrade`, by slug). Lit, unfolded and scrolled into view.
+  focusRule: { type: Object, default: null },
 })
 // The Upgrade cards on this unit: the battle's, or the ones its saved list carries pinned.
 const shownUpgrades = computed(() => props.gameCtx?.upgrades || props.ctx?.upgrades || [])
@@ -585,6 +598,45 @@ const sheetGroups = computed(() => [
   { key: 'crew', label: labels.value.rosterAlsoInUnit, items: companions.value.map((sheet) => ({ sheet, src: '' })) },
   { key: 'spawn', label: labels.value.rosterSpawnHeading, items: spawned.value.map(({ sheet, rule }) => ({ sheet, src: rule })) },
 ].filter((g) => g.items.length))
+// The rule the card was opened for. The enhancement and an Upgrade card are folds of this card,
+// opened at their first draw; a datasheet ability is the sheet's own line, which DatasheetCard marks
+// by its English name (`focus-rule`). Marked in the templates, not here: the sheet's lines are
+// redrawn as the game thaws the card, and an attribute set by hand went with the old ones.
+const focusOn = (type, key) => {
+  const f = props.focusRule
+  if (f?.type !== type) return false
+  return type === 'enh' ? key.startsWith('enh:') : key === f.slug
+}
+const rootEl = ref(null)
+// …and the rest of the card dimmed around it until the first tap (owner, 2026-11-07: a frame alone
+// did not read at a glance). The tap that lifts the dim is spent on it — it lands on a dimmed part
+// the reader did not mean to press — unless it is on the rule itself.
+const spot = ref(false)
+function unspot(ev) {
+  if (!spot.value) return
+  spot.value = false
+  if (!ev.target.closest?.('[data-rule-focus]')) { ev.preventDefault(); ev.stopPropagation() }
+}
+const frame = () => new Promise((r) => requestAnimationFrame(r))
+watch([loaded, () => props.focusRule], async ([on, f]) => {
+  spot.value = false
+  if (!on || !f) return
+  await nextTick()
+  // The sheet's parts arrive over a few frames (its datasheet, the rules' prose): look for a while.
+  for (let i = 0; i < 90; i++) {
+    const root = rootEl.value?.$el
+    const el = root?.querySelector?.('[data-rule-focus]')
+    if (el) { spot.value = true; return bringIntoView(el) }
+    await frame()
+  }
+}, { immediate: true })
+// Scrolled only when it is not on screen already — inside the dialog's body, or the page.
+function bringIntoView(el) {
+  const box = el.closest('.modal-body')?.getBoundingClientRect() || { top: 0, bottom: window.innerHeight }
+  const r = el.getBoundingClientRect()
+  if (r.top < box.top || r.bottom > box.bottom) el.scrollIntoView({ block: 'center' })
+}
+
 // A Dominatus Upgrade's deck, as the deck's own chapters name them.
 const upgradeKindName = (kind) => labels.value[{ honour: 'domHonour', skill: 'domSkill', relic: 'domRelic' }[kind]] || ''
 // The roster facts row: only when there is a chip left to show in it.

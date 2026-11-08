@@ -466,9 +466,10 @@ describe('RoundTracker — the Phase tab', () => {
     expect(tabLabels(mountTracker())).toEqual(['Missions', 'Phase', 'CP', 'Army', 'Log', 'Stats'])
   })
 
-  // Its lines lead into the game's own tabs, not off the game screen. No stratagems line any more
-  // (owner, 2026-10-10): they are the CP tab's, already filtered to the phase.
-  it('opens the Army tab on a rule, and carries no stratagems line', async () => {
+  // Its lines stay on the game screen: a rule opens its text over the tab (owner, 2026-11-07; it
+  // switched to the Army tab until then). No stratagems line any more (owner, 2026-10-10): they
+  // are the CP tab's, already filtered to the phase.
+  it('opens a rule over the Phase tab, and carries no stratagems line', async () => {
     startGame({ factionSlug: 'orks' }, { factionSlug: 'necrons' }, { trackPhases: true, trackPhaseRules: true })
     const w = await openTab(mountTracker(), 'Phase')
     await vi.waitFor(async () => { await flushPromises(); expect(w.text()).toContain('Waaagh!') }, { timeout: 5000 })
@@ -478,8 +479,8 @@ describe('RoundTracker — the Phase tab', () => {
     const rule = w.findAll('.pr-go-btn').find((b) => b.text().includes('Waaagh!'))
     await rule.trigger('click')
     await flushPromises()
-    expect(w.find('.gt-tab.on').attributes('aria-label')).toBe('Army')
-    expect(w.find('.ap-fac').text()).toBe('Orks')
+    expect(w.find('.gt-tab.on').attributes('aria-label')).toBe('Phase')
+    expect(document.body.querySelector('.prm-body')).not.toBeNull()
   })
 })
 

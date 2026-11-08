@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+These instructions apply to every AI agent working in this repository.
 
 ## What this is
 
@@ -125,6 +125,7 @@ npm run wtags        # GATE: every weapon tag printed on a datasheet must have t
 npm run dsrules      # GATE: a named rule appdata files on a datasheet must be on ours too (see Data gates)
 npm run imgrules     # GATE: a figure appdata draws as a picture inside an army/detachment rule must be in our text (see Data gates)
 npm run coregrants   # GATE: a rule that hands a unit a core ability must say so in the modifier layer (see Data gates)
+npm run roster:moves # GATE (also in CI): the roster data changed but no index moves were written for saved lists (see src/components/roster/CLAUDE.md → Data revisions)
 npm run columns      # GATE: a new appdata table, or a column starting to carry data, that nobody has decided about (scripts/lib/appdata-columns.json)
 npm run missions     # GATE: the mission pack's limits, each card's Fixed / WHEN DRAWN / first-turn marks and every Action against the app (see src/data/CLAUDE.md)
 npm run packs        # GATE: a Faction Pack PDF in ../sources newer than the Legends sheets read from it (sourceVersion)
@@ -149,9 +150,6 @@ npm run imghash      # GATE (also in CI): fail when an image under public/images
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
 npm run faction-rules:index  # regenerate the faction-rules name index for search (see Search)
 npm run phases:index # regenerate the per-phase rule index the tracker's phase reminder reads (see Game Tracker)
-npm run icons        # regenerate PWA / home-screen icons from the "W" mark (see PWA)
-npm run screenshots  # regenerate the manifest install-dialog screenshots (see PWA)
-npm run splash       # regenerate the iOS apple-touch-startup-image launch screens (see PWA)
 ```
 
 **Lint:** `npm run lint` — ESLint with `eslint-plugin-vue`; `eslint.config.js` records, for every rule that is off, why. **Tests:** Vitest (`npm test` = `vitest run`, `npm run test:watch`), config in `vitest.config.js` (jsdom env, `src/test-setup.js` installs a clean in-memory localStorage). Specs live next to source as `src/**/*.test.js`: pure scoring/BP/winner logic (`gameScoring.test.js`), pure tracker helpers (`useTracker.helpers.test.js`), the module-singleton store with `vi.resetModules()` between cases (`useTracker.store.test.js`), components via `@vue/test-utils` (`ScoreBoard`/`GameSetup`/`modals`), the search index (`useSearch.test.js`), and the cloud-backup layer with `vi.mock`'d auth/tracker deps (`useCloudSync.test.js`). Test files are not imported by the app, so they never reach the build/precache.

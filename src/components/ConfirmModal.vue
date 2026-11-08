@@ -2,7 +2,7 @@
   <BaseModal
     :title="title"
     max-width="420px"
-    @close="$emit('close')"
+    @close="!busy && $emit('close')"
   >
     <div class="modal-body">
       <!-- The slot is for a message that needs markup — a link to what the question is about. -->
@@ -15,6 +15,7 @@
       <button
         type="button"
         class="btn-ghost"
+        :disabled="busy"
         @click="$emit('close')"
       >
         {{ cancelLabel }}
@@ -23,6 +24,7 @@
         type="button"
         class="btn-primary"
         :class="{ 'cm-danger': danger }"
+        :disabled="busy"
         @click="$emit('confirm')"
       >
         {{ confirmLabel }}
@@ -42,6 +44,7 @@ defineProps({
   message: { type: String, default: '' },
   confirmLabel: { type: String, required: true },
   cancelLabel: { type: String, required: true },
+  busy: { type: Boolean, default: false },
   // A step that cannot be taken back (cutting a phone off a game): the button wears --danger, not
   // the accent — inside a game the accent is a side's colour and read as a plain go-ahead.
   danger: { type: Boolean, default: false },

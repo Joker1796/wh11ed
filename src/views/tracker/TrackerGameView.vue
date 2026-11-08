@@ -84,7 +84,8 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { asyncComponent as defineAsyncComponent } from '../../composables/asyncComponent.js'
 import { useRouter } from 'vue-router'
 import { useFileFinishedGameOnLeave } from '../../composables/fileFinishedGame.js'
 import SetupLoading from '../../components/tracker/SetupLoading.vue'

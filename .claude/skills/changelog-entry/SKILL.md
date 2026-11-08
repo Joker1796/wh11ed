@@ -75,7 +75,7 @@ Space Marines и другие ордены. Его правила по-преж�
 
 - **В файле живут только последние 5 релизов.** Более старые `deploy.sh` при выкате переносит
   в архив API (`wh11ed-api`, таблица `changelog`), страница «Что нового» подгружает их по кнопке.
-  Править уже ушедшую в архив запись — не в файле: `npm run changelog:publish` в `wh11ed-api` с
+  Править уже ушедшую в архив запись — не в файле: `npm --prefix ../wh11ed-api run changelog:publish` (если API склонирован рядом) с
   исправленной записью (DEPLOY.md, «Release notes archive»).
 
 ## 3а. Кнопки в тексте
@@ -125,7 +125,7 @@ Space Marines и другие ордены. Его правила по-преж�
 
 ```bash
 node -e "import('./src/data/changelog.js').then(m => console.log(m.changelog[0].version))"
-npx vitest run src/composables/useUpdateNotice src/data/changelogMarks
+npx vitest run --maxWorkers=2 src/composables/useUpdateNotice src/data/changelogMarks
 ```
 
 Показать пользователю RU-текст целиком — он читает и правит стиль сам; коммит только после

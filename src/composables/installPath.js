@@ -6,6 +6,7 @@
 // Light on purpose: App.vue and the navbar read it on every page, so it touches localStorage
 // directly instead of importing the roster or tracker stores.
 import { getItem, setItem } from './safeStorage.js'
+import { localData } from './localData.js'
 import { isStandaloneDisplay } from './standalone.js'
 
 export const VISITS_KEY = 'wh11ed-visits'
@@ -22,7 +23,7 @@ export const preview = import.meta.env.DEV && typeof location !== 'undefined'
   : null
 
 const json = (key, fallback) => {
-  try { return JSON.parse(getItem(key) || 'null') ?? fallback } catch { return fallback }
+  try { return JSON.parse(localData.getItem(key) || 'null') ?? fallback } catch { return fallback }
 }
 
 // One visit per browser session, however many pages it opens.

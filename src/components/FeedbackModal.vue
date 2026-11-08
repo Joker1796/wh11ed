@@ -113,6 +113,7 @@ import { useAuth } from '../composables/useAuth.js'
 import { useFeedbackModal } from '../composables/useFeedbackModal.js'
 import { recentErrors } from '../composables/useErrorLog.js'
 import { isStandaloneDisplay } from '../composables/standalone.js'
+import { deliveryContext } from '../composables/deliveryContext.js'
 import { API_BASE_URL } from '../config.js'
 import { APP_DATA_VERSION } from '../data/appDataVersion.js'
 // Heavy imports are fine HERE: this component is an async chunk loaded when the dialog opens,
@@ -159,6 +160,7 @@ function techContext() {
     ua: typeof navigator !== 'undefined' ? navigator.userAgent : '',
     screen: typeof window !== 'undefined' ? `${window.innerWidth}x${window.innerHeight}` : '',
     standalone: isStandaloneDisplay(),
+    delivery: deliveryContext(),
     errors: recentErrors(),
   }
 }

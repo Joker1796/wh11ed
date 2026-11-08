@@ -35,6 +35,7 @@ import { phaseEntryOf } from '../src/core/rules/stratagemPhases.js'
 import { lockedToExactUnit } from '../src/core/roster/rosterEnhEligible.js'
 import { slugify } from '../src/core/shared/slugify.js'
 import { foldName } from '../src/core/shared/foldName.js'
+import { localizeSheet } from '../src/data/datasheets/ru/localize.js'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const imp = (rel) => import(pathToFileURL(join(ROOT, rel)).href)
@@ -53,10 +54,28 @@ const spaceMarines = async () => (smUnits ??= (await imp('src/data/datasheets/sp
 let smRu = null
 const spaceMarinesRu = async () => (smRu ??= await loadRu('space-marines'))
 
+// The RU overlay of a faction's sheets: the per-sheet map and the faction's ability-name map —
+// both, because the card's RU names come from both (localizeSheet), and the overlay alone carries
+// a name for only a few dozen abilities.
 async function loadRu(slug) {
   const rel = `src/data/datasheets/ru/${slug}.js`
-  if (!has(rel)) return {}
-  return (await imp(rel)).default ?? {}
+  if (!has(rel)) return { sheets: {}, names: {} }
+  const mod = await imp(rel)
+  return { sheets: mod.default ?? {}, names: mod.abilityNamesRu ?? {} }
+}
+// The RU name the card prints for each of a sheet's abilities, by English name — read off the
+// very localizeSheet the card draws with, so the Phase tab names a rule the way the card does.
+function ruNamesOf(sheet, ru) {
+  const loc = localizeSheet(sheet, ru.sheets[sheet.id], ru.names)
+  const names = {}
+  const take = (list) => { for (const a of list || []) if (a.nameEn) names[a.nameEn] = a.name }
+  take(loc.abilities)
+  take(loc.wargearAbilities)
+  for (const set of loc.abilitySets || []) {
+    if (set.nameEn) names[set.nameEn] = set.name
+    take(set.options)
+  }
+  return names
 }
 
 // The roster data (src/data/roster/<slug>.js) — what a list's entry indexes into: its `gear`
@@ -136,13 +155,15 @@ for (const group of factionGroups) {
       if (dsMod.sharedUnitIds?.length) {
         const ids = new Set(dsMod.sharedUnitIds)
         sheets = [...sheets, ...(await spaceMarines()).filter((u) => ids.has(u.id))]
-        ru = { ...(await spaceMarinesRu()), ...ru }
+        const sm = await spaceMarinesRu()
+        ru = { sheets: { ...sm.sheets, ...ru.sheets }, names: { ...sm.names, ...ru.names } }
       }
       const defOf = await rosterDefs(f.slug)
       for (const u of sheets) {
         const found = []
+        const ruName = ruNamesOf(u, ru)
         for (const a of u.abilities || []) {
-          const e = entryOf(a.name, a.text, ru[u.id]?.abilities?.[a.name]?.name)
+          const e = entryOf(a.name, a.text, ruName[a.name])
           if (e) found.push(e)
         }
         // Wargear abilities (2026-10-08): the model only has one while it carries the item, so the
@@ -151,7 +172,7 @@ for (const group of factionGroups) {
         // on a sample) is kept as `d` — showing a rule the unit may lack beats hiding one it has.
         const gear = []
         for (const w of u.wargearAbilities || []) {
-          const e = entryOf(w.name, w.text)
+          const e = entryOf(w.name, w.text, ruName[w.name])
           if (e) gear.push({ ...e, ...gearOf(defOf(u.id), w.name) })
         }
         // Ability sets: each option is its own rule, picked during the game, so every option that
@@ -159,8 +180,8 @@ for (const group of factionGroups) {
         const sets = []
         for (const set of u.abilitySets || []) {
           for (const o of set.options || []) {
-            const e = entryOf(o.name, o.text)
-            if (e) sets.push({ ...e, set: set.name })
+            const e = entryOf(o.name, o.text, ruName[o.name])
+            if (e) sets.push({ ...e, set: set.name, ...(ruName[set.name] ? { setRu: ruName[set.name] } : {}) })
           }
         }
         // A mandatory enhancement is never stored on the entry (rosterEngine derives it), so the

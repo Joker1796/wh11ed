@@ -41,6 +41,26 @@ describe('RosterUnitRulesModal', () => {
     expect(body().find('.mh-title .mh-note').text()).toBe('(⌀160mm)')
   })
 
+  // The game's Phase tab opens a unit's card on the ability its line named (owner, 2026-11-07):
+  // that line is marked, and no other.
+  it('lights the ability the card was opened for', async () => {
+    mount(RosterUnitRulesModal, {
+      props: { unitId: 'painboy', factionSlug: 'orks', focusRule: { n: 'Crude Surgery', type: 'ability' } },
+    })
+    await waitFor('Crude Surgery')
+    for (let i = 0; i < 40 && !document.querySelector('[data-rule-focus]'); i++) await new Promise((r) => setTimeout(r, 25))
+    const lit = document.querySelectorAll('[data-rule-focus]')
+    expect(lit).toHaveLength(1)
+    expect(lit[0].textContent).toContain('Crude Surgery')
+    // The rest of the card is dimmed around it until a tap, and that tap does nothing else.
+    expect(document.querySelector('.rum-spot')).not.toBeNull()
+    const fold = body().find('.ds-group-btn')
+    const was = fold.attributes('aria-expanded')
+    await fold.trigger('click')
+    expect(document.querySelector('.rum-spot')).toBeNull()
+    expect(fold.attributes('aria-expanded')).toBe(was)
+  })
+
   it('emits close from the modal header', async () => {
     const w = mount(RosterUnitRulesModal, {
       props: { unitId: 'intercessor-squad', factionSlug: 'space-marines' },

@@ -58,7 +58,10 @@
                       @click="lead(r)"
                     >
                       <span class="pr-text">
-                        <span class="pr-name">{{ r.units ? r.sub : r.name }}</span>
+                        <span class="pr-name">{{ r.units ? r.sub : r.name }}<span
+                          v-if="!r.units && r.nameEn"
+                          class="pr-en"
+                        > ({{ r.nameEn }})</span></span>
                         <span
                           v-if="r.what || r.units || r.who || (r.src && r.src !== labels.trackerArmyRule)"
                           class="pr-sub"
@@ -72,7 +75,10 @@
                           <span
                             v-if="r.units || (r.src && r.src !== labels.trackerArmyRule)"
                             :class="r.units ? 'pr-ability' : 'pr-src'"
-                          >{{ r.units ? r.name : r.src }}</span>
+                          >{{ r.units ? r.name : r.src }}<span
+                            v-if="r.units && r.nameEn"
+                            class="pr-en"
+                          > ({{ r.nameEn }})</span></span>
                           <!-- A doubles team's two armies share the step: whose rule it is. -->
                           <span
                             v-if="r.who"
@@ -90,6 +96,12 @@
         </template>
       </StratPhaseGroups>
     </div>
+    <PhaseRuleModal
+      v-if="ruleOpen"
+      :at="ruleOpen.army"
+      :name="ruleOpen.name"
+      @close="ruleOpen = null"
+    />
   </section>
 </template>
 
@@ -99,6 +111,7 @@
 // `embedded`: inside the game screen, where a row leads to another tab of it rather than away.
 import { computed, ref, watch } from 'vue'
 import StratPhaseGroups from '../StratPhaseGroups.vue'
+import PhaseRuleModal from './PhaseRuleModal.vue'
 import { useTracker } from '../../composables/useTracker.js'
 import { tracks } from '../../data/trackerOptions.js'
 import { usePhaseRules } from '../../composables/usePhaseRules.js'
@@ -112,7 +125,7 @@ const props = defineProps({
   // the same, and a tap leads nowhere.
   example: { type: Array, default: null },
 })
-const emit = defineEmits(['army', 'roster', 'missions'])
+const emit = defineEmits(['roster', 'missions'])
 const { sides, go, labels } = usePhaseRules()
 const controlled = computed(() => props.side === 0 || props.side === 1)
 const all = computed(() => props.example || sides.value)
@@ -160,12 +173,15 @@ function foldsOf(turn) {
   })
 }
 
-// In the game screen a row stays on it where it can: a rule to the Army tab, a unit of the
-// attached list to its card there, a mission card to the Missions tab — via RoundTracker.
+// In the game screen a row stays on it where it can: a rule opens its text over the tab
+// (PhaseRuleModal — owner, 2026-11-07: the Army tab with a fold opened somewhere in it left the
+// reader hunting for which rule it was), a unit of the attached list its card, a mission card the
+// Missions tab — the last two via RoundTracker.
+const ruleOpen = ref(null)
 function lead(r) {
   if (props.example) return
   if (r.kind === 'card') emit('missions', r)
-  else if (props.embedded && r.army) emit('army', r.army)
+  else if (props.embedded && r.army) ruleOpen.value = r
   else if (props.embedded && r.roster) emit('roster', r.roster)
   else go(r)
 }
@@ -241,6 +257,9 @@ function lead(r) {
 }
 .pr-sub { font-size: 0.8rem; line-height: 1.3; }
 .pr-ability { color: var(--accent-ink); }
+/* The English beside a translated name, as the unit's card prints it (DatasheetCard's .ds-name-en):
+   smaller and muted, in the text face. */
+.pr-en { font-family: var(--font-sans); font-size: 0.8em; font-weight: 400; color: var(--text-muted); }
 .pr-src { color: var(--text-muted); }
 /* What a unit's line is when it is not one of the datasheet's own abilities: wargear, an
    enhancement, an ability set's name, a mission card's kind. Before the name. */

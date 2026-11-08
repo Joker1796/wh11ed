@@ -1,5 +1,6 @@
 import { ref, watch } from 'vue'
 import { debouncedSave } from '../utils/debouncedSave.js'
+import { localData } from './localData.js'
 import { CUR_KEY, gameInPlay, isValidGame } from './gameInPlay.js'
 import { missions, primaryFor } from '../data/missions.js'
 import { overlayMission } from '../data/missionOverlay.js'
@@ -37,7 +38,7 @@ import { isStrict, isLatest, canClockBack, lateScoreOpen } from '../core/game/st
 import { cardBlocksOf, canBeFixed, numericVp, orSiblingKeys } from '../core/game/missionCards.js'
 import { turnIndex } from '../core/game/clock.js'
 
-// Game Tracker store — a module singleton persisted to localStorage, mirroring the
+// Game Tracker store — a module singleton persisted through localData (IndexedDB + journal), mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
 // setup → 5 battle rounds → finish, with primary/secondary/CP scoring. Inspired by the
 // GDM tracker; scoring constants (15/round, 45 total primary; 45 total secondary;
@@ -243,7 +244,7 @@ export function primaryOf(p, opponent, settings = {}) {
 
 function load(key, fallback) {
   try {
-    const raw = localStorage.getItem(key)
+    const raw = localData.getItem(key)
     return raw ? JSON.parse(raw) : fallback
   } catch {
     return fallback
@@ -273,32 +274,49 @@ let pendingHistory = false
 let pendingSetupDraft = false
 
 function writePending() {
-  // History BEFORE current: when archiving, current is cleared and the game moves to history.
-  // Writing history first means a failure (quota/iOS) on the current write can't leave us with
-  // a finished game dropped from both keys.
-  if (pendingHistory) {
-    pendingHistory = false
-    try { localStorage.setItem(HIST_KEY, JSON.stringify(history.value)) } catch { /* ignore */ }
+  if (localData.state.phase !== 'idle') {
+    const entries = []
+    if (pendingCurrent) entries.push([CUR_KEY, current.value ? JSON.stringify(current.value) : null])
+    if (pendingHistory) entries.push([HIST_KEY, JSON.stringify(history.value)])
+    if (pendingSetupDraft) entries.push([DRAFT_KEY, setupDraft.value ? JSON.stringify(setupDraft.value) : null])
+    if (entries.length && localData.write(entries)) pendingCurrent = pendingHistory = pendingSetupDraft = false
+    return
   }
-  if (pendingCurrent) {
-    pendingCurrent = false
+  // Write the destination before removing the source in EITHER direction. Archiving needs
+  // history first; resuming needs current first. A failed destination leaves both pending flags
+  // and the durable source intact, so the next flush can finish the same transition.
+  const saveCurrent = () => {
+    if (!pendingCurrent) return true
     try {
       if (current.value) localStorage.setItem(CUR_KEY, JSON.stringify(current.value))
       else localStorage.removeItem(CUR_KEY)
-    } catch { /* quota / private mode — ignore */ }
+      pendingCurrent = false
+      return true
+    } catch { return false }
   }
+  const saveHistory = () => {
+    if (!pendingHistory) return true
+    try {
+      localStorage.setItem(HIST_KEY, JSON.stringify(history.value))
+      pendingHistory = false
+      return true
+    } catch { return false }
+  }
+  if (current.value) {
+    if (!saveCurrent() || !saveHistory()) return
+  } else if (!saveHistory() || !saveCurrent()) return
   if (pendingSetupDraft) {
-    pendingSetupDraft = false
     try {
       if (setupDraft.value) localStorage.setItem(DRAFT_KEY, JSON.stringify(setupDraft.value))
       else localStorage.removeItem(DRAFT_KEY)
+      pendingSetupDraft = false
     } catch { /* ignore */ }
   }
 }
 
 const { schedule: scheduleSave, now: flushSave } = debouncedSave(writePending)
 
-// Force an immediate, synchronous persist. The 500ms debounce (+ flush on pagehide/hidden)
+// Stage an immediate durable journal and submit the atomic IndexedDB write. The 500ms debounce (+ flush on pagehide/hidden)
 // is fine for frequent in-play edits, but for the infrequent, critical game transitions
 // (archive/discard/resume-from-history) it's risky: an installed iOS PWA can be frozen and
 // killed without reliably firing pagehide, dropping the pending write — so a finished game

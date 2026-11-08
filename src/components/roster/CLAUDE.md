@@ -927,6 +927,12 @@ directory; still part of this feature:
 - `rosterEngine.js` — unit grouping (`UNIT_GROUPS`: epic/characters/battleline/transports/
   other, derived from keywords), points math, leader/warlord/enhancement eligibility, wargear
   group live-state
+- `rosterText.js`'s **`enhLabel`** — an enhancement's name on SCREEN: the roster data bakes the kind
+  into all 87 Upgrades' names ("Gore-stained Veterans (Upgrade)"), the GW app does not print it,
+  and on a unit's chip it was the half that ran out of a narrow pane (owner, 2026-11-07). The chip,
+  the view's summary line, the editor's options and target hints, the card's context line, the
+  enhancement dialog, the print sheet and an issue's `{enh}` all go through it; the stored name,
+  the export and every comparison keep the data's spelling. "(Aura)" / "(Psychic)" stay.
 - `rosterSummary.js` — the cached `{ points, unitCount, issues }` denormalised onto each stored
   roster, who writes it and the repair pass for rosters nobody did (see **Store** below)
 - `rosterValidation.js` — `validateRoster()`. Philosophy: **never block**, like the official
@@ -2701,10 +2707,50 @@ list of options it offers, which would tell the reader to remove three things wh
 ## Store
 
 `src/composables/useRosters.js` — module singleton, same pattern as `useTracker.js`/
-`useLocale.js`, persisted to `localStorage['wh11ed-rosters']`. Schema-versioned
+`useLocale.js`, persisted through `localData.js` to IndexedDB with a synchronous pending-write
+journal. The original `localStorage['wh11ed-rosters']` is retained as a migration backup; current
+reads must go through localData, not that old key. See `src/composables/LOCAL-DATA.md` for
+migration, recovery, cross-tab confirmation, rollback limits and real browser tests. Schema-versioned
 (`SCHEMA_VERSION`, bump + extend `migrate()` on any shape change). Deliberately imports **no**
 faction data files — the list screen must stay in the light entry chunk; only the editor
 dynamic-imports the heavy per-faction `src/data/roster/<slug>.js`.
+
+**Data revisions — what a stored index means** (2026-11-08). A unit entry keeps its wargear as
+`[group, option, n]` and its size as a bracket index: positions in the generated data, which the
+generator moves whenever a codex is replaced or a reading is fixed. Until this, every move needed a
+hand-written step in `migrateRoster` (v3–v13), and data 963 (Codex: Space Marines, 2.7.8) moved 105
+units with none — old lists silently showed another weapon. Now:
+
+- `scripts/gen-roster-moves.mjs` (the last step of `npm run roster:data`) turns every position
+  into its MEANING (`scripts/lib/roster-meanings.mjs`: the profile, what the group replaces, the
+  items an option grants; a bracket's model counts) and matches the new generation to the ledger of
+  the last one (`scripts/lib/roster-meanings.json`). Any change of meaning is a new revision:
+  `src/data/rosterIndexMoves.js` holds `DATA_REV` and, per revision, the moves to the next one
+  (`"g.o"` → new `"g.o"` or 0 gone; a size → new index, `[index, min, max]` when the range
+  changed, or -1). A looser key counts only when unique on both sides — never a guess between two
+  places. The run prints what is gone; a weapon GW renamed goes in
+  `scripts/lib/roster-item-aliases.json`. **`npm run roster:moves`** (in CI and in
+  `roster:data:check`) fails when the data changed and no moves were written.
+- Every roster, share payload and game snapshot carries **`dv`**, the revision its indices are
+  written against; `migrateRoster` applies the moves from `dv` (absent = 1) to `DATA_REV`
+  (`src/core/roster/rosterIndexMoves.js`, keyed `<faction>:<id>`; a Chapter's borrowed Codex units
+  are filed under the Chapter too). The cloud wire omits `dv: 1`, so lists uploaded before
+  revisions keep their content hash. A data move no longer needs a `SCHEMA_VERSION` bump — the
+  schema is for the SHAPE of a roster.
+- **A list from a newer build** (`isFromNewerVersion`: a later `v` or `dv`) is shown, never
+  rewritten: migration leaves it as it came (its own `v` kept), the store writes its original bytes
+  whatever a screen did to the object (`frozen` / `writable`), `updateRoster`/`renameRoster`/
+  `setArchived` refuse it, the cloud sync never uploads it, the editor redirects to the view, and
+  the view says why (`rosterNewerVersion`). Deleting it stays the player's call.
+- **Data 963, once** (`repairLegacy963`, applied to a list with no `dv` and schema ≤ 8 — v9 came
+  after 963): a list created and last saved before 2.7.8 shipped (`LEGACY_963_AT`) is read through
+  the moves worked out from git (`gen-roster-legacy-963.mjs` → `src/data/rosterLegacy963.js`, with
+  `roster-item-aliases-963.json` for the codex's renames); an entry that lost a pick or a bracket
+  in the move is marked `gearCheck: 963`. A list saved since may hold either meaning, so its touched
+  entries are only marked. The mark is a warning (`gearCheck` in rosterValidation) and a notice in
+  the unit's fields with "It’s right"; changing that entry's wargear or size clears it too. Cloud
+  corpus of 2026-11-08: 6 lists repaired (15 entries clean, 19 marked), 14 marked (52 entries).
+  Tests: `rosterDataRev.test.js`, `scripts/lib/roster-meanings.test.js`.
 
 **Drafts.** A roster the creation wizard is still working on carries `draft: true` and
 `draftStep`; a saved list carries neither, so "no flag" reads as "saved" and every roster that
@@ -2810,9 +2856,9 @@ editor's settings, a section of a unit's fields. Not in `rosterShare`'s `PICK`. 
 
 ## Cloud sync (`src/composables/useRosterSync.js`)
 
-Lists sync to `wh11ed-api` (`/rosters`, the same four routes `/games` has), layered over
+Lists sync to `wh11ed-api` (`/roster-sync`, the conditional revision protocol), layered over
 `useAuth` + `useRosters` exactly the way `useCloudSync.js` layers over the tracker.
-`localStorage` stays the primary store; the cloud is a best-effort copy and a failure never
+The device database stays the primary store; the cloud is a best-effort copy and a failure never
 blocks list building. Three rules decide everything in that file, and **none of them is an
 accident** — each was a decision:
 
@@ -2825,7 +2871,7 @@ accident** — each was a decision:
   sees the cloud holds an older copy and **deliberately leaves it alone**. Do not "fix" that by
   pushing every local-newer roster.
 - **One request per visit.** `RosterListView`'s `onMounted` runs the single pass: one
-  `GET /rosters` returning metadata (no blobs), then only the uploads/downloads that metadata
+  `GET /roster-sync` returning metadata (no blobs), then only the uploads/downloads that metadata
   proves are needed. There is no manual Sync button, same as the tracker home. A `watch` on the
   auth status runs the same pass again if a session appears while the page is open — signing in
   is possible from here now (see below), and an in-place one has no page load to hide behind.
@@ -2837,21 +2883,33 @@ in and out is the navbar's gear menu, on every page and every width; `useAccount
 path along so the OAuth round trip comes back here. `RosterCloudBar` reports sync and nothing
 else.
 
-Conflicts are **last-write-wins on the client's `updatedAt`** (a plain `Date.now()`, so it trusts
-the device clock — chosen over a server stamp for cost) and the screen says so afterwards.
+**Server revisions protect writes.** PUT sends `{ roster, baseRevision }` (0 means create-only),
+and DELETE requires `baseRevision`. A stale write returns 409 `conflict`; the distinct 409
+`quota_exceeded` must not be treated as a conflict. SHA-256 hashes of canonical JSON let a single
+metadata GET establish an unchanged base. Revision/hash records in `wh11ed-roster-cloud-bases`
+are scoped by account. A legacy blob is normalized through the store migration before comparison;
+its server hash and normalized local hash are remembered separately. Client clocks never grant
+permission to overwrite. A retry uploads the clicked Save snapshot, not edits made while waiting.
+
+A genuine conflict keeps the remote list under the original id and stores the local variant
+under a fresh id with `conflictOf`. An explicit Save becomes a saved recovery copy, queued for
+upload; later unfinished edits become a local wizard draft. `preserveCloudConflict` writes the
+next variants to the durable pending journal BEFORE replacing memory. If storage refuses, the original and
+pending save remain and the UI asks the player to keep the page open. An account change aborts
+the request; auth refresh cannot retry the write under another account. A local deletion/edit
+during a download prevents that response from replacing the newer local state.
+
 `RosterCloudBar.vue` is the only place any of this is visible: on `/roster`, where the pass runs,
 and on a saved list's view page, which is where the editor's Save lands — that is how the click
 that saved a list gets an answer.
 
-**Deletes are tombstones, and the authoritative one is the server's.** `DELETE /rosters/{id}?at=`
-empties the row and stamps it with the deleting device's clock; the list endpoint reports those
-graves alongside live lists. That is what makes a delete propagate: without it, the second device
-would see an id the cloud lacks, conclude "not backed up yet" and upload the list straight back.
-The rules that follow from having both timestamps on one scale:
+**Deletes are conditional tombstones.** `DELETE /roster-sync/{id}?baseRevision=&at=` empties the
+row and keeps its last live content hash. The listing reports graves alongside live lists:
 
-- A grave **removes the local copy** on every other device (counted in the notice as `removed`).
-- A list whose `updatedAt` is **newer than the grave** survives and is re-uploaded — an explicit
-  Save after a delete is a statement that this list should exist, and the Save wins.
+- A grave removes a proven unchanged local copy (counted in the notice as `removed`).
+- Divergent local work survives as a recovery copy/draft; the original id stays deleted.
+- A stale local delete cannot bury a changed remote list: that list is restored and the UI
+  reports the refused deletion.
 - A draft is never buried, whatever the cloud says: it was never up there to begin with.
 
 `wh11ed-rosters-deleted` in `localStorage` is now only a **retry queue** for deletes made offline
@@ -2862,6 +2920,9 @@ pass regardless of the pending set — that is what makes the first sign-in uplo
 existing collection, and what eventually uploads a share-link import (`RosterSharedView`
 deliberately doesn't upload on the spot: an imported list is unpriced until a screen with faction
 data touches it).
+
+Older APIs answering 404 on `/roster-sync` leave pending saves queued. Never fall back to a
+legacy unguarded PUT. Deploy the API migrations and revision endpoints before this frontend.
 
 ## Views (`src/views/tracker/Roster*.vue`, not in this directory)
 

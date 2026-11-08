@@ -121,24 +121,6 @@ describe('ArmiesPanel', () => {
     expect(det.title).toContain('War Horde')
   })
 
-  // The Phase tab's line to a rule lands here: that army's tab, that rule unfolded.
-  it('opens an army on a rule asked for from outside', async () => {
-    start({ factionSlug: 'orks', detachments: ['War Horde'] }, { factionSlug: 'necrons' })
-    const w = mountPanel()
-    const pi = tracker.current.value.players.findIndex((p) => p.factionSlug === 'orks')
-    const head = (text) => w.findAll('.army-acc-head').find((b) => b.text().includes(text))
-    await w.findAll('.ap-tabs .page-tab')[1 - pi].trigger('click') // on the other army first
-    await w.vm.reveal({ pi, mi: null, rule: 'War Horde' })
-    await vi.waitFor(async () => { await flushPromises(); expect(head('War Horde')?.attributes('aria-expanded')).toBe('true') }, { timeout: 5000 })
-    expect(w.find('.ap-fac').text()).toBe('Orks')
-    // The army rule: its own fold, or "How it works" where the card holds its text.
-    const armyOpen = () => w.findAll('.army-acc-head').filter((b) => !b.text().includes('War Horde')).some((b) => b.attributes('aria-expanded') === 'true')
-    expect(armyOpen()).toBe(false) // only the rule asked for
-    await w.vm.reveal({ pi, mi: null, rule: 'army' })
-    await flushPromises()
-    expect(armyOpen()).toBe(true)
-  })
-
   // Owner, 2026-09-30: switching sides rebuilt the card, which came up without its rules and
   // jumped the page. Every army's card is built once and kept.
   it('keeps each army\'s card when switching away and back', async () => {

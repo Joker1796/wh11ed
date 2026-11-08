@@ -1,6 +1,6 @@
 <template>
   <BaseModal
-    :title="enh?.name || name"
+    :title="enhLabel(enh?.name || name)"
     max-width="640px"
     max-height="85dvh"
     @close="$emit('close')"
@@ -74,6 +74,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { findEnhancementProse } from '../../core/rules/rosterModifiers.js'
+import { enhLabel } from '../../composables/rosterText.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
 
 const props = defineProps({

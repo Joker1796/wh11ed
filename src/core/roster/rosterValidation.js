@@ -214,6 +214,10 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
     if (def?.flags?.legends) add('legendsUnit', 'warn', { uid: u.uid })
   }
 
+  // An entry whose wargear or size data 963 may have moved (useRosters.js repairLegacy963): kept as
+  // stored, said here until the player confirms it or edits it (UnitEditorFields).
+  for (const u of units) if (u.gearCheck) add('gearCheck', 'warn', { uid: u.uid })
+
   // A second copy of a melee weapon on one model: legal, and by 04.01 (a model fights with ONE
   // melee weapon) worth nothing unless the unit's own rule rewards the pair. A warning, like
   // everything here that is allowed but probably not meant (owner, 2026-10-11).

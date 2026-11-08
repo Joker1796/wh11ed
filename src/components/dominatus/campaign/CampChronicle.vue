@@ -1,8 +1,11 @@
 <template>
-  <CampFold
-    :label="foldLabel"
-    :start-open="isOwner && state.rejected.length > 0"
-  >
+  <section>
+    <p
+      v-if="isOwner && state.rejected.length"
+      class="camp-note"
+    >
+      {{ labels.campChrRefusedN.replace('{n}', state.rejected.length) }}
+    </p>
     <!-- A cogitator's log (owner, 2026-11-03): the lore face and its lines, in the site's own
          colours and both themes (owner, 2026-11-04 — the green panel went). -->
     <div class="camp-chron">
@@ -42,11 +45,11 @@
       v-if="rows.length > shown.length"
       type="button"
       class="btn-ghost"
-      @click="all = true"
+      @click="visibleCount += PAGE"
     >
-      {{ labels.campChrAll.replace('{n}', rows.length) }}
+      {{ labels.campChrMore }}
     </button>
-  </CampFold>
+  </section>
 </template>
 
 <script setup>
@@ -54,7 +57,6 @@
 // what the Warmaster corrected or the campaign refused (with the reason, in the reader's language).
 // Names are today's: a player renamed is named as they are now.
 import { ref, computed } from 'vue'
-import CampFold from './CampFold.vue'
 import { amendments } from '../../../core/dominatus/campaign.js'
 import { useCampaignView } from './useCampaignView.js'
 import { useLocale } from '../../../composables/useLocale.js'
@@ -62,8 +64,8 @@ import { refusalText } from '../../../composables/useCampaigns.js'
 
 const { entry, state, isOwner, labels, playerName, upgradeName, locationName, phaseLabel, handOpen } = useCampaignView()
 const { locale } = useLocale()
-const all = ref(false)
-const SHOWN = 20
+const PAGE = 20
+const visibleCount = ref(PAGE)
 
 // Digits only, the way a terminal stamps a line: 01.11 20:44 (01/11 20:44 in English).
 const fmt = computed(() => new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }))
@@ -146,12 +148,7 @@ const rows = computed(() => {
   })
   return out.reverse()
 })
-const shown = computed(() => (all.value ? rows.value : rows.value.slice(0, SHOWN)))
-const foldLabel = computed(() => {
-  const l = labels.value
-  const n = state.value.rejected.length
-  return isOwner.value && n ? `${l.campChronicle} · ${l.campChrRefusedN.replace('{n}', n)}` : l.campChronicle
-})
+const shown = computed(() => rows.value.slice(0, visibleCount.value))
 </script>
 
 <style scoped>

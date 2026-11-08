@@ -125,7 +125,8 @@
 // then — on request — the older releases from the API's archive (the file keeps only the last few;
 // deploy.sh moves the rest). Reachable from the footer version and the update-notice banner.
 // Opening it clears the banner.
-import { ref, computed, defineAsyncComponent } from 'vue'
+import { ref, computed } from 'vue'
+import { asyncComponent as defineAsyncComponent } from '../composables/asyncComponent.js'
 import { changelog } from '../data/changelog.js'
 import { renderMarks, SECTION_KINDS, noteSections, boldQuestion } from '../data/changelogMarks.js'
 import { useLocale } from '../composables/useLocale.js'

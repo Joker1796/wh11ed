@@ -30,6 +30,17 @@ describe('recoverFromStaleChunk', () => {
     vi.unstubAllGlobals()
   })
 
+  it.each(['registration', 'update'])('recovers even when the worker %s never settles', async (step) => {
+    const pending = () => new Promise(() => {})
+    vi.stubGlobal('navigator', { onLine: true, serviceWorker: {
+      getRegistration: step === 'registration' ? pending : async () => ({ update: pending }),
+    } })
+    const recovery = recoverFromStaleChunk('/roster/new', { reload })
+    await vi.advanceTimersByTimeAsync(15_000)
+    expect(reload).toHaveBeenCalledWith('/roster/new')
+    await recovery
+  })
+
   it('does not reload a page caught reloading itself in a loop (reloadLoop.js)', async () => {
     localStorage.setItem('wh11ed-reload-hold', String(Date.now() + 60_000))
     expect(await recoverFromStaleChunk('/a', { reload })).toBe(false)

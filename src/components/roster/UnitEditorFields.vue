@@ -24,6 +24,24 @@
         >
       </label>
     </div>
+    <!-- Data 963 may have moved this entry's wargear or size (useRosters.js repairLegacy963): the
+         player looks and says it is right, or changes it — either clears the mark. -->
+    <ExpandTransition>
+      <div
+        v-if="entry.gearCheck"
+        class="ues-gear-check"
+        role="status"
+      >
+        <p>{{ labels.rosterGearCheck }}</p>
+        <button
+          type="button"
+          class="btn-ghost"
+          @click="confirmGear"
+        >
+          {{ labels.rosterGearCheckOk }}
+        </button>
+      </div>
+    </ExpandTransition>
     <!-- Teleported to <body>: this component can render inside an accordion wrapped by
          CollapseTransition, whose `contain: layout paint` makes it a containing block for
          `position: fixed` descendants — without the teleport, BaseModal's fixed overlay would
@@ -324,7 +342,7 @@
                 @change="toggleEnh(e)"
               >
               <span class="opt-name">
-                {{ e.name }}
+                {{ enhLabel(e.name) }}
                 <span
                   v-if="e.dup"
                   class="opt-tag"
@@ -634,6 +652,7 @@ import ConfirmModal from '../ConfirmModal.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { enhLabel } from '../../composables/rosterText.js'
 import { ENTRY_NOTE_MAX, sizeOf, modelCount, allySourceOf, allegFor, allegSpent, defaultWargearPoints, fixedLoadoutLines, fitWargear, modelsPerMini, setNote } from '../../core/roster/rosterEngine.js'
 
 const props = defineProps({
@@ -712,7 +731,7 @@ const targetHints = computed(() => {
   const parts = (t) => [
     t.blockName,
     t.models ? `${t.models} ${l.rosterModelsLabel}` : '',
-    t.enh,
+    enhLabel(t.enh),
     t.alleg,
     t.picks?.length ? t.picks.join(', ') : '',
     t.warlord ? l.rosterWarlord : '',
@@ -988,7 +1007,7 @@ function movePrompt(mover, title, body, extra, confirmLabel, run) {
   const words = {
     '{unit}': props.defOf?.(mover.id)?.name || '',
     '{from}': fromEntry?.blockName || props.defOf?.(fromEntry?.id)?.name || '',
-    '{enh}': mover.enh || '',
+    '{enh}': enhLabel(mover.enh),
     ...extra,
   }
   const fill = (s) => Object.entries(words).reduce((t, [k, v]) => t.replaceAll(k, v), s)
@@ -1020,6 +1039,13 @@ const sourceHints = computed(() => {
 // The note. Written straight onto the entry like every other field here — the store's deep watch
 // is what saves it.
 const writeNote = (obj, key, value) => setNote(obj, key, value)
+// The entry is the stored roster's own object, edited in place like every field here.
+const confirmGear = () => { delete props.entry.gearCheck }
+// Changing the wargear or the size is an answer too: the player has looked at it.
+// Only a change to the SAME entry (its uid leads the key): opening another unit is not an answer.
+watch(() => `${props.entry.uid}|${JSON.stringify([props.entry.wg, props.entry.size, props.entry.count])}`, (now, before) => {
+  if (now.split('|')[0] === before.split('|')[0] && props.entry.gearCheck) delete props.entry.gearCheck
+})
 </script>
 
 <style scoped src="./unitEditorFields.css"></style>
@@ -1029,6 +1055,9 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
 /* The way to the datasheet was a bare text link and read as a caption; it is the app's own ghost
    button now (style.css), trimmed to sit in a row with a field rather than stand on its own. */
 .ues-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
+.ues-gear-check { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.55rem; padding: 0.5rem 0.6rem; border: 1px solid var(--warning); background: color-mix(in srgb, var(--warning) 10%, transparent); }
+.ues-gear-check p { flex: 1 1 auto; margin: 0; color: var(--warning); font-size: 0.875rem; }
+.ues-gear-check .btn-ghost { flex: 0 0 auto; }
 .ues-sheet-link { flex: 0 0 auto; padding: 0.35rem 0.6rem; font-size: 0.8rem; white-space: nowrap; }
 /* Label beside the field, not above it, and the field takes whatever the button leaves. */
 .ues-note { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 0.4rem; }

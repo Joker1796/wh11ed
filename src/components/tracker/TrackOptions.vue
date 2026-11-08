@@ -97,7 +97,8 @@
 // `settings` is the caller's own reactive draft and is written in place (v-model straight onto
 // its fields) — the wizard commits it on Start, the dialog on Save, and neither wants an
 // intermediate copy that could fall out of step.
-import { computed, defineAsyncComponent, ref } from 'vue'
+import { computed, ref } from 'vue'
+import { asyncComponent as defineAsyncComponent } from '../../composables/asyncComponent.js'
 import OptionHelpModal from './OptionHelpModal.vue'
 
 // A row's help can show what the row draws (owner, 2026-10-15): the real component, with example

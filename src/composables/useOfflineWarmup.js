@@ -1,5 +1,8 @@
 import { computed, ref } from 'vue'
 import { isStandaloneDisplay } from './standalone.js'
+import { getItem, setItem } from './safeStorage.js'
+import { withinDeadline } from '../utils/deadline.js'
+import { BUILD_ID, OFFLINE_MANIFEST_URL } from '../buildInfo.js'
 
 // Fill the offline caches with everything the app SHELL deliberately does not carry.
 //
@@ -15,12 +18,14 @@ import { isStandaloneDisplay } from './standalone.js'
 //   • the installed app does it by itself on the first online launch, as it always has;
 //   • anyone else asks for it — the ⚙ menu's "Download for offline" (AppNavbar.vue).
 //
-// Every fetch is served and stored by the SW's own CacheFirst routes (`/assets/` and `/images/`),
-// so nothing here WRITES to the Cache API: a plain fetch is enough to populate them. It is only
-// read, to leave out what is already there (`missing` below).
+// Warm-up writes the same named caches the worker reads. Awaiting Cache.put confirms the whole
+// response body is durable; a successful fetch alone says nothing about the worker's async write.
+// No cache is deleted on failure: a later run checks and fetches only what is still missing.
 
 const DONE_KEY = 'wh11ed-offline-warmed'
-const CONCURRENCY = 4
+const CONCURRENCY = 2
+export const OFFLINE_REQUEST_MS = 15000
+const cacheName = (url) => url.startsWith('/images/') ? 'wh11ed-images' : 'wh-rules-assets'
 
 // Tiny, stable checksum of the file list so a deploy that changes what there is to download
 // re-arms the warm-up instead of reporting the previous run's success forever.
@@ -39,13 +44,11 @@ function checksum(urls) {
 // like the app pulling itself down again (owner, 2026-10-05) when it was ~2 MB of 17. Without the
 // Cache API (no service worker, a test) every file counts, as before.
 async function missing(files) {
-  if (typeof caches === 'undefined') return files
-  try {
-    const held = await Promise.all(files.map((url) => caches.match(url).then(Boolean, () => false)))
-    return files.filter((_, i) => !held[i])
-  } catch {
-    return files
-  }
+  return (await Promise.all(files.map(async (url) => {
+    const cache = await caches.open(cacheName(url))
+    const res = await cache.match(url)
+    return res?.ok ? null : url
+  }))).filter(Boolean)
 }
 
 // 'idle' — nothing to report (a tab that has not asked, or a set already warmed)
@@ -57,7 +60,7 @@ const total = ref(0)
 // a reader has to be given BEFORE they tap the button, and one nothing can measure at runtime
 // without fetching the very files in question.
 const bytes = ref(0)
-const warmed = ref(localStorage.getItem(DONE_KEY) !== null)
+const warmed = ref(false)
 // This run tops up a set that was complete before a deploy renamed part of it — not the first
 // download. To a reader already using the app, "Preparing offline…" after every release read
 // as something new starting, so the indicator says "update" then (owner's call, 2026-09-27).
@@ -67,14 +70,24 @@ const isUpdate = ref(false)
 let autoStarted = false
 let inflight = null
 
-async function manifest() {
-  const res = await fetch('/offline-manifest.json', { cache: 'no-store' })
-  if (!res.ok) throw new Error(`manifest ${res.status}`)
-  const json = await res.json()
-  bytes.value = (json.assets?.bytes || 0) + (json.images?.bytes || 0)
-  // Assets first: they are the app itself, so a warm-up interrupted half-way still leaves every
-  // screen reachable — it is the illustrations that go missing, not the rules.
-  return [...(json.assets?.files || []), ...(json.images?.files || [])]
+async function manifest({ manifest: url = OFFLINE_MANIFEST_URL, build = BUILD_ID } = {}) {
+  return withinDeadline(async () => {
+    if (!/^\/(releases\/[\w-]+\/offline-manifest\.json|offline-manifest\.json)$/.test(url)) throw new Error('Invalid offline manifest URL')
+    const pinned = url.startsWith('/releases/') && typeof caches !== 'undefined' ? await caches.match?.(url) : null
+    const res = pinned || await fetch(url, { cache: 'no-store' })
+    if (!res.ok) throw new Error(`manifest ${res.status}`)
+    const json = await res.json()
+    if (build && json.build !== build) throw new Error('Offline build mismatch')
+    const assets = json.assets?.files
+    const images = json.images?.files
+    if (!Array.isArray(assets) || !Array.isArray(images)
+      || assets.some((u) => typeof u !== 'string' || !u.startsWith('/assets/'))
+      || images.some((u) => typeof u !== 'string' || !u.startsWith('/images/'))) {
+      throw new Error('Invalid offline manifest')
+    }
+    bytes.value = (json.assets.bytes || 0) + (json.images.bytes || 0)
+    return [...assets, ...images]
+  }, OFFLINE_REQUEST_MS, 'Offline manifest')
 }
 
 // `force` is the button: it warms again even when the marker says this exact set is already done,
@@ -87,63 +100,71 @@ function run(opts) {
   return inflight
 }
 
-async function runOnce({ force = false } = {}) {
-  let files
-  try {
-    files = await manifest()
-  } catch {
-    status.value = 'error'
-    return
-  }
-
-  const sig = checksum(files)
-  if (!force && localStorage.getItem(DONE_KEY) === sig) {
-    warmed.value = true
-    return
-  }
-
-  const todo = await missing(files)
-  if (!todo.length) {
-    localStorage.setItem(DONE_KEY, sig)
-    warmed.value = true
-    if (force) status.value = 'ready' // the button asked: answer it, even with nothing to fetch
-    return
-  }
-
-  isUpdate.value = !force && localStorage.getItem(DONE_KEY) !== null
-  // Files are missing, so the set on the device is not the whole app any more — a release renamed
-  // part of it, or the browser evicted some. Until this run has fetched them all the menu does not
-  // say "Downloaded": a player's app behind a VPN read "Downloaded for offline" after a top-up
-  // that never got through, and opened blank on a page it did not have (2026-11-03).
+async function runOnce({ force = false, target } = {}) {
+  const wasDownloaded = getItem(DONE_KEY) !== null
   warmed.value = false
-  total.value = todo.length
-  done.value = 0
   status.value = 'warming'
-
-  // Bounded concurrency: a shared cursor pulls from the queue so we never have more than
-  // CONCURRENCY requests in flight. Failed fetches are skipped (best-effort) but counted, so the
-  // bar always reaches total and the marker is only written on a clean pass.
-  let cursor = 0
-  let failed = false
-  const worker = async () => {
-    while (cursor < todo.length) {
-      const url = todo[cursor++]
+  done.value = 0
+  total.value = 0
+  try {
+    const sw = navigator.serviceWorker
+    if (!sw || typeof caches === 'undefined') throw new Error('Offline storage unavailable')
+    // Wait for first-install clientsClaim too: the worker must see every download so its expiry
+    // metadata includes it. A running worker is not yet a controller of this particular page.
+    if (!sw.controller) await withinDeadline(() => sw.ready.then((reg) => {
+      if (!reg.active) throw new Error('No active offline worker')
+    }), OFFLINE_REQUEST_MS, 'Offline worker')
+    if (!sw.controller) {
+      let changed
       try {
-        await fetch(url, { cache: 'no-store' })
-      } catch {
-        failed = true
-      }
-      done.value++
+        await withinDeadline(() => new Promise((resolve) => {
+          changed = () => { if (sw.controller) resolve() }
+          sw.addEventListener('controllerchange', changed)
+          changed()
+        }), OFFLINE_REQUEST_MS, 'Offline controller')
+      } finally { sw.removeEventListener('controllerchange', changed) }
     }
-  }
-  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, todo.length) }, worker))
-
-  if (failed) {
-    status.value = 'error' // leave the marker as it was so a later attempt retries
-  } else {
-    localStorage.setItem(DONE_KEY, sig)
+    const files = await manifest(target)
+    const sig = checksum(files)
+    // The marker is a hint for wording, never proof: storage pressure can evict cache entries.
+    const todo = await withinDeadline(() => missing(files), OFFLINE_REQUEST_MS, 'Offline cache check')
+    isUpdate.value = !force && wasDownloaded
+    total.value = todo.length
+    let cursor = 0
+    let failed = false
+    const worker = async () => {
+      while (cursor < todo.length && !failed) {
+        const url = todo[cursor++]
+        const abort = new AbortController()
+        try {
+          await withinDeadline(async () => {
+            const res = await fetch(url, { cache: 'no-store', signal: abort.signal, priority: 'low' })
+            if (!res.ok) throw new Error(`Offline file ${res.status}: ${url}`)
+            const cache = await caches.open(cacheName(url))
+            await cache.put(url, res)
+          }, OFFLINE_REQUEST_MS, 'Offline download')
+        } catch {
+          abort.abort()
+          failed = true
+        }
+        done.value++
+      }
+    }
+    await Promise.all(Array.from({ length: Math.min(CONCURRENCY, todo.length) }, worker))
+    // Cache writes can fail or be evicted while a long download runs. Verify the whole set again.
+    if (failed || (await withinDeadline(() => missing(files), OFFLINE_REQUEST_MS, 'Offline verification')).length) {
+      throw new Error('Offline download incomplete')
+    }
+    setItem(DONE_KEY, sig)
     warmed.value = true
     status.value = 'ready'
+    return true
+  } catch {
+    // Keep the older marker as a hint that an installed app may share this worker with a tab.
+    // It is never consulted as proof that files exist; only warmed/status report readiness.
+    warmed.value = false
+    status.value = 'error'
+    return false
   }
 }
 
@@ -157,9 +178,9 @@ export function startOfflineWarmup() {
 // old code, cached by the old worker's routes into the same caches the new one reads.
 // A warm-up already running reads the list it fetched when it started — the old build's; this one
 // waits it out and then goes through the new list.
-export async function topUpOffline() {
+export async function topUpOffline(target) {
   await inflight?.catch(() => {})
-  return run()
+  return run({ target })
 }
 
 // Read the size without downloading anything, so the menu item can say what it will cost. Cheap:

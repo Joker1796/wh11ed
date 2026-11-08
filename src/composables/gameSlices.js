@@ -162,12 +162,8 @@ export function applySlice(game, name, data) {
 // JSON with keys in sorted order, so two trees that hold the same data serialize the same way
 // whatever order their keys were written in (applySlice rewrites keys; a game restored from
 // storage may differ from a freshly built one). This is what makes "did the slice change" honest.
-export function stableJson(value) {
-  if (value === null || typeof value !== 'object') return JSON.stringify(value)
-  if (Array.isArray(value)) return '[' + value.map((v) => (v === undefined ? 'null' : stableJson(v))).join(',') + ']'
-  const keys = Object.keys(value).filter((k) => value[k] !== undefined).sort()
-  return '{' + keys.map((k) => JSON.stringify(k) + ':' + stableJson(value[k])).join(',') + '}'
-}
+import { stableJson } from '../utils/stableJson.js'
+export { stableJson }
 
 // Names of the slices that differ between two cuts — what the client has to send. A slice missing
 // on one side counts as changed.

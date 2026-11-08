@@ -500,7 +500,6 @@
           v-if="sideRuleCount"
           embedded
           :side="viewSide"
-          @army="openArmyRule"
           @roster="openRoster"
           @missions="tab = 'missions'"
         />
@@ -841,14 +840,7 @@ const stripPhase = computed(() => {
   const colors = g.players.map((pl, i) => (isYouSide(pl, i) ? 'var(--side-you)' : 'var(--side-opponent)'))
   return { steps: BATTLE_PHASES.length * 2, at, colors, label: `${phaseLabel(g.currentPhase || 'command', labels.value)} · ${playerName(turnIndex.value)}` }
 })
-// The Turn tab's rule lines into the Army tab: that army, with the rule unfolded.
 const armiesEl = ref(null)
-async function openArmyRule(at) {
-  pickedSide.value = at.pi
-  tab.value = 'armies'
-  await nextTick()
-  armiesEl.value?.reveal(at)
-}
 // The reserves before the battle: the first army with a list this phone may mark, on the Roster
 // tab, where each unit's row has its status (UnitStatusButton).
 const listSide = computed(() => {
@@ -872,12 +864,12 @@ function openReserves() {
 // A list: the Roster tab on that army. One unit of it: its card over the tab on screen.
 const rosterEl = ref(null)
 // An army's list (the Army tab, under its card) or one of its units' cards over the tab on screen.
-async function openRoster({ pi, mi, uid }) {
+async function openRoster({ pi, mi, uid, rule }) {
   if (uid == null) { pickedSide.value = pi; tab.value = 'armies' }
   built.value.add('armies')
   await nextTick()
   if (uid == null) armiesEl.value?.show({ pi, mi })
-  else rosterEl.value?.openUnit({ pi, mi, uid })
+  else rosterEl.value?.openUnit({ pi, mi, uid, rule })
 }
 const armyKey = ref(null)
 // After the first switch a panel coming into view fades in (the page's first panel just is).

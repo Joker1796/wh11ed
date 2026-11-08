@@ -54,7 +54,7 @@ git log --oneline main..HEAD                  # все коммиты
 ## 3. Гейты (все обязаны быть зелёными)
 
 ```bash
-npm test && npm run lint && npm run build
+npm test -- --maxWorkers=2 && npm run lint && npm run build
 ```
 
 Затем смоук собранного сайта — тестовые ростеры в браузере, обе ширины, без ошибок JS,

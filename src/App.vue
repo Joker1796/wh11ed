@@ -12,6 +12,7 @@
       :page="pageKey"
     />
     <UpdateNoticeBar v-if="!isBare" />
+    <LocalDataRecoveryNotice v-if="localDataState.quarantineCount" />
 
     <AppNavbar
       v-if="!isBare"
@@ -44,7 +45,23 @@
       class="main-content"
       :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isDominatusRoute || isFactionPageRoute || isCombatPatrolPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk || isGameRosterDesk, 'main-content--browse': isRosterBrowseDesk || isGameRosterDesk, 'main-content--fill': isFactionUnitsDesk }"
     >
-      <RouterView v-slot="{ Component }">
+      <div
+        v-if="localDataBlocked"
+        class="local-data-blocked"
+      >
+        <p>{{ localDataErrorText }}</p>
+        <button
+          type="button"
+          class="btn-primary"
+          @click="reloadPage"
+        >
+          {{ ui[locale].localOpenReload }}
+        </button>
+      </div>
+      <RouterView
+        v-else
+        v-slot="{ Component }"
+      >
         <Transition
           name="fade"
           mode="out-in"
@@ -128,6 +145,7 @@
     <UpdateToast v-if="!holdReloads && workerOn" />
     <OfflineWarmupToast v-if="!isBare && appUpdate.phase === 'idle'" />
     <UpdatePlate v-if="!isBare" />
+    <LocalDataNotice v-if="localDataState.conflict || (localDataState.error && (localDataState.phase !== 'error' || localDataBlocked))" />
     <ErrorReportsOffer
       v-if="errorOfferOpen && cacheMigration.phase !== 'shown'"
       @close="errorOfferOpen = false"
@@ -136,7 +154,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { asyncComponent as defineAsyncComponent } from './composables/asyncComponent.js'
 import { pageLeaving, pageArrived } from './composables/usePageMotion.js'
 import { useRoute, useRouter } from 'vue-router'
 import { shouldWelcome } from './composables/useWelcome.js'
@@ -145,6 +164,14 @@ import { useInstallPrompt } from './composables/useInstallPrompt.js'
 import { useFeedbackModal } from './composables/useFeedbackModal.js'
 import { useSignInModal } from './composables/useSignInModal.js'
 import { useBackToCloseWhile } from './composables/useBackToClose.js'
+import { localData } from './composables/localData.js'
+import { ui } from './i18n/ui.js'
+const LocalDataNotice = defineAsyncComponent(() => import('./components/LocalDataNotice.vue'))
+const LocalDataRecoveryNotice = defineAsyncComponent(() => import('./components/LocalDataRecoveryNotice.vue'))
+const localDataState = localData.state
+const localDataBlocked = computed(() => localDataState.phase === 'error' && /^\/(?:ru\/)?(?:tracker|roster)(?:\/|$)/.test(route.path))
+const localDataErrorText = computed(() => ui[locale.value].localOpenErrorMessage)
+const reloadPage = () => window.location.reload()
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
 // A page caught reloading itself in a loop gets no update applied for a while (reloadLoop.js):
@@ -481,6 +508,14 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Personal screens when device storage did not open: the message and the one way out. */
+.local-data-blocked {
+  max-width: 40rem;
+  padding: 32px 0;
+}
+.local-data-blocked p {
+  margin: 0 0 16px;
+}
 .app-layout {
   min-height: 100dvh;
   background: var(--bg-primary);

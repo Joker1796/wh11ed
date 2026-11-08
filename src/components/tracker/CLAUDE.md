@@ -11,7 +11,15 @@ Architecture section) — its own state/data below.
 
 ## State
 
-`src/composables/useTracker.js` — a module-singleton store (same pattern as `useLocale`) persisted to localStorage under `wh11ed-tracker-current` (active game) and `wh11ed-tracker-history` (finished games), via deep `watch` (500ms debounce, flushed on `pagehide`/`visibilitychange`). **A finished game is filed into the history as soon as its player leaves the game's screens** (`fileFinishedGame.js`, 2026-10-25): the finished screen's "Back to tracker", the nav, any link — `/tracker/game` and its rosters excepted — and the home files one it finds on arrival (a reload). Until then only that one button filed it, and a player who left by the nav saw the game missing from the list and "Resume" on the big button. **The home's list leads with the game on the phone**: in play ("In progress", its score and round) or still being set up ("Setting up", no score — a lobby, or this phone's wizard draft with its step). **Critical transitions (`archiveGame`/`discardGame`/`resumeFromHistory`) call `saveNow()` for a synchronous, immediate write** — the debounce alone lost finished games on installed iOS PWAs that get frozen/killed without firing `pagehide`. `flushSave` writes history before current so an archive can't drop the game from both keys. A game = `{ id, phase: 'setup'|'playing'|'finished', currentRound, settings:{firstTurn,layout:'A'|'B'|'C'|'custom',customLayout,battleSize:'incursion'|'strikeForce'|'onslaught'|'custom',custom,twist,twistMission,scoreMode:'vp'|'bp'}, players:[P,P] }`. `battleSize` (rule 25.03) sets the setup DP budget (`BATTLE_SIZES` in `useTracker.js`: Incursion 2 DP / Strike Force 3 DP / Onslaught 3 DP); **`'custom'` is a size of the players' own** (owner, 2026-10-23: evening events at 750 points with one secondary) — `settings.custom = { points, dp?, secondaries? }`, chosen as a fourth size button with a card of three steppers under it, remembered from the last game played at one. **Every reader of the size goes through `battleOf(settings)`** (points, `maxDp`, `secondaries` — 2, or 1–3 custom — and `base`, the printed size the custom points fall within, which the army-rule counters keyed by size read) and `battleName` for its label; nothing looks a size up in `BATTLE_SIZES` by id any more. The number of secondaries is what the take draws (`takeCount`), what the take dialog counts and what fixed mode lets a player pick; caps stay the rules' (15 a round, 45 a game). Labels that count cards use `byCount` (`<key>` with `{n}`, `<key>One` — Russian declines the noun for one only); `twist`/`twistMission` are the optional pre-game Twist (see below); `scoreMode` toggles VP vs Battle Points results. `layout` is the recommended A/B/C of the dispositions' matchup, or `'custom'` with `customLayout:{id,image,edge,label}` when any of the 45 layouts is picked — resolved everywhere via `resolveLayout(settings, dispA, dispB)` in `composables/trackerLayout.js`. Player = `{ name, factionSlug, detachments[], disposition, role, secondaryMode:'tactical'|'fixed', battleReady, primarySlug, cp, rounds:[{primary, picks{'bi:ri':count}}×5], secondary:{deck,hand,drawn{slug→round},discarded:[{slug,round}],scored:[{slug,round,picks,vp}]} }`.
+**Persistence since the stability audit (2026-11-08).** The live store reads/writes through
+`localData.js`, backed by IndexedDB; old localStorage keys stay as a migration backup. Current,
+history and setup changes share a transaction, with a synchronous per-tab pending journal for
+page termination. Another tab's newer save requires the player's confirmation before replacement,
+including autosaves; both variants remain recoverable. A conflict cannot be bypassed by cloud
+saving. `src/composables/LOCAL-DATA.md` is the storage contract, rollback procedure and test guide.
+The legacy synchronous path described below remains only for non-booted fixtures/tooling.
+
+`src/composables/useTracker.js` — a module-singleton store (same pattern as `useLocale`) persisted to localStorage under `wh11ed-tracker-current` (active game) and `wh11ed-tracker-history` (finished games), via deep `watch` (500ms debounce, flushed on `pagehide`/`visibilitychange`). **A finished game is filed into the history as soon as its player leaves the game's screens** (`fileFinishedGame.js`, 2026-10-25): the finished screen's "Back to tracker", the nav, any link — `/tracker/game` and its rosters excepted — and the home files one it finds on arrival (a reload). Until then only that one button filed it, and a player who left by the nav saw the game missing from the list and "Resume" on the big button. **The home's list leads with the game on the phone**: in play ("In progress", its score and round) or still being set up ("Setting up", no score — a lobby, or this phone's wizard draft with its step). **Critical transitions (`archiveGame`/`discardGame`/`resumeFromHistory`) call `saveNow()` for a synchronous, immediate write** — the debounce alone lost finished games on installed iOS PWAs that get frozen/killed without firing `pagehide`. `flushSave` writes the destination first: history before clearing current on archive, current before removing history on resume. A failed write preserves the source and pending flags for a later flush; writing history first unconditionally lost resumed games under quota failure. A game = `{ id, phase: 'setup'|'playing'|'finished', currentRound, settings:{firstTurn,layout:'A'|'B'|'C'|'custom',customLayout,battleSize:'incursion'|'strikeForce'|'onslaught'|'custom',custom,twist,twistMission,scoreMode:'vp'|'bp'}, players:[P,P] }`. `battleSize` (rule 25.03) sets the setup DP budget (`BATTLE_SIZES` in `useTracker.js`: Incursion 2 DP / Strike Force 3 DP / Onslaught 3 DP); **`'custom'` is a size of the players' own** (owner, 2026-10-23: evening events at 750 points with one secondary) — `settings.custom = { points, dp?, secondaries? }`, chosen as a fourth size button with a card of three steppers under it, remembered from the last game played at one. **Every reader of the size goes through `battleOf(settings)`** (points, `maxDp`, `secondaries` — 2, or 1–3 custom — and `base`, the printed size the custom points fall within, which the army-rule counters keyed by size read) and `battleName` for its label; nothing looks a size up in `BATTLE_SIZES` by id any more. The number of secondaries is what the take draws (`takeCount`), what the take dialog counts and what fixed mode lets a player pick; caps stay the rules' (15 a round, 45 a game). Labels that count cards use `byCount` (`<key>` with `{n}`, `<key>One` — Russian declines the noun for one only); `twist`/`twistMission` are the optional pre-game Twist (see below); `scoreMode` toggles VP vs Battle Points results. `layout` is the recommended A/B/C of the dispositions' matchup, or `'custom'` with `customLayout:{id,image,edge,label}` when any of the 45 layouts is picked — resolved everywhere via `resolveLayout(settings, dispA, dispB)` in `composables/trackerLayout.js`. Player = `{ name, factionSlug, detachments[], disposition, role, secondaryMode:'tactical'|'fixed', battleReady, primarySlug, cp, rounds:[{primary, picks{'bi:ri':count}}×5], secondary:{deck,hand,drawn{slug→round},discarded:[{slug,round}],scored:[{slug,round,picks,vp}]} }`.
 
 ## What to track
 
@@ -152,9 +160,21 @@ phase (tap → the phase picker), ›, End turn. The arrows stop at Command and 
 changes only by End / Undo turn, so never past the end-of-turn check. The reminder ("in this
 phase", `trackPhaseRules`) is the **Phase** tab of the upper row (the **Turn** tab in a game without the clock), its count on the tab
 (`usePhaseRules.js` counts; `PhaseRules.vue embedded` draws). Its lines stay on the game screen
-(2026-09-30): a rule opens the Army tab on that army with the rule unfolded (`ArmiesPanel.reveal`), a unit of an
-attached list opens its card in the Army tab (`RosterTab.openUnit`), several units — the list; a
-mission card opens the Missions tab. No stratagems line since 2026-10-10 — the CP tab is one tap
+(2026-09-30): a rule (the army rule, a detachment's) opens its text in a dialog over the tab
+(`PhaseRuleModal.vue`, owner 2026-11-07 — it opened the Army tab with the rule's fold unfolded until
+then, and the reader had to find which fold it was; the text comes through `loadArmyRules`, the Army
+tab's own on-demand import, at the tap), a unit of an attached list opens its card over the tab
+(`RosterTab.openUnit`) **with the line's rule lit** (owner, 2026-11-07: the row's `roster.rule` —
+`{ n, type, slug? }` — rides through `RosterViewView.openUnit` to `RosterUnitRulesCard`'s
+`focusRule`: `DatasheetCard` marks a datasheet ability by its English name (its own `focusRule`
+prop), the enhancement and a Dominatus Upgrade card are folds that open for it; the line wears
+`[data-rule-focus]` (style.css: a 1px accent frame that pulses twice over 1.5 seconds (2px at the peak), then stays), bound in the
+templates — set by hand it was lost when the game thawed the card and its lines were redrawn — and
+is scrolled to only when off screen; the rest of the card is dimmed (`.rum-spot`, a `:has()`
+selector picking the highest boxes that do not hold the rule) until the first tap, which is spent
+on lifting it unless it lands on the rule — owner, 2026-11-07, after a frame and then a tint did
+not read at a glance), several units — the
+list in the Army tab; a mission card opens the Missions tab. No stratagems line since 2026-10-10 — the CP tab is one tap
 away and already filters to the phase.
 **One strip of tabs** over one panel (owner's calls, 2026-09-27: two rows split by a heavy rule
 read as two menus, and they were one menu). Every CLOSED tab is an icon (`aria-label` + `title`
@@ -694,7 +714,12 @@ under the set's name (which option is up is picked in the game, so all are offer
 "until the start/end of …" is a duration and does not count, and a phase also named any other way is
 during. ~150 starts and ~130 ends over the 960 entries. A row is what you look for at the table (the
 units, or the rule's name) over one small line (what it is · the ability, or the detachment's name;
-a doubles team's army after it).
+a doubles team's army after it). **Names as the unit's card prints them** (owner, 2026-11-07): in
+Russian the card's translated name with the English small in brackets (`nameEn`, `.pr-en`); the
+generator reads each sheet's RU names off `localizeSheet` — the card's own function, global and
+faction name maps included (`ru`, and `setRu` for an ability set's name) — where it read only the
+sheet overlay and found a name for 35 of 958 abilities. Army and detachment rules and enhancements
+stay English, as everywhere.
 
 **Two sides, not one.** 55 of the datasheet abilities that name a phase name their OPPONENT'S ("In
 your opponent's Movement phase, if an enemy unit ends a move within 8"…"), and those are the ones a

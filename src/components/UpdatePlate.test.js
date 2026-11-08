@@ -14,7 +14,7 @@ vi.mock('../composables/useOfflineWarmup.js', async () => {
 vi.mock('../composables/standalone.js', () => ({ isStandaloneDisplay: vi.fn(() => false) }))
 vi.mock('../composables/workerPolicy.js', () => ({ currentRegistration: vi.fn(async () => null), dropCaches: vi.fn(async () => 0) }))
 
-const { appUpdate, updateFound, _resetAppUpdate } = await import('../composables/useAppUpdate.js')
+const { appUpdate, updateFound, applyUpdate, _resetAppUpdate } = await import('../composables/useAppUpdate.js')
 const { isStandaloneDisplay } = await import('../composables/standalone.js')
 const { topUpOffline } = await import('../composables/useOfflineWarmup.js')
 const { cacheMigration, _resetCacheMigration } = await import('../composables/cacheMigration.js')
@@ -71,6 +71,20 @@ describe('the update plate', () => {
     topUpOffline.mockReturnValue(Promise.reject(new Error('offline')))
     await updateFound(vi.fn())
     expect(appUpdate.phase).toBe('ready')
+    isStandaloneDisplay.mockReturnValue(false)
+  })
+
+  it('keeps the working build when offline preparation fails, and permits a later successful retry', async () => {
+    isStandaloneDisplay.mockReturnValue(true)
+    topUpOffline.mockResolvedValue(false)
+    const apply = vi.fn()
+    await updateFound(apply)
+    await applyUpdate()
+    expect(apply).not.toHaveBeenCalled()
+    expect(appUpdate.phase).toBe('ready')
+    topUpOffline.mockResolvedValue(true)
+    await applyUpdate()
+    expect(apply).toHaveBeenCalledTimes(1)
     isStandaloneDisplay.mockReturnValue(false)
   })
 

@@ -62,6 +62,7 @@
     "src/composables/rosterHold.js",
     "src/composables/rosterSummary.js",
     "src/core/roster/rosterLimit.js",
+    "src/core/roster/rosterIndexMoves.js",
     "src/composables/rosterHandoff.js",
     "src/core/rules/rosterGameContext.js",
     "src/core/roster/rosterImport.js",

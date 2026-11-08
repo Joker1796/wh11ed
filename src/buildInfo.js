@@ -17,3 +17,5 @@ function meta(name) {
 
 export const APP_VERSION = meta('wh-app-version')
 export const NOTES_VERSION = meta('wh-notes-version')
+export const BUILD_ID = meta('wh-build-id')
+export const OFFLINE_MANIFEST_URL = meta('wh-offline-manifest') || '/offline-manifest.json'

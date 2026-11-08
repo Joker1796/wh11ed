@@ -70,6 +70,7 @@ import RosterUpgradeMarks from './RosterUpgradeMarks.vue'
 import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { enhLabel } from '../../composables/rosterText.js'
 import { mandatoryEnhancementFor, shownModelCount, wargearNames } from '../../core/roster/rosterEngine.js'
 
 const props = defineProps({
@@ -98,7 +99,7 @@ const chips = computed(() => {
   const models = shownModelCount(def, props.entry)
   if (models != null) out.push({ key: 'models', text: `${models} ${labels.value.rosterModelsLabel}` })
   const enh = props.entry.enh || mandatoryEnhancementFor(def, props.detachments)?.name
-  if (enh) out.push({ key: 'enh', text: enh })
+  if (enh) out.push({ key: 'enh', text: enhLabel(enh) })
   if (props.entry.alleg) out.push({ key: 'alleg', text: props.entry.alleg })
   return out
 })
@@ -130,15 +131,21 @@ const picks = computed(() => wargearNames(props.def, props.entry, props.items))
 /* Lighter than the name it follows, so the row still reads name-first at a glance. */
 .rur-note { font-weight: 400; font-size: 0.85em; color: var(--text-muted); }
 
-.rur-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; }
-/* Same bordered chip as a wargear group's "up to 2" allowance (UnitEditorFields' .ues-cap). */
+.rur-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; min-width: 0; }
+/* Same bordered chip as a wargear group's "up to 2" allowance (UnitEditorFields' .ues-cap).
+   A chip too long for its line wraps INSIDE its frame (owner, 2026-11-07): it stayed on one line
+   until then, and in a narrow pane "Gore-stained Veterans (Upgrade)" ran out of its column under
+   the points. A chip moves to the next line before it wraps (the line is flex-wrap), so only a
+   chip wider than a whole line breaks. */
 .rur-chip {
+  max-width: 100%;
   padding: 0.05rem 0.35rem;
   border: 1px solid var(--border);
   font-size: 0.68rem;
   font-weight: 600;
+  line-height: 1.3;
   color: var(--text-muted);
-  white-space: nowrap;
+  overflow-wrap: break-word;
 }
 /* The shared badge, sized to sit in this line as one of its chips. */
 .rur-wl { margin-left: 0; padding: 0.05rem 0.35rem; font-size: 0.68rem; vertical-align: baseline; }

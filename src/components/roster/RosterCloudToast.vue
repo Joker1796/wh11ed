@@ -3,7 +3,7 @@
     :show="visible"
     :text="text"
     :icon="icon"
-    :tone="state === 'error' ? 'error' : ''"
+    :tone="state === 'error' || state === 'local-error' ? 'error' : ''"
     @close="dismissed = true"
   />
 </template>
@@ -36,5 +36,5 @@ watch(state, (s) => {
   if (s === 'saved' && !dismissed.value) timer = setTimeout(() => { dismissed.value = true }, SAVED_MS)
 }, { immediate: true })
 
-const visible = computed(() => !dismissed.value && ['syncing', 'saved', 'error'].includes(state.value))
+const visible = computed(() => !dismissed.value && ['syncing', 'saved', 'error', 'local-error', 'conflict'].includes(state.value))
 </script>

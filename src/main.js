@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, reactive } from 'vue'
 import { installErrorLog, logError } from './composables/useErrorLog.js'
 import { installStaleChunkRecovery } from './composables/staleChunks.js'
 import { noteBoot, loopReport } from './composables/reloadLoop.js'
@@ -14,6 +14,8 @@ import { settleFirstNavigation } from './composables/firstNavigation.js'
 import App from './App.vue'
 import './fonts.js'
 import './style.css'
+import { localData } from './composables/localData.js'
+import LocalDataStartup from './components/LocalDataStartup.vue'
 
 // First, before anything can throw: the error ring buffer bug reports attach.
 installErrorLog()
@@ -24,7 +26,18 @@ noteStandaloneStart()
 
 // Under a service worker, a newer build on the server is installed and opened before anything is
 // drawn (launchGate.js); otherwise — or if that cannot be done in time — the app starts as it is.
-launchGate().catch(() => false).then((reloading) => { if (!reloading) boot() })
+launchGate().catch(() => false).then(async (reloading) => {
+  if (reloading) return
+  const preview = import.meta.env.DEV && new URLSearchParams(location.search).get('preview') === 'local-migration'
+  const status = preview ? reactive({ phase: 'loading', progress: { step: 'copying', done: 12, total: 47,
+    rosters: { done: 12, total: 47 }, games: { done: 0, total: 0 } } }) : localData.state
+  const noticeRoot = document.createElement('div')
+  document.body.appendChild(noticeRoot)
+  createApp(LocalDataStartup, { state: status }).mount(noticeRoot)
+  if (preview) return
+  await localData.initialize()
+  boot()
+})
 
 function boot() {
   const app = createApp(App)

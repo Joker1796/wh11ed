@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { API_BASE_URL } from '../config.js'
+import { fetchDeadline as fetch } from '../utils/fetchDeadline.js'
 
 // Module-singleton auth store (same pattern as useLocale.js). App-wide: the account is not a
 // tracker feature — both the tracker and the roster builder sync through it, and the way in and
@@ -109,16 +110,19 @@ async function ensureSession() {
 // and a route that also reads (campaigns) answered it `forbidden`, which nothing retries
 // (2026-11-05, a Warmaster's save on the stand after the API restarted).
 async function authedFetch(path, opts = {}) {
+  const { expectedUserId = user.value?.id, ...requestOptions } = opts
   if (!accessToken && status.value !== 'anon') await refresh()
-  const doFetch = () =>
-    fetch(api(path), {
-      ...opts,
+  const doFetch = () => {
+    if (expectedUserId && user.value?.id !== expectedUserId) throw new Error('Account changed during request')
+    return fetch(api(path), {
+      ...requestOptions,
       headers: {
         ...(opts.headers || {}),
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
       },
     })
+  }
   let res = await doFetch()
   if (res.status === 401 && (await refresh())) res = await doFetch()
   return res

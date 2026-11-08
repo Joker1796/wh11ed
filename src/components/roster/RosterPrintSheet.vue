@@ -66,6 +66,7 @@ import RosterPrintFragment from './RosterPrintFragment.vue'
 import { ownLimitsLines } from '../../composables/battleLimitFacts.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { enhLabel } from '../../composables/rosterText.js'
 import { APP_DATA_VERSION } from '../../data/appDataVersion.js'
 import { rosterItems } from '../../data/roster/index.js'
 import {
@@ -159,7 +160,7 @@ function tagsOf(e) {
   if (models != null) out.push(`${models} ${l.rosterModelsLabel}`)
   if (e.warlord) out.push(l.rosterWarlord)
   const enh = e.enh || mandatoryEnhancementFor(def, dataDetachments.value)?.name
-  if (enh) out.push(enh)
+  if (enh) out.push(enhLabel(enh))
   if (e.alleg) out.push(e.alleg)
   return out
 }
@@ -184,7 +185,7 @@ const enhancements = computed(() => {
     const found = props.detachments
       .flatMap((d) => d.enhancements || [])
       .find((x) => enhKey(x.name) === key)
-    out.push({ key, name: found?.name || name, body: withExtras(found?.body || '', found?.extras), bearer: def?.name || e.id })
+    out.push({ key, name: enhLabel(found?.name || name), body: withExtras(found?.body || '', found?.extras), bearer: def?.name || e.id })
   }
   return out
 })
