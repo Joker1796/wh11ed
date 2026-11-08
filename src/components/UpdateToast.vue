@@ -5,11 +5,13 @@
 </template>
 
 <script setup>
-import { watch } from 'vue'
+import { watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { noteReload } from '../composables/reloadLoop.js'
 import { updateFound, updateApplying } from '../composables/useAppUpdate.js'
+import { BUILD_ID } from '../buildInfo.js'
+import { workerBuild } from '../composables/workerBuild.js'
 
 const route = useRoute()
 
@@ -44,22 +46,38 @@ const CHECK_FLOOR_MS = 2 * 60 * 1000
 
 let lastCheck = 0
 let checkSW = () => {}
+let workerRegistration = null
+function announceWaiting() {
+  const worker = workerRegistration?.waiting
+  if (!worker) return
+  updateFound((expected) => {
+    if (workerRegistration?.waiting !== expected) { announceWaiting(); return false }
+    expected.postMessage({ type: 'SKIP_WAITING' })
+    return true
+  }, { worker })
+}
 
-const { needRefresh, updateServiceWorker } = useRegisterSW({
+const { needRefresh } = useRegisterSW({
   // The reload after a new worker takes over is ours, not the plugin's. Asked for by the plate's
   // button it is the reader's and always happens. A worker that took over without it — another tab
   // pressed Update, or opened the new build at its start (launchGate.js): the worker is one per
   // device — does not reload this page; the plate says the new version is in place and its button
   // reloads. Until 2026-10-18 it reloaded, once in 30 s: every open tab went white together, and
   // their starts, counted per device, tripped the loop guard (reloadLoop.js) on readers.
-  onNeedReload: () => {
-    if (updateApplying()) {
-      noteReload('user')
-      window.location.reload()
-    } else updateFound(() => { noteReload('user'); window.location.reload() }, { inPlace: true })
-  },
+  // Workbox filters its controlling event by isUpdate, which WebKit does not set for every
+  // replacement (notably rollback). One native listener below owns all controller transitions.
+  onNeedReload: () => {},
   onRegisteredSW(_swUrl, registration) {
     if (!registration) return
+    workerRegistration = registration
+    // needRefresh is a boolean: another deployment can replace a waiting worker without changing
+    // it. Announce every newly installed identity, so a previous preparation cannot cover it.
+    registration.addEventListener('updatefound', () => {
+      const installing = registration.installing
+      installing?.addEventListener('statechange', () => {
+        if (installing.state === 'installed') queueMicrotask(announceWaiting)
+      })
+    })
     checkSW = () => {
       if (!navigator.onLine) return
       const now = Date.now()
@@ -71,12 +89,28 @@ const { needRefresh, updateServiceWorker } = useRegisterSW({
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') checkSW()
     })
+    announceWaiting()
+    controllerChanged()
   },
 })
 
+async function controllerChanged() {
+  if (updateApplying()) {
+    noteReload('user')
+    window.location.reload()
+    return
+  }
+  const active = await workerBuild(navigator.serviceWorker.controller)
+  if (active?.build === BUILD_ID) return // first install claimed its own page
+  if (!navigator.serviceWorker.controller) return
+  updateFound(() => { noteReload('user'); window.location.reload() }, { inPlace: true })
+}
+navigator.serviceWorker?.addEventListener('controllerchange', controllerChanged)
+onBeforeUnmount(() => navigator.serviceWorker?.removeEventListener('controllerchange', controllerChanged))
+
 // A new SW just became ready: announce it, with what applies it.
 watch(needRefresh, (ready) => {
-  if (ready) updateFound(() => updateServiceWorker(true))
+  if (ready) announceWaiting()
 }, { immediate: true })
 
 // A navigation is a free moment to go looking for an update — the reader has just asked for a

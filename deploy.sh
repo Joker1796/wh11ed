@@ -163,30 +163,13 @@ aws s3 sync dist/assets "$BUCKET/assets" \
   --exclude "*.map" \
   --cache-control "public, max-age=31536000, immutable"
 
-# 1b) Prune chunks no build has shipped for ASSET_KEEP_DAYS: older than that by upload time AND
-#     not part of this build (a chunk whose content never changed keeps its old upload date and
-#     its name — it is still live). A client older than that recovers on its own: a chunk that
-#     fails to load makes the app look for an update and reload (src/composables/staleChunks.js).
-ASSET_KEEP_DAYS="${ASSET_KEEP_DAYS:-30}"
-echo "▶ assets/  →  pruning chunks unshipped for ${ASSET_KEEP_DAYS} days"
-BUCKET_NAME="${BUCKET#s3://}"
-CUTOFF="$(node -p "new Date(Date.now() - ${ASSET_KEEP_DAYS} * 864e5).toISOString()")"
-PRUNE_DIR="$(mktemp -d)"
-aws s3api list-objects-v2 --bucket "$BUCKET_NAME" --prefix assets/ \
-  --query "Contents[?LastModified<'$CUTOFF'].Key" --output json > "$PRUNE_DIR/old.json"
-# Batches of ≤1000 keys (the delete-objects limit), one JSON request file each.
-node -e '
-  const fs = require("fs"), dir = process.argv[1]
-  const live = new Set(fs.readdirSync("dist/assets").map((f) => "assets/" + f))
-  const keys = (JSON.parse(fs.readFileSync(dir + "/old.json", "utf8")) || []).filter((k) => !live.has(k))
-  for (let i = 0; i < keys.length; i += 1000)
-    fs.writeFileSync(`${dir}/batch-${i / 1000}.json`, JSON.stringify({ Objects: keys.slice(i, i + 1000).map((Key) => ({ Key })), Quiet: true }))
-  console.log(`  → ${keys.length} old chunk(s) to delete`)
-' "$PRUNE_DIR"
-for batch in "$PRUNE_DIR"/batch-*.json; do
-  if [ -f "$batch" ]; then aws s3api delete-objects --bucket "$BUCKET_NAME" --delete "file://$batch" >/dev/null; fi
-done
-rm -rf "$PRUNE_DIR"
+# 1b) Immutable release metadata/shells and renamed images. Keep previous releases whole:
+# their HTML, manifest, worker metadata and images have the same retirement window as JS.
+echo "▶ immutable releases and images"
+aws s3 cp dist/releases "$BUCKET/releases" --recursive \
+  --cache-control "public, max-age=31536000, immutable"
+aws s3 sync dist/images "$BUCKET/images" \
+  --cache-control "public, max-age=2592000"
 
 # 2) Everything else except HTML (favicon, /images/, fonts, PWA icons) — 30 days, NOT
 #    immutable: these names are stable, so the URL alone is what every cache keys on.
@@ -216,7 +199,7 @@ echo "▶ images/favicon/icons  →  30 days"
 # into dist by every build on a machine that has one; it is the stand's, never the site's — it
 # reached beta.wh-rules.ru on 2026-10-20. "*.html" already keeps the page out; the .json needs its own.
 aws s3 sync dist "$BUCKET" \
-  --exclude "*.html" --exclude "assets/*" --exclude "*.DS_Store" \
+  --exclude "*.html" --exclude "assets/*" --exclude "images/*" --exclude "releases/*" --exclude ".asset-retirement.json" --exclude "*.DS_Store" \
   --exclude "sw.js" --exclude "registerSW.js" --exclude "manifest.webmanifest" \
   --exclude "robots.txt" --exclude "sitemap.xml" --exclude ".seo-routes.txt" \
   --exclude "offline-manifest.json" --exclude "version.json" \
@@ -341,6 +324,31 @@ set_nocache offline-manifest.json "application/json; charset=utf-8"
 # What is live, asked by a page already open (launchGate.js): a cached copy would tell it that
 # nothing new had shipped.
 set_nocache version.json "application/json; charset=utf-8"
+
+# 3d) Retire only files absent from every build for the full grace period. S3 LastModified
+# measures the original upload, not last use: an unchanged two-month-old chunk could otherwise
+# disappear the very day a release replaced it. A lost ledger delays cleanup; it never shortens it.
+retire_files() {
+  local prune_dir batch
+  prune_dir="$(mktemp -d)"
+  aws s3api list-objects-v2 --bucket "${BUCKET#s3://}" \
+    --query 'Contents[].Key' --output json > "$prune_dir/objects.json" || return 1
+  if ! aws s3 cp "$BUCKET/.asset-retirement.json" "$prune_dir/previous.json"; then
+    printf '{}' > "$prune_dir/previous.json"
+  fi
+  node scripts/plan-asset-retirement.mjs "$prune_dir" "${ASSET_KEEP_DAYS:-30}" || return 1
+  for batch in "$prune_dir"/batch-*.json; do
+    if [ -f "$batch" ]; then
+      aws s3api delete-objects --bucket "${BUCKET#s3://}" --delete "file://$batch" >/dev/null || return 1
+    fi
+  done
+  aws s3 cp "$prune_dir/next.json" "$BUCKET/.asset-retirement.json" \
+    --content-type "application/json" --cache-control "no-cache" || return 1
+  rm -rf "$prune_dir"
+}
+if ! retire_files; then
+  echo "⚠ Retirement deferred; the deployed release is intact. Retry on the next deploy."
+fi
 
 # 4) Drop the CDN edge copy of the entry point (and anything stale).
 #    `if …; then` so a purge failure warns instead of aborting (the upload is done).

@@ -35,6 +35,8 @@ let quietImports = 0
 // start (below); the preload listener, one task later, then has nothing to do.
 let claimed = false
 let listening = false
+const recovery = { phase: 'idle', lastSkip: '', workerCheck: '', attempts: 0 }
+export const chunkRecoveryState = () => ({ ...recovery })
 
 function readGuard() {
   try { return Number(sessionStorage.getItem(GUARD_KEY)) || 0 } catch { return 0 }
@@ -46,25 +48,36 @@ function writeGuard(now) {
 // Returns true when a reload is on its way. `url` is where the reader was going.
 export async function recoverFromStaleChunk(url, { now = Date.now(), reload = (u) => window.location.assign(u) } = {}) {
   // A page caught reloading itself in a loop does not reload again (reloadLoop.js).
-  if (inFlight || !navigator.onLine || reloadsHeld(now)) return false
-  if (now - readGuard() < GUARD_MS) return false
+  if (inFlight || !navigator.onLine || reloadsHeld(now)) {
+    recovery.lastSkip = inFlight ? 'in-flight' : !navigator.onLine ? 'offline' : 'reload-hold'
+    return false
+  }
+  if (now - readGuard() < GUARD_MS) { recovery.lastSkip = 'cooldown'; return false }
   inFlight = true
+  recovery.attempts++
+  recovery.phase = 'worker-check'
+  recovery.lastSkip = ''
   writeGuard(now)
   // Under a service worker the page itself comes from its precache: reloading before the worker
   // has the new build would bring the same old page back. Ask it to look first; if it finds one,
   // reload once it has had time to install — the start applies it. With no worker (a tab, since
   // 2.9.5) there is no registration and the reload is at once. The address is set to where the
   // reader was going first: the failed navigation never changed it.
-  const reg = await withinDeadline(() => navigator.serviceWorker?.getRegistration?.(), 2000, 'Worker registration').catch(() => null)
+  const reg = await withinDeadline(() => navigator.serviceWorker?.getRegistration?.(), 2000, 'Worker registration').catch(() => {
+    recovery.workerCheck = 'registration-failed-or-timed-out'
+    return null
+  })
   if (reg) {
-    await withinDeadline(() => reg.update(), 2000, 'Worker update').catch(() => {})
+    await withinDeadline(() => reg.update(), 2000, 'Worker update').catch(() => { recovery.workerCheck = 'update-failed-or-timed-out' })
     if (reg.installing || reg.waiting) {
       try { history.replaceState(history.state, '', url) } catch { /* another origin: stay put */ }
-      setTimeout(() => { noteReload('chunk'); reload(url) }, SW_GRACE_MS)
+      recovery.phase = 'waiting-for-worker'
+      setTimeout(() => { recovery.phase = 'reload-requested'; noteReload('chunk'); reload(url) }, SW_GRACE_MS)
       return true
     }
   }
   noteReload('chunk')
+  recovery.phase = 'reload-requested'
   reload(url)
   return true
 }
@@ -208,4 +221,7 @@ export function routeChunk(load, { ms = ROUTE_CHUNK_MS, ...retry } = {}) {
 }
 
 // Tests only.
-export function _resetStaleChunks() { inFlight = false; quietImports = 0; claimed = false }
+export function _resetStaleChunks() {
+  inFlight = false; quietImports = 0; claimed = false
+  Object.assign(recovery, { phase: 'idle', lastSkip: '', workerCheck: '', attempts: 0 })
+}

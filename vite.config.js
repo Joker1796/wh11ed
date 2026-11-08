@@ -1,10 +1,16 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
+import { randomUUID } from 'node:crypto'
 import { join } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
 const pkgVersion = JSON.parse(readFileSync('./package.json', 'utf8')).version
+// One immutable namespace per build, including repeated beta builds with the same app version.
+const BUILD_ID = randomUUID()
+const RELEASE_DIR = `releases/${BUILD_ID}`
+const OFFLINE_URL = `/${RELEASE_DIR}/offline-manifest.json`
+const SHELL_URL = `/${RELEASE_DIR}/index.html`
 // The changelog's top entry — the version the "what's new" banner announces (src/buildInfo.js).
 const notesVersion = (await import('./src/data/changelog.js')).latestEntry?.version ?? ''
 
@@ -18,12 +24,16 @@ function buildInfoMeta() {
     // is live now (launchGate.js, at a start under a service worker) without pulling a whole
     // index.html. Served no-cache by deploy.sh, like index.html.
     generateBundle() {
-      this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify({ app: pkgVersion, notes: notesVersion }) })
+      this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify({ app: pkgVersion, notes: notesVersion, build: BUILD_ID, manifest: OFFLINE_URL }) })
+      this.emitFile({ type: 'asset', fileName: `${RELEASE_DIR}/worker-info.js`, source:
+        `self.addEventListener('message',e=>{if(e.data?.type==='WH_BUILD_INFO'&&e.ports[0])e.ports[0].postMessage(${JSON.stringify({ app: pkgVersion, build: BUILD_ID, manifest: OFFLINE_URL })})});` })
     },
     transformIndexHtml() {
       return [
         { tag: 'meta', attrs: { name: 'wh-app-version', content: pkgVersion }, injectTo: 'head' },
         { tag: 'meta', attrs: { name: 'wh-notes-version', content: notesVersion }, injectTo: 'head' },
+        { tag: 'meta', attrs: { name: 'wh-build-id', content: BUILD_ID }, injectTo: 'head' },
+        { tag: 'meta', attrs: { name: 'wh-offline-manifest', content: OFFLINE_URL }, injectTo: 'head' },
       ]
     },
   }
@@ -109,7 +119,9 @@ function offlineShell() {
   return {
     name: 'offline-shell',
     apply: 'build',
-    generateBundle(_options, bundle) {
+    // Vite removes CSS-only JS chunks during its normal generateBundle hook. Inspect the FINAL
+    // graph, or the manifest sends the downloader after phantom campaign/dominatus JS files.
+    generateBundle: { order: 'post', handler(_options, bundle) {
       shellFiles.clear()
       const visit = (fileName) => {
         const chunk = bundle[fileName]
@@ -124,6 +136,8 @@ function offlineShell() {
       for (const [fileName, output] of Object.entries(bundle)) {
         if (output.type === 'chunk' && output.isEntry) visit(fileName)
       }
+      shellFiles.add(SHELL_URL.slice(1))
+      shellFiles.add(OFFLINE_URL.slice(1))
 
       // The other side of the same coin: everything built but NOT precached, so the warm-up knows
       // what to fetch to make the app whole offline (useOfflineWarmup.js). Emitted here rather
@@ -144,15 +158,19 @@ function offlineShell() {
       // at runtime without fetching the very files in question.
       const images = imageFiles().sort((a, b) => (a[0] < b[0] ? -1 : 1))
       const sum = (rows) => rows.reduce((n, [, bytes]) => n + bytes, 0)
-      this.emitFile({
-        type: 'asset',
-        fileName: 'offline-manifest.json',
-        source: JSON.stringify({
+      const manifestSource = JSON.stringify({
+          build: BUILD_ID,
+          app: pkgVersion,
           assets: { files: assets.map(([u]) => u), bytes: sum(assets) },
           images: { files: images.map(([u]) => u), bytes: sum(images) },
-        }),
-      })
-    },
+        })
+      for (const fileName of ['offline-manifest.json', `${RELEASE_DIR}/offline-manifest.json`]) {
+        this.emitFile({ type: 'asset', fileName, source: manifestSource })
+      }
+      const html = bundle['index.html']
+      if (!html || html.type !== 'asset') throw new Error('Immutable release requires index.html')
+      this.emitFile({ type: 'asset', fileName: `${RELEASE_DIR}/index.html`, source: html.source })
+    } },
   }
 }
 
@@ -280,6 +298,11 @@ export default defineConfig({
         ]),
       },
       workbox: {
+        // First-install downloads must pass through the runtime routes (including expiration
+        // metadata), rather than filling entries the worker's LRU has never seen.
+        clientsClaim: true,
+        importScripts: [`/${RELEASE_DIR}/worker-info.js`],
+        additionalManifestEntries: [{ url: OFFLINE_URL, revision: null }],
         // Precache ONLY the app shell, and this time it is true. The comment here used to claim
         // as much while `globPatterns` swept in every route chunk and all thirty factions' data:
         // a browser tab installed a 15.5 MB precache to show one rule. It is ~1 MB now.
@@ -299,7 +322,7 @@ export default defineConfig({
         // before any of its JS runs. Everything else drops to runtimeCaching.
         manifestTransforms: [
           (entries) => {
-            const ROOT = /^(index\.html|registerSW\.js|manifest\.webmanifest)$/
+            const ROOT = /^(registerSW\.js|manifest\.webmanifest)$/
             // Only this build's own icons: the other set ships in the bucket but is never shown.
             const ICON = new RegExp(`^${BRAND_DIR}/(favicon\\.svg|apple-touch-icon\\.png|pwa-\\d+\\.png|maskable-\\d+\\.png)$`)
             return { manifest: entries.filter((e) => ROOT.test(e.url) || ICON.test(e.url) || shellFiles.has(e.url)) }
@@ -307,7 +330,7 @@ export default defineConfig({
         ],
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         cleanupOutdatedCaches: true,
-        navigateFallback: '/index.html',
+        navigateFallback: SHELL_URL,
         // Images (stable, non-hashed names) — CacheFirst. A tab caches them on demand as the
         // user views them; the installed app's warm-up fetches all of them up front. Because
         // names are stable, a changed image must be renamed (same rule as before) or the old

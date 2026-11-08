@@ -21,4 +21,11 @@ describe('deploy.sh upload order', () => {
     // version.json is the last word: a start reads it to decide there is something to install.
     expect(at(/^set_nocache version\.json/m)).toBeGreaterThan(at(/^set_nocache sw\.js/m))
   })
+  it('publishes immutable shells before mutable entry points and protects retired files', () => {
+    expect(at(/aws s3 cp dist\/releases/)).toBeLessThan(at(/aws s3 cp dist\/index\.html/))
+    expect(sh).toContain('--exclude "releases/*"')
+    expect(sh).toContain('--exclude "images/*"')
+    expect(sh).not.toContain("Contents[?LastModified<")
+    expect(at(/^if ! retire_files/m)).toBeGreaterThan(at(/^set_nocache version\.json/m))
+  })
 })

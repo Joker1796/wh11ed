@@ -40,6 +40,36 @@ beforeEach(() => {
 afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); delete navigator.serviceWorker })
 
 describe('startOfflineWarmup', () => {
+  it('does not download through an active worker that has not claimed the page', async () => {
+    vi.useFakeTimers()
+    mockFetch()
+    const sw = new EventTarget()
+    sw.ready = Promise.resolve({ active: {} })
+    Object.defineProperty(navigator, 'serviceWorker', { value: sw, configurable: true })
+    const { startOfflineWarmup } = await fresh()
+    const run = startOfflineWarmup()
+    await vi.runAllTimersAsync()
+    expect(await run).toBe(false)
+    expect(fetched).toEqual([])
+  })
+
+  it('warms the exact waiting build rather than whichever manifest is latest', async () => {
+    const target = { build: 'build-a', manifest: '/releases/build-a/offline-manifest.json' }
+    const fetch = vi.fn(async () => ({ ok: true, json: async () => ({ ...MANIFEST, build: 'build-a' }) }))
+    vi.stubGlobal('fetch', fetch)
+    const { topUpOffline } = await fresh()
+    expect(await topUpOffline(target)).toBe(true)
+    expect(fetch.mock.calls[0][0]).toBe(target.manifest)
+    expect(fetch.mock.calls.some(([url]) => url === '/offline-manifest.json')).toBe(false)
+  })
+
+  it('rejects a manifest from a different build', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => ({ ...MANIFEST, build: 'build-b' }) })))
+    const { topUpOffline } = await fresh()
+    expect(await topUpOffline({ build: 'build-a', manifest: '/releases/build-a/offline-manifest.json' })).toBe(false)
+    expect(held.size).toBe(0)
+  })
+
   it('requires a committed cache entry rather than just a successful HTTP response', async () => {
     mockFetch()
     vi.stubGlobal('caches', { open: async () => ({ match: async () => undefined, put: async () => {} }) })

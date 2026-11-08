@@ -3,6 +3,8 @@ import { noteReload, reloadsHeld } from './reloadLoop.js'
 import { getItem, setItem } from './safeStorage.js'
 import { locale } from './useLocale.js'
 import { ui } from '../i18n/ui.js'
+import { prepareOfflineWorker, offlineRequired } from './workerBuild.js'
+import { withinDeadline } from '../utils/deadline.js'
 
 // A start under a service worker opens the NEW version, not the one the worker is holding.
 //
@@ -88,7 +90,10 @@ async function newerThanWaiting(reg) {
 }
 
 // Tell the waiting worker to take over and reload once it has. Resolves false if it never does.
-function takeOver(worker, reload) {
+async function takeOver(worker, reload) {
+  // A new shell must not discard a complete offline build for an incomplete one. At launch this
+  // gets only the small check budget; a slow top-up continues in the background after we boot.
+  if (offlineRequired() && !await withinDeadline(() => prepareOfflineWorker(worker), ASK_MS, 'Offline update').catch(() => false)) return false
   return new Promise((resolve) => {
     const sw = navigator.serviceWorker
     const timer = setTimeout(() => resolve(false), TAKEOVER_MS)

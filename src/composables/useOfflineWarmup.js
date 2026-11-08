@@ -1,7 +1,8 @@
 import { computed, ref } from 'vue'
 import { isStandaloneDisplay } from './standalone.js'
-import { getItem, setItem, removeItem } from './safeStorage.js'
+import { getItem, setItem } from './safeStorage.js'
 import { withinDeadline } from '../utils/deadline.js'
+import { BUILD_ID, OFFLINE_MANIFEST_URL } from '../buildInfo.js'
 
 // Fill the offline caches with everything the app SHELL deliberately does not carry.
 //
@@ -69,11 +70,14 @@ const isUpdate = ref(false)
 let autoStarted = false
 let inflight = null
 
-async function manifest() {
+async function manifest({ manifest: url = OFFLINE_MANIFEST_URL, build = BUILD_ID } = {}) {
   return withinDeadline(async () => {
-    const res = await fetch('/offline-manifest.json', { cache: 'no-store' })
+    if (!/^\/(releases\/[\w-]+\/offline-manifest\.json|offline-manifest\.json)$/.test(url)) throw new Error('Invalid offline manifest URL')
+    const pinned = url.startsWith('/releases/') && typeof caches !== 'undefined' ? await caches.match?.(url) : null
+    const res = pinned || await fetch(url, { cache: 'no-store' })
     if (!res.ok) throw new Error(`manifest ${res.status}`)
     const json = await res.json()
+    if (build && json.build !== build) throw new Error('Offline build mismatch')
     const assets = json.assets?.files
     const images = json.images?.files
     if (!Array.isArray(assets) || !Array.isArray(images)
@@ -96,7 +100,7 @@ function run(opts) {
   return inflight
 }
 
-async function runOnce({ force = false } = {}) {
+async function runOnce({ force = false, target } = {}) {
   const wasDownloaded = getItem(DONE_KEY) !== null
   warmed.value = false
   status.value = 'warming'
@@ -105,22 +109,31 @@ async function runOnce({ force = false } = {}) {
   try {
     const sw = navigator.serviceWorker
     if (!sw || typeof caches === 'undefined') throw new Error('Offline storage unavailable')
-    // The first installed launch may not be controlled yet. An active worker and explicitly
-    // committed runtime files suffice for the next offline launch, including its precached shell.
+    // Wait for first-install clientsClaim too: the worker must see every download so its expiry
+    // metadata includes it. A running worker is not yet a controller of this particular page.
     if (!sw.controller) await withinDeadline(() => sw.ready.then((reg) => {
       if (!reg.active) throw new Error('No active offline worker')
     }), OFFLINE_REQUEST_MS, 'Offline worker')
-    const files = await manifest()
+    if (!sw.controller) {
+      let changed
+      try {
+        await withinDeadline(() => new Promise((resolve) => {
+          changed = () => { if (sw.controller) resolve() }
+          sw.addEventListener('controllerchange', changed)
+          changed()
+        }), OFFLINE_REQUEST_MS, 'Offline controller')
+      } finally { sw.removeEventListener('controllerchange', changed) }
+    }
+    const files = await manifest(target)
     const sig = checksum(files)
     // The marker is a hint for wording, never proof: storage pressure can evict cache entries.
     const todo = await withinDeadline(() => missing(files), OFFLINE_REQUEST_MS, 'Offline cache check')
     isUpdate.value = !force && wasDownloaded
     total.value = todo.length
-    if (todo.length) removeItem(DONE_KEY)
     let cursor = 0
     let failed = false
     const worker = async () => {
-      while (cursor < todo.length) {
+      while (cursor < todo.length && !failed) {
         const url = todo[cursor++]
         const abort = new AbortController()
         try {
@@ -145,10 +158,13 @@ async function runOnce({ force = false } = {}) {
     setItem(DONE_KEY, sig)
     warmed.value = true
     status.value = 'ready'
+    return true
   } catch {
-    removeItem(DONE_KEY)
+    // Keep the older marker as a hint that an installed app may share this worker with a tab.
+    // It is never consulted as proof that files exist; only warmed/status report readiness.
     warmed.value = false
     status.value = 'error'
+    return false
   }
 }
 
@@ -162,9 +178,9 @@ export function startOfflineWarmup() {
 // old code, cached by the old worker's routes into the same caches the new one reads.
 // A warm-up already running reads the list it fetched when it started — the old build's; this one
 // waits it out and then goes through the new list.
-export async function topUpOffline() {
+export async function topUpOffline(target) {
   await inflight?.catch(() => {})
-  return run()
+  return run({ target })
 }
 
 // Read the size without downloading anything, so the menu item can say what it will cost. Cheap:
