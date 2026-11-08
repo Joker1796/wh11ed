@@ -410,3 +410,21 @@ describe('saveToCloud', () => {
     expect(sync.lastError.value).toMatch(/413/)
   })
 })
+
+describe('a list whose only difference is the summary cache', () => {
+  // Review of 2.11.0: every release restamps `summary.v` (rosterSummary.js), and hashing it with the
+  // list made every signed-in player's lists look edited — a "restored copy" each, on first open.
+  it('is neither a conflict nor an update', async () => {
+    const units = [{ uid: 'u', id: 'boyz', size: 0 }]
+    const cloud = new Map([['r1', { ...roster('r1', { units, summary: { points: 80, unitCount: 1, issues: 0, v: '2.10.12' } }), v: 13 }]])
+    await load([roster('r1', { units, summary: { points: 80, unitCount: 1, issues: 0, v: '2.11.0' } })])
+    h.fetchImpl = cloudFetch(cloud)
+    await sync.syncNow()
+    expect(store.rosters.value.map((r) => r.id)).toEqual(['r1'])
+    expect(sync.conflict.value).toBe(null)
+    expect(sync.pulled.value).toBe(null)
+    h.calls.length = 0
+    await sync.syncNow()
+    expect(h.calls).toEqual([['/roster-sync', 'GET']])
+  })
+})

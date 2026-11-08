@@ -131,8 +131,12 @@ export const isFromNewerVersion = (r) => !!r && ((Number.isInteger(r.v) && r.v >
 export const LEGACY_963_AT = Date.UTC(2026, 8, 30, 20, 17, 20)
 const SM_FAMILY_RE = /^(space-marines|black-templars|blood-angels|dark-angels|deathwatch|space-wolves)$/
 
-function repairLegacy963(r) {
-  const touchedBefore = (r.updatedAt || 0) < LEGACY_963_AT
+// `canRepair`: the list's indices are still those of the data before 963 — a v8-or-older list
+// untouched since. Until 2.11.0 the whole envelope was rewritten with the current `v` on every
+// save, so a list nobody touched since 963 usually reads v13 by now, and v10/v11 may have moved
+// its picks already: such a list is only marked (review of 2.11.0).
+function repairLegacy963(r, canRepair) {
+  const touchedBefore = canRepair && (r.updatedAt || 0) < LEGACY_963_AT
   const createdBefore = (r.createdAt || 0) < LEGACY_963_AT
   if (!createdBefore) return
   for (const u of r.units || []) {
@@ -244,7 +248,8 @@ export function migrateRoster(r, v) {
 
   // Data 963 shipped while the schema was 8 (v9 came on 2026-10-04): a list saved before it is a v8
   // or older list, and the steps below (v9 on) already speak 963's indices.
-  if (!(v >= 9) && !Number.isInteger(r.dv)) repairLegacy963(r)
+  const before963 = !(v >= 9) && !Number.isInteger(r.dv)
+  if (before963) repairLegacy963(r, true)
 
   // → v9: one group became two. Red Corsairs Raiders' "For every 5 models: ◦ boltgun → meltagun
   // ◦ reaver's blade → power fist" was one group of two options, read as if both gave up the
@@ -331,6 +336,8 @@ export function migrateRoster(r, v) {
       else if (u.size === 7) u.size = 6
     }
   }
+
+  if (!before963 && !Number.isInteger(r.dv)) repairLegacy963(r, false)
 
   // Roster data moves (gen-roster-moves.mjs): from the revision the list was written against to
   // this build's. A list older than revisions is read as revision 1 — the data it was last saved

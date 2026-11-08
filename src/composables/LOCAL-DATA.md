@@ -97,7 +97,9 @@ before they cross the IDB structured-clone boundary. `flush()` and confirmation 
 recovery writes, not just ordinary record commits.
 
 Cloud roster saving waits for a successful local flush. A local conflict cannot be bypassed by
-immediately uploading to the cloud. The versioned cloud HTTP contract is unchanged.
+immediately uploading to the cloud. The cloud contract itself is `/roster-sync` with server
+revisions (useRosterSync.js, the API's README); `summary` travels but is not part of a list's
+content identity.
 
 Non-booted consumers (unit fixtures and data-generation tooling) use the original synchronous
 localStorage adapter. Browser boot always initializes first. Critical conflict copies require a
