@@ -2225,7 +2225,7 @@ const nowSlot = computed(() => {
 .rvi-txt { flex: 1; min-width: 0; }
 .rv-checks-off { display: flex; align-items: center; gap: 0.4rem; margin: 0 0 0.8rem; font-size: 0.8rem; color: var(--text-muted); }
 .rv-newer { display: flex; align-items: flex-start; gap: 0.4rem; margin: 0 0 0.8rem; font-size: 0.85rem; color: var(--warning); }
-.rv-newer .wi { margin-top: 0.15em; }
+.rv-newer .wi { flex: none; margin-top: 0.2em; }
 .rvi-more { color: var(--text-muted); font-weight: 500; }
 .rvi-go { flex: none; opacity: 0.7; }
 
