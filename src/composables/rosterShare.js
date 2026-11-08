@@ -6,7 +6,7 @@
 // Only the fields needed to rebuild a roster travel; `summary` is recomputed on open, and the
 // roster/unit ids are preserved so leaderOf references stay valid after import.
 
-import { SCHEMA_VERSION } from './useRosters.js'
+import { SCHEMA_VERSION, DATA_REV } from './useRosters.js'
 import { LIMIT_KEYS } from '../core/roster/rosterLimit.js'
 
 // `cp`: a Combat Patrol box fielded as a list (the tracker builds one for a Combat Patrol game).
@@ -22,8 +22,14 @@ const PICK = ['name', 'faction', 'cp', 'detachments', 'disposition', 'chapter', 
 //
 // Exported because a roster travels one more way: rosterGameLink.js snapshots it into a tracker
 // game. Same fields, same `v`, so both are read back through the same migration.
+//
+// `dv` is the roster DATA revision the indices are written against (rosterIndexMoves.js); a list
+// from a newer build keeps its own `v`/`dv`, so passing it on does not restate it as ours.
 export function rosterPayload(roster) {
-  const o = { v: SCHEMA_VERSION }
+  const o = {
+    v: Number.isInteger(roster.v) ? roster.v : SCHEMA_VERSION,
+    dv: Number.isInteger(roster.dv) ? roster.dv : DATA_REV,
+  }
   for (const k of PICK) o[k] = roster[k]
   return o
 }

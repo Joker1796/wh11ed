@@ -125,6 +125,7 @@ npm run wtags        # GATE: every weapon tag printed on a datasheet must have t
 npm run dsrules      # GATE: a named rule appdata files on a datasheet must be on ours too (see Data gates)
 npm run imgrules     # GATE: a figure appdata draws as a picture inside an army/detachment rule must be in our text (see Data gates)
 npm run coregrants   # GATE: a rule that hands a unit a core ability must say so in the modifier layer (see Data gates)
+npm run roster:moves # GATE (also in CI): the roster data changed but no index moves were written for saved lists (see src/components/roster/CLAUDE.md → Data revisions)
 npm run columns      # GATE: a new appdata table, or a column starting to carry data, that nobody has decided about (scripts/lib/appdata-columns.json)
 npm run missions     # GATE: the mission pack's limits, each card's Fixed / WHEN DRAWN / first-turn marks and every Action against the app (see src/data/CLAUDE.md)
 npm run packs        # GATE: a Faction Pack PDF in ../sources newer than the Legends sheets read from it (sourceVersion)

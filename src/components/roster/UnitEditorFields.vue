@@ -24,6 +24,24 @@
         >
       </label>
     </div>
+    <!-- Data 963 may have moved this entry's wargear or size (useRosters.js repairLegacy963): the
+         player looks and says it is right, or changes it — either clears the mark. -->
+    <ExpandTransition>
+      <div
+        v-if="entry.gearCheck"
+        class="ues-gear-check"
+        role="status"
+      >
+        <p>{{ labels.rosterGearCheck }}</p>
+        <button
+          type="button"
+          class="btn-ghost"
+          @click="confirmGear"
+        >
+          {{ labels.rosterGearCheckOk }}
+        </button>
+      </div>
+    </ExpandTransition>
     <!-- Teleported to <body>: this component can render inside an accordion wrapped by
          CollapseTransition, whose `contain: layout paint` makes it a containing block for
          `position: fixed` descendants — without the teleport, BaseModal's fixed overlay would
@@ -1021,6 +1039,13 @@ const sourceHints = computed(() => {
 // The note. Written straight onto the entry like every other field here — the store's deep watch
 // is what saves it.
 const writeNote = (obj, key, value) => setNote(obj, key, value)
+// The entry is the stored roster's own object, edited in place like every field here.
+const confirmGear = () => { delete props.entry.gearCheck }
+// Changing the wargear or the size is an answer too: the player has looked at it.
+// Only a change to the SAME entry (its uid leads the key): opening another unit is not an answer.
+watch(() => `${props.entry.uid}|${JSON.stringify([props.entry.wg, props.entry.size, props.entry.count])}`, (now, before) => {
+  if (now.split('|')[0] === before.split('|')[0] && props.entry.gearCheck) delete props.entry.gearCheck
+})
 </script>
 
 <style scoped src="./unitEditorFields.css"></style>
@@ -1030,6 +1055,9 @@ const writeNote = (obj, key, value) => setNote(obj, key, value)
 /* The way to the datasheet was a bare text link and read as a caption; it is the app's own ghost
    button now (style.css), trimmed to sit in a row with a field rather than stand on its own. */
 .ues-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
+.ues-gear-check { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.55rem; padding: 0.5rem 0.6rem; border: 1px solid var(--warning); background: color-mix(in srgb, var(--warning) 10%, transparent); }
+.ues-gear-check p { flex: 1 1 auto; margin: 0; color: var(--warning); font-size: 0.875rem; }
+.ues-gear-check .btn-ghost { flex: 0 0 auto; }
 .ues-sheet-link { flex: 0 0 auto; padding: 0.35rem 0.6rem; font-size: 0.8rem; white-space: nowrap; }
 /* Label beside the field, not above it, and the field takes whatever the button leaves. */
 .ues-note { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 0.4rem; }

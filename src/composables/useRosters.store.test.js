@@ -445,6 +445,8 @@ describe('schema → v8', () => {
         name: 'Old',
         faction: 'dark-angels',
         updatedAt: 1,
+        // This step alone: `dv` opts out of the data-963 repair, tested under its own heading.
+        dv: 1,
         units: [
           { uid: 'u1', id: 'lieutenant', wg: [[1, 2, 1], [2, 0, 1]], enh: 'Fear Made Manifest' },
           { uid: 'u2', id: 'space-marines/lieutenant', wg: [[1, 0, 1]] },

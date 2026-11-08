@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { reactive } from 'vue'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import UnitEditorFields from './UnitEditorFields.vue'
 import ConfirmModal from '../ConfirmModal.vue'
@@ -979,4 +980,29 @@ describe('UnitEditorFields — a stock row per item', () => {
     expect(bad).toEqual([])
     expect(checked).toBeGreaterThan(20)
   }, 60000)
+})
+
+describe('UnitEditorFields — a unit data 963 may have moved', () => {
+  const chosen = chaosSpaceMarines.units.find((u) => u.id === 'chosen')
+  const props = (entry) => ({ entry, def: chosen, items: rosterItems.items, texts: rosterItems.texts })
+  const mountWith = (entry) => mount(UnitEditorFields, { props: props(entry), global: { stubs: { Teleport: true } } })
+
+  it('says so, and "It’s right" clears the mark', async () => {
+    const entry = reactive({ uid: 'u1', id: chosen.id, size: 0, gearCheck: 963 })
+    const w = mountWith(entry)
+    expect(w.find('.ues-gear-check').exists()).toBe(true)
+    await w.find('.ues-gear-check button').trigger('click')
+    expect(entry.gearCheck).toBeUndefined()
+  })
+
+  it('a change of size answers it too; opening another unit does not', async () => {
+    const a = reactive({ uid: 'a', id: chosen.id, size: 0, gearCheck: 963 })
+    const b = reactive({ uid: 'b', id: chosen.id, size: 0, gearCheck: 963 })
+    const w = mountWith(a)
+    await w.setProps(props(b))
+    expect(b.gearCheck).toBe(963)
+    await w.findAll('.pill')[1].trigger('click')
+    expect(b.gearCheck).toBeUndefined()
+    expect(a.gearCheck).toBe(963)
+  })
 })

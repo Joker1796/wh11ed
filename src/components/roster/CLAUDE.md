@@ -2715,6 +2715,43 @@ migration, recovery, cross-tab confirmation, rollback limits and real browser te
 faction data files — the list screen must stay in the light entry chunk; only the editor
 dynamic-imports the heavy per-faction `src/data/roster/<slug>.js`.
 
+**Data revisions — what a stored index means** (2026-11-08). A unit entry keeps its wargear as
+`[group, option, n]` and its size as a bracket index: positions in the generated data, which the
+generator moves whenever a codex is replaced or a reading is fixed. Until this, every move needed a
+hand-written step in `migrateRoster` (v3–v13), and data 963 (Codex: Space Marines, 2.7.8) moved 105
+units with none — old lists silently showed another weapon. Now:
+
+- `scripts/gen-roster-moves.mjs` (the last step of `npm run roster:data`) turns every position
+  into its MEANING (`scripts/lib/roster-meanings.mjs`: the profile, what the group replaces, the
+  items an option grants; a bracket's model counts) and matches the new generation to the ledger of
+  the last one (`scripts/lib/roster-meanings.json`). Any change of meaning is a new revision:
+  `src/data/rosterIndexMoves.js` holds `DATA_REV` and, per revision, the moves to the next one
+  (`"g.o"` → new `"g.o"` or 0 gone; a size → new index, `[index, min, max]` when the range
+  changed, or -1). A looser key counts only when unique on both sides — never a guess between two
+  places. The run prints what is gone; a weapon GW renamed goes in
+  `scripts/lib/roster-item-aliases.json`. **`npm run roster:moves`** (in CI and in
+  `roster:data:check`) fails when the data changed and no moves were written.
+- Every roster, share payload and game snapshot carries **`dv`**, the revision its indices are
+  written against; `migrateRoster` applies the moves from `dv` (absent = 1) to `DATA_REV`
+  (`src/core/roster/rosterIndexMoves.js`, keyed `<faction>:<id>`; a Chapter's borrowed Codex units
+  are filed under the Chapter too). The cloud wire omits `dv: 1`, so lists uploaded before
+  revisions keep their content hash. A data move no longer needs a `SCHEMA_VERSION` bump — the
+  schema is for the SHAPE of a roster.
+- **A list from a newer build** (`isFromNewerVersion`: a later `v` or `dv`) is shown, never
+  rewritten: migration leaves it as it came (its own `v` kept), the store writes its original bytes
+  whatever a screen did to the object (`frozen` / `writable`), `updateRoster`/`renameRoster`/
+  `setArchived` refuse it, the cloud sync never uploads it, the editor redirects to the view, and
+  the view says why (`rosterNewerVersion`). Deleting it stays the player's call.
+- **Data 963, once** (`repairLegacy963`, applied to a list with no `dv` and schema ≤ 8 — v9 came
+  after 963): a list created and last saved before 2.7.8 shipped (`LEGACY_963_AT`) is read through
+  the moves worked out from git (`gen-roster-legacy-963.mjs` → `src/data/rosterLegacy963.js`, with
+  `roster-item-aliases-963.json` for the codex's renames); an entry that lost a pick or a bracket
+  in the move is marked `gearCheck: 963`. A list saved since may hold either meaning, so its touched
+  entries are only marked. The mark is a warning (`gearCheck` in rosterValidation) and a notice in
+  the unit's fields with "It’s right"; changing that entry's wargear or size clears it too. Cloud
+  corpus of 2026-11-08: 6 lists repaired (15 entries clean, 19 marked), 14 marked (52 entries).
+  Tests: `rosterDataRev.test.js`, `scripts/lib/roster-meanings.test.js`.
+
 **Drafts.** A roster the creation wizard is still working on carries `draft: true` and
 `draftStep`; a saved list carries neither, so "no flag" reads as "saved" and every roster that
 predates this is one — no migration. The store hands out the two halves separately

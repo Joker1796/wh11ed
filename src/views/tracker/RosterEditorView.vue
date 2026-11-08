@@ -385,6 +385,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { isFromNewerVersion } from '../../composables/useRosters.js'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import { useDispositionGate } from '../../composables/useDispositionGate.js'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
@@ -531,6 +532,8 @@ const {
 
 // A missing/deleted id → back to the list (no broken editor shell).
 watch(roster, (r) => { if (!r) router.replace('/roster') }, { immediate: true })
+// A list from a newer build is shown, never edited here (useRosters.js isFromNewerVersion).
+watch(roster, (r) => { if (isFromNewerVersion(r)) router.replace(`/roster/${r.id}/view`) }, { immediate: true })
 
 const nameFit = computed(() => rosterNameFit(roster.value?.name))
 // A faction keyword tapped in a rule on this screen lists this list's own units first.

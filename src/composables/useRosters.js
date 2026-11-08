@@ -2,6 +2,11 @@ import { computed, ref, watch } from 'vue'
 import { debouncedSave } from '../utils/debouncedSave.js'
 import { localData } from './localData.js'
 import poolMoves from '../data/rosterPoolMoves.js'
+import dataMoves, { DATA_REV } from '../data/rosterIndexMoves.js'
+import legacy963 from '../data/rosterLegacy963.js'
+import { applyUnitMove, moveKeyOf } from '../core/roster/rosterIndexMoves.js'
+
+export { DATA_REV }
 
 // Roster builder store — a module singleton persisted through localData (IndexedDB + journal), mirroring the
 // pattern in useTracker.js / useLocale.js. Holds the user's saved army lists; the roster
@@ -10,7 +15,9 @@ import poolMoves from '../data/rosterPoolMoves.js'
 // chunk; only the editor dynamic-imports the heavy per-faction data (PWA invariant).
 
 const KEY = 'wh11ed-rosters'
-// Bump `v` when the stored shape changes; `migrateRoster()` below is the single upgrade point.
+// Bump `v` when the stored SHAPE changes; `migrateRoster()` below is the single upgrade point. Indices
+// the generator moved are not a shape change: they are carried by the roster data revision (`dv`,
+// rosterIndexMoves.js) — v3–v13 below are what that took before it existed.
 // Exported because a SHARE LINK carries the same shape and the same version (rosterShare.js) — a
 // payload built by an older build has to be read through the same migration a stored roster is.
 export const SCHEMA_VERSION = 13
@@ -45,6 +52,8 @@ export function makeRoster(name = 'New roster') {
     // duplicateLimit/duplicateCounts and RosterUnitBrowser.vue's atCap guard.
     checkLegality: true,
     units: [],
+    // The roster data revision this list's indices are written against (rosterIndexMoves.js).
+    dv: DATA_REV,
     // The player's own plan for this list, in their own words (rosterEngine's note helpers).
     // Never read by a rule; carried by a share link and a game snapshot like everything else.
     notes: '',
@@ -108,11 +117,50 @@ const V12_CUSTODES_RENAMED = {
 // renamed sheet, plus the Allarus Custodians and Custodian Wardens (now squads of 2-3).
 const V12_CUSTODES_RESIZED = new Set([...Object.values(V12_CUSTODES_RENAMED), 'allarus-custodians', 'custodian-wardens'])
 
+// A list written by a newer build — a later schema or a later roster data revision. Its indices
+// mean what that build's data says, which this build cannot know: it is shown, never rewritten
+// (useRosterEditing refuses, the cloud sync never uploads it), and the screens say why.
+export const isFromNewerVersion = (r) => !!r && ((Number.isInteger(r.v) && r.v > SCHEMA_VERSION)
+  || (Number.isInteger(r.dv) && r.dv > DATA_REV))
+
+// Data 963 (Codex: Space Marines, shipped in 2.7.8 at 23:17 Moscow time on 2026-09-30) moved the
+// wargear and size indices of 105 units in the Space Marines family, and no migration was written
+// (found 2026-11-08). A list nobody saved since is read through the moves worked out from git
+// (gen-roster-legacy-963.mjs); one saved since may hold either meaning, so its touched entries are
+// only marked for the player to check (`gearCheck`). Both apply once — to a list with no `dv` yet.
+export const LEGACY_963_AT = Date.UTC(2026, 8, 30, 20, 17, 20)
+const SM_FAMILY_RE = /^(space-marines|black-templars|blood-angels|dark-angels|deathwatch|space-wolves)$/
+
+function repairLegacy963(r) {
+  const touchedBefore = (r.updatedAt || 0) < LEGACY_963_AT
+  const createdBefore = (r.createdAt || 0) < LEGACY_963_AT
+  if (!createdBefore) return
+  for (const u of r.units || []) {
+    const id = String(u.id || '')
+    const key = moveKeyOf(r.faction, id)
+    if (!SM_FAMILY_RE.test(key.split(':')[0])) continue
+    const move = legacy963[key]
+    if (!move) continue
+    const hits = (Array.isArray(u.wg) && u.wg.some(([g, o]) => move.wg?.[`${g}.${o}`] !== undefined))
+      || (u.size != null && move.s?.[u.size] !== undefined)
+    if (!hits) continue
+    if (touchedBefore) {
+      const lost = (u.wg || []).some(([g, o]) => move.wg?.[`${g}.${o}`] === 0) || (u.size != null && move.s?.[u.size] === -1)
+      applyUnitMove(u, move)
+      if (lost) u.gearCheck = 963
+    } else u.gearCheck = 963
+  }
+}
+
 // Bring ONE roster up to the current shape. Shared by the stored envelope below and by an imported
 // share payload, which is the same shape carried in a URL and can be just as old — importing used
 // to skip this entirely, so a link built under an older schema was saved with indices pointing at
 // whatever weapon now sits at that position.
 export function migrateRoster(r, v) {
+  if (isFromNewerVersion({ v, dv: r.dv })) {
+    r.v = v
+    return r
+  }
   // Detachments are stored by NAME now (was a single sid). Coerce to an array and drop any
   // uuid-shaped leftovers — a pre-multi-detachment roster stored the detachment's appdata sid,
   // which can't be resolved to a name here, so it must not linger as a selection.
@@ -193,6 +241,10 @@ export function migrateRoster(r, v) {
       }
     }
   }
+
+  // Data 963 shipped while the schema was 8 (v9 came on 2026-10-04): a list saved before it is a v8
+  // or older list, and the steps below (v9 on) already speak 963's indices.
+  if (!(v >= 9) && !Number.isInteger(r.dv)) repairLegacy963(r)
 
   // → v9: one group became two. Red Corsairs Raiders' "For every 5 models: ◦ boltgun → meltagun
   // ◦ reaver's blade → power fist" was one group of two options, read as if both gave up the
@@ -279,6 +331,16 @@ export function migrateRoster(r, v) {
       else if (u.size === 7) u.size = 6
     }
   }
+
+  // Roster data moves (gen-roster-moves.mjs): from the revision the list was written against to
+  // this build's. A list older than revisions is read as revision 1 — the data it was last saved
+  // under is this release's, except for data 963, handled once below.
+  for (let rev = Number.isInteger(r.dv) ? r.dv : 1; rev < DATA_REV; rev++) {
+    const moves = dataMoves[rev]
+    if (!moves) continue
+    for (const u of r.units || []) applyUnitMove(u, moves[moveKeyOf(r.faction, String(u.id || ''))])
+  }
+  r.dv = DATA_REV
   return r
 }
 
@@ -319,17 +381,28 @@ function migrate(env) {
   // bumps branch on env.v inside migrateRoster.
   const rosters = Array.isArray(env?.rosters) ? env.rosters.filter(isValidRoster) : []
   for (const r of rosters) {
-    migrateRoster(r, Number.isInteger(r.v) ? r.v : env?.v)
+    const v = Number.isInteger(r.v) ? r.v : env?.v
     delete r.v
+    migrateRoster(r, v) // keeps `v` only on a list from a newer build
   }
   return rosters
 }
+
+// A list from a newer build is kept byte for byte as it arrived: whatever a screen does to the
+// object in memory, what is written to storage is the original (`writable`). Deleting it is the
+// player's call and still works.
+const frozen = new Map()
+function keepIfNewer(r) {
+  if (isFromNewerVersion(r)) frozen.set(r.id, JSON.stringify(r))
+  return r
+}
+const writable = (list) => list.map((r) => (frozen.has(r.id) ? JSON.parse(frozen.get(r.id)) : r))
 
 function load() {
   try {
     const raw = localData.getItem(KEY)
     if (!raw) return []
-    return migrate(JSON.parse(raw))
+    return migrate(JSON.parse(raw)).map(keepIfNewer)
   } catch {
     return []
   }
@@ -340,7 +413,7 @@ const rosters = ref(load())
 // Auto-save on every mutation (debounced), flushed before the page goes away (debouncedSave).
 const { schedule: scheduleSave, now: flushSave } = debouncedSave(() => {
   try {
-    localData.write([[KEY, JSON.stringify({ v: SCHEMA_VERSION, rosters: rosters.value })]])
+    localData.write([[KEY, JSON.stringify({ v: SCHEMA_VERSION, rosters: writable(rosters.value) })]])
   } catch { /* quota / private mode — ignore */ }
 })
 
@@ -366,6 +439,7 @@ function duplicateRoster(id, copySuffix = ' (copy)') {
   copy.id = uid()
   copy.name = `${src.name}${copySuffix}`
   copy.createdAt = copy.updatedAt = Date.now()
+  keepIfNewer(copy)
   const at = rosters.value.findIndex((r) => r.id === id)
   rosters.value.splice(at + 1, 0, copy)
   saveNow()
@@ -381,7 +455,7 @@ function deleteRoster(id) {
 
 function renameRoster(id, name) {
   const r = rosters.value.find((x) => x.id === id)
-  if (!r) return
+  if (!r || isFromNewerVersion(r)) return
   r.name = name
   touch(r)
   scheduleSave()
@@ -390,7 +464,7 @@ function renameRoster(id, name) {
 // Apply a partial patch to a roster (used by the editor). Persist is debounced.
 function updateRoster(id, patch) {
   const r = rosters.value.find((x) => x.id === id)
-  if (!r) return null
+  if (!r || isFromNewerVersion(r)) return null
   Object.assign(r, patch)
   touch(r)
   scheduleSave()
@@ -425,7 +499,7 @@ function importRoster(obj, name, fromGame = null) {
   // check them without the faction data. Left unset, it reads as "nobody has priced this yet",
   // which is what refreshSummaries() repairs on the list screen (rosterSummary.js).
   delete r.summary
-  rosters.value.unshift(r)
+  rosters.value.unshift(keepIfNewer(r))
   saveNow()
   return r
 }
@@ -448,7 +522,7 @@ const draftRosters = computed(() => rosters.value.filter(isDraft))
 // the caller's refreshSummaries() recounts it; the points stay on the card meanwhile.
 function setArchived(id, on) {
   const r = rosters.value.find((x) => x.id === id)
-  if (!r || isDraft(r)) return null
+  if (!r || isDraft(r) || isFromNewerVersion(r)) return null
   if (on) r.archived = true
   else delete r.archived
   if (r.summary) r.summary = { ...r.summary, v: null }
@@ -491,6 +565,8 @@ export function normalizeCloudRoster(obj) {
 function adoptFromCloud(obj) {
   const r = normalizeCloudRoster(obj)
   if (!r) return null
+  frozen.delete(r.id)
+  keepIfNewer(r)
   const at = rosters.value.findIndex((x) => x.id === r.id)
   if (at === -1) rosters.value.unshift(r)
   else rosters.value.splice(at, 1, r)
@@ -511,10 +587,12 @@ function preserveCloudConflict(id, remote, suffix, { draft = false } = {}) {
   copy.createdAt = copy.updatedAt = Date.now()
   copy.conflictOf = id
   if (draft) { copy.draft = true; copy.draftStep = 2 }
+  keepIfNewer(copy)
+  if (theirs) { frozen.delete(theirs.id); keepIfNewer(theirs) }
   const next = [copy, ...rosters.value.filter((r) => r.id !== id)]
   if (theirs) next.push(theirs)
   try {
-    if (!localData.write([[KEY, JSON.stringify({ v: SCHEMA_VERSION, rosters: next })]], { requireJournal: true })) return null
+    if (!localData.write([[KEY, JSON.stringify({ v: SCHEMA_VERSION, rosters: writable(next) })]], { requireJournal: true })) return null
   }
   catch { return null }
   rosters.value = next

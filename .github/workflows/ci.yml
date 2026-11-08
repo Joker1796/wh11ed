@@ -38,6 +38,13 @@ jobs:
         if: ${{ !cancelled() }}
         run: npm run parity
 
+      # Saved lists store wargear and sizes as indices into the generated roster data. Any
+      # regeneration that changes what an index means must leave a revision and its moves
+      # (scripts/gen-roster-moves.mjs); data 963 moved 105 units with none (2026-11-08).
+      - name: Roster index moves
+        if: ${{ !cancelled() }}
+        run: npm run roster:moves
+
       # eslint-plugin-vue on the templates + the core rules on the scripts. No formatter: a
       # report here is a defect, never an indentation preference (see eslint.config.js).
       - name: Lint

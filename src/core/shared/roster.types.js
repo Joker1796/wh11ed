@@ -258,6 +258,7 @@
  * @property {string} [alleg] the chosen allegiance option, by name
  * @property {string} [note]
  * @property {string} [blockName] the name of the block this entry is the host of
+ * @property {963} [gearCheck] data 963 may have moved its wargear or size — kept until the player confirms (useRosters.js)
  */
 
 /**

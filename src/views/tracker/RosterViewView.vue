@@ -70,7 +70,7 @@
         </div>
         <div class="rv-meta">
           <RouterLink
-            v-if="!inGame"
+            v-if="!inGame && !newer"
             :to="`/roster/${roster.id}`"
             class="hdr-icon"
             data-tour="rv-edit"
@@ -184,6 +184,15 @@
         </div>
       </header>
 
+      <!-- A list written by a newer build (useRosters.js isFromNewerVersion): its wargear and sizes are
+           that build's data, so this one shows it as stored and does not edit it. -->
+      <p
+        v-if="newer"
+        class="rv-newer"
+        role="status"
+      >
+        <i class="wi wi-warning" /> {{ labels.rosterNewerVersion }}
+      </p>
       <!-- Checks switched off: the one line said about legality, where the issues would be. Not on an
            archived list — the archive says that itself. -->
       <p
@@ -704,7 +713,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
 import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useKeywordContext } from '../../composables/useFactionKeywordUnits.js'
-import { useRosters } from '../../composables/useRosters.js'
+import { useRosters, isFromNewerVersion } from '../../composables/useRosters.js'
 import { useRosterDerived } from '../../composables/useRosterDerived.js'
 import { useFactionAccent } from '../../composables/useFactionAccent.js'
 import { provideModalScope } from '../../composables/modalScope.js'
@@ -911,6 +920,7 @@ const activeFor = (entry) => (inGame.value
   : rosterConditions(entry, roster.value?.units, sheetOfId, unitRulesOf(entry).proves))
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(props.rosterId || route.params.id)))
+const newer = computed(() => isFromNewerVersion(roster.value))
 // The Dominatus Upgrade cards on this list's units: a Dominatus battle's, given at Declare Battle
 // Formations; outside a game, the ones the builder pinned on the saved list for its campaign
 // (`roster.dominatus`, owner 2026-11-05) — what a unit's card will read in that battle.
@@ -2214,6 +2224,8 @@ const nowSlot = computed(() => {
 }
 .rvi-txt { flex: 1; min-width: 0; }
 .rv-checks-off { display: flex; align-items: center; gap: 0.4rem; margin: 0 0 0.8rem; font-size: 0.8rem; color: var(--text-muted); }
+.rv-newer { display: flex; align-items: flex-start; gap: 0.4rem; margin: 0 0 0.8rem; font-size: 0.85rem; color: var(--warning); }
+.rv-newer .wi { margin-top: 0.15em; }
 .rvi-more { color: var(--text-muted); font-weight: 500; }
 .rvi-go { flex: none; opacity: 0.7; }
 

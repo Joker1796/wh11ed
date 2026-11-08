@@ -67,6 +67,13 @@ the core takes one `RuleSet` — the items with their `stands`, the keyword voca
 directory, later the condition dictionary — the first step of the rule-bundles stage (hub journal
 `2026-10-19-core-split`). Do not add a second such copy; take the table instead.
 
+The RuleSet's IDENTITY already exists (2026-11-08): the roster data revision `DATA_REV`
+(`src/data/rosterIndexMoves.js`), which every stored roster, share link and game snapshot carries
+as `dv`, and `roster/rosterIndexMoves.js` carries a list's indices from its revision to this one.
+The object itself — and the move of `stands` into the item table — is deliberately not threaded
+through the core's call sites yet: the owner's 26.10 decision is to do that together with the
+bundle format, so the call sites are rewritten once (`unitRules`' `world` is its seed).
+
 What the core OWNS outright is the vocabulary of the game itself, not a version of its rules: the
 condition dictionary (`rules/conditions.js`), the five Force Dispositions (`roster/dispositions.js`),
 which factions are Chapters of the Codex (`shared/smChapters.js`), slugs (`shared/slugify.js`), and the

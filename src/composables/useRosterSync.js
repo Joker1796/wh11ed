@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { useAuth } from './useAuth.js'
-import { useRosters, isDraft, SCHEMA_VERSION, normalizeCloudRoster } from './useRosters.js'
+import { useRosters, isDraft, SCHEMA_VERSION, normalizeCloudRoster, isFromNewerVersion } from './useRosters.js'
 import { contentHash } from '../utils/contentHash.js'
 import { stableJson } from '../utils/stableJson.js'
 import { localData } from './localData.js'
@@ -85,7 +85,13 @@ const clearTombstone = (id) => removeFrom(deletedIds, DELETED_KEY, id)
 
 // Canonical content hashes establish a base without trusting the device clock or downloading an
 // unchanged roster. Persist only compact digests, scoped to the account that issued the revision.
-const wire = (r) => ({ ...r, v: SCHEMA_VERSION })
+// A missing `dv` means roster data revision 1 everywhere (useRosters.js migrateRoster), so revision 1
+// is not written: a list uploaded before revisions existed keeps exactly its content hash.
+const wire = (r) => {
+  const o = { ...r, v: SCHEMA_VERSION }
+  if (o.dv === 1) delete o.dv
+  return o
+}
 const fingerprint = (r) => contentHash(wire(r))
 const BASES_KEY = 'wh11ed-roster-cloud-bases'
 const bases = (() => {
@@ -196,7 +202,8 @@ export function useRosterSync() {
 
   async function saveToCloud(id) {
     const roster = rosterById(id)
-    if (!roster || isDraft(roster)) return false
+    // A list from a newer build is never re-uploaded by this one: its indices are not ours to restate.
+    if (!roster || isDraft(roster) || isFromNewerVersion(roster)) return false
     const submitted = snapshot(roster)
     const scope = account()
     intents.set(key(id, scope), (intents.get(key(id, scope)) || 0) + 1)
