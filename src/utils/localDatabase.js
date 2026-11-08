@@ -1,12 +1,14 @@
 const DB_NAME = 'wh11ed-local-data'
 const TIMEOUT_MS = 5000
+// Opening is retried once by localData, so the two attempts together stay near the old bound.
+const OPEN_TIMEOUT_MS = 2500
 
 export function openLocalDatabase({ factory = globalThis.indexedDB, name = DB_NAME } = {}) {
   return new Promise((resolve, reject) => {
     if (!factory) return reject(new Error('IndexedDB unavailable'))
     const request = factory.open(name, 1)
     let settled = false
-    const timer = setTimeout(() => fail(new Error('Local database open timed out')), TIMEOUT_MS)
+    const timer = setTimeout(() => fail(new Error('Local database open timed out')), OPEN_TIMEOUT_MS)
     const fail = (error) => { if (!settled) { settled = true; clearTimeout(timer); reject(error) } }
     request.onupgradeneeded = () => {
       const db = request.result
@@ -50,8 +52,10 @@ function database(db) {
         const r = store.get(key)
         r.onsuccess = () => {
           const previous = r.result
-          if (previous && (previous.raw !== entry.raw || previous.sourceKey !== entry.sourceKey || previous.index !== entry.index)) { save(attempt + 1); return }
-          if (!previous) store.put({ ...entry, key, status: 'quarantined', at: Date.now() })
+          if (!previous) { store.put({ ...entry, key, status: 'quarantined', at: Date.now() }); return }
+          // The key is a short hash: an occupied slot holding different data is a collision.
+          const sameEntry = previous.raw === entry.raw && previous.sourceKey === entry.sourceKey && previous.index === entry.index
+          if (!sameEntry) save(attempt + 1)
         }
       }
       save()
@@ -83,7 +87,7 @@ function database(db) {
           quarantine(tx, issues)
           meta.put({ key: 'legacy', entries: [...legacy] })
           meta.put({ key: 'legacy-original', entries: [...legacy] })
-          meta.put({ key: 'migration', version: 1 })
+          meta.put({ key: 'migration', version: 1, at: Date.now() })
           done(true)
         }
       })
@@ -92,6 +96,17 @@ function database(db) {
       return transaction(['meta', 'recovery'], 'readwrite', (tx) => {
         quarantine(tx, issues)
         tx.objectStore('meta').put({ key: 'legacy', entries: [...entries] })
+      })
+    },
+    putMeta(row) {
+      return transaction(['meta'], 'readwrite', (tx) => tx.objectStore('meta').put(row))
+    },
+    // The localStorage copy stops being a source. `legacy-original` keeps the exact original.
+    retireLegacy(keys) {
+      return transaction(['meta'], 'readwrite', (tx) => {
+        const meta = tx.objectStore('meta')
+        meta.put({ key: 'legacy', entries: keys.map((key) => [key, null]) })
+        meta.put({ key: 'legacy-retired', at: Date.now() })
       })
     },
     quarantine(issues) {
@@ -116,9 +131,15 @@ function database(db) {
         const receipt = meta.get(receiptKey)
         const rows = new Map()
         let remaining = ops.length
+        // A record conflicts when it moved since the writer read it, unless it already holds
+        // exactly the value being written (two tabs making the same change agree).
+        const isConflict = (op) => {
+          const row = rows.get(op.key)
+          const moved = (row?.revision || 0) !== (expected[op.key] || 0)
+          return moved && (row?.value ?? null) !== op.value
+        }
         const apply = () => {
-          const conflicts = ops.filter((op) => (rows.get(op.key)?.revision || 0) !== (expected[op.key] || 0)
-            && (rows.get(op.key)?.value ?? null) !== op.value)
+          const conflicts = ops.filter(isConflict)
           const before = ops.map((op) => rows.get(op.key) || { key: op.key, value: null, revision: 0 })
           // The candidate is durable even when the revision check refuses it. Confirmation also
           // keeps the replaced version, so both sides can be recovered after a crash or restart.
@@ -142,7 +163,9 @@ function database(db) {
         receipt.onsuccess = () => {
           // Clearing the synchronous journal can fail AFTER IDB commits. A later restart must
           // recognize that old submission even if another tab has since changed the record.
-          if (receipt.result && (receipt.result.submission === key || receipt.result.sequence >= sequence)) {
+          const last = receipt.result
+          const alreadyCommitted = last && (last.submission === key || last.sequence >= sequence)
+          if (alreadyCommitted) {
             done({ ok: true, updated: [], replayed: true }); return
           }
           if (!remaining) { done({ ok: true, updated: [] }); return }

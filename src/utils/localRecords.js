@@ -123,6 +123,12 @@ export function legacyChanges(entries, previous) {
   return { ops, before: before.records, issues: after.issues }
 }
 
+// After retirement the legacy keys are not a source any more. Whatever an old build still wrote
+// there is kept in recovery, never imported over the database and never dropped unseen.
+export function retiredLegacyIssues(entries) {
+  return [...entries].filter(([, raw]) => raw !== null).map(([key, raw]) => issue(key, null, 'retired-legacy', raw))
+}
+
 export function inspectStoredRecords(rows) {
   const valid = [], issues = []
   for (const row of rows) {

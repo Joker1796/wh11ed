@@ -1,9 +1,13 @@
 import { reactive } from 'vue'
-import { LOCAL_KEYS, changesFor, localView, inspectLegacy, legacyChanges, inspectStoredRecords } from '../utils/localRecords.js'
+import { LOCAL_KEYS, changesFor, localView, inspectLegacy, legacyChanges, inspectStoredRecords, retiredLegacyIssues } from '../utils/localRecords.js'
 import { openLocalDatabase } from '../utils/localDatabase.js'
 
 const JOURNAL = 'wh11ed-local-pending/'
 const MARKER = 'wh11ed-local-data-version'
+// How long the original localStorage keys stay after migration: the window in which a tab of an
+// older build may still be open and writing them. Afterwards IDB `legacy-original` is the backup.
+export const LEGACY_RETIRE_MS = 30 * 24 * 60 * 60 * 1000
+const noLegacy = () => new Map(LOCAL_KEYS.map((key) => [key, null]))
 const uid = () => globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`
 // Do not touch the browser's storage getter at import time: SecurityError must never stop the
 // rules reference from booting. Initialization reports it only when personal data is needed.
@@ -31,6 +35,7 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
   let sequence = 0
   let paused = false
   let legacySource = new Map()
+  let retired = false
 
   const fail = (error) => { state.error = error instanceof Error ? error.message : String(error); state.notice++ }
   const legacy = () => new Map(LOCAL_KEYS.map((key) => [key, storage.getItem(key)]))
@@ -47,12 +52,15 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
     let ok = true
     if (planned.ops.length) {
       const current = new Map((await db.read()).map((row) => [row.key, row]))
-      const expected = Object.fromEntries(planned.ops.map((op) => {
+      // The old build edited from the snapshot it last saw. Its change applies only to a record
+      // that still holds that snapshot; anything else becomes a conflict (revision -1 never matches).
+      const unchangedSinceSnapshot = (op) => {
         const row = current.get(op.key)
-        const matches = (row?.value ?? null) === (planned.before.get(op.key) ?? null)
-          && (planned.before.has(op.key) || !row)
-        return [op.key, matches ? row?.revision || 0 : -1]
-      }))
+        const snapshotValue = planned.before.get(op.key) ?? null
+        return (row?.value ?? null) === snapshotValue && (planned.before.has(op.key) || !row)
+      }
+      const expected = Object.fromEntries(planned.ops.map((op) =>
+        [op.key, unchangedSinceSnapshot(op) ? current.get(op.key)?.revision || 0 : -1]))
       const candidate = { key: `legacy/${uid()}`, ops: planned.ops, expected }
       const result = await db.commit(candidate)
       if (!result.ok) { reportConflict(result, candidate); ok = false }
@@ -61,6 +69,19 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
     legacySource = source
     state.quarantineCount = (await db.recovery()).filter((row) => row.status === 'quarantined').length
     return ok
+  }
+  async function absorbRetired(source) {
+    const issues = retiredLegacyIssues(source)
+    if (!issues.length) return
+    await db.quarantine(issues)
+    for (const key of LOCAL_KEYS) { try { storage.removeItem(key) } catch { /* Kept in recovery; retried at next start. */ } }
+    state.quarantineCount = (await db.recovery()).filter((row) => row.status === 'quarantined').length
+  }
+  async function retireLegacy() {
+    await db.retireLegacy(LOCAL_KEYS)
+    retired = true
+    legacySource = noLegacy()
+    for (const key of LOCAL_KEYS) { try { storage.removeItem(key) } catch { /* absorbRetired finishes it later. */ } }
   }
   function pending() { return changesFor(desired, baseline) }
   function stage(ops = pending(), expected = expectedFor(ops)) {
@@ -88,7 +109,8 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
         while (desired.size) {
           const source = legacy()
           if (LOCAL_KEYS.some((key) => source.get(key) !== legacySource.get(key))) {
-            if (!await importLegacy(source, legacySource)) return false
+            if (retired) await absorbRetired(source)
+            else if (!await importLegacy(source, legacySource)) return false
           }
           const ops = pending()
           if (!ops.length) {
@@ -150,7 +172,12 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
     initialized = (async () => {
       try {
         const source = legacy()
-        db = await open()
+        // WebKit occasionally leaves the first open of a session hanging; a fresh request usually
+        // succeeds. One retry, then the original error, so a real failure is still reported.
+        db = await open().catch(async (first) => {
+          await new Promise((resolve) => setTimeout(resolve, 300))
+          return open().catch(() => { throw first })
+        })
         if (locks) {
           let held
           const acquired = new Promise((resolve) => { held = resolve })
@@ -179,12 +206,15 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
         if (created && rows.some((r) => savedById.get(r.key) !== r.value)) throw new Error('Local migration verification failed')
         const storedIssues = setRecords(saved)
         if (storedIssues.length) await db.quarantine(storedIssues)
-        if (!created) {
+        retired = !!await db.meta('legacy-retired')
+        let legacyClean = true
+        if (retired) await absorbRetired(source)
+        else if (!created) {
           const previous = await db.meta('legacy') || await db.meta('legacy-original')
           const previousEntries = new Map(previous?.entries || [])
-          if (LOCAL_KEYS.some((key) => source.get(key) !== previousEntries.get(key))) await importLegacy(source, previousEntries)
+          if (LOCAL_KEYS.some((key) => source.get(key) !== previousEntries.get(key))) legacyClean = await importLegacy(source, previousEntries)
         }
-        legacySource = source
+        legacySource = retired ? noLegacy() : source
         state.progress.step = 'recovering'
         await recoverJournals()
         const replayIssues = setRecords(await db.read())
@@ -210,6 +240,11 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
           state.conflict = { key: candidate.key, records: candidate.before, keys: candidate.ops.map((op) => op.key) }
           paused = true
           state.notice++
+        }
+        if (!retired && !created && marker) {
+          if (!marker.at) await db.putMeta({ ...marker, at: Date.now() })
+          else if (Date.now() - marker.at > LEGACY_RETIRE_MS && legacyClean && !unresolved.length
+            && LOCAL_KEYS.every((key) => storage.getItem(key) === legacySource.get(key))) await retireLegacy()
         }
         try { storage.setItem(MARKER, '1') } catch { /* The IDB migration marker is authoritative. */ }
         state.phase = 'ready'
@@ -245,10 +280,14 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
         return true
       }
       if (state.phase !== 'ready') { fail(new Error('Local data is not ready')); return false }
-      const oldDesired = new Map(desired), oldCache = new Map(cache), oldJournal = journal
+      const undo = { desired: new Map(desired), cache: new Map(cache), journal }
       for (const [key, value] of entries) { desired.set(key, value); cache.set(key, value) }
       const durable = stage()
-      if (!durable && requireJournal) { desired = oldDesired; cache = oldCache; journal = oldJournal; return false }
+      if (!durable && requireJournal) {
+        // A critical change must not exist only in memory: roll the view back to before it.
+        ;({ desired, cache, journal } = undo)
+        return false
+      }
       state.notice++
       if (!paused) void pump()
       else {

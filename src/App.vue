@@ -45,12 +45,19 @@
       class="main-content"
       :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isDominatusRoute || isFactionPageRoute || isCombatPatrolPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk || isGameRosterDesk, 'main-content--browse': isRosterBrowseDesk || isGameRosterDesk, 'main-content--fill': isFactionUnitsDesk }"
     >
-      <p
+      <div
         v-if="localDataBlocked"
-        class="empty"
+        class="local-data-blocked"
       >
-        {{ localDataErrorText }}
-      </p>
+        <p>{{ localDataErrorText }}</p>
+        <button
+          type="button"
+          class="btn-primary"
+          @click="reloadPage"
+        >
+          {{ ui[locale].localOpenReload }}
+        </button>
+      </div>
       <RouterView
         v-else
         v-slot="{ Component }"
@@ -163,7 +170,8 @@ const LocalDataNotice = defineAsyncComponent(() => import('./components/LocalDat
 const LocalDataRecoveryNotice = defineAsyncComponent(() => import('./components/LocalDataRecoveryNotice.vue'))
 const localDataState = localData.state
 const localDataBlocked = computed(() => localDataState.phase === 'error' && /^\/(?:ru\/)?(?:tracker|roster)(?:\/|$)/.test(route.path))
-const localDataErrorText = computed(() => ui[locale.value].localSaveErrorMessage)
+const localDataErrorText = computed(() => ui[locale.value].localOpenErrorMessage)
+const reloadPage = () => window.location.reload()
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
 // A page caught reloading itself in a loop gets no update applied for a while (reloadLoop.js):
@@ -500,6 +508,14 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Personal screens when device storage did not open: the message and the one way out. */
+.local-data-blocked {
+  max-width: 40rem;
+  padding: 32px 0;
+}
+.local-data-blocked p {
+  margin: 0 0 16px;
+}
 .app-layout {
   min-height: 100dvh;
   background: var(--bg-primary);
