@@ -295,6 +295,7 @@ async function openAgenda(slug) {
 .bvs { display: flex; justify-content: center; gap: 0.2rem; }
 .bagenda {
   display: block;
+  min-height: 24px;
   padding: 0.15rem 0 0.15rem 0.4rem;
   background: var(--bg-card);
   font-family: var(--font-display);

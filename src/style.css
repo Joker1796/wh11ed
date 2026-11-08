@@ -743,6 +743,8 @@ tr:nth-child(even) td {
   /* A step under Inter's 0.78em: the mono is wider and taller (owner, 2026-11-01). */
   font-size: 0.72em;
   font-weight: 600;
+  /* Examples may be italic; this face has only upright glyphs. */
+  font-style: normal;
   /* The lore's face (owner, 2026-11-01): a rule's tag reads as the app's other set-apart text.
      Inter from 2026-10-18 because the monospace then was Courier New, a system face each phone drew
      differently; Kibernetyk Mono is ours, loaded and offline like Inter. */
