@@ -111,6 +111,20 @@ describe('data 963 repair', () => {
     expect(newer.units[0].wg).toEqual([[0, 1], [1, 1]])
   })
 
+  it('marks, never moves, an old list stored in a newer envelope (the whole envelope was restamped on every save)', async () => {
+    seed({ v: 13, rosters: [list({ createdAt: before, updatedAt: before })] })
+    const { store } = await load()
+    const [sm, other] = store.rosters.value[0].units
+    expect(sm).toMatchObject({ wg: [[0, 1], [1, 1]], gearCheck: 963 })
+    expect(other.gearCheck).toBeUndefined()
+  })
+
+  it('a list from after 963 in a newer envelope is left alone', async () => {
+    seed({ v: 13, rosters: [list({ createdAt: after, updatedAt: after })] })
+    const { store } = await load()
+    expect(store.rosters.value[0].units[0].gearCheck).toBeUndefined()
+  })
+
   it('applies once: a list stamped with a revision is not repaired again', async () => {
     seed({ v: 8, rosters: [list({ createdAt: before, updatedAt: before })] })
     const first = await load()

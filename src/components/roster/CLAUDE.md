@@ -2742,14 +2742,18 @@ units with none — old lists silently showed another weapon. Now:
   whatever a screen did to the object (`frozen` / `writable`), `updateRoster`/`renameRoster`/
   `setArchived` refuse it, the cloud sync never uploads it, the editor redirects to the view, and
   the view says why (`rosterNewerVersion`). Deleting it stays the player's call.
-- **Data 963, once** (`repairLegacy963`, applied to a list with no `dv` and schema ≤ 8 — v9 came
-  after 963): a list created and last saved before 2.7.8 shipped (`LEGACY_963_AT`) is read through
-  the moves worked out from git (`gen-roster-legacy-963.mjs` → `src/data/rosterLegacy963.js`, with
+- **Data 963, once** (`repairLegacy963`, a list with no `dv` created before 2.7.8 shipped,
+  `LEGACY_963_AT`): only a list whose own schema is ≤ 8 (v9 came after 963) AND last saved before
+  that moment still holds the old indices untouched, and is read through the moves worked out from
+  git (`gen-roster-legacy-963.mjs` → `src/data/rosterLegacy963.js`, with
   `roster-item-aliases-963.json` for the codex's renames); an entry that lost a pick or a bracket
-  in the move is marked `gearCheck: 963`. A list saved since may hold either meaning, so its touched
-  entries are only marked. The mark is a warning (`gearCheck` in rosterValidation) and a notice in
+  in the move is marked `gearCheck: 963`. Anything else is only marked — a list saved since may hold
+  either meaning, and until 2.11.0 the envelope was rewritten with the current `v` on every save, so
+  an untouched old list usually reads v13 and v10/v11 may already have moved its picks (found by the
+  independent review of 2.11.0; the first version repaired v ≤ 8 only and marked nothing else). The mark is a warning (`gearCheck` in rosterValidation) and a notice in
   the unit's fields with "It’s right"; changing that entry's wargear or size clears it too. Cloud
-  corpus of 2026-11-08: 6 lists repaired (15 entries clean, 19 marked), 14 marked (52 entries).
+  corpus of 2026-11-08: 6 lists repaired (15 entries clean, 19 marked), 14 marked (52 entries);
+  local lists without an account are mostly in the marked branch.
   Tests: `rosterDataRev.test.js`, `scripts/lib/roster-meanings.test.js`.
 
 **Drafts.** A roster the creation wizard is still working on carries `draft: true` and
@@ -2858,6 +2862,11 @@ editor's settings, a section of a unit's fields. Not in `rosterShare`'s `PICK`. 
 
 Lists sync to `wh11ed-api` (`/roster-sync`, the conditional revision protocol), layered over
 `useAuth` + `useRosters` exactly the way `useCloudSync.js` layers over the tracker.
+**`summary` is not part of a list's identity** (`identity` / `fingerprint`): it is a cache every
+device rewrites, stamped with the release, and hashed with the rest it made every signed-in
+player's lists look edited after an update — a "restored copy" each (independent review of 2.11.0).
+It is still uploaded (the API reads its points for the list card), so a server `contentHash`
+matches either the identity or the whole wire; two copies equal in identity are not an update.
 The device database stays the primary store; the cloud is a best-effort copy and a failure never
 blocks list building. Three rules decide everything in that file, and **none of them is an
 accident** — each was a decision:

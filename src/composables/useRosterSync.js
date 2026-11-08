@@ -92,7 +92,16 @@ const wire = (r) => {
   if (o.dv === 1) delete o.dv
   return o
 }
-const fingerprint = (r) => contentHash(wire(r))
+// What a list IS, for comparing two copies: the wire without `summary`. That is a cache each device
+// rewrites on its own (rosterSummary.js stamps it with the release), and hashed with the rest every
+// list looked edited after an update — a "restored copy" for every signed-in player (review of
+// 2.11.0). It still travels: the API reads its points for the list card.
+const identity = (r) => {
+  const o = wire(r)
+  delete o.summary
+  return o
+}
+const fingerprint = (r) => contentHash(identity(r))
 const BASES_KEY = 'wh11ed-roster-cloud-bases'
 const bases = (() => {
   try {
@@ -191,7 +200,7 @@ export function useRosterSync() {
       // Edits made after Save are unfinished work, not permission to upload a later snapshot.
       checkAccount(scope)
       if ((intents.get(key(id, scope)) || 0) !== intent || !rosterById(id)) return false
-      const stillSubmitted = stableJson(wire(rosterById(id))) === stableJson(submitted)
+      const stillSubmitted = stableJson(identity(rosterById(id))) === stableJson(identity(submitted))
       const preserved = await preserve(id, theirs, scope, stillSubmitted)
       return stillSubmitted && preserved
     }
@@ -296,7 +305,9 @@ export function useRosterSync() {
         if (local) {
           const hash = await hashFor(local, scope)
           if (!unchanged(id, local)) continue
-          if (meta.contentHash === hash) { await remember(local, meta.revision, meta.contentHash, scope); continue }
+          // The server hashes the stored blob, summary included: the same bytes are the same list too.
+          const sameBytes = meta.contentHash === hash || meta.contentHash === await contentHash(wire(local))
+          if (sameBytes) { await remember(local, meta.revision, meta.contentHash, scope); continue }
           if (known?.revision === meta.revision && known.serverHash === meta.contentHash) continue
         }
         const theirs = await remote(id, scope)
@@ -307,7 +318,8 @@ export function useRosterSync() {
           const hash = await hashFor(local, scope)
           const theirHash = await hashFor(theirs.roster, scope)
           if (!unchanged(id, local)) continue
-          if (hash !== theirHash && hash !== known?.hash) {
+          if (hash === theirHash) { await remember(theirs.roster, theirs.revision, theirs.contentHash, scope); continue }
+          if (hash !== known?.hash) {
             await preserve(id, theirs, scope, false)
             continue
           }
