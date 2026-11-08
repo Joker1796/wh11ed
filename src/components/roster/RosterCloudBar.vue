@@ -8,8 +8,8 @@
   <p
     v-if="text"
     class="rc-bar"
-    :class="{ err: state === 'error' || state === 'down', compact }"
-    :title="compact && title !== text ? title : undefined"
+    :class="{ err: state === 'error' || state === 'local-error' || state === 'down', compact }"
+    :title="compact ? title : undefined"
   >
     <i :class="icon" />
     <span class="rc-text">{{ text }}</span>

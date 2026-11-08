@@ -109,6 +109,19 @@ describe('ensureSession', () => {
 })
 
 describe('authedFetch', () => {
+  it('does not replay a write under another account after a session refresh', async () => {
+    global.fetch = vi.fn()
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ accessToken: 'first' }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'first-user' }) })
+    await load()
+    await auth.refresh()
+    global.fetch = vi.fn()
+      .mockResolvedValueOnce({ ok: false, status: 401 })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ accessToken: 'second' }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'second-user' }) })
+    await expect(auth.authedFetch('/roster-sync/r', { method: 'PUT', body: '{}' })).rejects.toThrow('Account changed')
+    expect(global.fetch.mock.calls.filter(([, opts]) => opts.method === 'PUT')).toHaveLength(1)
+  })
   it('sends Content-Type for a body and a Bearer token', async () => {
     global.fetch = vi
       .fn()

@@ -468,9 +468,9 @@ function saveDraft(id) {
 // Adopt a roster that came from the cloud (useRosterSync.js). The payload is the same shape a
 // share link carries — the stored object plus its schema `v` — so it goes through the same
 // migration: a list uploaded by an older build must not be trusted as-is. Replaces the local copy
-// in place when we already have that id (last-write-wins is decided by the caller), otherwise
+// in place when we already have that id (conflict handling belongs to the caller), otherwise
 // prepends it. This store stays the single writer of `rosters`; the sync layer never splices.
-function adoptFromCloud(obj) {
+export function normalizeCloudRoster(obj) {
   if (!obj || typeof obj !== 'object') return null
   const r = JSON.parse(JSON.stringify(obj))
   const version = r.v
@@ -481,11 +481,38 @@ function adoptFromCloud(obj) {
   // bad blob can't materialise as a draft that the wizard would then try to resume.
   delete r.draft
   delete r.draftStep
+  return r
+}
+
+function adoptFromCloud(obj) {
+  const r = normalizeCloudRoster(obj)
+  if (!r) return null
   const at = rosters.value.findIndex((x) => x.id === r.id)
   if (at === -1) rosters.value.unshift(r)
   else rosters.value.splice(at, 1, r)
   saveNow()
   return r
+}
+
+// Commit both variants before replacing the original in memory. On quota failure the source
+// and its pending upload remain untouched; a cloud conflict must not turn into local data loss.
+function preserveCloudConflict(id, remote, suffix, { draft = false } = {}) {
+  const source = rosterById(id)
+  if (!source) return null
+  const theirs = remote === null ? null : normalizeCloudRoster(remote)
+  if (remote !== null && !theirs) return null
+  const copy = JSON.parse(JSON.stringify(source))
+  copy.id = uid()
+  copy.name = copy.name.slice(0, Math.max(0, 200 - suffix.length)) + suffix
+  copy.createdAt = copy.updatedAt = Date.now()
+  copy.conflictOf = id
+  if (draft) { copy.draft = true; copy.draftStep = 2 }
+  const next = [copy, ...rosters.value.filter((r) => r.id !== id)]
+  if (theirs) next.push(theirs)
+  try { localStorage.setItem(KEY, JSON.stringify({ v: SCHEMA_VERSION, rosters: next })) }
+  catch { return null }
+  rosters.value = next
+  return copy
 }
 
 function rosterById(id) {
@@ -508,6 +535,7 @@ export function useRosters() {
     updateRoster,
     importRoster,
     adoptFromCloud,
+    preserveCloudConflict,
     rosterById,
     saveNow,
   }

@@ -2816,7 +2816,7 @@ editor's settings, a section of a unit's fields. Not in `rosterShare`'s `PICK`. 
 
 ## Cloud sync (`src/composables/useRosterSync.js`)
 
-Lists sync to `wh11ed-api` (`/rosters`, the same four routes `/games` has), layered over
+Lists sync to `wh11ed-api` (`/roster-sync`, the conditional revision protocol), layered over
 `useAuth` + `useRosters` exactly the way `useCloudSync.js` layers over the tracker.
 `localStorage` stays the primary store; the cloud is a best-effort copy and a failure never
 blocks list building. Three rules decide everything in that file, and **none of them is an
@@ -2831,7 +2831,7 @@ accident** — each was a decision:
   sees the cloud holds an older copy and **deliberately leaves it alone**. Do not "fix" that by
   pushing every local-newer roster.
 - **One request per visit.** `RosterListView`'s `onMounted` runs the single pass: one
-  `GET /rosters` returning metadata (no blobs), then only the uploads/downloads that metadata
+  `GET /roster-sync` returning metadata (no blobs), then only the uploads/downloads that metadata
   proves are needed. There is no manual Sync button, same as the tracker home. A `watch` on the
   auth status runs the same pass again if a session appears while the page is open — signing in
   is possible from here now (see below), and an in-place one has no page load to hide behind.
@@ -2843,21 +2843,33 @@ in and out is the navbar's gear menu, on every page and every width; `useAccount
 path along so the OAuth round trip comes back here. `RosterCloudBar` reports sync and nothing
 else.
 
-Conflicts are **last-write-wins on the client's `updatedAt`** (a plain `Date.now()`, so it trusts
-the device clock — chosen over a server stamp for cost) and the screen says so afterwards.
+**Server revisions protect writes.** PUT sends `{ roster, baseRevision }` (0 means create-only),
+and DELETE requires `baseRevision`. A stale write returns 409 `conflict`; the distinct 409
+`quota_exceeded` must not be treated as a conflict. SHA-256 hashes of canonical JSON let a single
+metadata GET establish an unchanged base. Revision/hash records in `wh11ed-roster-cloud-bases`
+are scoped by account. A legacy blob is normalized through the store migration before comparison;
+its server hash and normalized local hash are remembered separately. Client clocks never grant
+permission to overwrite. A retry uploads the clicked Save snapshot, not edits made while waiting.
+
+A genuine conflict keeps the remote list under the original id and stores the local variant
+under a fresh id with `conflictOf`. An explicit Save becomes a saved recovery copy, queued for
+upload; later unfinished edits become a local wizard draft. `preserveCloudConflict` writes the
+whole next localStorage envelope BEFORE replacing memory. If storage refuses, the original and
+pending save remain and the UI asks the player to keep the page open. An account change aborts
+the request; auth refresh cannot retry the write under another account. A local deletion/edit
+during a download prevents that response from replacing the newer local state.
+
 `RosterCloudBar.vue` is the only place any of this is visible: on `/roster`, where the pass runs,
 and on a saved list's view page, which is where the editor's Save lands — that is how the click
 that saved a list gets an answer.
 
-**Deletes are tombstones, and the authoritative one is the server's.** `DELETE /rosters/{id}?at=`
-empties the row and stamps it with the deleting device's clock; the list endpoint reports those
-graves alongside live lists. That is what makes a delete propagate: without it, the second device
-would see an id the cloud lacks, conclude "not backed up yet" and upload the list straight back.
-The rules that follow from having both timestamps on one scale:
+**Deletes are conditional tombstones.** `DELETE /roster-sync/{id}?baseRevision=&at=` empties the
+row and keeps its last live content hash. The listing reports graves alongside live lists:
 
-- A grave **removes the local copy** on every other device (counted in the notice as `removed`).
-- A list whose `updatedAt` is **newer than the grave** survives and is re-uploaded — an explicit
-  Save after a delete is a statement that this list should exist, and the Save wins.
+- A grave removes a proven unchanged local copy (counted in the notice as `removed`).
+- Divergent local work survives as a recovery copy/draft; the original id stays deleted.
+- A stale local delete cannot bury a changed remote list: that list is restored and the UI
+  reports the refused deletion.
 - A draft is never buried, whatever the cloud says: it was never up there to begin with.
 
 `wh11ed-rosters-deleted` in `localStorage` is now only a **retry queue** for deletes made offline
@@ -2868,6 +2880,9 @@ pass regardless of the pending set — that is what makes the first sign-in uplo
 existing collection, and what eventually uploads a share-link import (`RosterSharedView`
 deliberately doesn't upload on the spot: an imported list is unpriced until a screen with faction
 data touches it).
+
+Older APIs answering 404 on `/roster-sync` leave pending saves queued. Never fall back to a
+legacy unguarded PUT. Deploy the API migrations and revision endpoints before this frontend.
 
 ## Views (`src/views/tracker/Roster*.vue`, not in this directory)
 

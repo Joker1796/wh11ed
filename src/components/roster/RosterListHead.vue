@@ -99,7 +99,7 @@ const importOpen = ref(false)
 /* Phone and narrow: title | pair on one row over the rule, the buttons centred under it. */
 .rl-head {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: max-content minmax(0, 1fr);
   grid-template-areas:
     "title side"
     "cta cta";
@@ -149,7 +149,7 @@ const importOpen = ref(false)
 
 /* The desk: one row across the columns — the buttons beside the title, one size down. */
 .rlh-desk {
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto max-content minmax(0, 1fr);
   grid-template-areas: "title cta side";
   align-items: center;
   margin-bottom: 0.75rem;

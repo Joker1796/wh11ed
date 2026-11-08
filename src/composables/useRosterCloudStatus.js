@@ -15,7 +15,7 @@ export function useRosterCloudStatus({ hint = false, compact = false } = {}) {
   const props = { get hint() { return toValue(hint) }, get compact() { return toValue(compact) } }
   const { locale } = useLocale()
   const labels = computed(() => ui[locale.value])
-  const { syncing, uploading, lastError, checked, pulled, savedAt, pendingCount, enabled } = useRosterSync()
+  const { syncing, uploading, lastError, conflict, checked, pulled, savedAt, pendingCount, enabled } = useRosterSync()
   // A tab in iOS Safari is the one place where "stored on this device" comes with a deadline:
   // WebKit deletes a site's script-writable storage after about a week without a visit, and these
   // lists live in exactly that storage. Installing the app or signing in both take it off the
@@ -30,7 +30,9 @@ export function useRosterCloudStatus({ hint = false, compact = false } = {}) {
     if (authStatus.value === 'down') return props.hint ? 'down' : ''
     if (!enabled.value) return props.hint ? 'hint' : ''
     if (syncing.value || uploading.value) return 'syncing'
+    if (conflict?.value?.localSaveFailed) return 'local-error'
     if (lastError.value) return 'error'
+    if (conflict?.value) return 'conflict'
     if (savedAt.value) return 'saved'
     // "Your lists were updated" belongs to the screen that did the updating. On a single list's
     // page it would be an answer to a question nobody asked there.
@@ -56,6 +58,8 @@ export function useRosterCloudStatus({ hint = false, compact = false } = {}) {
       case 'down': return l.cloudServerDownHint
       case 'syncing': return l.rosterCloudSyncing
       case 'error': return l.rosterCloudError
+      case 'local-error': return l.rosterCloudLocalSaveError
+      case 'conflict': return conflict.value.deletionRefused ? l.rosterCloudDeleteConflict : conflict.value.draft ? l.rosterCloudConflictDraft : l.rosterCloudConflict
       case 'updated': {
         const p = pulled.value
         return l.rosterCloudUpdated.replace('{n}', String(p.added + p.updated + p.removed))
@@ -72,6 +76,8 @@ export function useRosterCloudStatus({ hint = false, compact = false } = {}) {
     down: 'wi wi-cloud-error',
     syncing: 'wi wi-sync',
     error: 'wi wi-cloud-error',
+    'local-error': 'wi wi-cloud-error',
+    conflict: 'wi wi-cloud-down',
     updated: 'wi wi-cloud-down',
     saved: 'wi wi-cloud-synced',
     pending: 'wi wi-cloud-up',
