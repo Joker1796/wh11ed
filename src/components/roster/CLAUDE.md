@@ -2707,7 +2707,10 @@ list of options it offers, which would tell the reader to remove three things wh
 ## Store
 
 `src/composables/useRosters.js` — module singleton, same pattern as `useTracker.js`/
-`useLocale.js`, persisted to `localStorage['wh11ed-rosters']`. Schema-versioned
+`useLocale.js`, persisted through `localData.js` to IndexedDB with a synchronous pending-write
+journal. The original `localStorage['wh11ed-rosters']` is retained as a migration backup; current
+reads must go through localData, not that old key. See `src/composables/LOCAL-DATA.md` for
+migration, recovery, cross-tab confirmation, rollback limits and real browser tests. Schema-versioned
 (`SCHEMA_VERSION`, bump + extend `migrate()` on any shape change). Deliberately imports **no**
 faction data files — the list screen must stay in the light entry chunk; only the editor
 dynamic-imports the heavy per-faction `src/data/roster/<slug>.js`.
@@ -2818,7 +2821,7 @@ editor's settings, a section of a unit's fields. Not in `rosterShare`'s `PICK`. 
 
 Lists sync to `wh11ed-api` (`/roster-sync`, the conditional revision protocol), layered over
 `useAuth` + `useRosters` exactly the way `useCloudSync.js` layers over the tracker.
-`localStorage` stays the primary store; the cloud is a best-effort copy and a failure never
+The device database stays the primary store; the cloud is a best-effort copy and a failure never
 blocks list building. Three rules decide everything in that file, and **none of them is an
 accident** — each was a decision:
 
@@ -2854,7 +2857,7 @@ permission to overwrite. A retry uploads the clicked Save snapshot, not edits ma
 A genuine conflict keeps the remote list under the original id and stores the local variant
 under a fresh id with `conflictOf`. An explicit Save becomes a saved recovery copy, queued for
 upload; later unfinished edits become a local wizard draft. `preserveCloudConflict` writes the
-whole next localStorage envelope BEFORE replacing memory. If storage refuses, the original and
+next variants to the durable pending journal BEFORE replacing memory. If storage refuses, the original and
 pending save remain and the UI asks the player to keep the page open. An account change aborts
 the request; auth refresh cannot retry the write under another account. A local deletion/edit
 during a download prevents that response from replacing the newer local state.

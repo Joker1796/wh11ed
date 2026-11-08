@@ -253,6 +253,25 @@ describe('syncNow', () => {
 })
 
 describe('saveToCloud', () => {
+  it('captures the Save click before waiting for the local database transaction', async () => {
+    const cloud = new Map()
+    await load([roster('r1')])
+    h.fetchImpl = cloudFetch(cloud)
+    const { localData } = await import('./localData.js')
+    let release
+    const flush = vi.spyOn(localData, 'flush').mockImplementation(() => new Promise((resolve) => { release = resolve }))
+    localData.state.phase = 'ready'
+    try {
+      store.renameRoster('r1', 'Clicked Save')
+      const saving = sync.saveToCloud('r1')
+      store.renameRoster('r1', 'Unfinished while IDB saves')
+      release(true)
+      expect(await saving).toBe(true)
+      expect(cloud.get('r1').name).toBe('Clicked Save')
+      expect(store.rosterById('r1').name).toBe('Unfinished while IDB saves')
+    } finally { localData.state.phase = 'idle'; flush.mockRestore() }
+  })
+
   it('keeps unfinished edits in Drafts when the clicked Save loses a real conflict', async () => {
     const cloud = new Map([['r1', { ...roster('r1'), v: 13 }]])
     await load([roster('r1')])

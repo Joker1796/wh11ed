@@ -1,8 +1,9 @@
 import { computed, ref, watch } from 'vue'
 import { debouncedSave } from '../utils/debouncedSave.js'
+import { localData } from './localData.js'
 import poolMoves from '../data/rosterPoolMoves.js'
 
-// Roster builder store — a module singleton persisted to localStorage, mirroring the
+// Roster builder store — a module singleton persisted through localData (IndexedDB + journal), mirroring the
 // pattern in useTracker.js / useLocale.js. Holds the user's saved army lists; the roster
 // EDITOR mutates a roster in place and this layer auto-saves it. Deliberately imports NO
 // faction data files (src/data/roster/*) — the list screen must stay in the light entry
@@ -317,13 +318,16 @@ function migrate(env) {
   // env is the parsed { v, rosters } envelope (or something older/broken). Future schema
   // bumps branch on env.v inside migrateRoster.
   const rosters = Array.isArray(env?.rosters) ? env.rosters.filter(isValidRoster) : []
-  for (const r of rosters) migrateRoster(r, env?.v)
+  for (const r of rosters) {
+    migrateRoster(r, Number.isInteger(r.v) ? r.v : env?.v)
+    delete r.v
+  }
   return rosters
 }
 
 function load() {
   try {
-    const raw = localStorage.getItem(KEY)
+    const raw = localData.getItem(KEY)
     if (!raw) return []
     return migrate(JSON.parse(raw))
   } catch {
@@ -336,7 +340,7 @@ const rosters = ref(load())
 // Auto-save on every mutation (debounced), flushed before the page goes away (debouncedSave).
 const { schedule: scheduleSave, now: flushSave } = debouncedSave(() => {
   try {
-    localStorage.setItem(KEY, JSON.stringify({ v: SCHEMA_VERSION, rosters: rosters.value }))
+    localData.write([[KEY, JSON.stringify({ v: SCHEMA_VERSION, rosters: rosters.value })]])
   } catch { /* quota / private mode — ignore */ }
 })
 
@@ -494,7 +498,7 @@ function adoptFromCloud(obj) {
   return r
 }
 
-// Commit both variants before replacing the original in memory. On quota failure the source
+// Journal both variants before replacing the original in memory. On quota failure the source
 // and its pending upload remain untouched; a cloud conflict must not turn into local data loss.
 function preserveCloudConflict(id, remote, suffix, { draft = false } = {}) {
   const source = rosterById(id)
@@ -509,7 +513,9 @@ function preserveCloudConflict(id, remote, suffix, { draft = false } = {}) {
   if (draft) { copy.draft = true; copy.draftStep = 2 }
   const next = [copy, ...rosters.value.filter((r) => r.id !== id)]
   if (theirs) next.push(theirs)
-  try { localStorage.setItem(KEY, JSON.stringify({ v: SCHEMA_VERSION, rosters: next })) }
+  try {
+    if (!localData.write([[KEY, JSON.stringify({ v: SCHEMA_VERSION, rosters: next })]], { requireJournal: true })) return null
+  }
   catch { return null }
   rosters.value = next
   return copy

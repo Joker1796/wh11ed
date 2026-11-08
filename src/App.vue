@@ -44,7 +44,16 @@
       class="main-content"
       :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isDominatusRoute || isFactionPageRoute || isCombatPatrolPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk || isGameRosterDesk, 'main-content--browse': isRosterBrowseDesk || isGameRosterDesk, 'main-content--fill': isFactionUnitsDesk }"
     >
-      <RouterView v-slot="{ Component }">
+      <p
+        v-if="localDataBlocked"
+        class="empty"
+      >
+        {{ localDataErrorText }}
+      </p>
+      <RouterView
+        v-else
+        v-slot="{ Component }"
+      >
         <Transition
           name="fade"
           mode="out-in"
@@ -128,6 +137,7 @@
     <UpdateToast v-if="!holdReloads && workerOn" />
     <OfflineWarmupToast v-if="!isBare && appUpdate.phase === 'idle'" />
     <UpdatePlate v-if="!isBare" />
+    <LocalDataNotice v-if="localDataState.conflict || (localDataState.error && (localDataState.phase !== 'error' || localDataBlocked))" />
     <ErrorReportsOffer
       v-if="errorOfferOpen && cacheMigration.phase !== 'shown'"
       @close="errorOfferOpen = false"
@@ -146,6 +156,12 @@ import { useInstallPrompt } from './composables/useInstallPrompt.js'
 import { useFeedbackModal } from './composables/useFeedbackModal.js'
 import { useSignInModal } from './composables/useSignInModal.js'
 import { useBackToCloseWhile } from './composables/useBackToClose.js'
+import { localData } from './composables/localData.js'
+import { ui } from './i18n/ui.js'
+const LocalDataNotice = defineAsyncComponent(() => import('./components/LocalDataNotice.vue'))
+const localDataState = localData.state
+const localDataBlocked = computed(() => localDataState.phase === 'error' && /^\/(?:ru\/)?(?:tracker|roster)(?:\/|$)/.test(route.path))
+const localDataErrorText = computed(() => ui[locale.value].localSaveErrorMessage)
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
 // A page caught reloading itself in a loop gets no update applied for a while (reloadLoop.js):

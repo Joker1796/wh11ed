@@ -3,12 +3,13 @@ import { useAuth } from './useAuth.js'
 import { useRosters, isDraft, SCHEMA_VERSION, normalizeCloudRoster } from './useRosters.js'
 import { contentHash } from '../utils/contentHash.js'
 import { stableJson } from '../utils/stableJson.js'
+import { localData } from './localData.js'
 import { getItem, setItem } from './safeStorage.js'
 import { ui } from '../i18n/ui.js'
 import { locale } from './useLocale.js'
 
 // Cloud sync of army lists, layered over useAuth + useRosters — the roster counterpart of
-// useCloudSync.js. localStorage stays the primary store; the cloud is a best-effort copy and a
+// useCloudSync.js. The device database stays the primary store; the cloud is a best-effort copy and a
 // failure never blocks list building.
 //
 // Three deliberate rules shape everything here:
@@ -196,6 +197,7 @@ export function useRosterSync() {
   async function saveToCloud(id) {
     const roster = rosterById(id)
     if (!roster || isDraft(roster)) return false
+    const submitted = snapshot(roster)
     const scope = account()
     intents.set(key(id, scope), (intents.get(key(id, scope)) || 0) + 1)
     markPending(id)
@@ -205,7 +207,8 @@ export function useRosterSync() {
     lastError.value = null
     conflict.value = null
     try {
-      const ok = await put(roster, scope)
+      if (localData.state.phase !== 'idle' && !await localData.flush()) return false
+      const ok = await put(submitted, scope)
       if (ok) { savedAt.value = Date.now(); pulled.value = null }
       return ok
     } catch (e) { lastError.value = e instanceof Error ? e.message : String(e); return false }
@@ -253,6 +256,7 @@ export function useRosterSync() {
     savedAt.value = 0
     const scope = account()
     try {
+      if (localData.state.phase !== 'idle' && !await localData.flush()) return
       const res = await request('/roster-sync', undefined, scope)
       if (!res.ok) throw new Error(`list failed: ${res.status}`)
       const body = await read(res, scope)

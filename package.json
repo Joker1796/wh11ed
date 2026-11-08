@@ -7,6 +7,7 @@
     "build": "vite build && node scripts/check-chunk-graph.mjs && node scripts/check-release.mjs && node scripts/gen-seo-routes.mjs",
     "preview": "vite preview",
     "test": "vitest run",
+    "test:local-data": "node scripts/local-data-e2e.mjs",
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.core.json",
     "test:watch": "vitest",

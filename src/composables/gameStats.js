@@ -23,7 +23,7 @@ import {
 // youIndex moved to gameScoring.js (the concede logic needs it there); kept exported from here
 // for the readers that already import it from this module.
 export { youIndex }
-import { getItem } from './safeStorage.js'
+import { localData } from './localData.js'
 
 // The finished-games key. useTracker.js owns the live ref and is their only WRITER; this module
 // only reads, and deliberately depends on nothing but gameScoring and safeStorage — a screen can
@@ -35,7 +35,7 @@ export const HISTORY_KEY = 'wh11ed-tracker-history'
 // already and must pass that instead, or it will show a stale record after a game is archived.
 export function loadHistory() {
   try {
-    const raw = getItem(HISTORY_KEY)
+    const raw = localData.getItem(HISTORY_KEY)
     const list = raw ? JSON.parse(raw) : []
     return Array.isArray(list) ? list.filter((g) => g && Array.isArray(g.players) && g.players.length === 2) : []
   } catch {

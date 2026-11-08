@@ -14,6 +14,7 @@ import { settleFirstNavigation } from './composables/firstNavigation.js'
 import App from './App.vue'
 import './fonts.js'
 import './style.css'
+import { localData } from './composables/localData.js'
 
 // First, before anything can throw: the error ring buffer bug reports attach.
 installErrorLog()
@@ -24,7 +25,11 @@ noteStandaloneStart()
 
 // Under a service worker, a newer build on the server is installed and opened before anything is
 // drawn (launchGate.js); otherwise — or if that cannot be done in time — the app starts as it is.
-launchGate().catch(() => false).then((reloading) => { if (!reloading) boot() })
+launchGate().catch(() => false).then(async (reloading) => {
+  if (reloading) return
+  await localData.initialize()
+  boot()
+})
 
 function boot() {
   const app = createApp(App)
