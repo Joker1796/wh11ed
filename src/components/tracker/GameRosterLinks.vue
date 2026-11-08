@@ -79,10 +79,12 @@ const links = computed(() => (props.game.players || [])
 .grl-pill:hover { border-color: var(--accent); color: var(--accent-ink); }
 .grl-pill.on { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
 .grl-stack { flex-direction: column; flex-wrap: nowrap; }
-/* In a column the player and the list each get a line: the column is too narrow to share one. */
-.grl-stack .grl-pill { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.4rem; }
-.grl-stack .grl-pill > .wi { grid-row: span 2; }
+/* In a column the player and the list each get a line: the column is too narrow to share one.
+   The icon sits on the player's line and the list's name takes the whole second line: centred
+   between two lines it floated in the gap between them (owner, 2026-11-08). */
+.grl-stack .grl-pill { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.4rem; row-gap: 0.1rem; align-items: center; line-height: 1.25; }
 .grl-stack .grl-who { max-width: none; font-size: 0.75rem; }
+.grl-stack .grl-name { grid-column: 1 / -1; }
 .grl-pill > .wi { flex-shrink: 0; }
 /* One line each, cut with "…": a long player name used to wrap into a column beside the icon
    (owner, 2026-10-10). The player gets at most half the pill, the list the rest. */
