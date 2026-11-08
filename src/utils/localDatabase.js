@@ -42,18 +42,45 @@ function database(db) {
     const r = tx.objectStore(store).getAll()
     r.onsuccess = () => done(r.result)
   })
+  function quarantine(tx, issues) {
+    const store = tx.objectStore('recovery')
+    for (const entry of issues) {
+      const save = (attempt = 0) => {
+        const key = attempt ? `${entry.key}/${attempt}` : entry.key
+        const r = store.get(key)
+        r.onsuccess = () => {
+          const previous = r.result
+          if (previous && (previous.raw !== entry.raw || previous.sourceKey !== entry.sourceKey || previous.index !== entry.index)) { save(attempt + 1); return }
+          if (!previous) store.put({ ...entry, key, status: 'quarantined', at: Date.now() })
+        }
+      }
+      save()
+    }
+  }
   return {
     close: () => db.close(),
     read: () => read('records'),
     recovery: () => read('recovery'),
     metadata: () => read('meta'),
-    migrate(records, legacy) {
-      return transaction(['records', 'meta'], 'readwrite', (tx, done) => {
+    meta(key) {
+      return transaction(['meta'], 'readonly', (tx, done) => {
+        const r = tx.objectStore('meta').get(key)
+        r.onsuccess = () => done(r.result || null)
+      })
+    },
+    migrate(records, legacy, { issues = [], onProgress = () => {} } = {}) {
+      return transaction(['records', 'meta', 'recovery'], 'readwrite', (tx, done) => {
         const meta = tx.objectStore('meta')
         const marker = meta.get('migration')
         marker.onsuccess = () => {
           if (marker.result) { done(false); return }
-          for (const record of records) tx.objectStore('records').put({ ...record, revision: 1 })
+          let written = 0
+          onProgress({ done: 0, total: records.length })
+          for (const record of records) {
+            const r = tx.objectStore('records').put({ ...record, revision: 1 })
+            r.onsuccess = () => onProgress({ key: record.key, done: ++written, total: records.length })
+          }
+          quarantine(tx, issues)
           meta.put({ key: 'legacy', entries: [...legacy] })
           meta.put({ key: 'legacy-original', entries: [...legacy] })
           meta.put({ key: 'migration', version: 1 })
@@ -61,8 +88,14 @@ function database(db) {
         }
       })
     },
-    acknowledgeLegacy(entries) {
-      return transaction(['meta'], 'readwrite', (tx) => tx.objectStore('meta').put({ key: 'legacy', entries: [...entries] }))
+    acknowledgeLegacy(entries, issues = []) {
+      return transaction(['meta', 'recovery'], 'readwrite', (tx) => {
+        quarantine(tx, issues)
+        tx.objectStore('meta').put({ key: 'legacy', entries: [...entries] })
+      })
+    },
+    quarantine(issues) {
+      return transaction(['recovery'], 'readwrite', (tx) => quarantine(tx, issues))
     },
     resolveRecovery(key) {
       return transaction(['recovery'], 'readwrite', (tx) => {

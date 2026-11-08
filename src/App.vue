@@ -12,6 +12,7 @@
       :page="pageKey"
     />
     <UpdateNoticeBar v-if="!isBare" />
+    <LocalDataRecoveryNotice v-if="localDataState.quarantineCount" />
 
     <AppNavbar
       v-if="!isBare"
@@ -159,6 +160,7 @@ import { useBackToCloseWhile } from './composables/useBackToClose.js'
 import { localData } from './composables/localData.js'
 import { ui } from './i18n/ui.js'
 const LocalDataNotice = defineAsyncComponent(() => import('./components/LocalDataNotice.vue'))
+const LocalDataRecoveryNotice = defineAsyncComponent(() => import('./components/LocalDataRecoveryNotice.vue'))
 const localDataState = localData.state
 const localDataBlocked = computed(() => localDataState.phase === 'error' && /^\/(?:ru\/)?(?:tracker|roster)(?:\/|$)/.test(route.path))
 const localDataErrorText = computed(() => ui[locale.value].localSaveErrorMessage)

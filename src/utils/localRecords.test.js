@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { LOCAL_KEYS, changesFor, localView, recordsFor } from './localRecords.js'
+import { LOCAL_KEYS, changesFor, localView, recordsFor, inspectLegacy, legacyChanges } from './localRecords.js'
 
 const env = (rosters, v = 13) => JSON.stringify({ v, rosters })
 const rosterKey = LOCAL_KEYS[0]
@@ -36,5 +36,39 @@ describe('local record identity', () => {
     expect(changesFor([[LOCAL_KEYS[1], null], [LOCAL_KEYS[2], `[${game}]`]], base)).toEqual([
       { key: 'current', value: null }, { key: 'history/g', value: game },
     ])
+  })
+})
+
+describe('legacy migration quarantine', () => {
+  const good = { id: 'good', name: 'Working list', units: [] }
+  it('keeps healthy rosters when one entry is null, and retains the rejected source', () => {
+    const raw = env([good, null])
+    const result = inspectLegacy(new Map([[rosterKey, raw]]))
+    expect(result.records.get('roster/good')).toBe('{"id":"good","name":"Working list","units":[],"v":13}')
+    expect(result.issues).toHaveLength(1)
+    expect(result.issues[0]).toMatchObject({ sourceKey: rosterKey, index: 1, raw: 'null' })
+    expect(result.completeKeys.has(rosterKey)).toBe(false)
+  })
+  it('retains a duplicate variant without replacing the first roster', () => {
+    const result = inspectLegacy(new Map([[rosterKey, env([good, { ...good, name: 'Other variant' }])]]))
+    expect(result.records.size).toBe(1)
+    expect(result.issues[0].raw).toContain('Other variant')
+    expect(result.issues[0].reason).toBe('duplicate')
+  })
+  it('isolates broken history and a roster with a malformed unit', () => {
+    const result = inspectLegacy(new Map([[rosterKey, env([good, { id: 'bad', name: 'Bad', units: [null] }])], [LOCAL_KEYS[2], '[null]']]))
+    expect([...result.records.keys()]).toEqual(['roster/good'])
+    expect(result.issues).toHaveLength(2)
+  })
+  it('does not translate a broken legacy container into deletions of healthy IDB records', () => {
+    const before = new Map([[rosterKey, env([good])]])
+    const after = new Map([[rosterKey, '{broken json']])
+    expect(legacyChanges(after, before).ops).toEqual([])
+    expect(legacyChanges(after, before).issues[0].raw).toBe('{broken json')
+  })
+  it('does not infer deletes from an incomplete collection, but accepts healthy additions', () => {
+    const before = new Map([[rosterKey, env([good])]])
+    const after = new Map([[rosterKey, env([{ id: 'new', name: 'New', units: [] }, null])]])
+    expect(legacyChanges(after, before).ops.map((r) => r.key)).toEqual(['roster/new'])
   })
 })

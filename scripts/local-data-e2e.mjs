@@ -56,9 +56,9 @@ for (const [name, engine] of [['chrome', chromium], ['webkit', webkit]]) {
       // Two stale collection views touching different ids must merge without confirmation.
       const c = createLocalData({ open, namespace }), d = createLocalData({ open, namespace })
       expect(await c.initialize() && await d.initialize(), 'fresh readers failed')
-      save(c, 'Second tab', [{ id: 'new-c', name: 'C' }])
+      save(c, 'Second tab', [{ id: 'new-c', name: 'C', units: [] }])
       expect(await c.flush(), 'independent create C failed')
-      save(d, 'Second tab', [{ id: 'new-d', name: 'D' }])
+      save(d, 'Second tab', [{ id: 'new-d', name: 'D', units: [] }])
       expect(await d.flush(), 'independent create D conflicted')
       const ids = (await db.read()).filter((r) => r.value && r.key.startsWith('roster/')).map((r) => r.key)
       expect(ids.includes('roster/new-c') && ids.includes('roster/new-d'), 'collection save dropped another tab\'s new list')
@@ -92,7 +92,7 @@ for (const [name, engine] of [['chrome', chromium], ['webkit', webkit]]) {
       }
       const e = createLocalData({ open, namespace, storage: limitedStorage })
       expect(await e.initialize(), 'quota reader failed')
-      save(e, 'IDB survives full localStorage', [{ id: 'new-c', name: 'C' }, { id: 'new-d', name: 'D' }])
+      save(e, 'IDB survives full localStorage', [{ id: 'new-c', name: 'C', units: [] }, { id: 'new-d', name: 'D', units: [] }])
       expect(await e.flush(), 'full journal blocked available IndexedDB')
       expect(await primary() === 'IDB survives full localStorage', 'IDB did not save after journal quota')
       expect(!e.state.error, 'successful IDB commit kept a false error')
@@ -117,6 +117,47 @@ for (const [name, engine] of [['chrome', chromium], ['webkit', webkit]]) {
       await afterSticky.close()
       await Promise.all([a.close(), b.close(), c.close(), d.close(), e.close()])
       db.close()
+
+      for (const problem of ['null-roster', 'duplicate-roster', 'bad-unit', 'bad-history']) {
+        localStorage.clear()
+        const good = { id: 'healthy', name: 'Still available', units: [] }
+        const rosters = [good]
+        if (problem === 'null-roster') rosters.push(null)
+        if (problem === 'duplicate-roster') rosters.push({ ...good, name: 'Second variant' })
+        if (problem === 'bad-unit') rosters.push({ id: 'bad-unit', name: 'Bad unit', units: [null] })
+        const original = JSON.stringify({ v: 13, rosters })
+        localStorage.setItem(rosterKey, original)
+        if (problem === 'bad-history') localStorage.setItem(LOCAL_KEYS[2], '[null]')
+        const name = `quarantine-${crypto.randomUUID()}`
+        const options = { open: () => openLocalDatabase({ name }), namespace: `quarantine/${name}/` }
+        const client = createLocalData(options)
+        expect(await client.initialize(), `${problem} blocked healthy rosters`)
+        expect(JSON.parse(client.getItem(rosterKey)).rosters.some((r) => r.id === 'healthy'), `${problem} lost the healthy roster`)
+        expect((await client.backup()).recovery.some((r) => r.status === 'quarantined'), `${problem} discarded rejected data`)
+        client.write([[rosterKey, JSON.stringify({ v: 13, rosters: [{ ...good, name: 'Saved after quarantine' }] })]])
+        expect(await client.flush(), `${problem} prevented editing healthy data`)
+        expect(localStorage.getItem(rosterKey) === original, `${problem} modified the original source`)
+        await client.close()
+        localStorage.setItem(rosterKey, '{broken old source')
+        const reopened = createLocalData(options)
+        expect(await reopened.initialize(), 'broken obsolete source blocked a healthy migrated database')
+        expect(JSON.parse(reopened.getItem(rosterKey)).rosters.some((r) => r.name === 'Saved after quarantine'), 'obsolete source replaced newer IDB data')
+        await reopened.close()
+        const rawDb = await new Promise((resolve) => { const r = globalThis.indexedDB.open(name, 1); r.onsuccess = () => resolve(r.result) })
+        await new Promise((resolve, reject) => {
+          const tx = rawDb.transaction(['records'], 'readwrite')
+          tx.objectStore('records').put({ key: 'roster/broken-idb', value: '{invalid JSON', revision: 1 })
+          tx.oncomplete = resolve; tx.onabort = () => reject(tx.error)
+        })
+        rawDb.close()
+        const damaged = createLocalData(options)
+        expect(await damaged.initialize(), 'one malformed IDB record blocked healthy data')
+        const backup = await damaged.backup()
+        expect(JSON.parse(backup.items[rosterKey]).rosters.some((r) => r.id === good.id), 'malformed IDB record hid healthy data')
+        expect(backup.records.some((r) => r.key === 'roster/broken-idb' && r.value === '{invalid JSON'), 'backup lost the malformed IDB source')
+        expect(backup.recovery.some((r) => r.sourceKey === 'indexeddb/roster/broken-idb'), 'malformed IDB record was not quarantined')
+        await damaged.close()
+      }
 
       // Leave a synchronous journal with a deliberately suspended IDB submission, then close
       // this page. The next real page must recover it after Web Locks releases the owner.
@@ -249,6 +290,25 @@ for (const [name, engine] of [['chrome', chromium], ['webkit', webkit]]) {
     }, archived.id)
     assert.deepEqual(uiErrors, [])
     await uiContext.close()
+    const recoveryContext = await browser.newContext({ viewport: { width: 390, height: 844 } })
+    await recoveryContext.addInitScript(() => {
+      localStorage.setItem('wh11ed-rosters', JSON.stringify({ v: 13, rosters: [
+        { id: 'healthy-ui', name: 'Исправный ростер', faction: 'orks', units: [], detachments: [], battleSize: 'strike-force' }, null,
+      ] }))
+    })
+    const recoveryPage = await recoveryContext.newPage()
+    await recoveryPage.goto(`${base}/ru/roster`)
+    await recoveryPage.getByText('Исправный ростер', { exact: true }).waitFor()
+    const [download] = await Promise.all([
+      recoveryPage.waitForEvent('download'),
+      recoveryPage.getByRole('button', { name: 'Скачать копию данных', exact: true }).click(),
+    ])
+    const chunks = []
+    for await (const chunk of await download.createReadStream()) chunks.push(chunk)
+    const backup = JSON.parse(Buffer.concat(chunks).toString())
+    assert.ok(backup.recovery.some((r) => r.status === 'quarantined' && r.raw === 'null'))
+    assert.ok(JSON.parse(backup.legacy.find(([key]) => key === 'wh11ed-rosters')[1]).rosters.includes(null))
+    await recoveryContext.close()
     console.log(`${name}: migration, stale save, confirmation race, independent records, aborted archive, journal quota, committed journal replay, killed-page recovery and two-tab UI passed`)
   } catch (error) {
     if (debugPage && !debugPage.isClosed()) {

@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { LOCAL_KEYS, changesFor, localView, recordsFor } from '../utils/localRecords.js'
+import { LOCAL_KEYS, changesFor, localView, inspectLegacy, legacyChanges, inspectStoredRecords } from '../utils/localRecords.js'
 import { openLocalDatabase } from '../utils/localDatabase.js'
 
 const JOURNAL = 'wh11ed-local-pending/'
@@ -19,7 +19,8 @@ const browserStorage = {
 // the tiny per-tab journal bridges the gap between a synchronous tap and asynchronous IDB commit.
 // No dataset or tracker import belongs here: this is also read by the lightweight app shell.
 export function createLocalData({ storage = browserStorage, open = openLocalDatabase, locks = globalThis.navigator?.locks, namespace = JOURNAL } = {}) {
-  const state = reactive({ phase: 'idle', error: null, conflict: null, notice: 0, saving: false })
+  const state = reactive({ phase: 'idle', error: null, conflict: null, notice: 0, saving: false, quarantineCount: 0,
+    progress: { step: 'opening', done: 0, total: 0, rosters: { done: 0, total: 0 }, games: { done: 0, total: 0 } } })
   const actor = uid()
   const journalKey = namespace + actor
   const subscribers = new Set()
@@ -34,11 +35,33 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
   const fail = (error) => { state.error = error instanceof Error ? error.message : String(error); state.notice++ }
   const legacy = () => new Map(LOCAL_KEYS.map((key) => [key, storage.getItem(key)]))
   const setRecords = (rows) => {
-    records = new Map(rows.map((r) => [r.key, r]))
-    baseline = localView(rows)
+    const inspected = inspectStoredRecords(rows)
+    records = new Map(inspected.valid.map((r) => [r.key, r]))
+    baseline = localView(inspected.valid)
+    return inspected.issues
   }
   const publish = () => { for (const fn of subscribers) fn() }
   const expectedFor = (ops) => Object.fromEntries(ops.map((op) => [op.key, records.get(op.key)?.revision || 0]))
+  async function importLegacy(source, previous) {
+    const planned = legacyChanges(source, previous)
+    let ok = true
+    if (planned.ops.length) {
+      const current = new Map((await db.read()).map((row) => [row.key, row]))
+      const expected = Object.fromEntries(planned.ops.map((op) => {
+        const row = current.get(op.key)
+        const matches = (row?.value ?? null) === (planned.before.get(op.key) ?? null)
+          && (planned.before.has(op.key) || !row)
+        return [op.key, matches ? row?.revision || 0 : -1]
+      }))
+      const candidate = { key: `legacy/${uid()}`, ops: planned.ops, expected }
+      const result = await db.commit(candidate)
+      if (!result.ok) { reportConflict(result, candidate); ok = false }
+    }
+    await db.acknowledgeLegacy([...source], planned.issues)
+    legacySource = source
+    state.quarantineCount = (await db.recovery()).filter((row) => row.status === 'quarantined').length
+    return ok
+  }
   function pending() { return changesFor(desired, baseline) }
   function stage(ops = pending(), expected = expectedFor(ops)) {
     journal = { key: `${actor}/${++sequence}`, ops, expected }
@@ -65,16 +88,7 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
         while (desired.size) {
           const source = legacy()
           if (LOCAL_KEYS.some((key) => source.get(key) !== legacySource.get(key))) {
-            const changes = changesFor(source, legacySource)
-            let legacyConflict = false
-            if (changes.length) {
-              const candidate = { key: `legacy/${uid()}`, ops: changes, expected: Object.fromEntries(changes.map((op) => [op.key, 1])) }
-              const imported = await db.commit(candidate)
-              if (!imported.ok) { reportConflict(imported, candidate); legacyConflict = true }
-            }
-            await db.acknowledgeLegacy([...source])
-            legacySource = source
-            if (legacyConflict) return false
+            if (!await importLegacy(source, legacySource)) return false
           }
           const ops = pending()
           if (!ops.length) {
@@ -143,27 +157,43 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
           locks.request(journalKey, () => new Promise((resolve) => { releaseActor = resolve; held() })).catch((error) => { held(); fail(error) })
           await acquired
         }
-        const rows = []
-        for (const [key, raw] of source) for (const [id, value] of recordsFor(key, raw)) if (value !== null) rows.push({ key: id, value })
-        const created = await db.migrate(rows, source)
+        let created = false, rows = []
+        const marker = await db.meta('migration')
+        if (!marker) {
+          state.progress.step = 'preparing'
+          const inspected = inspectLegacy(source)
+          rows = [...inspected.records].filter(([, value]) => value !== null).map(([key, value]) => ({ key, value }))
+          state.progress.rosters = { done: 0, total: rows.filter((r) => r.key.startsWith('roster/')).length }
+          state.progress.games = { done: 0, total: rows.filter((r) => r.key.startsWith('history/') || r.key === 'current').length }
+          state.progress.total = rows.length
+          state.progress.step = 'copying'
+          created = await db.migrate(rows, source, { issues: inspected.issues, onProgress: ({ key, done, total }) => {
+            state.progress.done = done; state.progress.total = total
+            if (key?.startsWith('roster/')) state.progress.rosters.done++
+            else if (key?.startsWith('history/') || key === 'current') state.progress.games.done++
+          } })
+        }
+        state.progress.step = created ? 'verifying' : 'reading'
         const saved = await db.read()
-        if (created && rows.some((r) => saved.find((s) => s.key === r.key)?.value !== r.value)) throw new Error('Local migration verification failed')
-        setRecords(saved)
+        const savedById = new Map(saved.map((r) => [r.key, r.value]))
+        if (created && rows.some((r) => savedById.get(r.key) !== r.value)) throw new Error('Local migration verification failed')
+        const storedIssues = setRecords(saved)
+        if (storedIssues.length) await db.quarantine(storedIssues)
         if (!created) {
-          const previous = (await db.metadata()).find((row) => row.key === 'legacy')
-          if (!previous) throw new Error('Missing migration backup')
-          const ops = changesFor(source, new Map(previous.entries))
-          if (ops.length) {
-            await replay({ key: `legacy/${uid()}`, ops, expected: Object.fromEntries(ops.map((op) => [op.key, 1])) }, '')
-            await db.acknowledgeLegacy([...source])
-          }
+          const previous = await db.meta('legacy') || await db.meta('legacy-original')
+          const previousEntries = new Map(previous?.entries || [])
+          if (LOCAL_KEYS.some((key) => source.get(key) !== previousEntries.get(key))) await importLegacy(source, previousEntries)
         }
         legacySource = source
+        state.progress.step = 'recovering'
         await recoverJournals()
-        setRecords(await db.read())
+        const replayIssues = setRecords(await db.read())
+        if (replayIssues.length) await db.quarantine(replayIssues)
         cache = new Map(baseline)
         const unresolved = []
-        for (const candidate of (await db.recovery()).filter((row) => row.status === 'conflict')) {
+        const recovery = await db.recovery()
+        state.quarantineCount = recovery.filter((row) => row.status === 'quarantined').length
+        for (const candidate of recovery.filter((row) => row.status === 'conflict')) {
           const owner = candidate.key.slice(0, candidate.key.lastIndexOf('/'))
           if (owner === 'legacy') unresolved.push(candidate)
           else if (locks) await locks.request(namespace + owner, { ifAvailable: true }, (lock) => { if (lock) unresolved.push(candidate) })
@@ -197,11 +227,14 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
     subscribe(fn) { subscribers.add(fn); return () => subscribers.delete(fn) },
     async backup() {
       if (!db) throw new Error('Local database is unavailable')
+      const rawRecords = await db.read()
       return {
         format: 1,
-        items: Object.fromEntries(localView(await db.read())),
+        items: Object.fromEntries(localView(inspectStoredRecords(rawRecords).valid)),
+        records: rawRecords,
+        pending: journal,
         recovery: await db.recovery(),
-        legacy: (await db.metadata()).find((row) => row.key === 'legacy-original')?.entries || [],
+        legacy: (await db.meta('legacy-original'))?.entries || [],
       }
     },
     write(entries, { requireJournal = false } = {}) {

@@ -11,6 +11,11 @@ roster/tracker screens from mounting over an unknown or stale copy. No empty fal
 over a migrated database. Storage access itself is lazy: a denied localStorage getter cannot
 throw during the shell's imports.
 
+`LocalDataStartup` mounts before the app. It stays invisible for the first 500 ms, then shows
+a non-dismissible status until initialization finishes. Migration counters advance on successful
+IDB put requests; transaction completion is followed by a separate read-back verification stage.
+Roster and game counts exclude the setup draft. A fast initialization never flashes the surface.
+
 ## Migration and rollback
 
 The four original localStorage keys retain their names and contents:
@@ -25,6 +30,18 @@ The first transaction copies them to `records`, preserves the exact source in
 compared before initialization succeeds. A failed/aborted copy does not modify the source.
 The original keys are not deleted. `meta['legacy']` separately tracks the last legacy snapshot
 seen; changes made by an older open build are checked before a new write and at startup.
+
+Legacy collections are inspected one entity at a time. Invalid JSON, malformed entities and
+duplicate identities are preserved as `recovery` entries with `status: 'quarantined'`; healthy
+entities remain available. The first valid occurrence of a duplicate is used. An incomplete
+legacy collection never authorizes deletion of a record from IDB. A damaged obsolete legacy
+copy cannot block a previously migrated database. Invalid stored IDB records are likewise
+excluded from the working view and retained both in place and in recovery. Ordinary writes
+still use the strict format boundary. No entity is silently repaired or discarded.
+
+`LocalDataRecoveryNotice` offers a device backup download when quarantine is nonempty. It
+contains the original legacy strings, raw IDB records, safe legacy-format `items`, the current
+pending journal and all recovery entries. Dismissing the notice only affects that page session.
 
 An entity retains its own schema version. Combining an old untouched roster and a newly saved
 one must not promote the former to the latter's schema. `useRosters.migrate()` consumes and
@@ -80,6 +97,7 @@ app and the format boundary. `npm run test:local-data` needs Vite on localhost:5
 (`LOCAL_DATA_URL` overrides it) and installed Chrome/WebKit. It uses isolated contexts, no owner
 browser or production account. It exercises actual IDB, aborts an archive transaction, fills the
 synchronous journal, kills a page before commit, checks committed-journal receipts, and drives
-the real confirmation dialog in two tabs. It also creates/archives a game through useTracker
-and reopens the app. Every new persistence failure needs a scenario against the browser storage,
+the real confirmation dialog in two tabs. It also checks malformed legacy/IDB records, downloads
+the quarantine backup, creates/archives a game through useTracker and reopens the app.
+Every new persistence failure needs a scenario against the browser storage,
 not just an in-memory storage mock.
