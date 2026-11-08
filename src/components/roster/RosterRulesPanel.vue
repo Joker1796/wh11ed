@@ -185,7 +185,8 @@
 
 <script setup>
 import ChevronIcon from '../ChevronIcon.vue'
-import { computed, defineAsyncComponent, ref } from 'vue'
+import { computed, ref } from 'vue'
+import { asyncComponent as defineAsyncComponent } from '../../composables/asyncComponent.js'
 import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'

@@ -273,25 +273,34 @@ let pendingHistory = false
 let pendingSetupDraft = false
 
 function writePending() {
-  // History BEFORE current: when archiving, current is cleared and the game moves to history.
-  // Writing history first means a failure (quota/iOS) on the current write can't leave us with
-  // a finished game dropped from both keys.
-  if (pendingHistory) {
-    pendingHistory = false
-    try { localStorage.setItem(HIST_KEY, JSON.stringify(history.value)) } catch { /* ignore */ }
-  }
-  if (pendingCurrent) {
-    pendingCurrent = false
+  // Write the destination before removing the source in EITHER direction. Archiving needs
+  // history first; resuming needs current first. A failed destination leaves both pending flags
+  // and the durable source intact, so the next flush can finish the same transition.
+  const saveCurrent = () => {
+    if (!pendingCurrent) return true
     try {
       if (current.value) localStorage.setItem(CUR_KEY, JSON.stringify(current.value))
       else localStorage.removeItem(CUR_KEY)
-    } catch { /* quota / private mode — ignore */ }
+      pendingCurrent = false
+      return true
+    } catch { return false }
   }
+  const saveHistory = () => {
+    if (!pendingHistory) return true
+    try {
+      localStorage.setItem(HIST_KEY, JSON.stringify(history.value))
+      pendingHistory = false
+      return true
+    } catch { return false }
+  }
+  if (current.value) {
+    if (!saveCurrent() || !saveHistory()) return
+  } else if (!saveHistory() || !saveCurrent()) return
   if (pendingSetupDraft) {
-    pendingSetupDraft = false
     try {
       if (setupDraft.value) localStorage.setItem(DRAFT_KEY, JSON.stringify(setupDraft.value))
       else localStorage.removeItem(DRAFT_KEY)
+      pendingSetupDraft = false
     } catch { /* ignore */ }
   }
 }

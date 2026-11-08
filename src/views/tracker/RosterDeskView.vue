@@ -54,7 +54,8 @@
 // The desk fills the window and each column scrolls on its own (useViewportFill, the builder's
 // workbench does the same). The statistics load only when shown: they read the tracker's store,
 // which statically carries the mission datasets the roster routes must not.
-import { computed, defineAsyncComponent, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
+import { asyncComponent as defineAsyncComponent } from '../../composables/asyncComponent.js'
 import { useRoute, useRouter } from 'vue-router'
 import RosterListView from './RosterListView.vue'
 import RosterViewView from './RosterViewView.vue'

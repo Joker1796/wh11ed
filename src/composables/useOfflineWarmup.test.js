@@ -10,6 +10,7 @@ const MANIFEST = {
   images: { files: ['/images/x.webp'], bytes: 7 * 1048576 },
 }
 
+let held
 let fetched
 function mockFetch(manifest = MANIFEST) {
   fetched = []
@@ -27,10 +28,61 @@ async function fresh() {
   return import('./useOfflineWarmup.js')
 }
 
-beforeEach(() => { localStorage.clear() })
-afterEach(() => { vi.unstubAllGlobals() })
+beforeEach(() => {
+  localStorage.clear()
+  held = new Map()
+  vi.stubGlobal('caches', { open: vi.fn(async () => ({
+    match: vi.fn(async (url) => held.get(url)),
+    put: vi.fn(async (url, res) => { held.set(url, res) }),
+  })) })
+  Object.defineProperty(navigator, 'serviceWorker', { value: { controller: {} }, configurable: true })
+})
+afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); delete navigator.serviceWorker })
 
 describe('startOfflineWarmup', () => {
+  it('requires a committed cache entry rather than just a successful HTTP response', async () => {
+    mockFetch()
+    vi.stubGlobal('caches', { open: async () => ({ match: async () => undefined, put: async () => {} }) })
+    const { startOfflineWarmup, useOfflineWarmup } = await fresh()
+    await startOfflineWarmup()
+    expect(useOfflineWarmup().status.value).toBe('error')
+    expect(useOfflineWarmup().warmed.value).toBe(false)
+  })
+
+  it.each(['request', 'body', 'worker'])('bounds a stalled %s and permits another attempt', async (kind) => {
+    vi.useFakeTimers()
+    mockFetch()
+    if (kind === 'request') vi.stubGlobal('fetch', () => new Promise(() => {}))
+    if (kind === 'body') vi.stubGlobal('caches', { open: async () => ({ match: async () => undefined, put: () => new Promise(() => {}) }) })
+    if (kind === 'worker') Object.defineProperty(navigator, 'serviceWorker', { value: { ready: new Promise(() => {}) }, configurable: true })
+    const { startOfflineWarmup, useOfflineWarmup } = await fresh()
+    const run = startOfflineWarmup()
+    await vi.runAllTimersAsync()
+    await run
+    expect(useOfflineWarmup().status.value).toBe('error')
+    expect(useOfflineWarmup().warmed.value).toBe(false)
+  })
+
+  it.each([404, 503])('does not mark HTTP %s on an asset as downloaded', async (httpStatus) => {
+    vi.stubGlobal('fetch', vi.fn(async (url) => url === '/offline-manifest.json'
+      ? { ok: true, json: async () => MANIFEST }
+      : { ok: false, status: httpStatus }))
+    const { startOfflineWarmup, useOfflineWarmup } = await fresh()
+    await startOfflineWarmup()
+    expect(useOfflineWarmup().status.value).toBe('error')
+    expect(useOfflineWarmup().warmed.value).toBe(false)
+  })
+
+  it('repairs an evicted cache even when the manifest still matches the saved marker', async () => {
+    mockFetch()
+    const { startOfflineWarmup, topUpOffline } = await fresh()
+    await startOfflineWarmup()
+    fetched.length = 0
+    held.clear()
+    await topUpOffline()
+    expect(fetched).toContain('/assets/a.js')
+  })
+
   it('fetches every file in the manifest, assets before images', async () => {
     mockFetch()
     const { startOfflineWarmup, useOfflineWarmup } = await fresh()
@@ -51,11 +103,10 @@ describe('startOfflineWarmup', () => {
     expect(localStorage.getItem('wh11ed-offline-warmed')).toBeTruthy()
     expect(useOfflineWarmup().warmed.value).toBe(true)
 
-    // The button forces: a reader asking again has a reason we cannot see (an evicted cache, a
-    // trip tomorrow), so the marker must not turn the second tap into a no-op.
+    // The button verifies the actual cache again, keeping already committed files.
     fetched.length = 0
     await startOfflineWarmup()
-    expect(fetched).toContain('/images/x.webp')
+    expect(fetched).toEqual(['/offline-manifest.json'])
   })
 
   // After a release most of the list is already cached under the same hashed names; only what a
@@ -63,7 +114,7 @@ describe('startOfflineWarmup', () => {
   // the whole app downloading again (owner, 2026-10-05).
   it('fetches and counts only what no cache holds yet', async () => {
     mockFetch()
-    vi.stubGlobal('caches', { match: vi.fn(async (url) => (url === '/assets/a.js' ? {} : undefined)) })
+    held.set('/assets/a.js', { ok: true })
     const { startOfflineWarmup, useOfflineWarmup } = await fresh()
     await startOfflineWarmup()
     expect(fetched).toEqual(['/offline-manifest.json', '/assets/b.js', '/images/x.webp'])
@@ -73,7 +124,7 @@ describe('startOfflineWarmup', () => {
 
   it('is done at once when every file is already cached', async () => {
     mockFetch()
-    vi.stubGlobal('caches', { match: vi.fn(async () => ({})) })
+    for (const url of [...MANIFEST.assets.files, ...MANIFEST.images.files]) held.set(url, { ok: true })
     const { startOfflineWarmup, useOfflineWarmup } = await fresh()
     await startOfflineWarmup()
     expect(fetched).toEqual(['/offline-manifest.json'])
@@ -104,7 +155,7 @@ describe('startOfflineWarmup', () => {
       throw new Error('the tunnel dropped it')
     }))
     const { startOfflineWarmup, useOfflineWarmup } = await fresh()
-    expect(useOfflineWarmup().warmed.value).toBe(true)
+    expect(useOfflineWarmup().warmed.value).toBe(false)
     await startOfflineWarmup()
     expect(useOfflineWarmup().warmed.value).toBe(false)
     expect(useOfflineWarmup().status.value).toBe('error')
@@ -126,7 +177,7 @@ describe('an installed app after a release', () => {
   async function autoRun() {
     vi.stubGlobal('matchMedia', () => ({ matches: true }))
     vi.stubGlobal('requestIdleCallback', (cb) => cb())
-    Object.defineProperty(navigator, 'serviceWorker', { value: {}, configurable: true })
+    Object.defineProperty(navigator, 'serviceWorker', { value: { controller: {} }, configurable: true })
     const mod = await fresh()
     const api = mod.useOfflineWarmup()
     await vi.waitFor(() => expect(api.status.value).toBe('ready'))

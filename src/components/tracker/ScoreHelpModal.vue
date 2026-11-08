@@ -36,7 +36,8 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent } from 'vue'
+import { computed } from 'vue'
+import { asyncComponent as defineAsyncComponent } from '../../composables/asyncComponent.js'
 import BaseModal from '../BaseModal.vue'
 import HelpText from './HelpText.vue'
 import { ui } from '../../i18n/ui.js'

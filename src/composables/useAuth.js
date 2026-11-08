@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { API_BASE_URL } from '../config.js'
+import { fetchDeadline as fetch } from '../utils/fetchDeadline.js'
 
 // Module-singleton auth store (same pattern as useLocale.js). App-wide: the account is not a
 // tracker feature — both the tracker and the roster builder sync through it, and the way in and

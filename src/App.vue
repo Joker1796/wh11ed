@@ -136,7 +136,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { asyncComponent as defineAsyncComponent } from './composables/asyncComponent.js'
 import { pageLeaving, pageArrived } from './composables/usePageMotion.js'
 import { useRoute, useRouter } from 'vue-router'
 import { shouldWelcome } from './composables/useWelcome.js'

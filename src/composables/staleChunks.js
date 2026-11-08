@@ -1,5 +1,6 @@
 import { START_LOCATION } from 'vue-router'
 import { noteReload, reloadsHeld } from './reloadLoop.js'
+import { withinDeadline } from '../utils/deadline.js'
 
 // A page from an older deploy asking for a chunk the server no longer has.
 //
@@ -54,9 +55,9 @@ export async function recoverFromStaleChunk(url, { now = Date.now(), reload = (u
   // reload once it has had time to install — the start applies it. With no worker (a tab, since
   // 2.9.5) there is no registration and the reload is at once. The address is set to where the
   // reader was going first: the failed navigation never changed it.
-  const reg = await navigator.serviceWorker?.getRegistration?.().catch(() => null)
+  const reg = await withinDeadline(() => navigator.serviceWorker?.getRegistration?.(), 2000, 'Worker registration').catch(() => null)
   if (reg) {
-    await reg.update().catch(() => {})
+    await withinDeadline(() => reg.update(), 2000, 'Worker update').catch(() => {})
     if (reg.installing || reg.waiting) {
       try { history.replaceState(history.state, '', url) } catch { /* another origin: stay put */ }
       setTimeout(() => { noteReload('chunk'); reload(url) }, SW_GRACE_MS)
@@ -144,7 +145,8 @@ export async function importQuietly(load, { delays = RETRY_DELAYS_MS, wait = sle
     } catch (err) {
       // A load that never finished is not asked for again: the module is still pending, and the same
       // import would wait on the same request.
-      if (!isChunkLoadError(err) || /** @type {any} */ (err)?.timedOut) throw err
+      if (!isChunkLoadError(err)) throw err
+      if (/** @type {any} */ (err)?.timedOut) { recover(); throw err }
       if (attempt >= delays.length) {
         recover()
         throw err
@@ -165,7 +167,7 @@ export async function importQuietly(load, { delays = RETRY_DELAYS_MS, wait = sle
  * @returns {Record<string, () => Promise<T>>}
  */
 export function quietLoaders(loaders) {
-  return Object.fromEntries(Object.entries(loaders).map(([k, load]) => [k, () => importQuietly(load)]))
+  return Object.fromEntries(Object.entries(loaders).map(([k, load]) => [k, () => loadChunk(load)]))
 }
 
 // ── A route's chunk, bounded ─────────────────────────────────────────────────────────────────
@@ -176,6 +178,23 @@ export function quietLoaders(loaders) {
 // handler above takes what is left — one reload into that page, under the same guards.
 export const ROUTE_CHUNK_MS = 8000
 
+// Data and async components use the same deadline as routes. A timeout does not cancel an ESM
+// import: a later call may still receive it, but this call cannot hold the screen indefinitely.
+export function boundedChunk(load, ms = ROUTE_CHUNK_MS) {
+  return withinDeadline(load, ms, 'Chunk').catch((err) => {
+    if (!isChunkLoadError(err) && err.message === `Chunk timed out after ${ms} ms`) {
+      const timeout = new Error(`Failed to fetch dynamically imported module: no answer in ${ms} ms`)
+      timeout.timedOut = true
+      throw timeout
+    }
+    throw err
+  })
+}
+
+export function loadChunk(load) {
+  return importQuietly(() => boundedChunk(load))
+}
+
 /**
  * @template T
  * @param {() => Promise<T>} load
@@ -183,14 +202,7 @@ export const ROUTE_CHUNK_MS = 8000
  * @returns {() => Promise<T>}
  */
 export function routeChunk(load, { ms = ROUTE_CHUNK_MS, ...retry } = {}) {
-  const bounded = () => new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      const err = /** @type {Error & { timedOut?: boolean }} */ (new Error(`Failed to fetch dynamically imported module: no answer in ${ms} ms`))
-      err.timedOut = true
-      reject(err)
-    }, ms)
-    load().then((m) => { clearTimeout(timer); resolve(m) }, (e) => { clearTimeout(timer); reject(e) })
-  })
+  const bounded = () => boundedChunk(load, ms)
   // The router's handler recovers, with the address the reader was going to: not this one.
   return () => importQuietly(bounded, { ...retry, recover: () => {} })
 }

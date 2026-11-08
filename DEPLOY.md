@@ -151,6 +151,14 @@ Uploads via the S3-compatible API (endpoint `storage.yandexcloud.net`, AWS CLI p
 
 ## PWA
 
+**Offline completion (stability pass, 2026-11-08).** A saved marker is only a hint, never proof.
+The warm-up checks actual entries in the worker's two named runtime caches on every pass, rejects
+non-2xx responses, and awaits Cache.put (including the body) before verifying the complete set.
+Requests, storage operations and the first active worker have finite deadlines. A failed pass
+keeps downloaded files and removes the completion marker; two low-priority downloads run at once.
+The warm-up can fill these same caches before the active worker controls its first page.
+
+
 The site is an installable PWA via **`vite-plugin-pwa`** (Workbox `generateSW`), configured in `vite.config.js`. `base` is `'/'` (root-hosted) so the service worker controls scope `/`.
 
 > **🔒 Product requirement — light web/tab, full offline in the installed app.** A casual visitor in

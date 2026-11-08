@@ -36,7 +36,8 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { asyncComponent as defineAsyncComponent } from '../../composables/asyncComponent.js'
 import PageTabs from '../PageTabs.vue'
 import { useTracker, isYouSide, membersOf } from '../../composables/useTracker.js'
 import { useGameArmies } from '../../composables/useGameArmies.js'
