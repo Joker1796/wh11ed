@@ -45,20 +45,27 @@
       v-for="x in block.iconList"
       :key="x.icon"
     >
-      <i
-        class="wi prose-icons-mark"
-        :class="`wi-${x.icon}`"
-        aria-hidden="true"
-      />
-      <div>
-        <div class="prose-icons-title">
-          {{ x.title }}
-        </div>
-        <div
-          v-safe-html="renderInline(x.count)"
-          class="prose-icons-text"
+      <component
+        :is="x.target ? 'a' : 'div'"
+        class="prose-icons-row"
+        :href="x.target ? `#${x.target}` : undefined"
+        @click="goToTarget($event, x.target)"
+      >
+        <i
+          class="wi prose-icons-mark"
+          :class="`wi-${x.icon}`"
+          aria-hidden="true"
         />
-      </div>
+        <div>
+          <div class="prose-icons-title">
+            {{ x.title }}
+          </div>
+          <div
+            v-safe-html="renderInline(x.count)"
+            class="prose-icons-text"
+          />
+        </div>
+      </component>
     </li>
   </ul>
   <div
@@ -113,11 +120,13 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import RuleBlock from '../RuleBlock.vue'
 import RuleBody from '../RuleBody.vue'
 import DataTable from '../DataTable.vue'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { vSafeHtml } from '../../directives/safeHtml.js'
+import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 
 // One Event Companion prose block: the RuleBlock itself, optionally wrapped in the flavor
 // surface or framed (`box` — a booklet's boxed rule: a frame, the title on a filled plate in its
@@ -131,6 +140,14 @@ defineProps({
   block: { type: Object, required: true },
 })
 const { renderInline } = useRenderInline()
+const router = useRouter()
+
+async function goToTarget(event, target) {
+  if (!target || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+  event.preventDefault()
+  await router.push({ hash: `#${target}` })
+  scrollToAnchor(target, 100, { glide: true })
+}
 </script>
 
 <style scoped>
@@ -232,11 +249,14 @@ const { renderInline } = useRenderInline()
    dotted rule between the lines. */
 .prose-icons { list-style: none; margin: 0.3rem 0 0.9rem; padding: 0; }
 .prose-icons li {
+  border-bottom: 1px dotted var(--text-muted);
+}
+.prose-icons-row {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.45rem 0;
-  border-bottom: 1px dotted var(--text-muted);
+  text-decoration: none;
 }
 .prose-icons-mark { flex: none; width: 2.6rem; height: 2.6rem; margin: 0; color: var(--text-primary); }
 .prose-icons-title {

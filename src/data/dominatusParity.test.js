@@ -35,6 +35,7 @@ function walk(path, e, r) {
   if (typeof e === 'string') return cmp(path, e, r)
   if (Array.isArray(e)) { if (!Array.isArray(r) || r.length !== e.length) issues.push(`${path}: length ${e.length} vs ${r?.length}`); e.forEach((x, i) => walk(`${path}[${i}]`, x, r?.[i])); return }
   if (e && typeof e === 'object') for (const k of Object.keys(e)) {
+    if (k === 'target') { if (e[k] !== r?.[k]) issues.push(`${path}.target: EN and RU differ`); continue }
     if (['id', 'slug', 'name', 'alliance', 'grid', 'roll', 'label', 'vp', 'modifier', 'icon', 'box'].includes(k) || (k === 'title' && /boxes\[/.test(path)) && !(k === 'label' && /briefing/.test(path))) continue
     if (k === 'label' && /bonus$/.test(path)) continue
     walk(`${path}.${k}`, e[k], r?.[k])

@@ -91,11 +91,11 @@ const en = {
         body: 'The deck contains 89 cards:',
         // As the booklet lists them: each deck's mark, its name and how many cards it holds.
         iconList: [
-          { icon: 'dom-agenda', title: 'Agenda deck', count: '27 cards' },
-          { icon: 'dom-achieved', title: 'Agenda Achieved deck', count: '9 cards' },
-          { icon: 'dom-briefing', title: 'Briefing deck', count: '9 cards' },
-          { icon: 'dom-location', title: 'Location deck', count: '9 cards' },
-          { icon: 'dom-skill', title: 'Upgrade deck', count: '35 cards — further categorised as **Battle Honour** cards (×11), **Battle Skill** cards (×9) and **Relic** cards (×15).' },
+          { icon: 'dom-agenda', target: 'dom-chapter-agendas', title: 'Agenda deck', count: '27 cards' },
+          { icon: 'dom-achieved', target: 'dom-agenda-achieved', title: 'Agenda Achieved deck', count: '9 cards' },
+          { icon: 'dom-briefing', target: 'dom-chapter-briefings', title: 'Briefing deck', count: '9 cards' },
+          { icon: 'dom-location', target: 'dom-chapter-locations', title: 'Location deck', count: '9 cards' },
+          { icon: 'dom-skill', target: 'dom-chapter-upgrades', title: 'Upgrade deck', count: '35 cards — further categorised as **Battle Honour** cards (×11), **Battle Skill** cards (×9) and **Relic** cards (×15).' },
         ],
       },
       {
