@@ -13,6 +13,7 @@
       />
       <span class="toast-text">{{ text }}</span>
       <button
+        v-if="dismissible"
         type="button"
         class="toast-close"
         :aria-label="labels.updateDismiss"
@@ -40,6 +41,7 @@ const props = defineProps({
   icon: { type: String, default: '' },
   // 'error' reads in the danger colour; anything else is the accent.
   tone: { type: String, default: '' },
+  dismissible: { type: Boolean, default: true },
 })
 defineEmits(['close'])
 

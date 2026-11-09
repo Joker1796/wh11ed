@@ -3,7 +3,7 @@
     :show="visible"
     :icon="status === 'ready' ? 'wi wi-offline-ready' : 'wi wi-offline'"
     :text="text"
-    @close="dismissed = true"
+    :dismissible="false"
   />
 </template>
 
@@ -28,7 +28,11 @@ const text = computed(() => {
 const dismissed = ref(false)
 const visible = computed(() => !dismissed.value && (status.value === 'warming' || status.value === 'ready'))
 // Auto-dismiss the "ready" confirmation a few seconds after the warm-up finishes.
-watch(status, (s) => {
-  if (s === 'ready') setTimeout(() => (dismissed.value = true), 4000)
+watch(status, (s, _previous, onCleanup) => {
+  if (s === 'warming') dismissed.value = false
+  if (s === 'ready') {
+    const timer = setTimeout(() => (dismissed.value = true), 4000)
+    onCleanup(() => clearTimeout(timer))
+  }
 })
 </script>
