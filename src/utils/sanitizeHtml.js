@@ -38,6 +38,7 @@ const unquote = (v) => (v && /^["']/.test(v) ? v.slice(1, -1) : v || '')
  */
 function attrAllowed(name, value) {
   if (/^on/i.test(name)) return false
+  if (name === 'value') return /^\d+$/.test(unquote(value))
   if (!(ATTRS.has(name) || /^data-[\w-]+$/.test(name) || /^aria-[\w-]+$/.test(name))) return false
   // An entity can hide a scheme ("jav&#x61;script:"); a value with one in a link is not ours.
   if (URL_ATTRS.has(name)) {

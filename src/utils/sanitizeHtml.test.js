@@ -21,6 +21,10 @@ describe('sanitizeHtml', () => {
     expect(sanitizeHtml('a<!-- c -->b')).toBe('ab')
   })
 
+  it('keeps numeric list values but rejects non-numeric values', () => {
+    expect(sanitizeHtml('<ol><li value="3">x</li><li value="bad">y</li></ol>')).toBe('<ol><li value="3">x</li><li>y</li></ol>')
+  })
+
   it('answers a repeat from its memo with the same safe string', () => {
     const html = '<b onclick="x()">a</b><script>y()</script>'
     const first = sanitizeHtml(html)

@@ -31,7 +31,8 @@
       <li
         v-for="(item, j) in block.items"
         :key="j"
-        v-safe-html="renderInline(item)"
+        v-safe-html="renderInline(item.text)"
+        :value="item.number"
       />
     </ol>
     <div
@@ -209,7 +210,7 @@ const blocks = computed(() => {
       }
       result.push({ type: 'ul', items })
     } else if (mode === 'ol') {
-      result.push({ type: 'ol', items: buf.map(l => l.replace(/^\d+\.\s*/, '').trim()).filter(Boolean) })
+      result.push({ type: 'ol', items: buf.map(l => ({ number: Number(l.match(/^\d+/)[0]), text: l.replace(/^\d+\.\s*/, '').trim() })).filter(item => item.text) })
     } else if (mode === 'flow') {
       result.push({ type: 'flow', items: buf.map(l => l.replace(/^→\s*/, '').trim()).filter(Boolean) })
     } else if (mode === 'result-table') {

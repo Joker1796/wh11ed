@@ -142,6 +142,14 @@ describe('weapon ability tags', () => {
 
 describe('renderRichText lists', () => {
   const { renderRichText } = useRenderInline()
+  it('preserves written numbers when paragraphs or nested bullets split the list', () => {
+    const html = renderRichText('1. First\n\n2. Second\n▪ Detail\n3. Third')
+    const container = document.createElement('div')
+    container.innerHTML = html
+    expect([...container.querySelectorAll('ol > li')].map((li) => li.value)).toEqual([0, 2, 3])
+    expect(html).toContain('<li value="2">')
+    expect(html).toContain('<li value="3">')
+  })
   it('turns `▪` lines into a list and keeps the item open for its `▫` sub-items', () => {
     expect(renderRichText('Head:\n▪ One\n▫ a\n▫ b\n▪ Two')).toBe('Head:<ul><li>One<ul><li>a</li><li>b</li></ul></li><li>Two</li></ul>')
   })
