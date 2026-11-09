@@ -16,8 +16,8 @@ import { prepareOfflineWorker, workerBuild, offlineRequired } from './workerBuil
 // phase: 'idle' — nothing new; 'downloading' — the installed app fetching the new files (done/total
 // are the warm-up's); 'ready' — the button is there. `tab`: found by a tab with no service worker
 // (tabFreshness.js) — the button only reloads, and a link followed meanwhile loads the new version.
-// `inPlace`: the new worker already controls the page (another tab applied it) — its files are all
-// there, so nothing to download; the button only reloads.
+// `inPlace`: the new worker already controls the page (another tab applied it). The button only
+// reloads, but the installed app still verifies its offline files before offering that reload.
 export const appUpdate = reactive({ phase: 'idle', version: '', tab: false })
 
 let applyFn = null
@@ -47,7 +47,10 @@ export async function updateFound(apply, { version = '', tab = false, inPlace = 
       if (!tab && !inPlace) noteWaitingVersion(v.app)
     })
   }
-  needsOffline = !tab && !inPlace && offlineRequired()
+  // Another tab (including an older updater) can activate this worker before this page finishes
+  // downloading its files. Activation is not proof of offline completion: keep the progress until
+  // the active build is verified too, rather than hiding a running download behind the button.
+  needsOffline = !tab && offlineRequired()
   if (needsOffline) {
     appUpdate.phase = 'downloading'
     // A download that fails half-way still ends in the button: the new build tops up the rest.

@@ -89,11 +89,11 @@ describe('the update plate', () => {
   })
 
   // 2026-10-18: another tab applied the update — the new worker already controls this page.
-  it('a worker already in control: no download, straight to the button', async () => {
+  it('a worker already in control: verifies the installed offline set before the reload button', async () => {
     isStandaloneDisplay.mockReturnValue(true)
     topUpOffline.mockClear()
     await updateFound(vi.fn(), { version: '2.9.7', inPlace: true })
-    expect(topUpOffline).not.toHaveBeenCalled()
+    expect(topUpOffline).toHaveBeenCalledOnce()
     expect(appUpdate.phase).toBe('ready')
     isStandaloneDisplay.mockReturnValue(false)
   })
