@@ -168,6 +168,8 @@ waits the small check budget; if preparation takes longer, the old build opens w
 continues. A failed plate download leaves a retryable button; activation itself rechecks the set.
 A newer waiting worker replaces the previous candidate, including when needRefresh stayed true.
 One native controllerchange listener owns reloads; the plugin's reload callback is disabled.
+If another tab has already activated a worker, its exact offline set is still verified before the
+reload button appears: a legacy updater may have activated it while response bodies are downloading.
 WebKit rollback exposed that Workbox's isUpdate flag does not cover every controller replacement.
 The first claim by this page's own build is ignored, and another tab's activation only shows a plate.
 `npm run build` runs `scripts/check-release.mjs`, checking all listed files and shell identity.

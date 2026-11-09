@@ -103,7 +103,7 @@ async function controllerChanged() {
   const active = await workerBuild(navigator.serviceWorker.controller)
   if (active?.build === BUILD_ID) return // first install claimed its own page
   if (!navigator.serviceWorker.controller) return
-  updateFound(() => { noteReload('user'); window.location.reload() }, { inPlace: true })
+  updateFound(() => { noteReload('user'); window.location.reload() }, { inPlace: true, worker: navigator.serviceWorker.controller })
 }
 navigator.serviceWorker?.addEventListener('controllerchange', controllerChanged)
 onBeforeUnmount(() => navigator.serviceWorker?.removeEventListener('controllerchange', controllerChanged))
