@@ -83,6 +83,8 @@ export const SECTION_KINDS = {
   report: { icon: 'wi wi-bug', words: ['Bug reports', 'Баг-репорты'] },
   site: { icon: 'wi wi-rules', words: ['Whole site', 'Весь сайт', 'Help', 'Справка', 'The app on your phone', 'Приложение на телефоне'] },
   account: { icon: 'wi wi-cloud', words: ['Account', 'Аккаунт', 'Cloud', 'Облако', 'Signing in', 'Вход'] },
+  campaigns: { icon: 'wi wi-dom-agenda', words: ['Dominatus campaigns', 'Кампании Dominatus'] },
+  data: { icon: 'wi wi-offline-ready', words: ['Your data on this device', 'Ваши данные на устройстве'] },
 }
 
 /** @param {{ h: string, kind?: string }} note */
