@@ -147,34 +147,6 @@ export const changelog = [
       '**Окно экспорта открывается на формате, который вы выбрали в прошлый раз.**',
     ],
   },
-  {
-    version: '2.10.8',
-    date: '2026-10-29',
-    en: [
-      { h: 'Roster builder' },
-      '**The import reads every format the roster builder exports.** These are Russian tournament, Discord and Simple. Before, a Russian tournament list lost some of its units, and a Discord list did not import at all.',
-      '**A Simple list has no model counts, so the import takes a unit’s size from its points.** If two sizes cost the same, the import window says the size was guessed.',
-      '**A list marked Heretic Astartes imports as the legion it is.** The import tells by the detachment and the units. If the list does not say, it asks only among Chaos Space Marines, World Eaters, Death Guard, Thousand Sons and Emperor’s Children.',
-      '**Agents of the Imperium, Aeldari, Titan Legions and Chaos Titan Legions lists no longer ask for their faction on import.**',
-      { h: 'Tracker' },
-      '**In a finished game, either side’s roster has a “…” menu: Export roster and Save to my rosters.** This is how you can keep your opponent’s list. If you save the same list again, the site asks first and links to the copy you already have.',
-      '**On a wide screen a finished game’s roster opens in three columns: the game, the list and a unit’s card.** The game column shows every list of the game and the score. The Game stats button opens the score round by round.',
-      '**You can compare two units side by side, also from different rosters of the game.** It works as on a faction’s unit list: press ◫ on the card, then pick the second unit.',
-      '**On a wide screen the roster page of a game in progress shows the units and the card side by side.**',
-    ],
-    ru: [
-      { h: 'Конструктор ростеров' },
-      '**Импорт читает все форматы, в которые конструктор выгружает лист.** Это «Русский турнир», Discord и «Простой». Раньше лист для русского турнира терял часть юнитов, а лист для Discord не импортировался совсем.',
-      '**В «Простом» формате нет числа моделей, поэтому импорт берёт размер отряда по его очкам.** Если два размера стоят одинаково, окно импорта пишет, что размер угадан.',
-      '**Лист с подписью Heretic Astartes импортируется как свой легион.** Импорт узнаёт его по детачменту и юнитам. Если по листу не понять, он спрашивает только среди Chaos Space Marines, World Eaters, Death Guard, Thousand Sons и Emperor’s Children.',
-      '**Списки Agents of the Imperium, Aeldari, Titan Legions и Chaos Titan Legions больше не спрашивают фракцию при импорте.**',
-      { h: 'Трекер' },
-      '**В завершённой партии у ростера любой стороны есть меню «…»: «Экспорт листа» и «Сохранить к себе».** Так можно забрать себе лист соперника. Если сохранить тот же лист ещё раз, сайт сначала спросит и даст ссылку на уже сохранённый.',
-      '**На широком экране ростер из завершённой партии открывается в три колонки: партия, лист и карточка юнита.** В колонке партии все её листы и счёт. Кнопка «Статистика партии» показывает очки по раундам.',
-      '**Два юнита можно сравнить рядом, в том числе из разных ростеров партии.** Это работает как в списке юнитов фракции: нажмите ◫ на карточке и выберите второй юнит.',
-      '**На широком экране страница ростера в идущей партии показывает юниты и карточку рядом.**',
-    ],
-  },
 ]
 
 // The latest entry drives the banner + the stored "last seen version". Exported so the composable
