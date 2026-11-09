@@ -28,6 +28,7 @@
 #      apart from `units`, so a consumer that wants only the Codex roster is unaffected.
 
 import re, html as H, json, sys, os, subprocess, time
+from pathlib import Path
 
 MFM_VERSION_FALLBACK = '1.0'  # used only if detect_version() can't find a version string
 MFM_VERSION = MFM_VERSION_FALLBACK  # overwritten from the first successfully-fetched page
@@ -77,16 +78,22 @@ def download(slug):
     os.makedirs(CACHE, exist_ok=True)
     path = os.path.join(CACHE, slug + ".html")
     if "--cache" in sys.argv and os.path.exists(path):
-        if has_units(open(path, encoding="utf-8").read()): return path
+        if complete_page(Path(path).read_text(encoding="utf-8")): return path
     url = f"https://mfm.warhammer-community.com/en/{slug}"
     for attempt in range(8):
-        subprocess.run(["curl","-sL","--http1.1","--connect-timeout","20","--max-time","60",
-                        "-b","isLegendsDisplayed=true","-o",path,url])
-        if os.path.exists(path) and has_units(open(path, encoding="utf-8").read()):
+        result = subprocess.run(["curl","-sL","--http1.1","--connect-timeout","20","--max-time","60",
+                                 "-b","isLegendsDisplayed=true","-o",path,url])
+        if result.returncode == 0 and os.path.exists(path) and complete_page(Path(path).read_text(encoding="utf-8")):
             return path
-        time.sleep(3)
-    print(f"  WARN: {slug} may be incomplete", file=sys.stderr)
-    return path
+        if attempt < 7: time.sleep(3)
+    raise SystemExit(f"  ERROR: {slug} could not be downloaded completely after 8 attempts")
+
+def complete_page(raw):
+    # A stream can contain unit headings but end before the points are revealed. Check both the
+    # closing document and every Suspense placeholder before accepting it, including cached pages.
+    placeholders = set(re.findall(r'<template id="(P:[0-9a-f]+)"></template>', raw))
+    reveals = set(re.findall(r'\$RS\("S:[0-9a-f]+","(P:[0-9a-f]+)"\)', raw))
+    return has_units(raw) and raw.rstrip().endswith('</html>') and placeholders <= reveals
 
 def has_units(raw):
     # Titan factions legitimately have no detachments, so key on unit-name divs. Check both the
