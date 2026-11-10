@@ -173,7 +173,11 @@ also get unique namespaces). The worker imports its immutable worker-info.js and
 manifest over MessageChannel; latest may already name a later deployment. Both the installed app
 and tabs sharing its storage verify the exact waiting build before activation. A launch only
 waits the small check budget; if preparation takes longer, the old build opens while preparation
-continues. A failed plate download leaves a retryable button; activation itself rechecks the set.
+continues. A failed plate download shows an error with Continue, never readiness; activation itself rechecks
+the set. Temporary HTTP/network/body failures get at most two automatic retries (500/1500 ms),
+with two downloads in flight; failed writes do not count as downloaded. Terminal failures retain
+the file/reason in the existing error log, under the same reporting-consent policy. Concurrent
+preparation is serialized by build + manifest: a caller for C cannot inherit readiness from B.
 A newer waiting worker replaces the previous candidate, including when needRefresh stayed true.
 One native controllerchange listener owns reloads; the plugin's reload callback is disabled.
 If another tab has already activated a worker, its exact offline set is still verified before the

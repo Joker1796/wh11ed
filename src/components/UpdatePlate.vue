@@ -4,15 +4,15 @@
       v-if="mode"
       ref="plate"
       class="dock-card update-plate"
-      :class="{ ready }"
+      :class="{ ready: actionable }"
       role="status"
       aria-live="polite"
     >
       <p class="up-title">
-        <i :class="['wi', ready ? 'wi-install' : 'wi-sync']" />
+        <i :class="['wi', failed ? 'wi-error' : ready ? 'wi-install' : 'wi-sync']" />
         <span class="up-title-text">{{ title }}</span>
       </p>
-      <template v-if="ready">
+      <template v-if="actionable">
         <p class="up-text">
           {{ text }}
         </p>
@@ -21,7 +21,7 @@
           class="btn-primary up-apply"
           @click="apply"
         >
-          {{ mode === 'migration' ? labels.cacheMoveApply : labels.updateApply }}
+          {{ mode === 'migration' ? labels.cacheMoveApply : failed ? labels.updateContinue : labels.updateApply }}
         </button>
       </template>
       <div
@@ -63,15 +63,19 @@ const mode = computed(() => {
   return cacheMigration.phase === 'shown' ? 'migration' : null
 })
 const ready = computed(() => mode.value === 'migration' || appUpdate.phase === 'ready')
+const failed = computed(() => mode.value === 'update' && appUpdate.phase === 'error')
+const actionable = computed(() => ready.value || failed.value)
 const title = computed(() => {
   const l = labels.value
   if (mode.value === 'migration') return l.cacheMoveTitle
+  if (failed.value) return l.updateFailed
   if (!ready.value) return total.value ? `${l.downloadingUpdate} ${done.value}/${total.value}` : l.downloadingUpdate
   return appUpdate.version ? l.updateReady.replace('{v}', appUpdate.version) : l.updateReadyBare
 })
 const text = computed(() => {
   const l = labels.value
   if (mode.value === 'migration') return cacheMigration.warmed ? `${l.cacheMoveText} ${l.cacheMoveWarmed}` : l.cacheMoveText
+  if (failed.value) return l.updateFailedText
   return appUpdate.tab ? l.updateReadyTextTab : l.updateReadyText
 })
 const apply = () => (mode.value === 'migration' ? applyMigration() : applyUpdate())

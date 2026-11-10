@@ -21,6 +21,13 @@ if (!bManifest.assets.files.includes(fixture)) {
   await writeFile(join(bDir, b.manifest), JSON.stringify(bManifest))
 }
 const aManifest = JSON.parse(await readFile(join(aDir, a.manifest)))
+const returnFixture = '/assets/stability-return-build.js'
+if (!aManifest.assets.files.includes(returnFixture)) {
+  aManifest.assets.files.push(returnFixture)
+  aManifest.assets.bytes += 21
+  await writeFile(join(aDir, returnFixture), 'export default true;\n')
+  await writeFile(join(aDir, a.manifest), JSON.stringify(aManifest))
+}
 const target = aManifest.assets.files.find((f) => /\/RosterCreateView-[^/]+\.js$/.test(f))
 if (!target) throw new Error('Roster create chunk missing')
 let live = aDir
@@ -99,9 +106,22 @@ try {
   await page.locator('.roster-create').waitFor({ state: 'visible', timeout: 15000 })
   assert('new build is complete offline immediately after activation', await build() === b.build)
   await context.setOffline(false)
+  await page.goto(base + '/ru/roster/new', { waitUntil: 'load' })
+  await page.evaluate(async (url) => { await (await caches.open('wh-rules-assets')).delete(url) }, returnFixture)
+  faults.add(returnFixture)
   live = aDir
   await page.evaluate(async () => { await (await navigator.serviceWorker.getRegistration()).update() })
   await button.waitFor({ state: 'visible', timeout: 60000 })
+  assert('failed preparation offers Continue rather than Update', /^(Continue|Продолжить)$/.test(await button.innerText()))
+  assert('failed preparation keeps the current build', await build() === b.build)
+  for (const width of [320, 390, 1280]) {
+    await page.setViewportSize({ width, height: 844 })
+    const geometry = await page.locator('.update-plate').evaluate(el => ({ width: el.clientWidth, scroll: el.scrollWidth, page: document.documentElement.scrollWidth, viewport: window.innerWidth }))
+    assert(`error plate fits ${width}px`, geometry.scroll <= geometry.width + 1 && geometry.page <= geometry.viewport + 1)
+    if (process.env.SHOTS) await page.screenshot({ path: `${process.env.SHOTS}/pwa-retry-${width}.png` })
+  }
+  await page.setViewportSize({ width: 390, height: 844 })
+  faults.clear()
   await button.click()
   await page.waitForFunction((id) => document.querySelector('meta[name="wh-build-id"]')?.content === id, a.build, { timeout: 60000 })
   await context.setOffline(true)

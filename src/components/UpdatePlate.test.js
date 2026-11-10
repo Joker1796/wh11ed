@@ -7,7 +7,7 @@ vi.mock('../composables/useOfflineWarmup.js', async () => {
   const done = ref(3)
   const total = ref(10)
   return {
-    topUpOffline: vi.fn(() => Promise.resolve()),
+    topUpOffline: vi.fn(() => Promise.resolve(true)),
     useOfflineWarmup: () => ({ done, total, progress: computed(() => done.value / total.value) }),
   }
 })
@@ -58,7 +58,7 @@ describe('the update plate', () => {
     expect(appUpdate.phase).toBe('downloading')
     expect(w.text()).toContain('Downloading the update… 3/10')
     expect(w.find('button').exists()).toBe(false)
-    finish()
+    finish(true)
     await found
     await nextTick()
     expect(appUpdate.phase).toBe('ready')
@@ -66,11 +66,16 @@ describe('the update plate', () => {
     isStandaloneDisplay.mockReturnValue(false)
   })
 
-  it('a download that fails still ends in the button', async () => {
+  it('a download failure offers Continue without claiming readiness', async () => {
     isStandaloneDisplay.mockReturnValue(true)
     topUpOffline.mockReturnValue(Promise.reject(new Error('offline')))
     await updateFound(vi.fn())
-    expect(appUpdate.phase).toBe('ready')
+    expect(appUpdate.phase).toBe('error')
+    const w = mount(UpdatePlate)
+    await nextTick()
+    expect(w.text()).toContain('Could not finish the update')
+    expect(w.find('button').text()).toBe('Continue')
+    expect(w.text()).not.toContain('is out')
     isStandaloneDisplay.mockReturnValue(false)
   })
 
@@ -81,7 +86,7 @@ describe('the update plate', () => {
     await updateFound(apply)
     await applyUpdate()
     expect(apply).not.toHaveBeenCalled()
-    expect(appUpdate.phase).toBe('ready')
+    expect(appUpdate.phase).toBe('error')
     topUpOffline.mockResolvedValue(true)
     await applyUpdate()
     expect(apply).toHaveBeenCalledTimes(1)

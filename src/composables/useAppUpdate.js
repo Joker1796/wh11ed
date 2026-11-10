@@ -14,7 +14,8 @@ import { prepareOfflineWorker, workerBuild, offlineRequired } from './workerBuil
 // one still running, so the button opens a version that already works offline.
 //
 // phase: 'idle' — nothing new; 'downloading' — the installed app fetching the new files (done/total
-// are the warm-up's); 'ready' — the button is there. `tab`: found by a tab with no service worker
+// are the warm-up's); 'ready' — verified and safe to apply; 'error' — Continue resumes preparation.
+// `tab`: found by a tab with no service worker
 // (tabFreshness.js) — the button only reloads, and a link followed meanwhile loads the new version.
 // `inPlace`: the new worker already controls the page (another tab applied it). The button only
 // reloads, but the installed app still verifies its offline files before offering that reload.
@@ -53,8 +54,9 @@ export async function updateFound(apply, { version = '', tab = false, inPlace = 
   needsOffline = !tab && offlineRequired()
   if (needsOffline) {
     appUpdate.phase = 'downloading'
-    // A download that fails half-way still ends in the button: the new build tops up the rest.
-    await (worker ? prepareOfflineWorker(worker) : topUpOffline()).catch(() => false)
+    const ready = await (worker ? prepareOfflineWorker(worker) : topUpOffline()).catch(() => false)
+    if (mine !== generation) return
+    if (ready !== true) { appUpdate.phase = 'error'; return }
   }
   if (mine !== generation) return
   appUpdate.phase = 'ready'
@@ -70,7 +72,7 @@ export async function applyUpdate() {
     const ready = await (waitingWorker ? prepareOfflineWorker(waitingWorker) : topUpOffline()).catch(() => false)
     if (mine !== generation || ready !== true) {
       applying = false
-      if (mine === generation) appUpdate.phase = 'ready'
+      if (mine === generation) appUpdate.phase = 'error'
       return
     }
   }
@@ -78,11 +80,11 @@ export async function applyUpdate() {
     const applied = await applyFn(waitingWorker)
     if (applied === false) {
       applying = false
-      if (mine === generation) appUpdate.phase = 'ready'
+      if (mine === generation) appUpdate.phase = 'error'
     }
   } catch {
     applying = false
-    if (mine === generation) appUpdate.phase = 'ready'
+    if (mine === generation) appUpdate.phase = 'error'
   }
 }
 

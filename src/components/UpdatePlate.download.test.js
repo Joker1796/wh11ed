@@ -64,3 +64,34 @@ it.each(['waiting', 'active'])('keeps progress for a %s worker until the respons
     plate.unmount()
   }
 })
+
+it('offers Continue after a partial download and keeps committed files on retry', async () => {
+  const target = { app: '2.11.1', build: 'next', manifest: '/releases/next/offline-manifest.json' }
+  const manifest = { build: 'next', assets: { files: ['/assets/kept.js', '/assets/missing.js'] }, images: { files: [] } }
+  const held = new Map()
+  let unavailable = true
+  const fetch = vi.fn(async url => url.endsWith('offline-manifest.json')
+    ? { ok: true, json: async () => manifest }
+    : { ok: url !== '/assets/missing.js' || !unavailable, status: 503 })
+  vi.stubGlobal('fetch', fetch)
+  vi.stubGlobal('caches', { match: async () => undefined, open: async () => ({ match: async url => held.get(url), put: async (url, response) => held.set(url, response) }) })
+  const worker = { postMessage: (_message, [port]) => port.postMessage(target) }
+  const { appUpdate, updateFound, applyUpdate } = await import('../composables/useAppUpdate.js')
+  const { useOfflineWarmup } = await import('../composables/useOfflineWarmup.js')
+  const UpdatePlate = (await import('./UpdatePlate.vue')).default
+  const apply = vi.fn()
+  const plate = mount(UpdatePlate)
+  try {
+    await updateFound(apply, { worker })
+    await flushPromises()
+    expect(appUpdate.phase).toBe('error')
+    expect(plate.find('button').text()).toBe('Continue')
+    expect(useOfflineWarmup().done.value).toBe(1)
+    expect(apply).not.toHaveBeenCalled()
+    unavailable = false
+    await applyUpdate()
+    expect(apply).toHaveBeenCalledOnce()
+    expect(fetch.mock.calls.filter(([url]) => url === '/assets/kept.js')).toHaveLength(1)
+    expect(held.size).toBe(2)
+  } finally { plate.unmount() }
+})

@@ -3,6 +3,7 @@ import { isStandaloneDisplay } from './standalone.js'
 import { getItem, setItem } from './safeStorage.js'
 import { withinDeadline } from '../utils/deadline.js'
 import { BUILD_ID, OFFLINE_MANIFEST_URL } from '../buildInfo.js'
+import { logError } from './useErrorLog.js'
 
 // Fill the offline caches with everything the app SHELL deliberately does not carry.
 //
@@ -24,6 +25,7 @@ import { BUILD_ID, OFFLINE_MANIFEST_URL } from '../buildInfo.js'
 
 const DONE_KEY = 'wh11ed-offline-warmed'
 const CONCURRENCY = 2
+const RETRY_DELAYS_MS = [500, 1500]
 export const OFFLINE_REQUEST_MS = 15000
 const cacheName = (url) => url.startsWith('/images/') ? 'wh11ed-images' : 'wh-rules-assets'
 
@@ -61,6 +63,8 @@ const total = ref(0)
 // without fetching the very files in question.
 const bytes = ref(0)
 const warmed = ref(false)
+// Kept for diagnostics; never render technical URLs/errors in the update plate.
+const error = ref('')
 // This run tops up a set that was complete before a deploy renamed part of it — not the first
 // download. To a reader already using the app, "Preparing offline…" after every release read
 // as something new starting, so the indicator says "update" then (owner's call, 2026-09-27).
@@ -69,6 +73,7 @@ const isUpdate = ref(false)
 
 let autoStarted = false
 let inflight = null
+let inflightTarget = ''
 
 async function manifest({ manifest: url = OFFLINE_MANIFEST_URL, build = BUILD_ID } = {}) {
   return withinDeadline(async () => {
@@ -95,8 +100,20 @@ async function manifest({ manifest: url = OFFLINE_MANIFEST_URL, build = BUILD_ID
 // pressure, a device they are about to take somewhere with no signal).
 // One run at a time; a second caller waits for the one in flight (the update plate does, when the
 // launch warm-up is already topping up).
-function run(opts) {
-  if (!inflight) inflight = runOnce(opts).finally(() => { inflight = null })
+async function run(opts = {}) {
+  const { build = BUILD_ID, manifest = OFFLINE_MANIFEST_URL } = opts.target || {}
+  const key = JSON.stringify([build, manifest])
+  // Callers for another waiting build must verify their own set, not inherit the result of
+  // whoever won the first slot after a previous download finished.
+  while (inflight) {
+    if (inflightTarget === key) return inflight
+    await inflight.catch(() => {})
+  }
+  inflightTarget = key
+  const task = runOnce(opts).finally(() => {
+    if (inflight === task) { inflight = null; inflightTarget = '' }
+  })
+  inflight = task
   return inflight
 }
 
@@ -106,6 +123,7 @@ async function runOnce({ force = false, target } = {}) {
   status.value = 'warming'
   done.value = 0
   total.value = 0
+  error.value = ''
   try {
     const sw = navigator.serviceWorker
     if (!sw || typeof caches === 'undefined') throw new Error('Offline storage unavailable')
@@ -131,39 +149,52 @@ async function runOnce({ force = false, target } = {}) {
     isUpdate.value = !force && wasDownloaded
     total.value = todo.length
     let cursor = 0
-    let failed = false
+    let failure = null
     const worker = async () => {
-      while (cursor < todo.length && !failed) {
+      while (cursor < todo.length && !failure) {
         const url = todo[cursor++]
-        const abort = new AbortController()
-        try {
-          await withinDeadline(async () => {
-            const res = await fetch(url, { cache: 'no-store', signal: abort.signal, priority: 'low' })
-            if (!res.ok) throw new Error(`Offline file ${res.status}: ${url}`)
-            const cache = await caches.open(cacheName(url))
-            await cache.put(url, res)
-          }, OFFLINE_REQUEST_MS, 'Offline download')
-        } catch {
-          abort.abort()
-          failed = true
+        for (let attempt = 0; ; attempt++) {
+          const abort = new AbortController()
+          let storage = false
+          try {
+            await withinDeadline(async () => {
+              const res = await fetch(url, { cache: 'no-store', signal: abort.signal, priority: 'low' })
+              if (!res.ok) throw Object.assign(new Error(`HTTP ${res.status}`), { retryable: res.status === 408 || res.status === 429 || res.status >= 500 })
+              storage = true
+              const cache = await caches.open(cacheName(url))
+              await cache.put(url, res)
+            }, OFFLINE_REQUEST_MS, 'Offline download')
+            done.value++ // Only a committed file counts; retries and failed files do not.
+            break
+          } catch (err) {
+            abort.abort()
+            const retryable = /** @type {any} */ (err)?.retryable
+              ?? (!storage || ['TypeError', 'AbortError'].includes(err?.name) || /timed out/.test(err?.message || ''))
+            if (!retryable || attempt >= RETRY_DELAYS_MS.length || failure) {
+              failure = new Error(`Offline ${storage ? 'cache' : 'download'}: ${url}: ${err?.message || err}`)
+              break
+            }
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAYS_MS[attempt]))
+          }
         }
-        done.value++
       }
     }
     await Promise.all(Array.from({ length: Math.min(CONCURRENCY, todo.length) }, worker))
     // Cache writes can fail or be evicted while a long download runs. Verify the whole set again.
-    if (failed || (await withinDeadline(() => missing(files), OFFLINE_REQUEST_MS, 'Offline verification')).length) {
-      throw new Error('Offline download incomplete')
-    }
+    if (failure) throw failure
+    const remaining = await withinDeadline(() => missing(files), OFFLINE_REQUEST_MS, 'Offline verification')
+    if (remaining.length) throw new Error(`Offline verification: ${remaining.length} missing, first: ${remaining[0]}`)
     setItem(DONE_KEY, sig)
     warmed.value = true
     status.value = 'ready'
     return true
-  } catch {
+  } catch (err) {
     // Keep the older marker as a hint that an installed app may share this worker with a tab.
     // It is never consulted as proof that files exist; only warmed/status report readiness.
     warmed.value = false
     status.value = 'error'
+    error.value = String(err?.message || err)
+    logError(new Error(`Offline preparation failed: ${error.value}`), 'offline preparation')
     return false
   }
 }
@@ -179,7 +210,6 @@ export function startOfflineWarmup() {
 // A warm-up already running reads the list it fetched when it started — the old build's; this one
 // waits it out and then goes through the new list.
 export async function topUpOffline(target) {
-  await inflight?.catch(() => {})
   return run({ target })
 }
 
@@ -205,5 +235,5 @@ export function useOfflineWarmup() {
     if ('requestIdleCallback' in window) requestIdleCallback(kick, { timeout: 4000 })
     else setTimeout(kick, 1500)
   }
-  return { status, done, total, bytes, warmed, isUpdate, progress: computed(() => (total.value ? done.value / total.value : 0)) }
+  return { status, done, total, bytes, warmed, error, isUpdate, progress: computed(() => (total.value ? done.value / total.value : 0)) }
 }

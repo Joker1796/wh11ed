@@ -40,6 +40,86 @@ beforeEach(() => {
 afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); delete navigator.serviceWorker })
 
 describe('startOfflineWarmup', () => {
+  it('verifies each waiting build when several targets queue behind an existing download', async () => {
+    const targets = Object.fromEntries(['a', 'b', 'c'].map(build => [build, { build, manifest: `/releases/${build}/offline-manifest.json` }]))
+    let releaseA, releaseB
+    const a = new Promise(resolve => { releaseA = resolve })
+    const b = new Promise(resolve => { releaseB = resolve })
+    const requested = []
+    vi.stubGlobal('fetch', vi.fn(async url => {
+      requested.push(url)
+      if (url.endsWith('offline-manifest.json')) {
+        const build = url.split('/')[2]
+        return { ok: true, json: async () => ({ build, assets: { files: [`/assets/${build}.js`] }, images: { files: [] } }) }
+      }
+      if (url === '/assets/a.js') await a
+      if (url === '/assets/b.js') await b
+      return { ok: true }
+    }))
+    const { topUpOffline } = await fresh()
+    const first = topUpOffline(targets.a)
+    await vi.waitFor(() => expect(requested).toContain('/assets/a.js'))
+    const second = topUpOffline(targets.b)
+    let cReady = false
+    const third = topUpOffline(targets.c).then(result => { cReady = result; return result })
+    releaseA()
+    expect(await first).toBe(true)
+    await vi.waitFor(() => expect(requested).toContain('/assets/b.js'))
+    expect(cReady).toBe(false)
+    expect(requested).not.toContain(targets.c.manifest)
+    releaseB()
+    expect(await second).toBe(true)
+    expect(await third).toBe(true)
+    expect(held.has('/assets/c.js')).toBe(true)
+  })
+
+  it('retries transient HTTP errors without counting failed attempts as downloaded files', async () => {
+    vi.useFakeTimers()
+    let attempts = 0
+    const url = '/assets/retry.js'
+    const fetch = vi.fn(async path => path.endsWith('offline-manifest.json')
+      ? { ok: true, json: async () => ({ assets: { files: [url] }, images: { files: [] } }) }
+      : { ok: ++attempts === 3, status: 503 })
+    vi.stubGlobal('fetch', fetch)
+    const { startOfflineWarmup, useOfflineWarmup } = await fresh()
+    const run = startOfflineWarmup()
+    await vi.advanceTimersByTimeAsync(499)
+    expect(attempts).toBe(1)
+    expect(useOfflineWarmup().done.value).toBe(0)
+    await vi.runAllTimersAsync()
+    expect(await run).toBe(true)
+    expect(attempts).toBe(3)
+    expect(useOfflineWarmup().done.value).toBe(1)
+    expect(useOfflineWarmup().error.value).toBe('')
+  })
+
+  it('bounds retries and keeps the failing file and reason for diagnostics', async () => {
+    vi.useFakeTimers()
+    const url = '/assets/unavailable.js'
+    const fetch = vi.fn(async path => path.endsWith('offline-manifest.json')
+      ? { ok: true, json: async () => ({ assets: { files: [url] }, images: { files: [] } }) }
+      : { ok: false, status: 503 })
+    vi.stubGlobal('fetch', fetch)
+    const { startOfflineWarmup, useOfflineWarmup } = await fresh()
+    const run = startOfflineWarmup()
+    await vi.runAllTimersAsync()
+    expect(await run).toBe(false)
+    expect(fetch.mock.calls.filter(([path]) => path === url)).toHaveLength(3)
+    expect(useOfflineWarmup().done.value).toBe(0)
+    expect(useOfflineWarmup().error.value).toContain(`${url}: HTTP 503`)
+  })
+
+  it('does not keep retrying a full device cache', async () => {
+    mockFetch()
+    const put = vi.fn(async () => { throw new DOMException('Device storage full', 'QuotaExceededError') })
+    vi.stubGlobal('caches', { open: async () => ({ match: async () => undefined, put }) })
+    const { startOfflineWarmup, useOfflineWarmup } = await fresh()
+    expect(await startOfflineWarmup()).toBe(false)
+    expect(put.mock.calls.length).toBeLessThanOrEqual(2) // two downloads, one attempt each
+    expect(useOfflineWarmup().done.value).toBe(0)
+    expect(useOfflineWarmup().error.value).toContain('Device storage full')
+  })
+
   it('does not download through an active worker that has not claimed the page', async () => {
     vi.useFakeTimers()
     mockFetch()
