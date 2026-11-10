@@ -23,7 +23,7 @@
 export const changelog = [
   {
     version: '2.11.1',
-    date: '2026-11-09',
+    date: '2026-11-10',
     en: [
       { h: 'Core Rules' },
       '**Numbered steps in the rules now show the correct numbers.**',
