@@ -41,6 +41,25 @@
       />
     </Transition>
 
+    <div
+      v-if="navigationState.phase === 'error' || navigationState.waiting"
+      role="status"
+      class="local-data-blocked navigation-notice"
+    >
+      <template v-if="navigationState.phase === 'pending'">
+        {{ locale === 'ru' ? 'Открываем раздел…' : 'Opening section…' }}
+      </template>
+      <template v-else>
+        <p>{{ locale === 'ru' ? 'Не удалось открыть раздел. Проверьте соединение и повторите.' : 'Could not open this section. Check your connection and try again.' }}</p>
+        <button
+          type="button"
+          class="btn-primary"
+          @click="retryNavigation"
+        >
+          {{ locale === 'ru' ? 'Повторить' : 'Try again' }}
+        </button>
+      </template>
+    </div>
     <main
       class="main-content"
       :class="{ 'main-content--wide': isCoreRoute || isEventRoute || isDominatusRoute || isFactionPageRoute || isCombatPatrolPageRoute, 'main-content--broad': isFactionsIndexRoute, 'main-content--desk': isRosterDeskRoute || isRosterBrowseDesk || isGameRosterDesk, 'main-content--browse': isRosterBrowseDesk || isGameRosterDesk, 'main-content--fill': isFactionUnitsDesk }"
@@ -164,6 +183,7 @@ import { useInstallPrompt } from './composables/useInstallPrompt.js'
 import { useFeedbackModal } from './composables/useFeedbackModal.js'
 import { useSignInModal } from './composables/useSignInModal.js'
 import { useBackToCloseWhile } from './composables/useBackToClose.js'
+import { navigationState, retryNavigation } from './composables/navigationState.js'
 import { localData } from './composables/localData.js'
 import { ui } from './i18n/ui.js'
 const LocalDataNotice = defineAsyncComponent(() => import('./components/LocalDataNotice.vue'))
@@ -509,6 +529,18 @@ onUnmounted(() => {
 
 <style scoped>
 /* Personal screens when device storage did not open: the message and the one way out. */
+.local-data-blocked.navigation-notice {
+  position: fixed;
+  z-index: 100;
+  bottom: calc(var(--mobile-bar-h) + 1rem);
+  left: 1rem;
+  right: 1rem;
+  max-width: 40rem;
+  margin-inline: auto;
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
 .local-data-blocked {
   max-width: 40rem;
   padding: 32px 0;

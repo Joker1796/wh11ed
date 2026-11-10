@@ -52,6 +52,32 @@ for (const file of walk('src')) {
   }
 }
 
+// Keep personal stores outside the shell: main can draw rules before IDB migration finishes.
+for (const name of assets.filter(a => /^(app|vendor)-.*\.js\.map$/.test(a))) {
+  const sources = JSON.parse(readFileSync(join(DIST, 'assets', name), 'utf8')).sources
+  if (sources.some(source => /\/use(?:Rosters|Tracker|CloudSync|RosterSync)\.js$/.test(source))) {
+    errors.push(`${name} eagerly imports a personal store before the readiness barrier`)
+  }
+}
+
+// A phone's empty roster list must not wait for the full roster viewer's graph.
+const desk = assets.find(name => /^RosterDeskView-.*\.js$/.test(name))
+const visited = new Set()
+function inspectRosterImports(name) {
+  if (visited.has(name)) return
+  visited.add(name)
+  const map = join(DIST, 'assets', `${name}.map`)
+  if (assets.includes(`${name}.map`) && JSON.parse(readFileSync(map, 'utf8')).sources.some(source => /\/RosterViewView\.vue$/.test(source))) {
+    errors.push('the empty roster desk statically imports the full roster viewer')
+  }
+  const code = readFileSync(join(DIST, 'assets', name), 'utf8')
+  for (const match of code.matchAll(/\bimport(?:[^;"']*?from)?\s*["']\.\/([^"']+\.js)["']/g)) {
+    if (assets.includes(match[1])) inspectRosterImports(match[1])
+  }
+}
+if (desk) inspectRosterImports(desk)
+else errors.push('no roster desk chunk to verify')
+
 if (errors.length) {
   console.error('✗ chunk graph:\n  ' + errors.join('\n  '))
   process.exit(1)

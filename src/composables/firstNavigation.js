@@ -25,14 +25,13 @@ export async function settleFirstNavigation(router, { resumed, home = '/', ms = 
   const ready = router.isReady().then(() => 'ready', () => 'failed')
   const outcome = await Promise.race([ready, wait(ms).then(() => 'slow')])
   if (outcome === 'ready') return 'ready'
-  // Failed: the device does not have that page, whichever it was — the start owns this failure and
-  // nothing reloads for it (staleChunks.js). Slow: only the page left last time gives way.
-  if (outcome === 'failed' || resumed()) {
+  // Only optional PWA resume may give way to home. Explicit destinations keep the shell's error UI.
+  if (resumed()) {
     // A newer navigation cancels the one still waiting for its chunk.
     await router.replace(home).catch(() => {})
     return 'home'
   }
   // Mounted around a page still loading: if it fails after all, the same answer, later.
-  ready.then((o) => { if (o === 'failed') router.replace(home).catch(() => {}) })
+  // Explicit destinations retain their error state and address for an intentional retry.
   return 'late'
 }

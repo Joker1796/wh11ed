@@ -96,13 +96,14 @@ async function takeOver(worker, reload) {
   if (offlineRequired() && !await withinDeadline(() => prepareOfflineWorker(worker), ASK_MS, 'Offline update').catch(() => false)) return false
   return new Promise((resolve) => {
     const sw = navigator.serviceWorker
-    const timer = setTimeout(() => resolve(false), TAKEOVER_MS)
-    sw.addEventListener('controllerchange', () => {
+    const timer = setTimeout(() => { sw.removeEventListener('controllerchange', changed); resolve(false) }, TAKEOVER_MS)
+    const changed = () => {
       clearTimeout(timer)
       noteReload('launch')
       reload()
       resolve(true)
-    }, { once: true })
+    }
+    sw.addEventListener('controllerchange', changed, { once: true })
     worker.postMessage({ type: 'SKIP_WAITING' })
   })
 }
@@ -142,7 +143,7 @@ export function showSplash(version) {
 export async function launchGate({ reload = () => window.location.reload(), splash = showSplash, version = APP_VERSION } = {}) {
   const sw = typeof navigator !== 'undefined' ? navigator.serviceWorker : null
   if (!sw?.controller || reloadsHeld()) return false
-  const reg = await sw.getRegistration().catch(() => null)
+  const reg = await withinDeadline(() => sw.getRegistration(), ASK_MS, 'Worker registration').catch(() => null)
   if (!reg) return false
 
   // Downloaded before and never applied. Offline, or nothing newer live, it is what opens.

@@ -22,6 +22,32 @@
 
 export const changelog = [
   {
+    version: '2.11.1',
+    date: '2026-11-09',
+    en: [
+      { h: 'Core Rules' },
+      '**Numbered steps in the rules now show the correct numbers.**',
+      { h: 'Opening sections' },
+      '**If a section cannot load, the site now offers a retry.** An abandoned transition no longer reloads a page you opened afterwards.',
+      'Rules can open while saved lists and games are being prepared. The roster list loads less code before it appears.',
+      { h: 'Russian rules text', kind: 'rules' },
+      '**I clarified the Russian wording for rules that improve re-rolls of 1 to re-rolls of any result.**',
+      { h: 'Answers to bug reports' },
+      '[Tempestus Scions](/factions/astra-militarum/datasheets/tempestus-scions) re-roll Wound rolls in both cases, as in the GW app. Normally they re-roll results of 1. If the target is within range of an objective marker, they can re-roll any result instead.',
+    ],
+    ru: [
+      { h: 'Базовые правила' },
+      '**Нумерованные пункты в правилах снова показывают правильные номера.**',
+      { h: 'Открытие разделов' },
+      '**Если раздел не загрузился, сайт предлагает повторить попытку.** Отменённый переход больше не перезагружает страницу, которую вы открыли после него.',
+      'Правила открываются, пока сайт готовит сохранённые ростеры и партии. Для показа списка ростеров загружается меньше кода.',
+      { h: 'Перевод правил', kind: 'rules' },
+      '**Я уточнил перевод правил, где переброс единиц расширяется до переброса любого результата.**',
+      { h: 'Ответы на баг-репорты' },
+      '[Tempestus Scions](/factions/astra-militarum/datasheets/tempestus-scions) в обоих случаях перебрасывают броски на ранение, как в приложении GW. Обычно перебрасываются единицы. Если цель в радиусе маркера цели, вместо этого можно перебросить любой результат.',
+    ],
+  },
+  {
     version: '2.11.0',
     date: '2026-11-08',
     en: [

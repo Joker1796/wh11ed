@@ -150,6 +150,14 @@ curl -s https://wh-rules.ru/robots.txt | grep -i sitemap
 
 Uploads via the S3-compatible API (endpoint `storage.yandexcloud.net`, AWS CLI profile `yc`). **The CDN purge now runs automatically** at the end of `deploy.sh`: `CDN_RESOURCE_ID` is read from the gitignored `.env.deploy` (copy `.env.deploy.example`) and `yc` is resolved even off-PATH (`~/yandex-cloud/bin/yc`); a purge failure warns instead of aborting (upload is already done). Override with another id, or run `CDN_RESOURCE_ID= npm run deploy` to skip. Manual fallback: `yc cdn cache purge --resource-id <cdn-resource-id> --path '/*'`. The CDN resource must cache **according to origin headers** (honor-origin) or it overrides per-file `Cache-Control` with a single TTL. Because images live under stable names, **rename a file when you change an image** (or the browser keeps the old one).
 
+## Delivery compression
+
+The CDN resource must have GZIP compression enabled (`yc cdn resource update <resource-id> --gzip-on`).
+After changing it, allow up to 15 minutes for edge propagation, then purge `/assets/*` if needed.
+Verify a real GET with `Accept-Encoding: gzip`: JS/CSS should carry `Content-Encoding: gzip`;
+an uncompressed HEAD alone is insufficient. Keep content hashes, immutable caching and the small
+precache unchanged. This is CDN configuration, not pre-compressed files uploaded under JS names.
+
 ## PWA
 
 **Offline completion (stability pass, 2026-11-08).** A saved marker is only a hint, never proof.

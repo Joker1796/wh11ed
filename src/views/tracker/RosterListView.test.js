@@ -14,6 +14,9 @@ beforeEach(async () => {
   push.mockClear()
   ;({ useRosters } = await import('../../composables/useRosters.js'))
   ;({ default: RosterListView } = await import('./RosterListView.vue'))
+  // The mounted view imports this asynchronously. Finish it before another test resets
+  // modules or Vitest tears the environment down while its MFM dependencies are loading.
+  await import('../../composables/trackerFactions.js')
 })
 
 // BaseModal wraps its consumer's markup in focus-trap/transition machinery that isn't

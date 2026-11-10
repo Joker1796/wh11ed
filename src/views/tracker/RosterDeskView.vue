@@ -58,7 +58,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { asyncComponent as defineAsyncComponent } from '../../composables/asyncComponent.js'
 import { useRoute, useRouter } from 'vue-router'
 import RosterListView from './RosterListView.vue'
-import RosterViewView from './RosterViewView.vue'
+const RosterViewView = defineAsyncComponent(() => import('./RosterViewView.vue'))
 import RosterListHead from '../../components/roster/RosterListHead.vue'
 import { useMediaQuery } from '../../composables/useMediaQuery.js'
 import { useViewportFill } from '../../composables/useViewportFill.js'

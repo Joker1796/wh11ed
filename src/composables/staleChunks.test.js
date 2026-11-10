@@ -189,13 +189,13 @@ describe('installStaleChunkRecovery — who answers a route that failed', () => 
     expect(sessionStorage.getItem('wh-stale-chunk-reload')).toBeNull()
   })
 
-  it('recovers a page the reader went to once the app is up — once', async () => {
+  it('leaves a failed route to the shell without an automatic reload', async () => {
     vi.stubGlobal('navigator', { onLine: true })
     const assign = vi.fn()
     vi.stubGlobal('location', { ...window.location, assign })
     onError(err(), '/ru/tracker/stats', { path: '/ru' })
     await new Promise((r) => setTimeout(r, 10))
-    expect(sessionStorage.getItem('wh-stale-chunk-reload')).not.toBeNull()
+    expect(sessionStorage.getItem('wh-stale-chunk-reload')).toBeNull()
     vi.unstubAllGlobals()
   })
 })

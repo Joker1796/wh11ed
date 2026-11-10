@@ -1,7 +1,12 @@
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
-import { mount, DOMWrapper, flushPromises } from '@vue/test-utils'
+import { mount, DOMWrapper, flushPromises, enableAutoUnmount } from '@vue/test-utils'
 import GameSetup from './GameSetup.vue'
 import RosterPickerModal from './RosterPickerModal.vue'
+
+// These tests reset store modules between cases. Real module-lifetime save timers would
+// write an earlier lobby into the next case's freshly seeded storage.
+vi.mock('../../utils/debouncedSave.js', () => ({ debouncedSave: (write) => ({ schedule: write, now: write }) }))
+enableAutoUnmount(afterEach)
 
 beforeEach(() => {
   localStorage.clear()

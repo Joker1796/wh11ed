@@ -1,9 +1,11 @@
 import { defineAsyncComponent } from 'vue'
-import { loadChunk } from './staleChunks.js'
+import { boundedChunk, importQuietly } from './staleChunks.js'
+import { waitForPersonalData } from './personalDataReady.js'
+import AsyncLoadError from '../components/AsyncLoadError.vue'
 
-// Dialogs and nested setup screens need the same bounded recovery as routes and faction data.
-// Keep each caller's loading component/delay, without another independent retry policy.
+// Nested screens share the import deadline and retry budget, but report failures locally.
+// No background reload may discard the screen around a failed panel.
 export function asyncComponent(source) {
   const options = typeof source === 'function' ? { loader: source } : source
-  return defineAsyncComponent({ ...options, loader: () => loadChunk(options.loader) })
+  return defineAsyncComponent({ errorComponent: AsyncLoadError, loadingComponent: AsyncLoadError, delay: 300, ...options, loader: async () => { await waitForPersonalData(); return importQuietly(() => boundedChunk(options.loader), { recover: () => {} }) } })
 }

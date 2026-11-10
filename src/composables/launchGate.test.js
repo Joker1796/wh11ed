@@ -36,6 +36,28 @@ describe('launchGate — a start under a service worker opens the live version',
     delete navigator.serviceWorker
   })
 
+  it('does not reload after a takeover deadline has already released the app', async () => {
+    vi.useFakeTimers()
+    const w = worker('installed')
+    const { sw } = setup({ waiting: w })
+    vi.stubGlobal('fetch', live('1.0.0'))
+    const reload = vi.fn()
+    const gate = launchGate({ version: '1.0.0', reload, splash: splashSpy().splash })
+    await vi.advanceTimersByTimeAsync(4001)
+    expect(await gate).toBe(false)
+    sw.dispatchEvent(new Event('controllerchange'))
+    expect(reload).not.toHaveBeenCalled()
+  })
+
+  it('bounds a worker registration that never settles', async () => {
+    vi.useFakeTimers()
+    const { sw } = setup()
+    sw.getRegistration = () => new Promise(() => {})
+    const gate = launchGate({ splash: splashSpy().splash })
+    await vi.advanceTimersByTimeAsync(1501)
+    expect(await gate).toBe(false)
+  })
+
   it('no worker controls the page: starts as it is, asks nothing', async () => {
     setup({ controller: false })
     const fetch = live('9.9.9'); vi.stubGlobal('fetch', fetch)

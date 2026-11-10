@@ -3,6 +3,7 @@
     <section
       v-if="visible"
       class="local-data-startup"
+      :class="{ 'local-data-startup--background': !blocking() }"
       role="status"
       aria-live="polite"
       aria-busy="true"
@@ -30,7 +31,7 @@
           />
         </template>
         <p class="lds-hint">
-          {{ labels.localMigrationWait }}
+          {{ blocking() ? labels.localMigrationWait : (locale === 'ru' ? 'Правила уже доступны. Подготовка ростеров и партий продолжается.' : 'Rules are available. Lists and games are still being prepared.') }}
         </p>
       </div>
     </section>
@@ -42,7 +43,7 @@ import { computed, ref, watch, onBeforeUnmount } from 'vue'
 import { useLocale } from '../composables/useLocale.js'
 import { ui } from '../i18n/ui.js'
 
-const props = defineProps({ state: { type: Object, required: true } })
+const props = defineProps({ state: { type: Object, required: true }, blocking: { type: Function, default: () => true } })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const progress = computed(() => props.state.progress)
@@ -68,6 +69,12 @@ const counter = (key, group) => labels.value[key].replace('{done}', String(group
   place-items: center;
   padding: 1rem;
   background: var(--bg-primary);
+}
+.local-data-startup--background {
+  inset: auto 1rem 4.5rem;
+  padding: 0;
+  background: transparent;
+  pointer-events: none;
 }
 .lds-card {
   width: 100%;

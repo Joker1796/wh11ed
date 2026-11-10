@@ -323,9 +323,10 @@ import ExpandTransition from '../../components/ExpandTransition.vue'
 import { ref, computed, onMounted, watch } from 'vue'
 import { useTour } from '../../composables/useTour.js'
 import { useRoute, useRouter } from 'vue-router'
-import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
+import { asyncComponent } from '../../composables/asyncComponent.js'
+const GameSummaryModal = asyncComponent(() => import('../../components/tracker/GameSummaryModal.vue'))
 import ConfirmModal from '../../components/ConfirmModal.vue'
-import GameEndModal from '../../components/tracker/GameEndModal.vue'
+const GameEndModal = asyncComponent(() => import('../../components/tracker/GameEndModal.vue'))
 import { battlePointsFromVp, concededSide, grandTotal, youIndex as youIdx } from '../../core/game/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'

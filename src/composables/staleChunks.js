@@ -1,4 +1,3 @@
-import { START_LOCATION } from 'vue-router'
 import { noteReload, reloadsHeld } from './reloadLoop.js'
 import { withinDeadline } from '../utils/deadline.js'
 
@@ -82,25 +81,15 @@ export async function recoverFromStaleChunk(url, { now = Date.now(), reload = (u
   return true
 }
 
-// ONE OWNER PER FAILURE (owner, 2026-11-03: "not too many handlers and quiet reloads — no risk of a
-// loop?"). What reloads the page by itself, all of it:
-//   · launchGate.js — a start that finds a newer build: once per version (TRIED_KEY);
-//   · recoverFromStaleChunk above — a chunk that would not load: once per 30 s in a tab, never
-//     offline, never during the hold;
-// and under both reloadLoop.js: three of the app's own reloads of a tab in 20 s hold every one of
-// them for ten minutes and say so in the error log. Everything else tries again IN the page
-// (importQuietly, routeChunk) and hands over to the second one only when its tries are spent.
-//
-// The first navigation of a start is not that one's: a page that does not open at a start is a
-// page the device does not have, and a reload would only ask for it again — firstNavigation.js opens
-// home instead. Both answering it, the start went home and the reload brought the broken page back.
+// Route outcomes belong to navigationState and never trigger a background reload. The first
+// navigation may abandon an optional PWA resume, but an explicit destination keeps its error UI.
+// Non-route data imports still use the bounded quiet retry below and the existing reload guard.
 export function installStaleChunkRecovery(router) {
-  // A route component that failed to load after the app was up: go to that route, fresh.
-  router.onError((err, to, from) => {
+  // Route failures belong to the shell, including failures of abandoned navigations.
+  router.onError((err) => {
     if (!isChunkLoadError(err)) return
     claimed = true
-    if (from === START_LOCATION) return
-    recoverFromStaleChunk(router.resolve(to).href)
+    // The shell owns route failures; a late import must never reload a newer route.
   })
   // Any other lazy import (data files, the search index): stay where the reader is. A route's
   // own chunk raises this too, and first — one task later, so the router's handler above has

@@ -10,6 +10,8 @@ import { installUiSound } from './composables/uiSound.js'
 import { installStateSounds } from './composables/stateSounds.js'
 import { installSegSlider } from './composables/segSlider.js'
 import { router, wasResumed } from './router/index.js'
+import { setPersonalDataReady, needsPersonalData } from './composables/personalDataReady.js'
+import { installNavigationState } from './composables/navigationState.js'
 import { settleFirstNavigation } from './composables/firstNavigation.js'
 import App from './App.vue'
 import './fonts.js'
@@ -33,13 +35,14 @@ launchGate().catch(() => false).then(async (reloading) => {
     rosters: { done: 12, total: 47 }, games: { done: 0, total: 0 } } }) : localData.state
   const noticeRoot = document.createElement('div')
   document.body.appendChild(noticeRoot)
-  createApp(LocalDataStartup, { state: status }).mount(noticeRoot)
+  createApp(LocalDataStartup, { state: status, blocking: () => needsPersonalData(router.currentRoute.value.matched.length ? router.currentRoute.value.path : location.pathname) }).mount(noticeRoot)
   if (preview) return
-  await localData.initialize()
-  boot()
+  const personalDataReady = localData.initialize()
+  setPersonalDataReady(personalDataReady)
+  boot(personalDataReady)
 })
 
-function boot() {
+function boot(personalDataReady) {
   const app = createApp(App)
 
   // App-wide error boundary: a thrown error in one component's render/watcher is
@@ -52,6 +55,7 @@ function boot() {
     logError(err, info)
   }
 
+  installNavigationState(router, { personalDataReady })
   app.use(router)
 
   // A tab from before a deploy asking for a chunk that is gone: find the new build and reload.

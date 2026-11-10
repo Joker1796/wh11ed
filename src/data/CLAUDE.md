@@ -11,6 +11,18 @@ live with their feature (`src/components/core/`, `src/components/event/`,
 
 The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. When touching `body`/`note`/`example` text:
 
+- **Attack re-roll wording** (owner, 2026-11-10): `Hit roll` is «бросок на попадание»,
+  `Wound roll` is «бросок на ранение». Distinguish «с результатом 1», «любой бросок»
+  (or «любые броски» in a list), and «один бросок». In a ones-to-unrestricted upgrade,
+  make both branches explicit; never turn `one` into `any`, or replace the condition's
+  `can` with an obligation. `Instead` does not allow a second re-roll of the same die.
+  Mixed Hit/Wound effects can upgrade only one side: preserve the other's ones restriction.
+  The first wording pass covers upgrade fields and the Core Rules example; other existing
+  prose is not a mandate for a bulk rewrite. `npm run ru:rerolls` and
+  `scripts/check-ru-rerolls.test.js` read the actual localized fields and compare ordered
+  Hit/Wound scopes, including single-roll grants, lists and glosses. They intentionally
+  do not validate every condition or modal verb; those remain part of source review.
+
 - **Glosses (popover, preferred):** term glosses are an inline token `[gloss:<id>:<visible label>]` (rendered by `useRenderInline.js` → `.gloss` span; a click/tap opens `KeywordPopover` via `App.vue`'s global handler → `openGloss`). `<id>` keys a central `src/data/glossary.js` entry `{ term, en, ru }` — `term` is the English original shown in the popover header (same in both locales), `en`/`ru` are short 1–2 sentence definitions. **Define each term once** in `glossary.js`; reuse the id across occurrences (the `<visible label>` carries the local inflection, e.g. RU `[gloss:base:базы]` / EN `[gloss:base:base]`). Add tokens in **both** the EN and RU subsections. The token is not a block marker, so EN↔RU block parity is unaffected. Don't gloss terms already covered by `KeywordPopover` (ALL-CAPS keywords like INFANTRY/VEHICLE, `[BRACKET]` abilities from `coreAbilities`) — they have their own popover.
 - **Glosses (legacy parenthetical, being migrated):** most data still carries the English original in parens — `РУС (ENG)`, e.g. `критическому ранению (critical wound)` — but this form is for ordinary (non-caps) terms only, written as `**рус** (eng)`. **ALL-CAPS keywords (INFANTRY, AIRCRAFT, WARLORD, …) are never translated** — use the bare English keyword in RU text too (no Russian rendering, no parens, e.g. `модель CHARACTER`, not `ТЕХНИКИ (VEHICLE)`), and leave it unbolded (the renderer bolds it). `[BRACKET]` ability names stay English (KeywordPopover lookup). The paired EN subsection (same `id`/`sectionNum`) is the source of truth for the English term. Migrate these to the `[gloss:…]` token form above as sections are touched.
 - **Bold (`**…**`):** game terms are emphasized wherever the official PDF emphasizes them, in **both** languages. Do not bold things the renderer already bolds (ALL-CAPS keywords, `◈ LABEL |` info-card labels) or anything inside `seeAlso` refs / image paths. `### h4` headings render through `renderInline` too, so inline markup (`**bold**`, `[KEYWORD]`, cross-refs) works there — `**…**` adds emphasis on top of the heading's own (CSS) weight; only use it where the PDF emphasizes a term within the heading.
