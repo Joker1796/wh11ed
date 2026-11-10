@@ -1,5 +1,6 @@
 import { noteReload, reloadsHeld } from './reloadLoop.js'
 import { withinDeadline } from '../utils/deadline.js'
+import { navigationVersion } from './navigationState.js'
 
 // A page from an older deploy asking for a chunk the server no longer has.
 //
@@ -36,6 +37,7 @@ let claimed = false
 let listening = false
 const recovery = { phase: 'idle', lastSkip: '', workerCheck: '', attempts: 0 }
 export const chunkRecoveryState = () => ({ ...recovery })
+const currentHref = () => typeof window === 'undefined' ? '' : window.location.href
 
 function readGuard() {
   try { return Number(sessionStorage.getItem(GUARD_KEY)) || 0 } catch { return 0 }
@@ -46,6 +48,15 @@ function writeGuard(now) {
 
 // Returns true when a reload is on its way. `url` is where the reader was going.
 export async function recoverFromStaleChunk(url, { now = Date.now(), reload = (u) => window.location.assign(u) } = {}) {
+  const version = navigationVersion(), href = currentHref()
+  const active = () => version === navigationVersion() && href === currentHref()
+  const abandoned = () => {
+    if (active()) return false
+    inFlight = false
+    recovery.phase = 'idle'
+    recovery.lastSkip = 'navigation-changed'
+    return true
+  }
   // A page caught reloading itself in a loop does not reload again (reloadLoop.js).
   if (inFlight || !navigator.onLine || reloadsHeld(now)) {
     recovery.lastSkip = inFlight ? 'in-flight' : !navigator.onLine ? 'offline' : 'reload-hold'
@@ -60,18 +71,19 @@ export async function recoverFromStaleChunk(url, { now = Date.now(), reload = (u
   // Under a service worker the page itself comes from its precache: reloading before the worker
   // has the new build would bring the same old page back. Ask it to look first; if it finds one,
   // reload once it has had time to install — the start applies it. With no worker (a tab, since
-  // 2.9.5) there is no registration and the reload is at once. The address is set to where the
-  // reader was going first: the failed navigation never changed it.
+  // 2.9.5) there is no registration and the reload is at once. The original screen owns the
+  // recovery only until another navigation starts, even if it later returns to the same URL.
   const reg = await withinDeadline(() => navigator.serviceWorker?.getRegistration?.(), 2000, 'Worker registration').catch(() => {
     recovery.workerCheck = 'registration-failed-or-timed-out'
     return null
   })
+  if (abandoned()) return false
   if (reg) {
     await withinDeadline(() => reg.update(), 2000, 'Worker update').catch(() => { recovery.workerCheck = 'update-failed-or-timed-out' })
+    if (abandoned()) return false
     if (reg.installing || reg.waiting) {
-      try { history.replaceState(history.state, '', url) } catch { /* another origin: stay put */ }
       recovery.phase = 'waiting-for-worker'
-      setTimeout(() => { recovery.phase = 'reload-requested'; noteReload('chunk'); reload(url) }, SW_GRACE_MS)
+      setTimeout(() => { if (abandoned()) return; recovery.phase = 'reload-requested'; noteReload('chunk'); reload(url) }, SW_GRACE_MS)
       return true
     }
   }
@@ -139,7 +151,15 @@ async function dropCachedCopy(err) {
  * @param {{ delays?: number[], wait?: (ms: number) => Promise<unknown>, recover?: () => unknown }} [opts]
  * @returns {Promise<T>}
  */
-export async function importQuietly(load, { delays = RETRY_DELAYS_MS, wait = sleep, recover = () => recoverFromStaleChunk(window.location.href) } = {}) {
+export async function importQuietly(load, { delays = RETRY_DELAYS_MS, wait = sleep, recover } = {}) {
+  // Keep the owner from the start of the import, not from its late failure after a route change.
+  const version = navigationVersion(), href = currentHref()
+  const recoverHere = () => {
+    if (version === navigationVersion() && href === currentHref()) {
+      if (recover) recover()
+      else if (href) recoverFromStaleChunk(href)
+    }
+  }
   for (let attempt = 0; ; attempt++) {
     quietImports++
     try {
@@ -148,9 +168,9 @@ export async function importQuietly(load, { delays = RETRY_DELAYS_MS, wait = sle
       // A load that never finished is not asked for again: the module is still pending, and the same
       // import would wait on the same request.
       if (!isChunkLoadError(err)) throw err
-      if (/** @type {any} */ (err)?.timedOut) { recover(); throw err }
+      if (/** @type {any} */ (err)?.timedOut) { recoverHere(); throw err }
       if (attempt >= delays.length) {
-        recover()
+        recoverHere()
         throw err
       }
       await dropCachedCopy(err)

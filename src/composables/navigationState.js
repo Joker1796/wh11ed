@@ -4,8 +4,11 @@ import { needsPersonalData } from './personalDataReady.js'
 // Only the latest requested route may publish a result. Imports themselves cannot be cancelled.
 export const navigationState = reactive({ phase: 'idle', target: '', waiting: false })
 let current, noticeTimer
+let version = 0
+export const navigationVersion = () => version
 export function installNavigationState(router, { personalDataReady = Promise.resolve() } = {}) {
   router.beforeEach(async (to) => {
+    version++
     clearTimeout(noticeTimer)
     navigationState.waiting = false
     noticeTimer = setTimeout(() => { navigationState.waiting = true }, 300)

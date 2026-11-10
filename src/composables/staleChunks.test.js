@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { START_LOCATION } from 'vue-router'
+import { installNavigationState } from './navigationState.js'
 import { _resetStaleChunks, importQuietly, installStaleChunkRecovery, isChunkLoadError, recoverFromStaleChunk, routeChunk } from './staleChunks.js'
 
 describe('isChunkLoadError', () => {
@@ -83,6 +84,21 @@ describe('recoverFromStaleChunk', () => {
     expect(reload).toHaveBeenCalledWith('/c')
   })
 
+  it.each(['registration', 'update', 'grace'])('abandons recovery when navigation changes during %s', async (step) => {
+    let navigate, release
+    installNavigationState({ beforeEach: fn => { navigate = fn }, afterEach: () => {}, onError: () => {}, resolve: to => ({ href: to.path }) })
+    const pending = new Promise(resolve => { release = resolve })
+    const reg = { update: () => step === 'update' ? pending : Promise.resolve(), waiting: {}, installing: null }
+    vi.stubGlobal('navigator', { onLine: true, serviceWorker: { getRegistration: () => step === 'registration' ? pending : Promise.resolve(reg) } })
+    const recovery = recoverFromStaleChunk('/a', { reload })
+    await vi.advanceTimersByTimeAsync(0)
+    await navigate({ path: '/b' })
+    release(step === 'registration' ? reg : undefined)
+    await recovery
+    await vi.advanceTimersByTimeAsync(15_000)
+    expect(reload).not.toHaveBeenCalled()
+  })
+
   it('does nothing offline — a reload would only lose the page', async () => {
     vi.stubGlobal('navigator', { onLine: false })
     expect(await recoverFromStaleChunk('/d', { reload })).toBe(false)
@@ -97,6 +113,14 @@ describe('importQuietly', () => {
   const fetchFail = () => new TypeError('Failed to fetch dynamically imported module: https://wh-rules.ru/assets/imperial-knights-x1.js')
   const noWait = () => Promise.resolve()
   beforeEach(() => { _resetStaleChunks() })
+
+  it('loads data in Node scripts without a browser window', async () => {
+    vi.stubGlobal('window', undefined)
+    try {
+      await expect(importQuietly(async () => ({ default: ['sheet'] }))).resolves.toEqual({ default: ['sheet'] })
+      await expect(importQuietly(async () => { throw fetchFail() }, { delays: [] })).rejects.toThrow(/Failed to fetch/)
+    } finally { vi.unstubAllGlobals() }
+  })
 
   it('asks again after a chunk that did not come, and the page never hears of it', async () => {
     const load = vi.fn().mockRejectedValueOnce(fetchFail()).mockResolvedValueOnce({ default: ['sheet'] })
@@ -119,6 +143,19 @@ describe('importQuietly', () => {
     const recover = vi.fn()
     await expect(importQuietly(load, { wait: noWait, recover })).rejects.toThrow(SyntaxError)
     expect(load).toHaveBeenCalledTimes(1)
+    expect(recover).not.toHaveBeenCalled()
+  })
+
+  it.each([false, true])('does not recover a late data failure from an abandoned screen (timeout=%s)', async (timedOut) => {
+    let navigate, reject
+    installNavigationState({ beforeEach: fn => { navigate = fn }, afterEach: () => {}, onError: () => {}, resolve: to => ({ href: to.path }) })
+    const recover = vi.fn()
+    const load = () => new Promise((_, fail) => { reject = fail })
+    const result = importQuietly(load, { delays: [], recover }).catch(err => err)
+    await navigate({ path: '/other' })
+    const err = Object.assign(fetchFail(), { timedOut })
+    reject(err)
+    expect(await result).toBe(err)
     expect(recover).not.toHaveBeenCalled()
   })
 
