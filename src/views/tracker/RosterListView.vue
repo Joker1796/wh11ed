@@ -300,7 +300,7 @@
 
 <script setup>
 import ExpandTransition from '../../components/ExpandTransition.vue'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { getItem, setItem, removeItem } from '../../composables/safeStorage.js'
 import { useRouter } from 'vue-router'
 import { playRoster } from '../../composables/playRoster.js'
@@ -314,6 +314,7 @@ import FactionEmblem from '../../components/FactionEmblem.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { bringTabsIntoView } from '../../composables/bringTabsIntoView.js'
+import { localData } from '../../composables/localData.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { useRosterSync } from '../../composables/useRosterSync.js'
 import { useAuth } from '../../composables/useAuth.js'
@@ -441,6 +442,7 @@ function draftStepLabel(r) {
 // tracker store: nothing on this page can change a game, and the record is a footnote on a card —
 // it does not need to be reactive, and this screen does not need the store to render.
 const records = ref(new Map())
+onUnmounted(localData.subscribe(() => { records.value = rosterRecords(loadHistory()) }))
 function recordOf(r) {
   const rec = records.value.get(r.id)
   return rec ? `${rec.w}–${rec.l}–${rec.d}` : null

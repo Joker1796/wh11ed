@@ -220,6 +220,31 @@ for (const [name, engine] of [['chrome', chromium], ['webkit', webkit]]) {
       store.saveNow()
       return localData.flush()
     }, value)
+    assert.equal(await edit(first, 'Чистая вкладка обновилась'), true)
+    await second.getByText('Чистая вкладка обновилась', { exact: true }).waitFor()
+    // A previous build has no invalidation channel. A focus read must still see its IDB save.
+    await first.evaluate(async () => {
+      const source = await (await fetch('/src/views/tracker/RosterListView.vue')).text()
+      const storeUrl = source.match(/from "([^"\n]*\/useRosters\.js[^"\n]*)"/)[1]
+      const storeSource = await (await fetch(storeUrl)).text()
+      const dataUrl = storeSource.match(/from "([^"\n]*\/localData\.js[^"\n]*)"/)[1]
+      const { createLocalData } = await import(dataUrl)
+      const previous = createLocalData({ namespace: 'old-build-test/' })
+      await previous.initialize()
+      const payload = JSON.parse(previous.getItem('wh11ed-rosters'))
+      payload.rosters.find(row => row.id === 'ui-r').name = 'Сохранено без уведомления'
+      previous.write([['wh11ed-rosters', JSON.stringify(payload)]])
+      if (!await previous.flush()) throw Error('old build save failed')
+      await previous.close()
+    })
+    await second.evaluate(() => globalThis.dispatchEvent(new Event('focus')))
+    await second.getByText('Сохранено без уведомления', { exact: true }).waitFor()
+    await first.evaluate(() => globalThis.dispatchEvent(new Event('focus')))
+    await first.getByText('Сохранено без уведомления', { exact: true }).waitFor()
+
+    // A clean view adopts the new record. An edit inside the debounce window must instead
+    // retain its old revision and conflict when the other tab commits first.
+    await second.evaluate(() => globalThis.productData.store.renameRoster('ui-r', 'Вторая сохраняет'))
     assert.equal(await edit(first, 'Первая сохранила'), true)
     assert.equal(await edit(second, 'Вторая сохраняет'), false)
     await second.getByRole('dialog').waitFor()
@@ -279,6 +304,11 @@ for (const [name, engine] of [['chrome', chromium], ['webkit', webkit]]) {
       const backup = await localData.backup()
       return { id, current: backup.items['wh11ed-tracker-current'], game: JSON.parse(backup.items['wh11ed-tracker-history']).find((g) => g.id === id) }
     })
+    await first.waitForFunction((id) => {
+      const data = globalThis.productData.localData
+      const history = JSON.parse(data.getItem('wh11ed-tracker-history') || '[]')
+      return !data.getItem('wh11ed-tracker-current') && history.some(game => game.id === id)
+    }, archived.id)
     assert.equal(archived.current, null)
     assert.equal(archived.game.players[0].cp, 5)
     await second.waitForLoadState('networkidle')

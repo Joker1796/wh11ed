@@ -75,3 +75,18 @@ describe('roster index meanings — twins', () => {
     expect(r.gone).toEqual([])
   })
 })
+
+describe('fixed replacement migrations', () => {
+  it('completes a unique old choice but preserves an ambiguous choice for review', () => {
+    const a = unit([{ m: 0, rep: [1], o: [[2], [3], [4]] }])
+    const b = unit([{ m: 0, rep: [1], fixed: 1, o: [[[[2, 1], [3, 1]]], [[[2, 1], [4, 1]]]] }])
+    const result = moves(a, b).moves['sm:squad']
+    expect(result.wg['0.1']).toBe('0.0')
+    expect(result.wg['0.2']).toBe('0.1')
+    expect(result.wg['0.0']).toEqual({ review: 'plasma gun×1' })
+    const entry = { wg: [[0, 0, 1]] }
+    applyUnitMove(entry, result)
+    expect(entry.gearRecovery).toEqual([{ pick: [0, 0, 1], meaning: 'plasma gun×1' }])
+    expect(entry.gearCheck).toBeTruthy()
+  })
+})

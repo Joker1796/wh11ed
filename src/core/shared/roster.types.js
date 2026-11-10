@@ -33,6 +33,7 @@
 /**
  * One wargear group of a datasheet — one instruction ("This model's bolt pistol can be replaced…").
  * @typedef {object} GearGroup
+ * @property {1} [fixed] options include a mandatory prefix and a selectable bundle
  * @property {number} [m] the miniature profile (index into `minis`) the group belongs to
  * @property {number} [t] instruction text id (items.js `texts`)
  * @property {'checkbox' | 'stepper'} [in] the control: one pick per option, or a count
@@ -258,7 +259,8 @@
  * @property {string} [alleg] the chosen allegiance option, by name
  * @property {string} [note]
  * @property {string} [blockName] the name of the block this entry is the host of
- * @property {963} [gearCheck] data 963 may have moved its wargear or size — kept until the player confirms (useRosters.js)
+ * @property {Array<{ pick: number[], meaning: string }>} [gearRecovery] old choices needing an explicit replacement
+ * @property {number} [gearCheck] data 963 may have moved its wargear or size — kept until the player confirms (useRosters.js)
  */
 
 /**

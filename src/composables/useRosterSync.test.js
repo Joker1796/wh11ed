@@ -1,4 +1,5 @@
 import { webcrypto } from 'node:crypto'
+import { DATA_REV } from '../data/rosterIndexMoves.js'
 import { contentHash } from '../utils/contentHash.js'
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
 
@@ -137,8 +138,9 @@ describe('syncNow', () => {
   })
 
   it('costs exactly one request when nothing changed', async () => {
-    const cloud = new Map([['r1', { ...roster('r1'), v: 13 }]])
-    await load([roster('r1')])
+    const current = { ...roster('r1'), dv: DATA_REV }
+    const cloud = new Map([['r1', { ...current, v: 13 }]])
+    await load([current])
     h.fetchImpl = cloudFetch(cloud)
     await sync.syncNow()
     expect(h.calls).toEqual([['/roster-sync', 'GET']])

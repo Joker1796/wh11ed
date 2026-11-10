@@ -8,13 +8,13 @@
  * One generation's moves for one unit: `wg["g.o"]` → the new "g.o", or 0 when the option is gone;
  * `s[i]` → the new bracket index, or -1 when the bracket is gone, or `[index, min, max]` when the
  * bracket's model range changed — a stored model count outside it falls back to the minimum.
- * @typedef {{ wg?: Record<string, string | 0>, s?: Record<string, number | [number, number, number]> }} UnitMove
+ * @typedef {{ wg?: Record<string, string | 0 | { review: string }>, s?: Record<string, number | [number, number, number]> }} UnitMove
  */
 
 /**
  * Apply one generation's moves to a stored entry, in place. Two old picks that land on the same
  * option become one, their counts added (a checkbox pick has no count and stays a single pick).
- * @param {{ wg?: Array<[number, number, number?]>, size?: number, count?: number }} entry
+ * @param {{ wg?: Array<[number, number, number?]>, size?: number, count?: number, gearRecovery?: Array<{ pick: number[], meaning: string }>, gearCheck?: number }} entry
  * @param {UnitMove | undefined} move
  */
 export function applyUnitMove(entry, move) {
@@ -26,6 +26,11 @@ export function applyUnitMove(entry, move) {
       const to = move.wg[`${pick[0]}.${pick[1]}`]
       /** @type {[number, number, number?]} */
       let next = pick
+      if (to && typeof to === 'object') {
+        ;(entry.gearRecovery ??= []).push({ pick: [pick[0], pick[1], pick[2] ?? 1], meaning: to.review })
+        entry.gearCheck = 2
+        continue
+      }
       if (to === 0) continue
       if (to !== undefined) {
         const [g, o] = String(to).split('.').map(Number)

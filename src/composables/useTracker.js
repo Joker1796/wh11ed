@@ -1,4 +1,5 @@
 import { ref, watch } from 'vue'
+import { localDataView, keepLocalReference } from './localDataView.js'
 import { debouncedSave } from '../utils/debouncedSave.js'
 import { localData } from './localData.js'
 import { CUR_KEY, gameInPlay, isValidGame } from './gameInPlay.js'
@@ -327,13 +328,30 @@ function saveNow() {
   flushSave()
 }
 
-watch(current, () => { pendingCurrent = true; scheduleSave() }, { deep: true })
+const hydrating = localDataView({
+  snapshot: () => JSON.stringify([current.value, history.value, setupDraft.value]),
+  flush: () => {
+    // A UI edit can precede Vue's batched dirty watchers, not just the save debounce.
+    pendingCurrent = pendingHistory = pendingSetupDraft = true
+    flushSave()
+  },
+  hydrate: () => {
+    const next = load(CUR_KEY, null)
+    current.value = keepLocalReference(current.value, isValidGame(next) ? next : null)
+    if (current.value) current.value.players.forEach(mendSide)
+    const before = new Map(history.value.map(game => [game.id, game]))
+    history.value = (load(HIST_KEY, []) || []).filter(isValidGame).map(game => keepLocalReference(before.get(game.id), game))
+    history.value.forEach(game => game.players.forEach(mendSide))
+    setupDraft.value = keepLocalReference(setupDraft.value, load(DRAFT_KEY, null))
+  },
+})
+watch(current, () => { if (!hydrating()) { pendingCurrent = true; scheduleSave() } }, { deep: true })
 // The shell's "a game is on" flag (gameInPlay.js) follows the store from the moment it loads.
 watch(() => current.value?.phase, (phase) => { gameInPlay.value = phase === 'playing' }, { immediate: true })
 // A Dominatus game reads its Agendas and Location from the deck, which comes on demand.
 watch(() => !!current.value?.settings?.dominatus, (on) => { if (on) loadDominatusDeck() }, { immediate: true })
-watch(history, () => { pendingHistory = true; scheduleSave() }, { deep: true })
-watch(setupDraft, () => { pendingSetupDraft = true; scheduleSave() }, { deep: true })
+watch(history, () => { if (!hydrating()) { pendingHistory = true; scheduleSave() } }, { deep: true })
+watch(setupDraft, () => { if (!hydrating()) { pendingSetupDraft = true; scheduleSave() } }, { deep: true })
 
 
 // How a secondary came into the hand — 'random' (off the deck) or 'chosen' (picked by hand); the

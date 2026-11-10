@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:navigation": "node scripts/navigation-e2e.mjs",
+    "test:roster-live": "node scripts/roster-live-e2e.mjs",
     "test:local-data": "node scripts/local-data-e2e.mjs",
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.core.json",

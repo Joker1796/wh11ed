@@ -1,5 +1,6 @@
 import { computed, ref, watch } from 'vue'
 import { debouncedSave } from '../utils/debouncedSave.js'
+import { localDataView, keepLocalReference } from './localDataView.js'
 import { localData } from './localData.js'
 import poolMoves from '../data/rosterPoolMoves.js'
 import dataMoves, { DATA_REV } from '../data/rosterIndexMoves.js'
@@ -428,7 +429,15 @@ const { schedule: scheduleSave, now: flushSave } = debouncedSave(() => {
 // (create / duplicate / delete / import) a frozen-PWA debounce window must not drop them.
 function saveNow() { flushSave() }
 
-watch(rosters, scheduleSave, { deep: true })
+const hydrating = localDataView({
+  snapshot: () => JSON.stringify(rosters.value),
+  flush: flushSave,
+  hydrate: () => {
+    const before = new Map(rosters.value.map(row => [row.id, row]))
+    rosters.value = load().map(row => keepLocalReference(before.get(row.id), row))
+  },
+})
+watch(rosters, () => { if (!hydrating()) scheduleSave() }, { deep: true })
 
 function touch(r) { r.updatedAt = Date.now() }
 

@@ -640,7 +640,12 @@ describe('a condition on several items, or on one option of a swap', () => {
   it('Ork Kill Tank: the Big Shootas need the Deff Rolla, not any pick of its swap', () => {
     const u = unit('orks', 'kill-tank')
     const shootas = u.gear.findIndex((g) => g.cond)
-    expect(u.gear[shootas].cond[2]).toEqual([optionOf(u, u.gear[shootas].cond[0], 'Deff Rolla')])
+    const sibling = u.gear[shootas].cond[0]
+    expect(wargearGroupLive(u, { size: 0, wg: [] }, shootas)).toBe(false)
+    for (let option = 0; option < u.gear[sibling].o.length; option++) {
+      expect(optionItems(u.gear[sibling].o[option]).some(([id]) => rosterItems.items[id] === 'Deff Rolla')).toBe(true)
+      expect(wargearGroupLive(u, { size: 0, wg: [[sibling, option, 1]] }, shootas)).toBe(true)
+    }
   })
 
   it.each([

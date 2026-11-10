@@ -28,6 +28,8 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
   const actor = uid()
   const journalKey = namespace + actor
   const subscribers = new Set()
+  const captures = new Set()
+  let channel, refreshTask, refreshAgain = false, stopLive = () => {}
   let db, initialized, releaseActor
   let records = new Map(), baseline = new Map(), cache = new Map()
   let desired = new Map(), running = null, journal = null
@@ -45,8 +47,65 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
     baseline = localView(inspected.valid)
     return inspected.issues
   }
-  const publish = () => { for (const fn of subscribers) fn() }
+  const publish = () => Promise.all([...subscribers].map(fn => fn()))
   const expectedFor = (ops) => Object.fromEntries(ops.map((op) => [op.key, records.get(op.key)?.revision || 0]))
+  const notify = () => {
+    try { channel?.postMessage({ actor }) } catch { /* Focus refresh also covers missed signals. */ }
+  }
+  function startLive() {
+    if (namespace !== JOURNAL || storage !== browserStorage || typeof window === 'undefined') return
+    const refresh = () => { if (state.phase === 'ready') api.refresh().catch(fail) }
+    const visible = () => { if (document.visibilityState === 'visible') refresh() }
+    if (typeof window.BroadcastChannel === 'function') {
+      channel = new window.BroadcastChannel('wh-rules-local-data')
+      channel.onmessage = (event) => { if (event.data?.actor !== actor) refresh() }
+    }
+    window.addEventListener('focus', refresh)
+    document.addEventListener('visibilitychange', visible)
+    stopLive = () => { channel?.close(); channel = undefined; window.removeEventListener('focus', refresh); document.removeEventListener('visibilitychange', visible) }
+  }
+  async function refresh() {
+    if (state.phase !== 'ready') return false
+    if (refreshTask) { refreshAgain = true; return refreshTask }
+    refreshTask = (async () => {
+      // Capture store edits before advancing any baseline, including the debounce window.
+      for (const capture of captures) capture()
+      await pump()
+      const rows = await db.read()
+      for (const capture of captures) capture()
+      // A write can start while that read is in flight. Read again after it settles.
+      if (running) { refreshAgain = true; return false }
+      const inspected = inspectStoredRecords(rows)
+      if (inspected.issues.length) { fail(new Error('Updated local records could not be read')); return false }
+      const ops = pending()
+      const dirty = new Set([...ops.map(op => op.key), ...(state.conflict?.keys || [])])
+      const merged = new Map(inspected.valid.map(row => [row.key, row]))
+      // Dirty records keep their original revision, so refresh can never hide a conflict.
+      for (const key of dirty) {
+        if (records.has(key)) merged.set(key, records.get(key))
+        else merged.delete(key)
+      }
+      records = merged
+      baseline = localView([...records.values()])
+      const view = new Map(records)
+      for (const op of ops) {
+        if (op.value === null) view.delete(op.key)
+        else view.set(op.key, op)
+      }
+      const next = localView([...view.values()])
+      const changed = LOCAL_KEYS.some(key => next.get(key) !== cache.get(key))
+      cache = next
+      // Rebase only clean entities in collection envelopes. Leaving the old envelope here
+      // would turn another tab's additions/deletions into this tab's next write.
+      desired = new Map(LOCAL_KEYS.filter(key => cache.get(key) !== baseline.get(key)).map(key => [key, cache.get(key)]))
+      if (changed) await publish()
+      return !state.conflict && !state.error
+    })()
+    try { return await refreshTask } finally {
+      refreshTask = null
+      if (refreshAgain) { refreshAgain = false; queueMicrotask(() => api.refresh().catch(fail)) }
+    }
+  }
   async function importLegacy(source, previous) {
     const planned = legacyChanges(source, previous)
     let ok = true
@@ -127,6 +186,7 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
           const result = await db.commit({ ...submitted, confirmed: !!overrides, replaces: state.conflict?.key })
           if (!result.ok) { reportConflict(result, submitted); return false }
           for (const row of result.updated) records.set(row.key, row)
+          notify()
           // The baseline is the submitted view, never a later edit made while IDB was writing.
           for (const [key, value] of snapshot) {
             baseline.set(key, value)
@@ -248,16 +308,19 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
         }
         try { storage.setItem(MARKER, '1') } catch { /* The IDB migration marker is authoritative. */ }
         state.phase = 'ready'
-        publish()
+        startLive()
+        await publish()
         return true
       } catch (error) { fail(error); state.conflict = null; state.phase = 'error'; return false }
     })()
     return initialized
   }
 
-  return {
+  const api = {
     state,
     initialize,
+    refresh,
+    beforeRefresh(fn) { captures.add(fn); return () => captures.delete(fn) },
     getItem(key) { return state.phase === 'ready' ? cache.get(key) ?? null : storage.getItem(key) },
     subscribe(fn) { subscribers.add(fn); return () => subscribers.delete(fn) },
     async backup() {
@@ -309,8 +372,9 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
       if (state.phase !== 'ready' || conflict?.key !== state.conflict?.key) return false
       return pump(conflict)
     },
-    async close() { await staging; await pump(); releaseActor?.(); db?.close() },
+    async close() { await staging; await pump(); stopLive(); releaseActor?.(); db?.close() },
   }
+  return api
 }
 
 export const localData = createLocalData()

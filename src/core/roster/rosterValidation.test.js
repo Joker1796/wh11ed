@@ -1251,3 +1251,18 @@ describe('validateRoster — a Support unit on its own', () => {
     expect(unattached([U('cap', { warlord: true }), U('cato'), U('squad')])).toEqual([])
   })
 })
+
+describe('unresolved equipment migration', () => {
+  it('requires a decision for an ambiguous old pick rather than reporting a valid default', () => {
+    const entry = U('captain', { gearCheck: 2, gearRecovery: [{ pick: [0, 0, 1], meaning: 'old axe×1' }] })
+    const issues = validateRoster(roster({ units: [entry] }), { faction, core }).issues
+    expect(issues.filter(issue => issue.code === 'gearRecovery')).toEqual([{ code: 'gearRecovery', level: 'error', uid: entry.uid, params: { unit: 'Captain' } }])
+    expect(issues.some(issue => issue.code === 'gearCheck')).toBe(false)
+  })
+  it('keeps the older review marker a warning once there is no unresolved choice', () => {
+    const entry = U('captain', { gearCheck: 963, gearRecovery: [] })
+    const issues = validateRoster(roster({ units: [entry] }), { faction, core }).issues
+    expect(issues.find(issue => issue.code === 'gearCheck').level).toBe('warn')
+    expect(issues.some(issue => issue.code === 'gearRecovery')).toBe(false)
+  })
+})

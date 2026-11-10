@@ -5,14 +5,12 @@ owns native IndexedDB transactions; `utils/localRecords.js` maps existing envelo
 The database is `wh11ed-local-data`, schema version 1. It contains only personal lists, games
 and the setup draft. Rules, account tokens and the service worker caches are not moved here.
 
-`main.js` initializes it before mounting the app. Opening is bounded at 2.5 s and retried once
-(WebKit sometimes leaves a session's first open hanging); transactions are bounded at 5 s. An
-initialization failure leaves the reference pages usable, but prevents the roster/tracker
-screens from mounting over an unknown or stale copy; those screens and the notice offer a reload.
-Mounting is not made concurrent with initialization on purpose: `useTracker`/`useRosters`
-hydrate synchronously at import, and several pages outside those sections import them, so a
-store loaded before `ready` would hold a stale or empty copy and could write it back. No empty fallback is written
-over a migrated database. Storage access itself is lazy: a denied localStorage getter cannot
+`main.js` starts initialization alongside the reference shell. `personalDataReady` gates personal
+route and dialog imports before synchronous store hydration; chunk-graph checks keep personal
+stores outside the shell. Opening is bounded at 2.5 s and retried once; transactions at 5 s. An
+initialization failure leaves reference pages usable, but blocks roster/tracker screens. The
+startup notice is nonblocking over reference pages and blocking over personal screens. No empty
+fallback is written over a migrated database. Storage access itself is lazy: a denied localStorage getter cannot
 throw during the shell's imports.
 
 `LocalDataStartup` mounts before the app. It stays invisible for the first 500 ms, then shows
@@ -119,3 +117,23 @@ the real confirmation dialog in two tabs. It also checks malformed legacy/IDB re
 the quarantine backup, creates/archives a game through useTracker and reopens the app.
 Every new persistence failure needs a scenario against the browser storage,
 not just an in-memory storage mock.
+
+
+## Live views in other tabs
+
+One BroadcastChannel sends invalidation after a committed write, never data bodies. Focus and
+visibility refresh cover missed messages and suspended PWA windows; no polling is used. Reads
+coalesce, with one additional pass when an invalidation arrives during the previous read.
+
+`localDataView` registers each loaded store's capture/hydration pair. Captures run before and
+after the async database read, including edits before Vue watchers or save debounce execute.
+Dirty records retain their original revisions and local values. Clean records adopt DB changes;
+collection envelopes are rebased so additions/deletions in another tab cannot become accidental
+writes. A conflict in one entity does not prevent clean entities updating. Current→history moves
+are read in one transaction and published together. Hydration keeps unchanged entity references
+and suppresses autosave through Vue's batched watcher tick. Game roster snapshots are separate
+from the source army list. Newer roster revisions remain protected by the existing read-only path.
+
+`npm run test:local-data` covers migration, conflict races, clean refresh and atomic archival in
+Chrome/WebKit. `npm run test:roster-live` covers actual equipment controls, an edit inside the
+save debounce window, independent records and ambiguous old loadouts.

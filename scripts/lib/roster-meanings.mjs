@@ -38,7 +38,7 @@ export function meaningsOf(slug, data, names, aliases = {}) {
     const profile = (g) => (g.all || g.m == null ? '*' : minis[g.m] ?? `#${g.m}`)
     const groups = (u.gear || []).map((g) => {
       const rep = (g.rep || []).map((id) => alias(norm(names[id] ?? `#${id}`))).sort().join('+')
-      return { p: profile(g), r: rep, o: (g.o || []).map((o) => optionKey(o, names, alias)) }
+      return { p: profile(g), r: rep, ...(g.fixed ? { fixed: 1 } : {}), o: (g.o || []).map((o) => optionKey(o, names, alias)) }
     })
     const sizes = (u.sizes || []).map((s) => {
       const comp = (s.comp || []).map(([m, ...n]) => `${minis[m] ?? `#${m}`}:${n.join('-')}`).sort().join(',')
@@ -74,7 +74,7 @@ function pickIndex(groups) {
  * is listed: `wg["g.o"]` is the new "g.o" or 0 (gone — the pick is dropped), `s[i]` the new index
  * or -1 (gone — the size falls back to the default bracket). A unit that left the data is absent:
  * the roster's `unknownUnit` already says so, and datasheet renames are recorded elsewhere.
- * @returns {{ moves: Record<string, { wg?: Record<string, string | 0>, s?: Record<string, number> }>, gone: string[] }}
+ * @returns {{ moves: Record<string, { wg?: Record<string, string | 0 | { review: string }>, s?: Record<string, number> }>, gone: string[] }}
  */
 export function matchMeanings(prev, next) {
   const moves = {}
@@ -101,6 +101,22 @@ export function matchMeanings(prev, next) {
         if (oldIdx[k].at.get(key) === null) continue // ambiguous on the old side: not this key
         const hit = newIdx[k].at.get(key)
         if (hit) to = hit
+      }
+      // Only a newly explicit fixed-prefix group can complete an old partial choice.
+      // Multiple completions preserve the original meaning for an explicit player decision.
+      if (!to && same?.fixed && same.p === g.p && same.r === g.r) {
+        const quantities = key => new Map(key.split('+').map(part => {
+          const at = part.lastIndexOf('×')
+          return [part.slice(0, at), Number(part.slice(at + 1))]
+        }))
+        const old = quantities(o)
+        const candidates = same.o.map((key, index) => [quantities(key), index])
+          .filter(([items]) => [...old].every(([name, n]) => (items.get(name) || 0) >= n))
+        if (candidates.length === 1) to = [gi, candidates[0][1]]
+        else {
+          ;(entry.wg ??= {})[`${gi}.${oi}`] = { review: o }
+          return
+        }
       }
       if (to && to[0] === gi && to[1] === oi) return
       ;(entry.wg ??= {})[`${gi}.${oi}`] = to ? `${to[0]}.${to[1]}` : 0

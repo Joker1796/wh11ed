@@ -24,6 +24,7 @@
 // entries) to a wh11ed datasheet slug carries `linked:true` + that id, so the editor can
 // deep-link to the unit's datasheet page. Unmatched units get a slugified id and no link.
 
+import { fixedWargearBundles } from './lib/fixed-wargear-bundles.mjs'
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -1202,11 +1203,20 @@ function linkWargearConditions(datasheetId, drafts) {
 // Fail-open throughout — a group whose statements don't all resolve, or whose sets the
 // enumeration doesn't back, is emitted exactly as appdata lists it (one item per option), which
 // is today's behaviour. Never a guessed pair.
+const lcCountRows = new Map()
 const lcItemsByChoice = new Map()
 for (const r of table('loadout_choice_wargear_item')) {
   if (!lcItemsByChoice.has(r.loadoutChoiceId)) lcItemsByChoice.set(r.loadoutChoiceId, [])
   lcItemsByChoice.get(r.loadoutChoiceId).push(r.wargearItemId)
+  if (!lcCountRows.has(r.loadoutChoiceId)) lcCountRows.set(r.loadoutChoiceId, [])
+  lcCountRows.get(r.loadoutChoiceId).push([r.wargearItemId, r.count ?? 1])
 }
+const fixedRulesByDs = new Map()
+for (const r of table('wargear_rule')) {
+  if (!fixedRulesByDs.has(r.datasheetId)) fixedRulesByDs.set(r.datasheetId, [])
+  fixedRulesByDs.get(r.datasheetId).push(enOf(r).rulesText || '')
+}
+const legalCounts = new Map()
 const lcSetById = new Map(table('loadout_choice_set').map((s) => [s.id, s]))
 const legalLoadouts = new Map() // `${datasheetId}|${miniatureId}` -> [Set(itemUuid), …]
 for (const c of table('loadout_choice')) {
@@ -1215,6 +1225,8 @@ for (const c of table('loadout_choice')) {
   const key = `${set.datasheetId}|${set.miniatureId || ''}`
   if (!legalLoadouts.has(key)) legalLoadouts.set(key, [])
   legalLoadouts.get(key).push(new Set(lcItemsByChoice.get(c.id) || []))
+  if (!legalCounts.has(key)) legalCounts.set(key, [])
+  legalCounts.get(key).push(new Map(lcCountRows.get(c.id) || []))
 }
 
 // Four markers are in use (◦ 348 lines, ■/▫ 5 each, • 2) — and one list has no marker at all,
@@ -1378,7 +1390,10 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
     else if (inline && /,\s*\d/.test(inline[1])) entries = inline[1].split(/,\s*(?=\d)/)
     const stmts = entries.map((l) => l.replace(BULLET_RE, '').split(VALUE_SPLIT).pop())
 
-    const sets = stmts.map((c) => itemsNamedIn(c, vocab))
+    const fixed = fixedWargearBundles({ text: d.text, fullTexts: fixedRulesByDs.get(datasheetId) || [], vocab,
+      readItems: itemsNamedIn, legal: legalCounts.get(`${datasheetId}|${d.miniId || ''}`) || [] })
+    if (fixed) d.fixed = 1
+    const sets = fixed || stmts.map((c) => itemsNamedIn(c, vocab))
     if (sets.some((set) => !set.length)) continue        // a statement nothing resolved in
 
     // A number in front of an item is not always a quantity: "up to 2 seeker missiles" / "up to 4
@@ -3099,6 +3114,7 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
     }
     // A copy's allowance is its pool's (`unit.pools`), or — for a budget per model — its own.
     if (d.lim && !copy) grp.lim = d.lim
+    if (d.fixed) grp.fixed = 1
     if (d.od) grp.od = d.od
     if (copy && d.pmb) grp.pb = d.pmb
     if (d.cp) grp.cp = d.cp
