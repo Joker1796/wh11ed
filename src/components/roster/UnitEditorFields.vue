@@ -33,7 +33,7 @@
         :class="{ 'ues-gear-recovery': entry.gearRecovery?.length }"
         role="status"
       >
-        <p>{{ entry.gearRecovery?.length ? labels.rosterGearRecovery : labels.rosterGearCheck }}</p>
+        <p>{{ recoveryIsAutomatic ? labels.rosterGearAutomatic : entry.gearRecovery?.length ? labels.rosterGearRecovery : labels.rosterGearCheck }}</p>
         <p v-if="entry.gearRecovery?.length">
           {{ entry.gearRecovery.map(row => row.meaning).join('; ') }}
         </p>
@@ -42,7 +42,7 @@
           class="btn-ghost"
           @click="confirmGear"
         >
-          {{ entry.gearRecovery?.length ? labels.rosterGearRecoveryDefault : labels.rosterGearCheckOk }}
+          {{ recoveryIsAutomatic ? labels.rosterGearCheckOk : entry.gearRecovery?.length ? labels.rosterGearRecoveryDefault : labels.rosterGearCheckOk }}
         </button>
       </div>
     </ExpandTransition>
@@ -1044,15 +1044,17 @@ const sourceHints = computed(() => {
 // is what saves it.
 const writeNote = (obj, key, value) => setNote(obj, key, value)
 // The entry is the stored roster's own object, edited in place like every field here.
+const recoveryIsAutomatic = computed(() => props.entry.gearRecovery?.length && props.entry.gearRecovery.every(row => row.automatic))
 const confirmGear = () => { delete props.entry.gearRecovery; delete props.entry.gearCheck }
 // Changing the wargear or the size is an answer too: the player has looked at it.
 // Only a change to the SAME entry (its uid leads the key): opening another unit is not an answer.
-watch(() => `${props.entry.uid}|${JSON.stringify([props.entry.wg, props.entry.size, props.entry.count])}`, (now, before) => {
+watch(() => `${props.entry.uid}|${JSON.stringify([props.entry.wg, props.entry.size, props.entry.count, props.entry.alleg])}`, (now, before) => {
   if (now.split('|')[0] !== before.split('|')[0]) return
   if (props.entry.gearRecovery?.length) {
     const picks = value => JSON.parse(value.slice(value.indexOf('|') + 1))[0] || []
     const current = picks(now), previous = picks(before)
     const unresolved = props.entry.gearRecovery.filter(row => {
+      if (row.automatic && JSON.parse(now.slice(now.indexOf('|') + 1))[3] !== JSON.parse(before.slice(before.indexOf('|') + 1))[3]) return false
       const group = row.pick[0]
       return JSON.stringify(current.filter(pick => pick[0] === group)) === JSON.stringify(previous.filter(pick => pick[0] === group))
     })

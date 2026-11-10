@@ -2072,6 +2072,7 @@ describe('every printed weapon has a carrier', () => {
         }
         for (const [, list] of def.defaults) for (const [id] of list) put(id)
         for (const g of def.gear || []) for (const o of g.o) for (const [id] of optionItems(o)) put(id)
+        for (const option of def.alleg?.o || []) if (option.wg) put(option.wg)
         for (const w of [...(sheet.ranged || []), ...(sheet.melee || [])]) {
           const n = key(w.name.replace(/\s+[–-]\s+.*$/, ''))
           if (![...have].some((h) => h === n || h.endsWith(` ${n}`) || n.endsWith(` ${h}`) || h.replace(/^twin /, '') === n)) found.push(`${slug}/${def.id}: ${n}`)

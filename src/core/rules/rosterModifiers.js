@@ -93,6 +93,9 @@ function itemNameIndex(def, items) {
   }
   for (const [, list] of def?.defaults || []) for (const [id] of list) add(id)
   for (const g of def?.gear || []) for (const o of g.o || []) for (const [id] of optionItems(o)) add(id)
+  // Recognize every possible allegiance weapon, while loadoutItemCopies grants only the
+  // selected one. Unselected weapons must not become unclaimed rows shown by default.
+  for (const option of def?.alleg?.o || []) if (option.wg) add(option.wg)
   return byName
 }
 

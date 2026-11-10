@@ -44,7 +44,8 @@ export function meaningsOf(slug, data, names, aliases = {}) {
       const comp = (s.comp || []).map(([m, ...n]) => `${minis[m] ?? `#${m}`}:${n.join('-')}`).sort().join(',')
       return `${(s.per || []).join('-')}${comp ? `|${comp}` : ''}`
     })
-    out[`${slug}:${u.id}`] = { g: groups, s: sizes, m: minis }
+    const automatic = [...new Set((u.alleg?.o || []).flatMap(option => option.wg ? [`${alias(norm(names[option.wg]))}×1`] : []))]
+    out[`${slug}:${u.id}`] = { g: groups, s: sizes, m: minis, ...(automatic.length ? { automatic } : {}) }
   }
   return out
 }
@@ -74,7 +75,7 @@ function pickIndex(groups) {
  * is listed: `wg["g.o"]` is the new "g.o" or 0 (gone — the pick is dropped), `s[i]` the new index
  * or -1 (gone — the size falls back to the default bracket). A unit that left the data is absent:
  * the roster's `unknownUnit` already says so, and datasheet renames are recorded elsewhere.
- * @returns {{ moves: Record<string, { wg?: Record<string, string | 0 | { review: string }>, s?: Record<string, number> }>, gone: string[] }}
+ * @returns {{ moves: Record<string, { wg?: Record<string, string | 0 | { review: string, automatic?: true }>, s?: Record<string, number> }>, gone: string[] }}
  */
 export function matchMeanings(prev, next) {
   const moves = {}
@@ -101,6 +102,10 @@ export function matchMeanings(prev, next) {
         if (oldIdx[k].at.get(key) === null) continue // ambiguous on the old side: not this key
         const hit = newIdx[k].at.get(key)
         if (hit) to = hit
+      }
+      if (!to && after.automatic?.includes(o)) {
+        ;(entry.wg ??= {})[`${gi}.${oi}`] = { review: o, automatic: true }
+        return
       }
       // Only a newly explicit fixed-prefix group can complete an old partial choice.
       // Multiple completions preserve the original meaning for an explicit player decision.

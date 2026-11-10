@@ -217,8 +217,10 @@ export function validateRoster(roster, { faction, core, items, idleCopies } = {}
   // An entry whose wargear or size data 963 may have moved (useRosters.js repairLegacy963): kept as
   // stored, said here until the player confirms it or edits it (UnitEditorFields).
   for (const u of units) {
-    if (u.gearRecovery?.length) add('gearRecovery', 'error', { uid: u.uid })
-    else if (u.gearCheck) add('gearCheck', 'warn', { uid: u.uid })
+    if (u.gearRecovery?.length) {
+      const automatic = u.gearRecovery.every(row => row.automatic)
+      add(automatic ? 'gearAutomatic' : 'gearRecovery', automatic ? 'warn' : 'error', { uid: u.uid })
+    } else if (u.gearCheck) add('gearCheck', 'warn', { uid: u.uid })
   }
 
   // A second copy of a melee weapon on one model: legal, and by 04.01 (a model fights with ONE

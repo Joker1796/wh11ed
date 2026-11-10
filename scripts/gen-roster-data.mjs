@@ -2780,6 +2780,17 @@ function buildUnit(bd, idMap, fx, kwIndex, prices) {
       opts: rawOpts.map((o) => ({ uuid: o.wargearItemId, pts: priceOf(o), def: o.defaultValue || 0 })),
     })
   }
+  // Allegiance already grants this equipment. GW also files the same list as a picker
+  // group; exposing it independently lets a model take another god's weapon as well.
+  const automaticGear = new Set((unit.alleg?.o || []).flatMap(option => option.wg ? [option.wg] : []))
+  if (automaticGear.size) {
+    const owned = group => group.opts.length === automaticGear.size
+      && group.opts.every(option => automaticGear.has(fx.item(option.uuid))) && !/replac/i.test(group.text)
+    // Reserve the existing text IDs in their original order. Removing this one unused
+    // instruction must not renumber and invalidate every later faction's cached data.
+    if (drafts.some(owned)) for (const group of drafts) fx.text(group.text)
+    drafts = drafts.filter(group => !owned(group))
+  }
   linkWargearConditions(bd.id, drafts)
   linkWargearBundles(bd.id, bd.name, drafts, report.bundle)
   dropStockRemnants(bd.name, drafts, report.bundle.stockRemnant)
