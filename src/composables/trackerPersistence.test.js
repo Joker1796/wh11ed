@@ -52,3 +52,23 @@ describe('durable game transitions under storage failure', () => {
     expect(JSON.parse(localStorage.getItem(HIST)).some((g) => g.id === id)).toBe(true)
   })
 })
+
+it('repeating an interrupted archive keeps exactly one identical history record', () => {
+  const record = JSON.parse(JSON.stringify(tracker.current.value))
+  delete record.party
+  tracker.history.value = [record]
+  tracker.archiveGame()
+  expect(tracker.history.value.filter(game => game.id === record.id)).toHaveLength(1)
+  expect(tracker.current.value).toBeNull()
+})
+
+it('preserves both different versions of the same game instead of overwriting either on archive', async () => {
+  const record = JSON.parse(JSON.stringify(tracker.current.value))
+  record.players[0].name = 'Different historical version'
+  tracker.history.value = [record]
+  expect(tracker.archiveGame()).toBe(false)
+  expect(tracker.current.value).not.toBeNull()
+  expect(tracker.history.value[0].players[0].name).toBe('Different historical version')
+  const { localData } = await import('./localData.js')
+  expect(localData.state.error).toContain('Archive conflict')
+})

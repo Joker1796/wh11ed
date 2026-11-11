@@ -51,7 +51,7 @@ export async function currentRegistration() {
 }
 
 // The caches a worker of ours fills: Workbox's precache and the two runtime caches (vite.config.js).
-const OUR_CACHE = /^workbox-precache|^wh-rules-assets$|^wh11ed-images$/
+const OUR_CACHE = /^workbox-precache|^wh-rules-assets$|^wh11ed-images$|^wh-rules-offline-control$/
 
 /** Deletes our caches. Returns how many went. Safe to run with nothing to delete, and to interrupt. */
 export async function dropCaches(store = typeof caches !== 'undefined' ? caches : null) {

@@ -1,9 +1,11 @@
+/* global self */
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { randomUUID } from 'node:crypto'
 import { join } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
+import { installOfflineWorker } from './src/utils/offlineWorker.js'
 
 const pkgVersion = JSON.parse(readFileSync('./package.json', 'utf8')).version
 // One immutable namespace per build, including repeated beta builds with the same app version.
@@ -26,7 +28,7 @@ function buildInfoMeta() {
     generateBundle() {
       this.emitFile({ type: 'asset', fileName: 'version.json', source: JSON.stringify({ app: pkgVersion, notes: notesVersion, build: BUILD_ID, manifest: OFFLINE_URL }) })
       this.emitFile({ type: 'asset', fileName: `${RELEASE_DIR}/worker-info.js`, source:
-        `self.addEventListener('message',e=>{if(e.data?.type==='WH_BUILD_INFO'&&e.ports[0])e.ports[0].postMessage(${JSON.stringify({ app: pkgVersion, build: BUILD_ID, manifest: OFFLINE_URL })})});` })
+        `self.addEventListener('message',e=>{if(e.data?.type==='WH_BUILD_INFO'&&e.ports[0])e.ports[0].postMessage(${JSON.stringify({ app: pkgVersion, build: BUILD_ID, manifest: OFFLINE_URL, offlineProtocol: 1 })})});` + `(${installOfflineWorker.toString()})(self,${JSON.stringify({ build: BUILD_ID, manifest: OFFLINE_URL })});` })
     },
     transformIndexHtml() {
       return [
@@ -298,8 +300,8 @@ export default defineConfig({
         ]),
       },
       workbox: {
-        // First-install downloads must pass through the runtime routes (including expiration
-        // metadata), rather than filling entries the worker's LRU has never seen.
+        // Claim first-install pages so preparation can reach the active offline coordinator.
+        // Runtime cleanup protects complete build manifests instead of individual-entry LRU.
         clientsClaim: true,
         importScripts: [`/${RELEASE_DIR}/worker-info.js`],
         additionalManifestEntries: [{ url: OFFLINE_URL, revision: null }],
@@ -334,34 +336,24 @@ export default defineConfig({
         // Images (stable, non-hashed names) — CacheFirst. A tab caches them on demand as the
         // user views them; the installed app's warm-up fetches all of them up front. Because
         // names are stable, a changed image must be renamed (same rule as before) or the old
-        // cached copy is served. cleanupOutdatedCaches does NOT purge this cache; maxEntries
-        // bounds its growth (287 image files today — keep generous headroom).
+        // cached copy is served. cleanupOutdatedCaches does NOT purge this cache; the offline
+        // coordinator cleans only files outside protected build manifests.
         // `wh11ed-images` keeps its legacy name ON PURPOSE: renaming it orphans the ~27 MB
         // every installed user already warmed up (nothing purges the old cache, and the new
         // one re-downloads from scratch). The cache name is data, not branding.
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/images/'),
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'wh11ed-images',
-              expiration: { maxEntries: 600, maxAgeSeconds: 60 * 60 * 24 * 365 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
+            handler: ({ request, event }) => self.whOfflineFetch(request, event),
           },
           // Everything the shell does NOT statically need: route components, the per-faction data
           // chunks, the font subsets. CacheFirst is safe here and nowhere else in this file —
           // these names carry their own content hash, so a name that is in the cache can never be
-          // out of date. `maxEntries` is what bounds the growth instead: each deploy renames the
-          // chunks it changed, and the LRU drops the versions nobody asks for any more.
+          // out of date. The offline coordinator protects whole active/preparing sets and
+          // retires unused build manifests; an entry-count LRU cannot know which set is complete.
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/assets/'),
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'wh-rules-assets',
-              expiration: { maxEntries: 1200, maxAgeSeconds: 60 * 60 * 24 * 180 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
+            handler: ({ request, event }) => self.whOfflineFetch(request, event),
           },
         ],
       },

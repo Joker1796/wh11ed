@@ -127,6 +127,160 @@ describe('localData — migration', () => {
 })
 
 describe('localData — writes and conflicts', () => {
+  it('does not discard a new edit while resolving an empty confirmation', async () => {
+    let hold = false, entered, release
+    const started = new Promise(resolve => { entered = resolve })
+    const gate = new Promise(resolve => { release = resolve })
+    const a = client({ open: async () => {
+      const db = await open()
+      return { ...db, resolveRecovery: async key => {
+        if (hold) { hold = false; entered(); await gate }
+        return db.resolveRecovery(key)
+      } }
+    } })
+    await a.initialize()
+    const before = a.getItem(ROSTERS)
+    a.write([[ROSTERS, rosters(roster('r', 'Proposed'))]], { confirmReplacement: true })
+    await a.flush()
+    a.write([[ROSTERS, before]])
+    await a.flush()
+    hold = true
+    const confirming = a.confirm(a.state.conflict)
+    await started
+    a.write([[ROSTERS, rosters(roster('r', 'Later'))]], { requireJournal: true, confirmReplacement: true })
+    release()
+    expect(await confirming).toBe(false)
+    expect(a.state.conflict).toBeTruthy()
+    expect(names(a)).toEqual(['r:Later'])
+    expect(await a.confirm(a.state.conflict)).toBe(true)
+    expect(JSON.parse((await records()).find(row => row.key === 'roster/r').value).name).toBe('Later')
+    await a.close()
+  })
+
+  it.each([false, true])('does not let an older commit authorize a newer replacement (confirmed: %s)', async confirmed => {
+    let hold = false, entered, release
+    const started = new Promise(resolve => { entered = resolve })
+    const gate = new Promise(resolve => { release = resolve })
+    const a = client({ open: async () => {
+      const db = await open()
+      return { ...db, commit: async candidate => {
+        if (hold) { hold = false; entered(); await gate }
+        return db.commit(candidate)
+      } }
+    } })
+    await a.initialize()
+    if (confirmed) {
+      a.write([[ROSTERS, rosters(roster('r', 'First'))]], { confirmReplacement: true })
+      expect(await a.flush()).toBe(false)
+    }
+    hold = true
+    const decision = confirmed ? a.confirm(a.state.conflict) : null
+    if (!confirmed) a.write([[ROSTERS, rosters(roster('r', 'First'))]])
+    await started
+    a.write([[ROSTERS, rosters(roster('r', 'Second'))]], { requireJournal: true, confirmReplacement: true })
+    release()
+    if (decision) expect(await decision).toBe(false)
+    expect(await a.flush()).toBe(false)
+    expect(a.state.conflict).toBeTruthy()
+    expect(JSON.parse((await records()).find(row => row.key === 'roster/r').value).name).toBe('First')
+    await a.close()
+    expect((await recovery()).filter(row => row.status === 'conflict')).toHaveLength(1)
+    const b = client()
+    expect(await b.initialize()).toBe(true)
+    expect(b.state.conflict).toBeTruthy()
+    expect(names(b)).toEqual(['r:Second'])
+    expect(await b.confirm(b.state.conflict)).toBe(true)
+    expect((await recovery()).some(row => row.confirmed && row.before.some(record => record.value?.includes('First')))).toBe(true)
+    await b.close()
+  })
+
+  it('requires a fresh decision for an ordinary edit made while confirmation is committing', async () => {
+    let entered, release
+    const started = new Promise(resolve => { entered = resolve })
+    const gate = new Promise(resolve => { release = resolve })
+    const a = client({ open: async () => {
+      const db = await open()
+      return { ...db, commit: async candidate => {
+        if (candidate.confirmed) { entered(); await gate }
+        return db.commit(candidate)
+      } }
+    } })
+    await a.initialize()
+    a.write([[ROSTERS, rosters(roster('r', 'Shown in dialog'))]], { confirmReplacement: true })
+    await a.flush()
+    const confirming = a.confirm(a.state.conflict)
+    await started
+    a.write([[ROSTERS, rosters(roster('r', 'Edited during commit'))]])
+    release()
+    expect(await confirming).toBe(false)
+    expect(JSON.parse((await records()).find(row => row.key === 'roster/r').value).name).toBe('Shown in dialog')
+    expect(a.state.conflict).toBeTruthy()
+    expect(await a.confirm(a.state.conflict)).toBe(true)
+    expect(JSON.parse((await records()).find(row => row.key === 'roster/r').value).name).toBe('Edited during commit')
+    await a.close()
+  })
+
+  it('makes an unconfirmed candidate conflict even when an old reader ignores the new marker', async () => {
+    const a = client()
+    await a.initialize()
+    a.write([[ROSTERS, rosters(roster('r', 'Proposed'))]], { requireJournal: true, confirmReplacement: true })
+    expect(await a.flush()).toBe(false)
+    const key = [...storage.map.keys()].find(key => key.startsWith('test-pending/'))
+    const candidate = JSON.parse(storage.getItem(key))
+    expect(candidate.expected['roster/r']).toBe(-1)
+    const db = await open()
+    expect((await db.commit({ ...candidate, requiresConfirmation: false })).ok).toBe(false)
+    db.close()
+    expect(JSON.parse((await records()).find(row => row.key === 'roster/r').value).name).toBe('Before')
+    await a.close()
+  })
+
+  it('keeps explicit replacement unconfirmed across restart and retains the replaced version', async () => {
+    const a = client()
+    await a.initialize()
+    a.write([[ROSTERS, rosters(roster('r', 'Proposed'))]], { requireJournal: true, confirmReplacement: true })
+    expect(await a.flush()).toBe(false)
+    await a.close()
+    const b = client()
+    await b.initialize()
+    expect(b.state.conflict).toBeTruthy()
+    expect(JSON.parse((await records()).find(row => row.key === 'roster/r').value).name).toBe('Before')
+    expect(await b.confirm(b.state.conflict)).toBe(true)
+    const backup = await b.backup()
+    expect(backup.recovery.some(row => row.confirmed && row.before.some(record => record.value?.includes('Before')))).toBe(true)
+    await b.close()
+  })
+
+  it('requires confirmation for an explicit replacement even without a concurrent revision change', async () => {
+    const a = client()
+    await a.initialize()
+    expect(a.write([[ROSTERS, rosters(roster('r', 'Proposed'))]], { requireJournal: true, confirmReplacement: true })).toBe(true)
+    expect(await a.flush()).toBe(false)
+    expect(a.state.conflict).toBeTruthy()
+    const b = client()
+    await b.initialize()
+    expect(names(b)).toEqual(['r:Before'])
+    expect(await a.confirm(a.state.conflict)).toBe(true)
+    await b.refresh()
+    expect(names(b)).toEqual(['r:Proposed'])
+    await Promise.all([a.close(), b.close()])
+  })
+
+  it('rejects duplicate identities without corrupting the synchronous view or durable records', async () => {
+    const a = client()
+    await a.initialize()
+    const before = a.getItem(ROSTERS)
+    expect(a.write([[ROSTERS, rosters(roster('r', 'One'), roster('r', 'Two'))]])).toBe(false)
+    expect(a.state.error).toContain('Duplicate local record identity')
+    expect(a.getItem(ROSTERS)).toBe(before)
+    expect(a.getItem(ROSTERS)).toBe(before)
+    expect(await a.flush()).toBe(true)
+    const b = client()
+    await b.initialize()
+    expect(names(b)).toEqual(['r:Before'])
+    await Promise.all([a.close(), b.close()])
+  })
+
   beforeEach(() => storage.setItem(ROSTERS, rosters(roster('r', 'Before'))))
 
   it('commits a write that another tab then reads', async () => {

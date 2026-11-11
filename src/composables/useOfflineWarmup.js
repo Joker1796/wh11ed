@@ -1,3 +1,4 @@
+import { prepareWithWorker } from '../utils/offlineWorkerClient.js'
 import { computed, ref } from 'vue'
 import { isStandaloneDisplay } from './standalone.js'
 import { getItem, setItem } from './safeStorage.js'
@@ -19,8 +20,9 @@ import { logError } from './useErrorLog.js'
 //   • the installed app does it by itself on the first online launch, as it always has;
 //   • anyone else asks for it — the ⚙ menu's "Download for offline" (AppNavbar.vue).
 //
-// Warm-up writes the same named caches the worker reads. Awaiting Cache.put confirms the whole
-// response body is durable; a successful fetch alone says nothing about the worker's async write.
+// New workers own preparation and send committed-file progress over MessageChannel. The page
+// downloader below is only the compatibility path for an older controller. Both use the same
+// named caches; a successful HTTP response alone never certifies a durable offline set.
 // No cache is deleted on failure: a later run checks and fetches only what is still missing.
 
 const DONE_KEY = 'wh11ed-offline-warmed'
@@ -144,6 +146,19 @@ async function runOnce({ force = false, target } = {}) {
     }
     const files = await manifest(target)
     const sig = checksum(files)
+    isUpdate.value = !force && wasDownloaded
+    const owned = await prepareWithWorker((target?.offlineProtocol === 1 && target.worker) || sw.controller, target || { build: BUILD_ID, manifest: OFFLINE_MANIFEST_URL }, progress => {
+      done.value = progress.done
+      total.value = progress.total
+    }, { build: BUILD_ID, manifest: OFFLINE_MANIFEST_URL })
+    if (owned) {
+      const remaining = await withinDeadline(() => missing(files), OFFLINE_REQUEST_MS, 'Offline cache check')
+      if (remaining.length) throw new Error(`Offline verification: ${remaining.length} missing, first: ${remaining[0]}`)
+      setItem(DONE_KEY, sig)
+      warmed.value = true
+      status.value = 'ready'
+      return true
+    }
     // The marker is a hint for wording, never proof: storage pressure can evict cache entries.
     const todo = await withinDeadline(() => missing(files), OFFLINE_REQUEST_MS, 'Offline cache check')
     isUpdate.value = !force && wasDownloaded

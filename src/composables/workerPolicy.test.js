@@ -51,8 +51,8 @@ describe('who gets a service worker', () => {
   })
 
   it('drops only our caches', async () => {
-    const store = fakeCaches(['workbox-precache-v2-https://wh-rules.ru/', 'wh-rules-assets', 'wh11ed-images', 'someone-else'])
-    expect(await dropCaches(store)).toBe(3)
+    const store = fakeCaches(['workbox-precache-v2-https://wh-rules.ru/', 'wh-rules-assets', 'wh11ed-images', 'wh-rules-offline-control', 'someone-else'])
+    expect(await dropCaches(store)).toBe(4)
     expect([...store.held]).toEqual(['someone-else'])
   })
 

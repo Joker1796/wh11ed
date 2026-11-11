@@ -142,9 +142,16 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
     legacySource = noLegacy()
     for (const key of LOCAL_KEYS) { try { storage.removeItem(key) } catch { /* absorbRetired finishes it later. */ } }
   }
+  // A successful submission may clear only the requirement it captured. A later edit can
+  // arrive while that transaction is pending, including while a confirmation is committing.
+  let confirmationGeneration = 0
+  let requireConfirmation = 0
   function pending() { return changesFor(desired, baseline) }
-  function stage(ops = pending(), expected = expectedFor(ops)) {
-    journal = { key: `${actor}/${++sequence}`, ops, expected }
+  function stage(ops = pending(), expected = expectedFor(ops), confirmed = false) {
+    // An impossible revision also protects the candidate from older code that ignores the
+    // requiresConfirmation field. A real confirmation supplies the observed revisions.
+    if (requireConfirmation && !confirmed) expected = Object.fromEntries(ops.map(op => [op.key, -1]))
+    journal = { key: `${actor}/${++sequence}`, ops, expected, requiresConfirmation: !!requireConfirmation && !confirmed }
     try { storage.setItem(journalKey, JSON.stringify(journal)); return true }
     catch (error) { fail(error); return false }
   }
@@ -172,18 +179,29 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
             else if (!await importLegacy(source, legacySource)) return false
           }
           const ops = pending()
-          if (!ops.length) {
-            if (state.conflict && overrides) { await db.resolveRecovery(state.conflict.key); state.conflict = null; paused = false }
-            desired.clear()
-            if (journal) clearJournal(journal)
-            break
-          }
           const snapshot = new Map(desired)
+          const submittedConfirmation = requireConfirmation
+          // The displayed candidate may have changed while legacy import / another commit
+          // was in flight. A decision never grants permission to a different candidate.
+          if (overrides && overrides.key !== state.conflict?.key) return false
+          if (!ops.length) {
+            const submitted = journal
+            if (state.conflict && overrides) {
+              await db.resolveRecovery(overrides.key)
+              if (state.conflict?.key === overrides.key) { state.conflict = null; paused = false }
+            }
+            for (const [key, value] of snapshot) if (desired.get(key) === value) desired.delete(key)
+            if (requireConfirmation === submittedConfirmation) requireConfirmation = 0
+            if (submitted) clearJournal(submitted)
+            overrides = null
+            continue
+          }
           const expected = expectedFor(ops)
           if (overrides) for (const row of overrides.records) if (row.key in expected) expected[row.key] = row.revision
-          stage(ops, expected)
+          stage(ops, expected, !!overrides)
           const submitted = journal
-          const result = await db.commit({ ...submitted, confirmed: !!overrides, replaces: state.conflict?.key })
+          const replaces = state.conflict?.key
+          const result = await db.commit({ ...submitted, confirmed: !!overrides, replaces })
           if (!result.ok) { reportConflict(result, submitted); return false }
           for (const row of result.updated) records.set(row.key, row)
           notify()
@@ -194,9 +212,9 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
           }
           clearJournal(submitted)
           state.error = null
-          state.conflict = null
-          paused = false
+          if (state.conflict?.key === replaces) { state.conflict = null; paused = false }
           overrides = null
+          if (requireConfirmation === submittedConfirmation) requireConfirmation = 0
         }
         return true
       } catch (error) { fail(error); return false }
@@ -318,6 +336,7 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
 
   const api = {
     state,
+    reportError: fail,
     initialize,
     refresh,
     beforeRefresh(fn) { captures.add(fn); return () => captures.delete(fn) },
@@ -335,7 +354,7 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
         legacy: (await db.meta('legacy-original'))?.entries || [],
       }
     },
-    write(entries, { requireJournal = false } = {}) {
+    write(entries, { requireJournal = false, confirmReplacement = false } = {}) {
       if (state.phase === 'idle') {
         // Unit tests and non-booted consumers retain the old synchronous contract. The browser
         // always initializes before mounting the app and never takes this path after migration.
@@ -343,12 +362,19 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
         return true
       }
       if (state.phase !== 'ready') { fail(new Error('Local data is not ready')); return false }
-      const undo = { desired: new Map(desired), cache: new Map(cache), journal }
+      const undo = { desired: new Map(desired), cache: new Map(cache), journal, requireConfirmation }
+      if (confirmReplacement || requireConfirmation || paused) requireConfirmation = ++confirmationGeneration
       for (const [key, value] of entries) { desired.set(key, value); cache.set(key, value) }
-      const durable = stage()
+      let durable
+      try { durable = stage() }
+      catch (error) {
+        ;({ desired, cache, journal, requireConfirmation } = undo)
+        fail(error)
+        return false
+      }
       if (!durable && requireJournal) {
         // A critical change must not exist only in memory: roll the view back to before it.
-        ;({ desired, cache, journal } = undo)
+        ;({ desired, cache, journal, requireConfirmation } = undo)
         return false
       }
       state.notice++
