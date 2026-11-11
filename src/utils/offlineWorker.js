@@ -3,6 +3,7 @@ export function installOfflineWorker(scope, identity) {
   const controlName = 'wh-rules-offline-control'
   const cacheName = url => url.startsWith('/images/') ? 'wh11ed-images' : 'wh-rules-assets'
   const origin = scope.location.origin
+  let mutations = null
   const bounded = (task, label) => {
     let timer
     return Promise.race([Promise.resolve().then(task), new Promise((_, reject) => {
@@ -11,18 +12,52 @@ export function installOfflineWorker(scope, identity) {
   }
   const store = {
     match: url => bounded(() => scope.caches.match(url), 'Offline manifest cache'),
-    async open(name) {
+    async open(name, trackMutations = true) {
       const cache = await bounded(() => scope.caches.open(name), 'Offline cache open')
       return Object.fromEntries(['match', 'put', 'keys', 'delete'].map(method => [method,
-        (...args) => bounded(() => cache[method](...args), `Offline cache ${method}`)]))
+        (...args) => bounded(() => {
+          const pending = Promise.resolve().then(() => cache[method](...args))
+          if (trackMutations && mutations && ['put', 'delete'].includes(method)) {
+            const owner = mutations
+            owner.add(pending)
+            pending.then(() => owner.delete(pending), () => owner.delete(pending))
+          }
+          return pending
+        }, `Offline cache ${method}`)]))
     },
   }
   let queue = Promise.resolve()
   const serialize = task => {
-    const run = queue.then(() => scope.navigator?.locks
-      ? scope.navigator.locks.request('wh-rules-offline-owner', task) : task())
-    queue = run.catch(() => {})
-    return run
+    const abort = new AbortController()
+    let resolve, reject
+    const result = new Promise((yes, no) => { resolve = yes; reject = no })
+    const timer = setTimeout(() => {
+      const error = Error('Offline preparation queue timed out after 120000 ms')
+      abort.abort(error)
+      reject(error)
+    }, 120000)
+    const start = async () => {
+      // A timed-out request may still be chained behind local work. It must never run later.
+      abort.signal.throwIfAborted()
+      clearTimeout(timer)
+      mutations = new Set()
+      try { resolve(await task()) }
+      catch (error) { reject(error) }
+      finally {
+        // A Cache API timeout ends the user's wait, not the underlying write/delete. Keep the
+        // ownership lock until those operations settle, so late cleanup cannot delete a set
+        // another preparation has just pinned. Runtime writes do not participate in this lock.
+        await Promise.allSettled([...mutations])
+        mutations = null
+      }
+    }
+    const run = queue.then(() => {
+      abort.signal.throwIfAborted()
+      return scope.navigator?.locks
+        ? scope.navigator.locks.request('wh-rules-offline-owner', { signal: abort.signal }, start) : start()
+    })
+    queue = run.catch(reject).finally(() => clearTimeout(timer))
+    return { result, lifetime: queue }
   }
   async function manifest(target) {
     if (!/^[\w-]+$/.test(target.build) || target.manifest !== `/releases/${target.build}/offline-manifest.json`) throw Error('Invalid offline target')
@@ -70,12 +105,12 @@ export function installOfflineWorker(scope, identity) {
       await new Promise(resolve => setTimeout(resolve, [500, 1500][attempt]))
     }
   }
-  async function cleanup() {
+  async function cleanup(expiredOnly = false) {
     // Without cross-worker locks, retain entries rather than race another worker's pin/write.
     if (!scope.navigator?.locks) return
     // A live older/hidden client may still need a build older than the retention window.
     // If any client cannot identify itself, defer cleanup rather than guess its dependencies.
-    const clients = await scope.clients?.matchAll({ type: 'window', includeUncontrolled: true }) || []
+    const clients = await bounded(() => scope.clients?.matchAll({ type: 'window', includeUncontrolled: true }), 'Offline client discovery') || []
     const identities = await Promise.all(clients.map(client => new Promise(resolve => {
       const channel = new MessageChannel()
       const finish = value => { clearTimeout(timer); channel.port1.close(); channel.port2.close(); resolve(value) }
@@ -85,29 +120,47 @@ export function installOfflineWorker(scope, identity) {
       catch { finish(null) }
     })))
     if (identities.some(identity => !identity)) return
-    try { await Promise.all(identities.map(async identity => pin(identity, await manifest(identity)))) }
-    catch { return }
+    const pins = await Promise.allSettled(identities.map(async identity => pin(identity, await manifest(identity))))
+    if (pins.some(result => result.status === 'rejected')) return
     const control = await store.open(controlName)
     const protectedUrls = new Set()
+    const expiredUrls = new Set(), expiredPins = []
     for (const request of await control.keys()) {
-      const record = await (await control.match(request)).json()
+      const response = await control.match(request)
+      const record = await bounded(() => response.json(), 'Offline pin read')
       if (record.build === identity.build || Date.now() - record.at < 30 * 86400000) {
         for (const url of record.files) protectedUrls.add(new URL(url, origin).href)
-      } else await control.delete(request)
+      } else {
+        expiredPins.push(request)
+        for (const url of record.files) expiredUrls.add(new URL(url, origin).href)
+      }
     }
     for (const name of ['wh-rules-assets', 'wh11ed-images']) {
       const cache = await store.open(name)
-      for (const request of await cache.keys()) if (!protectedUrls.has(request.url)) await cache.delete(request)
+      for (const request of await cache.keys()) {
+        if (!protectedUrls.has(request.url) && (!expiredOnly || expiredUrls.has(request.url))) await cache.delete(request)
+      }
     }
+    for (const request of expiredPins) await control.delete(request)
   }
-  scope.whOfflineFetch = async request => {
-    const url = new URL(request.url).pathname
-    const cache = await store.open(cacheName(url))
-    const stored = await cache.match(request)
-    if (stored) return stored
-    const response = await scope.fetch(request)
-    if (response.ok) await cache.put(request, response.clone())
-    return response
+  scope.whOfflineFetch = (request, event) => {
+    let write = Promise.resolve()
+    const task = (async () => {
+      let cache
+      try {
+        cache = await store.open(cacheName(new URL(request.url).pathname), false)
+        const stored = await cache.match(request)
+        if (stored) return stored
+      } catch { /* Runtime storage is optional; offline preparation remains strict. */ }
+      const response = await scope.fetch(request)
+      if (response.ok && cache) {
+        write = Promise.resolve().then(() => cache.put(request, response.clone())).catch(() => {})
+      }
+      return response
+    })()
+    // Register before yielding, but keep cache writes out of the response's critical path.
+    event?.waitUntil(task.then(() => write, () => {}))
+    return task
   }
   scope.addEventListener('message', event => {
     if (event.data?.type !== 'WH_OFFLINE_PREPARE' || !event.ports[0]) return
@@ -116,7 +169,7 @@ export function installOfflineWorker(scope, identity) {
     // A request can legitimately wait behind another build's complete download. Keep the
     // channel alive without reporting that other build's files as this request's progress.
     const heartbeat = setInterval(() => port.postMessage({ type: 'accepted' }), 10000)
-    const task = serialize(async () => {
+    const work = serialize(async () => {
       // Protect this worker's own set before a waiting build can request cleanup.
       const own = await manifest(identity)
       await pin(identity, own)
@@ -125,6 +178,9 @@ export function installOfflineWorker(scope, identity) {
       const target = event.data.target || identity
       const files = target.build === identity.build ? own : await manifest(target)
       await pin(target, files)
+      // Make room before downloading; waiting until after a full new set can deadlock on quota.
+      // All active/target/recent pins are already durable, so this removes only obsolete files.
+      await cleanup(true)
       const todo = await missing(files)
       let done = 0
       port.postMessage({ type: 'progress', done, total: todo.length })
@@ -142,7 +198,9 @@ export function installOfflineWorker(scope, identity) {
       if (remaining.length) throw Error(`Offline verification: ${remaining.length} missing, first: ${remaining[0]}`)
       await cleanup()
       port.postMessage({ type: 'ready' })
-    }).catch(error => port.postMessage({ type: 'error', message: String(error.message || error) })).finally(() => { clearInterval(heartbeat); port.close?.() })
-    event.waitUntil(task)
+    })
+    const reply = work.result.catch(error => port.postMessage({ type: 'error', message: String(error.message || error) }))
+      .finally(() => { clearInterval(heartbeat); port.close?.() })
+    event.waitUntil(Promise.all([reply, work.lifetime]))
   })
 }

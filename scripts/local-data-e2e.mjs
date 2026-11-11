@@ -4,9 +4,17 @@ import assert from 'node:assert/strict'
 import { chromium, webkit } from 'playwright-core'
 
 const base = process.env.LOCAL_DATA_URL || 'http://localhost:5176'
+// These are local persistence tests, with no account or external API. Even a developer's
+// configured API must not receive requests from the isolated fixtures.
+const isolate = context => context.route('**/*', route => {
+  if (new URL(route.request().url()).origin === new URL(base).origin) return route.continue()
+  return route.fulfill({ status: 401, contentType: 'application/json', body: '{"error":"unauthorized"}',
+    headers: { 'Access-Control-Allow-Origin': new URL(base).origin, 'Access-Control-Allow-Credentials': 'true' } })
+})
 for (const [name, engine] of [['chrome', chromium], ['webkit', webkit]]) {
   const browser = await engine.launch(name === 'chrome' ? { channel: 'chrome', headless: true } : { headless: true })
   const context = await browser.newContext()
+  await isolate(context)
   let debugPage
   try {
     const page = await context.newPage()
@@ -159,6 +167,145 @@ for (const [name, engine] of [['chrome', chromium], ['webkit', webkit]]) {
         await damaged.close()
       }
 
+      // A held submission cannot authorize a newer explicit archive, even if the held
+      // submission itself was confirmed. Exercise the real journal and IDB transaction.
+      for (const confirmed of [false, true]) {
+        const name = `local-data-generation-${crypto.randomUUID()}`
+        const namespace = `wh-local-test/${name}/`
+        const prefix = `${namespace}storage/`
+        const storageKeys = () => Object.keys(localStorage).filter(key => key.startsWith(prefix))
+        const storage = {
+          get length() { return storageKeys().length },
+          key: index => storageKeys()[index]?.slice(prefix.length) ?? null,
+          getItem: key => localStorage.getItem(prefix + key),
+          setItem: (key, value) => localStorage.setItem(prefix + key, value),
+          removeItem: key => localStorage.removeItem(prefix + key),
+        }
+        const current = JSON.stringify({ id: 'generation-game', phase: 'playing', players: [{ cp: 1 }, {}], settings: {} })
+        const first = JSON.stringify({ id: 'generation-game', phase: 'playing', players: [{ cp: 2 }, {}], settings: {} })
+        const previous = JSON.stringify({ id: 'generation-game', phase: 'finished', players: [{ cp: 0 }, {}], settings: {} })
+        const archived = JSON.stringify({ id: 'generation-game', phase: 'finished', players: [{ cp: 3 }, {}], settings: {} })
+        storage.setItem(LOCAL_KEYS[1], current)
+        storage.setItem(LOCAL_KEYS[2], `[${previous}]`)
+        const open = () => openLocalDatabase({ name })
+        let hold = false, entered, release
+        const started = new Promise(resolve => { entered = resolve })
+        const gate = new Promise(resolve => { release = resolve })
+        const writer = createLocalData({ storage, namespace, open: async () => {
+          const db = await open()
+          return { ...db, commit: async candidate => {
+            if (hold) { hold = false; entered(); await gate }
+            return db.commit(candidate)
+          } }
+        } })
+        let reader, database
+        try {
+          expect(await writer.initialize(), 'generation writer initialization failed')
+          if (confirmed) {
+            expect(writer.write([[LOCAL_KEYS[1], first]], { confirmReplacement: true }), 'first replacement was not journaled')
+            expect(!await writer.flush() && !!writer.state.conflict, 'first replacement bypassed confirmation')
+          }
+          hold = true
+          const decision = confirmed ? writer.confirm(writer.state.conflict) : null
+          if (!confirmed) expect(writer.write([[LOCAL_KEYS[1], first]]), 'ordinary current edit failed')
+          await started
+          expect(writer.write([[LOCAL_KEYS[1], null], [LOCAL_KEYS[2], `[${archived}]`]],
+            { requireJournal: true, confirmReplacement: true }), 'archive replacement was not journaled')
+          release()
+          if (decision) expect(!await decision, 'older confirmation authorized the newer archive')
+          expect(!await writer.flush() && !!writer.state.conflict, 'archive bypassed its own confirmation')
+          database = await open()
+          const assertPair = async (expectedCurrent, expectedHistory, label) => {
+            const rows = await database.read()
+            expect(rows.find(row => row.key === 'current')?.value === expectedCurrent
+              && rows.find(row => row.key === 'history/generation-game')?.value === expectedHistory,
+            `${label}: current/history were not preserved atomically (confirmed: ${confirmed})`)
+          }
+          await assertPair(first, previous, 'unconfirmed archive')
+          await writer.close()
+          reader = createLocalData({ storage, namespace, open })
+          expect(await reader.initialize(), 'generation recovery initialization failed')
+          expect(!!reader.state.conflict, 'reopening lost the explicit archive decision')
+          expect(reader.getItem(LOCAL_KEYS[1]) === null
+            && JSON.parse(reader.getItem(LOCAL_KEYS[2]))[0].players[0].cp === 3, 'reopening lost the proposed archive')
+          await assertPair(first, previous, 'reopened unconfirmed archive')
+          expect(await reader.confirm(reader.state.conflict), 'fresh archive confirmation failed')
+          await assertPair(null, archived, 'confirmed archive')
+          expect((await database.recovery()).some(row => row.confirmed
+            && row.before.some(record => record.key === 'current' && record.value === first)
+            && row.before.some(record => record.key === 'history/generation-game' && record.value === previous)
+            && row.ops.some(record => record.key === 'current' && record.value === null)
+            && row.ops.some(record => record.key === 'history/generation-game' && record.value === archived)),
+          'archive confirmation did not retain both complete versions in recovery')
+        } finally {
+          release()
+          await writer.close()
+          await reader?.close()
+          database?.close()
+          for (const key of storageKeys()) localStorage.removeItem(key)
+        }
+      }
+
+      // Resolving a confirmation that was undone to an empty change must not discard an edit
+      // made while the recovery resolution is pending.
+      {
+        const name = `local-data-empty-confirmation-${crypto.randomUUID()}`
+        const namespace = `wh-local-test/${name}/`
+        const prefix = `${namespace}storage/`
+        const storageKeys = () => Object.keys(localStorage).filter(key => key.startsWith(prefix))
+        const storage = {
+          get length() { return storageKeys().length },
+          key: index => storageKeys()[index]?.slice(prefix.length) ?? null,
+          getItem: key => localStorage.getItem(prefix + key),
+          setItem: (key, value) => localStorage.setItem(prefix + key, value),
+          removeItem: key => localStorage.removeItem(prefix + key),
+        }
+        storage.setItem(rosterKey, JSON.stringify({ v: 13, rosters: [{ id: 'r', name: 'Original', units: [] }] }))
+        const open = () => openLocalDatabase({ name })
+        let hold = false, entered, release
+        const started = new Promise(resolve => { entered = resolve })
+        const gate = new Promise(resolve => { release = resolve })
+        const client = createLocalData({ storage, namespace, open: async () => {
+          const db = await open()
+          return { ...db, resolveRecovery: async key => {
+            if (hold) { hold = false; entered(); await gate }
+            return db.resolveRecovery(key)
+          } }
+        } })
+        let database
+        try {
+          expect(await client.initialize(), 'empty confirmation initialization failed')
+          const before = client.getItem(rosterKey)
+          const replacement = name => JSON.stringify({ v: 13, rosters: [{ id: 'r', name, units: [] }] })
+          expect(client.write([[rosterKey, replacement('Proposed')]], { confirmReplacement: true }), 'initial empty-confirmation candidate was not journaled')
+          expect(!await client.flush() && !!client.state.conflict, 'initial replacement did not require confirmation')
+          expect(client.write([[rosterKey, before]]), 'undo to original failed')
+          await client.flush()
+          hold = true
+          const confirming = client.confirm(client.state.conflict)
+          await started
+          expect(client.write([[rosterKey, replacement('Later explicit replacement')]],
+            { requireJournal: true, confirmReplacement: true }), 'later replacement was not journaled')
+          release()
+          expect(!await confirming && !!client.state.conflict, 'empty confirmation authorized or discarded the later replacement')
+          expect(JSON.parse(client.getItem(rosterKey)).rosters[0].name === 'Later explicit replacement', 'empty confirmation lost the newer in-memory edit')
+          database = await open()
+          const authoritativeName = async () => JSON.parse((await database.read()).find(row => row.key === 'roster/r').value).name
+          expect(await authoritativeName() === 'Original', 'empty confirmation committed a later replacement without a fresh decision')
+          expect(await client.confirm(client.state.conflict), 'fresh decision after empty confirmation failed')
+          expect(await authoritativeName() === 'Later explicit replacement', 'fresh decision did not commit the later replacement')
+          expect((await database.recovery()).some(row => row.confirmed
+            && row.before.some(record => record.key === 'roster/r' && JSON.parse(record.value).name === 'Original')
+            && row.ops.some(record => record.key === 'roster/r' && JSON.parse(record.value).name === 'Later explicit replacement')),
+          'confirmation after an empty change did not retain both roster versions in recovery')
+        } finally {
+          release()
+          await client.close()
+          database?.close()
+          for (const key of storageKeys()) localStorage.removeItem(key)
+        }
+      }
+
       // Leave a synchronous journal with a deliberately suspended IDB submission, then close
       // this page. The next real page must recover it after Web Locks releases the owner.
       const crashName = `local-data-crash-${crypto.randomUUID()}`
@@ -187,6 +334,7 @@ for (const [name, engine] of [['chrome', chromium], ['webkit', webkit]]) {
     }, result)
     assert.equal(recovered, 'Recovered after a killed page')
     const uiContext = await browser.newContext({ viewport: { width: 390, height: 844 } })
+    await isolate(uiContext)
     await uiContext.addInitScript(() => {
       if (localStorage.getItem('local-ui-seeded')) return
       localStorage.setItem('local-ui-seeded', '1')

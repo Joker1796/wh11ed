@@ -344,7 +344,7 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/images/'),
-            handler: ({ request }) => self.whOfflineFetch(request),
+            handler: ({ request, event }) => self.whOfflineFetch(request, event),
           },
           // Everything the shell does NOT statically need: route components, the per-faction data
           // chunks, the font subsets. CacheFirst is safe here and nowhere else in this file —
@@ -353,7 +353,7 @@ export default defineConfig({
           // retires unused build manifests; an entry-count LRU cannot know which set is complete.
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/assets/'),
-            handler: ({ request }) => self.whOfflineFetch(request),
+            handler: ({ request, event }) => self.whOfflineFetch(request, event),
           },
         ],
       },

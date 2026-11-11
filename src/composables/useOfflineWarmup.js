@@ -152,7 +152,7 @@ async function runOnce({ force = false, target } = {}) {
       total.value = progress.total
     }, { build: BUILD_ID, manifest: OFFLINE_MANIFEST_URL })
     if (owned) {
-      const remaining = await missing(files)
+      const remaining = await withinDeadline(() => missing(files), OFFLINE_REQUEST_MS, 'Offline cache check')
       if (remaining.length) throw new Error(`Offline verification: ${remaining.length} missing, first: ${remaining[0]}`)
       setItem(DONE_KEY, sig)
       warmed.value = true

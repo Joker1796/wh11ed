@@ -26,7 +26,7 @@ function fixture({ count = 1250, fail = false } = {}) {
       }
     },
   }
-  const scope = { caches, location: { origin }, navigator: { locks: { request: async (_name, fn) => fn() } },
+  const scope = { caches, location: { origin }, navigator: { locks: { request: async (_name, options, fn) => (fn || options)() } },
     addEventListener: (type, fn) => listeners.set(type, fn),
     fetch: async input => {
       const url = typeof input === 'string' ? input : input.url
@@ -36,9 +36,9 @@ function fixture({ count = 1250, fail = false } = {}) {
     },
   }
   installOfflineWorker(scope, identity)
-  async function prepare() {
+  async function prepare(target = identity) {
     let task
-    listeners.get('message')({ data: { type: 'WH_OFFLINE_PREPARE', target: identity },
+    listeners.get('message')({ data: { type: 'WH_OFFLINE_PREPARE', target },
       ports: [{ postMessage: data => messages.push(data) }], waitUntil: promise => { task = promise } })
     await task
   }
@@ -50,7 +50,7 @@ describe('worker-owned offline sets', () => {
     const f = fixture({ count: 1 })
     let release
     const gate = new Promise(resolve => { release = resolve })
-    f.scope.navigator.locks.request = async (_name, task) => { await gate; return task() }
+    f.scope.navigator.locks.request = async (_name, _options, task) => { await gate; return task() }
     vi.useFakeTimers()
     try {
       const pending = f.prepare()
@@ -62,6 +62,82 @@ describe('worker-owned offline sets', () => {
       await pending
       expect(f.messages.at(-1).type).toBe('ready')
     } finally { vi.useRealTimers(); release() }
+  })
+
+  it('rejects an abandoned lock wait and never starts it after the error', async () => {
+    const f = fixture({ count: 1 })
+    let enter
+    f.scope.navigator.locks.request = async (_name, _options, task) => {
+      await new Promise(resolve => { enter = resolve })
+      return task()
+    }
+    vi.useFakeTimers()
+    try {
+      const pending = f.prepare()
+      await vi.advanceTimersByTimeAsync(120001)
+      expect(f.messages.at(-1)).toMatchObject({ type: 'error', message: expect.stringContaining('queue timed out') })
+      enter()
+      await vi.advanceTimersByTimeAsync(1)
+      await pending
+      expect(f.messages.some(message => message.type === 'ready' || message.type === 'progress')).toBe(false)
+      expect(vi.getTimerCount()).toBe(0)
+    } finally { vi.useRealTimers(); enter?.() }
+  })
+
+  it('keeps ownership after a delete timeout until late cleanup settles before a rollback', async () => {
+    const f = fixture({ count: 1 })
+    const previous = { build: 'previous', manifest: '/releases/previous/offline-manifest.json' }
+    const assets = await f.caches.open('wh-rules-assets')
+    await assets.put('/assets/previous.js', new Response('previous'))
+    const control = await f.caches.open('wh-rules-offline-control')
+    await control.put('/__offline/previous', Response.json({ build: 'previous', at: 0, files: ['/assets/previous.js'] }))
+    const fetch = f.scope.fetch
+    f.scope.fetch = input => input === previous.manifest
+      ? Promise.resolve(Response.json({ build: 'previous', assets: { files: ['/assets/previous.js'] }, images: { files: [] } })) : fetch(input)
+    const open = f.scope.caches.open
+    let finishDelete
+    f.scope.caches.open = async name => {
+      const cache = await open(name)
+      return { ...cache, delete: request => name === 'wh-rules-assets' && request.url.endsWith('/previous.js')
+        ? new Promise(resolve => { finishDelete = async () => resolve(await cache.delete(request)) }) : cache.delete(request) }
+    }
+    vi.useFakeTimers()
+    try {
+      const first = f.prepare()
+      await vi.advanceTimersByTimeAsync(15001)
+      expect(f.messages.at(-1)).toMatchObject({ type: 'error', message: expect.stringContaining('delete timed out') })
+      const second = f.prepare(previous)
+      await vi.advanceTimersByTimeAsync(100)
+      // The new preparation must not refresh the pin while the old delete is still alive.
+      expect((await (await control.match('/__offline/previous')).json()).at).toBe(0)
+      await finishDelete()
+      await first
+      await second
+      expect(f.messages.at(-1)).toMatchObject({ type: 'ready' })
+      expect((await assets.match('/assets/previous.js')).ok).toBe(true)
+    } finally { vi.useRealTimers(); await finishDelete?.() }
+  })
+
+  it('reclaims expired unpinned files before a quota-limited download', async () => {
+    const f = fixture({ count: 1 })
+    const assets = await f.caches.open('wh-rules-assets')
+    await assets.put('/assets/expired.js', new Response('old'))
+    const control = await f.caches.open('wh-rules-offline-control')
+    await control.put('/__offline/expired', Response.json({ build: 'expired', at: 0, files: ['/assets/expired.js'] }))
+    const open = f.scope.caches.open
+    f.scope.caches.open = async name => {
+      const cache = await open(name)
+      return { ...cache, put: async (url, value) => {
+        if (name === 'wh-rules-assets' && url === f.files[0] && await cache.match('/assets/expired.js')) {
+          throw new DOMException('Storage full', 'QuotaExceededError')
+        }
+        return cache.put(url, value)
+      } }
+    }
+    await f.prepare()
+    expect(f.messages.at(-1)).toMatchObject({ type: 'ready' })
+    expect(await assets.match('/assets/expired.js')).toBeUndefined()
+    expect((await assets.match(f.files[0])).ok).toBe(true)
   })
 
   it('retains an expired build still used by a live client and refreshes its pin', async () => {
