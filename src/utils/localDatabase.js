@@ -121,7 +121,7 @@ function database(db) {
     stageConflict(candidate) {
       return transaction(['recovery'], 'readwrite', (tx) => tx.objectStore('recovery').put({ ...candidate, status: 'conflict', at: Date.now() }))
     },
-    commit({ key, ops, expected, confirmed = false, at = Date.now(), replaces }) {
+    commit({ key, ops, expected, requiresConfirmation = false, confirmed = false, at = Date.now(), replaces }) {
       return transaction(['records', 'recovery', 'meta'], 'readwrite', (tx, done) => {
         const records = tx.objectStore('records')
         const split = key.lastIndexOf('/')
@@ -134,6 +134,7 @@ function database(db) {
         // A record conflicts when it moved since the writer read it, unless it already holds
         // exactly the value being written (two tabs making the same change agree).
         const isConflict = (op) => {
+          if (requiresConfirmation && !confirmed) return true
           const row = rows.get(op.key)
           const moved = (row?.revision || 0) !== (expected[op.key] || 0)
           return moved && (row?.value ?? null) !== op.value

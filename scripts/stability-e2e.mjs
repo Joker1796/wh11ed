@@ -1,4 +1,4 @@
-/* global caches, document, matchMedia, window */
+/* global caches, document, matchMedia, window, indexedDB */
 // Real SW + Cache API, isolated browser storage, no requests to production. Two built releases
 // are served like the bucket (old immutable files remain). No owner's browser/profile is used.
 import http from 'node:http'
@@ -61,6 +61,17 @@ try {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
   await context.route('https://**/*', (route) => route.abort())
   await context.addInitScript(() => {
+    window.__offlineProtocolErrors = []
+    const NativeChannel = MessageChannel
+    window.MessageChannel = class extends NativeChannel {
+      constructor() {
+        super()
+        this.port1.addEventListener('message', event => {
+          if (event.data?.type === 'error') window.__offlineProtocolErrors.push(event.data.message)
+        })
+        this.port1.start()
+      }
+    }
     const real = matchMedia.bind(window)
     window.matchMedia = (query) => query.includes('display-mode: standalone') ? { ...real(query), matches: true, addEventListener() {}, removeEventListener() {} } : real(query)
     localStorage.setItem('wh11ed-welcome-seen', '1')
@@ -89,6 +100,52 @@ try {
   for (let i = 0; i < 200 && hits.get(target) <= before; i++) await page.waitForTimeout(100)
   await waitWarmed()
   assert('cache eviction is repaired despite the existing marker', hits.get(target) > before)
+  await page.evaluate(async ({ identity, files }) => {
+    const cache = await caches.open('wh-rules-assets')
+    for (let i = 0; i < 1300; i++) await cache.put(`/assets/unused-${i}.js`, new Response('unused'))
+    await new Promise((resolve, reject) => {
+      const channel = new MessageChannel()
+      const timer = setTimeout(() => reject(Error('full-cache preparation timed out')), 60000)
+      channel.port1.onmessage = ({ data }) => {
+        if (data.type === 'error' || data.type === 'ready') {
+          clearTimeout(timer); channel.port1.close(); channel.port2.close()
+          if (data.type === 'error') reject(Error(data.message)); else resolve()
+        }
+      }
+      navigator.serviceWorker.controller.postMessage({ type: 'WH_OFFLINE_PREPARE', target: identity }, [channel.port2])
+    })
+    // Real historical Workbox metadata survives an upgrade. A reverted runtime ExpirationPlugin
+    // would evict protected entries on the next cached read even after preparation said ready.
+    const db = await new Promise((resolve, reject) => {
+      const request = indexedDB.open('workbox-expiration', 1)
+      request.onupgradeneeded = () => {
+        const store = request.result.createObjectStore('cache-entries', { keyPath: 'id' })
+        store.createIndex('cacheName', 'cacheName')
+        store.createIndex('timestamp', 'timestamp')
+      }
+      request.onsuccess = () => resolve(request.result)
+      request.onerror = () => reject(request.error)
+    })
+    try {
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction('cache-entries', 'readwrite')
+        const store = tx.objectStore('cache-entries')
+        const put = (path, timestamp) => {
+          const url = new URL(path, window.location.origin).href
+          store.put({ id: `wh-rules-assets|${url}`, url, cacheName: 'wh-rules-assets', timestamp })
+        }
+        for (const url of files) put(url, Date.now() - 1000)
+        for (let i = 0; i < 1300; i++) put(`/assets/unused-${i}.js`, Date.now())
+        tx.oncomplete = resolve
+        tx.onerror = () => reject(tx.error)
+      })
+    } finally { db.close() }
+    await (await fetch(files[0], { cache: 'no-store' })).arrayBuffer()
+    await new Promise(resolve => setTimeout(resolve, 500))
+    for (const url of files) if (!(await cache.match(url))?.ok) throw Error(`Protected file lost: ${url}`)
+  }, { identity: a, files: aManifest.assets.files })
+  assert('full-cache cleanup preserves every current-build asset above the former LRU capacity', true)
+
   faults.add(fixture)
   live = bDir
   await page.evaluate(async () => { await (await navigator.serviceWorker.getRegistration()).update() })
@@ -138,6 +195,7 @@ try {
         plate: document.querySelector('.update-plate')?.textContent,
         active: reg?.active?.state, waiting: reg?.waiting?.state, installing: reg?.installing?.state,
         marker: localStorage.getItem('wh11ed-offline-warmed'),
+        protocolErrors: window.__offlineProtocolErrors,
       }
     })))
   }

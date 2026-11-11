@@ -137,3 +137,11 @@ from the source army list. Newer roster revisions remain protected by the existi
 `npm run test:local-data` covers migration, conflict races, clean refresh and atomic archival in
 Chrome/WebKit. `npm run test:roster-live` covers actual equipment controls, an edit inside the
 save debounce window, independent records and ambiguous old loadouts.
+
+Critical tracker transitions require the synchronous journal to succeed before pending flags are
+cleared. Repeating archive for an identical history record is idempotent. A different record
+with the same identity requires the existing replacement confirmation. The candidate journal
+carries requiresConfirmation, so restart cannot bypass that decision; the database retains
+both versions in recovery. Non-booted tooling blocks the archive with a storage error instead.
+It never chooses a winner silently. Invalid ordinary writes roll back the synchronous
+view and desired changes before reporting the error; legacy duplicate quarantine is unchanged.

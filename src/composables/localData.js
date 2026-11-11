@@ -142,9 +142,13 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
     legacySource = noLegacy()
     for (const key of LOCAL_KEYS) { try { storage.removeItem(key) } catch { /* absorbRetired finishes it later. */ } }
   }
+  let requireConfirmation = false
   function pending() { return changesFor(desired, baseline) }
-  function stage(ops = pending(), expected = expectedFor(ops)) {
-    journal = { key: `${actor}/${++sequence}`, ops, expected }
+  function stage(ops = pending(), expected = expectedFor(ops), confirmed = false) {
+    // An impossible revision also protects the candidate from older code that ignores the
+    // requiresConfirmation field. A real confirmation supplies the observed revisions.
+    if (requireConfirmation && !confirmed) expected = Object.fromEntries(ops.map(op => [op.key, -1]))
+    journal = { key: `${actor}/${++sequence}`, ops, expected, requiresConfirmation: requireConfirmation && !confirmed }
     try { storage.setItem(journalKey, JSON.stringify(journal)); return true }
     catch (error) { fail(error); return false }
   }
@@ -175,13 +179,14 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
           if (!ops.length) {
             if (state.conflict && overrides) { await db.resolveRecovery(state.conflict.key); state.conflict = null; paused = false }
             desired.clear()
+            requireConfirmation = false
             if (journal) clearJournal(journal)
             break
           }
           const snapshot = new Map(desired)
           const expected = expectedFor(ops)
           if (overrides) for (const row of overrides.records) if (row.key in expected) expected[row.key] = row.revision
-          stage(ops, expected)
+          stage(ops, expected, !!overrides)
           const submitted = journal
           const result = await db.commit({ ...submitted, confirmed: !!overrides, replaces: state.conflict?.key })
           if (!result.ok) { reportConflict(result, submitted); return false }
@@ -197,6 +202,7 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
           state.conflict = null
           paused = false
           overrides = null
+          requireConfirmation = false
         }
         return true
       } catch (error) { fail(error); return false }
@@ -318,6 +324,7 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
 
   const api = {
     state,
+    reportError: fail,
     initialize,
     refresh,
     beforeRefresh(fn) { captures.add(fn); return () => captures.delete(fn) },
@@ -335,7 +342,7 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
         legacy: (await db.meta('legacy-original'))?.entries || [],
       }
     },
-    write(entries, { requireJournal = false } = {}) {
+    write(entries, { requireJournal = false, confirmReplacement = false } = {}) {
       if (state.phase === 'idle') {
         // Unit tests and non-booted consumers retain the old synchronous contract. The browser
         // always initializes before mounting the app and never takes this path after migration.
@@ -343,12 +350,19 @@ export function createLocalData({ storage = browserStorage, open = openLocalData
         return true
       }
       if (state.phase !== 'ready') { fail(new Error('Local data is not ready')); return false }
-      const undo = { desired: new Map(desired), cache: new Map(cache), journal }
+      const undo = { desired: new Map(desired), cache: new Map(cache), journal, requireConfirmation }
+      requireConfirmation ||= confirmReplacement
       for (const [key, value] of entries) { desired.set(key, value); cache.set(key, value) }
-      const durable = stage()
+      let durable
+      try { durable = stage() }
+      catch (error) {
+        ;({ desired, cache, journal, requireConfirmation } = undo)
+        fail(error)
+        return false
+      }
       if (!durable && requireJournal) {
         // A critical change must not exist only in memory: roll the view back to before it.
-        ;({ desired, cache, journal } = undo)
+        ;({ desired, cache, journal, requireConfirmation } = undo)
         return false
       }
       state.notice++

@@ -1,3 +1,4 @@
+import { stableJson } from '../utils/stableJson.js'
 import { ref, watch } from 'vue'
 import { localDataView, keepLocalReference } from './localDataView.js'
 import { debouncedSave } from '../utils/debouncedSave.js'
@@ -273,6 +274,8 @@ const setupDraft = ref(load(DRAFT_KEY, null))
 let pendingCurrent = false
 let pendingHistory = false
 let pendingSetupDraft = false
+let criticalWrite = false
+let archiveConfirmation = false
 
 function writePending() {
   if (localData.state.phase !== 'idle') {
@@ -280,7 +283,9 @@ function writePending() {
     if (pendingCurrent) entries.push([CUR_KEY, current.value ? JSON.stringify(current.value) : null])
     if (pendingHistory) entries.push([HIST_KEY, JSON.stringify(history.value)])
     if (pendingSetupDraft) entries.push([DRAFT_KEY, setupDraft.value ? JSON.stringify(setupDraft.value) : null])
-    if (entries.length && localData.write(entries)) pendingCurrent = pendingHistory = pendingSetupDraft = false
+    if (entries.length && localData.write(entries, { requireJournal: criticalWrite, confirmReplacement: archiveConfirmation })) {
+      pendingCurrent = pendingHistory = pendingSetupDraft = criticalWrite = archiveConfirmation = false
+    }
     return
   }
   // Write the destination before removing the source in EITHER direction. Archiving needs
@@ -325,6 +330,7 @@ const { schedule: scheduleSave, now: flushSave } = debouncedSave(writePending)
 function saveNow() {
   pendingCurrent = true
   pendingHistory = true
+  criticalWrite = true
   flushSave()
 }
 
@@ -2024,7 +2030,15 @@ export function useTracker() {
     if (!current.value) return
     const record = JSON.parse(JSON.stringify(current.value))
     delete record.party
-    history.value = [record, ...history.value]
+    const existing = history.value.find(game => game.id === record.id)
+    if (existing && stableJson(existing) !== stableJson(record)) {
+      if (localData.state.phase === 'idle') {
+        localData.reportError(new Error('Archive conflict: both current and historical game versions were retained'))
+        return false
+      }
+      archiveConfirmation = true
+    }
+    history.value = [record, ...history.value.filter(game => game.id !== record.id)]
     current.value = null
     saveNow() // persist synchronously — don't let an iOS PWA suspend drop the just-saved game
   }

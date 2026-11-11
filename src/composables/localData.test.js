@@ -127,6 +127,67 @@ describe('localData — migration', () => {
 })
 
 describe('localData — writes and conflicts', () => {
+  it('makes an unconfirmed candidate conflict even when an old reader ignores the new marker', async () => {
+    const a = client()
+    await a.initialize()
+    a.write([[ROSTERS, rosters(roster('r', 'Proposed'))]], { requireJournal: true, confirmReplacement: true })
+    expect(await a.flush()).toBe(false)
+    const key = [...storage.map.keys()].find(key => key.startsWith('test-pending/'))
+    const candidate = JSON.parse(storage.getItem(key))
+    expect(candidate.expected['roster/r']).toBe(-1)
+    const db = await open()
+    expect((await db.commit({ ...candidate, requiresConfirmation: false })).ok).toBe(false)
+    db.close()
+    expect(JSON.parse((await records()).find(row => row.key === 'roster/r').value).name).toBe('Before')
+    await a.close()
+  })
+
+  it('keeps explicit replacement unconfirmed across restart and retains the replaced version', async () => {
+    const a = client()
+    await a.initialize()
+    a.write([[ROSTERS, rosters(roster('r', 'Proposed'))]], { requireJournal: true, confirmReplacement: true })
+    expect(await a.flush()).toBe(false)
+    await a.close()
+    const b = client()
+    await b.initialize()
+    expect(b.state.conflict).toBeTruthy()
+    expect(JSON.parse((await records()).find(row => row.key === 'roster/r').value).name).toBe('Before')
+    expect(await b.confirm(b.state.conflict)).toBe(true)
+    const backup = await b.backup()
+    expect(backup.recovery.some(row => row.confirmed && row.before.some(record => record.value?.includes('Before')))).toBe(true)
+    await b.close()
+  })
+
+  it('requires confirmation for an explicit replacement even without a concurrent revision change', async () => {
+    const a = client()
+    await a.initialize()
+    expect(a.write([[ROSTERS, rosters(roster('r', 'Proposed'))]], { requireJournal: true, confirmReplacement: true })).toBe(true)
+    expect(await a.flush()).toBe(false)
+    expect(a.state.conflict).toBeTruthy()
+    const b = client()
+    await b.initialize()
+    expect(names(b)).toEqual(['r:Before'])
+    expect(await a.confirm(a.state.conflict)).toBe(true)
+    await b.refresh()
+    expect(names(b)).toEqual(['r:Proposed'])
+    await Promise.all([a.close(), b.close()])
+  })
+
+  it('rejects duplicate identities without corrupting the synchronous view or durable records', async () => {
+    const a = client()
+    await a.initialize()
+    const before = a.getItem(ROSTERS)
+    expect(a.write([[ROSTERS, rosters(roster('r', 'One'), roster('r', 'Two'))]])).toBe(false)
+    expect(a.state.error).toContain('Duplicate local record identity')
+    expect(a.getItem(ROSTERS)).toBe(before)
+    expect(a.getItem(ROSTERS)).toBe(before)
+    expect(await a.flush()).toBe(true)
+    const b = client()
+    await b.initialize()
+    expect(names(b)).toEqual(['r:Before'])
+    await Promise.all([a.close(), b.close()])
+  })
+
   beforeEach(() => storage.setItem(ROSTERS, rosters(roster('r', 'Before'))))
 
   it('commits a write that another tab then reads', async () => {

@@ -25,5 +25,5 @@ export async function workerBuild(worker) {
 
 export async function prepareOfflineWorker(worker) {
   const target = await workerBuild(worker)
-  return target ? topUpOffline(target) : false
+  return target ? topUpOffline({ ...target, worker }) : false
 }
