@@ -393,6 +393,40 @@ describe('rus — the Russian tournament format', () => {
   })
 })
 
+// The rus line names only the swaps, and our importer reads every count as what the unit HOLDS. So
+// the line has to say the swaps in those terms, or a list exported here comes back changed
+// (2026-11-12, a 45-list tournament corpus re-exported in this format): counted as picks, a Crisis
+// squad's three trades into a second missile pod read as the three pods it already had, a Rhino's
+// added combi-bolter as the one it comes with, and a Defiler's hades lascannon took the heavy
+// baleflamer instead of the heavy missile launcher it replaced.
+describe('rus — a list exported in this format imports back the same', () => {
+  const unitText = {
+    'death-guard': 'Chaos Rhino (75 points)\n  • 1x Armoured tracks\n    2x Combi-bolter\n    1x Havoc launcher',
+    'emperors-children': 'Defiler (315 points)\n  • 1x Ectoplasma destructor\n    2x Excruciator cannon\n    1x Hades lascannon\n    1x Heavy baleflamer\n    1x Shearing Claws',
+    'tau-empire': [
+      'Crisis Fireknife Battlesuits (130 points)',
+      '  • 1x Crisis Fireknife Shas’vre', '    • 1x Battlesuit fists', '      1x Marker Drone', '      2x Missile pod', '      1x Shield Drone',
+      '  • 2x Crisis Fireknife Shas’ui', '    • 2x Battlesuit fists', '      2x Gun Drone', '      4x Missile pod', '      2x Shield Drone',
+    ].join('\n'),
+  }
+  it.each(Object.keys(unitText))('%s', async (slug) => {
+    const { loadRosterFaction } = await import('../../data/roster/index.js')
+    const { parseList, matchRoster } = await import('./rosterImport.js')
+    const core = (await import('../../data/roster/core.js')).default
+    const items = (await import('../../data/roster/items.js')).default.items
+    const faction = await loadRosterFaction(slug)
+    const read = (text) => matchRoster(parseList(text, null, factionGroups), { faction, core, items }).payload
+    const gw = `L (100 points)\n\n${faction.name}\nStrike Force (2000 points)\n\nOTHER DATASHEETS\n\n${unitText[slug]}\n`
+    const first = read(gw)
+    expect(first.units[0].wg?.length).toBeGreaterThan(0)
+    // Which profile holds a drone the format cannot say, so the picks may land on another model;
+    // what it does say — every swapped item and its count, the price — must survive the trip.
+    const rus = (p) => buildRosterText({ ...p, faction: slug, battleSize: 'strike-force' }, { faction, core, items, factionGroups }, 'rus')
+    const unitLine = (text) => text.split('\n').find((l) => /^[A-Z]{2}1: /.test(l))
+    expect(unitLine(rus(read(rus(first))))).toBe(unitLine(rus(first)))
+  })
+})
+
 // WTC names a Chapter with its own book under the Adeptus Astartes keyword, and our import reads the
 // line back to the same faction (2026-10-16: a Blood Angels list came out as "Imperium - Blood
 // Angels").

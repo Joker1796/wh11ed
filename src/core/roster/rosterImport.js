@@ -52,11 +52,19 @@ import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, per
 /** One option the list was read as taking, and how many of what it was counted from. @typedef {{ gi: number, oi: number, stepper: boolean, n: number, byMini: Map<string, Map<string, number>>, shared: Set<string>, names: Set<string> }} Pick */
 /** A unit of the payload with its datasheet. @typedef {{ entry: RosterEntry, def: RosterUnit | undefined }} Row */
 
+// Cyrillic capitals that look exactly like Latin ones. A list typed on a Russian keyboard writes a
+// unit's reference as "АТ1" or "СН2" (2026-11-12, a tournament corpus), and a reference is Latin
+// letters and a number everywhere it is read.
+/** @type {Record<string, string>} */
+const LOOKALIKE = { А: 'A', В: 'B', Е: 'E', К: 'K', М: 'M', Н: 'H', О: 'O', Р: 'P', С: 'C', Т: 'T', Х: 'X', У: 'Y' }
+const REF_LOOKALIKE = /(?<!\p{L})([A-ZАВЕКМНОРСТХУ]{1,4})(?=\d+(?![\p{L}\d]))/gu
+
 // Clipboard exports share unit syntax even when their headers name different tools.
 // Keep this lexical: no datasheet aliases, price corrections or inferred attachments.
 /** @param {string | null | undefined} text @returns {string} */
 function normalizeImportText(text) {
   let t = repairMojibake(text).replace(/\u00a0/g, ' ')
+  t = t.replace(REF_LOOKALIKE, (ref) => (/[А-Я]/.test(ref) ? [...ref].map((c) => LOOKALIKE[c] || c).join('') : ref))
   if ((t.match(/\|\|/g) || []).length >= 3 && /(?:ATTACHED UNITS|CHARACTERS|BATTLELINE|OTHER DATASHEETS)/i.test(t)
     && /Strike Force|Incursion|Onslaught/i.test(t)) t = t.replace(/\s*\|\|\s*/g, '\n')
   return t.replace(/(^\+\s*Detachments?:[^\n]+)\n([^+\n]+\(\d+\s*(?:DP|Detachment Points?)\))/gim, '$1 $2')
@@ -146,8 +154,14 @@ const num = (s) => +String(s).replace(/\D/g, '')
 // fold together, and the only names that do are one weapon written both ways (Bolt pistol / Bolt
 // pistols). The count and the price ride on this — a plural read as wargear drops a six-model unit
 // into the three-model bracket.
+//
+// And a hyphen inside a word is optional: our data has "Tome‐skull", a tournament list typed
+// "Tomeskull" (2026-11-12). Dropping it on both sides folds no two names in the game together
+// (checked against every unit, profile, item, detachment and enhancement name, 5182 of them); the
+// " - " between a faction's alliance and its name is not inside a word and stays.
 /** @param {string | null | undefined} s @returns {string} */
 export const norm = (s) => foldChars(s)
+  .replace(/(?<=\p{L})-(?=\p{L})/gu, '')
   .replace(/&/g, ' and ')
   .replace(/\s+/g, ' ')
   .trim()
@@ -1248,8 +1262,10 @@ function miniIndexOf(def, name) {
 // Enhancement names, compared with the kind tag ignored on both sides: our data carries it inside
 // the name for some factions ("Dead Shiny Shootas (Upgrade)"), the GW app leaves it off, and
 // listhammer prints it — three spellings of one enhancement.
+// "(Aura)" and "(Psychic)" too: our data bakes them into 28 names ("Final Howl (Aura)") and a list
+// typed by hand leaves them off (2026-11-12).
 /** @param {string | null | undefined} s */
-const enhKey = (s) => norm(String(s || '').replace(/(?:\s*\((?:upgrade|miniature|unit|one per army)\)\s*)+$/i, ''))
+const enhKey = (s) => norm(String(s || '').replace(/(?:\s*\((?:upgrade|miniature|unit|one per army|aura|psychic)\)\s*)+$/i, ''))
 
 /** @param {RosterUnit} def @param {Record<number, string> | undefined} items @returns {Set<string>} */
 const defaultNames = (def, items) => new Set(
@@ -2253,7 +2269,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
   // The GW app blocks a leader with the unit it joined, so there the block IS the link. Both
   // attaching roles count: a bodyguard unit holds a Leader and a Support at once (two independent
   // slots — see leaderTargetsFor in rosterEngine.js), and the app names them exactly that way.
-  for (const members of groups.values()) {
+  for (let members of groups.values()) {
     // A block may carry no labels at all: listhammer prints "Attached Unit 3" and then the two
     // datasheets, and the header is the whole statement. The DATASHEETS then say which of them is
     // the bodyguard — the one the others are allowed to join — and only a pairing the rules permit
@@ -2266,6 +2282,17 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     if (!body && unlabelled && members.length > 1) {
       const fits = members.filter((host) => members.some((m) => canLead(m, host)))
       if (fits.length === 1) [body] = fits
+      // A block nothing closes runs on into the rest of the list. The Russian tournament's blocks
+      // end at a blank line, and a list typed by hand often has none: "Attached Unit 4:" then a
+      // Captain, a Sanguinary Priest and the Bladeguard they joined, then every other unit of the
+      // army — several of them units the Captain could also lead, so no one bodyguard stood out and
+      // the whole block was dropped (2026-11-12, three of 45 lists in a tournament's corpus). The
+      // characters come first and the unit they joined after them, so the block is up to the first
+      // unit one of the members above it may join; what follows was never in it.
+      else if (fits.length > 1) {
+        const at = members.findIndex((host, i) => i > 0 && members.slice(0, i).some((m) => canLead(m, host)))
+        if (at > 0) { body = members[at]; members = members.slice(0, at + 1) }
+      }
     }
     if (!body) continue
     for (const m of members) {

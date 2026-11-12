@@ -570,21 +570,66 @@ const RUS_ORDER = ['EH', 'CH', 'BL', 'IN', 'MO', 'BE', 'VE', 'MN', 'DT', 'FO', '
 /** @param {ExportRow} r */
 const rusPrefix = (r) => (r.ally ? 'AU' : RUS_PREFIXES.find(([, fits]) => fits(r))?.[0] || 'IN')
 
-// What the player changed, and nothing else: each option taken, with how many models took it
-// ("1x Multi-melta" on a three-model Eradicator Squad, never the two melta rifles left). The
-// owner's ruling (2026-10-13): the printed loadout is on the datasheet, the list says the swaps.
+// What the player changed, and nothing else: each item an option brought in, with how many of it
+// the unit HOLDS ("1x Multi-melta" on a three-model Eradicator Squad, never the two melta rifles
+// left). The owner's ruling (2026-10-13): the printed loadout is on the datasheet, the list says the
+// swaps.
+//
+// The count is what the unit holds, not how many picks were made, because that is how every list
+// reads and how our importer reads this one back. Counting picks lost the swap on re-import: three
+// Crisis suits that each trade a plasma rifle for a second missile pod hold SIX pods, and "3x Missile
+// pod" read as three — the three they already had — so nothing was swapped; a Rhino's added second
+// combi-bolter printed as "Combi-bolter", which it already holds. A bundle is written item by item,
+// as every other line of the list is ("Thunder hammer + Storm shield" read as one weapon misplaced
+// both). And where another live group of the unit offers the same option, the item that group would
+// have replaced is named while it is still held: "Hades lascannon" alone does not say whether a
+// Defiler gave up its heavy baleflamer or its heavy missile launcher, "Heavy baleflamer" beside it
+// does (2026-11-12, a tournament corpus re-exported in this format).
 /** @param {ExportRow} r @param {Record<number, string> | null | undefined} items */
 function swappedGear(r, items) {
-  const taken = new Map()
-  for (const [gi, oi, n] of r.entry.wg || []) {
-    const opt = r.def?.gear?.[gi]?.o?.[oi]
-    if (!opt || !wargearGroupLive(r.def, r.entry, gi)) continue
+  /** @type {Map<string, number>} */
+  const held = new Map()
+  for (const g of r.gear) for (const it of g.items) held.set(it.name, (held.get(it.name) || 0) + it.n)
+  const gear = r.def?.gear || []
+  /** @param {number} gi */
+  const live = (gi) => wargearGroupLive(r.def, r.entry, gi)
+  /** @type {Set<string>} */
+  const named = new Set()
+  for (const [gi, oi] of r.entry.wg || []) {
+    const opt = gear[gi]?.o?.[oi]
+    if (!opt || !live(gi)) continue
+    for (const [id] of optionItems(opt)) {
+      const name = items?.[id]
+      if (name && held.get(name)) named.add(name)
+    }
     const label = optionLabel(opt, items)
-    taken.set(label, (taken.get(label) || 0) + (n ?? 1))
+    gear.forEach((other, ogi) => {
+      // Only on the same profile: a Sergeant's group and his squad's offering one option are two
+      // models' choices, and the line already says how many took it.
+      if (ogi === gi || other.m !== gear[gi].m || !live(ogi) || !other.o?.some((o) => optionLabel(o, items) === label)) return
+      for (const id of other.rep || []) {
+        const name = items?.[id]
+        if (name && held.get(name)) named.add(name)
+      }
+    })
   }
-  return [...taken]
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([label, n]) => (n > 1 || r.models > 1 ? `${n}x ${label}` : label))
+  // The order is the importer's: it deals a line's items out as it reads them. An item few options
+  // offer goes first, since it says which option was taken; the half many bundles share comes last
+  // and joins them ("Ossefactor + Torturer's tool" — the tools first made two ossefactor picks).
+  // Then most first: with no profile named the leader's group fills first, and three Shield Drones
+  // after the Gun Drones found the Shas'vre already holding one — one shield drone had nowhere left.
+  /** @type {Map<string, number>} */
+  const offers = new Map()
+  for (const g of gear) for (const o of g.o || []) for (const [id] of optionItems(o)) {
+    const name = items?.[id]
+    if (name) offers.set(name, (offers.get(name) || 0) + 1)
+  }
+  return [...named]
+    .sort((a, b) => (offers.get(a) || 0) - (offers.get(b) || 0) || (held.get(b) || 0) - (held.get(a) || 0) || a.localeCompare(b))
+    .map((name) => {
+      const n = held.get(name) || 0
+      return n > 1 || r.models > 1 ? `${n}x ${name}` : name
+    })
 }
 
 /** @param {Resolved} m @param {{ player?: string, hin?: string }} [who] */
