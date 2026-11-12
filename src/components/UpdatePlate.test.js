@@ -16,17 +16,21 @@ vi.mock('../composables/workerPolicy.js', () => ({ currentRegistration: vi.fn(as
 
 const { appUpdate, updateFound, applyUpdate, _resetAppUpdate } = await import('../composables/useAppUpdate.js')
 const { isStandaloneDisplay } = await import('../composables/standalone.js')
-const { topUpOffline } = await import('../composables/useOfflineWarmup.js')
+const { topUpOffline, useOfflineWarmup } = await import('../composables/useOfflineWarmup.js')
 const { cacheMigration, _resetCacheMigration } = await import('../composables/cacheMigration.js')
+const { locale } = await import('../composables/useLocale.js')
 const UpdatePlate = (await import('./UpdatePlate.vue')).default
 
 describe('the update plate', () => {
   beforeEach(() => {
+    locale.value = 'en'
+    useOfflineWarmup().done.value = 3
+    useOfflineWarmup().total.value = 10
     _resetAppUpdate()
     _resetCacheMigration()
     vi.stubGlobal('fetch', vi.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ app: '2.9.4' }) })))
   })
-  afterEach(() => vi.unstubAllGlobals())
+  afterEach(() => { vi.unstubAllGlobals(); locale.value = 'en' })
 
   it('shows nothing while there is nothing new', () => {
     const w = mount(UpdatePlate)
@@ -64,6 +68,22 @@ describe('the update plate', () => {
     expect(appUpdate.phase).toBe('ready')
     expect(w.find('button').text()).toBe('Update')
     isStandaloneDisplay.mockReturnValue(false)
+  })
+
+  it.each([['en', 'Checking files…'], ['ru', 'Проверка файлов…']])('%s: labels an unknown download count as a check', async (lang, checking) => {
+    locale.value = lang
+    const { done, total } = useOfflineWarmup()
+    done.value = total.value = 0
+    appUpdate.phase = 'downloading'
+    const w = mount(UpdatePlate)
+    expect(w.text()).toBe(checking)
+    expect(w.text()).not.toContain('0/0')
+    expect(w.find('[role=progressbar]').exists()).toBe(false)
+    total.value = 2
+    await nextTick()
+    expect(w.text()).toContain('0/2')
+    expect(w.get('[role=progressbar]').attributes('aria-valuemax')).toBe('2')
+    w.unmount()
   })
 
   it('a download failure offers Continue without claiming readiness', async () => {

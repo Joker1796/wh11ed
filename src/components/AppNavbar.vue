@@ -511,7 +511,7 @@ const { status: warmupStatus, done: warmupDone, total: warmupTotal, bytes: warmu
 // and a number with three decimals reads as a spec rather than as a warning.
 const offlineSize = computed(() => (warmupBytes.value ? `${Math.round(warmupBytes.value / 1048576)} ${labels.value.megabytes}` : ''))
 const offlineLabel = computed(() => {
-  if (warmupStatus.value === 'warming') return `${labels.value.offlineDownloading} ${warmupDone.value}/${warmupTotal.value}`
+  if (warmupStatus.value === 'warming') return warmupTotal.value === 0 ? labels.value.checkingFiles : `${labels.value.offlineDownloading} ${warmupDone.value}/${warmupTotal.value}`
   if (warmed.value) return labels.value.offlineDownloaded
   return offlineSize.value ? `${labels.value.offlineDownload} · ${offlineSize.value}` : labels.value.offlineDownload
 })

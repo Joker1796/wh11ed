@@ -22,7 +22,8 @@ const { status, done, total, isUpdate } = useOfflineWarmup()
 // being prepared all over again (see useOfflineWarmup.js).
 const text = computed(() => {
   const l = labels.value
-  if (status.value === 'ready') return isUpdate.value ? l.updateDownloaded : l.offlineReady
+  if (status.value === 'ready') return done.value === 0 ? l.filesChecked : isUpdate.value ? l.updateDownloaded : l.offlineReady
+  if (total.value === 0) return l.checkingFiles
   return `${isUpdate.value ? l.downloadingUpdate : l.warmingOffline} ${done.value}/${total.value}`
 })
 const dismissed = ref(false)

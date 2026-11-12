@@ -238,7 +238,8 @@ describe('startOfflineWarmup', () => {
     const { startOfflineWarmup, useOfflineWarmup } = await fresh()
     await startOfflineWarmup()
     expect(fetched).toEqual(['/offline-manifest.json'])
-    expect(useOfflineWarmup().status.value).toBe('ready')
+    const { status, done, total } = useOfflineWarmup()
+    expect([status.value, done.value, total.value]).toEqual(['ready', 0, 0])
     expect(localStorage.getItem('wh11ed-offline-warmed')).toBeTruthy()
   })
 

@@ -25,7 +25,7 @@
         </button>
       </template>
       <div
-        v-else
+        v-else-if="total > 0"
         class="up-bar"
         role="progressbar"
         :aria-valuenow="done"
@@ -69,7 +69,7 @@ const title = computed(() => {
   const l = labels.value
   if (mode.value === 'migration') return l.cacheMoveTitle
   if (failed.value) return l.updateFailed
-  if (!ready.value) return total.value ? `${l.downloadingUpdate} ${done.value}/${total.value}` : l.downloadingUpdate
+  if (!ready.value) return total.value ? `${l.downloadingUpdate} ${done.value}/${total.value}` : l.checkingFiles
   return appUpdate.version ? l.updateReady.replace('{v}', appUpdate.version) : l.updateReadyBare
 })
 const text = computed(() => {
