@@ -28,6 +28,7 @@
 // POINTS ARE NEVER TRUSTED FROM THE TEXT. They are recomputed from our own MFM data; the stated
 // figure rides along only so the difference can be shown. A list exported against last month's
 // points is not a bug in the import.
+import { SM_CHAPTERS } from '../shared/smChapters.js'
 import { DISPOSITION_NAMES } from './dispositions.js'
 import { foldChars } from '../shared/foldName.js'
 import { fieldedTotals } from './rosterExport.js'
@@ -46,20 +47,66 @@ import { allySourceOf, leadTypeFor, modelsPerMini, optionItems, optionLabel, per
 /** @typedef {import('../shared/roster.types.js').ImportReport} ImportReport */
 /** @typedef {import('../shared/roster.types.js').ImportPayload} ImportPayload */
 /** What the WTC parser builds: a list whose header always has room for enhancements. @typedef {ParsedList & { enhancements: NonNullable<ParsedList['enhancements']> }} WtcList */
-/** A line of a GW unit body as read, before gwBody decides what it is. @typedef {{ indent: number, bullet: boolean, sub: boolean, n: number, name: string }} BodyLine */
+/** A line of a GW unit body as read, before gwBody decides what it is. @typedef {{ indent: number, bullet: boolean, sub: boolean, n: number, name: string, gear?: boolean }} BodyLine */
 /** Where an option can be written: group, option, profile, and whether the group counts models. @typedef {{ gi: number, oi: number, m: number, stepper: boolean }} OptionRef */
 /** One option the list was read as taking, and how many of what it was counted from. @typedef {{ gi: number, oi: number, stepper: boolean, n: number, byMini: Map<string, Map<string, number>>, shared: Set<string>, names: Set<string> }} Pick */
 /** A unit of the payload with its datasheet. @typedef {{ entry: RosterEntry, def: RosterUnit | undefined }} Row */
 
+// Clipboard exports share unit syntax even when their headers name different tools.
+// Keep this lexical: no datasheet aliases, price corrections or inferred attachments.
+/** @param {string | null | undefined} text @returns {string} */
+function normalizeImportText(text) {
+  let t = repairMojibake(text).replace(/\u00a0/g, ' ')
+  if ((t.match(/\|\|/g) || []).length >= 3 && /(?:ATTACHED UNITS|CHARACTERS|BATTLELINE|OTHER DATASHEETS)/i.test(t)
+    && /Strike Force|Incursion|Onslaught/i.test(t)) t = t.replace(/\s*\|\|\s*/g, '\n')
+  return t.replace(/(^\+\s*Detachments?:[^\n]+)\n([^+\n]+\(\d+\s*(?:DP|Detachment Points?)\))/gim, '$1 $2')
+    .replace(/(\d+)\s*[хХ×]\s*(?=[A-Za-zА-Яа-я])/g, '$1x ')
+    .replace(/(\d+)x(?=[A-Za-z])/g, '$1x ')
+    .replace(/^(\s*)-\s+(?=\d+x\b)/gm, '$1• ')
+}
+
+/** @param {string} text @returns {{ name: string, pts: number, models: number | null, ref: string | null, tail: string } | null} */
+function unitHead(text) {
+  const priced = text.match(new RegExp(`^(.+?)\\s*(?:\\((\\d[\\d., ]*)\\s*${PTS}\\)|\\[(\\d[\\d., ]*)\\s*${PTS}\\]|(?:\\s+[—–]\\s*|\\s+|(?<=[^\\d\\s.,]))(\\d[\\d., ]*)\\s*${PTS})(.*)$`, 'i'))
+  if (!priced || /^(?:Enhancements?|Upgrade|E):/i.test(priced[1])) return null
+  let name = priced[1].trim().replace(/^-(?!>)\s*/, ''), tail = priced[5].trim(), models = null, ref = null
+  const reference = name.match(/^([A-Za-zА-Яа-я]+\d+)\s*:?\s+(.+)$/)
+  if (reference) { ref = reference[1]; name = reference[2] }
+  const count = name.match(/^(?:(\d+)x?\s+|\((\d+)\)\s+)(.+)$/i)
+  if (count) { models = +(count[1] || count[2]); name = count[3] }
+  const suffix = name.match(/^(.+?)\s+[x×]\s*(\d+)$/i)
+  if (suffix) { name = suffix[1]; models = +suffix[2] }
+  const after = tail.match(/^(\d+)x\s*$/i)
+  if (after) { models = +after[1]; tail = '' }
+  const cut = name.indexOf(': ')
+  if (cut !== -1) { tail = [name.slice(cut + 2), tail].filter(Boolean).join(', '); name = name.slice(0, cut) }
+  // Existing exports allow a player's personal model name after a dash. It is not loadout.
+  if (/^[-–—]\s*/.test(tail) && !/^[-–—]\s*(?:Warlord|Enhancements?:)/i.test(tail)) tail = ''
+  tail = tail.replace(/^[:;—–·-]\s*/, '').replace(/,\s*-\s*(?=Warlord\b)/i, ', ')
+  return { name, pts: num(priced[2] || priced[3] || priced[4]), models, ref, tail }
+}
+
+/** @param {ParsedUnit} unit @param {string} tail */
+function inlineSelections(unit, tail) {
+  for (const token of tail.replace(/(?:,\s*|\s+)(?=(?:Enhancements?|Upgrade|E):|\(?Warlord\)?(?:\s*[,;]|$))/gi, '; ').split(/;\s*/)) {
+    const enh = token.match(/^(?:Enhancements?|Upgrade|E):\s*(.+)$/i)
+    if (enh) { unit.enh = enh[1].replace(/\s*\(\+?\d+\s*(?:pts?|points?)\)$/, '').trim(); continue }
+    for (const gear of countedGear(token)) {
+      if (/^\(?Warlord\)?$/i.test(gear.name)) unit.warlord = true
+      else unit.weapons?.push(gear)
+    }
+  }
+}
+
 // GW's own section headings, plus the 10th-edition ones an older export may still carry.
 // `m` so detectFormat can test it against a whole pasted list; parseGw tests it a line at a time.
-const SECTIONS = /^(CHARACTERS?|EPIC HEROES|BATTLELINE|DEDICATED TRANSPORTS|OTHER DATASHEETS|ALLIED UNITS):?$/m
+const SECTIONS = /^(CHARACTERS?|EPIC HERO(?:ES)?|BATTLELINE|DEDICATED TRANSPORTS?|OTHER DATASHEETS|ALLIED UNITS):?$/im
 const BATTLE_SIZES = /^(Combat Patrol|Incursion|Strike Force|Onslaught|Custom)$/
 
 // Bullets. The app writes `•` at every depth; listhammer writes `•` for a model line and `◦` for
 // the weapons under it. Both mean "this line is a bullet", which is the tell the nesting rule in
 // gwBody() reads — miss it and every weapon is taken for a model.
-const BULLET = '[\u2022\u25e6\u2023\u25aa*]'
+const BULLET = '[\u00b7\u2022\u25e6\u2023\u25aa*]'
 // How the two words for points are written: the app spells it out, listhammer's plain-text mode
 // abbreviates it.
 const PTS = '(?:pts?|points?)'
@@ -152,7 +199,7 @@ function dispositionNamed(t) {
 
 /** @param {string | null | undefined} text @returns {ParsedList['format'] | null} */
 export function detectFormat(text) {
-  const t = repairMojibake(text)
+  const t = normalizeImportText(text)
   // Our own Russian tournament export first: it has WTC's header, and only its HIN field and its
   // unit lines say otherwise. Not PLAYER NAME — a team event's WTC list carries that too (23 of
   // them in the listhammer corpus came out unreadable when it decided, 2026-10-29).
@@ -165,6 +212,7 @@ export function detectFormat(text) {
   // Last resort: any line that prices something. Not just the first — a list's own title line is
   // sometimes unpriced, and then the only points in the file are on its units.
   if (new RegExp(`\\((\\d[\\d.,\\u00a0 ]*)\\s*${PTS}\\)`, 'i').test(t)) return 'gw'
+  if (/^(?:\+?\s*(?:Factions? used|Faction|Detachment):|CHARACTERS|BATTLELINE|OTHER DATASHEETS)/im.test(t) && t.split('\n').some(l => unitHead(l.trim()))) return 'gw'
   return null
 }
 
@@ -176,7 +224,7 @@ function isCompactList(text) {
   const lines = (text || '').split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
   const bullet = new RegExp(`^${BULLET}`)
   if (lines.some((l) => bullet.test(l))) return false
-  const body = lines.filter((l) => !/^Exported (with|from)/i.test(l))
+  const body = lines.filter((l) => !/^(?:Exported (?:with|from)|Created with)/i.test(l))
   if (body.length < 3 || !POINTS_LINE.test(body[0])) return false
   return !body.slice(1).some((l) => POINTS_LINE.test(l))
 }
@@ -213,7 +261,7 @@ function gwBody(entries) {
     // model line, sharing objects with `weapons` so the matcher — which alone knows the
     // datasheet's profiles — can move one across instead of counting it twice.
     const weapons = entries.map(({ n, name }) => ({ n, name, mini: null }))
-    return { models: null, weapons, modelLines: weapons, flatBody: true }
+    return { models: null, weapons, modelLines: weapons.filter((_, i) => !entries[i].gear), flatBody: true }
   }
   const top = Math.min(...entries.map(depth))
   let models = 0
@@ -225,7 +273,7 @@ function gwBody(entries) {
     // matcher tell the sergeant's plasma pistol from the squad's.
     // A bare line among bulleted ones is a comment ("One of these losers actually has a missile
     // launcher. -TO edited"), not a model: it goes down as a weapon line for the matcher to report.
-    if (depth(e) === top && (e.bullet || !byBullet)) { models += e.n; mini = e.name; modelLines.push({ n: e.n, name: e.name }); continue }
+    if (!e.gear && depth(e) === top && (e.bullet || !byBullet)) { models += e.n; mini = e.name; modelLines.push({ n: e.n, name: e.name }); continue }
     weapons.push({ n: e.n, name: e.name, mini: !byBullet || e.bullet ? mini : null })
   }
   // The lines are kept as well as counted: a unit's attached extra is printed exactly like a model
@@ -310,7 +358,9 @@ function parseGw(text, factionGroups) {
 
   const flush = () => {
     if (!unit) return
-    Object.assign(unit, gwBody(entries))
+    const body = gwBody(entries)
+    const inline = unit.weapons || []
+    Object.assign(unit, body, { models: unit.models ?? body.models, weapons: [...inline, ...body.weapons], modelLines: [...(body.modelLines || []), ...(body.flatBody ? inline : [])] })
     out.units.push(unit)
     unit = null
     entries = []
@@ -320,20 +370,20 @@ function parseGw(text, factionGroups) {
   const WARLORD = new RegExp(`^${BULLET}?\\s*Warlord$`, 'i')
   // The app writes one enhancement per unit and calls it "Enhancement:"; listhammer pluralises the
   // label and tags the kind after the name ("Dead Shiny Shootas (Upgrade)").
-  const ENH = new RegExp(`^${BULLET}?\\s*Enhancements?:\\s*(.+?)(?:\\s*\\((?:Upgrade|Miniature|Unit)\\))?$`, 'i')
+  const ENH = new RegExp(`^${BULLET}?\\s*(?:Enhancements?|Upgrade|E):\\s*(.+?)(?:\\s*\\((?:Upgrade|Miniature|Unit)\\))?$`, 'i')
   const ITEM = new RegExp(`^(${BULLET}\\s*)?(?:(\\d+)x )?(.+)$`)
 
   for (const raw of (text || '').split(/\r?\n/)) {
     const line = raw.replace(/\s+$/, '')
     if (!line.trim()) continue
     const indent = line.search(/[^ ]/)   // the line has text (checked above), so never -1
-    const t = line.trim()
+    const t = line.trim().replace(/^\+\s*(?=[^+])/, '')
 
-    if (/^Exported (with|from)/i.test(t)) { flush(); break }
+    if (/^(?:Exported (?:with|from)|Created with)/i.test(t)) { flush(); break }
     if (/^attached units:?$/i.test(t)) { flush(); inHeader = false; inAttached = true; continue }
-    const att = t.match(/^attached unit (\d+):?$/i)
-    if (att) { flush(); inHeader = false; inAttached = true; group = `g${att[1]}`; continue }
-    if (SECTIONS.test(t)) { flush(); inHeader = false; inAttached = false; group = null; continue }
+    const att = t.match(/^attached unit(?: (\d+))?:?$/i)
+    if (att) { flush(); inHeader = false; inAttached = true; group = `g${att[1] || ++groups}`; continue }
+    if (SECTIONS.test(t) || /^(?:INFANTRY|VEHICLES?|MOUNTED|MONSTERS?):?$/i.test(t)) { flush(); inHeader = false; inAttached = false; group = null; continue }
     // The list states its own Force Disposition, and now there is somewhere to put it. Only when
     // it names ONE: an export written before this app declared anything lists every candidate its
     // detachments offer, and a list of them is not a declaration. A name that turns out to belong
@@ -348,28 +398,34 @@ function parseGw(text, factionGroups) {
     // listhammer's plain-text mode LABELS its header instead of writing it as bare lines, and
     // closes it with a row of '+'. What is labelled is read from the label — inferring which bare
     // line is the faction (below) is only needed when nothing says which.
-    if (inHeader) {
+    if (inHeader || (!unit && !out.units.length)) {
+      // Explicit metadata may follow the bare faction name, which already ended the title.
       // A row of '+' CLOSES that header — but the same site also writes it as a fence, opening the
       // block with an identical row. Closing on the opening one lost the whole header: the title
       // came out as "List Name: …", the army had no points, no faction and no detachment, and with
       // no detachment its enhancement was rejected as one this army cannot take.
       if (/^\++$/.test(t)) { if (labelled) inHeader = false; continue }
       const kv = t.match(/^([^:]{2,40}):\s*(.*)$/)
+      if (/^Space Marines:\s*/i.test(t)) { labelledFaction = t.replace(/^Space Marines:\s*/i, '').replace(/\s*\([\d ,]+ Points\)$/i, ''); labelled = true; continue }
       const key = kv ? kv[1].replace(/\s*\([^)]*\)/g, '').trim().toLowerCase() : ''
       const val = kv ? kv[2].trim() : ''
-      if (key === 'list name') { out.name = val; seenHeader = true; labelled = true; continue }
+      if (key === 'list name' || key === 'army name') { out.name = val; seenHeader = true; labelled = true; continue }
       // "Chaos Knights, Heretic Astartes" — the army's own faction first, its allies after. The
       // allied units come with the ally's own datasheets, which is a matter for the faction data,
       // not for this line.
-      if (key === 'faction' || key === 'factions' || key === 'factions used') {
-        labelledFaction = val.split(',').map((f) => f.trim()).find((f) => matchFaction(f, factionGroups)) || val
+      if (key === 'faction' || key === 'factions' || key === 'factions used' || key === 'faction keyword') {
+        const parts = val.split(',').map(f => f.trim()).filter(f => matchFaction(f, factionGroups))
+        const first = parts[0]
+        // A parent followed by its explicit supplement is one faction, not an allied army.
+        labelledFaction = (matchFaction(first, factionGroups) === 'space-marines'
+          ? parts.find(f => SM_CHAPTERS.has(matchFaction(f, factionGroups) || '')) : null) || first || val
         labelled = true
         continue
       }
-      if (key === 'army points' || key === 'total points') { out.stated = num(val); labelled = true; continue }
+      if (key === 'army points' || key === 'total points' || key === 'total army points') { out.stated = num(val); labelled = true; continue }
       if (key === 'detachment' || key === 'detachments') {
-        out.detachmentLine = val
-        out.detachments = val.split(/,\s*|\s+and\s+/).map((d) => d.trim()).filter(Boolean)
+        out.detachmentLine = val.replace(/\s*\(\d+\s*(?:DP|Detachment Points?)\)/gi, '').trim()
+        out.detachments = out.detachmentLine.split(/,\s*|\s+and\s+/).map((d) => d.trim()).filter(Boolean)
         labelled = true
         continue
       }
@@ -384,7 +440,7 @@ function parseGw(text, factionGroups) {
       if (/^(army enhancements|mission)$/.test(key)) { labelled = true; continue }
     }
 
-    const dets = t.match(/^(.+?) \((\d+) Detachment Points?\)$/i)
+    const dets = t.match(/^(.+?) (?:\((\d+) Detachment Points?\)|(\d+) Detachment Points?)$/i)
     if (dets) {
       // The line joins several detachments with commas and a final "and" — but a detachment name
       // can CONTAIN "and" ("Legends of Saga and Song and Saga of the Great Wolf" is two of them),
@@ -392,15 +448,19 @@ function parseGw(text, factionGroups) {
       // carried through as well and matchRoster — which knows the faction's actual detachments —
       // resolves it against them.
       inHeader = false
-      out.detachmentLine = dets[1].trim()
+      out.detachmentLine = [out.detachmentLine, dets[1].trim()].filter(Boolean).join(', ')
       out.detachments = dets[1].split(/,\s*|\s+and\s+/).map((s) => s.trim()).filter(Boolean)
       continue
     }
 
-    const head = indent === 0 && POINTS_LINE.exec(t)
+    const summary = inHeader && t.match(/^(.+?) · ([\d ,]+)\/([\d ,]+) pts$/i)
+    if (summary && isFactionName(summary[1], factionGroups)) { labelledFaction = summary[1]; out.stated = num(summary[2]); out.limit = num(summary[3]); continue }
+    const banner = t.match(/^==\s*(.+?) (\d+) pts\s*==$/i)
+    if (banner) { if (!out.stated) out.stated = +banner[2]; continue }
+    const pricedHead = unitHead(t)
+    const head = (indent === 0 || pricedHead?.ref) && pricedHead
     if (head) {
-      const name = head[1].trim()
-      const pts = num(head[2] ?? head[3])
+      const { name, pts } = head
       if (BATTLE_SIZES.test(name)) { out.limit = pts; inHeader = false; continue }
       // An attached block can be headed by its MEMBERS' names joined with " + " and the pair's
       // total, instead of by "Attached Unit N" — the same shape the site's compact mode uses. The
@@ -430,25 +490,54 @@ function parseGw(text, factionGroups) {
         unit = { name: arrow[1].trim(), pts, group: host.group, role: null, warlord: false, enh: null, alleg: null, attachedAs: null }
         continue
       }
-      unit = { name: arrow ? arrow[1].trim() : name, pts, group, role: null, warlord: false, enh: null, alleg: null, attachedAs: null }
+      unit = { name: arrow ? arrow[1].trim() : name, pts, models: head.models, explicitModels: head.models, ref: head.ref, group, role: null, warlord: false, enh: null, alleg: null, attachedAs: null, weapons: [] }
+      inlineSelections(unit, head.tail)
       host = unit
       continue
     }
 
     if (unit) {
+      const link = t.replace(/^-\s*/, '').match(/^(?:(?:Leader|Support) attached to:|Bodyguard with:|Attached to|Leading|Supporting)\s*(.+)$/i)
+      if (link) { (unit.attachedTo || (unit.attachedTo = [])).push(link[1]); continue }
       const as = t.match(AS)
-      if (as) { unit.attachedAs = as[1]; continue }
-      if (WARLORD.test(t)) { unit.warlord = true; continue }
+      if (as) {
+        const role = as[1].match(/^(Leader|Support|Bodyguard|Retinue)(?:\s+\([^)]*\)|\s+(?:Character|Battleline))?(?:\s+(.+))?$/i)
+        unit.attachedAs = role?.[2] ? as[1].slice(0, -role[2].length).trim() : as[1]
+        if (role?.[2]) for (const gear of countedGear(role[2])) entries.push({ indent, bullet: false, sub: false, gear: true, ...gear })
+        continue
+      }
+      if (WARLORD.test(t) || /^\(?Warlord\)?$/i.test(t)) { unit.warlord = true; continue }
       const enh = t.match(ENH)
-      if (enh) { unit.enh = enh[1].trim(); continue }
-      const item = t.match(ITEM)
+      if (enh) { unit.enh = enh[1].replace(/\s*\(\+?\d+\s*(?:pts?|points?)\)$/, '').trim(); continue }
+      const modelWarlord = t.match(/^(.*?):\s*Warlord$/i)
+      if (modelWarlord) unit.warlord = true
+      const item = (modelWarlord ? modelWarlord[1] : t).match(ITEM)
       if (item) {
-        // A "Label: Value" line that isn't a weapon is the allegiance the rules make you note.
-        const mark = item[3].match(/^([^:]+): (.+)$/)
-        if (mark && !/^\d/.test(item[3])) { unit.alleg = mark[2]; continue }
+        // New Recruit puts a counted profile and its own weapons on one line. The count and
+        // colon are structural, unlike an uncounted allegiance label such as Mark of Chaos.
+        const profile = item[2] && item[3].match(/^([^:]+):\s*(.+)$/)
+        if (profile) {
+          entries.push({ indent, bullet: true, sub: false, n: +item[2], name: profile[1] })
+          for (const gear of countedGear(profile[2])) {
+            if (/^Warlord$/i.test(gear.name)) unit.warlord = true
+            else entries.push({ indent: indent + 4, bullet: true, sub: false, ...gear })
+          }
+          continue
+        }
+        const detail = t.match(/^(\d+)\s+with\s+(.+)$/i)
+        if (detail) {
+          for (const gear of countedGear(t)) entries.push({ indent, bullet: true, sub: false, ...gear })
+          continue
+        }
         // The GW app writes a model line with "•" and the weapons under it with "◦"; a paste that
         // lost its indentation keeps the bullets, and they say the same thing (gwBody).
-        entries.push({ indent, bullet: !!item[1], sub: /\u25e6/.test(item[1] || ''), n: +(item[2] || 1), name: item[3] })
+        // A continued manual loadout still has explicit counts between its comma-separated
+        // items. Keep ordinary comma-bearing names intact unless another counted item follows.
+        const parts = item[3].split(/,\s*(?=\d+x\s+)/)
+        for (const [i, part] of parts.entries()) {
+          const gear = i ? wtcGear(part)[0] : { n: +(item[2] || 1), name: part }
+          if (gear) entries.push({ indent, bullet: !!item[1], sub: /\u25e6/.test(item[1] || ''), ...gear, name: gear.name.replace(/,\s*$/, '') })
+        }
       }
       continue
     }
@@ -487,8 +576,20 @@ function parseGw(text, factionGroups) {
   // title, nothing else in the file says which army it is. By our own NAMES only, part by part:
   // the looser reading turned a Custodes list titled "Orks Orks Orks" into an Orks one, where
   // asking the reader which faction it is was the honest answer and the one they got before.
+  const chapter = plains.find(t => /^Space Marines:\s*/i.test(t))
   const titled = titles.flatMap((t) => t.split(/ - /)).map((t) => t.trim()).find((t) => isFactionName(t, factionGroups)) || ''
-  out.faction = labelledFaction || answers[answers.length - 1] || loose[loose.length - 1] || titled || plains[0] || ''
+  // This exact three-field title is a structured header, not an arbitrary list name.
+  if (!out.detachmentLine && !out.detachments.length) {
+    for (const title of titles) {
+      const parts = title.split(' - ').map(part => part.trim())
+      if (parts.length !== 3 || !isFactionName(parts[0], factionGroups) || !dispositionNamed(parts[1])) continue
+      out.detachmentLine = parts[2]
+      out.detachments = [parts[2]]
+      if (!out.disposition) out.disposition = parts[1]
+      break
+    }
+  }
+  out.faction = labelledFaction || (chapter ? chapter.replace(/^Space Marines:\s*/i, '') : '') || answers[answers.length - 1] || loose[loose.length - 1] || titled || plains[0] || ''
   return out
 }
 
@@ -558,17 +659,24 @@ function parseListhammerCompact(text) {
 // tolerant: `•` or `*` bullets, `pts`/`points`/`pt`, a quantity with or without its `x`, and any
 // `Char1:` / `Infa6:`-style reference prefix.
 
-const REF = '[A-Za-z]+\\d+'
+const REF = '[A-Za-zА-Яа-я]+\\d+'
 
 /** @param {string | null | undefined} tail @returns {Array<{ n: number, name: string }>} */
 const wtcGear = (tail) => (tail || '')
-  .split(',')
+  .split(/,\s*|\s+(?=\d+x\s+)/)
   .map((s) => s.trim())
   .filter(Boolean)
   .map((s) => {
     const [, n, name = s] = s.match(/^(?:(\d+)x? )?(?:with )?(.+)$/i) || []
     return { n: +(n || 1), name: name.trim() }
   })
+
+// "N with A, B" counts N models holding EACH listed item, not N copies of A alone.
+/** @param {string} text @returns {Array<{ n: number, name: string }>} */
+function countedGear(text) {
+  const count = text.match(/^(\d+)\s+with\s+(.+)$/i)
+  return count ? wtcGear(count[2]).map(g => ({ ...g, n: g.n * +count[1] })) : wtcGear(text)
+}
 
 // The `+++ … +++` block. Returns where the body starts, so a list with no header at all still
 // parses from line 0.
@@ -614,7 +722,7 @@ function wtcHeader(lines, out) {
       continue
     }
 
-    const faction = content.match(/^FACTION KEYWORD:\s*(.*)$/i)
+    const faction = content.match(/^(?:FACTION KEYWORD|FACTIONS? USED|FACTION):\s*(.*)$/i)
     if (faction) {
       // "Xenos - T'au Empire" — the alliance is everything before the FIRST hyphen.
       const v = faction[1].trim()
@@ -622,7 +730,7 @@ function wtcHeader(lines, out) {
       out.faction = cut === -1 ? v : v.slice(cut + 1).trim()
       continue
     }
-    const det = content.match(/^DETACHMENT:\s*(.*)$/i)
+    const det = content.match(/^DETACHMENTS?:\s*(.*)$/i)
     if (det) {
       // The parenthetical on this line is the army's Force Disposition (that is what our own WTC
       // export writes there), so it is read rather than stripped and thrown away — one value only,
@@ -630,15 +738,16 @@ function wtcHeader(lines, out) {
       const paren = det[1].match(/\(([^)]*)\)\s*$/)
       const named = paren ? paren[1].split(',').map((x) => x.trim()).filter(Boolean) : []
       if (named.length === 1) out.disposition = named[0]
+      out.detachmentLine = det[1].replace(/\s*\([^)]*\)/g, '').trim()
       out.detachments = det[1].replace(/\s*\([^)]*\)/g, '').split(/,\s*/).map((d) => d.trim()).filter(Boolean)
       continue
     }
     // The Russian tournament's own fields. Its disposition has a line of its own, one value.
     const army = content.match(/^ARMY NAME:\s*(.*)$/i)
     if (army) { out.name = army[1].trim(); continue }
-    const fd = content.match(/^FORCE DISPOSITION:\s*(.*)$/i)
+    const fd = content.match(/^(?:FORCE DISPOSITIONS?|DISPOSITION):\s*(.*)$/i)
     if (fd) { if (fd[1].trim()) out.disposition = fd[1].trim(); continue }
-    const pts = content.match(new RegExp(`^TOTAL ARMY POINTS:\\s*(\\d+)`, 'i'))
+    const pts = content.match(new RegExp(`^(?:TOTAL ARMY POINTS|TOTAL POINTS):\\s*(\\d+)`, 'i'))
     if (pts) { out.stated = +pts[1]; continue }
     const wl = content.match(new RegExp(`^WARLORD:\\s*(${REF})?\\s*:?\\s*(.*)$`, 'i'))
     if (wl) { if (wl[2]?.trim() !== '-') out.warlord = { ref: wl[1] || null, name: wl[2]?.trim() || '' }; continue }
@@ -667,7 +776,7 @@ function parseWtc(text, factionGroups) {
   // (70 points)" lines, and read as the app's, every one of those came back as a datasheet nobody
   // has ("6x Outrider Squad", "5x Scout Squad"). The app's own tells — "Attached as:", its "◦"
   // weapon bullets — decide; headings decide only when no line is shaped like a WTC unit.
-  const wtcShaped = new RegExp(`^(?:${REF}: )?\\d+x? .+ \\(\\d+ ?${PTS}\\)`, 'im').test(body)
+  const wtcShaped = new RegExp(`^${REF}: .+ \\(\\d+ ?${PTS}\\)`, 'im').test(body)
   const appGrammar = /^\W*Attached as:/im.test(body) || /\u25e6/.test(body)
   const headings = /^attached units?( \d+)?$/im.test(body) || SECTIONS.test(body)
   if (appGrammar || (headings && !wtcShaped)) {
@@ -687,14 +796,19 @@ function parseWtc(text, factionGroups) {
   let unit = null
   /** @type {string | null} */
   let mini = null          // the profile the following indented lines belong to
-  const flush = () => { if (unit) { delete unit.fromProfiles; out.units.push(unit); unit = null; mini = null } }
+  const flush = () => {
+    if (unit) {
+      if (!unit.fromProfiles && !unit.modelLines?.length && unit.weapons.length) { unit.flatBody = true; unit.modelLines = unit.weapons }
+      delete unit.fromProfiles; out.units.push(unit); unit = null; mini = null
+    }
+  }
 
   for (let i = start; i < lines.length; i++) {
     const raw = lines[i]
     const t = raw.trim()
     if (!t || /^\++$/.test(t)) continue
 
-    const enh = t.match(new RegExp(`^(?:[•*]\\s*)?Enhancement:\\s*(.*?)\\s*\\(\\+?\\d+ ?${PTS}\\)$`, 'i'))
+    const enh = t.match(new RegExp(`^(?:[•*]\\s*)?(?:Enhancements?|Upgrade|E):\\s*(.*?)\\s*(?:\\(\\+?\\d+ ?${PTS}\\))?$`, 'i'))
     if (enh && unit) { unit.enh = enh[1]; continue }
 
     // Who this unit joined. Which side of the pair carries the line varies, and one export carries
@@ -744,18 +858,12 @@ function parseWtc(text, factionGroups) {
 
     // "(With Outriders)" after the points is the writer's note of who this unit joined — tolerated
     // and dropped, the same way the app's own "- Palatine Eristine" is.
-    const head = t.match(new RegExp(`^(?:(${REF}): )?(?:(\\d+)x? )?(.+?) \\((\\d+) ?${PTS}\\)(?: \\([^)]*\\))?(?:: (.*))?$`, 'i'))
+    const head = unitHead(t)
     if (head) {
       flush()
-      const [, ref, n, name, pts, tail] = head
-      unit = { name, pts: +pts, ref: ref || null, group: null, warlord: false, enh: null, alleg: null, attachedTo: [], loose: [], models: n ? +n : null, weapons: [], fromProfiles: false }
+      unit = { name: head.name, pts: head.pts, ref: head.ref, group: null, warlord: false, enh: null, alleg: null, attachedTo: [], loose: [], models: head.models, explicitModels: head.models, weapons: [], fromProfiles: false }
       mini = null
-      for (const g of wtcGear(tail)) {
-        if (/^warlord$/i.test(g.name)) { unit.warlord = true; continue }
-        const mark = g.name.match(/^([^:]+): (.+)$/)
-        if (mark) { unit.alleg = mark[2]; continue }
-        unit.weapons.push({ ...g, mini: null })
-      }
+      inlineSelections(unit, head.tail)
       continue
     }
 
@@ -777,7 +885,7 @@ function fromHeader(out) {
   const wl = out.warlord
   if (wl) {
     const want = norm(wl.name)
-    const hit = out.units.find((u) => u.ref === wl.ref) || out.units.find((u) => norm(u.name) === want)
+    const hit = out.units.find((u) => wl.ref && u.ref === wl.ref) || out.units.find((u) => norm(u.name) === want)
     if (hit) hit.warlord = true
   }
   // The header and the body can both name an enhancement — our own WTC export writes it twice, in
@@ -929,9 +1037,12 @@ function parseSimple(text) {
  * @returns {ParsedList | null}
  */
 export function parseList(text, format, factionGroups) {
-  const t = repairMojibake(text)
+  const t = normalizeImportText(text)
   const f = format || detectFormat(t)
-  if (f === 'rus') return parseRus(t)
+  if (f === 'rus') {
+    const body = t.split('\n').filter(l => !/^\s*[+&]/.test(l))
+    return body.some(l => unitHead(l.trim()) && !RUS_UNIT.test(l.trim())) ? parseWtc(t, factionGroups) : parseRus(t)
+  }
   if (f === 'compact') return parseCompact(t, factionGroups)
   if (f === 'simple') return parseSimple(t)
   if (f === 'wtc') return parseWtc(t, factionGroups)
@@ -1138,7 +1249,7 @@ function miniIndexOf(def, name) {
 // the name for some factions ("Dead Shiny Shootas (Upgrade)"), the GW app leaves it off, and
 // listhammer prints it — three spellings of one enhancement.
 /** @param {string | null | undefined} s */
-const enhKey = (s) => norm(String(s || '').replace(/\s*\((?:upgrade|miniature|unit)\)\s*$/i, ''))
+const enhKey = (s) => norm(String(s || '').replace(/(?:\s*\((?:upgrade|miniature|unit|one per army)\)\s*)+$/i, ''))
 
 /** @param {RosterUnit} def @param {Record<number, string> | undefined} items @returns {Set<string>} */
 const defaultNames = (def, items) => new Set(
@@ -1424,6 +1535,35 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     let models = pu.models
     let weapons = pu.weapons || []
     let modelLines = pu.modelLines || []
+    const held = defaultNames(def, items)
+    for (const key of optionIndex(def, items).keys()) held.add(key)
+    const enhancements = (faction.detachments || [])
+      .filter(d => payload.detachments.includes(d.name)).flatMap(d => d.enhancements || [])
+    let enhancementName = pu.enh
+    // An unlabelled enhancement is still an explicit selection when its whole canonical
+    // name is present. Reassemble adjacent comma tokens before matching (some names contain
+    // commas themselves). Never pick between two different enhancements or consume unknown gear.
+    const candidates = []
+    const maxParts = Math.max(1, ...enhancements.map(e => e.name.split(',').length))
+    for (let start = 0; start < weapons.length; start++) {
+      /** @type {string[]} */
+      const parts = []
+      for (let end = start; end < Math.min(weapons.length, start + maxParts); end++) {
+        if (weapons[end].n !== 1) break
+        parts.push(weapons[end].name)
+        const hit = enhancements.find(e => enhKey(e.name) === enhKey(parts.join(', ')))
+        if (hit && !parts.some(part => held.has(norm(part))) && !held.has(norm(parts.join(', ')))) {
+          candidates.push({ name: hit.name, gear: weapons.slice(start, end + 1) })
+        }
+      }
+    }
+    const names = new Set(candidates.map(c => enhKey(c.name)))
+    if (!enhancementName && names.size === 1) enhancementName = candidates[0].name
+    if (enhancementName) {
+      const consumed = new Set(candidates.filter(c => enhKey(c.name) === enhKey(enhancementName)).flatMap(c => c.gear))
+      weapons = weapons.filter(w => !consumed.has(w))
+      modelLines = modelLines.filter(l => !consumed.has(l))
+    }
     // A profile the game HAS but no list can buy. Sir Hekhtur is the pilot who climbs out when
     // Canis Rex is destroyed: appdata gives him no points and no composition, so the roster layer
     // drops him and records the name (`noBuild`) — but every exporter still prints "1x Sir Hekhtur"
@@ -1443,7 +1583,7 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // The detachment keyword an entry chose for itself is printed among the model's own lines —
     // "• Houndpack Lance Character" — with nothing to mark it as anything but wargear, so it is
     // recognised by what the datasheet offers: the allegiance group's own name and its options.
-    // (The app labels the mark instead, "Mark of Chaos: Khorne", which parseGw has already read.)
+    // Labels such as "Mark of Chaos: Khorne" are checked here too; unknown labels remain gear warnings.
     let alleg = pu.alleg
     if (!alleg && def.alleg?.o?.length) {
       const forms = new Map()
@@ -1470,15 +1610,57 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     /** @param {string | null | undefined} name */
     const isModel = (name) => known.has(norm(name)) || norm(name) === self
       || known.has(norm(profileHead(name))) || norm(profileHead(name)) === self
+    // A line wrap can split ONE canonical item ("Transuranic\narquebus"). Join only two
+    // individually unknown adjacent fragments whose whole name the datasheet actually offers.
+    // Both arrays share line objects in a flat body; retain that identity for model filtering.
+    const joins = new Map()
+    /** @param {GearLine[]} source @returns {GearLine[]} */
+    const rejoin = (source) => {
+      const out = []
+      for (let i = 0; i < source.length; i++) {
+        const a = source[i], b = source[i + 1]
+        const name = b ? `${a.name} ${b.name}` : ''
+        if (b && (b.n || 1) === 1 && (a.mini ?? null) === (b.mini ?? null) && !held.has(norm(a.name))
+          && !held.has(norm(b.name)) && held.has(norm(name))) {
+          let joined = joins.get(a)
+          if (!joined) { joined = { ...a, name }; joins.set(a, joined) }
+          out.push(joined); i++
+        } else out.push(a)
+      }
+      return out
+    }
+    weapons = rejoin(weapons)
+    modelLines = rejoin(modelLines)
+    // A counted model may spell its loadout on the same line. "with" is an explicit boundary;
+    // without it, only an exact known profile prefix supplies the boundary. An unknown profile
+    // needs a canonical gear item before decomposition; no datasheet/profile aliases are invented.
+    const described = new Map()
+    for (const l of modelLines) {
+      if (isModel(l.name) || held.has(norm(l.name))) continue
+      let split = l.name.match(/^(.+?)\s+with\s+(.+)$/i)
+      if (!split) {
+        const words = l.name.split(/\s+/)
+        for (let cut = words.length - 1; cut > 0; cut--) {
+          const profile = words.slice(0, cut).join(' ')
+          if (isModel(profile)) { split = [l.name, profile, words.slice(cut).join(' ')]; break }
+        }
+      }
+      if (!split) continue
+      const gear = wtcGear(split[2]).map(g => ({ ...g, n: g.n * l.n, mini: split[1] }))
+      if (!isModel(split[1]) && !gear.some(g => held.has(norm(g.name)))) continue
+      described.set(l, { model: { n: l.n, name: split[1] }, gear })
+    }
+    const oldWeapons = weapons
+    weapons = weapons.flatMap(w => described.get(w)?.gear || [w])
+    for (const [source, { gear }] of described) if (!oldWeapons.includes(source)) weapons.push(...gear)
+    modelLines = modelLines.map(l => described.get(l)?.model || l)
     const lines = modelLines
-    const held = defaultNames(def, items)
-    for (const key of optionIndex(def, items).keys()) held.add(key)
     if (lines.length) {
       const real = lines.filter((l) => isModel(l.name))
       // A flat body offered every line as a candidate, so only the lines the datasheet knows as
       // profiles are models — anything else it cannot vouch for is wargear until proven otherwise
       // (the arithmetic below is what may still promote it).
-      if (pu.flatBody && real.length && real.length !== lines.length) {
+      if (pu.flatBody && real.length) {
         models = real.reduce((n, l) => n + l.n, 0) || null
         weapons = weapons.filter((w) => !real.includes(w))
         // …and what follows a model line is that profile's: an export prints a model and its
@@ -1530,9 +1712,16 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const promoted = strays.reduce((n, l) => n + (l.n || 1), 0)
       if (promoted && fitsBracket(def, promoted)) {
         models = promoted
-        weapons = weapons.filter((w) => !strays.includes(w))
+        // A model alias alone may be omitted from the gear report; an explicit loadout that we
+        // could not decompose still carries user selections and must remain a visible warning.
+        weapons = weapons.filter((w) => !strays.includes(w) || /\s+with\s+|[:,;]/i.test(w.name))
       }
     }
+
+    if (pu.explicitModels != null && fitsBracket(def, pu.explicitModels)) models = pu.explicitModels
+    // A partial set of recognised profile names is not a valid count. Keep an explicit
+    // heading count for the report, but let an impossible inferred count use the price hint.
+    if (pu.explicitModels == null && !fitsBracket(def, models)) models = null
 
     // What the list says about the split between profiles, for the bracket choice below.
     const perMini = new Map()
@@ -1540,9 +1729,14 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       const mi = miniIndexOf(def, l.name)
       if (mi != null) perMini.set(mi, (perMini.get(mi) || 0) + (l.n || 1))
     }
-    const size = sizeIndexFor(def, models, perMini, pu.pts)
-    const sizeGuess = !models && pricedSizes(def, pu.pts).length > 1
+    // Exported unit prices INCLUDE their enhancement. Subtract only a resolved current
+    // enhancement for the bracket hint; reported totals still use the original stated price.
+    const enhancement = enhancementName ? enhancements.find(e => enhKey(e.name) === enhKey(enhancementName)) : null
+    const bracketPoints = Math.max(0, (pu.pts || 0) - (enhancement?.pts || 0))
+    const size = sizeIndexFor(def, models, perMini, bracketPoints)
     const bracket = def.sizes?.[size]
+    const sizeGuess = !models && (pricedSizes(def, bracketPoints).length > 1
+      || (bracket?.per?.[0] ?? 1) !== (bracket?.per?.[1] ?? bracket?.per?.[0] ?? 1))
     /** @type {RosterEntry} */
     const entry = { uid: `i${payload.units.length + 1}`, id: def.id, size }
     if (models && (bracket?.per?.[1] ?? 0) > (bracket?.per?.[0] ?? 0)) entry.count = models
@@ -1568,9 +1762,14 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     /** @param {string} name */
     const knownGear = (name) => { const k = norm(name); return !!k && (printed.has(k) || idx.has(k)) }
     weapons = weapons.flatMap((w) => {
-      if (knownGear(w.name) || !/ and /i.test(w.name)) return [w]
-      const parts = w.name.split(/\s*,\s*|\s+and\s+/i).map((x) => x.trim()).filter(Boolean)
-      return parts.every(knownGear) ? parts.map((name) => ({ ...w, name })) : [w]
+      if (knownGear(w.name) || !/ and |\s&\s/i.test(w.name)) return [w]
+      const parts = w.name.split(/\s*,\s*|\s+(?:and|&)\s+/i).map((x) => x.trim()).filter(Boolean)
+      // A composite followed by its individual items describes those SAME models, not extras.
+      if (parts.every(name => weapons.some(other => other !== w && norm(other.name) === norm(name)))) return [w]
+      // A handwritten ampersand is a bundle only when every half belongs to the SAME option.
+      const sameOption = !w.name.includes('&') || (idx.get(norm(parts[0])) || []).some(ref =>
+        parts.every(name => (idx.get(norm(name)) || []).some(r => r.gi === ref.gi && r.oi === ref.oi)))
+      return parts.every(knownGear) && sameOption ? parts.map((name) => ({ ...w, name })) : [w]
     })
 
     // A swap TAKES SOMETHING AWAY, and the export lists what the models are actually holding — so a
@@ -1757,8 +1956,8 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
     // Only when every half is ALSO named on its own line in the same unit. Then the composite is a
     // restatement and its items are already counted — dropping it loses nothing, and re-feeding the
     // halves instead would count them twice (two cyclone missile launchers become four, and the
-    // squad takes a swap it is not entitled to). A composite standing ALONE still gets reported: it
-    // is then the only statement of that loadout there is, and we did fail to place it.
+    // squad takes a swap it is not entitled to). A standalone unknown composite still gets
+    // reported; a canonical ampersand bundle was already expanded above.
     /** @param {GearLine} w */
     const restates = (w) => {
       const parts = String(w.name || '').split(/\s+(?:&|w\/|and)\s+/i).map(norm).filter(Boolean)
@@ -1955,13 +2154,9 @@ export function matchRoster(parsed, { faction, core, items } = {}) {
       if (off.length) line.gear.check = off
     }
 
-    if (pu.enh) {
-      const found = (faction.detachments || [])
-        .filter((d) => payload.detachments.includes(d.name))
-        .flatMap((d) => d.enhancements || [])
-        .find((e) => enhKey(e.name) === enhKey(pu.enh))
-      if (found) entry.enh = found.name
-      line.enh = { name: pu.enh, ok: !!found }
+    if (enhancementName) {
+      if (enhancement) entry.enh = enhancement.name
+      line.enh = { name: enhancementName, ok: !!enhancement }
     }
 
     const copy = (copies.get(def.id) || 0) + 1

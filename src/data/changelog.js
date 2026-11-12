@@ -22,6 +22,30 @@
 
 export const changelog = [
   {
+    version: '2.11.2',
+    date: '2026-11-12',
+    en: [
+      { h: 'Cloud rosters', kind: 'roster' },
+      '**I fixed equipment and unit sizes resetting when a roster is downloaded from the cloud.**',
+      { h: 'Roster import', kind: 'roster' },
+      '**I fixed equipment and enhancement parsing when importing rosters.** If the model count cannot be determined, the import asks you to check it.',
+      { h: 'App updates', kind: 'site' },
+      '**While preparing an update, the app keeps the files of the version you have open.**',
+      { h: 'Game history', kind: 'tracker' },
+      '**When saving a game conflicts with history, the tracker keeps both copies.** A warning appears instead of a silent replacement.',
+    ],
+    ru: [
+      { h: 'Облачные ростеры', kind: 'roster' },
+      '**Я исправил сброс снаряжения и размера отрядов при загрузке ростера из облака.**',
+      { h: 'Импорт ростеров', kind: 'roster' },
+      '**Я исправил чтение снаряжения и улучшений при импорте ростеров.** Если количество моделей нельзя определить, импорт предлагает его проверить.',
+      { h: 'Обновление приложения', kind: 'site' },
+      '**При подготовке обновления приложение сохраняет файлы открытой версии.**',
+      { h: 'История партий', kind: 'tracker' },
+      '**При конфликте с историей трекер сохраняет обе копии партии.** Вместо молчаливой замены появляется предупреждение.',
+    ],
+  },
+  {
     version: '2.11.1',
     date: '2026-11-10',
     en: [

@@ -2,11 +2,11 @@
 // check-roster-imports.mjs — run real army lists through the importer and report what it got wrong.
 //
 //   python3 scripts/fetch-listhammer.py --corpus /tmp/lists.json
-//   npx vite-node scripts/check-roster-imports.mjs /tmp/lists.json      # the whole corpus
-//   npx vite-node scripts/check-roster-imports.mjs list.txt [more.txt]  # single pasted lists
+//   npm run roster:imports -- /tmp/lists.json     # the whole corpus
+//   npm run roster:imports -- list.txt [more.txt] # single pasted lists
 //   …--all   report every list, not only the ones with something wrong
 //
-// vite-node, not node: this imports the app's own modules, which are ESM with Vite's resolution.
+// The CLI wrapper uses Vite SSR to resolve the app's modules and import.meta.glob data.
 //
 // READ THE SUMMARY BEFORE THE LINES. Most lists in any real corpus were exported against an OLDER
 // points file — the export says which in its footer ("Data Version: v925") — and their points are
@@ -42,10 +42,12 @@ const faction = async (slug) => {
 // Against OUR version, not the corpus's own high-water mark — one list in the corpus states a
 // version that does not exist (a digit too many), and taking the highest let that typo define what
 // "current" meant and emptied the bucket that matters.
-const version = (t) => +(/Data Version:\s*v?(\d+)/.exec(t || '')?.[1] || 0)
+// New Recruit numbers a different data repository; v17 is not GW appdata version 17.
+const version = (t) => /Exported with New Recruit\b/i.test(t || '') ? null
+  : +(/Data Version:\s*v?(\d+)/.exec(t || '')?.[1] || 0)
 
 let clean = 0
-const tally = { current: [0, 0], older: [0, 0], unstated: [0, 0] }
+const tally = { current: [0, 0], older: [0, 0], foreign: [0, 0], unstated: [0, 0] }
 for (const { label, text } of lists) {
   const notes = []
   let mismatch = false
@@ -65,6 +67,7 @@ for (const { label, text } of lists) {
         for (const u of report.missing) notes.push(`no datasheet: ${u.name}`)
         for (const d of report.detachments.missing) notes.push(`no detachment: ${d}`)
         for (const u of report.units) {
+          if (u.sizeGuess) notes.push(`${u.name}: model count guessed from the price — check it`)
           for (const g of u.gear.missing) notes.push(`${u.name}: unplaced wargear "${g}"`)
           if (u.enh && !u.enh.ok) notes.push(`${u.name}: unknown enhancement "${u.enh.name}"`)
           if (u.gear.check?.length) notes.push(`${u.name}: weapon counts differ from the list — ${u.gear.check.join(', ')}`)
@@ -76,7 +79,7 @@ for (const { label, text } of lists) {
     notes.push(`threw: ${e.message}`)
   }
   const v = version(text)
-  const bucket = !v ? 'unstated' : v === APP_DATA_VERSION ? 'current' : 'older'
+  const bucket = v === null ? 'foreign' : !v ? 'unstated' : v === APP_DATA_VERSION ? 'current' : 'older'
   tally[bucket][0]++
   if (mismatch) tally[bucket][1]++
   if (!notes.length) clean++
@@ -86,5 +89,5 @@ for (const { label, text } of lists) {
 console.log(`\n${clean} of ${lists.length} lists imported with nothing to report.`)
 console.log('points differing from the list\'s own total, by the data version it was exported against:')
 for (const [k, [n, bad]] of Object.entries(tally)) {
-  if (n) console.log(`  ${k.padEnd(9)} ${String(bad).padStart(4)} of ${n}${k === 'current' ? `  ← v${APP_DATA_VERSION}, the only ones that mean anything` : ''}`)
+  if (n) console.log(`  ${k.padEnd(9)} ${String(bad).padStart(4)} of ${n}${k === 'current' ? `  ← GW v${APP_DATA_VERSION}` : k === 'foreign' ? '  ← New Recruit version numbers are not comparable to GW appdata' : ''}`)
 }

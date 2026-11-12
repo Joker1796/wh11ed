@@ -444,6 +444,7 @@
  * @property {string | null} [attachedAs]
  * @property {Array<{ group: string | null, attachedAs: string | null | undefined }>} [also] the other block a repeated unit stood in
  * @property {number | null} [models]
+ * @property {number | null} [explicitModels] a count written on the unit heading, not inferred from its body
  * @property {GearLine[]} [weapons]
  * @property {ModelLine[]} [modelLines]
  * @property {boolean} [flatBody] the body lost its nesting, so every line is a candidate model line
@@ -480,7 +481,7 @@
  * @property {{ picked: string[], missing: string[], check?: string[] }} gear `check`: weapons whose count came out different from the list's
  * @property {{ name: string, ok: boolean } | null} enh
  * @property {{ stated: number, computed: number }} points
- * @property {boolean} [sizeGuess] the list gave no model count and its price fits several sizes: the first was taken
+ * @property {boolean} [sizeGuess] the list gave no model count and the price leaves several brackets or a variable model range
  */
 
 /**

@@ -1083,6 +1083,44 @@ directory; still part of this feature:
   (from the roster list's "Import" button) shows the report and only then creates the list, landing
   the reader in the EDITOR, because whatever failed to match is theirs to finish.
 
+  **Mixed manual tournament pastes (2026-11-12).** A `+ HIN` identifies a header, not the
+  unit-body grammar. A mixed body is read through the shared tolerant GW/WTC unit headings:
+  bare/bracketed/dash-separated costs, explicit counts (`x`, `×`, Cyrillic `х`), reference prefixes
+  and inline loadout on either side of the price. Explicit Warlord, Enhancement/Upgrade and
+  attachment lines survive; unknown loadout still reaches the missing-wargear report. Known
+  `Created with` footers are metadata, not models. An explicit count that fits a real bracket
+  outranks an inferred body count; non-buildable profiles such as Sir Hekhtur still do not count.
+  A repeated `||` paragraph separator is unfolded only with army-list headings and a battle size.
+  A unit's stated price includes its enhancement: only a resolved enhancement's price is removed
+  from the *bracket hint*, never from the reported source total or the recomputed army price.
+  Real regression: two Myphitic Blight-haulers plus Lancet cost 205; comparing 205 directly to
+  their 95/190 brackets silently selected one model. Unknown enhancements never justify guessing.
+  Handwritten misspellings, glued second units and ambiguous same-name attachment targets remain
+  visible for the reader to resolve; do not add unit-name exceptions or force the source prices.
+  A continued GW body loadout splits commas only before another explicit `Nx` item. A wrapped
+  item name rejoins adjacent individually unknown fragments only when their whole name is a
+  canonical default/option on that datasheet. Ampersand bundles split only if every half belongs
+  to one common canonical option; a composite repeated item-by-item must not count twice.
+  Unknown fragments and bundles remain in the missing-wargear report.
+  A GW/New Recruit counted profile `• 1x Profile: items` is structural: its items belong to that
+  profile, never to allegiance. In `N with A, B`, N multiplies every item (including an item's own
+  explicit count), in both profile continuations and inline unit loadout. Unknown items remain
+  gear and reach the report; this syntax must not change the flat-body model-promotion heuristic.
+  A counted model's same-line gear can be separated by `with` plus a canonical item, or by an
+  exact known profile-name prefix. Keep the original profile name; do not invent aliases. The
+  model count multiplies every gear item. A whole known profile name wins before splitting (some
+  profiles themselves contain `with`). Gear after an `Attached as:` role is explicitly gear and
+  never a model candidate. Unparsed `with`/comma loadout must survive model-count promotion as a
+  warning, while pure model aliases and non-buildable profiles retain their existing treatment.
+  The unit’s own canonical gear wins over an identically named unlabelled enhancement.
+  Unlabelled enhancements resolve only by their full canonical name in the selected detachments;
+  adjacent comma tokens may form a single name. Different matching enhancements are ambiguous
+  and remain warnings. Matching must never modify the parsed list reused by faction probing.
+  Colon labels are not automatically allegiances: only the datasheet's own choices establish one.
+  An impossible inferred count cannot block the exact price bracket. A variable bracket still
+  needs `sizeGuess` when the model count is unknown: 370 points selects 6–10 Terminators, not ten.
+  Preserve explicit counts and never reconstruct unknown profiles by guessing from weapons.
+
   **Every format the export writes, the import reads back** (2026-10-29). The rule came late: a
   player exported his list for a Russian tournament, pasted it into the import and got two units
   of five — the round trip in `scripts/lib/test-rosters.test.js` named three formats by hand, and

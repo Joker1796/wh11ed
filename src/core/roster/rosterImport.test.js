@@ -2642,11 +2642,15 @@ ${tail}`
     expect(payload.units[0].wg.find(([g]) => g === gi)?.[2]).toBe(2)
   })
 
-  // The other half of the rule: standing alone, that line is the only statement of the loadout
-  // there is, and we did fail to place it. Silencing it there would hide a real miss.
-  it('reports a composite that nothing else in the unit accounts for', () => {
-    const { report } = matchRoster(parseList(`${head}\n${tail}`), ctx)
-    expect(report.units[0].gear.missing).toEqual(['Cyclone Missile Launcher & Storm Bolter'])
+  // Standing alone, both halves identify one canonical bundle, taken twice. It no longer
+  // needs a duplicate item-by-item spelling to be understood.
+  it('reads a standalone composite when both halves identify one canonical option', () => {
+    const { payload, report } = matchRoster(parseList(`${head}\n${tail}`), ctx)
+    expect(report.units[0].gear.missing).toEqual([])
+    const def = ctx.faction.units.find(u => u.id === 'terminator-squad')
+    const gi = def.gear.findIndex(g => (g.o || []).some(o => optionItems(o).length > 1))
+    expect(payload.units[0].wg.find(([g]) => g === gi)?.[2]).toBe(2)
+    expect(report.units[0].points.computed).toBe(380 + 2 * 10)
   })
 })
 
@@ -3222,4 +3226,590 @@ describe('a size named only by a price several sizes share', () => {
     expect(report.units[0].points.computed).toBe(45)
     expect(report.units[0].sizeGuess).toBeUndefined()
   })
+})
+
+describe('mixed tournament pastes — shared header and unit grammar', () => {
+  const mixed = `+ HIN: 1
++ Factions used: Thousand Sons
++ Detachment: Changehost of Deceit and Servants of Change
++ FORCE DISPOSITION: Reconnaissance
+ATTACHED UNITS
+Attached Unit 1
+Infernal Master (115 points)
+Enhancement: Nethershriek Mind-Eater
+10x Rubric Marines (210 points)
+CHARACTERS
+Ahriman (115 points)
+Warlord`
+
+  it('uses the body grammar rather than HIN to preserve explicit selections', () => {
+    const p = parseList(mixed)
+    expect(p.units.map(u => u.name)).toEqual(['Infernal Master', 'Rubric Marines', 'Ahriman'])
+    expect(p.faction).toBe('Thousand Sons')
+    expect(p.units[0]).toMatchObject({ enh: 'Nethershriek Mind-Eater', group: 'g1' })
+    expect(p.units[1]).toMatchObject({ models: 10, group: 'g1' })
+    expect(p.units[2].warlord).toBe(true)
+  })
+
+  it('reads reference prefixes, multiplication glyphs and counts without making them names', () => {
+    const p = parseList(`+ FACTION KEYWORD: Chaos - Emperor’s Children
++ DETACHMENT: Peerless Bladesmen and Spectacle of Slaughter (3 Detachment Points)
++ TOTAL ARMY POINTS: 2000pts
+CHARACTERS
+CH1 Lord Exultant (80 points) Warlord
+OTHER DATASHEETS
+OTH1 Chaos Spawn (80 points) 2x
+OTH2 Flawless Blades (190 points) 6x
+3хFlawless Blades (95 points)
+Flawless Blades ×3 (95 points)`)
+    expect(p.units.map(u => [u.name, u.models])).toEqual([
+      ['Lord Exultant', null], ['Chaos Spawn', 2], ['Flawless Blades', 6], ['Flawless Blades', 3], ['Flawless Blades', 3],
+    ])
+    expect(p.units[0].warlord).toBe(true)
+    expect(p.detachmentLine).toBe('Peerless Bladesmen and Spectacle of Slaughter')
+  })
+
+  it('preserves inline gear on either side of the price and does not swallow the next unit', () => {
+    const p = parseList(`Tyranids
+Subterranean Assault (3 Detachment Points)
+CHARACTERS
+Neurotyrant (140 points) Warlord; Enhancement: Tremor Senses
+OTHER DATASHEETS
+Tyrannofex (180 points) Acid spray
+3x Von Ryan’s Leapers (55 points)
+Tyrannofex: Acid spray (180 points)`)
+    expect(p.units.map(u => u.name)).toEqual(['Neurotyrant', 'Tyrannofex', 'Von Ryan’s Leapers', 'Tyrannofex'])
+    expect(p.units[0]).toMatchObject({ warlord: true, enh: 'Tremor Senses' })
+    expect(p.units[1].weapons).toContainEqual(expect.objectContaining({ name: 'Acid spray' }))
+    expect(p.units[3].weapons).toContainEqual(expect.objectContaining({ name: 'Acid spray' }))
+  })
+
+  it('reads bare, bracketed and dash-separated costs as unit costs after a header', () => {
+    const p = parseList(`Imperial Agents
+Imperialis Fleet and Veiled Blade Elimination Force 3 Detachment Points
+Strike Force 2000 pts
+Attached Units
+Attached Unit 1
+Watch Master 105 pts
+• Attached as: Leader
+Deathwatch Kill Team [220 pts]
+• Attached as: Bodyguard
+OTHER DATASHEETS
+Deathwatch Kill Team — 220 pts`)
+    expect(p.units.map(u => [u.name, u.pts])).toEqual([['Watch Master',105],['Deathwatch Kill Team',220],['Deathwatch Kill Team',220]])
+    expect(p.limit).toBe(2000)
+    expect(p.detachmentLine).toBe('Imperialis Fleet and Veiled Blade Elimination Force')
+    expect(p.units[0].attachedAs).toBe('Leader')
+  })
+
+  it('reads explicit prefixed faction headers and wrapped detachment names', () => {
+    const p = parseList(`+ HIN: 1
++ Factions used: Adeptus Mechanicus
++ Total army points: 2000 pts
++ Detachment: Eradication Cohort (2 DP), Cohort
+Cybernetica (1 DP)
++ Disposition: Purge the Foe
+CHARACTERS
+Tech-Priest Dominus (70 points)`)
+    expect(p.faction).toBe('Adeptus Mechanicus')
+    expect(p.detachmentLine).toBe('Eradication Cohort, Cohort Cybernetica')
+    expect(p.stated).toBe(2000)
+    const chapter = parseList(`+ Space Marines: Blood Angels (2 000 Points)
++ Detachment: Assault Brethren, Deathwatch Support, Terminator Storm Force (3 DP)
+CHARACTERS
+Captain in Gravis Armour: Boltstorm Gauntlet, Relic Blade(90 Points) - Warlord`)
+    expect(matchFaction(chapter.faction)).toBe('blood-angels')
+    expect(chapter.units[0]).toMatchObject({ name: 'Captain in Gravis Armour', warlord: true })
+  })
+
+  it('normalizes repeated pipe paragraph boundaries only for recognisable list structure', () => {
+    const text = 'Death Guard || Contagion Engines 1 Detachment Point || Strike Force 2000 points || CHARACTERS || Typhus 90 points || • Warlord || OTHER DATASHEETS || Defiler 330 points'
+    const p = parseList(text)
+    expect(p.units.map(u => u.name)).toEqual(['Typhus','Defiler'])
+    expect(p.units[0].warlord).toBe(true)
+    expect(parseList('some notes || with || arbitrary words')).toBeNull()
+  })
+
+  it('keeps unknown loadout text visible instead of discarding it', async () => {
+    const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+    const p = parseList('Tyranids\nOTHER DATASHEETS\nTyrannofex (180 points) Something not in the datasheet')
+    const { report } = matchRoster(p, { faction: await loadRosterFaction('tyranids'), core: rosterCore, items: rosterItems.items })
+    expect(report.units[0].gear.missing).toContain('Something not in the datasheet')
+  })
+})
+
+it('never turns a standalone priced enhancement into an extra unit', () => {
+  const p = parseList(`Thousand Sons
+Grand Coven (3 Detachment Points)
+CHARACTERS
+Daemon Prince of Tzeentch with wings (205 points)
+Enhancement: Eldritch Vortex of E'taph (+35 pts)
+Magnus the Red (455 points)
+• Warlord`)
+  expect(p.units.map(u => u.name)).toEqual(['Daemon Prince of Tzeentch with wings', 'Magnus the Red'])
+  expect(p.units[0].enh).toBe("Eldritch Vortex of E'taph")
+})
+
+it('reads an explicit faction/points summary without losing a copied title or warlord', () => {
+  const p = parseList(`Tournament list
+Thousand Sons · 2000/2000 pts
+Detachments: Rubricae Phalanx (3 DP)
+CHARACTERS
+Ahriman — 105 pts (Warlord)`)
+  expect(p.faction).toBe('Thousand Sons')
+  expect(p.stated).toBe(2000)
+  expect(p.limit).toBe(2000)
+  expect(p.units[0]).toMatchObject({ name: 'Ahriman', warlord: true })
+})
+
+it('does not mistake the first epic hero for a list title under a labelled header', () => {
+  const p = parseList(`+ Faction: Adeptus Custodes
++ Detachments: Emperor's Chosen
+EPIC HERO
+Trajann Valoris (265 pts) · Warlord
+INFANTRY
+Venatari with Verutum Lances ×3 (270 pts)`)
+  expect(p.units.map(u => u.name)).toEqual(['Trajann Valoris', 'Venatari with Verutum Lances'])
+  expect(p.units[0].warlord).toBe(true)
+  expect(p.units[1].models).toBe(3)
+})
+
+it('uses a real inclusive enhancement cost as a bracket hint without charging it twice', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('death-guard')
+  const p = parseList(`Death Guard
+Contagion Engines (1 Detachment Point)
+OTHER DATASHEETS
+Myphitic Blight-haulers (205 points)
+• Enhancement: Lancet of the Worldsore
+• 2x Bile spurt
+• 2x Missile launcher
+• 2x Multi-melta
+• 2x Gnashing maw`)
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0]).toMatchObject({ id: 'myphitic-blight-hauler', size: 1, enh: 'Lancet of the Worldsore (Upgrade)' })
+  expect(report.points.computed).toBe(205) // 190 for TWO models + 15, not 95 + 15
+  expect(report.units[0].gear.check).toBeUndefined()
+})
+
+it('keeps an explicit unit model count when nested profile lines also mention gear', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const p = parseList(`Thousand Sons
+Grand Coven (3 Detachment Points)
+BATTLELINE
+5x Rubric Marines (115 points)
+• 1x Aspiring Sorcerer: Force weapon, Warpflame pistol
+• 4x Rubric Marine: 3x Inferno boltgun, Icon of Flame, Soulreaper cannon
+Created with newrecruit.eu v37.14`)
+  const { payload, report } = matchRoster(p, { faction: await loadRosterFaction('thousand-sons'), core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].size).toBe(0)
+  expect(report.units[0].models).toBe(5)
+  expect(report.units[0].gear.missing).not.toContain('Created with newrecruit.eu v37.14')
+})
+
+it('uses an explicitly named Space Marine supplement after its parent faction', () => {
+  const p = parseList(`+ Factions used: Space Marines, Dark Angels
++ Detachment: Ironstorm Spearhead, Wrath of the Rock
+CHARACTERS
+Techmarine (55 pts)`)
+  expect(matchFaction(p.faction)).toBe('dark-angels')
+})
+
+it('preserves an explicit Upgrade selection instead of treating it as unit wargear', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const p = parseList(`Adeptus Custodes
+Might of the Moritoi (1 Detachment Point)
+VEHICLES
+Telemon Heavy Dreadnought (310 pts)
+   · Upgrade: Augury Uplink (+30 pts)`)
+  expect(p.units).toHaveLength(1)
+  expect(p.units[0].enh).toBe('Augury Uplink')
+  const { payload, report } = matchRoster(p, { faction: await loadRosterFaction('adeptus-custodes'), core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].enh).toContain('Augury Uplink')
+  expect(report.points.computed).toBe(310)
+})
+
+it('does not assign a named header warlord to the first unit with a missing reference', () => {
+  const p = parseList(`+++++++++++++++++++++++++++++++++++++++++++++++
++ FACTION KEYWORD: Chaos - Legiones Daemonica
++ WARLORD: Lord of Change
++++++++++++++++++++++++++++++++++++++++++++++++
+1x Changecaster (60 pts)
+1x Lord of Change (320 pts)`)
+  expect(p.units.map(u => u.warlord)).toEqual([false, true])
+})
+
+
+it.each([
+  'Warlord, Enhancement: Tremor Senses',
+  'Enhancement: Tremor Senses, Warlord',
+  'Enhancement: Tremor Senses; Warlord',
+  'Enhancement: Tremor Senses (20 pts), (Warlord)',
+])('preserves both inline selections in either order: %s', (tail) => {
+  const p = parseList(`Tyranids\nCHARACTERS\nNeurotyrant (140 points) ${tail}`)
+  expect(p.units[0]).toMatchObject({ warlord: true, enh: 'Tremor Senses' })
+})
+
+it('reads counted comma-separated loadout continued onto another line', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('astra-militarum')
+  const p = parseList(`Astra Militarum
+OTHER DATASHEETS
+Militarum Tempestus Command Squad (85 points) 1x Hot-shot volley gun,
+1x Medi-pack, 1x Meltagun, 1x Plasma gun, 1x Command Rod,
+Tempestus Scions (75 points) 1x Meltagun,
+1x Plasma gun, 1x Vox-caster`)
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units).toHaveLength(2)
+  expect(report.units.map(u => u.gear.missing)).toEqual([[], []])
+  expect(report.units[0].gear.picked).toEqual(expect.arrayContaining(['Medi-pack', 'Meltagun', 'Plasma gun', 'Command Rod']))
+  expect(report.units[1].gear.picked).toEqual(expect.arrayContaining(['Meltagun', 'Plasma gun', 'Vox-caster']))
+})
+
+it('rejoins a wrapped canonical weapon name and keeps the following counted item', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('adeptus-mechanicus')
+  const p = parseList(`Adeptus Mechanicus
+BATTLELINE
+10x Skitarii Vanguard (85 points) 1x Arc rifle, 1x Plasma caliver, 1x Transuranic
+arquebus, 1x Omnispex`)
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0]).toMatchObject({ id: 'skitarii-vanguard', size: 0 })
+  expect(report.units[0].gear.missing).toEqual([])
+  expect(report.units[0].gear.picked).toEqual(expect.arrayContaining(['Transuranic arquebus', 'Omnispex']))
+})
+
+it('reads an ampersand bundle only when every item names the same canonical option', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('adeptus-mechanicus')
+  const p = parseList(`Adeptus Mechanicus
+OTHER DATASHEETS
+4x Kastelan Robots (300 points) 4x Kastelan phosphor blaster & Kastelan fist`)
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].wg).toContainEqual([0, 0, 4])
+  expect(report.units[0].gear.missing).toEqual([])
+  const unknown = parseList(`Adeptus Mechanicus
+OTHER DATASHEETS
+4x Kastelan Robots (300 points) 4x Kastelan phosphor blaster & Imaginary cannon`)
+  const bad = matchRoster(unknown, { faction, core: rosterCore, items: rosterItems.items })
+  expect(bad.payload.units[0].wg).toBeUndefined()
+  expect(bad.report.units[0].gear.missing).toContain('Kastelan phosphor blaster & Imaginary cannon')
+})
+
+it.each([
+  ['adepta-sororitas', 'Adepta Sororitas', 'Hallowed Martyrs', 'Canoness with Jump Pack: Blessed Halberd, Through Suffering, Strength [100 pts]', 'Through Suffering, Strength', 100],
+  ['blood-angels', 'Blood Angels', 'Assault Brethren', '6x Sanguinary Guard: 2x Inferno Pistol, Furious Assault (Upgrade) (285 Points)', 'Furious Assault (Upgrade)', 285],
+])('recognises an unlabelled canonical enhancement in %s loadout', async (slug, name, detachment, heading, enhancement, points) => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction(slug)
+  const p = parseList(`${name}\nDetachments: ${detachment}\nOTHER DATASHEETS\n${heading}`)
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].enh).toBe(enhancement)
+  expect(report.units[0].gear.missing).toEqual([])
+  expect(report.units[0].points.computed).toBe(points)
+  // Faction probing must be read-only: matching the same parsed text again is identical.
+  expect(matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })).toEqual({ payload, report })
+})
+
+it('reads the explicit E enhancement abbreviation without making it an allegiance', () => {
+  const p = parseList(`Chaos Space Marines
+Detachments: Renegade Raiders
+CHARACTERS
+Lord Discordant on Helstalker (170 points)
+• E: Dread Reaver`)
+  expect(p.units[0]).toMatchObject({ enh: 'Dread Reaver', alleg: null })
+})
+
+it('preserves GW counted profile loadout and every N-with continuation item', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('thousand-sons')
+  const p = parseList(`Thousand Sons
+BATTLELINE
+5x Rubric Marines (115 pts)
+• 4x Rubric Marine
+    2 with Close combat weapon, Inferno boltgun
+    1 with Icon of Flame, Close combat weapon, Inferno boltgun
+    1 with Close combat weapon, Soulreaper cannon
+• 1x Aspiring Sorcerer: Force weapon, Malefic Curse, Warpflame pistol, Uncatalogued weapon`)
+  expect(p.units[0].alleg).toBeNull()
+  expect(p.units[0].weapons).toEqual(expect.arrayContaining([
+    expect.objectContaining({ n: 2, name: 'Inferno boltgun', mini: 'Rubric Marine' }),
+    expect.objectContaining({ n: 1, name: 'Warpflame pistol', mini: 'Aspiring Sorcerer' }),
+  ]))
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].wg).toEqual(expect.arrayContaining([[0, 0, 1], [1, 0, 1], [3, 0, 1]]))
+  expect(report.units[0].models).toBe(5)
+  expect(report.units[0].gear.missing).toEqual(['Uncatalogued weapon'])
+})
+
+it.each([
+  ' (85 pts): 2 with Close combat weapon, Heavy warpflamer, Hellfyre missile rack, Power claw, Warpflame projector',
+  ' (85 pts)\n• 2x Sekhetar Robots\n    2 with Close combat weapon, Heavy warpflamer, Hellfyre missile rack, Power claw, Warpflame projector',
+])('multiplies every Sekhetar loadout item in GW N-with syntax: %s', async (body) => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('thousand-sons')
+  const p = parseList(`Thousand Sons\nOTHER DATASHEETS\n2x Sekhetar Robots${body}`)
+  expect(p.units[0].weapons).toEqual(expect.arrayContaining([
+    expect.objectContaining({ n: 2, name: 'Heavy warpflamer' }),
+    expect.objectContaining({ n: 2, name: 'Hellfyre missile rack' }),
+    expect.objectContaining({ n: 2, name: 'Power claw' }),
+    expect.objectContaining({ n: 2, name: 'Warpflame projector' }),
+  ]))
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].wg).toEqual([[0, 0, 2]])
+  expect(report.units[0].gear.missing).toEqual([])
+  expect(report.units[0].gear.check).toBeUndefined()
+})
+
+it('uses the exact price bracket when an incomplete flat profile count is impossible', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('chaos-space-marines')
+  const p = parseList(`Chaos Space Marines
+OTHER DATASHEETS
+Chaos Terminator Squad (370 points)
+• Terminator Champion
+• 2x Reaper autocannon`)
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].size).toBe(1)
+  expect(report.units[0].points.computed).toBe(370)
+  expect(report.units[0].models).toBeNull()
+})
+
+it('extracts exact canonical gear from counted model loadouts without guessing a model alias', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('necrons')
+  const p = parseList(`Necrons
+MOUNTED
+Lokhust Heavy Destroyers (165 points)
+  • 3x Destroyer with enmitic exterminator
+Tomb Blades (70 points)
+  • 3x Tomb Blade shieldvanes, shadowloom, twin tesla carbine`)
+  const before = structuredClone(p)
+  const result = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(result.payload.units[0].wg).toEqual([[0, 0, 3]])
+  expect(result.payload.units[1].wg).toEqual(expect.arrayContaining([[0, 1, 3], [1, 0, 3], [2, 1, 3]]))
+  expect(result.report.units.map(u => u.models)).toEqual([3, 3])
+  expect(result.report.units.map(u => u.gear.missing)).toEqual([[], []])
+  expect(result.report.units.every(u => !u.gear.check?.length)).toBe(true)
+  expect(p).toEqual(before)
+  expect(matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })).toEqual(result)
+})
+
+it('keeps trailing Attached-as loadout and warns about its source typo', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('necrons')
+  const p = parseList(`Necrons
+ATTACHED UNITS
+Attached unit 1
+Lokhust Lord (80 points)
+  • Attached as: Leader (Character) lord's blade, ressurection orb
+Lokhust Heavy Destroyers (165 points)
+  • Attached as: Bodyguard
+  • 3x Destroyer with gauss destructor`)
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0]).toMatchObject({ leaderOf: 'i2', wg: [[0, 0, 1]] })
+  expect(report.units[0].gear.missing).toEqual(['ressurection orb'])
+})
+
+it('does not erase an unknown explicit loadout when promoting a counted model line', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('necrons')
+  const p = parseList(`Necrons
+MOUNTED
+Lokhust Heavy Destroyers (165 points)
+  • 3x Destroyer with Imaginary cannon
+Tomb Blades (70 points)
+  • 3x Tomb Blade Imaginary cannon`)
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].wg).toBeUndefined()
+  expect(report.units[0].gear.missing).toContain('Destroyer with Imaginary cannon')
+  expect(report.units[1].gear.missing).toContain('Imaginary cannon')
+})
+
+it('reads the structured faction-disposition-detachment title without guessing from a free title', () => {
+  const body = '\nCHARACTERS\nWarpsmith (80 points)'
+  const p = parseList(`Chaos Space Marines - Priority Assets - Renegade Raiders 1990 Points${body}`)
+  expect(p.detachmentLine).toBe('Renegade Raiders')
+  expect(p.disposition).toBe('Priority Assets')
+  expect(parseList(`My Renegade Raiders list${body}`).detachmentLine).toBeFalsy()
+})
+
+it('reports unknown colon labels instead of silently treating them as allegiances', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('space-marines')
+  const p = parseList(`Space Marines
+CHARACTERS
+Captain (80 points) Enchancement: Unknown relic
+• Unknown label: Another relic`)
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].alleg).toBeUndefined()
+  expect(report.units[0].gear.missing).toEqual(expect.arrayContaining(['Enchancement: Unknown relic', 'Unknown label: Another relic']))
+})
+
+it('treats mixed-case and singular section headings as metadata rather than wargear', () => {
+  const p = parseList(`Chaos Space Marines
+Character:
+Warpsmith (80 points)
+Epic Hero:
+Vashtorr the Arkifane (220 points)
+Dedicated Transport:
+Chaos Rhino (75 points)`)
+  expect(p.units.map(u => u.name)).toEqual(['Warpsmith', 'Vashtorr the Arkifane', 'Chaos Rhino'])
+  expect(p.units.flatMap(u => u.weapons)).toEqual([])
+})
+
+it.each([
+  ['Chaos Terminator Squad (370 points)', true],
+  ['10x Chaos Terminator Squad (370 points)', false],
+  ['Chaos Terminator Squad (185 points)', false],
+])('warns when the price fixes a bracket but not its model count: %s', async (heading, guessed) => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const p = parseList(`Chaos Space Marines\nOTHER DATASHEETS\n${heading}`)
+  const { report } = matchRoster(p, { faction: await loadRosterFaction('chaos-space-marines'), core: rosterCore, items: rosterItems.items })
+  expect(!!report.units[0].sizeGuess).toBe(guessed)
+})
+
+it.each(['gw', 'wtc'])('reads explicit enhancement labels in %s bodies and inline tails', (format) => {
+  for (const label of ['Enhancement', 'Enhancements', 'Upgrade', 'E']) {
+    for (const inline of [false, true]) {
+      const header = format === 'wtc' ? '+ FACTION KEYWORD: Chaos - Chaos Space Marines\n' : 'Chaos Space Marines\nCHARACTERS\n'
+      const heading = `${format === 'wtc' ? 'CH1: ' : ''}Lord Discordant on Helstalker (170 points)`
+      const p = parseList(`${header}${heading}${inline ? ` ${label}: Dread Reaver` : `\n• ${label}: Dread Reaver`}`, format)
+      expect(p.units[0].enh, `${format}/${label}/${inline}`).toBe('Dread Reaver')
+      expect(p.units).toHaveLength(1)
+    }
+  }
+})
+
+it('leaves ambiguous or unknown unlabelled enhancements for manual checking', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('chaos-space-marines')
+  for (const tail of ['Dread Reaver, Despot’s Claim', 'Imaginary Relic']) {
+    const p = parseList(`Chaos Space Marines\nDetachments: Renegade Raiders\nCHARACTERS\nLord Discordant on Helstalker (170 points) ${tail}`)
+    const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+    expect(payload.units[0].enh).toBeUndefined()
+    expect(report.units[0].gear.missing.length).toBeGreaterThan(0)
+  }
+})
+
+it.each([
+  ['aeldari', 'Aeldari', 'Devoted of Ynnead', 'Yvraine', 'Storm of Whispers'],
+  ['astra-militarum', 'Astra Militarum', 'Hammer of the Emperor', 'Hell’s Last', 'Regimental Banner'],
+])('keeps canonical unit equipment when its name also belongs to an enhancement: %s', async (slug, name, detachment, unit, gear) => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const p = parseList(`${name}\nDetachments: ${detachment}\nCHARACTERS\n${unit} (100 points)\n• 1x ${gear}`)
+  const { payload, report } = matchRoster(p, { faction: await loadRosterFaction(slug), core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].enh).toBeUndefined()
+  expect(report.units[0].enh).toBeNull()
+  expect(report.units[0].gear.missing).not.toContain(gear)
+  const explicit = parseList(`${name}\nDetachments: ${detachment}\nCHARACTERS\n${unit} (100 points)\n• Enhancement: ${gear}`)
+  expect(matchRoster(explicit, { faction: await loadRosterFaction(slug), core: rosterCore, items: rosterItems.items }).payload.units[0].enh).toBe(gear)
+})
+
+it('takes a valid explicit model count over a partial body and a conflicting price', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const p = parseList(`Thousand Sons
+BATTLELINE
+10x Rubric Marines (115 points)
+• 1x Aspiring Sorcerer
+• 4x Rubric Marine
+• 4x Inferno boltgun`)
+  const { payload, report } = matchRoster(p, { faction: await loadRosterFaction('thousand-sons'), core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].size).toBe(1)
+  expect(report.units[0].models).toBe(10)
+})
+
+it('keeps model lines after consuming an unlabelled enhancement from a flat body', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const p = parseList(`Death Guard
+Detachments: Contagion Engines
+OTHER DATASHEETS
+Myphitic Blight-haulers (205 points)
+• Lancet of the Worldsore
+• 2x Myphitic Blight-hauler`)
+  const { payload, report } = matchRoster(p, { faction: await loadRosterFaction('death-guard'), core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0]).toMatchObject({ size: 1, enh: 'Lancet of the Worldsore (Upgrade)' })
+  expect(report.units[0].models).toBe(2)
+})
+
+it.each(['count', 'profile'])('does not join wrapped fragments across different %s boundaries', async (boundary) => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const p = parseList('Adeptus Mechanicus\nBATTLELINE\n10x Skitarii Vanguard (85 points)')
+  p.units[0].weapons = [
+    { n: 1, name: 'Transuranic', mini: 'Skitarii Vanguard Alpha' },
+    { n: boundary === 'count' ? 2 : 1, name: 'arquebus', mini: boundary === 'profile' ? 'Skitarii Vanguard' : 'Skitarii Vanguard Alpha' },
+  ]
+  const { report } = matchRoster(p, { faction: await loadRosterFaction('adeptus-mechanicus'), core: rosterCore, items: rosterItems.items })
+  expect(report.units[0].gear.missing).toEqual(['Transuranic', 'arquebus'])
+  expect(report.units[0].gear.picked).not.toContain('Transuranic arquebus')
+})
+
+it.each([
+  'Kastelan phosphor blaster & Incendine combustor',
+  'Kastelan phosphor blaster & Heavy phosphor blaster',
+  'Kastelan phosphor blaster and Imaginary cannon',
+])('keeps an unsupported composite visible without applying a partial swap: %s', async (gear) => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const p = parseList(`Adeptus Mechanicus\nOTHER DATASHEETS\n4x Kastelan Robots (300 points) 4x ${gear}`)
+  const { payload, report } = matchRoster(p, { faction: await loadRosterFaction('adeptus-mechanicus'), core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].wg).toBeUndefined()
+  expect(report.units[0].gear.missing).toContain(gear)
+})
+
+it('reads gear after a one-word canonical profile prefix', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const p = parseList(`Thousand Sons
+BATTLELINE
+Tzaangors (75 points)
+• 1x Twistbray
+• 1x Tzaangor Brayhorn
+• 8x Tzaangor`)
+  const { report } = matchRoster(p, { faction: await loadRosterFaction('thousand-sons'), core: rosterCore, items: rosterItems.items })
+  expect(report.units[0].models).toBe(10)
+  expect(report.units[0].gear.picked).toContain('Brayhorn')
+  expect(report.units[0].gear.missing).toEqual([])
+})
+
+it.each([true, false])('keeps same-line drone selections on their profile with another profile filled: %s', async (filled) => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('tau-empire')
+  const p = parseList(`T’au Empire
+OTHER DATASHEETS
+3x Crisis Fireknife Battlesuits (100 points)
+• 1x Crisis Fireknife Shas’vre${filled ? ' Shield Drone' : ''}
+• 2x Crisis Fireknife Shas’ui Gun Drone`)
+  const { payload, report } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  const def = faction.units.find(u => u.id === 'crisis-fireknife-battlesuits')
+  const selections = payload.units[0].wg.map(([gi, oi, n = 1]) => ({
+    profile: def.minis[def.gear[gi].m].n,
+    items: optionItems(def.gear[gi].o[oi]).map(([id]) => rosterItems.items[id]), n,
+  }))
+  expect(selections).toEqual([
+    ...(filled ? [{ profile: 'Crisis Fireknife Shas’vre', items: ['Shield Drone'], n: 1 }] : []),
+    { profile: 'Crisis Fireknife Shas’ui', items: ['Gun Drone'], n: 2 },
+  ])
+  expect(report.units[0].gear.missing).toEqual([])
+})
+
+it('keeps profile composition when model names carry same-line equipment', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const faction = await loadRosterFaction('space-marines')
+  const p = parseList(`Space Marines
+OTHER DATASHEETS
+Victrix Honour Guard (120 points)
+• 1x Chapter Ancient Master-crafted Bolt Carbine
+• 2x Victrix Honour Guard Master-crafted Power Weapon`)
+  const { payload } = matchRoster(p, { faction, core: rosterCore, items: rosterItems.items })
+  const def = faction.units.find(u => u.id === 'victrix-honour-guard')
+  expect(def.sizes[payload.units[0].size].comp).toEqual([[0, 0], [1, 1], [2, 2]])
+})
+
+it('reads a fully known and-separated equipment list across different options', async () => {
+  const { loadRosterFaction, rosterItems } = await import('../../data/roster/index.js')
+  const p = parseList(`Adeptus Mechanicus
+OTHER DATASHEETS
+4x Kastelan Robots (300 points) 4x Kastelan phosphor blaster and Incendine combustor`)
+  const { payload, report } = matchRoster(p, { faction: await loadRosterFaction('adeptus-mechanicus'), core: rosterCore, items: rosterItems.items })
+  expect(payload.units[0].wg).toContainEqual([0, 0, 4])
+  expect(report.units[0].gear.missing).toEqual([])
 })
