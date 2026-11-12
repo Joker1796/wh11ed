@@ -1,4 +1,5 @@
 import { webcrypto } from 'node:crypto'
+import orks from '../data/roster/orks.js'
 import { DATA_REV } from '../data/rosterIndexMoves.js'
 import { contentHash } from '../utils/contentHash.js'
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
@@ -32,6 +33,22 @@ function roster(id, over = {}) {
     summary: { points: 0, unitCount: 0, issues: 0 },
     ...over,
   }
+}
+
+// Real current selections: a nondefault Nobz bracket with a partial model count and
+// three big-choppa swaps, led by a Warboss carrying a War Horde enhancement.
+function equippedRoster(id, over = {}) {
+  return roster(id, {
+    dv: DATA_REV, detachments: ['War Horde'],
+    units: [
+      { uid: 'mob', id: 'nobz', size: 1, count: 8, wg: [[4, 0, 3]] },
+      { uid: 'boss', id: 'warboss', size: 0, enh: "Headwoppa's Killchoppa", leaderOf: 'mob', warlord: true },
+    ], ...over,
+  })
+}
+function expectSelections(actual, expected) {
+  expect(actual.units).toEqual(expected.units)
+  expect(actual.detachments).toEqual(expected.detachments)
 }
 
 // A cloud that answers from two plain maps — live lists and tombstones — so a test can state
@@ -110,6 +127,104 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals())
 
 describe('syncNow', () => {
+  it('downloads current nondefault equipment, model count, enhancement and attachment intact', async () => {
+    const nobz = orks.units.find(u => u.id === 'nobz')
+    expect(nobz.sizes[1].per).toEqual([6, 10])
+    expect(nobz.gear[4].o[0]).toEqual([2146])
+    expect(orks.units.find(u => u.id === 'warboss').leads).toContainEqual({ to: 'nobz', type: 'leader' })
+    expect(orks.detachments.find(d => d.name === 'War Horde').enhancements.map(e => e.name)).toContain("Headwoppa's Killchoppa")
+    const remote = { ...equippedRoster('r1'), v: 13 }
+    const cloud = new Map([['r1', remote]])
+    await load([])
+    h.fetchImpl = cloudFetch(cloud)
+    await sync.syncNow()
+    expectSelections(store.rosterById('r1'), remote)
+    expect(sync.pulled.value).toEqual({ added: 1, updated: 0, removed: 0 })
+    expect(cloud.get('r1')).toEqual(remote)
+    expect(h.calls.every(([, method]) => method === 'GET')).toBe(true)
+  })
+
+  it('updates a proven unchanged local copy without migrating current equipment twice', async () => {
+    const original = equippedRoster('r1')
+    const cloud = new Map([['r1', { ...original, v: 13 }]])
+    await load([original])
+    h.fetchImpl = cloudFetch(cloud)
+    await sync.syncNow() // establishes the account-scoped base
+    const changed = { ...equippedRoster('r1', { name: 'Other device', updatedAt: 2000 }), v: 13 }
+    changed.units[0].count = 9
+    changed.units[0].wg = [[4, 0, 4]]
+    cloud.set('r1', changed)
+    await sync.syncNow()
+    expectSelections(store.rosterById('r1'), changed)
+    expect(sync.pulled.value).toEqual({ added: 0, updated: 1, removed: 0 })
+    expect(store.draftRosters.value).toHaveLength(0)
+  })
+
+  it('preserves both selected loadouts when a divergent cloud copy replaces unfinished work', async () => {
+    const original = equippedRoster('r1')
+    const cloud = new Map([['r1', { ...original, v: 13 }]])
+    await load([original])
+    h.fetchImpl = cloudFetch(cloud)
+    await sync.syncNow()
+    store.renameRoster('r1', 'Unfinished local work')
+    const remote = { ...equippedRoster('r1', { name: 'Other device' }), v: 13 }
+    remote.units[0].count = 9
+    cloud.set('r1', remote)
+    await sync.syncNow()
+    expectSelections(store.rosterById('r1'), remote)
+    const recovery = store.draftRosters.value.find(r => r.conflictOf === 'r1')
+    expect(recovery.name).toMatch(/^Unfinished local work/)
+    expectSelections(recovery, original)
+    expect(sync.conflict.value).toMatchObject({ id: 'r1', copyId: recovery.id, draft: true })
+    expect(h.calls.every(([, method]) => method === 'GET')).toBe(true)
+  })
+
+  it('restores all remote selections when an offline deletion loses to a changed cloud copy', async () => {
+    const original = equippedRoster('r1')
+    const cloud = new Map([['r1', { ...original, v: 13 }]])
+    await load([original])
+    h.fetchImpl = cloudFetch(cloud)
+    await sync.syncNow()
+    h.status.value = 'anon'
+    await sync.removeFromCloud('r1')
+    store.deleteRoster('r1')
+    const remote = { ...equippedRoster('r1', { name: 'Saved elsewhere' }), v: 13 }
+    remote.units[0].count = 9
+    cloud.set('r1', remote)
+    h.status.value = 'authed'
+    await sync.syncNow()
+    expectSelections(store.rosterById('r1'), remote)
+    expect(sync.conflict.value).toEqual({ id: 'r1', deletionRefused: true })
+    expect(cloud.get('r1')).toEqual(remote)
+  })
+
+  it.each([undefined, 2])('still migrates genuinely old cloud payloads with schema %s', async version => {
+    const remote = { ...equippedRoster('r1'), ...(version === undefined ? {} : { v: version }) }
+    const cloud = new Map([['r1', remote]])
+    await load([])
+    h.fetchImpl = cloudFetch(cloud)
+    await sync.syncNow()
+    const actual = store.rosterById('r1')
+    expect(actual.units[0]).toEqual({ uid: 'mob', id: 'nobz' })
+    expect(actual.units[1]).toMatchObject({ enh: "Headwoppa's Killchoppa", leaderOf: 'mob' })
+    expect(actual.v).toBeUndefined()
+    expect(cloud.get('r1')).toEqual(remote) // no invented current schema on the source
+  })
+
+  it.each(['schema', 'data'])('preserves newer cloud %s versions and never re-uploads them', async kind => {
+    const mod = await import('./useRosters.js')
+    const remote = { ...equippedRoster('r1'), v: kind === 'schema' ? mod.SCHEMA_VERSION + 1 : mod.SCHEMA_VERSION,
+      dv: kind === 'data' ? DATA_REV + 1 : DATA_REV }
+    const cloud = new Map([['r1', remote]])
+    await load([])
+    h.fetchImpl = cloudFetch(cloud)
+    await sync.syncNow()
+    expect(store.rosterById('r1')).toEqual(remote)
+    expect(await sync.saveToCloud('r1')).toBe(false)
+    expect(h.calls.every(([, method]) => method === 'GET')).toBe(true)
+    expect(JSON.parse(localStorage.getItem('wh11ed-rosters')).rosters[0]).toEqual(remote)
+  })
+
   it('does not restore a local roster deleted while its remote download was pending', async () => {
     const cloud = new Map([['r1', { ...roster('r1', { name: 'Remote' }), v: 13 }]])
     await load([roster('r1')])

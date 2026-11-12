@@ -2897,8 +2897,13 @@ and DELETE requires `baseRevision`. A stale write returns 409 `conflict`; the di
 `quota_exceeded` must not be treated as a conflict. SHA-256 hashes of canonical JSON let a single
 metadata GET establish an unchanged base. Revision/hash records in `wh11ed-roster-cloud-bases`
 are scoped by account. A legacy blob is normalized through the store migration before comparison;
-its server hash and normalized local hash are remembered separately. Client clocks never grant
-permission to overwrite. A retry uploads the clicked Save snapshot, not edits made while waiting.
+its server hash and normalized local hash are remembered separately. The remote read keeps an
+explicit pair: `payload` is the untouched wire object (original `v`), `roster` is the normalized
+comparison view. Only `payload` may enter `adoptFromCloud` / `preserveCloudConflict`: both migrate
+at the store boundary. Normalization consumes `v`; feeding its result back through migration
+silently treats current equipment/size/count indices as pre-v3/v4 and removes them. Do not stamp
+an absent/old wire version with the current schema to work around that distinction. Client clocks
+never grant permission to overwrite. A retry uploads the clicked Save snapshot, not edits made while waiting.
 
 A genuine conflict keeps the remote list under the original id and stores the local variant
 under a fresh id with `conflictOf`. An explicit Save becomes a saved recovery copy, queued for

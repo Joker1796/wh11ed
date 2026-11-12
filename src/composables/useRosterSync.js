@@ -147,10 +147,12 @@ export function useRosterSync() {
     const data = await read(res, scope)
     const roster = normalizeCloudRoster(data.roster)
     if (!roster || roster.id !== id || !Number.isSafeInteger(data.revision) || data.revision < 1) throw new Error('Invalid roster revision response')
-    return { roster, revision: data.revision, contentHash: data.contentHash }
+    // Keep the versioned wire payload for store writes. `roster` is only the migrated
+    // comparison view: normalizing it again would treat its removed `v` as pre-v3/v4.
+    return { payload: data.roster, roster, revision: data.revision, contentHash: data.contentHash }
   }
   async function preserve(id, theirs, scope, saved) {
-    const copy = preserveCloudConflict(id, theirs?.roster ?? null, ui[locale.value].rosterConflictSuffix, { draft: !saved })
+    const copy = preserveCloudConflict(id, theirs?.payload ?? null, ui[locale.value].rosterConflictSuffix, { draft: !saved })
     if (!copy) {
       conflict.value = { localSaveFailed: true }
       throw new Error('Could not preserve the local conflict copy')
@@ -245,7 +247,7 @@ export function useRosterSync() {
         revision = theirs.revision
         res = await send()
       } else {
-        adoptFromCloud(theirs.roster)
+        adoptFromCloud(theirs.payload)
         await remember(theirs.roster, theirs.revision, theirs.contentHash, scope)
         conflict.value = { id, deletionRefused: true }
         clearTombstone(id)
@@ -313,7 +315,7 @@ export function useRosterSync() {
         const theirs = await remote(id, scope)
         if (!theirs) continue // deleted between listing and read; the next visit sees its tombstone
         if (!unchanged(id, local)) continue
-        if (!local) { adoptFromCloud(theirs.roster); added++ }
+        if (!local) { adoptFromCloud(theirs.payload); added++ }
         else {
           const hash = await hashFor(local, scope)
           const theirHash = await hashFor(theirs.roster, scope)
@@ -323,7 +325,7 @@ export function useRosterSync() {
             await preserve(id, theirs, scope, false)
             continue
           }
-          adoptFromCloud(theirs.roster)
+          adoptFromCloud(theirs.payload)
           updated++
         }
         await remember(theirs.roster, theirs.revision, theirs.contentHash, scope)

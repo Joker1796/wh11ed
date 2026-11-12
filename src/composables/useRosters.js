@@ -564,6 +564,9 @@ function saveDraft(id) {
 // migration: a list uploaded by an older build must not be trusted as-is. Replaces the local copy
 // in place when we already have that id (conflict handling belongs to the caller), otherwise
 // prepends it. This store stays the single writer of `rosters`; the sync layer never splices.
+// Input must be the raw wire payload with its ORIGINAL schema version, not an already
+// normalized roster. Migration consumes `v` and is deliberately not idempotent. Cloud adopters
+// below accept that same raw contract; callers may normalize separately for comparison only.
 export function normalizeCloudRoster(obj) {
   if (!obj || typeof obj !== 'object') return null
   const r = JSON.parse(JSON.stringify(obj))
