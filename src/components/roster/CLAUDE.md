@@ -1056,9 +1056,17 @@ directory; still part of this feature:
     ENHANCEMENT` (HIN — the player's rating number, "-" until they have one; ONE disposition;
     enhancements as `CH1: name`), then `Attached Unit N:` blocks, then the rest under keyword
     prefixes EH CH BL IN MO BE VE MN DT FO AU numbered across the list; `(N)` before a name only
-    where the size can vary; of the wargear only the swaps the player made, with how many
-    models took each ("1x Multi-melta") — never the printed loadout, kept or fixed (owner,
-    2026-10-13); enhancement, then Warlord, then
+    where the size can vary; of the wargear only the swaps the player made, each item counted as
+    the unit HOLDS it ("1x Multi-melta", "6x Missile pod" on three Crisis suits that each took a
+    second pod) — never the printed loadout, kept or fixed (owner, 2026-10-13). A bundle is written
+    item by item; a kept item appears only where two groups of ONE profile offer the same option
+    (a Defiler's hades lascannon: the heavy baleflamer it did not replace is named). The items go
+    in the importer's dealing order — the one fewest options offer first, the half many bundles
+    share last, then most first. Counted as picks it did not read back (2026-11-12, a 45-list
+    corpus: lost swaps on Rhinos, Crisis suits, Defilers, Chimeras). What the line cannot say is
+    which profile holds an item — a Sergeant's chainfist or a Shas'vre's drone may come back on
+    another model, the totals and the price the same; a Deathwatch Terminator Squad can come back
+    with the swap on a model that may not take it (the validator then says so); enhancement, then Warlord, then
     `(N pts)` at the end. Player and HIN are fields of the export dialog, kept per device. A first
     draft followed 40001format.xyz (the formatter many organisers point at, which reads only
     BattleScribe `.ros/.rosz` — we do not write those: a real one needs BSData catalogue ids our
@@ -1128,7 +1136,9 @@ directory; still part of this feature:
   now, so a seventh format fails there until it reads back. Each has its own parser:
   - **rus** (`parseRus`) — WTC's `+` header (it also reads `ARMY NAME`, `FORCE DISPOSITION`, a "-"
     for none, and `ENHANCEMENT: CH1: X, CH2: Y`), then "Attached Unit N:" blocks and
-    `CH1: (10) Name: swaps, Enhancement, Warlord (110 pts)`. Detected before WTC, by `+ HIN:` or
+    `CH1: (10) Name: swaps, Enhancement, Warlord (110 pts)`. A block typed by hand often has no
+    blank line to close it and runs on into the army; `matchRoster` then ends it at the first unit
+    a member above it may join (2026-11-12). Detected before WTC, by `+ HIN:` or
     by its unit lines — never by `+ PLAYER NAME:`, which a team event's WTC list carries too; the enhancement and the Warlord in the tail are told
     from the swaps by the header, the allegiance is left among them for `matchRoster` to recognise.
   - **compact** (`parseCompact`) — the chat line: the head `Name — Faction — Detachments — N/M pts`

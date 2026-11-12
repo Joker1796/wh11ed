@@ -585,6 +585,7 @@ const rusPrefix = (r) => (r.ally ? 'AU' : RUS_PREFIXES.find(([, fits]) => fits(r
 // have replaced is named while it is still held: "Hades lascannon" alone does not say whether a
 // Defiler gave up its heavy baleflamer or its heavy missile launcher, "Heavy baleflamer" beside it
 // does (2026-11-12, a tournament corpus re-exported in this format).
+/** @param {ExportRow} r @param {Record<number, string> | null | undefined} items */
 function swappedGear(r, items) {
   /** @type {Map<string, number>} */
   const held = new Map()
@@ -603,19 +604,28 @@ function swappedGear(r, items) {
     }
     const label = optionLabel(opt, items)
     gear.forEach((other, ogi) => {
-      if (ogi === gi || !live(ogi) || !other.o?.some((o) => optionLabel(o, items) === label)) return
+      // Only on the same profile: a Sergeant's group and his squad's offering one option are two
+      // models' choices, and the line already says how many took it.
+      if (ogi === gi || other.m !== gear[gi].m || !live(ogi) || !other.o?.some((o) => optionLabel(o, items) === label)) return
       for (const id of other.rep || []) {
         const name = items?.[id]
         if (name && held.get(name)) named.add(name)
       }
     })
   }
-  // Most first, then by name. The importer deals a line's items out in the order it reads them, and
-  // with no profile named it fills the leader's group first: three Shield Drones after the Gun
-  // Drones found the Shas'vre already holding a gun drone and the Shas'ui one of each — one shield
-  // drone had nowhere left to go. Placed first, the larger count spreads before the rest arrive.
+  // The order is the importer's: it deals a line's items out as it reads them. An item few options
+  // offer goes first, since it says which option was taken; the half many bundles share comes last
+  // and joins them ("Ossefactor + Torturer's tool" — the tools first made two ossefactor picks).
+  // Then most first: with no profile named the leader's group fills first, and three Shield Drones
+  // after the Gun Drones found the Shas'vre already holding one — one shield drone had nowhere left.
+  /** @type {Map<string, number>} */
+  const offers = new Map()
+  for (const g of gear) for (const o of g.o || []) for (const [id] of optionItems(o)) {
+    const name = items?.[id]
+    if (name) offers.set(name, (offers.get(name) || 0) + 1)
+  }
   return [...named]
-    .sort((a, b) => (held.get(b) || 0) - (held.get(a) || 0) || a.localeCompare(b))
+    .sort((a, b) => (offers.get(a) || 0) - (offers.get(b) || 0) || (held.get(b) || 0) - (held.get(a) || 0) || a.localeCompare(b))
     .map((name) => {
       const n = held.get(name) || 0
       return n > 1 || r.models > 1 ? `${n}x ${name}` : name

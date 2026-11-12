@@ -190,6 +190,29 @@ BL1: (5) Intercessor Squad (85 pts)`, 'rus')
     const { payload } = matchRoster(p, await context('space-marines'))
     expect(payload.units[0].leaderOf).toBe(payload.units[1].uid)
   })
+
+  // A hand-typed list has no blank line after its last block, so the block runs on into the rest of
+  // the army. Units there the Captain could also lead made the bodyguard ambiguous and the whole
+  // block was dropped, the Support character with it (2026-11-12).
+  it('ends an unclosed Russian tournament block at the unit its characters joined', async () => {
+    const p = parse(`+ HIN: 1
++ FACTION KEYWORD: Imperium - Adeptus Astartes
++ TOTAL ARMY POINTS: 600pts
++++++++++++++++++++++++++++++++++++++++++++++++
+Attached Unit 1:
+CH1: Captain (80 pts)
+CH2: Judiciar (70 pts)
+IN1: (6) Bladeguard Veteran Squad (180 pts)
+BL1: (5) Intercessor Squad (80 pts)
+CH3: Lieutenant (65 pts)
+VE1: Redemptor Dreadnought (170 pts)`, 'rus')
+    const { payload } = matchRoster(p, await context('space-marines'))
+    const [captain, judiciar, bladeguard, intercessors, lieutenant] = payload.units
+    expect(captain.leaderOf).toBe(bladeguard.uid)
+    expect(judiciar.leaderOf).toBe(bladeguard.uid)
+    expect(intercessors.leaderOf).toBeUndefined()
+    expect(lieutenant.leaderOf).toBeUndefined()
+  })
 })
 
 it('does not let Attached-as gear turn the remaining weapon line into a model', async () => {
@@ -253,4 +276,45 @@ Captain (80 points)
 • 1x Captain
 • 1x Unknown ◦ inscribed rune`)
   expect(p.units[0].weapons).toContainEqual({ n: 1, name: 'Unknown ◦ inscribed rune', mini: null })
+})
+
+// Names typed by hand, from a 45-list tournament corpus (2026-11-12).
+describe('hand-typed names', () => {
+  it('finds an enhancement written without the "(Aura)" our data carries in its name', async () => {
+    const p = parse(`+ FACTION KEYWORD: Chaos - Chaos Knights
++ DETACHMENT: Houndpack Lance
++ TOTAL ARMY POINTS: 155pts
++++++++++++++++++++++++++++++++++++++++++++++++
+War Dog Brigand (155 pts)
+Enhancement: Final Howl (+20 pts)`, 'wtc')
+    const { payload, report } = matchRoster(p, await context('chaos-knights'))
+    expect(payload.units[0].enh).toBe('Final Howl (Aura)')
+    expect(report.units[0].enh?.ok).toBe(true)
+  })
+
+  it('reads a hyphenated wargear name typed without its hyphen', async () => {
+    const p = parse(`Imperial Agents
+OTHER DATASHEETS
+Inquisitorial Agents (100 points)
+  • 2x Tomeskull
+  • 10x Inquisitorial Agent`)
+    const { payload, report } = matchRoster(p, await context('imperial-agents'))
+    expect(report.units[0].gear.missing).toEqual([])
+    expect(payload.units[0].wg?.length).toBeGreaterThan(0)
+  })
+
+  it('reads unit references typed in Cyrillic lookalike letters', async () => {
+    const p = parse(`+ HIN: 1
++ FACTION KEYWORD: Imperium - Adeptus Astartes
++ TOTAL ARMY POINTS: 165pts
++ WARLORD: СН1: Captain
++++++++++++++++++++++++++++++++++++++++++++++++
+Attached Unit 1:
+СН1: Captain (80 pts)
+ВL1: (5) Intercessor Squad (85 pts)`, 'rus')
+    expect(p.units.map((u) => u.ref)).toEqual(['CH1', 'BL1'])
+    const { payload } = matchRoster(p, await context('space-marines'))
+    expect(payload.units[0].warlord).toBe(true)
+    expect(payload.units[0].leaderOf).toBe(payload.units[1].uid)
+  })
 })
