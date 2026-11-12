@@ -171,30 +171,6 @@ export const changelog = [
       '**На то, что подсветило обучение, можно сразу нажать.** Обучение закроется, а нажатие сработает. Раньше нажатие на подсвеченное поле имени ничего не делало.',
     ],
   },
-  {
-    version: '2.10.10',
-    date: '2026-11-02',
-    en: [
-      { h: 'Answers to bug reports' },
-      '**Base sizes come from the GW app.** For Gyrfalcon Jetbike Sodality the app gives a 75×42mm oval. The kit’s page in the GW store says 90×52mm. The site shows the size from the app.',
-      '**The Russian “until that unit has attacked” reads the same everywhere.** I fixed it in 13 faction rules and stratagems and in 2 places of the Core Rules.',
-      '**Champion of the First Company can go only on a TERMINATOR CHARACTER.** Wolf Guard Terminators have no CHARACTER keyword, so they cannot take it. The GW app has it the same way.',
-      { h: 'Units' },
-      '**A faction’s units open on a bad connection too.** If a faction’s data does not load the first time, the site loads it again by itself. Before, the Units page and the unit card in the roster builder could stay empty.',
-      { h: 'Tracker' },
-      '**The Missions tab of a synced game no longer breaks.** This happened when one side’s data reached the phone incomplete.',
-    ],
-    ru: [
-      { h: 'Ответы на баг-репорты' },
-      '**Размеры подставок берутся из приложения GW.** У Gyrfalcon Jetbike Sodality там указан овал 75×42mm. На странице набора в магазине GW написано 90×52mm. Сайт показывает размер из приложения.',
-      '**«Пока тот вражеский юнит не завершит свои атаки» теперь написано везде одинаково.** Раньше в части правил было «отатакует», «заатакует» или «не атакует». Я исправил 13 правил и стратагем армий и 2 места в основных правилах.',
-      '**Champion of the First Company можно дать только персонажу с TERMINATOR.** У Wolf Guard Terminators нет keyword CHARACTER, поэтому им его не дать. В приложении GW так же.',
-      { h: 'Юниты' },
-      '**Юниты фракции открываются и при плохой связи.** Если данные фракции не загрузились с первого раза, сайт сам загружает их ещё раз. Раньше страница юнитов и карточка юнита в конструкторе могли остаться пустыми.',
-      { h: 'Трекер' },
-      '**Вкладка «Миссии» в синхронизированной игре больше не ломается.** Это случалось, когда данные одной из сторон приходили на телефон неполными.',
-    ],
-  },
 ]
 
 // The latest entry drives the banner + the stored "last seen version". Exported so the composable
