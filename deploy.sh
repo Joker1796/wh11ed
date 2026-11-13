@@ -26,6 +26,7 @@ if [ -f "$ENVFILE" ]; then set -a; . "./$ENVFILE"; set +a; fi
 BUCKET="${BUCKET:-s3://wh-rules.ru}"
 ENDPOINT="https://storage.yandexcloud.net"
 AWS_PROFILE="${AWS_PROFILE:-yc}"
+export AWS_PROFILE
 # Prod CDN resource — purge runs automatically after every deploy (a stale edge
 # copy of sw.js/index.html otherwise blocks updates from ever reaching clients).
 # Set it in .env.deploy (or inline). Empty → the purge is skipped with a warning.
@@ -34,14 +35,11 @@ CDN_RESOURCE_ID="${CDN_RESOURCE_ID-}"
 YC_BIN="${YC_BIN:-$(command -v yc || echo "$HOME/yandex-cloud/bin/yc")}"
 
 aws() { command aws --endpoint-url="$ENDPOINT" --profile "$AWS_PROFILE" "$@"; }
-# 30 requests at once instead of the CLI's 10 (owner, 2026-11-04: 20 first, 30 after 20 doubled the
-# rate — ~103 → ~208 KB/s — so the wait was still the limit). The 4467 search-engine pages are
-# ~11 KB each, and they went up at ~9 a second: the time is the wait for each answer, not the
-# bandwidth (the images in the same run went at 5x the rate). Set on a temporary copy of the CLI's
-# config, so the owner's ~/.aws/config is never written; removed at exit (step 3b's trap too).
+# 40 concurrent requests by default (owner, 2026-11-11), shared with the SDK upload queue.
+# Configure a temporary copy only: never write the owner's ~/.aws/config; remove it at exit.
 AWS_TMP_CONFIG="$(mktemp)"
 cp "${AWS_CONFIG_FILE:-$HOME/.aws/config}" "$AWS_TMP_CONFIG" 2>/dev/null || true
-AWS_CONFIG_FILE="$AWS_TMP_CONFIG" command aws configure set s3.max_concurrent_requests 30 --profile "$AWS_PROFILE"
+AWS_CONFIG_FILE="$AWS_TMP_CONFIG" command aws configure set s3.max_concurrent_requests "${DEPLOY_CONCURRENCY:-40}" --profile "$AWS_PROFILE"
 export AWS_CONFIG_FILE="$AWS_TMP_CONFIG"
 trap 'rm -f "$AWS_TMP_CONFIG"' EXIT
 
@@ -159,18 +157,10 @@ else
   echo "⚠ source maps not copied (no SOURCEMAP_SSH / CHANGELOG_SSH, or no maps built)"
 fi
 
-echo "▶ assets/  →  immutable, 1 year"
-aws s3 sync dist/assets "$BUCKET/assets" \
-  --exclude "*.map" \
-  --cache-control "public, max-age=31536000, immutable"
-
-# 1b) Immutable release metadata/shells and renamed images. Keep previous releases whole:
-# their HTML, manifest, worker metadata and images have the same retirement window as JS.
-echo "▶ immutable releases and images"
-aws s3 cp dist/releases "$BUCKET/releases" --recursive \
-  --cache-control "public, max-age=31536000, immutable"
-aws s3 sync dist/images "$BUCKET/images" \
-  --cache-control "public, max-age=2592000"
+# 1b) One bounded queue for assets, release shells and images. Compare content and
+# headers against the bucket, never local mtimes. No deletion: old builds remain usable.
+echo "▶ assets / releases / images → content comparison, up to ${DEPLOY_CONCURRENCY:-40} requests"
+node scripts/deploy-upload.mjs files "$BUCKET"
 
 # 2) Everything else except HTML (favicon, /images/, fonts, PWA icons) — 30 days, NOT
 #    immutable: these names are stable, so the URL alone is what every cache keys on.
@@ -200,7 +190,7 @@ echo "▶ images/favicon/icons  →  30 days"
 # into dist by every build on a machine that has one; it is the stand's, never the site's — it
 # reached beta.wh-rules.ru on 2026-10-20. "*.html" already keeps the page out; the .json needs its own.
 aws s3 sync dist "$BUCKET" \
-  --exclude "*.html" --exclude "assets/*" --exclude "images/*" --exclude "releases/*" --exclude ".asset-retirement.json" --exclude "*.DS_Store" \
+  --exclude "*.html" --exclude "assets/*" --exclude "images/*" --exclude "releases/*" --exclude ".asset-retirement.json" --exclude ".deploy-upload-state.json" --exclude "*.DS_Store" \
   --exclude "sw.js" --exclude "registerSW.js" --exclude "manifest.webmanifest" \
   --exclude "robots.txt" --exclude "sitemap.xml" --exclude ".seo-routes.txt" \
   --exclude "offline-manifest.json" --exclude "version.json" \
@@ -268,44 +258,12 @@ fi
 #     `no-cache`, like index.html (step 3): each of them is an entry point to the same build.
 echo "▶ SEO route keys  →  index.html copies, no-cache"
 if [ -f dist/.seo-routes.txt ] && [ -f dist/index.html ]; then
-  # S3 allows a key to be both an "object" and a "directory" (event-companion AND
-  # event-companion/sequence); a local filesystem mirror can't. So keys that are a
-  # prefix of other keys ("parents", a handful) upload one-by-one via `cp`, and the
-  # leaf keys go through a single fast `sync` from a temp mirror.
-  MIRROR="$(mktemp -d)"
-  trap 'rm -rf "$MIRROR"; rm -f "$AWS_TMP_CONFIG"' EXIT
-  PARENTS=0
-  MISSING=0
-  while IFS= read -r route; do
-    [ -n "$route" ] || continue
-    key="${route#/}"
-    # Each route now has its OWN html (real title, description, canonical and body) generated into
-    # seo-html/ by gen-seo-routes.mjs. It lives outside dist/ on purpose: vite's globPatterns
-    # precaches **/*.html, and 3141 pages in the service worker's precache would wreck the
-    # "light tab" requirement. Fall back to the plain shell if a page is somehow absent — a
-    # generic page is bad, a 404 is worse.
-    SRC="seo-html/$key.html"
-    if [ ! -f "$SRC" ]; then SRC="dist/index.html"; MISSING=$((MISSING + 1)); fi
-    if grep -q "^/$key/" dist/.seo-routes.txt; then
-      aws s3 cp "$SRC" "$BUCKET/$key" \
-        --cache-control "no-cache" \
-        --content-type "text/html; charset=utf-8" \
-        --metadata-directive REPLACE >/dev/null
-      PARENTS=$((PARENTS + 1))
-    else
-      mkdir -p "$MIRROR/$(dirname "$key")"
-      cp "$SRC" "$MIRROR/$key"
-    fi
-  done < dist/.seo-routes.txt
-  [ "$MISSING" -gt 0 ] && echo "  ⚠ $MISSING route(s) had no generated page — uploaded the plain shell"
-
-  # Fresh mtimes on every mirror file ⇒ sync always uploads them.
-  aws s3 sync "$MIRROR" "$BUCKET" \
-    --cache-control "no-cache" \
-    --content-type "text/html; charset=utf-8"
-  echo "  → $(wc -l < dist/.seo-routes.txt | tr -d ' ') route keys uploaded ($PARENTS parents via cp)"
+  # One queue includes both parent and leaf keys, with no temporary mirror or serial cp.
+  # Generated pages remain outside dist/ so they never enter the installed PWA's precache.
+  node scripts/deploy-upload.mjs seo "$BUCKET"
 else
-  echo "⚠ dist/.seo-routes.txt missing — SEO route keys not uploaded"
+  echo "✗ Missing SEO routes or shell — refusing to announce an incomplete build" >&2
+  exit 1
 fi
 
 # 3c) The announcement, last: the worker, the manifests and version.json go up only once every file
