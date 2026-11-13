@@ -161,36 +161,6 @@ export const changelog = [
       '**Сайт больше не выходит из аккаунта сам.** Так бывало, когда сайт был открыт в двух вкладках или связь на миг пропадала.',
     ],
   },
-  {
-    version: '2.10.11',
-    date: '2026-11-04',
-    en: [
-      { h: 'Answers to bug reports' },
-      '**When two Characters lead one unit, the gear and enhancements of each reach the other too.** The Lion Helm on Azrael gives a 4+ InSv to the whole unit, the Lieutenant with him included. Before, only the Bodyguard models got it.',
-      '**The file for Tabletop Simulator gives each model the wargear you chose for it.** Before, a Wolf Guard Terminator could get the power fist without the assault cannon it comes with.',
-      '**Trygon Prime goes only on a Trygon that is a CHARACTER.** In Subterranean Assault you can make up to two Trygons Characters: pick “Character” on the unit. Such a Trygon can take Trygon Prime and can be your Warlord. Before, the roster builder gave Trygon Prime to any Trygon.',
-      '**A bonus to Attacks or Damage reaches weapons whose value is a dice roll.** With Tzagulla the Sorcerer in Terminator Armour’s Infernal Gaze has D6+1 Attacks. Damage D3+3 with +1 shows as D3+4. Before, such weapons kept the printed value. If a rule does not change every weapon, the card says so beside it.',
-      { h: 'The app on your phone' },
-      '**The installed app opens on a bad connection too.** If the page you left last time does not load, the app opens the home page. Before, it could stay blank.',
-      '**A section that does not load no longer leaves the button dead.** The app tries again by itself and then opens the section anew.',
-      '**The menu says “Downloaded for offline” only when everything is downloaded.** If an update did not finish downloading, the menu offers to download again.',
-      { h: 'Tracker' },
-      '**You can tap what the tutorial lights up.** The tutorial closes and the tap works. Before, a tap on the lit name field did nothing.',
-    ],
-    ru: [
-      { h: 'Ответы на баг-репорты' },
-      '**Когда отряд ведут два персонажа, снаряжение и улучшения каждого действуют и на другого.** The Lion Helm у Azrael даёт 4+ InSv всему отряду, и Lieutenant рядом с ним тоже. Раньше его получали только телохранители.',
-      '**Файл для Tabletop Simulator даёт каждой модели то снаряжение, которое вы ей выбрали.** Раньше Wolf Guard Terminator мог получить power fist без assault cannon, с которым он идёт в паре.',
-      '**Trygon Prime можно взять только на Trygon, который стал CHARACTER.** В Subterranean Assault до двух Trygon можно сделать персонажами: выберите у юнита «Character». Такой Trygon может взять Trygon Prime и стать варлордом. Раньше конструктор давал Trygon Prime любому Trygon.',
-      '**Прибавка к атакам и урону доходит до оружия, у которого в значении бросок кубика.** С Tzagulla у Infernal Gaze Sorcerer in Terminator Armour атаки D6+1. Урон D3+3 с прибавкой +1 показан как D3+4. Раньше у такого оружия оставалось напечатанное значение. Если правило меняет не всё оружие, на карточке рядом об этом написано.',
-      { h: 'Приложение на телефоне' },
-      '**Установленное приложение открывается и при плохой связи.** Если экран, который вы открывали в прошлый раз, не загрузился, приложение откроет главную. Раньше оно могло остаться пустым.',
-      '**Раздел, который не загрузился, больше не оставляет кнопку без ответа.** Приложение само пробует ещё раз, а потом открывает раздел заново.',
-      '**В меню написано «Скачано для офлайна», только когда скачано всё.** Если обновление скачалось не до конца, меню предложит скачать ещё раз.',
-      { h: 'Трекер' },
-      '**На то, что подсветило обучение, можно сразу нажать.** Обучение закроется, а нажатие сработает. Раньше нажатие на подсвеченное поле имени ничего не делало.',
-    ],
-  },
 ]
 
 // The latest entry drives the banner + the stored "last seen version". Exported so the composable
