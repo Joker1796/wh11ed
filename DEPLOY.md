@@ -23,7 +23,7 @@
 - `sw.js` / `registerSW.js` / `manifest.webmanifest` → `no-cache` (**must** revalidate, or PWA updates never reach clients)
 - `robots.txt` / `sitemap.xml` → `public, max-age=3600` (1 h — excluded from the 1-year tier so crawlers pick up changes; a stale sitemap would otherwise be served for a year; `sitemap.xml` is **generated** into `dist/` by `scripts/gen-seo-routes.mjs`, there is no static copy in `public/`)
 - `index.html` → `no-cache` (revalidated on every load, a 304 when unchanged; it was 1 hour until 2026-09-27, which let a browser without a service worker open the old build for up to an hour after a deploy) — uploaded via `aws s3 cp`, **not** `sync` (sync silently skips it: stable name + constant size defeats its size/mtime check, leaving a stale entry point that points at pruned assets). Don't change it back to `sync`.
-- **SEO route keys** (step 3b) — an `index.html` copy under every path from `dist/.seo-routes.txt` (`no-cache` like `index.html`, forced `text/html`), so deep links return 200 (см. `CLAUDE.md` → Architecture). These keys exist only in the bucket, not in `dist/` — step 2 derives `--exclude`s for their top-level segments so its `--delete` never removes them. Removed routes leave stale keys; harmless (SPA shows its noindex 404).
+- **SEO route keys** (step 3b) — generated HTML under every path from `dist/.seo-routes.txt` (`no-cache` like `index.html`, forced `text/html`), so deep links return 200 (см. `CLAUDE.md` → Architecture). Parent and leaf keys share one bounded upload queue, without a filesystem mirror. These keys exist only in the bucket, not in `dist/` — step 2 derives `--exclude`s for their top-level segments so its `--delete` never removes them. Removed routes leave stale keys; harmless (SPA shows its noindex 404).
 
 > ⚠️ `index.html` заливается через `aws s3 cp`, **не** `s3 sync`. У него стабильное
 > имя и почти неизменный размер, поэтому эвристика `sync` (размер/mtime) молча
@@ -97,6 +97,39 @@ npm run deploy
 ветки. **После** успешного деплоя бамп коммитится (`chore: release vX.Y.Z`) и пушится в релизную
 ветку, затем `main` перематывается на неё (`--ff-only`) и тоже пушится. Если `main` за это время
 ушёл вперёд и перемотка невозможна, деплой это скажет: тогда слить релиз в `main` руками.
+
+### Очередь и сравнение содержимого
+
+`scripts/deploy-upload.mjs` отправляет assets, releases и images одной очередью,
+затем отдельным проходом той же очереди — все SEO-страницы, включая родительские пути.
+`DEPLOY_CONCURRENCY` задаёт общий лимит запросов (1–40, по умолчанию 40).
+Это один Node-процесс с официальным S3 SDK из devDependencies; в приложение SDK не входит.
+Профиль, временный AWS config и ключи те же, что у AWS CLI. Временные ошибки повторяются
+SDK (adaptive, до `AWS_MAX_ATTEMPTS`, по умолчанию 10); при окончательной ошибке очередь
+дожидается уже запущенных запросов, завершается с ошибкой и не доходит до объявления версии.
+
+Решение о пропуске принимается по MD5/ETag и размеру в бакете, без сравнения mtime.
+Заголовки Content-Type и Cache-Control тоже должны совпадать: при первом проходе их
+проверяет HEAD, затем служебная `.deploy-upload-state.json` в каждом бакете хранит результат.
+Запись используется только вместе с актуальным списком объектов и их ETag; пропавший или
+изменённый объект загружается снова. Неизвестный ETag приводит к повторной загрузке.
+Служебный файл защищён от `sync --delete`, не входит в dist и не попадает в PWA.
+При ошибке загрузки запись не обновляется. При потере записи следующий проход проверит
+заголовки заново. Деплои в один бакет, как и раньше, следует выполнять последовательно.
+
+Небольшой общий static sync с очисткой, принудительные `cp` входных точек и объявление
+SW/version.json последними сохранены. Старые assets/images/releases удаляются только
+прежней процедурой retirement после 30 дней отсутствия в сборках.
+
+Проверка плана без записи в бакет (из корня репозитория, с готовыми dist и seo-html):
+
+```bash
+AWS_PROFILE=yc node scripts/deploy-upload.mjs files s3://<bucket> --dry-run
+AWS_PROFILE=yc node scripts/deploy-upload.mjs seo s3://<bucket> --dry-run
+```
+
+Команды делают только LIST/GET/HEAD. Выводят количество отправляемых и пропускаемых файлов,
+объём передачи и экономию. Без служебной записи первый проход потребует дополнительных HEAD.
 
 ### Сброс кэша CDN
 

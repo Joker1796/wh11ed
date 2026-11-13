@@ -13,7 +13,7 @@ describe('deploy.sh upload order', () => {
     return i
   }
   it('uploads the worker and version.json after every page and before the purge', () => {
-    const lastPage = Math.max(at(/aws s3 cp dist\/index\.html/), at(/aws s3 sync "\$MIRROR"/), at(/aws s3 sync dist "\$BUCKET"/), at(/set_shortcache robots\.txt/))
+    const lastPage = Math.max(at(/aws s3 cp dist\/index\.html/), at(/node scripts\/deploy-upload\.mjs seo/), at(/aws s3 sync dist "\$BUCKET"/), at(/set_shortcache robots\.txt/))
     for (const re of [/^set_nocache sw\.js/m, /^set_nocache manifest\.webmanifest/m, /^set_nocache offline-manifest\.json/m, /^set_nocache version\.json/m]) {
       expect(at(re), String(re)).toBeGreaterThan(lastPage)
       expect(at(re), String(re)).toBeLessThan(at(/^# 4\) Drop the CDN edge copy/m))
@@ -22,9 +22,10 @@ describe('deploy.sh upload order', () => {
     expect(at(/^set_nocache version\.json/m)).toBeGreaterThan(at(/^set_nocache sw\.js/m))
   })
   it('publishes immutable shells before mutable entry points and protects retired files', () => {
-    expect(at(/aws s3 cp dist\/releases/)).toBeLessThan(at(/aws s3 cp dist\/index\.html/))
+    expect(at(/node scripts\/deploy-upload\.mjs files/)).toBeLessThan(at(/aws s3 cp dist\/index\.html/))
     expect(sh).toContain('--exclude "releases/*"')
     expect(sh).toContain('--exclude "images/*"')
+    expect(sh).toContain('--exclude ".deploy-upload-state.json"')
     expect(sh).not.toContain("Contents[?LastModified<")
     expect(at(/^if ! retire_files/m)).toBeGreaterThan(at(/^set_nocache version\.json/m))
   })
