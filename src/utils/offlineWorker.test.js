@@ -235,6 +235,46 @@ describe('worker-owned offline sets', () => {
     expect(listed.filter(call => call.name !== 'wh-rules-offline-control' && !call.ready)).toEqual([])
   })
 
+  it('checks a complete set once, in parallel, opening each cache once', async () => {
+    const f = fixture({ count: 300 })
+    const assets = await f.caches.open('wh-rules-assets')
+    for (const url of f.files) await assets.put(url, new Response('current'))
+    const open = f.scope.caches.open
+    let opens = 0, checks = 0, inFlight = 0, peak = 0
+    f.scope.caches.open = async name => {
+      const cache = await open(name)
+      if (name !== 'wh-rules-assets') return cache
+      opens++
+      return { ...cache, match: async url => {
+        if (f.files.includes(typeof url === 'string' ? url : url.url)) checks++
+        inFlight++; peak = Math.max(peak, inFlight)
+        await new Promise(resolve => setTimeout(resolve, 1))
+        inFlight--
+        return cache.match(url)
+      } }
+    }
+    await f.prepare()
+    expect(f.messages.filter(m => m.type === 'progress').at(-1)).toMatchObject({ done: 0, total: 0 })
+    expect(f.messages.at(-1).type).toBe('ready')
+    // One verification pass: nothing was downloaded, so there is nothing to verify twice.
+    expect(checks).toBe(f.files.length)
+    expect(peak).toBeGreaterThan(1)
+    // The assets cache: once for the check, a few more for cleanup — never once per file.
+    expect(opens).toBeLessThan(10)
+  })
+
+  it('does not ask the open tabs who they are before downloading when no set has expired', async () => {
+    const f = fixture({ count: 1 })
+    const asked = []
+    f.scope.clients = { matchAll: async () => {
+      asked.push(f.messages.some(m => m.type === 'ready') ? 'after ready' : 'before ready')
+      return [{ postMessage: (_message, [port]) => { port.postMessage({ build: 'current', manifest: '/releases/current/offline-manifest.json' }); port.close() } }]
+    } }
+    await f.prepare()
+    expect(f.messages.at(-1).type).toBe('ready')
+    expect(asked).toEqual(['after ready'])
+  })
+
   it('fails without ready or cleanup when a download fails, retaining the old cache', async () => {
     const f = fixture({ count: 1, fail: true })
     const assets = await f.caches.open('wh-rules-assets')

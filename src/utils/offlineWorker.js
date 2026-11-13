@@ -84,11 +84,24 @@ export function installOfflineWorker(scope, identity) {
     const control = await store.open(controlName)
     await control.put(`${origin}/__offline/${target.build}`, new Response(JSON.stringify({ build: target.build, files, at: Date.now() })))
   }
+  // Each cache is opened once and the files are checked in parallel batches. Until 2.11.3 every
+  // file opened its cache again and waited for the one before it: ~945 files one by one, twice
+  // per preparation, which a phone felt as a long pause after "Update" (owner, 2026-11-13).
   async function missing(files) {
+    const opened = new Map()
+    const cacheFor = url => {
+      const name = cacheName(url)
+      if (!opened.has(name)) opened.set(name, store.open(name))
+      return opened.get(name)
+    }
     const result = []
-    for (const url of files) {
-      const cache = await store.open(cacheName(url))
-      if (!(await bounded(() => cache.match(url), 'Offline cache check'))?.ok) result.push(url)
+    for (let i = 0; i < files.length; i += 32) {
+      const batch = files.slice(i, i + 32)
+      const found = await Promise.all(batch.map(async url => {
+        const cache = await cacheFor(url)
+        return (await bounded(() => cache.match(url), 'Offline cache check'))?.ok
+      }))
+      batch.forEach((url, j) => { if (!found[j]) result.push(url) })
     }
     return result
   }
@@ -112,6 +125,18 @@ export function installOfflineWorker(scope, identity) {
   async function cleanup(expiredOnly = false) {
     // Without cross-worker locks, retain entries rather than race another worker's pin/write.
     if (!scope.navigator?.locks) return
+    const expiredBy = record => record.build !== identity.build && Date.now() - record.at >= 30 * 86400000
+    // The pre-download pass reclaims only expired sets. With none, there is nothing to do — and no
+    // reason to ask every open tab who it is (up to 1.5 s for one that does not answer).
+    if (expiredOnly) {
+      const control = await store.open(controlName)
+      let any = false
+      for (const request of await control.keys()) {
+        const record = await bounded(async () => (await control.match(request)).json(), 'Offline pin read')
+        if (expiredBy(record)) { any = true; break }
+      }
+      if (!any) return
+    }
     // A live older/hidden client may still need a build older than the retention window.
     // If any client cannot identify itself, defer cleanup rather than guess its dependencies.
     const clients = await bounded(() => scope.clients?.matchAll({ type: 'window', includeUncontrolled: true }), 'Offline client discovery') || []
@@ -132,7 +157,7 @@ export function installOfflineWorker(scope, identity) {
     for (const request of await control.keys()) {
       const response = await control.match(request)
       const record = await bounded(() => response.json(), 'Offline pin read')
-      if (record.build === identity.build || Date.now() - record.at < 30 * 86400000) {
+      if (!expiredBy(record)) {
         for (const url of record.files) protectedUrls.add(new URL(url, origin).href)
       } else {
         expiredPins.push(request)
@@ -210,7 +235,8 @@ export function installOfflineWorker(scope, identity) {
         }
       }))
       if (failure) throw failure
-      const remaining = await missing(files)
+      // Nothing was downloaded: the set was verified a moment ago, by the pass above.
+      const remaining = todo.length ? await missing(files) : []
       if (remaining.length) throw Error(`Offline verification: ${remaining.length} missing, first: ${remaining[0]}`)
       port.postMessage({ type: 'ready' })
       // Still inside the owner lock, so no other preparation pins while this deletes.

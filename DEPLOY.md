@@ -211,7 +211,10 @@ readiness (since 2.11.3; 2.11.2 failed whole updates on "Offline cache keys time
 errors go to the page as `cleanup-error` and are logged as "Offline cleanup failed", the
 post-verification pass runs after `ready` inside the same lock, and the pre-download pass lists
 the big caches only when a pin has expired. Cache listings get 60 s, other storage calls 15 s;
-timeout messages name the cache. Recent and active sets are never evicted to force
+timeout messages name the cache. The worker checks a set in parallel batches with each cache
+opened once, skips the second pass when nothing was downloaded, and the pre-download cleanup asks
+the open tabs who they are only when a pin has expired (2.11.3: "Update" paused on a phone while
+~945 files were checked one by one, twice). Recent and active sets are never evicted to force
 a download through quota: insufficient space is a preparation failure, not a ready state.
 Queue/lock acquisition is limited to 120 seconds; timed-out requests cannot start later.
 Cache API timeouts do not cancel native operations: preparation reports the error but retains
