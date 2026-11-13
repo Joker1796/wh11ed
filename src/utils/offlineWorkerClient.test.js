@@ -86,3 +86,16 @@ it.each(['postMessage', 'worker'])('rejects %s failure after negotiation without
   } }
   await expect(prepareWithWorker(worker, { build: 'build' }, () => {})).rejects.toThrow('Preparation failed')
 })
+
+it('hands a cleanup failure to the notice and still resolves ready', async () => {
+  const notices = []
+  const worker = { postMessage(message, [port]) {
+    if (message.type === 'WH_BUILD_INFO') { port.postMessage({ offlineProtocol: 1 }); port.close(); return }
+    port.postMessage({ type: 'accepted' })
+    port.postMessage({ type: 'cleanup-error', message: 'Offline cache keys (wh-rules-assets) timed out after 60000 ms' })
+    port.postMessage({ type: 'ready' })
+    port.close()
+  } }
+  expect(await prepareWithWorker(worker, { build: 'build', manifest: '/releases/build/offline-manifest.json' }, () => {}, undefined, m => notices.push(m))).toBe(true)
+  expect(notices).toEqual(['Offline cache keys (wh-rules-assets) timed out after 60000 ms'])
+})

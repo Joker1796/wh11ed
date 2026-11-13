@@ -95,17 +95,22 @@ describe('worker-owned offline sets', () => {
     f.scope.fetch = input => input === previous.manifest
       ? Promise.resolve(Response.json({ build: 'previous', assets: { files: ['/assets/previous.js'] }, images: { files: [] } })) : fetch(input)
     const open = f.scope.caches.open
-    let finishDelete
+    const stalled = []
+    const finishDelete = () => Promise.all(stalled.splice(0).map(finish => finish()))
     f.scope.caches.open = async name => {
       const cache = await open(name)
       return { ...cache, delete: request => name === 'wh-rules-assets' && request.url.endsWith('/previous.js')
-        ? new Promise(resolve => { finishDelete = async () => resolve(await cache.delete(request)) }) : cache.delete(request) }
+        ? new Promise(resolve => { stalled.push(async () => resolve(await cache.delete(request))) }) : cache.delete(request) }
     }
     vi.useFakeTimers()
     try {
       const first = f.prepare()
       await vi.advanceTimersByTimeAsync(15001)
-      expect(f.messages.at(-1)).toMatchObject({ type: 'error', message: expect.stringContaining('delete timed out') })
+      // The stalled cleanup is reported, but no longer fails the download it was making room for.
+      expect(f.messages.find(message => message.type === 'cleanup-error'))
+        .toMatchObject({ message: expect.stringContaining('delete (wh-rules-assets) timed out') })
+      expect(f.messages.some(message => message.type === 'ready')).toBe(true)
+      expect(f.messages.some(message => message.type === 'error')).toBe(false)
       const second = f.prepare(previous)
       await vi.advanceTimersByTimeAsync(100)
       // The new preparation must not refresh the pin while the old delete is still alive.
@@ -189,6 +194,47 @@ describe('worker-owned offline sets', () => {
     await f.prepare()
     expect(f.messages.filter(m => m.type === 'progress').at(-1)).toMatchObject({ done: 0, total: 0 })
   })
+  it('reports a verified set ready when the cache listing stalls, and tells the next run', async () => {
+    const f = fixture({ count: 3 })
+    const assets = await f.caches.open('wh-rules-assets')
+    await assets.put('/assets/obsolete.js', new Response('old'))
+    const open = f.scope.caches.open
+    let stall = true
+    f.scope.caches.open = async name => {
+      const cache = await open(name)
+      return { ...cache, keys: () => stall && name === 'wh-rules-assets' ? new Promise(() => {}) : cache.keys() }
+    }
+    vi.useFakeTimers()
+    try {
+      const first = f.prepare()
+      await vi.advanceTimersByTimeAsync(60001)
+      await first
+      expect(f.messages.filter(m => m.type !== 'accepted').map(m => m.type)).toEqual(['progress', 'progress', 'progress', 'progress', 'ready'])
+      for (const url of f.files) expect((await assets.match(url))?.ok).toBe(true)
+      expect((await assets.match('/assets/obsolete.js')).ok).toBe(true)
+    } finally { vi.useRealTimers() }
+    stall = false
+    f.messages.length = 0
+    await f.prepare()
+    expect(f.messages.find(m => m.type === 'cleanup-error'))
+      .toMatchObject({ message: 'Offline cache keys (wh-rules-assets) timed out after 60000 ms' })
+    expect(f.messages.at(-1).type).toBe('ready')
+    expect(await assets.match('/assets/obsolete.js')).toBeUndefined()
+  })
+
+  it('does not list the big caches before downloading when no pin has expired', async () => {
+    const f = fixture({ count: 1 })
+    const listed = []
+    const open = f.scope.caches.open
+    f.scope.caches.open = async name => {
+      const cache = await open(name)
+      return { ...cache, keys: () => { listed.push({ name, ready: f.messages.some(m => m.type === 'ready') }); return cache.keys() } }
+    }
+    await f.prepare()
+    expect(f.messages.at(-1).type).toBe('ready')
+    expect(listed.filter(call => call.name !== 'wh-rules-offline-control' && !call.ready)).toEqual([])
+  })
+
   it('fails without ready or cleanup when a download fails, retaining the old cache', async () => {
     const f = fixture({ count: 1, fail: true })
     const assets = await f.caches.open('wh-rules-assets')

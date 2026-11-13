@@ -4,10 +4,12 @@ export function installOfflineWorker(scope, identity) {
   const cacheName = url => url.startsWith('/images/') ? 'wh11ed-images' : 'wh-rules-assets'
   const origin = scope.location.origin
   let mutations = null
-  const bounded = (task, label) => {
+  // A cleanup failure from a run whose port is already gone, told by the next preparation.
+  let cleanupFailure = null
+  const bounded = (task, label, ms = 15000) => {
     let timer
     return Promise.race([Promise.resolve().then(task), new Promise((_, reject) => {
-      timer = setTimeout(() => reject(Error(`${label} timed out after 15000 ms`)), 15000)
+      timer = setTimeout(() => reject(Error(`${label} timed out after ${ms} ms`)), ms)
     })]).finally(() => clearTimeout(timer))
   }
   const store = {
@@ -23,7 +25,9 @@ export function installOfflineWorker(scope, identity) {
             pending.then(() => owner.delete(pending), () => owner.delete(pending))
           }
           return pending
-        }, `Offline cache ${method}`)]))
+          // Listing a cache scales with its size (slow on Safari); only cleanup lists, off the
+          // critical path, so it gets a longer budget. The cache name says which one stalled.
+        }, `Offline cache ${method} (${name})`, method === 'keys' ? 60000 : 15000)]))
     },
   }
   let queue = Promise.resolve()
@@ -135,13 +139,22 @@ export function installOfflineWorker(scope, identity) {
         for (const url of record.files) expiredUrls.add(new URL(url, origin).href)
       }
     }
+    // Nothing expired: the pre-download pass has nothing to reclaim, so skip listing big caches.
+    if (expiredOnly && !expiredPins.length) return
     for (const name of ['wh-rules-assets', 'wh11ed-images']) {
       const cache = await store.open(name)
-      for (const request of await cache.keys()) {
-        if (!protectedUrls.has(request.url) && (!expiredOnly || expiredUrls.has(request.url))) await cache.delete(request)
-      }
+      const doomed = (await cache.keys())
+        .filter(request => !protectedUrls.has(request.url) && (!expiredOnly || expiredUrls.has(request.url)))
+      for (let i = 0; i < doomed.length; i += 20) await Promise.all(doomed.slice(i, i + 20).map(request => cache.delete(request)))
     }
     for (const request of expiredPins) await control.delete(request)
+  }
+  // Cleanup is housekeeping, never a condition of readiness: a stalled cache listing must not
+  // fail a download or a verified set (2.11.2: "Offline cache keys timed out" did both). What it
+  // leaves behind is retried by the next preparation.
+  async function tidy(expiredOnly) {
+    try { await cleanup(expiredOnly); return null }
+    catch (error) { return String(error?.message || error) }
   }
   scope.whOfflineFetch = (request, event) => {
     let write = Promise.resolve()
@@ -170,6 +183,8 @@ export function installOfflineWorker(scope, identity) {
     // channel alive without reporting that other build's files as this request's progress.
     const heartbeat = setInterval(() => port.postMessage({ type: 'accepted' }), 10000)
     const work = serialize(async () => {
+      if (cleanupFailure) port.postMessage({ type: 'cleanup-error', message: cleanupFailure })
+      cleanupFailure = null
       // Protect this worker's own set before a waiting build can request cleanup.
       const own = await manifest(identity)
       await pin(identity, own)
@@ -180,7 +195,8 @@ export function installOfflineWorker(scope, identity) {
       await pin(target, files)
       // Make room before downloading; waiting until after a full new set can deadlock on quota.
       // All active/target/recent pins are already durable, so this removes only obsolete files.
-      await cleanup(true)
+      const early = await tidy(true)
+      if (early) port.postMessage({ type: 'cleanup-error', message: early })
       const todo = await missing(files)
       let done = 0
       port.postMessage({ type: 'progress', done, total: todo.length })
@@ -196,8 +212,9 @@ export function installOfflineWorker(scope, identity) {
       if (failure) throw failure
       const remaining = await missing(files)
       if (remaining.length) throw Error(`Offline verification: ${remaining.length} missing, first: ${remaining[0]}`)
-      await cleanup()
       port.postMessage({ type: 'ready' })
+      // Still inside the owner lock, so no other preparation pins while this deletes.
+      cleanupFailure = await tidy()
     })
     const reply = work.result.catch(error => port.postMessage({ type: 'error', message: String(error.message || error) }))
       .finally(() => { clearInterval(heartbeat); port.close?.() })

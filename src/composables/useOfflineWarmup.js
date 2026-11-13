@@ -150,7 +150,9 @@ async function runOnce({ force = false, target } = {}) {
     const owned = await prepareWithWorker((target?.offlineProtocol === 1 && target.worker) || sw.controller, target || { build: BUILD_ID, manifest: OFFLINE_MANIFEST_URL }, progress => {
       done.value = progress.done
       total.value = progress.total
-    }, { build: BUILD_ID, manifest: OFFLINE_MANIFEST_URL })
+    }, { build: BUILD_ID, manifest: OFFLINE_MANIFEST_URL },
+    // Reported apart from failures: the set is fine, only old files were left for next time.
+    message => logError(new Error(`Offline cleanup failed: ${message}`), 'offline cleanup'))
     if (owned) {
       const remaining = await withinDeadline(() => missing(files), OFFLINE_REQUEST_MS, 'Offline cache check')
       if (remaining.length) throw new Error(`Offline verification: ${remaining.length} missing, first: ${remaining[0]}`)
