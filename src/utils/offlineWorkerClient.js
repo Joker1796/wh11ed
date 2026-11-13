@@ -24,7 +24,8 @@ function supportsPreparation(worker) {
     catch { finish(false) }
   })
 }
-export async function prepareWithWorker(worker, target, progress, protect) {
+// `notice` hears housekeeping failures that do not fail the preparation (cleanup-error).
+export async function prepareWithWorker(worker, target, progress, protect, notice = () => {}) {
   publishIdentity(protect)
   if (!worker?.postMessage || typeof MessageChannel === 'undefined') return null
   if (!await supportsPreparation(worker)) return null
@@ -41,6 +42,7 @@ export async function prepareWithWorker(worker, target, progress, protect) {
       timer = setTimeout(() => finish(Error('Offline worker preparation timed out')), ms)
     }
     channel.port1.onmessage = ({ data }) => {
+      if (data?.type === 'cleanup-error') { notice(data.message); return }
       if (!['accepted', 'progress', 'ready', 'error'].includes(data?.type)) return
       arm(60000)
       if (data.type === 'progress') progress(data)

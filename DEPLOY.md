@@ -173,7 +173,12 @@ recorded in wh-rules-offline-control, for 30 days. It never applies a per-entry 
 set. Live clients refresh their build pins even beyond that window; an unidentified or suspended
 client defers cleanup. Cross-worker Web Locks serialize preparation and cleanup; without locks,
 cleanup is skipped. Known expired, unused sets are reclaimed before downloading, with general
-unreferenced cleanup only after verification. Recent and active sets are never evicted to force
+unreferenced cleanup only after verification. Cleanup is housekeeping, never a condition of
+readiness (since 2.11.3; 2.11.2 failed whole updates on "Offline cache keys timed out"): its
+errors go to the page as `cleanup-error` and are logged as "Offline cleanup failed", the
+post-verification pass runs after `ready` inside the same lock, and the pre-download pass lists
+the big caches only when a pin has expired. Cache listings get 60 s, other storage calls 15 s;
+timeout messages name the cache. Recent and active sets are never evicted to force
 a download through quota: insufficient space is a preparation failure, not a ready state.
 Queue/lock acquisition is limited to 120 seconds; timed-out requests cannot start later.
 Cache API timeouts do not cancel native operations: preparation reports the error but retains
