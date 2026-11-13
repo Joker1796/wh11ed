@@ -22,6 +22,26 @@
 
 export const changelog = [
   {
+    version: '2.11.3',
+    date: '2026-11-13',
+    en: [
+      { h: 'Roster export', kind: 'roster' },
+      '**The “Russian tournament” export no longer loses equipment.** Weapon counts and every weapon of a unit are written as the list has them.',
+      { h: 'Roster import', kind: 'roster' },
+      '**More hand-typed lists import correctly.** Attached characters in a block with no closing line are recognised. So are unit labels typed in Cyrillic letters and enhancements written without “(Aura)”.',
+      { h: 'App updates', kind: 'site' },
+      '**Clearing out old files no longer interrupts an app update.** It used to end in “Could not finish the update”.',
+    ],
+    ru: [
+      { h: 'Экспорт ростеров', kind: 'roster' },
+      '**Экспорт в формате «Русский турнир» больше не теряет снаряжение.** Количество оружия и все пушки отряда записываются так, как они стоят в списке.',
+      { h: 'Импорт ростеров', kind: 'roster' },
+      '**Больше списков, набранных вручную, импортируются правильно.** Распознаются прикреплённые персонажи в блоке без закрывающей строки. Также распознаются метки юнитов, набранные русскими буквами, и улучшения без «(Aura)».',
+      { h: 'Обновление приложения', kind: 'site' },
+      '**Уборка старых файлов больше не прерывает обновление приложения.** Раньше из-за неё появлялось «Не удалось завершить обновление».',
+    ],
+  },
+  {
     version: '2.11.2',
     date: '2026-11-12',
     en: [
